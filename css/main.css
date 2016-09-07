@@ -21,6 +21,8 @@ article { float: right; }
 
 ul { list-style-type: none; }
 
+.content ul { list-style-type: circle; }
+
 aside { border: 2px solid black; border-radius: 10px; }
 aside #profile-pic { text-align: center; padding: 20px; }
 aside #author { padding: 10px; font-size: 14; }
