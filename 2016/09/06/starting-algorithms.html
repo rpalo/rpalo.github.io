@@ -20,7 +20,7 @@
 
 <p>It’s called union find.  You lump all of the connected entities into a blob, and then when you connect two more entities, you combine the blobs that they are in.  Here’s the basic setup:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">UF</span><span class="p">:</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">UF</span><span class="p">:</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">infile</span><span class="p">):</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span> <span class="s">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -46,14 +46,11 @@
         <span class="k">return</span> <span class="bp">False</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
-
-</code></pre>
-</div>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span></code></pre></figure>
 
 <p>So essentially, we lay each node out into a single array.  Here’s one way to connect them called quick-find.  It makes finding out whether or not two nodes are connected really easy, but both setup and unions are linear (N) time, meaning that if you have 10x as many inputs it will take ~10x as long to run.  I’ll talk more about this N notation in a different post.  The take away is that loading is slow, but accessing is fast later.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">QuickFindUF</span><span class="p">(</span><span class="n">UF</span><span class="p">):</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">QuickFindUF</span><span class="p">(</span><span class="n">UF</span><span class="p">):</span>
     <span class="c"># Quick find works by making the groups into a tree</span>
     <span class="c"># with a root node.  If two nodes point at a root,</span>
     <span class="c"># they are connected.</span>
@@ -73,14 +70,11 @@
     <span class="k">def</span> <span class="nf">connected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="c"># This makes 'connected' simple and fast!</span>
         <span class="c"># Simply see if the root of the nodes are the same with an array access</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">b</span><span class="p">]</span>
-
-</code></pre>
-</div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">b</span><span class="p">]</span></code></pre></figure>
 
 <p>This is great, but can we improve performance?  The next one is called Quick-Union.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">QuickUnionUF</span><span class="p">(</span><span class="n">UF</span><span class="p">):</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">QuickUnionUF</span><span class="p">(</span><span class="n">UF</span><span class="p">):</span>
     <span class="c"># Quick Union works by simply pointing the root</span>
     <span class="c"># at the new root.  Now we have a non-flat chain</span>
     <span class="c"># of nodes.  This makes the trees possibly</span>
@@ -109,14 +103,11 @@
         <span class="n">root</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">root</span><span class="p">]</span> <span class="o">!=</span> <span class="n">root</span><span class="p">:</span>
             <span class="n">root</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">root</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">root</span>
-
-</code></pre>
-</div>
+        <span class="k">return</span> <span class="n">root</span></code></pre></figure>
 
 <p>The way to fix the problems with Quick Union is to provide some weighting!  If we make sure that we always make the bigger tree the root, then we’ll end up never placing an already tall tree below a smaller one.  We should have a much flatter structure.  In order to do this, we have to keep track of a size or depth for each connected blobtree.  This is just a second array that keeps track of the depth.  Since each union (by definition) makes that tree one step deeper, you just increment the size of the new root by 1!</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">WeightedQuickUnionUF</span><span class="p">(</span><span class="n">QuickUnionUF</span><span class="p">):</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">WeightedQuickUnionUF</span><span class="p">(</span><span class="n">QuickUnionUF</span><span class="p">):</span>
     <span class="c"># Weighted quick union UF is similar to QUUF,</span>
     <span class="c"># but it attempts to flatten the trees by</span>
     <span class="c"># appending the smaller tree to the larger one</span>
@@ -145,8 +136,6 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="n">root_a</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">root_a</span><span class="p">]</span> <span class="o">=</span> <span class="n">root_b</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="n">root_b</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-</code></pre>
-</div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="n">root_b</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span></code></pre></figure>
 
 <p>Through some math, it turns out that this gets us from <code class="highlighter-rouge">N^2</code> time to setup and union things to <code class="highlighter-rouge">M*lg(N)</code> time, which is an awesome improvement.  I know this was kind of heavy, but I think it was good for me to do it out and explain it some.  More in the next post.</p>
