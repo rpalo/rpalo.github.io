@@ -6,17 +6,20 @@
 </description>
     <link>http://example.com/</link>
     <atom:link href="http://example.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 06 Sep 2016 22:27:12 -0700</pubDate>
-    <lastBuildDate>Tue, 06 Sep 2016 22:27:12 -0700</lastBuildDate>
+    <pubDate>Tue, 06 Sep 2016 22:33:12 -0700</pubDate>
+    <lastBuildDate>Tue, 06 Sep 2016 22:33:12 -0700</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
         <title>Starting Algorithms</title>
-        <description>&lt;p&gt;This week I am starting a class on algorithms (as part of the OSSU cousework).  I currently know three things.  Thing one: I am actually (pretty much) on schedule for blog posts!  Booyah for every two weeks!  It works great, because I tell myself that I’m actually going to be a go-getter and post an extra one in my off week, but by the time that I get to doing that, it’s the second week and I’m just regularly on time.  So that works out.  Thing two: I have a really hard time focusing on just one thing for very long, especially when learning coding things.  Thing three: I’m trying really hard to limit the number of classes I’m doing.  Currently, I’m only working on
- - Program Design
- - Databases
- - Algorithms
- - Discrete Mathematics&lt;/p&gt;
+        <description>&lt;p&gt;This week I am starting a class on algorithms (as part of the OSSU cousework).  I currently know three things.  Thing one: I am actually (pretty much) on schedule for blog posts!  Booyah for every two weeks!  It works great, because I tell myself that I’m actually going to be a go-getter and post an extra one in my off week, but by the time that I get to doing that, it’s the second week and I’m just regularly on time.  So that works out.  Thing two: I have a really hard time focusing on just one thing for very long, especially when learning coding things.  Thing three: I’m trying really hard to limit the number of classes I’m doing.  Currently, I’m only working on&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Program Design&lt;/li&gt;
+  &lt;li&gt;Databases&lt;/li&gt;
+  &lt;li&gt;Algorithms&lt;/li&gt;
+  &lt;li&gt;Discrete Mathematics&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;And on the side:&lt;/p&gt;
 
