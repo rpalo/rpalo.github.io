@@ -6,9 +6,102 @@
 </description>
     <link>http://example.com/</link>
     <atom:link href="http://example.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 27 Nov 2016 13:29:48 -0800</pubDate>
-    <lastBuildDate>Sun, 27 Nov 2016 13:29:48 -0800</lastBuildDate>
+    <pubDate>Sat, 14 Jan 2017 11:26:41 -0800</pubDate>
+    <lastBuildDate>Sat, 14 Jan 2017 11:26:41 -0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>I Can JavaScripting?</title>
+        <description>&lt;p&gt;Hey!  Sorry for the long gap.  It’s been over a month since my last post, which is not ok.  Luckily, I’ve recently started the &lt;a href=&quot;https://github.com/rpalo/100-days-of-code&quot;&gt;100 days of code&lt;/a&gt; challenge along with a number of the other &lt;a href=&quot;http://www.codenewbie.org/blogs/100-days-of-code-codenewbie-edition&quot;&gt;CodeNewbies&lt;/a&gt;, and that should help keep me on track.  Also, I’m working on some changes to the blog that should be coming up here in the next week or so.  I actually got a url that means something, which is neat!  More on that after the change.&lt;/p&gt;
+
+&lt;p&gt;Anyways, I have been having a whole lot of success in the JavaScript world recently, and I wanted to share some of the wisdom nuggets that I’ve stumbled upon.  First thing’s first.  If you haven’t heard of the &lt;a href=&quot;https://github.com/rpalo/JavaScript30&quot;&gt;JavaScript30&lt;/a&gt;, it is a 30 day (or so) challenge wherin &lt;a href=&quot;http://wesbos.com/&quot;&gt;Wes Bos&lt;/a&gt;, a genius person and excellent teacher, works through 30 different projects with you using only Vanilla Javascript.  This is especially great if you are like me and have a slight distrust of just installing a random library without vetting it out, which makes doing anything exhausting.  A lot of times I end up starting something, finding out lots of people use a library for it, trying to do it without the library, getting stuck, and giving up.  This is especially frustrating, because I feel like I know JavaScript, but can’t actually do anything with it!  Not anymore!  I want to share a few of the most useful things with you that use Vanilla JavaScript and not libraries.  (Note: I don’t hate libraries.  I just think there is something to be said for not having to manage dependencies.)  So here we go.&lt;/p&gt;
+
+&lt;h3 id=&quot;just-selecting-stuff&quot;&gt;Just Selecting Stuff&lt;/h3&gt;
+
+&lt;p&gt;The very first useful thing you should know is how to get at (or create) things in the DOM.  This is something that JQuery makes really easy, but here’s how to do it the rugged way.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// I&#39;m going to use ES6 syntax (which I&#39;m still learning, so be gentle)&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;h1&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Now you have access to everything about your header!&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHTML&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;I OWN THIS HEADER NOW.&quot;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// What if you want to get a whole list of links to work with?&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;navlinks&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelectorAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;a.navlink&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// BUT BE CAREFUL!  querySelectorAll doesn&#39;t return an Array, it returns a NodeList.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// It works similarly, but doesn&#39;t have all the useful methods.  Here&#39;s a workaround.&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;navArray&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[...&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;navlinks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Using the neat ES6 spreading technique.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Which lets you dump the NodeList into an array and you can keep on like normal&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// This is just shorthand for new Array(...navlinks);   &lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;navArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;forEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;click&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;doSomethingCrazy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// You can also query within elements themselves!&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;contentDiv&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;#content&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;authorName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;contentDiv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;.author&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;making-things-happen-events&quot;&gt;Making Things Happen (Events)&lt;/h3&gt;
+
+&lt;p&gt;I hinted at this in the previous section.  What if you want to run some magic voodoo everytime someone mouses over your title or everytime someone submits a form?  It’s really that simple.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Just select the element you want the event to be tied to&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;#title&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Note that if you have more than one #title (which would be poor form anyway)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// querySelector() will only return the first one in the page.&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Let&#39;s define our action to happen&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;titleGrow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// You can pass in the event, e, which contains useful info about what happened&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// note that we don&#39;t need that here&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;font&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;48px&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// for events, this often (possibly always, not sure yet) refers&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// to the thing that triggered the event&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Lastly let&#39;s tie our event to the above function&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;mouseenter&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;titleGrow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// NOTE: there are no () at the end of the function name.  We don&#39;t want to&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// call the function *in place*, we just want to pass a reference to it to &lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// be used later.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;And that’s it!  Now, the first time the user mouses over the title, its font will grow to 48px.  Note that you would have to listen for a &lt;code class=&quot;highlighter-rouge&quot;&gt;mouseleave&lt;/code&gt; event and pass in a different function if you wanted it to shrink back to normal once the user mouses out of the title.&lt;/p&gt;
+
+&lt;h3 id=&quot;modifying-elements&quot;&gt;Modifying Elements&lt;/h3&gt;
+
+&lt;p&gt;The last thing I’ll talk about are some common ways to modify elements using JavaScript.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;#author&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Let&#39;s change the text!&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHTML&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Ryan &#39;is the coolest&#39; Palo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// modify a style&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;color&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;#BADA55&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// add, remove, or toggle a class&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;classList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cool-guy&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;classList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;blog-slacker&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;classList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toggle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;is-on-the-ball&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;A lot of times, it is the easiest to simply toggle a class and handle all of the excess animations, changes, styling in the css.  Makes things easier to read and find.&lt;/p&gt;
+
+&lt;p&gt;Anyways, that’s it for now.  More coming soon!&lt;/p&gt;
+
+&lt;hr /&gt;
+
+</description>
+        <pubDate>Sat, 14 Jan 2017 00:00:00 -0800</pubDate>
+        <link>http://example.com/2017/01/14/i-can-javascripting.html</link>
+        <guid isPermaLink="true">http://example.com/2017/01/14/i-can-javascripting.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Discovering Click</title>
