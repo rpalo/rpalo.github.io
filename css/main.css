@@ -5,8 +5,12 @@ html {
   box-sizing: border-box;
   background: #DEE1EC;
   font-family: "Source Sans Pro", "Verdana", "Arial", "sans-serif";
-  font-size: 20px;
-  font-weight: 200; }
+  font-size: 18px;
+  letter-spacing: .3px;
+  line-height: 26px;
+  font-weight: 200;
+  position: relative;
+  min-height: 100%; }
 
 body {
   margin: 0; }
@@ -16,45 +20,21 @@ body {
 
 .site-wrap {
   max-width: 1100px;
-  margin: 70px auto;
+  margin: 100px auto;
   background: white;
   padding: 70px;
   text-align: justify;
-  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
-  transform: scale(0.98);
-  transition: transform 0.5s; }
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5); }
 
-body.fixed-nav .site-wrap {
-  transform: scale(1); }
-
-header {
-  text-align: center;
-  height: 50vh;
-  background: url(/img/header_bg.png) bottom center no-repeat;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center; }
-  header h1 {
-    color: white;
-    font-family: "Inconsolata", monospace;
-    font-size: 3vw;
-    text-shadow: 3px 4px 0 rgba(0, 0, 0, 0.2); }
-  header .profile {
-    border-radius: 50%; }
-
+/* Navigation */
 nav {
   background: #303D74;
   top: 0;
   width: 100%;
-  transition: all 0.5s;
-  position: relative;
-  z-index: 1; }
-
-body.fixed-nav nav {
   position: fixed;
-  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.1); }
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  letter-spacing: 1px; }
 
 nav ul {
   margin: 0;
@@ -70,7 +50,7 @@ nav li {
   align-items: center; }
 
 li.logo {
-  max-width: 0;
+  max-width: 500px;
   overflow: hidden;
   transition: all 0.5s;
   background-color: #FFFEEE; }
@@ -83,13 +63,41 @@ li.logo a {
   font-size: 25px;
   padding: 0px; }
 
-.fixed-nav li.logo {
-  max-width: 500px; }
-
 nav a {
   text-decoration: none;
   padding: 20px;
   display: inline-block;
   color: #DEE1EC;
-  transition: all 0.2s;
   text-transform: uppercase; }
+
+/* Main Content */
+.site-wrap h1, .site-wrap h2, .site-wrap h3, .site-wrap h4, .site-wrap h5, .site-wrap small {
+  font-family: Inconsolata, monospace; }
+.site-wrap h1 {
+  border-bottom: 1px solid #CCC;
+  padding-bottom: 5px; }
+.site-wrap small {
+  font-size: 14px !important;
+  color: #808080; }
+.site-wrap .post-list {
+  list-style: none; }
+.site-wrap a {
+  text-decoration: none;
+  color: #AA3939; }
+
+/* Footer */
+body {
+  margin-bottom: 60px; }
+
+#main-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #140000;
+  font-size: 14px;
+  letter-spacing: 1px; }
+
+.container .text-muted {
+  margin-left: 20px;
+  color: #CCC; }
