@@ -6,8 +6,8 @@
 </description>
     <link>http://example.com/</link>
     <atom:link href="http://example.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 18 Jan 2017 15:52:29 -0800</pubDate>
-    <lastBuildDate>Wed, 18 Jan 2017 15:52:29 -0800</lastBuildDate>
+    <pubDate>Wed, 18 Jan 2017 16:05:26 -0800</pubDate>
+    <lastBuildDate>Wed, 18 Jan 2017 16:05:26 -0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -20,54 +20,51 @@
 
 &lt;p&gt;The very first useful thing you should know is how to get at (or create) things in the DOM.  This is something that JQuery makes really easy, but here’s how to do it the rugged way.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;// I&#39;m going to use ES6 syntax (which I&#39;m still learning, so be gentle)
-const header = document.querySelector(&#39;h1&#39;);
-// Now you have access to everything about your header!
-header.innerHTML = &quot;I OWN THIS HEADER NOW.&quot;
-// What if you want to get a whole list of links to work with?
-const navlinks = document.querySelectorAll(&#39;a.navlink&#39;);
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// I&amp;#39;m going to use ES6 syntax (which I&amp;#39;m still learning, so be gentle)&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;h1&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Now you have access to everything about your header!&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHTML&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;I OWN THIS HEADER NOW.&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// What if you want to get a whole list of links to work with?&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;navlinks&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelectorAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;a.navlink&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 
-// BUT BE CAREFUL!  querySelectorAll doesn&#39;t return an Array, it returns a NodeList.
-// It works similarly, but doesn&#39;t have all the useful methods.  Here&#39;s a workaround.
-const navArray = [...navlinks];  // Using the neat ES6 spreading technique.
-// Which lets you dump the NodeList into an array and you can keep on like normal
-// This is just shorthand for new Array(...navlinks);   
+&lt;span class=&quot;c1&quot;&gt;// BUT BE CAREFUL!  querySelectorAll doesn&amp;#39;t return an Array, it returns a NodeList.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// It works similarly, but doesn&amp;#39;t have all the useful methods.  Here&amp;#39;s a workaround.&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;navArray&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[...&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;navlinks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Using the neat ES6 spreading technique.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Which lets you dump the NodeList into an array and you can keep on like normal&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// This is just shorthand for new Array(...navlinks);   &lt;/span&gt;
 
-navArray.forEach( function(link) {
-    link.addEventListener(&#39;click&#39;, doSomethingCrazy);
-});
+&lt;span class=&quot;nx&quot;&gt;navArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;forEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;click&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;doSomethingCrazy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
 
-// You can also query within elements themselves!
-const contentDiv = document.querySelector(&#39;#content&#39;);
-const authorName = contentDiv.querySelector(&#39;.author&#39;);
-
-&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&quot;c1&quot;&gt;// You can also query within elements themselves!&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;contentDiv&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;#content&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;authorName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;contentDiv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;.author&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;making-things-happen-events&quot;&gt;Making Things Happen (Events)&lt;/h3&gt;
 
 &lt;p&gt;I hinted at this in the previous section.  What if you want to run some magic voodoo everytime someone mouses over your title or everytime someone submits a form?  It’s really that simple.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;// Just select the element you want the event to be tied to
-const header = document.querySelector(&#39;#title&#39;);
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// Just select the element you want the event to be tied to&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;#title&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 
-// Note that if you have more than one #title (which would be poor form anyway)
-// querySelector() will only return the first one in the page.
+&lt;span class=&quot;c1&quot;&gt;// Note that if you have more than one #title (which would be poor form anyway)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// querySelector() will only return the first one in the page.&lt;/span&gt;
 
-// Let&#39;s define our action to happen
-function titleGrow(e) {
-    // You can pass in the event, e, which contains useful info about what happened
-    // note that we don&#39;t need that here
-    this.style.font-size = &quot;48px&quot;;
-    // for events, this often (possibly always, not sure yet) refers
-    // to the thing that triggered the event
-}
+&lt;span class=&quot;c1&quot;&gt;// Let&amp;#39;s define our action to happen&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;titleGrow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// You can pass in the event, e, which contains useful info about what happened&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// note that we don&amp;#39;t need that here&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;font&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;48px&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// for events, this often (possibly always, not sure yet) refers&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// to the thing that triggered the event&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
-// Lastly let&#39;s tie our event to the above function
-header.addEventListener(&#39;mouseenter&#39;, titleGrow);
-// NOTE: there are no () at the end of the function name.  We don&#39;t want to
-// call the function *in place*, we just want to pass a reference to it to 
-// be used later.
-&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&quot;c1&quot;&gt;// Lastly let&amp;#39;s tie our event to the above function&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;mouseenter&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;titleGrow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// NOTE: there are no () at the end of the function name.  We don&amp;#39;t want to&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// call the function *in place*, we just want to pass a reference to it to &lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// be used later.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;And that’s it!  Now, the first time the user mouses over the title, its font will grow to 48px.  Note that you would have to listen for a &lt;code&gt;mouseleave&lt;/code&gt; event and pass in a different function if you wanted it to shrink back to normal once the user mouses out of the title.&lt;/p&gt;
 
@@ -75,16 +72,15 @@ header.addEventListener(&#39;mouseenter&#39;, titleGrow);
 
 &lt;p&gt;The last thing I’ll talk about are some common ways to modify elements using JavaScript.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;const author = document.querySelector(&#39;#author&#39;);
-// Let&#39;s change the text!
-author.innerHTML = &quot;Ryan &#39;is the coolest&#39; Palo&quot;;
-// modify a style
-author.style.color = &quot;#BADA55&quot;;
-// add, remove, or toggle a class
-author.classList.add(&quot;cool-guy&quot;);
-author.classList.remove(&quot;blog-slacker&quot;);
-author.classList.toggle(&quot;is-on-the-ball&quot;);
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;#author&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Let&amp;#39;s change the text!&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHTML&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Ryan &amp;#39;is the coolest&amp;#39; Palo&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// modify a style&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;color&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;#BADA55&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// add, remove, or toggle a class&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;classList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;cool-guy&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;classList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;blog-slacker&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;classList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toggle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;is-on-the-ball&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;A lot of times, it is the easiest to simply toggle a class and handle all of the excess animations, changes, styling in the css.  Makes things easier to read and find.&lt;/p&gt;
 
@@ -104,43 +100,39 @@ author.classList.toggle(&quot;is-on-the-ball&quot;);
         <title>Discovering Click</title>
         <description>&lt;p&gt;I’m going to have two posts here in quick succession, because I learned a bunch of things in the last couple weeks all in a row that are really cool.  The first one I want to talk about is (Click)[https://click.pocoo.com/5], which is a Python framework for quickly making command-line interface (CLI) programs.  I have been using it recently to make a (tool that automates a few of the more repetetive tasks at work)[https://github.com/rpalo/pq-cli].  The basics are really simple!&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;# Example taken roughly from their documentation
-# hello.py
-import click    # You can install it using pip install click
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;c&quot;&gt;# Example taken roughly from their documentation&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# hello.py&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;click&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;# You can install it using pip install click&lt;/span&gt;
 
-@click.command()    # Click works mainly through decorators
-@click.argument(&quot;name&quot;)         # Required arguments can be specified with another decorator
-@click.option(&quot;-c&quot;,&quot;--count&quot;, default=1,
-                help=&quot;Number of times to repeat&quot;)       # Options (short and long) are via decorator too!
-def hello(name, count):         # By default, the name of the option or argument becomes
-                                # the variable passed to the function
-    for i in range(count):
-        click.echo(&quot;Hello, {}&quot;.format(name))
-        # Click provides some useful utility functions such as &quot;echo&quot;
-        # that help to resolve cross-platform issues, and ease testing
+&lt;span class=&quot;nd&quot;&gt;@click.command&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;# Click works mainly through decorators&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@click.argument&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;         &lt;span class=&quot;c&quot;&gt;# Required arguments can be specified with another decorator&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@click.option&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;-c&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;--count&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;help&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Number of times to repeat&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;       &lt;span class=&quot;c&quot;&gt;# Options (short and long) are via decorator too!&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;         &lt;span class=&quot;c&quot;&gt;# By default, the name of the option or argument becomes&lt;/span&gt;
+                                &lt;span class=&quot;c&quot;&gt;# the variable passed to the function&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;click&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;echo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Hello, {}&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# Click provides some useful utility functions such as &amp;quot;echo&amp;quot;&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# that help to resolve cross-platform issues, and ease testing&lt;/span&gt;
 
-if __name__ == &#39;__main__&#39;:
-    hello() # Allowing it to be called from the command line
-
-&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# Allowing it to be called from the command line&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;And that’s it!  You can run it like so:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ python hello.py Ryan --count 3
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;python hello.py Ryan --count 3
 Hello, Ryan
 Hello, Ryan
-Hello, Ryan
-&lt;/code&gt;&lt;/pre&gt;
+Hello, Ryan&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;And it checks inputs to ensure the right number, count, and even type if you specify it.  If the user puts the wrong thing in or is unsure how to use it, they can simply:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ python hello.py --help
-Usage: hello.py [OPTIONS] NAME
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;python hello.py --help
+Usage: hello.py &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;OPTIONS&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; NAME
 
 Options:
-  -c, --count INTEGER  Number of times to repeat
-  --help               Show this message and exit.
-&lt;/code&gt;&lt;/pre&gt;
+  -c, --count INTEGER  Number of &lt;span class=&quot;nb&quot;&gt;times &lt;/span&gt;to repeat
+  --help               Show this message and exit.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;And there are a whole bunch of other great things about it.  There is built in support for testing to aid with TDD and writing tests in general.  With my PQ-CLI, my goal was to do the project like a real big kid, with license, readme, git repo, writing tests first, etc.  I think I did ok with that, and I’m still going.  There is support for grouping and nexting and piping commands.  And the documentation is really helpful (examples first, API and documentation later).  I wasn’t suprised when I looked up at the url for Click and realized it was part of the Pocoo family (the guy who made Flask, among a bunch of other useful projects).  Anyways, check out (my project)[https://github.com/rpalo/pq-cli] for more examples and take a stop by the (main Click project page)[https://click.pocoo.com/5] for even more guidance.&lt;/p&gt;
 

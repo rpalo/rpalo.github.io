@@ -79,8 +79,5 @@ nav a {
   transform: scale(0.99);
   transition: transform 0.5s; }
 
-code {
-  font-size: 80%; }
-
 body.fixed-nav .site-wrap {
   transform: scale(1); }

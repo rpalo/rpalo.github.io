@@ -85,6 +85,15 @@ nav a {
   text-decoration: none;
   color: #AA3939; }
 
+code {
+  font-size: 80%; }
+
+.highlight {
+  border-radius: 15px;
+  padding: 5px 10px;
+  background-color: #FAFAFA !important;
+  line-height: 20px; }
+
 /* Footer */
 body {
   margin-bottom: 60px; }
