@@ -34,7 +34,7 @@
 
 <h2 id="generic-search-algorithm">Generic Search Algorithm</h2>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">genericSearch</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">fn</span><span class="p">):</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">genericSearch</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">fn</span><span class="p">):</span>
     <span class="c"># Inputs are a search problem - infrastructure provided by the class</span>
     <span class="c"># It has all the information about the current state, goal state, etc.</span>
     <span class="c"># They also made the util module available, which contains a Priority Queue</span>
@@ -43,20 +43,20 @@
     <span class="n">fringe</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">PriorityQueue</span><span class="p">()</span>
     <span class="n">closed</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
-    <span class="c"># My main piece of information I&#39;m passing around is a tuple.</span>
+    <span class="c"># My main piece of information I'm passing around is a tuple.</span>
     <span class="c"># (state, actions) -- state is the current game state</span>
-    <span class="c"># containg relevant info like pacman&#39;s location, food locations, etc.</span>
-    <span class="c"># Actions is what we eventually return, a list of &#39;N&#39;, &#39;S&#39;, &#39;E&#39;, &#39;W&#39; directions</span>
+    <span class="c"># containg relevant info like pacman's location, food locations, etc.</span>
+    <span class="c"># Actions is what we eventually return, a list of 'N', 'S', 'E', 'W' directions</span>
     <span class="c"># to follow to win.</span>
     <span class="n">fringe</span><span class="o">.</span><span class="n">push</span><span class="p">((</span><span class="n">problem</span><span class="o">.</span><span class="n">getStartState</span><span class="p">(),</span> <span class="p">[]),</span> <span class="mi">0</span><span class="p">)</span>
     <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">fringe</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">():</span>
-            <span class="c"># Fringe should never be empty.  That&#39;s why we throw an exception</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Fringe was empty!&quot;</span><span class="p">)</span>
+            <span class="c"># Fringe should never be empty.  That's why we throw an exception</span>
+            <span class="k">raise</span> <span class="nb">Exception</span><span class="p">(</span><span class="s">"Fringe was empty!"</span><span class="p">)</span>
         <span class="n">current</span> <span class="o">=</span> <span class="n">fringe</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">current</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">closed</span><span class="p">:</span>
-            <span class="c"># I implemented a graph search, which doesn&#39;t expand nodes more than once for</span>
-            <span class="c"># efficiency&#39;s sake.</span>
+            <span class="c"># I implemented a graph search, which doesn't expand nodes more than once for</span>
+            <span class="c"># efficiency's sake.</span>
             <span class="k">continue</span>
         <span class="n">closed</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">current</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">problem</span><span class="o">.</span><span class="n">isGoalState</span><span class="p">(</span><span class="n">current</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
@@ -68,38 +68,38 @@
         <span class="n">successors</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">getSuccessors</span><span class="p">(</span><span class="n">current</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">successor</span> <span class="ow">in</span> <span class="n">successors</span><span class="p">:</span>
             <span class="n">nextOne</span> <span class="o">=</span> <span class="p">(</span><span class="n">successor</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">current</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">successor</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
-            <span class="n">fringe</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nextOne</span><span class="p">,</span> <span class="n">fn</span><span class="p">(</span><span class="n">nextOne</span><span class="p">))</span></code></pre></div>
+            <span class="n">fringe</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">nextOne</span><span class="p">,</span> <span class="n">fn</span><span class="p">(</span><span class="n">nextOne</span><span class="p">))</span></code></pre></figure>
 
 <h2 id="search-algorithms">Search Algorithms</h2>
 
 <p>Once that was complete, I could roll through the search algorithms fairly easily:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">depthFirstSearch</span><span class="p">(</span><span class="n">problem</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Search the deepest nodes first&quot;&quot;&quot;</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">depthFirstSearch</span><span class="p">(</span><span class="n">problem</span><span class="p">):</span>
+    <span class="s">"""Search the deepest nodes first"""</span>
     <span class="k">def</span> <span class="nf">priorityFn</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
         <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>    <span class="c"># Make sure the deepest nodes have the lowest priority</span>
                                     <span class="c"># so that they are popped off the queue first</span>
     <span class="k">return</span> <span class="n">genericSearch</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">priorityFn</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">breadthFirstSearch</span><span class="p">(</span><span class="n">problem</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Search the shallowest nodes in the search tree first.&quot;&quot;&quot;</span>
+    <span class="s">"""Search the shallowest nodes in the search tree first."""</span>
     <span class="k">def</span> <span class="nf">priorityFn</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>     <span class="c"># Make sure the shallowest nodes have low priority</span>
     <span class="k">return</span> <span class="n">genericSearch</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">priorityFn</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">uniformCostSearch</span><span class="p">(</span><span class="n">problem</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Search the node of least total cost first.&quot;&quot;&quot;</span>
+    <span class="s">"""Search the node of least total cost first."""</span>
     <span class="k">def</span> <span class="nf">priorityFn</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">problem</span><span class="o">.</span><span class="n">getCostOfActions</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">genericSearch</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">priorityFn</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">aStarSearch</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">heuristic</span><span class="o">=</span><span class="n">nullHeuristic</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Search the node that has the lowest combined cost and heuristic first.&quot;&quot;&quot;</span>
+    <span class="s">"""Search the node that has the lowest combined cost and heuristic first."""</span>
     <span class="k">def</span> <span class="nf">priorityFn</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
         <span class="n">g</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">getCostOfActions</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="n">h</span> <span class="o">=</span> <span class="n">heuristic</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">problem</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">g</span> <span class="o">+</span> <span class="n">h</span>
-    <span class="k">return</span> <span class="n">genericSearch</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">priorityFn</span><span class="p">)</span></code></pre></div>
+    <span class="k">return</span> <span class="n">genericSearch</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">priorityFn</span><span class="p">)</span></code></pre></figure>
 
 <h2 id="heuristics">Heuristics</h2>
 
@@ -107,8 +107,8 @@
 
 <p>I used two main heuristics: a greedy Nearest Neighbor approach that worked really well but would not be admissible in certain geometries, and a really simple manhattan distance (x distance + y distance) heuristic that didn’t work as good but was definitely admissible.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">manhattanHeuristic</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">problem</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="p">{}):</span>
-    <span class="s">&quot;The Manhattan distance heuristic for a PositionSearchProblem&quot;</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">manhattanHeuristic</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">problem</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="s">"The Manhattan distance heuristic for a PositionSearchProblem"</span>
     <span class="c"># Provided by the class</span>
     <span class="n">xy1</span> <span class="o">=</span> <span class="n">position</span>
     <span class="n">xy2</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">goal</span>
@@ -127,7 +127,7 @@
 
     <span class="c"># I could have probably done something more efficient by popping off of a list rather than recreate the list each time</span>
     <span class="n">shortest</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">shortestDistance</span><span class="p">(</span><span class="n">shortest</span><span class="p">,</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">points</span> <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">shortest</span><span class="p">],</span> <span class="n">fn</span><span class="o">=</span><span class="n">fn</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="n">initial</span> <span class="o">+</span> <span class="n">fn</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">shortest</span><span class="p">))</span></code></pre></div>
+    <span class="k">return</span> <span class="n">shortestDistance</span><span class="p">(</span><span class="n">shortest</span><span class="p">,</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">points</span> <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">shortest</span><span class="p">],</span> <span class="n">fn</span><span class="o">=</span><span class="n">fn</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="n">initial</span> <span class="o">+</span> <span class="n">fn</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">shortest</span><span class="p">))</span></code></pre></figure>
 
 <p>The other things were just expanding these concepts, working with problems of more than one dot, or four dots separated into the four corners, etc.  I could have gotten deeper into optimizing the shortest distance heuristic to work in all cases, but as I started to research this, I found out that that is a pretty standard CS problem without an easy solution.  I didn’t want to work that hard if the Manhattan heuristic would work just fine.  My only regret is that I couldn’t come up with one that automatically detected the worst-case behaviour of greedy Nearest Neighbor and regressed to the simple Manhattan heuristic.</p>
 
