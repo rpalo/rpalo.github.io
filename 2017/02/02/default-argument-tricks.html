@@ -10,16 +10,11 @@
         
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
-        <link rel="stylesheet" href="/css/home.css">
         <link rel="stylesheet" href="/css/syntax.css">
         
         <title>assert_not magic?</title>
     </head>
     <body>
-        <header id="main-header">
-    <h1>assert_not magic?</h1>
-    <img class="profile" alt="Ryan Palo" src="/img/me.jpg" />
-</header>
         
 <nav id="main-nav">
     <ul>
@@ -30,13 +25,8 @@
     </ul>
 </nav>
         <div class="container main">
-          <article class="site-wrap">
-            <div class="home">
-
-  
-    <h1>Default Argument Tricks</h2>
-    <small>Feb 2, 2017</small>
-    <p><p>The other day I was working on a code challenge on <a href="https://www.codewars.com">CodeWars</a>.  I finished it up, feeling proud of myself (as one does), and moved on with my day.  A little while later, it struck me that I had done something that few of the other people that completed the challenge had done, and my solution (I thought humbly) was more elegant than some.  Here is a paraphrasing of the challenge.</p>
+                <div class="site-wrap">
+    <p>The other day I was working on a code challenge on <a href="https://www.codewars.com">CodeWars</a>.  I finished it up, feeling proud of myself (as one does), and moved on with my day.  A little while later, it struck me that I had done something that few of the other people that completed the challenge had done, and my solution (I thought humbly) was more elegant than some.  Here is a paraphrasing of the challenge.</p>
 
 <blockquote>
   <p>The following code snippet is a python version of an algorithm to produce the n-th number of the Fibonacci sequence.  For those that don’t know, the Fibonacci sequence is a sequence of numbers beginning with 0 and 1.  After that, each number, n, is calculated: n = (n-1) + (n-2).  More simply, each number is the sum to the two preceding numbers.  0, 1, 1, 2, 3, 5, 8, 13, 21…  The Fibonacci sequence is a good way to introduce recursive tree algorithms.  Without further ado, here’s a version of the algorithm.</p>
@@ -97,33 +87,8 @@
 <p>Do you begin to see?  In the second example, the list that is getting assigned to b doesn’t stand for a theoretical list that will get created every time the function is called.  You are assigning <em>that particular list</em> to b.  Anytime the function gets called, it will reach for <em>that</em> list.  If you call the function 5 times, that list will get accessed (and possibly modified) 5 times!</p>
 
 <p>Hopefully this makes sense.  Anyhoo, this is the way I solved that problem and used a common gotcha for good instead of evil.  Do you have a better way to solve the problem?  Still confused about why the default argument works like a cache or what the difference between mutable and immutable is?  Please hit me up at hello@assertnotmagic.com and tell me about it!</p>
-</p>
-  
-  <h3>Recent Posts</h3>
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Jan 18, 2017</span>
-        <a class="post-link" href="/2017/01/18/assert-not-magic.html">Assert Not Magic</a>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jan 14, 2017</span>
-        <a class="post-link" href="/2017/01/14/i-can-javascripting.html">I Can JavaScripting?</a>
-      </li>
-    
-      <li>
-        <span class="post-meta">Nov 27, 2016</span>
-        <a class="post-link" href="/2016/11/27/discovering-click.html">Discovering Click</a>
-      </li>
-    
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
 
 </div>
-
-          </article>
         </div>
 
         <footer id="main-footer">
@@ -131,10 +96,15 @@
         <p class="text-muted">&copy; Ryan Palo 2017 | All things.  Phil. 4:13</p>
     </div>
 </footer>
-        
+        <!-- Scripts -->
+        <!--  
+        jQuery (necessary for Bootstrap's JavaScript plugins)
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        Latest compiled and minified Bootstrap JavaScript
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        -->
         <!-- Custom Javascript -->
-        <script src="/js/home.js"></script>
+        <script src="/js/main.js"></script>
         
     </body>
 </html>
-
