@@ -6,8 +6,8 @@
 </description>
     <link>http://example.com/</link>
     <atom:link href="http://example.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 12 Feb 2017 00:23:58 -0800</pubDate>
-    <lastBuildDate>Sun, 12 Feb 2017 00:23:58 -0800</lastBuildDate>
+    <pubDate>Sun, 12 Feb 2017 00:33:36 -0800</pubDate>
+    <lastBuildDate>Sun, 12 Feb 2017 00:33:36 -0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -18,19 +18,11 @@
 
 &lt;h2 id=&quot;vim&quot;&gt;Vim&lt;/h2&gt;
 
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;I tried Vim.  What I will say about that is that I didn’t have a good enough teacher to show it to me.  Overall, Vim failed the test of increasing my productivity (and not my blood pressure).  I will admit – not proudly – that Vim and I started off on the wrong foot when I couldn’t figure out initially how to exit.  (~~&lt;/td&gt;
-      &lt;td&gt;esc&lt;/td&gt;
-      &lt;td&gt;:q… Like what kind of sick, UX neanderthal…)~~  Anyways!  If someone understands the reasoning behind the design and usage of Vim, I’m all ears and more than happy to learn.&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;I tried Vim.  What I will say about that is that I didn’t have a good enough teacher to show it to me.  Overall, Vim failed the test of increasing my productivity (and not my blood pressure).  I will admit – not proudly – that Vim and I started off on the wrong foot when I couldn’t figure out initially how to exit.  &lt;del&gt;&lt;code&gt;esc:q&lt;/code&gt;… Like what kind of sick, UX neanderthal…&lt;/del&gt; Anyways!  If someone understands the reasoning behind the design and usage of Vim, I’m all ears and more than happy to learn.&lt;/p&gt;
 
 &lt;h2 id=&quot;emacs&quot;&gt;Emacs&lt;/h2&gt;
 
-&lt;p&gt;Having rejected Vim with vehemence, the next natural option is Emacs.  I will say that I was able to put a significant amount of time into teaching myself the Emacs ways.  It has some nice tools, I’m a fan of the built in shell, calendar, journal, language support, and the fact that it can run in a terminal.  It will most likely be my editor of choice ~~if~~ when I have to code in the terminal and/or over ssh.  The only thing I didn’t like about Emacs is that I ended up spending more time looking up how to do things like open a new pane or something than I spend coding.  That and it wasn’t super simple for me to customize to my liking.  Again, as with Vim, both are clearly not problems with the editor but with my personal character.  But that’s what this is all about, and so… we move on.&lt;/p&gt;
+&lt;p&gt;Having rejected Vim with vehemence, the next natural option is Emacs.  I will say that I was able to put a significant amount of time into teaching myself the Emacs ways.  It has some nice tools, I’m a fan of the built in shell, calendar, journal, language support, and the fact that it can run in a terminal.  It will most likely be my editor of choice &lt;del&gt;if&lt;/del&gt; when I have to code in the terminal and/or over ssh.  The only thing I didn’t like about Emacs is that I ended up spending more time looking up how to do things like open a new pane or something than I spend coding.  That and it wasn’t super simple for me to customize to my liking.  Again, as with Vim, both are clearly not problems with the editor but with my personal character.  But that’s what this is all about, and so… we move on.&lt;/p&gt;
 
 &lt;h2 id=&quot;sublime-text&quot;&gt;Sublime Text&lt;/h2&gt;
 
@@ -135,7 +127,7 @@
     
       <item>
         <title>Assert Not Magic</title>
-        <description>&lt;p&gt;First post on the new layout with the new domain name!  Woo!  I’d like to take a minute to explain the significance behind the name.  See, my criteria for selecting a good name came down to two things.  I wanted it to be significant in my life – something that reflected my experience and point of view, and something that is somewhat of a theme in my life.  The second thing is that it had to be a ~~domain name that was available~~ unique name.&lt;/p&gt;
+        <description>&lt;p&gt;First post on the new layout with the new domain name!  Woo!  I’d like to take a minute to explain the significance behind the name.  See, my criteria for selecting a good name came down to two things.  I wanted it to be significant in my life – something that reflected my experience and point of view, and something that is somewhat of a theme in my life.  The second thing is that it had to be a &lt;del&gt;domain name that was available&lt;/del&gt; unique name.&lt;/p&gt;
 
 &lt;p&gt;So, “assert_not magic?” you say.  “What does it mean?” you say.  Well, at the most literal level, it comes from testing in Ruby.  Much like the snippet on my blog’s banner, you might see something like this:&lt;/p&gt;
 
