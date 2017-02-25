@@ -6,9 +6,128 @@
 </description>
     <link>http://example.com/</link>
     <atom:link href="http://example.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 12 Feb 2017 00:33:36 -0800</pubDate>
-    <lastBuildDate>Sun, 12 Feb 2017 00:33:36 -0800</lastBuildDate>
+    <pubDate>Fri, 24 Feb 2017 22:42:03 -0800</pubDate>
+    <lastBuildDate>Fri, 24 Feb 2017 22:42:03 -0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Optimal Primes</title>
+        <description>&lt;p&gt;If you like math, &lt;em&gt;and&lt;/em&gt; you’re learning how to program, I see absolutely no reason why you should not know about &lt;a href=&quot;https://projecteuler.net&quot;&gt;Project Euler&lt;/a&gt;.  “Project Yooler?!” you ask incredulously.  “What outlandish nonsense is this?”  You’re in for a treat.  It’s an archive of puzzles that are math-based and generally not solvable by hand.  There’s not a whole lot to it.  It asks a question like ‘what is the 10001st prime number?’ and you can submit your answer.  Once you get the answer correct, you get access to the question’s forum, where you can discuss answers and see other people’s solutions.&lt;/p&gt;
+
+&lt;p&gt;The reason I bring this up is because I was working on a few of the problems today and I had what I thought were some reasonably efficient solutions that used some not-your-every-day tricks.  I’ll just show you what I mean.  &lt;strong&gt;WARNING: SPOILER ALERT!&lt;/strong&gt;  Here’s the first question:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The prime factors of 13195 are 5, 7, 13, and 29.  What is the largest prime factor of 600851475143?&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Let’s talk about some options.  First, it’s always best to think about the simplest, most naive solution.  We could list every number from 1 to 600851475143 and check if that number is both prime and a factor in our number.  Of course, that would require us to figure out if each number is prime, and that could require (again, in the most naive solution) looping from 2 through to whatever the current number was to see if any number in between divided evenly.  If not, then it’s prime and we win.  This sounds like it could be &lt;em&gt;at least&lt;/em&gt; O(n^2) in complexity.  &lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;For those that aren’t familiar with Big-O notation, that’s a topic for another time, but right now the important thing is that if we double the size of the number we’re getting the largest prime factor of, the calculation time goes up by roughly 4x.  Triple is 9x, etc.  Not going to work for us.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Here’s my solution:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;largest_prime_factor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;sd&quot;&gt;&amp;quot;&amp;quot;&amp;quot;Returns largest prime factor of a number.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# Start at 2 and walk upward.&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# The first number to divide into our number &lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# evenly has to be prime (I think).&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+
+            &lt;span class=&quot;c&quot;&gt;# If we find a number, divide that out.&lt;/span&gt;
+            &lt;span class=&quot;c&quot;&gt;# We&amp;#39;ve pulled out a factor.  Start the process over,&lt;/span&gt;
+            &lt;span class=&quot;c&quot;&gt;# Nibbling away at the remaining factors until&lt;/span&gt;
+            &lt;span class=&quot;c&quot;&gt;# only one remains.  This would be the largest prime!&lt;/span&gt;
+
+            &lt;span class=&quot;n&quot;&gt;new_number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;
+
+            &lt;span class=&quot;c&quot;&gt;# This is the fun part.  Recursive solution!&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;largest_prime_factor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new_number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# This is the implicit base case, when no number divides evenly,&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# we have found the last prime factor.  Cool, right??&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;If you thought that was cool, hold on to your knickers!  The next one builds on these concepts.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;2520 is the smallest number that can be divided by all numbers between 1 and 10 (inclusive).  What is the smallest positive integer that can be evenly divided by all numbers between 1 and 20 (also inclusive)?&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;OK.  What are your first thoughts?  Here are mine.  My first snap intuition is to just multiply all of the numbers together.  Ah, but 10 already works if a number is divisible by 2 and 5.  We’ve got some repeating that is driving our final product up.  I guess we need to see how many prime factors are &lt;em&gt;really&lt;/em&gt; required.  One other thought worth mentioning is again the naive solution.  Start at 21 and continue searching upward (&lt;code&gt;if i % 2 == 0, if i % 3 == 0, if i % 4 == 0&lt;/code&gt;) until we find the answer.  I’m going to see if I can do better though, because there’s no upper limit guarantee on that and I hate to leave a while loop to just run wild.  Here’s my solution, which I will then explain.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;c&quot;&gt;# First I&amp;#39;m going to need some help from the standard library&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;collections&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Counter&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;functools&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;reduce&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# I&amp;#39;ll also need this helper function to get the&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# prime factors of each number.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;prime_factors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;sd&quot;&gt;&amp;quot;&amp;quot;&amp;quot;Returns a list of the prime factors of a number&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# You&amp;#39;ll note that this solution looks eerily similar to the&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# previous section&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+
+            &lt;span class=&quot;c&quot;&gt;# The only difference is that this time I want to hang&lt;/span&gt;
+            &lt;span class=&quot;c&quot;&gt;# on to each of the values, so I&amp;#39;m using a GENERATOR!&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;
+
+            &lt;span class=&quot;c&quot;&gt;# I&amp;#39;m also using the brand spanking new (ish)&lt;/span&gt;
+            &lt;span class=&quot;c&quot;&gt;# yield from keyword which allows my GENERATOR to&lt;/span&gt;
+            &lt;span class=&quot;c&quot;&gt;# delegate yielding to another GENERATOR&lt;/span&gt;
+            &lt;span class=&quot;c&quot;&gt;# or, in this case, the same one on the next recursion!&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;yield from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prime_factors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+            &lt;span class=&quot;c&quot;&gt;# I use a break statement to simulate the multiple level&lt;/span&gt;
+            &lt;span class=&quot;c&quot;&gt;# jump out that the return statement gave me.&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Just for clarity, here&amp;#39;s an example of the above function:&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# prime_factors(24) =&amp;gt; &amp;lt;Generator&amp;gt; [2, 2, 2, 3]&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Now the real meat of the problem.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;smallest_common_multiple&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;numbers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;sd&quot;&gt;&amp;quot;&amp;quot;&amp;quot;Takes a set of numbers and returns smallest common multiple&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# I could do everything with a plain dictionary, but this will&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# speed up everything I want.  Counters also have some shwoopy&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# Binary operator capabilities.&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;primes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Counter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# Start with a number.&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numbers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# See if we have enough primes to make it&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# If not, add the missing primes&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;these_primes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Counter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prime_factors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# if number was 12, this line would return {2: 2, 3: 1}&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# This is the required number of each prime to make up 12.&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;# Fancy binary operator action.  Equivalent to doing this:&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# primes = max(primes, these_primes) for each key in primes.&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;primes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;primes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;these_primes&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# Thus, if primes was currently {2: 1, 3: 1}, and we needed another&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# 2 to make 12, primes[2] would be updated to be 2: 2.&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# primes[3] would be left at 1.&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# Multiply all primes to get the smallest possible multiple!&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# Using a little functional programming instead of a multiline for loop.&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# The following line is the multiplication analog to sum().&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# primes.elements() spits out list of &amp;#39;key&amp;#39; repeated &amp;#39;value&amp;#39; times.&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# e.g. {2: 2, 3: 1} becomes [2, 2, 3].&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;reduce&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;primes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;elements&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Anyways, I thought these were some neat solutions.  I mean, come on!  Recursive delegating generators!  The drama!  The flair!  Anyways, if you can come up with a better way to do it, let me know at hello@assertnotmagic.com.  See you next time!&lt;/p&gt;
+</description>
+        <pubDate>Fri, 24 Feb 2017 00:00:00 -0800</pubDate>
+        <link>http://example.com/2017/02/24/optimal-primes.html</link>
+        <guid isPermaLink="true">http://example.com/2017/02/24/optimal-primes.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Coding with Code</title>
@@ -624,33 +743,6 @@ Anyways.  I tried using Vim first.  That lasted all of 12 seconds.  I definitely
         <pubDate>Tue, 06 Sep 2016 00:00:00 -0700</pubDate>
         <link>http://example.com/2016/09/06/starting-algorithms.html</link>
         <guid isPermaLink="true">http://example.com/2016/09/06/starting-algorithms.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>First Post</title>
-        <description>&lt;p&gt;I want to make this first post mostly just to get through the paralysis and procrastination, so I can get these posts rolling.  That’s the goal of this post.  If it’s actually interesting and engaging, that’s a bonus.&lt;/p&gt;
-
-&lt;p&gt;For the last couple of months, I’ve been progressing along the &lt;a href=&quot;ossu.firebaseapp.com&quot;&gt;OSSU&lt;/a&gt; (Open Source Society University) CS degree.  I finished up (for the most part) the first class – Harvard’s CS50, which was awesome and also how I found out about Cloud9.  I dabbled in a couple of the other courses, which I will come back to later, but then I settled on the software testing course, which is run by a couple of guys on Udacity.  It’s really interesting!  Being primarily a self-taught programmer, testing is really something that gets missed in most of the tutorials and I’ve had to pick it up on my own from other sources.  Side note: the &lt;a href=&quot;https://www.railstutorial.org/&quot;&gt;Rails Tutorial&lt;/a&gt; has testing integrated into every part of every project, and it’s brilliant.  Anyways.  The class isn’t quite as trendy or fast-paced as CS50 was, but there is a lot of good content, and &lt;em&gt;bonus&lt;/em&gt; all of the code is in Python.&lt;/p&gt;
-
-&lt;p&gt;The most interesting homework for this class so far is one of the ones in the Random Testing (Fuzzing) section.  They want you to simultaneously build a Sudoku Solver and a Sudoku Solver Tester.  My thoughts during the short problem introduction video:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Oh neat!  This should be fun, and a nice little warm up.&lt;br /&gt;
-What’s an efficient way for a computer to solve a Sudoku puzzle?&lt;br /&gt;
-Wait… how do I usually solve Sudokus?&lt;br /&gt;
-Wait……
-……….&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;So, long story short, I’m still working on it.  There’s the clear answer of brute force approach, using an iterative, recursive method to guess and dive deep until that guess fails until you hit on the right solution.  That seems like it should take too long.  However, my current method involves 5.3 million &lt;code&gt;for&lt;/code&gt; loops, which probably isn’t the best either.  I’m still grinding on it. I’ll keep you posted.  You can see my current solution progress &lt;a href=&quot;https://rpalo.github.io/sudoku&quot;&gt;here!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;In other news, I finished my first Django project.  This is a big deal because this is not the first or second or even eighth Django project I have started.  It’s the first one that I have gotten over the initial hump of setup and remembering how things work and actually pushed through until I have a meaningful application that actually has data and does something.  More on that in the next post!  Hopefully between then and now, I’ll have time to clean it up a little.  Current progress at &lt;a href=&quot;https://rpalo.github.io/pq-portal&quot;&gt;here!&lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Wed, 24 Aug 2016 00:00:00 -0700</pubDate>
-        <link>http://example.com/2016/08/24/first-post.html</link>
-        <guid isPermaLink="true">http://example.com/2016/08/24/first-post.html</guid>
         
         
       </item>
