@@ -88,6 +88,10 @@ nav a {
 code {
   font-size: 80%; }
 
+blockquote {
+  font-size: 80%;
+  color: #808080; }
+
 .highlight {
   border-radius: 15px;
   padding: 5px 10px;
