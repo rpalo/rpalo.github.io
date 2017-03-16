@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <!-- Bootstrap Setup -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+        
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <title>assert_not magic?</title>
+    </head>
+    <body>
+        
+<nav id="main-nav">
+    <ul>
+        <li class="logo"><a href="/">assert_not magic?</a></li>
+        <li><a href="/posts/">All Posts</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/todo/">To-Do</a></li>
+    </ul>
+</nav>
+        <div class="container main">
+                <div class="site-wrap">
+    <p>This week I am starting a class on algorithms (as part of the OSSU cousework).  I currently know three things.  Thing one: I am actually (pretty much) on schedule for blog posts!  Booyah for every two weeks!  It works great, because I tell myself that I’m actually going to be a go-getter and post an extra one in my off week, but by the time that I get to doing that, it’s the second week and I’m just regularly on time.  So that works out.  Thing two: I have a really hard time focusing on just one thing for very long, especially when learning coding things.  Thing three: I’m trying really hard to limit the number of classes I’m doing.  Currently, I’m only working on</p>
+
+<ul>
+  <li>Program Design</li>
+  <li>Databases</li>
+  <li>Algorithms</li>
+  <li>Discrete Mathematics</li>
+</ul>
+
+<p>And on the side:</p>
+
+<ul>
+  <li>Improving Ruby-ness</li>
+  <li>More practice with idiomatic Python</li>
+  <li>Wrestling Jekyll to make this blog look like how I want</li>
+  <li><a href="https://github.com/rpalo/pq-portal">The in-house Django apps for work</a></li>
+</ul>
+
+<p>Anyways.  To what I wanted to talk about: this algorithms class!  It’s really, <em>really</em> interesting!  I think the first couple lessons are just warm-ups to get your feet wet and your mind thinking in algorithm mode, but they are still making me think really hard.  The main thing I’ve learned about so far is the “Dynamic Connectivity Problem.”  This is the idea that, given some number of nodes, is there some <em>efficient</em> way of checking if two are connected?  Yes.  Yes there is.</p>
+
+<p>It’s called union find.  You lump all of the connected entities into a blob, and then when you connect two more entities, you combine the blobs that they are in.  Here’s the basic setup:</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">UF</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">infile</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="c"># Infile is of the form:</span>
+            <span class="c"># &lt;length of mesh&gt;</span>
+            <span class="c"># &lt;union target&gt; &lt;union target&gt;</span>
+            <span class="c"># ...</span>
+            <span class="c"># ...</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">))]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    	<span class="c"># Connects node a to node b</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">connected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    	<span class="c"># Returns true if node a is connected to b.  False otherwise</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span></code></pre></div>
+
+<p>So essentially, we lay each node out into a single array.  Here’s one way to connect them called quick-find.  It makes finding out whether or not two nodes are connected really easy, but both setup and unions are linear (N) time, meaning that if you have 10x as many inputs it will take ~10x as long to run.  I’ll talk more about this N notation in a different post.  The take away is that loading is slow, but accessing is fast later.</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">QuickFindUF</span><span class="p">(</span><span class="n">UF</span><span class="p">):</span>
+    <span class="c"># Quick find works by making the groups into a tree</span>
+    <span class="c"># with a root node.  If two nodes point at a root,</span>
+    <span class="c"># they are connected.</span>
+
+    <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="c"># Make any node pointing at the root of a point at b,</span>
+        <span class="c"># thus making b the root of the flat tree.</span>
+        <span class="c"># Union is slow, looping through all nodes everytime</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="n">root_a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
+        <span class="n">root_b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">b</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">root_a</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">root_b</span>
+
+    <span class="k">def</span> <span class="nf">connected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="c"># This makes &#39;connected&#39; simple and fast!</span>
+        <span class="c"># Simply see if the root of the nodes are the same with an array access</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">b</span><span class="p">]</span></code></pre></div>
+
+<p>This is great, but can we improve performance?  The next one is called Quick-Union.</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">QuickUnionUF</span><span class="p">(</span><span class="n">UF</span><span class="p">):</span>
+    <span class="c"># Quick Union works by simply pointing the root</span>
+    <span class="c"># at the new root.  Now we have a non-flat chain</span>
+    <span class="c"># of nodes.  This makes the trees possibly</span>
+    <span class="c"># really tall, which isn&#39;t great for performance either</span>
+
+    <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="c"># union is also not that quick,</span>
+        <span class="c"># possibly traversing a tall tree!</span>
+        <span class="c"># If the trees were flattish, this would be</span>
+        <span class="c"># quicker.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="n">root_a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_root</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">root_b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_root</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">root_a</span><span class="p">]</span> <span class="o">=</span> <span class="n">root_b</span>
+
+    <span class="k">def</span> <span class="nf">connected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="c"># for this, quick union is slow, because</span>
+        <span class="c"># you have to traverse a tree two times</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_root</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_root</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">find_root</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+    	<span class="c"># New find root function.</span>
+        <span class="c"># Find the root node that a belongs to</span>
+        <span class="c"># assume a is an index in self.nodes for simplicity</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">root</span><span class="p">]</span> <span class="o">!=</span> <span class="n">root</span><span class="p">:</span>
+            <span class="n">root</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">root</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">root</span></code></pre></div>
+
+<p>The way to fix the problems with Quick Union is to provide some weighting!  If we make sure that we always make the bigger tree the root, then we’ll end up never placing an already tall tree below a smaller one.  We should have a much flatter structure.  In order to do this, we have to keep track of a size or depth for each connected blobtree.  This is just a second array that keeps track of the depth.  Since each union (by definition) makes that tree one step deeper, you just increment the size of the new root by 1!</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">WeightedQuickUnionUF</span><span class="p">(</span><span class="n">QuickUnionUF</span><span class="p">):</span>
+    <span class="c"># Weighted quick union UF is similar to QUUF,</span>
+    <span class="c"># but it attempts to flatten the trees by</span>
+    <span class="c"># appending the smaller tree to the larger one</span>
+    <span class="c"># on each union</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">infile</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">)):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="n">root_a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_root</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">root_b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_root</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="n">root_a</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="n">root_b</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">root_b</span><span class="p">]</span> <span class="o">=</span> <span class="n">root_a</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="n">root_a</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">root_a</span><span class="p">]</span> <span class="o">=</span> <span class="n">root_b</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="n">root_b</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span></code></pre></div>
+
+<p>Through some math, it turns out that this gets us from <code>N^2</code> time to setup and union things to <code>M*lg(N)</code> time, which is an awesome improvement.  I know this was kind of heavy, but I think it was good for me to do it out and explain it some.  More in the next post.</p>
+
+</div>
+        </div>
+
+        <footer id="main-footer">
+    <div class="container">
+        <p class="text-muted">&copy; Ryan Palo 2017 | All things.  Phil. 4:13</p>
+    </div>
+</footer>
+        <!-- Scripts -->
+        <!--  
+        jQuery (necessary for Bootstrap's JavaScript plugins)
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        Latest compiled and minified Bootstrap JavaScript
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        -->
+        <!-- Custom Javascript -->
+        <script src="/js/main.js"></script>
+        
+    </body>
+</html>

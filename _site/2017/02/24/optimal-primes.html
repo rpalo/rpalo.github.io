@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <!-- Bootstrap Setup -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+        
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <title>assert_not magic?</title>
+    </head>
+    <body>
+        
+<nav id="main-nav">
+    <ul>
+        <li class="logo"><a href="/">assert_not magic?</a></li>
+        <li><a href="/posts/">All Posts</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/todo/">To-Do</a></li>
+    </ul>
+</nav>
+        <div class="container main">
+                <div class="site-wrap">
+    <p>If you like math, <em>and</em> you’re learning how to program, I see absolutely no reason why you should not know about <a href="https://projecteuler.net">Project Euler</a>.  “Project Yooler?!” you ask incredulously.  “What outlandish nonsense is this?”  You’re in for a treat.  It’s an archive of puzzles that are math-based and generally not solvable by hand.  There’s not a whole lot to it.  It asks a question like ‘what is the 10001st prime number?’ and you can submit your answer.  Once you get the answer correct, you get access to the question’s forum, where you can discuss answers and see other people’s solutions.</p>
+
+<p>The reason I bring this up is because I was working on a few of the problems today and I had what I thought were some reasonably efficient solutions that used some not-your-every-day tricks.  I’ll just show you what I mean.  <strong>WARNING: SPOILER ALERT!</strong>  Here’s the first question:</p>
+
+<blockquote>
+  <p>The prime factors of 13195 are 5, 7, 13, and 29.  What is the largest prime factor of 600851475143?</p>
+</blockquote>
+
+<p>Let’s talk about some options.  First, it’s always best to think about the simplest, most naive solution.  We could list every number from 1 to 600851475143 and check if that number is both prime and a factor in our number.  Of course, that would require us to figure out if each number is prime, and that could require (again, in the most naive solution) looping from 2 through to whatever the current number was to see if any number in between divided evenly.  If not, then it’s prime and we win.  This sounds like it could be <em>at least</em> O(n^2) in complexity.  </p>
+
+<blockquote>
+  <p>For those that aren’t familiar with Big-O notation, that’s a topic for another time, but right now the important thing is that if we double the size of the number we’re getting the largest prime factor of, the calculation time goes up by roughly 4x.  Triple is 9x, etc.  Not going to work for us.</p>
+</blockquote>
+
+<p>Here’s my solution:</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">largest_prime_factor</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns largest prime factor of a number.&quot;&quot;&quot;</span>
+    <span class="c"># Start at 2 and walk upward.</span>
+    <span class="c"># The first number to divide into our number </span>
+    <span class="c"># evenly has to be prime (I think).</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">number</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+
+            <span class="c"># If we find a number, divide that out.</span>
+            <span class="c"># We&#39;ve pulled out a factor.  Start the process over,</span>
+            <span class="c"># Nibbling away at the remaining factors until</span>
+            <span class="c"># only one remains.  This would be the largest prime!</span>
+
+            <span class="n">new_number</span> <span class="o">=</span> <span class="n">number</span><span class="o">//</span><span class="n">i</span>
+
+            <span class="c"># This is the fun part.  Recursive solution!</span>
+            <span class="k">return</span> <span class="n">largest_prime_factor</span><span class="p">(</span><span class="n">new_number</span><span class="p">)</span>
+
+    <span class="c"># This is the implicit base case, when no number divides evenly,</span>
+    <span class="c"># we have found the last prime factor.  Cool, right??</span>
+    <span class="k">return</span> <span class="n">number</span></code></pre></div>
+
+<p>If you thought that was cool, hold on to your knickers!  The next one builds on these concepts.</p>
+
+<blockquote>
+  <p>2520 is the smallest number that can be divided by all numbers between 1 and 10 (inclusive).  What is the smallest positive integer that can be evenly divided by all numbers between 1 and 20 (also inclusive)?</p>
+</blockquote>
+
+<p>OK.  What are your first thoughts?  Here are mine.  My first snap intuition is to just multiply all of the numbers together.  Ah, but 10 already works if a number is divisible by 2 and 5.  We’ve got some repeating that is driving our final product up.  I guess we need to see how many prime factors are <em>really</em> required.  One other thought worth mentioning is again the naive solution.  Start at 21 and continue searching upward (<code>if i % 2 == 0, if i % 3 == 0, if i % 4 == 0</code>) until we find the answer.  I’m going to see if I can do better though, because there’s no upper limit guarantee on that and I hate to leave a while loop to just run wild.  Here’s my solution, which I will then explain.</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># First I&#39;m going to need some help from the standard library</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
+
+<span class="c"># I&#39;ll also need this helper function to get the</span>
+<span class="c"># prime factors of each number.</span>
+<span class="k">def</span> <span class="nf">prime_factors</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of the prime factors of a number&quot;&quot;&quot;</span>
+
+    <span class="c"># You&#39;ll note that this solution looks eerily similar to the</span>
+    <span class="c"># previous section</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">number</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+
+            <span class="c"># The only difference is that this time I want to hang</span>
+            <span class="c"># on to each of the values, so I&#39;m using a GENERATOR!</span>
+            <span class="k">yield</span> <span class="n">i</span>
+
+            <span class="c"># I&#39;m also using the brand spanking new (ish)</span>
+            <span class="c"># yield from keyword which allows my GENERATOR to</span>
+            <span class="c"># delegate yielding to another GENERATOR</span>
+            <span class="c"># or, in this case, the same one on the next recursion!</span>
+            <span class="k">yield from</span> <span class="n">prime_factors</span><span class="p">(</span><span class="n">number</span><span class="o">//</span><span class="n">i</span><span class="p">)</span>
+
+            <span class="c"># I use a break statement to simulate the multiple level</span>
+            <span class="c"># jump out that the return statement gave me.</span>
+            <span class="k">break</span>
+
+<span class="c"># Just for clarity, here&#39;s an example of the above function:</span>
+<span class="c"># prime_factors(24) =&gt; &lt;Generator&gt; [2, 2, 2, 3]</span>
+
+<span class="c"># Now the real meat of the problem.</span>
+<span class="k">def</span> <span class="nf">smallest_common_multiple</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Takes a set of numbers and returns smallest common multiple&quot;&quot;&quot;</span>
+
+    <span class="c"># I could do everything with a plain dictionary, but this will</span>
+    <span class="c"># speed up everything I want.  Counters also have some shwoopy</span>
+    <span class="c"># Binary operator capabilities.</span>
+    <span class="n">primes</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+    <span class="c"># Start with a number.</span>
+    <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+        <span class="c"># See if we have enough primes to make it</span>
+        <span class="c"># If not, add the missing primes</span>
+        <span class="n">these_primes</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">prime_factors</span><span class="p">(</span><span class="n">number</span><span class="p">))</span>
+        <span class="c"># if number was 12, this line would return {2: 2, 3: 1}</span>
+        <span class="c"># This is the required number of each prime to make up 12.</span>
+
+        <span class="c"># Fancy binary operator action.  Equivalent to doing this:</span>
+        <span class="c"># primes = max(primes, these_primes) for each key in primes.</span>
+        <span class="n">primes</span> <span class="o">=</span> <span class="n">primes</span> <span class="o">|</span> <span class="n">these_primes</span>
+        <span class="c"># Thus, if primes was currently {2: 1, 3: 1}, and we needed another</span>
+        <span class="c"># 2 to make 12, primes[2] would be updated to be 2: 2.</span>
+        <span class="c"># primes[3] would be left at 1.</span>
+
+    <span class="c"># Multiply all primes to get the smallest possible multiple!</span>
+    <span class="c"># Using a little functional programming instead of a multiline for loop.</span>
+    <span class="c"># The following line is the multiplication analog to sum().</span>
+    <span class="c"># primes.elements() spits out list of &#39;key&#39; repeated &#39;value&#39; times.</span>
+    <span class="c"># e.g. {2: 2, 3: 1} becomes [2, 2, 3].</span>
+    <span class="k">return</span> <span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">,</span> <span class="n">primes</span><span class="o">.</span><span class="n">elements</span><span class="p">())</span></code></pre></div>
+
+<p>Anyways, I thought these were some neat solutions.  I mean, come on!  Recursive delegating generators!  The drama!  The flair!  Anyways, if you can come up with a better way to do it, let me know at hello@assertnotmagic.com.  See you next time!</p>
+
+</div>
+        </div>
+
+        <footer id="main-footer">
+    <div class="container">
+        <p class="text-muted">&copy; Ryan Palo 2017 | All things.  Phil. 4:13</p>
+    </div>
+</footer>
+        <!-- Scripts -->
+        <!--  
+        jQuery (necessary for Bootstrap's JavaScript plugins)
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        Latest compiled and minified Bootstrap JavaScript
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        -->
+        <!-- Custom Javascript -->
+        <script src="/js/main.js"></script>
+        
+    </body>
+</html>

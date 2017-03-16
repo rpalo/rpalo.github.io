@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <!-- Bootstrap Setup -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+        
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <title>assert_not magic?</title>
+    </head>
+    <body>
+        
+<nav id="main-nav">
+    <ul>
+        <li class="logo"><a href="/">assert_not magic?</a></li>
+        <li><a href="/posts/">All Posts</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/todo/">To-Do</a></li>
+    </ul>
+</nav>
+        <div class="container main">
+                <div class="site-wrap">
+    <p>I’m going to have two posts here in quick succession, because I learned a bunch of things in the last couple weeks all in a row that are really cool.  The first one I want to talk about is (Click)[https://click.pocoo.com/5], which is a Python framework for quickly making command-line interface (CLI) programs.  I have been using it recently to make a (tool that automates a few of the more repetetive tasks at work)[https://github.com/rpalo/pq-cli].  The basics are really simple!</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># Example taken roughly from their documentation</span>
+<span class="c"># hello.py</span>
+<span class="kn">import</span> <span class="nn">click</span>    <span class="c"># You can install it using pip install click</span>
+
+<span class="nd">@click.command</span><span class="p">()</span>    <span class="c"># Click works mainly through decorators</span>
+<span class="nd">@click.argument</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">)</span>         <span class="c"># Required arguments can be specified with another decorator</span>
+<span class="nd">@click.option</span><span class="p">(</span><span class="s">&quot;-c&quot;</span><span class="p">,</span><span class="s">&quot;--count&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">help</span><span class="o">=</span><span class="s">&quot;Number of times to repeat&quot;</span><span class="p">)</span>       <span class="c"># Options (short and long) are via decorator too!</span>
+<span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>         <span class="c"># By default, the name of the option or argument becomes</span>
+                                <span class="c"># the variable passed to the function</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
+        <span class="n">click</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s">&quot;Hello, {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+        <span class="c"># Click provides some useful utility functions such as &quot;echo&quot;</span>
+        <span class="c"># that help to resolve cross-platform issues, and ease testing</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">hello</span><span class="p">()</span> <span class="c"># Allowing it to be called from the command line</span></code></pre></div>
+
+<p>And that’s it!  You can run it like so:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>python hello.py Ryan --count 3
+Hello, Ryan
+Hello, Ryan
+Hello, Ryan</code></pre></div>
+
+<p>And it checks inputs to ensure the right number, count, and even type if you specify it.  If the user puts the wrong thing in or is unsure how to use it, they can simply:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>python hello.py --help
+Usage: hello.py <span class="o">[</span>OPTIONS<span class="o">]</span> NAME
+
+Options:
+  -c, --count INTEGER  Number of <span class="nb">times </span>to repeat
+  --help               Show this message and exit.</code></pre></div>
+
+<p>And there are a whole bunch of other great things about it.  There is built in support for testing to aid with TDD and writing tests in general.  With my PQ-CLI, my goal was to do the project like a real big kid, with license, readme, git repo, writing tests first, etc.  I think I did ok with that, and I’m still going.  There is support for grouping and nexting and piping commands.  And the documentation is really helpful (examples first, API and documentation later).  I wasn’t suprised when I looked up at the url for Click and realized it was part of the Pocoo family (the guy who made Flask, among a bunch of other useful projects).  Anyways, check out (my project)[https://github.com/rpalo/pq-cli] for more examples and take a stop by the (main Click project page)[https://click.pocoo.com/5] for even more guidance.</p>
+
+
+</div>
+        </div>
+
+        <footer id="main-footer">
+    <div class="container">
+        <p class="text-muted">&copy; Ryan Palo 2017 | All things.  Phil. 4:13</p>
+    </div>
+</footer>
+        <!-- Scripts -->
+        <!--  
+        jQuery (necessary for Bootstrap's JavaScript plugins)
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        Latest compiled and minified Bootstrap JavaScript
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        -->
+        <!-- Custom Javascript -->
+        <script src="/js/main.js"></script>
+        
+    </body>
+</html>
