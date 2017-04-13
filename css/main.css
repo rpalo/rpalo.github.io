@@ -96,6 +96,10 @@ nav a {
 .site-wrap ul {
   list-style-type: none;
   padding-left: 0; }
+.site-wrap img {
+  margin: auto;
+  display: block;
+  max-height: 300px; }
 
 code {
   font-size: 80%;

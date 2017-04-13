@@ -35,73 +35,79 @@
           <article class="site-wrap">
             <div class="home">
 
+  <!-- Current Post -->
   
-    <h1>Pi Via PRNG</h2>
-    <small>Apr 10, 2017</small>
-    <p><p>I just found something amazing out.  It’s not that amazing.  But it <em>is</em> neat.  I’m going to build to it in an unnecessarily dramatic and roundabout way.</p>
+    <h1>Indexing - Teaching Things Better</h2>
+    <small>Apr 12, 2017</small>
+    <p><p>I want to talk about indexing.  More importantly, I want to talk about how we are explaining indexing to new programmers.  But first, I need to lay some background.</p>
 
-<h2 id="coprimes">Coprimes</h2>
+<h2 id="background-1">Background 1</h2>
 
-<p>Let’s start with a concept called <strong>“Coprimacy”</strong>.  Two numbers can be said to be <em>coprime</em> if they share no factors except one.  For example, consider 75 and 28.  The factors of 28 are 1, 2, 4, 7, 14, and 28.  The factors of 75 are 1, 3, 5, 15, 25, and 75.  Since the only one that is the same is 1, 28 and 75 are coprime.  On the other hand, consider 24 and 64.  The factors of 24 are 1, 2, 3, 4, 6, 8, 12, and 24, while the factors of 64 are 1, 2, 4, 8, 16, 32, and 64.  They actually share 1, 2, 4, and 8!  These numbers are not coprime.</p>
+<p>Right now I’m working as an engineer, but I’m a teacher at heart.  I love taking someone through the process of learning something, finding the analogy or way of looking at a concept that really makes it click for them.  Especially in the areas of math, mechanics, and programming, where things are very predictable and there’s always concrete reasoning behind each concept.  I’m a firm believer that students should never just accept what the teacher says on faith, and there should definitely be <em>no magic</em>.</p>
 
-<h2 id="coprimes-everywhere">Coprimes, Everywhere</h2>
+<h2 id="background-2">Background 2</h2>
 
-<p>So let’s take this a bit further.  I wonder what the odds are that two random numbers are coprime.  Since I’ve got a buddy named Python, let’s take this a lot further!</p>
+<p>I’m taking another JavaScript course to try and fill in the blanks that I have and see if this new teacher explains anything in a new or different way that clicks better with me.  Everything was going well until we got to the section on indexing lists.  The teacher started off by saying, “In order to get the first item out of the list, you reference it like this: <code>items[0]</code>.  You’ll just have to remember that computers always start counting at zero.”  To which I replied:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># coprimes.py</span>
+<p><img src="/img/nope.gif" alt="NOPE" /></p>
 
-<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">gcd</span>
-<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+<p>There’s got to be a better way.  You shouldn’t have to <em>just remember</em> anything.  And so, without further background sections, I present to you:</p>
 
-<span class="k">def</span> <span class="nf">is_coprime</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return true if the first and second are coprime i.e. largest</span>
-<span class="sd">    common factor is 1&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">gcd</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+<h2 id="a-better-way">A Better Way</h2>
 
-<span class="k">def</span> <span class="nf">coprime_probability</span><span class="p">(</span><span class="n">limit</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Estimates the probability of two numbers being coprime via randoms&quot;&quot;&quot;</span>
-    <span class="n">coprime_count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">times</span><span class="p">):</span>
-        <span class="n">a</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">limit</span><span class="p">)</span>
-        <span class="n">b</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">limit</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">is_coprime</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-            <span class="n">coprime_count</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">return</span> <span class="n">coprime_count</span> <span class="o">/</span> <span class="n">times</span>
+<p>I’m also going to use Python for my explanation because I like it better and I do what I want.  Let us consider the string <code>beans</code>.  Not string beans, but– you get it.</p>
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Probability approximately:&quot;</span><span class="p">,</span> <span class="n">coprime_probability</span><span class="p">(</span><span class="mi">1000000</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">))</span></code></pre></div>
+<p><img src="/img/indexing.png" alt="Diagram of a String" /></p>
 
-<p>When I run it, I get ~ 0.6075.  So right now, I can hear a good portion of you actually giggling with excitement.  “How could this possibly get any more interesting?” you ask in earnest.  Here’s how.</p>
+<p>The main thing to understand is that indices don’t actually fall <em>on</em> a particular item in a list or character in a string (since they are accessed the same way).  They surround the letters. <em>They surround the letters.</em>  <strong>They surround the letters.</strong>  One more time for the people in the back.</p>
 
-<h2 id="the-reveal">The Reveal</h2>
+<h1 id="indices-surround-the-letters">Indices surround the letters.</h1>
 
-<p>Get ready because the next part is going to knock your socks off.  Simply find the following: <code>sqrt(6/coprime_probability)</code>.  What do you get?  3.14!  Don’t believe me?  Let’s up the number of trials.</p>
+<p>Thus, when you try this:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">fruit</span> <span class="o">=</span> <span class="s">&quot;beans&quot;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">fruit</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+<span class="s">&quot;ea&quot;</span></code></pre></div>
 
-<span class="n">trials</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="mi">100000</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">,</span> <span class="mi">10000000</span><span class="p">])</span>
-<span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">coprime_probability</span><span class="p">(</span><span class="mi">1000000</span><span class="p">,</span> <span class="n">trial</span><span class="p">)</span> <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">])</span>
-<span class="n">pi_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">6</span><span class="o">/</span><span class="n">result</span><span class="p">)</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">])</span></code></pre></div>
+<p>You get “ea” because those are the letters <em>in between</em> the two indices you specified.  When you only specify one index, the program defaults to making the second limit the next index.</p>
 
-<p>Now let’s plot it.</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">fruit</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="c"># Is the same as fruit[4:4+1]</span>
+<span class="s">&quot;s&quot;</span></code></pre></div>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">trials</span><span class="p">,</span> <span class="n">pi_values</span><span class="p">,</span> <span class="s">&quot;ro&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s">&quot;log&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre></div>
+<p>The benefit of understanding things this way is that negative indices get a lot less confusing.</p>
 
-<p><img src="/img/pi_prng.png" alt="png" /></p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">fruit</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="s">&quot;an&quot;</span></code></pre></div>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">pi_values</span><span class="p">)</span></code></pre></div>
+<p>In Python, in order to say “all the way to the very end,” you just leave the index off.  This is mostly convenience and because -0 doesn’t make any sense as an index (since -0 technically equals 0).</p>
 
-<pre><code>[ 3.2163376   3.16491619  3.11588476  3.13967487  3.14168852  3.1420532 ]
-</code></pre>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">fruit</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+<span class="s">&quot;eans&quot;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">fruit</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="s">&quot;eans&quot;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">fruit</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="s">&quot;bean&quot;</span></code></pre></div>
 
-<p>So there you go!  You just derived pi from a bunch of random numbers.  You’re welcome!</p>
+<p>Cool right?</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>A good number of the 2 people that read this post will have already learned (one way or another) about indexing strings and lists.  But do you see now that there is a good reason for starting at zero and ending our for loops at <code>len(string) - 1</code>?  It’s not magic.  It’s not because computers are weird and count from zero because that’s how their culture does it.  There’s no little gremlin decreeing new ways to count inside your computer.  Now go forth and spread the logical step-by-step teaching approach!</p>
 </p>
   
-  <h3>Recent Posts</h3>
+  <hr>
+  <!-- Featured Posts List -->
+  <h2>Featured Posts</h2>
   <ul class="post-list">
+    <li>
+      <span class="post-meta">Jan 18, 2017</span>
+      <a class="post-link" href="/2017/01/18/assert-not-magic.html">Assert Not Magic</a>
+    </li>
+    
+      <li>
+        <span class="post-meta">Apr 10, 2017</span>
+        <a class="post-link" href="/2017/04/10/pi-via-prng.html">Pi Via PRNG</a>
+      </li>
     
       <li>
         <span class="post-meta">Mar 27, 2017</span>
@@ -113,12 +119,52 @@
         <a class="post-link" href="/2017/03/22/piping-the-snek.html">Piping the Snek</a>
       </li>
     
-      <li>
-        <span class="post-meta">Mar 14, 2017</span>
-        <a class="post-link" href="/2017/03/14/lets-get-pythonic-generators.html">Let&#39;s Get Pythonic -- Generators</a>
-      </li>
-    
   </ul>
+  <hr>
+  <!-- Tags List -->
+  <p>
+    
+    <a href="/tags/python/" style="font-size: 34px">python | </a>
+    
+    <a href="/tags/django/" style="font-size: 14px">django | </a>
+    
+    <a href="/tags/rails/" style="font-size: 14px">rails | </a>
+    
+    <a href="/tags/algorithms/" style="font-size: 20px">algorithms | </a>
+    
+    <a href="/tags/editors/" style="font-size: 16px">editors | </a>
+    
+    <a href="/tags/emacs/" style="font-size: 16px">emacs | </a>
+    
+    <a href="/tags/ai/" style="font-size: 14px">ai | </a>
+    
+    <a href="/tags/r/" style="font-size: 14px">r | </a>
+    
+    <a href="/tags/tools/" style="font-size: 14px">tools | </a>
+    
+    <a href="/tags/javascript/" style="font-size: 14px">javascript | </a>
+    
+    <a href="/tags/not_magic/" style="font-size: 14px">not_magic | </a>
+    
+    <a href="/tags/soft-skills/" style="font-size: 16px">soft-skills | </a>
+    
+    <a href="/tags/tricks/" style="font-size: 20px">tricks | </a>
+    
+    <a href="/tags/vscode/" style="font-size: 14px">vscode | </a>
+    
+    <a href="/tags/vim/" style="font-size: 14px">vim | </a>
+    
+    <a href="/tags/sublime/" style="font-size: 14px">sublime | </a>
+    
+    <a href="/tags/puzzle/" style="font-size: 16px">puzzle | </a>
+    
+    <a href="/tags/bash/" style="font-size: 14px">bash | </a>
+    
+    <a href="/tags/math/" style="font-size: 14px">math | </a>
+    
+    <a href="/tags/teaching/" style="font-size: 14px">teaching | </a>
+    
+  </p>
 
   <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
 

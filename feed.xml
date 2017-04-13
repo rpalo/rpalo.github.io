@@ -6,9 +6,77 @@
 </description>
     <link>http://example.com/</link>
     <atom:link href="http://example.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 10 Apr 2017 20:39:17 -0700</pubDate>
-    <lastBuildDate>Mon, 10 Apr 2017 20:39:17 -0700</lastBuildDate>
+    <pubDate>Wed, 12 Apr 2017 20:22:25 -0700</pubDate>
+    <lastBuildDate>Wed, 12 Apr 2017 20:22:25 -0700</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Indexing - Teaching Things Better</title>
+        <description>&lt;p&gt;I want to talk about indexing.  More importantly, I want to talk about how we are explaining indexing to new programmers.  But first, I need to lay some background.&lt;/p&gt;
+
+&lt;h2 id=&quot;background-1&quot;&gt;Background 1&lt;/h2&gt;
+
+&lt;p&gt;Right now I’m working as an engineer, but I’m a teacher at heart.  I love taking someone through the process of learning something, finding the analogy or way of looking at a concept that really makes it click for them.  Especially in the areas of math, mechanics, and programming, where things are very predictable and there’s always concrete reasoning behind each concept.  I’m a firm believer that students should never just accept what the teacher says on faith, and there should definitely be &lt;em&gt;no magic&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;background-2&quot;&gt;Background 2&lt;/h2&gt;
+
+&lt;p&gt;I’m taking another JavaScript course to try and fill in the blanks that I have and see if this new teacher explains anything in a new or different way that clicks better with me.  Everything was going well until we got to the section on indexing lists.  The teacher started off by saying, “In order to get the first item out of the list, you reference it like this: &lt;code&gt;items[0]&lt;/code&gt;.  You’ll just have to remember that computers always start counting at zero.”  To which I replied:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/nope.gif&quot; alt=&quot;NOPE&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;There’s got to be a better way.  You shouldn’t have to &lt;em&gt;just remember&lt;/em&gt; anything.  And so, without further background sections, I present to you:&lt;/p&gt;
+
+&lt;h2 id=&quot;a-better-way&quot;&gt;A Better Way&lt;/h2&gt;
+
+&lt;p&gt;I’m also going to use Python for my explanation because I like it better and I do what I want.  Let us consider the string &lt;code&gt;beans&lt;/code&gt;.  Not string beans, but– you get it.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/indexing.png&quot; alt=&quot;Diagram of a String&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The main thing to understand is that indices don’t actually fall &lt;em&gt;on&lt;/em&gt; a particular item in a list or character in a string (since they are accessed the same way).  They surround the letters. &lt;em&gt;They surround the letters.&lt;/em&gt;  &lt;strong&gt;They surround the letters.&lt;/strong&gt;  One more time for the people in the back.&lt;/p&gt;
+
+&lt;h1 id=&quot;indices-surround-the-letters&quot;&gt;Indices surround the letters.&lt;/h1&gt;
+
+&lt;p&gt;Thus, when you try this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fruit&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;beans&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fruit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;ea&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You get “ea” because those are the letters &lt;em&gt;in between&lt;/em&gt; the two indices you specified.  When you only specify one index, the program defaults to making the second limit the next index.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fruit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# Is the same as fruit[4:4+1]&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;s&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The benefit of understanding things this way is that negative indices get a lot less confusing.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fruit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;an&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In Python, in order to say “all the way to the very end,” you just leave the index off.  This is mostly convenience and because -0 doesn’t make any sense as an index (since -0 technically equals 0).&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fruit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;eans&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fruit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:]&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;eans&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fruit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;bean&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Cool right?&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;A good number of the 2 people that read this post will have already learned (one way or another) about indexing strings and lists.  But do you see now that there is a good reason for starting at zero and ending our for loops at &lt;code&gt;len(string) - 1&lt;/code&gt;?  It’s not magic.  It’s not because computers are weird and count from zero because that’s how their culture does it.  There’s no little gremlin decreeing new ways to count inside your computer.  Now go forth and spread the logical step-by-step teaching approach!&lt;/p&gt;
+</description>
+        <pubDate>Wed, 12 Apr 2017 00:00:00 -0700</pubDate>
+        <link>http://example.com/2017/04/12/indexing-teaching-better.html</link>
+        <guid isPermaLink="true">http://example.com/2017/04/12/indexing-teaching-better.html</guid>
+        
+        <category>teaching</category>
+        
+        <category>python</category>
+        
+        
+      </item>
     
       <item>
         <title>Pi Via PRNG</title>
@@ -76,6 +144,12 @@
         <pubDate>Mon, 10 Apr 2017 00:00:00 -0700</pubDate>
         <link>http://example.com/2017/04/10/pi-via-prng.html</link>
         <guid isPermaLink="true">http://example.com/2017/04/10/pi-via-prng.html</guid>
+        
+        <category>math</category>
+        
+        <category>python</category>
+        
+        <category>tricks</category>
         
         
       </item>
@@ -161,6 +235,10 @@
         <link>http://example.com/2017/03/27/fizz-buzz.html</link>
         <guid isPermaLink="true">http://example.com/2017/03/27/fizz-buzz.html</guid>
         
+        <category>python</category>
+        
+        <category>puzzle</category>
+        
         
       </item>
     
@@ -203,6 +281,12 @@ ihsus erom&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
         <pubDate>Wed, 22 Mar 2017 00:00:00 -0700</pubDate>
         <link>http://example.com/2017/03/22/piping-the-snek.html</link>
         <guid isPermaLink="true">http://example.com/2017/03/22/piping-the-snek.html</guid>
+        
+        <category>python</category>
+        
+        <category>tricks</category>
+        
+        <category>bash</category>
         
         
       </item>
@@ -381,6 +465,10 @@ ihsus erom&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
         <link>http://example.com/2017/03/14/lets-get-pythonic-generators.html</link>
         <guid isPermaLink="true">http://example.com/2017/03/14/lets-get-pythonic-generators.html</guid>
         
+        <category>python</category>
+        
+        <category>tricks</category>
+        
         
       </item>
     
@@ -441,6 +529,8 @@ ihsus erom&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
         <pubDate>Wed, 01 Mar 2017 00:00:00 -0800</pubDate>
         <link>http://example.com/2017/03/01/meta-feedback.html</link>
         <guid isPermaLink="true">http://example.com/2017/03/01/meta-feedback.html</guid>
+        
+        <category>soft-skills</category>
         
         
       </item>
@@ -561,6 +651,12 @@ ihsus erom&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
         <link>http://example.com/2017/02/24/optimal-primes.html</link>
         <guid isPermaLink="true">http://example.com/2017/02/24/optimal-primes.html</guid>
         
+        <category>algorithms</category>
+        
+        <category>python</category>
+        
+        <category>puzzle</category>
+        
         
       </item>
     
@@ -604,6 +700,16 @@ ihsus erom&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
         <pubDate>Sat, 11 Feb 2017 00:00:00 -0800</pubDate>
         <link>http://example.com/2017/02/11/coding-with-code.html</link>
         <guid isPermaLink="true">http://example.com/2017/02/11/coding-with-code.html</guid>
+        
+        <category>editors</category>
+        
+        <category>vscode</category>
+        
+        <category>vim</category>
+        
+        <category>emacs</category>
+        
+        <category>sublime</category>
         
         
       </item>
@@ -676,6 +782,12 @@ ihsus erom&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
         <link>http://example.com/2017/02/02/default-argument-tricks.html</link>
         <guid isPermaLink="true">http://example.com/2017/02/02/default-argument-tricks.html</guid>
         
+        <category>python</category>
+        
+        <category>algorithms</category>
+        
+        <category>tricks</category>
+        
         
       </item>
     
@@ -710,91 +822,9 @@ ihsus erom&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
         <link>http://example.com/2017/01/18/assert-not-magic.html</link>
         <guid isPermaLink="true">http://example.com/2017/01/18/assert-not-magic.html</guid>
         
+        <category>not_magic</category>
         
-      </item>
-    
-      <item>
-        <title>I Can JavaScripting?</title>
-        <description>&lt;p&gt;Hey!  Sorry for the long gap.  It’s been over a month since my last post, which is not ok.  Luckily, I’ve recently started the &lt;a href=&quot;https://github.com/rpalo/100-days-of-code&quot;&gt;100 days of code&lt;/a&gt; challenge along with a number of the other &lt;a href=&quot;http://www.codenewbie.org/blogs/100-days-of-code-codenewbie-edition&quot;&gt;CodeNewbies&lt;/a&gt;, and that should help keep me on track.  Also, I’m working on some changes to the blog that should be coming up here in the next week or so.  I actually got a url that means something, which is neat!  More on that after the change.&lt;/p&gt;
-
-&lt;p&gt;Anyways, I have been having a whole lot of success in the JavaScript world recently, and I wanted to share some of the wisdom nuggets that I’ve stumbled upon.  First thing’s first.  If you haven’t heard of the &lt;a href=&quot;https://github.com/rpalo/JavaScript30&quot;&gt;JavaScript30&lt;/a&gt;, it is a 30 day (or so) challenge wherin &lt;a href=&quot;http://wesbos.com/&quot;&gt;Wes Bos&lt;/a&gt;, a genius person and excellent teacher, works through 30 different projects with you using only Vanilla Javascript.  This is especially great if you are like me and have a slight distrust of just installing a random library without vetting it out, which makes doing anything exhausting.  A lot of times I end up starting something, finding out lots of people use a library for it, trying to do it without the library, getting stuck, and giving up.  This is especially frustrating, because I feel like I know JavaScript, but can’t actually do anything with it!  Not anymore!  I want to share a few of the most useful things with you that use Vanilla JavaScript and not libraries.  (Note: I don’t hate libraries.  I just think there is something to be said for not having to manage dependencies.)  So here we go.&lt;/p&gt;
-
-&lt;h3 id=&quot;just-selecting-stuff&quot;&gt;Just Selecting Stuff&lt;/h3&gt;
-
-&lt;p&gt;The very first useful thing you should know is how to get at (or create) things in the DOM.  This is something that JQuery makes really easy, but here’s how to do it the rugged way.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// I&amp;#39;m going to use ES6 syntax (which I&amp;#39;m still learning, so be gentle)&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;h1&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// Now you have access to everything about your header!&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHTML&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;I OWN THIS HEADER NOW.&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// What if you want to get a whole list of links to work with?&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;navlinks&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelectorAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;a.navlink&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// BUT BE CAREFUL!  querySelectorAll doesn&amp;#39;t return an Array, it returns a NodeList.&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// It works similarly, but doesn&amp;#39;t have all the useful methods.  Here&amp;#39;s a workaround.&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;navArray&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[...&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;navlinks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Using the neat ES6 spreading technique.&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// Which lets you dump the NodeList into an array and you can keep on like normal&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// This is just shorthand for new Array(...navlinks);   &lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;navArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;forEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;click&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;doSomethingCrazy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// You can also query within elements themselves!&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;contentDiv&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;#content&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;authorName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;contentDiv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;.author&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;making-things-happen-events&quot;&gt;Making Things Happen (Events)&lt;/h3&gt;
-
-&lt;p&gt;I hinted at this in the previous section.  What if you want to run some magic voodoo everytime someone mouses over your title or everytime someone submits a form?  It’s really that simple.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// Just select the element you want the event to be tied to&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;#title&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// Note that if you have more than one #title (which would be poor form anyway)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// querySelector() will only return the first one in the page.&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// Let&amp;#39;s define our action to happen&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;titleGrow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// You can pass in the event, e, which contains useful info about what happened&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// note that we don&amp;#39;t need that here&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;font&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;48px&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// for events, this often (possibly always, not sure yet) refers&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// to the thing that triggered the event&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// Lastly let&amp;#39;s tie our event to the above function&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;mouseenter&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;titleGrow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// NOTE: there are no () at the end of the function name.  We don&amp;#39;t want to&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// call the function *in place*, we just want to pass a reference to it to &lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// be used later.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;And that’s it!  Now, the first time the user mouses over the title, its font will grow to 48px.  Note that you would have to listen for a &lt;code&gt;mouseleave&lt;/code&gt; event and pass in a different function if you wanted it to shrink back to normal once the user mouses out of the title.&lt;/p&gt;
-
-&lt;h3 id=&quot;modifying-elements&quot;&gt;Modifying Elements&lt;/h3&gt;
-
-&lt;p&gt;The last thing I’ll talk about are some common ways to modify elements using JavaScript.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;#author&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// Let&amp;#39;s change the text!&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHTML&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Ryan &amp;#39;is the coolest&amp;#39; Palo&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// modify a style&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;color&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;#BADA55&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// add, remove, or toggle a class&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;classList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;cool-guy&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;classList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;blog-slacker&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;classList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toggle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;is-on-the-ball&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;A lot of times, it is the easiest to simply toggle a class and handle all of the excess animations, changes, styling in the css.  Makes things easier to read and find.&lt;/p&gt;
-
-&lt;p&gt;Anyways, that’s it for now.  More coming soon!&lt;/p&gt;
-
-&lt;hr /&gt;
-
-</description>
-        <pubDate>Sat, 14 Jan 2017 00:00:00 -0800</pubDate>
-        <link>http://example.com/2017/01/14/i-can-javascripting.html</link>
-        <guid isPermaLink="true">http://example.com/2017/01/14/i-can-javascripting.html</guid>
+        <category>soft-skills</category>
         
         
       </item>
