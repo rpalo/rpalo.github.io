@@ -99,7 +99,8 @@ nav a {
 .site-wrap img {
   margin: auto;
   display: block;
-  max-height: 300px; }
+  max-height: 300px;
+  border: 1px solid black; }
 
 code {
   font-size: 80%;
@@ -139,6 +140,21 @@ body {
 .container .text-muted {
   margin-left: 20px;
   color: #CCC; }
+
+#home-footer {
+  display: flex; }
+
+@media only screen and (max-width: 768px) {
+  #home-footer {
+    flex-direction: column; } }
+#left-home-footer {
+  flex: 1; }
+
+#center-home-footer {
+  flex: 1; }
+
+#right-home-footer {
+  flex: 1; }
 
 .mobile-home {
   display: none; }
