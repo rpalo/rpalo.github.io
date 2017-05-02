@@ -6,9 +6,88 @@
 </description>
     <link>http://example.com/</link>
     <atom:link href="http://example.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 25 Apr 2017 18:55:22 -0700</pubDate>
-    <lastBuildDate>Tue, 25 Apr 2017 18:55:22 -0700</lastBuildDate>
+    <pubDate>Mon, 01 May 2017 22:39:22 -0700</pubDate>
+    <lastBuildDate>Mon, 01 May 2017 22:39:22 -0700</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Fanbot, and Doing New Things Right</title>
+        <description>&lt;p&gt;I came up with a project about a week ago, and before I started, I decided that, regardless of who else sees it, I wanted to do things the &lt;em&gt;right&lt;/em&gt; way.  The main purpose of this post is to lay things out and get some feedback (hopefully) on things that I could do right-er.  There are a few things in particular I wanted to highlight about the project as well: the structure, the tests, using the Twitter API, and another cool Python package.  I’ll try to keep it relatively short for everyone’s sanity.&lt;/p&gt;
+
+&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+
+&lt;p&gt;The project is called &lt;a href=&quot;https://github.com/rpalo/fanbot&quot;&gt;FanBot&lt;/a&gt;.  It’s a pretty simple Python bot that runs continuously and can tweet random compliments at a target user.  Additionally, I just finished a feature that allows someone to tweet @ the bot, which prompts it to compliment the target user quasi-immediately (in addition to its standard daily compliment).  Right now the deployment isn’t anything fancy, because the application is whatever the opposite of critical is.  I just set it running on a &lt;a href=&quot;https://pythonanywhere.com&quot;&gt;PythonAnywhere&lt;/a&gt; shell and restart it manually whenever they bounce their servers.  I know I could do more if I wanted.  In this aspect, I don’t really see the need.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-structure&quot;&gt;The Structure&lt;/h2&gt;
+
+&lt;p&gt;In terms of “doing things right,” I made sure to setup the project from the beginning as a git repository.  It’s got a LICENCE file, a .gitignore file, requirements.txt (for those who don’t Python, this is similar to a Gemfile in Ruby or a package.json in JavaScript), a tests directory, and a project directory.  There is also a sample main user file, &lt;code&gt;main.py&lt;/code&gt;.  I made sure my README has short but effective sections including Features, Installation and Use Instructions, Contribution suggestions, and a Code of Conduct.  I’m not sure how much I’ll need to use the last two, but if I’m going to &lt;strong&gt;do things right&lt;/strong&gt;, I’m going to &lt;strong&gt;do things right&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-tests&quot;&gt;The Tests&lt;/h2&gt;
+
+&lt;p&gt;It took me a bit to get the tests all hooked up right since this is one of the first projects I was determined to do via a relaxed version of Test-Driven Development.  I went with Pytest.  Within my tests directory is an &lt;code&gt;__init__.py&lt;/code&gt; file (blank) and a &lt;code&gt;test_fanbot.py&lt;/code&gt; file.  As I add more functionality, I may have to break that into multiple test modules.  The nice thing about using Pytest is that I don’t have to pull any shenanigans with the python path.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;fanbot&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fanbot&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# i.e. from .. (top level) import fanbot&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TestFanBot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;sd&quot;&gt;&amp;quot;&amp;quot;&amp;quot;Tests for the FanBot class&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;test_example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;assert&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# Actual tests...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Pytest’s autodetection makes everything work, and you can use simple assertion statements.  I actually had trouble because it was significantly simpler than I thought it was supposed to be.&lt;/p&gt;
+
+&lt;h2 id=&quot;twitter-api&quot;&gt;Twitter API&lt;/h2&gt;
+
+&lt;p&gt;The Twitter API is suuuuuper easy to use once you get into it.  You can find the basic instructions within the project README or by googling “twitter api python”.  There are also several good Python Twitter API clients that simplify things.  I used &lt;a href=&quot;http://tweepy.readthedocs.io/en/v3.5.0/getting_started.html&quot;&gt;Tweepy&lt;/a&gt;, and Tweepy’s documentation will help you get started as well.  Once you’ve authenticated, you can basically ask for whatever you want.  Just be prepared for printing anything to the terminal to basically be pointless, due to the sheer volume of information.&lt;/p&gt;
+
+&lt;p&gt;This is the example from the Tweepy Getting Started page.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tweepy&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tweepy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OAuthHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;consumer_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;consumer_secret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;set_access_token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;access_token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;access_token_secret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;api&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tweepy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;API&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# This is the cool tech hipster way to check your twitter&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;public_tweets&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;api&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;home_timeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tweet&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;public_tweets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tweet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;schedule&quot;&gt;Schedule&lt;/h2&gt;
+
+&lt;p&gt;OK.  Last thing, I promise.  I made strong use of the &lt;code&gt;schedule&lt;/code&gt; package.  It was easy to just &lt;code&gt;pip3 install schedule&lt;/code&gt;.  They make it amazingly easy to write human-readable task scheduling.  Check it.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;schedule&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;bark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Woof&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;schedule&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;every&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;minutes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;do&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;schedule&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;every&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;days&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;12:15&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;do&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;schedule&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;run_pending&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sleep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# seconds&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And like that, you get a barking terminal every ten minutes and/or 4 days around lunchtime.  SO.  EASY.  TO.  READ!  I love it.&lt;/p&gt;
+
+&lt;h2 id=&quot;wrap-up&quot;&gt;Wrap Up&lt;/h2&gt;
+
+&lt;p&gt;So that’s where I’m at now.  I’d like to think that I’m doing ok, but one of the downsides of being self-taught and also not having a developer job yet is the lack of a team to yell at me and show me when I’m not doing things the &lt;em&gt;right&lt;/em&gt; way.  That’s where my adoring fanbase comes in.  If you take a look and see where I’ve done something weird or bad or the harder way unnecessarily, or where I’m missing an opportunity, please let me know.  Thanks in advance!&lt;/p&gt;
+</description>
+        <pubDate>Mon, 01 May 2017 00:00:00 -0700</pubDate>
+        <link>http://example.com/2017/05/01/fanbot-and-doing-new-things-right.html</link>
+        <guid isPermaLink="true">http://example.com/2017/05/01/fanbot-and-doing-new-things-right.html</guid>
+        
+        <category>python</category>
+        
+        <category>soft-skills</category>
+        
+        
+      </item>
     
       <item>
         <title>Jekyll Tags, the Easy Way</title>
@@ -841,60 +920,6 @@ ihsus erom&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
         <category>python</category>
         
         <category>puzzle</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Coding with Code</title>
-        <description>&lt;p&gt;I think I am not alone among developers when I say unabashedly that I love gadgets.  A lot.  Now, I try not to jump from tool to plugin to framework willy nilly, dropping everything else, but I’m always on the lookout for things that make life easier, faster, and generally nicer.  There are a few topics that developers are kind of touchy about.  I’m going to try to hit all of them.  I’m going to start by vehemently recommending a new editor.  Well, not new, per se, but new to me.&lt;/p&gt;
-
-&lt;p&gt;Because I love tools (and especially editors), I’ve tried a lot of them.  Do not consider this a &lt;em&gt;Top 6 editors of 2016: Number 3 will knock your socks off!&lt;/em&gt; article.  Consider it more of a chronicling of my journey to ultimate enlightenment.&lt;/p&gt;
-
-&lt;h2 id=&quot;vim&quot;&gt;Vim&lt;/h2&gt;
-
-&lt;p&gt;I tried Vim.  What I will say about that is that I didn’t have a good enough teacher to show it to me.  Overall, Vim failed the test of increasing my productivity (and not my blood pressure).  I will admit – not proudly – that Vim and I started off on the wrong foot when I couldn’t figure out initially how to exit.  &lt;del&gt;&lt;code&gt;esc:q&lt;/code&gt;… Like what kind of sick, UX neanderthal…&lt;/del&gt; Anyways!  If someone understands the reasoning behind the design and usage of Vim, I’m all ears and more than happy to learn.&lt;/p&gt;
-
-&lt;h2 id=&quot;emacs&quot;&gt;Emacs&lt;/h2&gt;
-
-&lt;p&gt;Having rejected Vim with vehemence, the next natural option is Emacs.  I will say that I was able to put a significant amount of time into teaching myself the Emacs ways.  It has some nice tools, I’m a fan of the built in shell, calendar, journal, language support, and the fact that it can run in a terminal.  It will most likely be my editor of choice &lt;del&gt;if&lt;/del&gt; when I have to code in the terminal and/or over ssh.  The only thing I didn’t like about Emacs is that I ended up spending more time looking up how to do things like open a new pane or something than I spend coding.  That and it wasn’t super simple for me to customize to my liking.  Again, as with Vim, both are clearly not problems with the editor but with my personal character.  But that’s what this is all about, and so… we move on.&lt;/p&gt;
-
-&lt;h2 id=&quot;sublime-text&quot;&gt;Sublime Text&lt;/h2&gt;
-
-&lt;p&gt;Once I found Sublime Text, I felt that I could end my search.  Simple, quick, easy to use.  Key bindings that existed but weren’t required to use.  Directory tree explorer for easy navigation.  JSON customization and easy-to-change color themes!  Ah.  This was the life.  And then I found out about &lt;a href=&quot;https://packagecontrol.io&quot;&gt;package control&lt;/a&gt;!  All the plugins!  The themes!  The inline CSS hexidecimal color previews!  “That’s it!” I crowed.  “My search is over.  I will never need to download another editor.  I have found my canvas, and on this canvas I will paint my masterpiece!”  Or something like that.  I’m paraphrasing.  Shut up, I like my tools, OK?&lt;/p&gt;
-
-&lt;p&gt;And then just a few days ago, I finally got caught up with my podcasts, and one of them was a &lt;a href=&quot;https://devchat.tv/js-jabber&quot;&gt;JavaScript Jabber&lt;/a&gt; episode with one of the guys who works on something called…&lt;/p&gt;
-
-&lt;h2 id=&quot;visual-studio-code&quot;&gt;Visual Studio Code&lt;/h2&gt;
-
-&lt;p&gt;Yep.  I’ll admit, I was skeptical.  Generally, I tend to enjoy my coding experience more on Mac or Linux than on Windows, and I have spent my fair share of time in the built in VBA editor within Excel, Word, and Access.  I have done a little bit with Visual Studio too, but I tend to try to stay away from full-blown IDE’s.  As the podcast went on, however, and I heard more and more about the features available, my curiousity was piqued and I had to check it out.  So I did, and I loved it from the minute I opened it.  “Why?” you ask.  “Why should I look at &lt;em&gt;another&lt;/em&gt; editor?”&lt;/p&gt;
-
-&lt;p&gt;These are a few of the things I liked.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;The onboarding process is really smooth.  They have a welcome page, a whole host of video tutorials, articles, and a guided sandbox to learn the basics in.  The welcome page helps you to get started customizing your settings, choosing your color theme, and picking out extensions (plugins), which everyone knows is the real fun of getting a new editor.&lt;/li&gt;
-  &lt;li&gt;It does everything that Sublime Text does, down to the key bindings (there’s an extension for that)!  So you lose nothing by moving from Sublime to VSCode – or, as the cool kids call it, Code.&lt;/li&gt;
-  &lt;li&gt;There’s an integrated debugger and git GUI that are unobtrusive, so you don’t have to think about them if you don’t want, but robust, so you can get lost in all of their features if you do want.  Also, integrated terminal and markdown preview (at least with an extension).&lt;/li&gt;
-  &lt;li&gt;My favorite feature by far is the intelli-everything.  There’s a command pallete (much like Sublime – &lt;code&gt;cmd-shift-p&lt;/code&gt;), but it shows fuzzy suggestions.  This is something Emacs could benefit from.  I know it does command suggesting, but the UI is much snappier.  Want to change a setting, but aren’t sure which set of settings are available?  Pull up the pallete and type “settings.”  It will offer you suggestions.  Need to find a file?  The pallete can do that too.  The pallete also shows what the keybindings are, so you can learn them at your own pace, not all up front (looking at you Vim).  This intelligence carries through into the code!  It offers some amount of code intelligence (and more with extensions), such that you can type &lt;code&gt;object.&lt;/code&gt; and see a list of available suggestions.  You can right-click and peek (in-place!) at the definitions of functions and classes.  The best part is that it’s all very unobtrusive.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;I think the main takaway is that the developers of VSCode have mastered the management of the user learning curve.  Are you a purist who doesn’t believe in all the frills of IDE’s?  Just want something you can edit code in?  It will do that.  As you slowly get more comfortable and decide a feature here or there is ok, they allow you to do that and will even suggest some extensions for you.  Ready to use the integrated terminal?  OK, there it is and it looks great!  Need to go faster?  How about some key-bindings?  Don’t worry, you can pick those up as you go.  There are some minor hiccups here and there, but they’re constantly updating it, and all in all, I’m sold.  Goodbye my previous tools.  Hello Visual Studio Code!&lt;/p&gt;
-
-&lt;p&gt;You can get it &lt;a href=&quot;https://code.visualstudio.com/&quot;&gt;here!&lt;/a&gt;.  Have a big opinion on any of the other editors I mentioned?  Want to chew me out for not getting Vim?  Have any other neat tools?  Let me know at hello@assertnotmagic.com!&lt;/p&gt;
-</description>
-        <pubDate>Sat, 11 Feb 2017 00:00:00 -0800</pubDate>
-        <link>http://example.com/2017/02/11/coding-with-code.html</link>
-        <guid isPermaLink="true">http://example.com/2017/02/11/coding-with-code.html</guid>
-        
-        <category>editors</category>
-        
-        <category>vscode</category>
-        
-        <category>vim</category>
-        
-        <category>emacs</category>
-        
-        <category>sublime</category>
         
         
       </item>
