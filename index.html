@@ -37,73 +37,21 @@
 
   <!-- Current Post -->
   
-    <h1>Fanbot, and Doing New Things Right</h2>
-    <small>May 1, 2017</small>
-    <p><p>I came up with a project about a week ago, and before I started, I decided that, regardless of who else sees it, I wanted to do things the <em>right</em> way.  The main purpose of this post is to lay things out and get some feedback (hopefully) on things that I could do right-er.  There are a few things in particular I wanted to highlight about the project as well: the structure, the tests, using the Twitter API, and another cool Python package.  I’ll try to keep it relatively short for everyone’s sanity.</p>
+    <h1>Plan Your Commits</h2>
+    <small>May 5, 2017</small>
+    <p><p>I don’t know if this is common or not, but I have a really hard time remembering to commit my code.  I know commits are supposed to be meaningful and logical chunks of work that tell a story when viewed in aggregate.  And yet… I still find myself chugging along until I get ready to get up from coding without having committed anything!  My commit is a giant blob with a message like “finished most of the features.”  Hopefully there is someone out there who is like me.  Hopefully this post speaks to that one person who hyperfocuses on a problem and forgets to commit (or move, or eat, or go outside, or speak to other human persons).  Because I discovered a solution.</p>
 
-<h2 id="overview">Overview</h2>
+<p>Plan.  Your.  Commits.</p>
 
-<p>The project is called <a href="https://github.com/rpalo/fanbot">FanBot</a>.  It’s a pretty simple Python bot that runs continuously and can tweet random compliments at a target user.  Additionally, I just finished a feature that allows someone to tweet @ the bot, which prompts it to compliment the target user quasi-immediately (in addition to its standard daily compliment).  Right now the deployment isn’t anything fancy, because the application is whatever the opposite of critical is.  I just set it running on a <a href="https://pythonanywhere.com">PythonAnywhere</a> shell and restart it manually whenever they bounce their servers.  I know I could do more if I wanted.  In this aspect, I don’t really see the need.</p>
+<p>That’s it!  Mind blown right?  Who could have conceived of such genius?!  Surely no one has considered envisioning what you are about to do before you do it before now!  Shut up, it was a new idea to me.  Here’s my thought process:</p>
 
-<h2 id="the-structure">The Structure</h2>
+<p>A lot of the tutorials that I’ve gone through where Git has been included seem to assume you are a pro committer already.  They say things like, “There we go, that seems like a good spot for a commit,” or “You’ll want to commit your work now.”  This led me to believe that I could just code along and it would be abundantly obvious to me when I should be committing.</p>
 
-<p>In terms of “doing things right,” I made sure to setup the project from the beginning as a git repository.  It’s got a LICENCE file, a .gitignore file, requirements.txt (for those who don’t Python, this is similar to a Gemfile in Ruby or a package.json in JavaScript), a tests directory, and a project directory.  There is also a sample main user file, <code>main.py</code>.  I made sure my README has short but effective sections including Features, Installation and Use Instructions, Contribution suggestions, and a Code of Conduct.  I’m not sure how much I’ll need to use the last two, but if I’m going to <strong>do things right</strong>, I’m going to <strong>do things right</strong>.</p>
+<p><img src="/img/nope.jpg" alt="Nope." /></p>
 
-<h2 id="the-tests">The Tests</h2>
+<p>However, I have found that if I preselect my checkpoint, I forget less.  Saying things like, “I’ll commit again after I’ve finished this function,” or “after I get the url routing hooked up” works a lot better.  Mostly.  The idea is that once I get there, I can commit, come up for air, see where I’m at, and see where I need to go.  It also helps me not need to hold everything in my head and helps (some) for if I leave the project alone for a few days and want to come back.  More stuff is written down and less is bouncing around in my head.</p>
 
-<p>It took me a bit to get the tests all hooked up right since this is one of the first projects I was determined to do via a relaxed version of Test-Driven Development.  I went with Pytest.  Within my tests directory is an <code>__init__.py</code> file (blank) and a <code>test_fanbot.py</code> file.  As I add more functionality, I may have to break that into multiple test modules.  The nice thing about using Pytest is that I don’t have to pull any shenanigans with the python path.</p>
-
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">fanbot</span> <span class="kn">import</span> <span class="n">fanbot</span> <span class="c"># i.e. from .. (top level) import fanbot</span>
-
-<span class="k">class</span> <span class="nc">TestFanBot</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Tests for the FanBot class&quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">test_example</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">4</span>
-
-    <span class="c"># Actual tests...</span></code></pre></div>
-
-<p>Pytest’s autodetection makes everything work, and you can use simple assertion statements.  I actually had trouble because it was significantly simpler than I thought it was supposed to be.</p>
-
-<h2 id="twitter-api">Twitter API</h2>
-
-<p>The Twitter API is suuuuuper easy to use once you get into it.  You can find the basic instructions within the project README or by googling “twitter api python”.  There are also several good Python Twitter API clients that simplify things.  I used <a href="http://tweepy.readthedocs.io/en/v3.5.0/getting_started.html">Tweepy</a>, and Tweepy’s documentation will help you get started as well.  Once you’ve authenticated, you can basically ask for whatever you want.  Just be prepared for printing anything to the terminal to basically be pointless, due to the sheer volume of information.</p>
-
-<p>This is the example from the Tweepy Getting Started page.</p>
-
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">tweepy</span>
-
-<span class="n">auth</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">OAuthHandler</span><span class="p">(</span><span class="n">consumer_key</span><span class="p">,</span> <span class="n">consumer_secret</span><span class="p">)</span>
-<span class="n">auth</span><span class="o">.</span><span class="n">set_access_token</span><span class="p">(</span><span class="n">access_token</span><span class="p">,</span> <span class="n">access_token_secret</span><span class="p">)</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">API</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span>
-
-<span class="c"># This is the cool tech hipster way to check your twitter</span>
-<span class="n">public_tweets</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">home_timeline</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">public_tweets</span><span class="p">:</span>
-    <span class="k">print</span> <span class="n">tweet</span><span class="o">.</span><span class="n">text</span></code></pre></div>
-
-<h2 id="schedule">Schedule</h2>
-
-<p>OK.  Last thing, I promise.  I made strong use of the <code>schedule</code> package.  It was easy to just <code>pip3 install schedule</code>.  They make it amazingly easy to write human-readable task scheduling.  Check it.</p>
-
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">schedule</span>
-
-<span class="k">def</span> <span class="nf">bark</span><span class="p">():</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Woof&quot;</span><span class="p">)</span>
-
-<span class="n">schedule</span><span class="o">.</span><span class="n">every</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">minutes</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="n">bark</span><span class="p">)</span>
-<span class="n">schedule</span><span class="o">.</span><span class="n">every</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">days</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="s">&quot;12:15&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="n">bark</span><span class="p">)</span>
-
-<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-    <span class="n">schedule</span><span class="o">.</span><span class="n">run_pending</span><span class="p">()</span>
-    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="c"># seconds</span></code></pre></div>
-
-<p>And like that, you get a barking terminal every ten minutes and/or 4 days around lunchtime.  SO.  EASY.  TO.  READ!  I love it.</p>
-
-<h2 id="wrap-up">Wrap Up</h2>
-
-<p>So that’s where I’m at now.  I’d like to think that I’m doing ok, but one of the downsides of being self-taught and also not having a developer job yet is the lack of a team to yell at me and show me when I’m not doing things the <em>right</em> way.  That’s where my adoring fanbase comes in.  If you take a look and see where I’ve done something weird or bad or the harder way unnecessarily, or where I’m missing an opportunity, please let me know.  Thanks in advance!</p>
+<p>So, if your commits look like a pile of <code>[rhymes with commit]</code>, try writing your commit message (in your head) before you write the code.  If you have a better way, OR, if you have other tricks that would help me keep my head on straight in the long run, please share them!  I’d love to hear them.</p>
 </p>
   
   <hr>
@@ -120,6 +68,11 @@
         </li>
         
           <li>
+            <span class="post-meta">May 1, 2017</span>
+            <a class="post-link" href="/2017/05/01/fanbot-and-doing-new-things-right.html">Fanbot, and Doing New Things Right</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Apr 25, 2017</span>
             <a class="post-link" href="/2017/04/25/jekyll-tags-the-easy-way.html">Jekyll Tags, the Easy Way</a>
           </li>
@@ -127,11 +80,6 @@
           <li>
             <span class="post-meta">Apr 25, 2017</span>
             <a class="post-link" href="/2017/04/25/built-in-methods.html">Built-In Methods</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Apr 12, 2017</span>
-            <a class="post-link" href="/2017/04/12/indexing-teaching-better.html">Indexing - Teaching Things Better</a>
           </li>
         
       </ul>
@@ -168,7 +116,7 @@
         
         <a href="/tags/soft-skills/" style="font-size: 18px">soft-skills | </a>
         
-        <a href="/tags/tricks/" style="font-size: 22px">tricks | </a>
+        <a href="/tags/tricks/" style="font-size: 24px">tricks | </a>
         
         <a href="/tags/vscode/" style="font-size: 14px">vscode | </a>
         
@@ -187,6 +135,8 @@
         <a href="/tags/ruby/" style="font-size: 16px">ruby | </a>
         
         <a href="/tags/jekyll/" style="font-size: 14px">jekyll | </a>
+        
+        <a href="/tags/git/" style="font-size: 14px">git | </a>
         
       </p>
     </div>
