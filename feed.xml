@@ -6,9 +6,80 @@
 </description>
     <link>http://example.com/</link>
     <atom:link href="http://example.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 18 May 2017 23:48:54 -0700</pubDate>
-    <lastBuildDate>Thu, 18 May 2017 23:48:54 -0700</lastBuildDate>
+    <pubDate>Mon, 29 May 2017 12:55:34 -0700</pubDate>
+    <lastBuildDate>Mon, 29 May 2017 12:55:34 -0700</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Microdecisions</title>
+        <description>&lt;p&gt;The background for this post is actually coming mostly from my mechanical engineering experience, but the more I program, the more I’m starting to see that there are a lot of similarities between designing parts and designing software.  What I want to write about today is the importance of &lt;em&gt;microdecisions&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Scenario:  You are asked to write a function that takes in a string and replaces all of the vowels with “x”.  Why?  Because the manager told you to.  It’ll come in handy later.  Stop asking questions.  Here’s a first cut.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;vowels_to_x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;phrase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;sd&quot;&gt;&amp;quot;&amp;quot;&amp;quot;Replaces all of the vowels with &amp;#39;x&amp;#39; and returns the new string&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;letter&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phrase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;letter&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;E&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;I&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;O&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;U&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;x&amp;quot;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;letter&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It’s a pretty simple function with a pretty simple solution – so simple, in fact, that most of the decisions you have to make seem insignificant.  But here’s another cut, done differently.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;n&quot;&gt;VOWELS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;aeiouAEIOU&amp;quot;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;vowels_to_x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;phrase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;sd&quot;&gt;&amp;quot;&amp;quot;&amp;quot;Replaces all of the vowels with &amp;#39;x&amp;#39; and returns the new string&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;result_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;character&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phrase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;character&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;VOWELS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;result_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;x&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;result_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;character&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here’s some of the decision changes:&lt;/p&gt;
+
+&lt;p&gt;1) Pull the vowels out into an external constant to improve readability.&lt;br /&gt;
+ 2) Shrink the vowels tuple into a string, since it is easier to read and less spread out.&lt;br /&gt;
+ 3) Build the results as a list instead of a string.  This way you don’t have to recreate the result with every new letter.  This could help if the phrases end up being thousands of characters.&lt;br /&gt;
+ 4) Change the variable &lt;code&gt;letter&lt;/code&gt; to &lt;code&gt;character&lt;/code&gt; which is more accurate considering it could be a space or punctuation.&lt;/p&gt;
+
+&lt;p&gt;Here’s yet one other option:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;n&quot;&gt;VOWELS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;aeiouAEIOU&amp;quot;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;vowels_to_x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;phrase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;sd&quot;&gt;&amp;quot;&amp;quot;&amp;quot;Replaces all of the vowels with &amp;#39;x&amp;#39; and returns the new string&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;result_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;x&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;character&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;VOWELS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;character&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;character&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phrase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This one is essentially the same as the one above, but it’s condensed down to a list comprehension.  Arguably, this is more “pythonic,” and possibly easier to read.  I’m not 1,000% sure I like this better, but it &lt;em&gt;is&lt;/em&gt; an option.&lt;/p&gt;
+
+&lt;p&gt;So, which one do you choose?   “Does it matter?” you ask.  “It’s a stupid function.  Just pick one.”  Here’s what I think.  &lt;/p&gt;
+
+&lt;p&gt;I think that the teeny tiny decisions that don’t really matter are actually some of the most important ones.  If there are no reasons to choose one version over another, take the time to find a reason to pick one.  There are a couple benefits to this.  First, if anyone comes to you questioning your code, you’ll have answers ready and will be able to defend your decisions.  Second, the process of reasoning through each of your decisions will help you to catch mistakes.  Lastly, if you have a reason for everything you choose, it will minimize the WTF moments of the next person to look at your code.  They’ll be less likely to shout, “Why the @!$% would they do things that way!?” and more likely to calmly say, “I see why they did this.  I may disagree, but it makes sense.”  &lt;/p&gt;
+
+&lt;p&gt;When in doubt, try to look at it from the eyes of this next person.  Try to go with the least surprising path.  You can do a lot of this with the names of your variables and functions.  Good names will help other people intuit what your design intent was, and if they can do that, they’ll be more likely to sympathize with you and your choices and not immediately write you off as incompetent.  For other ideas, take a look at the &lt;a href=&quot;https://www.python.org/dev/peps/pep-0020/&quot;&gt;“Zen of Python”&lt;/a&gt;.  There’s a lot there that will help choose one thing over another when there are a lot of similar options.  &lt;/p&gt;
+
+&lt;p&gt;Let me know if you can think of any other simple ways to make microdecisions easier and more clearly convey design intent!&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;“It’s the little details that are vital.  Little things make big things happen.”&lt;br /&gt;
+- John Wooden&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>Mon, 29 May 2017 00:00:00 -0700</pubDate>
+        <link>http://example.com/2017/05/29/microdecisions.html</link>
+        <guid isPermaLink="true">http://example.com/2017/05/29/microdecisions.html</guid>
+        
+        <category>soft-skills</category>
+        
+        
+      </item>
     
       <item>
         <title>Cache Me Outside</title>
@@ -742,55 +813,6 @@ The following part removes dulpicated tags and invalid tags like blank tag.
         <category>python</category>
         
         <category>puzzle</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Piping the Snek</title>
-        <description>&lt;p&gt;This is going to be just a quick one.  I discovered something the other day that I feel like I should have already known about, but it just made me so happy that I had to write it down.  Scenario: You are working in the command line.  You have a list of files you want to do some jimmy-jacking with.  A little string substitution here.  Adding/removing a file header.  It’s not too complicated, but it is just complicated enough that your standard bash commands start to fail you.  You (if you are like me) begin to slowly realize with dread that you will have to go get the big guns: awk, sed, and others.  Granted, it would probably make you a better person to have a confident control of those commands.  That being said, I do not.  I’m cool with &lt;code&gt;ls, cd, pwd&lt;/code&gt;.  Me and &lt;code&gt;cat and echo&lt;/code&gt; are buddies.  &lt;code&gt;Grep and find&lt;/code&gt; come over for dinner once a month.  Beyond that, I need a couple (ten) tabs of documentation open to get much done.  Until now.&lt;/p&gt;
-
-&lt;p&gt;You probably know about piping if the previous paragraph made any sense to you.  A pipe looks like this: &lt;code&gt;|&lt;/code&gt;.  A pipe is the way you can pass the output of one command to the input of another.  You can do useful things such as find all of the files in the current working directory with “cheese” in their name like this: &lt;code&gt;ls | grep cheese&lt;/code&gt;.  Piping is the secret to really getting big things done.  And until a little while ago, piping and Python programs were seperate in my brain.  Then I found out &lt;strong&gt;you can pipe in and out of Python programs&lt;/strong&gt;.  Consider the following:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;c&quot;&gt;# flip.py&lt;/span&gt;
-
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sys&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;flip_word&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;word&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;sd&quot;&gt;&amp;quot;&amp;quot;&amp;quot;Simply takes the input string and returns the reverse.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;word&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[::&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stdin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;readlines&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# sys provides stdin that is a readable file-like object&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;word&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# Each line from stdin comes with a hidden newline&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stdout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flip_word&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;word&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# stdout does not add a newline like print does&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Imagine for a moment that you have a file named foods.txt that contains:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;cheese
-soup
-steak
-sushi
-meatballs
-more sushi&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;You could then do the following:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;cat foods.txt &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; python flip.py &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; grep ihsus
-ihsus
-ihsus erom&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;And thus, if you get stuck in bash, just bang out a quick Python program and pipe to it.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 22 Mar 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/03/22/piping-the-snek.html</link>
-        <guid isPermaLink="true">http://example.com/2017/03/22/piping-the-snek.html</guid>
-        
-        <category>python</category>
-        
-        <category>tricks</category>
-        
-        <category>bash</category>
         
         
       </item>
