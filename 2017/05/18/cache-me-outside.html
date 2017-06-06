@@ -28,6 +28,7 @@
 </nav>
         <div class="container main">
                 <article class="site-wrap">
+    <h1>Cache Me Outside</h1>
     <p>I just came across a little nugget of wisdom after reading <a href="https://www.amin.space/blog/2017/5/elemental_speller/">this blog post</a> about making words out of Periodic Table Elements.  I highly recommend the read.  However, that’s not why we’re here.  We’re here to cache in on some of the benefits of Python’s standard library.  </p>
 
 <p>For those that don’t know, caching is really useful for when a function is getting called with the same arguments repeatedly and you can expect the same result each time.  Instead of calculating the result each time, you save the result in your cache for later.  This is especially useful for functions that intrinsically take a long time to run, like API calls, file I/O, or super-duper nested loops.  Consider, for a moment, our humble friend the Fibonacci function.  In Python, a common (but grossly inefficient) version goes something like this:</p>
