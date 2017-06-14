@@ -6,9 +6,74 @@
 </description>
     <link>http://example.com/</link>
     <atom:link href="http://example.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 05 Jun 2017 20:12:23 -0700</pubDate>
-    <lastBuildDate>Mon, 05 Jun 2017 20:12:23 -0700</lastBuildDate>
+    <pubDate>Tue, 13 Jun 2017 21:07:38 -0700</pubDate>
+    <lastBuildDate>Tue, 13 Jun 2017 21:07:38 -0700</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Jupyter Notebooks are The Business</title>
+        <description>&lt;p&gt;So this is about one of those things that I knew existed, but I kind of thought “Oh, this is just for scientists and data people to do science and data things.”  And then I used it to write interactive code snippets for a lecture (that I hope to give some day) and now my mind is blown and I’m probably going to write all of my blog posts this way from now on.  So without further ado:&lt;/p&gt;
+
+&lt;h1 id=&quot;jupyter-notebooks&quot;&gt;Jupyter Notebooks&lt;/h1&gt;
+
+&lt;p&gt;You may know about these.  If you’re a data scientist or have done some amount of Python you may have seen these, and you may know it by its previous name: IPython Notebooks.  For those of you who don’t know, it looks like this.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/jupyter-introduction.png&quot; alt=&quot;first look at Jupyter Notebook&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It’s awesome.  It has individual cells that can be code or markdown.  The code cells run independently, but in the same namespace, so you can carry variables and data from one cell to the next.  You can do something like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/jupyter-1.png&quot; alt=&quot;notebook cell demonstration&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Note how the cells will output the last evaluation without a print statement required, just like a REPL.  Here are some other cool things.&lt;/p&gt;
+
+&lt;h2 id=&quot;pretty-data-output&quot;&gt;Pretty Data Output&lt;/h2&gt;
+
+&lt;p&gt;If you &lt;em&gt;are&lt;/em&gt; working with a lot of data, notebooks will inline pretty table and chart outputs.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/jupyter-2.png&quot; alt=&quot;different cell outputs&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;internal-links&quot;&gt;Internal Links&lt;/h2&gt;
+
+&lt;p&gt;This:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/jupyter-3.png&quot; alt=&quot;Raw table of contents&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Renders to this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/jupyter-4.png&quot; alt=&quot;Rendered table of contents&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And the internal links work!&lt;/p&gt;
+
+&lt;h2 id=&quot;no-more-cleanup-scripts&quot;&gt;No More Cleanup Scripts&lt;/h2&gt;
+
+&lt;p&gt;Again, if you’re working with data, you don’t have to have a separate script to clean the data and re-output it into a csv (or whatever).  Each cell remembers its state, so you can run the cell at the top that takes forever to clean the data once and then re-run and re-modify the cells below without having to rerun the cleaning cell.&lt;/p&gt;
+
+&lt;h2 id=&quot;lots-of-inputs-and-outputs&quot;&gt;Lots of Inputs and Outputs&lt;/h2&gt;
+
+&lt;p&gt;While I found out about it through Python – and I think initially it only supported Python – the community now provides about a billion different kernels you can run.  See the full list &lt;a href=&quot;https://github.com/jupyter/jupyter/wiki/Jupyter-kernels&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;For my purposes, I like that it outputs directly to markdown for blog posts, but it also outputs into Python files, ReSTructured text, LaTex, PDF, and HTML!&lt;/p&gt;
+
+&lt;h2 id=&quot;more&quot;&gt;More&lt;/h2&gt;
+
+&lt;p&gt;I also just discovered something called &lt;a href=&quot;https://github.com/jupyter/nbgrader&quot;&gt;nbgrader&lt;/a&gt; that is essentially an assignment/automated grading framework for Jupyter Notebooks.  I haven’t used it yet, but it looks like the things that dreams are made of.  There’s also support for converting a notebook into a html slideshow.  &lt;a href=&quot;http://bollwyvl.github.io/live_reveal/#/&quot;&gt;This plugin&lt;/a&gt; allows for a powerpoint-like feel while still being able to execute cells, for prestructured quasi-live-coding demos.  Honestly, as I keep finding these features, I keep getting more and more excited.&lt;/p&gt;
+
+&lt;p&gt;I’m really interested in seeing if I could use this even more in a classroom setting.  If you are using Notebooks in the classroom, let me know about it!  Also, let me know all about everything you do for teaching because teaching coding in the classroom is currently my dream goal.&lt;/p&gt;
+
+&lt;p&gt;Long story short, Jupyter Notebooks are &lt;strong&gt;The Business&lt;/strong&gt;.  &lt;a href=&quot;http://jupyter.org/install.html&quot;&gt;Get it today.&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Tue, 13 Jun 2017 00:00:00 -0700</pubDate>
+        <link>http://example.com/2017/06/13/jupyter-notebooks-are-the-business.html</link>
+        <guid isPermaLink="true">http://example.com/2017/06/13/jupyter-notebooks-are-the-business.html</guid>
+        
+        <category>python</category>
+        
+        <category>teaching</category>
+        
+        <category>tools</category>
+        
+        
+      </item>
     
       <item>
         <title>Unwrapping Decorators, Part 2</title>
@@ -934,74 +999,6 @@ The following part removes dulpicated tags and invalid tags like blank tag.
         <category>ruby</category>
         
         <category>tricks</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Indexing - Teaching Things Better</title>
-        <description>&lt;p&gt;I want to talk about indexing.  More importantly, I want to talk about how we are explaining indexing to new programmers.  But first, I need to lay some background.&lt;/p&gt;
-
-&lt;h2 id=&quot;background-1&quot;&gt;Background 1&lt;/h2&gt;
-
-&lt;p&gt;Right now I’m working as an engineer, but I’m a teacher at heart.  I love taking someone through the process of learning something, finding the analogy or way of looking at a concept that really makes it click for them.  Especially in the areas of math, mechanics, and programming, where things are very predictable and there’s always concrete reasoning behind each concept.  I’m a firm believer that students should never just accept what the teacher says on faith, and there should definitely be &lt;em&gt;no magic&lt;/em&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;background-2&quot;&gt;Background 2&lt;/h2&gt;
-
-&lt;p&gt;I’m taking another JavaScript course to try and fill in the blanks that I have and see if this new teacher explains anything in a new or different way that clicks better with me.  Everything was going well until we got to the section on indexing lists.  The teacher started off by saying, “In order to get the first item out of the list, you reference it like this: &lt;code&gt;items[0]&lt;/code&gt;.  You’ll just have to remember that computers always start counting at zero.”  To which I replied:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/nope.gif&quot; alt=&quot;NOPE&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;There’s got to be a better way.  You shouldn’t have to &lt;em&gt;just remember&lt;/em&gt; anything.  And so, without further background sections, I present to you:&lt;/p&gt;
-
-&lt;h2 id=&quot;a-better-way&quot;&gt;A Better Way&lt;/h2&gt;
-
-&lt;p&gt;I’m also going to use Python for my explanation because I like it better and I do what I want.  Let us consider the string &lt;code&gt;beans&lt;/code&gt;.  Not string beans, but– you get it.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/indexing.png&quot; alt=&quot;Diagram of a String&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The main thing to understand is that indices don’t actually fall &lt;em&gt;on&lt;/em&gt; a particular item in a list or character in a string (since they are accessed the same way).  They surround the letters. &lt;em&gt;They surround the letters.&lt;/em&gt;  &lt;strong&gt;They surround the letters.&lt;/strong&gt;  One more time for the people in the back.&lt;/p&gt;
-
-&lt;h1 id=&quot;indices-surround-the-letters&quot;&gt;Indices surround the letters.&lt;/h1&gt;
-
-&lt;p&gt;Thus, when you try this:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fruit&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;beans&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fruit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&amp;quot;ea&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;You get “ea” because those are the letters &lt;em&gt;in between&lt;/em&gt; the two indices you specified.  When you only specify one index, the program defaults to making the second limit the next index.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fruit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# Is the same as fruit[4:4+1]&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&amp;quot;s&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;The benefit of understanding things this way is that negative indices get a lot less confusing.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fruit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&amp;quot;an&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;In Python, in order to say “all the way to the very end,” you just leave the index off.  This is mostly convenience and because -0 doesn’t make any sense as an index (since -0 technically equals 0).&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fruit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&amp;quot;eans&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fruit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:]&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&amp;quot;eans&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fruit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&amp;quot;bean&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Cool right?&lt;/p&gt;
-
-&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
-
-&lt;p&gt;A good number of the 2 people that read this post will have already learned (one way or another) about indexing strings and lists.  But do you see now that there is a good reason for starting at zero and ending our for loops at &lt;code&gt;len(string) - 1&lt;/code&gt;?  It’s not magic.  It’s not because computers are weird and count from zero because that’s how their culture does it.  There’s no little gremlin decreeing new ways to count inside your computer.  Now go forth and spread the logical step-by-step teaching approach!&lt;/p&gt;
-</description>
-        <pubDate>Wed, 12 Apr 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/04/12/indexing-teaching-better.html</link>
-        <guid isPermaLink="true">http://example.com/2017/04/12/indexing-teaching-better.html</guid>
-        
-        <category>teaching</category>
-        
-        <category>python</category>
         
         
       </item>

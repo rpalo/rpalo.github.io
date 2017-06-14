@@ -37,201 +37,57 @@
 
   <!-- Current Post -->
   
-    <h1>Unwrapping Decorators, Part 2</h2>
-    <small>Jun 5, 2017</small>
-    <p><h1 id="quick-recap">Quick Recap</h1>
+    <h1>Jupyter Notebooks are The Business</h2>
+    <small>Jun 13, 2017</small>
+    <p><p>So this is about one of those things that I knew existed, but I kind of thought “Oh, this is just for scientists and data people to do science and data things.”  And then I used it to write interactive code snippets for a lecture (that I hope to give some day) and now my mind is blown and I’m probably going to write all of my blog posts this way from now on.  So without further ado:</p>
 
-<p>Last post, I wrote about the basics of decorators in Python.  For those of you that missed it, here are the highlights.</p>
+<h1 id="jupyter-notebooks">Jupyter Notebooks</h1>
 
-<ol>
-  <li>Decorators are placed before function definitions, and serve to wrap or add additional functionality to functions without obscuring the single purpose of a given function.</li>
-  <li>They are used like this:</li>
-</ol>
+<p>You may know about these.  If you’re a data scientist or have done some amount of Python you may have seen these, and you may know it by its previous name: IPython Notebooks.  For those of you who don’t know, it looks like this.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@custom_decorator</span>
-<span class="k">def</span> <span class="nf">generic_example_function</span><span class="p">():</span>
-    <span class="c"># ...</span>
-    <span class="k">pass</span></code></pre></div>
+<p><img src="/img/jupyter-introduction.png" alt="first look at Jupyter Notebook" /></p>
 
-<ol>
-  <li>When defining a decorator function, it should take a function as input and output a new/different/modified/wrapped function.</li>
-</ol>
+<p>It’s awesome.  It has individual cells that can be code or markdown.  The code cells run independently, but in the same namespace, so you can carry variables and data from one cell to the next.  You can do something like this:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">custom_decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-    <span class="c"># *args, **kwargs allow your decorated function to handle</span>
-    <span class="c"># the inputs it is supposed to without problems</span>
+<p><img src="/img/jupyter-1.png" alt="notebook cell demonstration" /></p>
 
-    <span class="k">def</span> <span class="nf">modified_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="c"># Do some extra stuff</span>
-        <span class="c"># ...</span>
-        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="c"># Call the input function as it</span>
-                                    <span class="c"># was originally called and return that</span>
+<p>Note how the cells will output the last evaluation without a print statement required, just like a REPL.  Here are some other cool things.</p>
 
-    <span class="k">return</span> <span class="n">modified_function</span></code></pre></div>
+<h2 id="pretty-data-output">Pretty Data Output</h2>
 
-<p>Okay.  That about covers it.  Let’s get to the good stuff!  I’m going to cover passing arguments to decorators (a la Flask’s <code>@app.route('/')</code>), stacking decorators, and Class-Based decorators.</p>
+<p>If you <em>are</em> working with a lot of data, notebooks will inline pretty table and chart outputs.</p>
 
-<h1 id="decorator-arguments">Decorator Arguments</h1>
+<p><img src="/img/jupyter-2.png" alt="different cell outputs" /></p>
 
-<p>You can pass arguments to the decorator!  It gets a little more complicated though.  Remember how a basic decorator function takes in a function, defines a new function, and returns that?  If you have arguments, you actually have to generate the decorator on the fly, so you have to define a function that returns a decorator function that returns the actual function you care about.  Oy vey.  Go go gadget code example!</p>
+<h2 id="internal-links">Internal Links</h2>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+<p>This:</p>
 
-<span class="k">def</span> <span class="nf">delay</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span> <span class="c"># The outermost function handles the decorator&#39;s arguments</span>
+<p><img src="/img/jupyter-3.png" alt="Raw table of contents" /></p>
 
-    <span class="k">def</span> <span class="nf">delay_decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span> <span class="c"># It defines a decorator function, like we are used to</span>
+<p>Renders to this:</p>
 
-        <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> <span class="c"># The decorator function defines the modified function</span>
-            <span class="c"># Because we do things this way, the inner function</span>
-            <span class="c"># gets access to the arguments supplied to the decorator initially</span>
-            <span class="n">sleep</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        
-        <span class="k">return</span> <span class="n">inner</span>  <span class="c"># Decorator function returns the modified function</span>
-    
-    <span class="k">return</span> <span class="n">delay_decorator</span> <span class="c"># Finally, the outer function returns the custom decorator</span>
+<p><img src="/img/jupyter-4.png" alt="Rendered table of contents" /></p>
 
-<span class="nd">@delayed_function</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">sneeze</span><span class="p">(</span><span class="n">times</span><span class="p">):</span>
-    <span class="k">return</span> <span class="s">&quot;Achoo! &quot;</span> <span class="o">*</span> <span class="n">times</span>
+<p>And the internal links work!</p>
 
-<span class="o">&gt;&gt;&gt;</span> <span class="n">sneeze</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="p">(</span><span class="n">wait</span> <span class="mi">5</span> <span class="n">seconds</span><span class="p">)</span>
-<span class="s">&quot;Achoo! Achoo! Achoo!&quot;</span></code></pre></div>
+<h2 id="no-more-cleanup-scripts">No More Cleanup Scripts</h2>
 
-<p>Again, it may look confusing at first.  You can think about it this way: The outermost function, <code>delay</code> in this case, behaves like it is being called right when you add the decorator.  As soon as the interpreter reads <code>@delay(5)</code>, it runs the delay function and replaces the <code>@delay</code> decorator with the modified returned decorator.  At run-time, when we call <code>sneeze</code>, it looks like <code>sneeze</code> is wrapped in <code>delay_decorator</code> with <code>seconds = 5</code>.  Thus, the actual function that gets called is <code>inner</code>, which is <code>sneeze</code> wrapped in a 5 second sleeping function.  Still confused?  Me too, a bit.  Maybe just sleep on it and come back.</p>
+<p>Again, if you’re working with data, you don’t have to have a separate script to clean the data and re-output it into a csv (or whatever).  Each cell remembers its state, so you can run the cell at the top that takes forever to clean the data once and then re-run and re-modify the cells below without having to rerun the cleaning cell.</p>
 
-<h1 id="stacking-decorators">Stacking Decorators</h1>
+<h2 id="lots-of-inputs-and-outputs">Lots of Inputs and Outputs</h2>
 
-<p>I’d like to move to something easier, in the hopes that you continue processing the previous section in the background and by the end of this, it will magically make sense.  We’ll see how that works out.  Let’s talk about stacking.  I can pretty much just show you.  You’ll get the gist.</p>
+<p>While I found out about it through Python – and I think initially it only supported Python – the community now provides about a billion different kernels you can run.  See the full list <a href="https://github.com/jupyter/jupyter/wiki/Jupyter-kernels">here</a>.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">pop</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<p>For my purposes, I like that it outputs directly to markdown for blog posts, but it also outputs into Python files, ReSTructured text, LaTex, PDF, and HTML!</p>
 
-    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Pop!&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<h2 id="more">More</h2>
 
-    <span class="k">return</span> <span class="n">inner</span>
+<p>I also just discovered something called <a href="https://github.com/jupyter/nbgrader">nbgrader</a> that is essentially an assignment/automated grading framework for Jupyter Notebooks.  I haven’t used it yet, but it looks like the things that dreams are made of.  There’s also support for converting a notebook into a html slideshow.  <a href="http://bollwyvl.github.io/live_reveal/#/">This plugin</a> allows for a powerpoint-like feel while still being able to execute cells, for prestructured quasi-live-coding demos.  Honestly, as I keep finding these features, I keep getting more and more excited.</p>
 
-<span class="k">def</span> <span class="nf">lock</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<p>I’m really interested in seeing if I could use this even more in a classroom setting.  If you are using Notebooks in the classroom, let me know about it!  Also, let me know all about everything you do for teaching because teaching coding in the classroom is currently my dream goal.</p>
 
-    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Lock!&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">inner</span>
-
-<span class="nd">@pop</span>
-<span class="nd">@lock</span>
-<span class="k">def</span> <span class="nf">drop</span><span class="p">(</span><span class="n">it</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Drop it!&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">it</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">drop</span><span class="p">(</span><span class="s">&quot;This example is obnoxious, isn&#39;t it&quot;</span><span class="p">)</span>
-<span class="n">Pop</span><span class="err">!</span>
-<span class="n">Lock</span><span class="err">!</span>
-<span class="n">Drop</span> <span class="n">it</span>
-<span class="s">&quot;This example is obnoxious, isn&#39;t &quot;</span></code></pre></div>
-
-<p>As you can see, you can wrap a function that is already wrapped.  In math (and, actually, in programming), <em>they</em> would call this <strong>Function Composition</strong>.  Just as <code>f o g(x) == f(g(x))</code>, stacking <code>@pop</code> on <code>@lock</code> on <code>drop</code> produces pop(lock(drop(it))).  Huey would be so proud.</p>
-
-<h1 id="class-based-decorators">Class-Based Decorators…</h1>
-
-<h2 id="with-no-arguments">…With No Arguments</h2>
-
-<p>A decorator can actually be created out of anything that is callable, i.e. anything that provides the <code>__call__</code> magic method.  Usually, I try to come up with my own examples, but the one that I found <a href="http://python-3-patterns-idioms-test.readthedocs.io/en/latest/PythonDecorators.html">here</a> illustrated what was happening so darn well, I’m going to poach it with minimal modification.</p>
-
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">MySuperCoolDecorator</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Initializing decorator class&quot;</span><span class="p">)</span>
-        <span class="n">func</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Calling decorator call method&quot;</span><span class="p">)</span>
-        <span class="n">func</span><span class="p">()</span>
-
-<span class="nd">@MySuperCoolDecorator</span>
-<span class="k">def</span> <span class="nf">simple_function</span><span class="p">():</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Inside the simple function&quot;</span><span class="p">)</span>
-
-<span class="k">print</span><span class="p">(</span><span class="s">&quot;Decoration complete!&quot;</span><span class="p">)</span>
-
-<span class="n">simple_function</span><span class="p">()</span></code></pre></div>
-
-<p>Which outputs:</p>
-
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">Initializing</span> <span class="n">decorator</span> <span class="k">class</span>
-<span class="nc">Inside</span> <span class="n">the</span> <span class="n">simple</span> <span class="n">function</span>
-<span class="n">Decoration</span> <span class="n">complete</span><span class="err">!</span>
-<span class="n">Calling</span> <span class="n">decorator</span> <span class="n">call</span> <span class="n">method</span>
-<span class="n">Inside</span> <span class="n">the</span> <span class="n">simple</span> <span class="n">function</span></code></pre></div>
-
-<h2 id="with-arguments">…With Arguments</h2>
-
-<p>Class-based decorators make decorator arguments much easier, but they behave differently from above.  I’m not sure why.  Someone who is smarter than me should explain it.  Anyways, when arguments are provided to the decorator, three things happen.  </p>
-
-<ol>
-  <li>The decorator arguments are passed to the <code>__init__</code> function.</li>
-  <li>The function itself is passed to the <code>__call__</code> function.</li>
-  <li>The <code>__call__</code> function is only called once, and it is called immediately, similar to how function-based decorators work.</li>
-</ol>
-
-<p>Here’s an example I promised to sneak in.</p>
-
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">PreloadedCache</span><span class="p">:</span>
-    <span class="c"># This method is called as soon as the decorator is declared.</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">preloads</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;Expects a dictionary of preloaded {input: output} pairs.</span>
-<span class="sd">        I know it only works for one input, but I&#39;m keeping it simple.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">preloads</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">preloads</span>
-    
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
-        <span class="c"># This method is called when a function is passed to the decorator</span>
-        <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
-                <span class="k">return</span> <span class="n">result</span>
-        <span class="k">return</span> <span class="n">inner</span>
-
-<span class="nd">@PreloadedCache</span><span class="p">({</span><span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="mi">21</span><span class="p">})</span> <span class="c"># First __init__, then __call__</span>
-<span class="k">def</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns the nth fibonacci number&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
-        <span class="k">return</span> <span class="mi">1</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
-
-<span class="c"># At runtime, the &#39;inner&#39; function above will actually be called!</span></code></pre></div>
-
-<p>Pretty cool right?  I submit that this version of creating a decorator is, at least for me, the most intuitive.</p>
-
-<h1 id="bonus">Bonus!</h1>
-
-<p>A bonus is that in Python, since functions are objects, you can add attributes to them.  Thus, if you modify the <code>__call__</code> method above to add the following:</p>
-
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
-        <span class="c"># ... Everything except the last line</span>
-        <span class="n">inner</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="c"># Attach a reference to the cache!!!</span>
-        <span class="k">return</span> <span class="n">inner</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">fibonacci</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="mi">55</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">fibonacci</span><span class="o">.</span><span class="n">cache</span>
-<span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">9</span><span class="p">:</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">10</span><span class="p">:</span> <span class="mi">55</span><span class="p">}</span></code></pre></div>
-
-<p><img src="/img/decorator_head_bang.gif" alt="Vigorous head banging" /></p>
-
-<h1 id="wrap-up">Wrap Up</h1>
-
-<p>Anyways, I know this is a lot.  This topic is one of the more confusing Python topics for me, but it can really make for a slick API if you’re making a library.  Just look at <a href="http://flask.pocoo.org/">Flask, a web framework</a> or <a href="http://click.pocoo.org/5/">Click, a CLI framework</a>.  Both written by the same team, in fact!  Actually, <a href="http://assertnotmagic.com/2016/11/27/discovering-click.html">I wrote a brief post about Click</a> a while ago, if you’re interested. </p>
-
-<p>Anyways anyways, if you have any questions about decorators (or anything else for that matter), don’t hesitate to ask me!  I’m always happy to help (even though I usually end up doing some vigorous googling before I am able to fully answer most questions).  Ditto goes for if you can explain something better than I did or have extra input. 😁</p>
+<p>Long story short, Jupyter Notebooks are <strong>The Business</strong>.  <a href="http://jupyter.org/install.html">Get it today.</a></p>
 </p>
   
   <hr>
@@ -248,6 +104,11 @@
         </li>
         
           <li>
+            <span class="post-meta">Jun 5, 2017</span>
+            <a class="post-link" href="/2017/06/05/unwrapping-decorators-2.html">Unwrapping Decorators, Part 2</a>
+          </li>
+        
+          <li>
             <span class="post-meta">May 30, 2017</span>
             <a class="post-link" href="/2017/05/30/unwrapping-decorators-1.html">Unwrapping Decorators, Part 1</a>
           </li>
@@ -255,11 +116,6 @@
           <li>
             <span class="post-meta">May 29, 2017</span>
             <a class="post-link" href="/2017/05/29/microdecisions.html">Microdecisions</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">May 18, 2017</span>
-            <a class="post-link" href="/2017/05/18/cache-me-outside.html">Cache Me Outside</a>
           </li>
         
       </ul>
@@ -272,7 +128,7 @@
       <h2>Tags</h2>
       <p>
         
-        <a href="/tags/python/" style="font-size: 44px">python | </a>
+        <a href="/tags/python/" style="font-size: 46px">python | </a>
         
         <a href="/tags/django/" style="font-size: 14px">django | </a>
         
@@ -288,7 +144,7 @@
         
         <a href="/tags/r/" style="font-size: 14px">r | </a>
         
-        <a href="/tags/tools/" style="font-size: 14px">tools | </a>
+        <a href="/tags/tools/" style="font-size: 16px">tools | </a>
         
         <a href="/tags/javascript/" style="font-size: 14px">javascript | </a>
         
@@ -310,7 +166,7 @@
         
         <a href="/tags/math/" style="font-size: 14px">math | </a>
         
-        <a href="/tags/teaching/" style="font-size: 14px">teaching | </a>
+        <a href="/tags/teaching/" style="font-size: 16px">teaching | </a>
         
         <a href="/tags/ruby/" style="font-size: 16px">ruby | </a>
         
