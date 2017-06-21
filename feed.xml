@@ -6,9 +6,181 @@
 </description>
     <link>http://example.com/</link>
     <atom:link href="http://example.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 13 Jun 2017 21:07:38 -0700</pubDate>
-    <lastBuildDate>Tue, 13 Jun 2017 21:07:38 -0700</lastBuildDate>
+    <pubDate>Tue, 20 Jun 2017 18:29:41 -0700</pubDate>
+    <lastBuildDate>Tue, 20 Jun 2017 18:29:41 -0700</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Vue on Django, Part 1</title>
+        <description>&lt;p&gt;I did it.  It was scary, and hard, and awesome, and I did it.  I’ve been making server-side web applications with Django for a little while now, but I’ve watched the shwoopy front-end, javascript-powered, single-page apps tentatively from afar, telling myself that I’ll go through a few tutorials some day.  So last week, I said “Screw that noise, I’m building something!”  This is not how I traditionally learn anything, and this was the first time that I’ve ever learned something from Level 0 by diving in the deep end.  I think it worked surprisingly well, and I wanted to share a tutorial – mostly to help me cement the new ideas I’ve learned into something more stable.  So without further ado, here’s my tutorial for making a Vue app powered by a Django REST backend.  In the first part, we’ll set up just the Vue side.  Part 2 will be the hardest part, setting up the data model.  Finally, part 3 will be the Django backend.  The tutorial will assume a working knowledge of JavaScript syntax, but I’ll try to explain some of the infrastructure involved.  Let’s get to it.&lt;/p&gt;
+
+&lt;h2 id=&quot;overvue&quot;&gt;1. OverVue&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://vuejs.org/&quot;&gt;Vue.js&lt;/a&gt; is another in a long line of front-end frameworks designed around a more realtime and pleasant user experience, with live-updating DOM elements and asynchronus server updates behind the scenes that happen without reloading the entire page the whole time.  I personally think they took some of the best things from React and Angular and Elm and others and combined them in a nice way.  At least, that’s my opinion with exactly one week of front-end framework experience under my belt.&lt;/p&gt;
+
+&lt;h2 id=&quot;getting-set-up&quot;&gt;2. Getting Set Up&lt;/h2&gt;
+
+&lt;p&gt;The way that we’re going to be doing this, we’ll be using Webpack to handle module bundling and more.  Since Webpack is still essentially hoodoo sorcery to me, I’ll explain enough to get the job done.  The first thing we’ll need is the &lt;code&gt;vue-cli&lt;/code&gt; tool.  This will make our lives nice by mostly setting up Webpack for us among other things.  You will need Node and NPM though.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;For those of you more used to Python and Django, NPM is kind of like pip, if pip had some of the abilities of the standard Django manage.py.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;npm install -g vue-cli
+...
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;vue init NdagiStanley/vue-django todoapp
+...&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We are going to be using a template from Github for our vue project as you can tell from the command.  You can see it &lt;a href=&quot;https://github.com/NdagiStanley/vue-django&quot;&gt;here&lt;/a&gt;.  Go through the prompt answering all the questions it asks.  When you’re done, you should have a new project folder.  We’ll go over most of the stuff inside later, so don’t panic.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;todoapp
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;npm install&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;At this point, feel free to begin your git repository as well.  I’ll leave that to you.  Some important things now.  &lt;code&gt;main.js&lt;/code&gt; is the file where your app is actually instantiated.  Vue apps are made up of components composed together to simplify complicated things.  We are not about to do complicated things, so no worries.  All we want to have is a todo list that you can enter items into and clear entirely.  Two actions.  The main component is already created and can be found in &lt;code&gt;src/App.vue&lt;/code&gt;.  We’ll be changing that shortly.  First create a directory called &lt;code&gt;components&lt;/code&gt;, if it doesn’t already exist, within the &lt;code&gt;src&lt;/code&gt; directory.  If it already exists, there may be a &lt;code&gt;Hello.vue&lt;/code&gt; file.  You can delete that.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-components&quot;&gt;3. The Components&lt;/h2&gt;
+
+&lt;p&gt;Our app will be three primary components.  1) The TodoList, which displays each todo.  2) The Todo, which will be the basic unit displayed.  3) The UserInput, which contains the input box and the clear button.  Does it need to be that complicated?  No.  But it will help show some of the functionalities available within Vue.  Let’s create our first one.  Create &lt;code&gt;src/components/Todo.vue&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// src/components/Todo.vue&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;todo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/p&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/template&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;todo&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/script&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;That’s it.  There are two main ways to do Vue components: in one file, and with single-component modules.  We’re doing this via modules.  Each component will contain a template that lays out the HTML structure of the component, a script tag that contains the brains of the component, and optionally, a style tag that contains custom styles local to the component.  These components are laid out in a hierarchy, which you’ll see, and parent components can pass data to their children in the form of &lt;em&gt;props&lt;/em&gt;, which you have to declare for the component to be able to use them.  You can see that in the script tag above.  Don’t get too hung up on the &lt;code&gt;export default&lt;/code&gt; nonsense.  That’s the way that Webpack is handling modules and imports.  When the Todo.vue module is imported, the object that it exports will be what is passed (essentially the “soul” of the component).  That will hopefully become more clear as we move on.  Let’s do the TodoList component so you can see how &lt;code&gt;props&lt;/code&gt; are passed.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// src/components/TodoList.vue&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;todolist&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ul&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;todo in todos&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;todo&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;bind&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;todo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;todo&amp;quot;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;bind&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;todo.id&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/todo&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/li&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/ul&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/template&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Todo&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;./Todo.vue&amp;#39;&lt;/span&gt;
+
+&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;components&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;Todo&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Learn Vue&amp;#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Do hard things&amp;#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/script&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Some things of note here.  You can see the &lt;code&gt;v-for&lt;/code&gt; option used in the &lt;code&gt;li&lt;/code&gt; element.  That tells Vue to loop through every item in the todos variable and create an li element from it.  You can see us creating our first custom element: &lt;code&gt;todo&lt;/code&gt;.  &lt;code&gt;v-bind&lt;/code&gt; allows us to send data into the child component as a prop.  When you are making a list of items, Vue makes you provide an id for each item so it can keep the list straight and make speedy changes.  You can see this component claims the Todo as its child component in the &lt;code&gt;script&lt;/code&gt; section by including the &lt;code&gt;components&lt;/code&gt; key.  Lastly, the &lt;code&gt;data&lt;/code&gt; key provides the initialization of the variable todos.  Once we get into the data model we can initialize this from actual data as opposed to hard-coding values.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;We’re also seeing more of the “module” syntax in the &lt;code&gt;import Todo from &#39;./Todo.vue&lt;/code&gt; line.  By writing this, the variable Todo is filled with the object that was exported from the Todo.vue file.  Similar, but a slightly more controlled import than Python imports, although you can achieve a similar effect by explicitly setting the &lt;code&gt;__all__&lt;/code&gt; variable… but I’m getting off-track.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Here’s the UserInput component.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// src/components/UserInput.vue&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;user-inputs&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;newTodoText&amp;quot;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;keyup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;enter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;createTodo&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;button&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;click&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;clearTodos&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;Clear&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/button&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/template&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;newTodoText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;&amp;#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;methods&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;createTodo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;newTodoText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;created!&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;clearTodos&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Todos cleared!&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/script&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;What’s new here?  You can see our first event handlers!  The input responds to a &lt;code&gt;keyup.enter&lt;/code&gt; event which does what is predictable.  You can see the &lt;code&gt;createTodo&lt;/code&gt; method declared within the &lt;code&gt;script&lt;/code&gt; tag’s method section.  Notice again we define a variable in the &lt;code&gt;data&lt;/code&gt; section, but this time we’re using &lt;code&gt;v-model&lt;/code&gt;, which is syntactic sugar for a two-way bind.  Anytime you change the input text, &lt;code&gt;newTodoText&lt;/code&gt; gets updated, and anytime you change &lt;code&gt;newTodoText&lt;/code&gt; programatically, the text in the input box gets changed.&lt;/p&gt;
+
+&lt;p&gt;Almost done.  Go ahead and modify the existing &lt;code&gt;App.vue&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// src/App.vue&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;app&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/user-input&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;todo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/todo-list&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/template&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TodoList&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;./components/TodoList.vue&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;UserInput&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;./components/UserInput.vue&amp;#39;&lt;/span&gt;
+
+&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;components&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;UserInput&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;TodoList&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/script&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Nothing new to see here.  One thing I should note: see how the modules and objects in the &lt;code&gt;script&lt;/code&gt; tag are CamelCase?  See how the template custom elements are kabob-case?  Vue manages that translation automatically since HTML is case-insensitive.&lt;/p&gt;
+
+&lt;h2 id=&quot;take-a-look&quot;&gt;4. Take a Look&lt;/h2&gt;
+
+&lt;p&gt;Here we go, the moment of truth!&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;npm run dev &lt;span class=&quot;c&quot;&gt;# This will run the webpack build and development server&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Head on over to &lt;code&gt;localhost:8080&lt;/code&gt; and see your handiwork.  You should see the following masterpiece of software design:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/todo-part1-final.png&quot; alt=&quot;Our Todo List in the browser&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Some possibilities for error: if you see &lt;code&gt;COULD NOT GET /&lt;/code&gt;, you should check your terminal.  You probably angered the ESLint gods.  I had about 7 billion style fails the first time.  Fix those and refresh the page.  If you see any warning about npm failing, it’s possible you forgot to install the node_modules.  Run &lt;code&gt;npm install&lt;/code&gt; and try again.&lt;/p&gt;
+
+&lt;p&gt;Once you get it working, pull up your browser’s devtools and type in the input and hit enter.  You should see it log as your &lt;code&gt;createTodo&lt;/code&gt; function commands it to.  Click the clear button.  You should see a second appropriate log.  So ends the first whirlwind part of the tutorial.  Next time we’ll get the data store (think Flux/Redux – we’ll be using Vue’s version: Vuex) setup.&lt;/p&gt;
+
+&lt;p&gt;As a note, this is my first time really using ES6-type syntax for the front-end, my first time using Vue, Webpack, ESLint, and my first time really using npm scripts and node_modules.  If you see any ways that I’m Doing It Wrong™, let me know (gently, please 😁).&lt;/p&gt;
+</description>
+        <pubDate>Tue, 20 Jun 2017 00:00:00 -0700</pubDate>
+        <link>http://example.com/2017/06/20/vue-on-django-part-1.html</link>
+        <guid isPermaLink="true">http://example.com/2017/06/20/vue-on-django-part-1.html</guid>
+        
+        <category>vue</category>
+        
+        <category>django</category>
+        
+        <category>es6</category>
+        
+        <category>tutorial</category>
+        
+        
+      </item>
     
       <item>
         <title>Jupyter Notebooks are The Business</title>
@@ -959,46 +1131,6 @@ The following part removes dulpicated tags and invalid tags like blank tag.
         <category>ruby</category>
         
         <category>jekyll</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Built-In Methods</title>
-        <description>&lt;p&gt;This is just going to be a quick one.  Recently, I was working on something (that I will discuss in an upcoming post) on an airplane.  I was using Ruby.  Obviously I’m not going to fork out five whole dollars for the onboard internet access, so I was roughing it.  I came across an error.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contains?&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;tags: &amp;quot;&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;# Do stuff&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Wham.  &lt;code&gt;undefined method contains? for String.&lt;/code&gt;  Darnit!  I had just gotten done programming in Python and I hadn’t programmed in Ruby for a little while, so I rewrote it.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;tags: &amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;# Do stuff&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;NOPE.  &lt;code&gt;Unexpected keyword_in&lt;/code&gt;.  Bah!  I knew there was a method here, but I couldn’t for the life of me remember what it was.  My first instinct was to immediately Google the Ruby String documentation, but – remember – no internet.  Out of hope and despiration, with a quick prayer to the coding gods, I entered the following into the terminal:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;irb&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# Typical IRB headers&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Potato&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;methods&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:include?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:unicode_normalize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:to_c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:unicode_normalize!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:unicode_normalized?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;There!  Right at the front was what I needed.  No Googling required.  So the next time you reach for Google for a question, try asking your code first!&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;include?&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;tags: &amp;quot;&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;# profit&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;In case you’re interested, you can do the same thing in Python via &lt;code&gt;dir(&quot;potato&quot;)&lt;/code&gt;.&lt;/p&gt;
-&lt;/blockquote&gt;
-</description>
-        <pubDate>Tue, 25 Apr 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/04/25/built-in-methods.html</link>
-        <guid isPermaLink="true">http://example.com/2017/04/25/built-in-methods.html</guid>
-        
-        <category>ruby</category>
-        
-        <category>tricks</category>
         
         
       </item>

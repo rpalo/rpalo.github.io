@@ -10,16 +10,11 @@
         
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
-        <link rel="stylesheet" href="/css/home.css">
         <link rel="stylesheet" href="/css/syntax.css">
         
         <title>assert_not magic?</title>
     </head>
     <body>
-        <header id="main-header">
-    <h1>assert_not magic?</h1>
-    <img class="profile" alt="Ryan Palo" src="/img/me.jpg" />
-</header>
         
 <nav id="main-nav">
     <a href="/" class="mobile-home">assert_not magic?</a>
@@ -32,14 +27,9 @@
     </ul>
 </nav>
         <div class="container main">
-          <article class="site-wrap">
-            <div class="home">
-
-  <!-- Current Post -->
-  
-    <h1>Vue on Django, Part 1</h2>
-    <small>Jun 20, 2017</small>
-    <p><p>I did it.  It was scary, and hard, and awesome, and I did it.  I’ve been making server-side web applications with Django for a little while now, but I’ve watched the shwoopy front-end, javascript-powered, single-page apps tentatively from afar, telling myself that I’ll go through a few tutorials some day.  So last week, I said “Screw that noise, I’m building something!”  This is not how I traditionally learn anything, and this was the first time that I’ve ever learned something from Level 0 by diving in the deep end.  I think it worked surprisingly well, and I wanted to share a tutorial – mostly to help me cement the new ideas I’ve learned into something more stable.  So without further ado, here’s my tutorial for making a Vue app powered by a Django REST backend.  In the first part, we’ll set up just the Vue side.  Part 2 will be the hardest part, setting up the data model.  Finally, part 3 will be the Django backend.  The tutorial will assume a working knowledge of JavaScript syntax, but I’ll try to explain some of the infrastructure involved.  Let’s get to it.</p>
+                <article class="site-wrap">
+    <h1>Vue on Django, Part 1</h1>
+    <p>I did it.  It was scary, and hard, and awesome, and I did it.  I’ve been making server-side web applications with Django for a little while now, but I’ve watched the shwoopy front-end, javascript-powered, single-page apps tentatively from afar, telling myself that I’ll go through a few tutorials some day.  So last week, I said “Screw that noise, I’m building something!”  This is not how I traditionally learn anything, and this was the first time that I’ve ever learned something from Level 0 by diving in the deep end.  I think it worked surprisingly well, and I wanted to share a tutorial – mostly to help me cement the new ideas I’ve learned into something more stable.  So without further ado, here’s my tutorial for making a Vue app powered by a Django REST backend.  In the first part, we’ll set up just the Vue side.  Part 2 will be the hardest part, setting up the data model.  Finally, part 3 will be the Django backend.  The tutorial will assume a working knowledge of JavaScript syntax, but I’ll try to explain some of the infrastructure involved.  Let’s get to it.</p>
 
 <h2 id="overvue">1. OverVue</h2>
 
@@ -193,129 +183,19 @@
 <p>Once you get it working, pull up your browser’s devtools and type in the input and hit enter.  You should see it log as your <code>createTodo</code> function commands it to.  Click the clear button.  You should see a second appropriate log.  So ends the first whirlwind part of the tutorial.  Next time we’ll get the data store (think Flux/Redux – we’ll be using Vue’s version: Vuex) setup.</p>
 
 <p>As a note, this is my first time really using ES6-type syntax for the front-end, my first time using Vue, Webpack, ESLint, and my first time really using npm scripts and node_modules.  If you see any ways that I’m Doing It Wrong™, let me know (gently, please 😁).</p>
-</p>
-  
-  <hr>
 
-<!-- Footer for Homepage -->
-  <div id="home-footer">
-    <div id="left-home-footer">
-      <!-- Featured Posts List -->
-      <h2>Featured Posts</h2>
-      <ul class="post-list">
-        <li>
-          <span class="post-meta">Jan 18, 2017</span><br />
-          <a class="post-link" href="/2017/01/18/assert-not-magic.html">Assert Not Magic</a>
-        </li>
+    <small>
         
-          <li>
-            <span class="post-meta">Jun 13, 2017</span><br/>
-            <a class="post-link" href="/2017/06/13/jupyter-notebooks-are-the-business.html">Jupyter Notebooks are The Business</a>
-          </li>
+        <a href="/tags/vue/">vue</a>
         
-          <li>
-            <span class="post-meta">Jun 5, 2017</span><br/>
-            <a class="post-link" href="/2017/06/05/unwrapping-decorators-2.html">Unwrapping Decorators, Part 2</a>
-          </li>
+        <a href="/tags/django/">django</a>
         
-          <li>
-            <span class="post-meta">May 30, 2017</span><br/>
-            <a class="post-link" href="/2017/05/30/unwrapping-decorators-1.html">Unwrapping Decorators, Part 1</a>
-          </li>
+        <a href="/tags/es6/">es6</a>
         
-      </ul>
-    </div>
-    <div id="center-home-footer">
-      <!-- Spacer -->
-    </div>
-    <div id="right-home-footer">
-      <!-- Tags List -->
-      <h2>Tags</h2>
-      <p>
+        <a href="/tags/tutorial/">tutorial</a>
         
-        <a href="/tags/python/" style="font-size: 46px">python | </a>
-        
-        <a href="/tags/django/" style="font-size: 16px">django | </a>
-        
-        <a href="/tags/rails/" style="font-size: 14px">rails | </a>
-        
-        <a href="/tags/algorithms/" style="font-size: 20px">algorithms | </a>
-        
-        <a href="/tags/editors/" style="font-size: 16px">editors | </a>
-        
-        <a href="/tags/emacs/" style="font-size: 16px">emacs | </a>
-        
-        <a href="/tags/ai/" style="font-size: 14px">ai | </a>
-        
-        <a href="/tags/r/" style="font-size: 14px">r | </a>
-        
-        <a href="/tags/tools/" style="font-size: 16px">tools | </a>
-        
-        <a href="/tags/javascript/" style="font-size: 14px">javascript | </a>
-        
-        <a href="/tags/not_magic/" style="font-size: 14px">not_magic | </a>
-        
-        <a href="/tags/soft-skills/" style="font-size: 20px">soft-skills | </a>
-        
-        <a href="/tags/tricks/" style="font-size: 26px">tricks | </a>
-        
-        <a href="/tags/vscode/" style="font-size: 14px">vscode | </a>
-        
-        <a href="/tags/vim/" style="font-size: 14px">vim | </a>
-        
-        <a href="/tags/sublime/" style="font-size: 14px">sublime | </a>
-        
-        <a href="/tags/puzzle/" style="font-size: 16px">puzzle | </a>
-        
-        <a href="/tags/bash/" style="font-size: 14px">bash | </a>
-        
-        <a href="/tags/math/" style="font-size: 14px">math | </a>
-        
-        <a href="/tags/teaching/" style="font-size: 16px">teaching | </a>
-        
-        <a href="/tags/ruby/" style="font-size: 16px">ruby | </a>
-        
-        <a href="/tags/jekyll/" style="font-size: 14px">jekyll | </a>
-        
-        <a href="/tags/git/" style="font-size: 14px">git | </a>
-        
-        <a href="/tags/physics/" style="font-size: 14px">physics | </a>
-        
-        <a href="/tags/fun/" style="font-size: 14px">fun | </a>
-        
-        <a href="/tags/scientific/" style="font-size: 14px">scientific | </a>
-        
-        <a href="/tags/pythonic/" style="font-size: 16px">pythonic | </a>
-        
-        <a href="/tags/functional/" style="font-size: 16px">functional | </a>
-        
-        <a href="/tags/vue/" style="font-size: 14px">vue | </a>
-        
-        <a href="/tags/es6/" style="font-size: 14px">es6 | </a>
-        
-        <a href="/tags/tutorial/" style="font-size: 14px">tutorial | </a>
-        
-      </p>
-    </div>
-  </div>
-  <hr>
-  
-
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-91889165-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
+    </small>
 </div>
-
-          </article>
         </div>
 
         <footer id="main-footer">
@@ -323,10 +203,15 @@
         <p class="text-muted">&copy; Ryan Palo 2017 | All things.  Phil. 4:13</p>
     </div>
 </footer>
-        
+        <!-- Scripts -->
+        <!--  
+        jQuery (necessary for Bootstrap's JavaScript plugins)
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        Latest compiled and minified Bootstrap JavaScript
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        -->
         <!-- Custom Javascript -->
-        <script src="/js/home.js"></script>
+        <script src="/js/main.js"></script>
         
     </body>
 </html>
-

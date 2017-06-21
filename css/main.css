@@ -1,14 +1,14 @@
-@import url("https://fonts.googleapis.com/css?family=Inconsolata|Source+Sans+Pro");
+@import url("https://fonts.googleapis.com/css?family=Inconsolata|Source+Sans+Pro:300");
 /* Colors */
 /* Main */
 html {
   box-sizing: border-box;
   background: #DEE1EC;
   font-family: "Source Sans Pro", "Verdana", "Arial", "sans-serif";
-  font-size: 18px;
-  letter-spacing: .3px;
+  font-size: 19px;
+  letter-spacing: 1.5px;
   line-height: 26px;
-  font-weight: 200;
+  font-weight: lighter;
   position: relative;
   min-height: 100%; }
 
@@ -119,7 +119,8 @@ blockquote {
   border-radius: 15px;
   padding: 5px 10px;
   background-color: #FAFAFA !important;
-  line-height: 20px; }
+  line-height: 20px;
+  overflow: scroll; }
 
 .contact-link {
   max-width: 50px; }
