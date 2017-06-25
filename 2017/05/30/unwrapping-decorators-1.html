@@ -41,41 +41,41 @@
 
 <p>For those of you still with me, God bless you.  If you didn’t know, in the same way you assign a literal value to a variable, you can assign a function without calling it.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="s">&quot;soup&quot;</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="s">"soup"</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">4</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">how_much_food</span><span class="p">(</span><span class="n">food</span><span class="p">,</span> <span class="n">quantity</span><span class="p">):</span>
-<span class="o">...</span>     <span class="k">return</span> <span class="s">&quot;I&#39;ve got {} {}s!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">quantity</span><span class="p">,</span> <span class="n">food</span><span class="p">)</span>
+<span class="o">...</span>     <span class="k">return</span> <span class="s">"I've got {} {}s!"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">quantity</span><span class="p">,</span> <span class="n">food</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">gerald</span> <span class="o">=</span> <span class="n">how_much_food</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">gerald</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-<span class="s">&quot;I&#39;ve got 4 soups!&quot;</span></code></pre></div>
+<span class="s">"I've got 4 soups!"</span></code></pre></figure>
 
 <h2 id="functions-as-parameters-and-return-values">Functions as Parameters and Return Values</h2>
 
 <p>Cool, right?  Now, as a direct result of that, you can pass functions around in and out of other functions, just like any other variable.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">call_this</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">call_this</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
     <span class="n">f</span><span class="p">()</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Called it!&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Called it!"</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">call_with_three</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
     <span class="n">f</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">woof</span><span class="p">(</span><span class="n">times</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-    <span class="k">return</span> <span class="s">&quot;Woof!&quot;</span> <span class="o">*</span> <span class="n">times</span>
+    <span class="k">return</span> <span class="s">"Woof!"</span> <span class="o">*</span> <span class="n">times</span>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">call_this</span><span class="p">(</span><span class="n">woof</span><span class="p">)</span>
-<span class="s">&quot;Woof!&quot;</span>
-<span class="s">&quot;Called it!&quot;</span>
+<span class="s">"Woof!"</span>
+<span class="s">"Called it!"</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">call_with_three</span><span class="p">(</span><span class="n">woof</span><span class="p">)</span>
-<span class="s">&quot;Woof!Woof!Woof!&quot;</span></code></pre></div>
+<span class="s">"Woof!Woof!Woof!"</span></code></pre></figure>
 
 <h2 id="defining-functions-within-other-functions">Defining Functions within Other Functions</h2>
 
 <p>You can even define functions within other functions!  This can be <em>super</em> powerful.  Which leads to one of my favorite coding puzzles of all time: make the following test pass.</p>
 
-<p><code>assert five(plus(three())) == 8</code></p>
+<p><code class="highlighter-rouge">assert five(plus(three())) == 8</code></p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">three</span><span class="p">(</span><span class="n">operator</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">three</span><span class="p">(</span><span class="n">operator</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">operator</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">3</span>
     <span class="k">else</span><span class="p">:</span>
@@ -95,7 +95,7 @@
 <span class="c"># Get it?</span>
 <span class="c"># five(plus(three()))</span>
 <span class="c"># five(plus(3)) -&gt; def inner: return first_number + 3</span>
-<span class="c"># five(inner) -&gt; inner(5) -&gt; 5 + 3 -&gt; 8</span></code></pre></div>
+<span class="c"># five(inner) -&gt; inner(5) -&gt; 5 + 3 -&gt; 8</span></code></pre></figure>
 
 <p>Like I said, that one’s a puzzle, so if you don’t get it the first time, try writing in out on paper, and doing the substitutions like a math problem.  Anyways, long story short, functions are neat little objects that you can sling around and define pretty much anywhere you could use literals.  A function doesn’t get called until you slap some () on the end.  Now, the main event.</p>
 
@@ -107,40 +107,40 @@
 
 <p>Imagine we have a function that barked everytime its inner function was called.  Why?  Because examples are hard.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">pre_bark</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">pre_bark</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Woof!&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"Woof!"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">func</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">inner</span>
 
 <span class="k">def</span> <span class="nf">hello</span><span class="p">():</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Hello!&quot;</span><span class="p">)</span></code></pre></div>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Hello!"</span><span class="p">)</span></code></pre></figure>
 
-<p>In order to wrap <code>hello</code> in the woofing functionality, we’d have to do this:</p>
+<p>In order to wrap <code class="highlighter-rouge">hello</code> in the woofing functionality, we’d have to do this:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">hello</span> <span class="o">=</span> <span class="n">pre_bark</span><span class="p">(</span><span class="n">hello</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">hello</span> <span class="o">=</span> <span class="n">pre_bark</span><span class="p">(</span><span class="n">hello</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">hello</span><span class="p">()</span>
-<span class="s">&quot;Woof!&quot;</span>
-<span class="s">&quot;Hello!&quot;</span></code></pre></div>
+<span class="s">"Woof!"</span>
+<span class="s">"Hello!"</span></code></pre></figure>
 
-<p>Do you see what happens?  We replace <code>hello</code> with <code>inner</code>, which prints “Woof!” before calling the original <code>hello</code> function.  Not beautiful.  Not beautiful because you have to wrap <code>hello</code> after it is defined.  Someone could possibly glance at the function definition before calling it, blithely expecting <code>Hello!</code> but getting an unexpected <code>Woof!</code>.  The path of least surprise is usually the best one.  What if it looked more like this:</p>
+<p>Do you see what happens?  We replace <code class="highlighter-rouge">hello</code> with <code class="highlighter-rouge">inner</code>, which prints “Woof!” before calling the original <code class="highlighter-rouge">hello</code> function.  Not beautiful.  Not beautiful because you have to wrap <code class="highlighter-rouge">hello</code> after it is defined.  Someone could possibly glance at the function definition before calling it, blithely expecting <code class="highlighter-rouge">Hello!</code> but getting an unexpected <code class="highlighter-rouge">Woof!</code>.  The path of least surprise is usually the best one.  What if it looked more like this:</p>
 
 <h2 id="the-pretty-way">The Pretty Way</h2>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@pre_bark</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@pre_bark</span>
 <span class="k">def</span> <span class="nf">hello</span><span class="p">():</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Hello!&quot;</span><span class="p">)</span></code></pre></div>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Hello!"</span><span class="p">)</span></code></pre></figure>
 
-<p>You would be able to quickly see what the function did and that it was slightly modified by something called <code>pre_bark</code>.  Now we’re talking.  And then there was evening, and there was morning – your first decorator.  And it was good.</p>
+<p>You would be able to quickly see what the function did and that it was slightly modified by something called <code class="highlighter-rouge">pre_bark</code>.  Now we’re talking.  And then there was evening, and there was morning – your first decorator.  And it was good.</p>
 
 <h2 id="but-what-about-my-arguments">But What About My Arguments?</h2>
 
 <p>In order to snag any arguments passed to your function, the inner function will accept those arguments in the form of *args, **kwargs.  I won’t go into that now, but <a href="https://stackoverflow.com/a/3394898/4100442">this</a> has a pretty good explanation if you are not familiar.  Short version: think of *args as a list of all the positional arguments passed and **kwargs as a dictionary of all of the keyword arguments passed.  That’s not quite accurate, but it’s close enough for government work.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">print_them_args</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">print_them_args</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">the_name_of_this_one_doesnt_matter</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">&quot;{} called with {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="p">[</span><span class="o">*</span><span class="n">args</span><span class="p">]))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"{} called with {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="p">[</span><span class="o">*</span><span class="n">args</span><span class="p">]))</span>
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">the_name_of_this_one_doesnt_matter</span>
 
@@ -150,7 +150,7 @@
 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
 <span class="n">add</span> <span class="n">called</span> <span class="k">with</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
-<span class="mi">13</span></code></pre></div>
+<span class="mi">13</span></code></pre></figure>
 
 <h1 id="conclusion-of-part-1">Conclusion of Part 1</h1>
 

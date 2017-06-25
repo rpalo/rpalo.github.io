@@ -37,7 +37,7 @@
 
 <h2 id="background-2">Background 2</h2>
 
-<p>I’m taking another JavaScript course to try and fill in the blanks that I have and see if this new teacher explains anything in a new or different way that clicks better with me.  Everything was going well until we got to the section on indexing lists.  The teacher started off by saying, “In order to get the first item out of the list, you reference it like this: <code>items[0]</code>.  You’ll just have to remember that computers always start counting at zero.”  To which I replied:</p>
+<p>I’m taking another JavaScript course to try and fill in the blanks that I have and see if this new teacher explains anything in a new or different way that clicks better with me.  Everything was going well until we got to the section on indexing lists.  The teacher started off by saying, “In order to get the first item out of the list, you reference it like this: <code class="highlighter-rouge">items[0]</code>.  You’ll just have to remember that computers always start counting at zero.”  To which I replied:</p>
 
 <p><img src="/img/nope.gif" alt="NOPE" /></p>
 
@@ -45,7 +45,7 @@
 
 <h2 id="a-better-way">A Better Way</h2>
 
-<p>I’m also going to use Python for my explanation because I like it better and I do what I want.  Let us consider the string <code>beans</code>.  Not string beans, but– you get it.</p>
+<p>I’m also going to use Python for my explanation because I like it better and I do what I want.  Let us consider the string <code class="highlighter-rouge">beans</code>.  Not string beans, but– you get it.</p>
 
 <p><img src="/img/indexing.png" alt="Diagram of a String" /></p>
 
@@ -55,34 +55,34 @@
 
 <p>Thus, when you try this:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">fruit</span> <span class="o">=</span> <span class="s">&quot;beans&quot;</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">fruit</span> <span class="o">=</span> <span class="s">"beans"</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">fruit</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
-<span class="s">&quot;ea&quot;</span></code></pre></div>
+<span class="s">"ea"</span></code></pre></figure>
 
 <p>You get “ea” because those are the letters <em>in between</em> the two indices you specified.  When you only specify one index, the program defaults to making the second limit the next index.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">fruit</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="c"># Is the same as fruit[4:4+1]</span>
-<span class="s">&quot;s&quot;</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">fruit</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="c"># Is the same as fruit[4:4+1]</span>
+<span class="s">"s"</span></code></pre></figure>
 
 <p>The benefit of understanding things this way is that negative indices get a lot less confusing.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">fruit</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="s">&quot;an&quot;</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">fruit</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="s">"an"</span></code></pre></figure>
 
 <p>In Python, in order to say “all the way to the very end,” you just leave the index off.  This is mostly convenience and because -0 doesn’t make any sense as an index (since -0 technically equals 0).</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">fruit</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
-<span class="s">&quot;eans&quot;</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">fruit</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+<span class="s">"eans"</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">fruit</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-<span class="s">&quot;eans&quot;</span>
+<span class="s">"eans"</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">fruit</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="s">&quot;bean&quot;</span></code></pre></div>
+<span class="s">"bean"</span></code></pre></figure>
 
 <p>Cool right?</p>
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>A good number of the 2 people that read this post will have already learned (one way or another) about indexing strings and lists.  But do you see now that there is a good reason for starting at zero and ending our for loops at <code>len(string) - 1</code>?  It’s not magic.  It’s not because computers are weird and count from zero because that’s how their culture does it.  There’s no little gremlin decreeing new ways to count inside your computer.  Now go forth and spread the logical step-by-step teaching approach!</p>
+<p>A good number of the 2 people that read this post will have already learned (one way or another) about indexing strings and lists.  But do you see now that there is a good reason for starting at zero and ending our for loops at <code class="highlighter-rouge">len(string) - 1</code>?  It’s not magic.  It’s not because computers are weird and count from zero because that’s how their culture does it.  There’s no little gremlin decreeing new ways to count inside your computer.  Now go forth and spread the logical step-by-step teaching approach!</p>
 
     <small>
         

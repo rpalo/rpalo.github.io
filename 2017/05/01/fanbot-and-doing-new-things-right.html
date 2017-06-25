@@ -37,21 +37,21 @@
 
 <h2 id="the-structure">The Structure</h2>
 
-<p>In terms of “doing things right,” I made sure to setup the project from the beginning as a git repository.  It’s got a LICENCE file, a .gitignore file, requirements.txt (for those who don’t Python, this is similar to a Gemfile in Ruby or a package.json in JavaScript), a tests directory, and a project directory.  There is also a sample main user file, <code>main.py</code>.  I made sure my README has short but effective sections including Features, Installation and Use Instructions, Contribution suggestions, and a Code of Conduct.  I’m not sure how much I’ll need to use the last two, but if I’m going to <strong>do things right</strong>, I’m going to <strong>do things right</strong>.</p>
+<p>In terms of “doing things right,” I made sure to setup the project from the beginning as a git repository.  It’s got a LICENCE file, a .gitignore file, requirements.txt (for those who don’t Python, this is similar to a Gemfile in Ruby or a package.json in JavaScript), a tests directory, and a project directory.  There is also a sample main user file, <code class="highlighter-rouge">main.py</code>.  I made sure my README has short but effective sections including Features, Installation and Use Instructions, Contribution suggestions, and a Code of Conduct.  I’m not sure how much I’ll need to use the last two, but if I’m going to <strong>do things right</strong>, I’m going to <strong>do things right</strong>.</p>
 
 <h2 id="the-tests">The Tests</h2>
 
-<p>It took me a bit to get the tests all hooked up right since this is one of the first projects I was determined to do via a relaxed version of Test-Driven Development.  I went with Pytest.  Within my tests directory is an <code>__init__.py</code> file (blank) and a <code>test_fanbot.py</code> file.  As I add more functionality, I may have to break that into multiple test modules.  The nice thing about using Pytest is that I don’t have to pull any shenanigans with the python path.</p>
+<p>It took me a bit to get the tests all hooked up right since this is one of the first projects I was determined to do via a relaxed version of Test-Driven Development.  I went with Pytest.  Within my tests directory is an <code class="highlighter-rouge">__init__.py</code> file (blank) and a <code class="highlighter-rouge">test_fanbot.py</code> file.  As I add more functionality, I may have to break that into multiple test modules.  The nice thing about using Pytest is that I don’t have to pull any shenanigans with the python path.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">fanbot</span> <span class="kn">import</span> <span class="n">fanbot</span> <span class="c"># i.e. from .. (top level) import fanbot</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">fanbot</span> <span class="kn">import</span> <span class="n">fanbot</span> <span class="c"># i.e. from .. (top level) import fanbot</span>
 
 <span class="k">class</span> <span class="nc">TestFanBot</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Tests for the FanBot class&quot;&quot;&quot;</span>
+    <span class="s">"""Tests for the FanBot class"""</span>
 
     <span class="k">def</span> <span class="nf">test_example</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">assert</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">4</span>
 
-    <span class="c"># Actual tests...</span></code></pre></div>
+    <span class="c"># Actual tests...</span></code></pre></figure>
 
 <p>Pytest’s autodetection makes everything work, and you can use simple assertion statements.  I actually had trouble because it was significantly simpler than I thought it was supposed to be.</p>
 
@@ -61,7 +61,7 @@
 
 <p>This is the example from the Tweepy Getting Started page.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">tweepy</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">tweepy</span>
 
 <span class="n">auth</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">OAuthHandler</span><span class="p">(</span><span class="n">consumer_key</span><span class="p">,</span> <span class="n">consumer_secret</span><span class="p">)</span>
 <span class="n">auth</span><span class="o">.</span><span class="n">set_access_token</span><span class="p">(</span><span class="n">access_token</span><span class="p">,</span> <span class="n">access_token_secret</span><span class="p">)</span>
@@ -71,23 +71,23 @@
 <span class="c"># This is the cool tech hipster way to check your twitter</span>
 <span class="n">public_tweets</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">home_timeline</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">public_tweets</span><span class="p">:</span>
-    <span class="k">print</span> <span class="n">tweet</span><span class="o">.</span><span class="n">text</span></code></pre></div>
+    <span class="k">print</span> <span class="n">tweet</span><span class="o">.</span><span class="n">text</span></code></pre></figure>
 
 <h2 id="schedule">Schedule</h2>
 
-<p>OK.  Last thing, I promise.  I made strong use of the <code>schedule</code> package.  It was easy to just <code>pip3 install schedule</code>.  They make it amazingly easy to write human-readable task scheduling.  Check it.</p>
+<p>OK.  Last thing, I promise.  I made strong use of the <code class="highlighter-rouge">schedule</code> package.  It was easy to just <code class="highlighter-rouge">pip3 install schedule</code>.  They make it amazingly easy to write human-readable task scheduling.  Check it.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">schedule</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">schedule</span>
 
 <span class="k">def</span> <span class="nf">bark</span><span class="p">():</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Woof&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Woof"</span><span class="p">)</span>
 
 <span class="n">schedule</span><span class="o">.</span><span class="n">every</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">minutes</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="n">bark</span><span class="p">)</span>
-<span class="n">schedule</span><span class="o">.</span><span class="n">every</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">days</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="s">&quot;12:15&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="n">bark</span><span class="p">)</span>
+<span class="n">schedule</span><span class="o">.</span><span class="n">every</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">days</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="s">"12:15"</span><span class="p">)</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="n">bark</span><span class="p">)</span>
 
 <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
     <span class="n">schedule</span><span class="o">.</span><span class="n">run_pending</span><span class="p">()</span>
-    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="c"># seconds</span></code></pre></div>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="c"># seconds</span></code></pre></figure>
 
 <p>And like that, you get a barking terminal every ten minutes and/or 4 days around lunchtime.  SO.  EASY.  TO.  READ!  I love it.</p>
 

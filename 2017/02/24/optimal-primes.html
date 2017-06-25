@@ -37,7 +37,7 @@
   <p>The prime factors of 13195 are 5, 7, 13, and 29.  What is the largest prime factor of 600851475143?</p>
 </blockquote>
 
-<p>Let’s talk about some options.  First, it’s always best to think about the simplest, most naive solution.  We could list every number from 1 to 600851475143 and check if that number is both prime and a factor in our number.  Of course, that would require us to figure out if each number is prime, and that could require (again, in the most naive solution) looping from 2 through to whatever the current number was to see if any number in between divided evenly.  If not, then it’s prime and we win.  This sounds like it could be <em>at least</em> O(n^2) in complexity.  </p>
+<p>Let’s talk about some options.  First, it’s always best to think about the simplest, most naive solution.  We could list every number from 1 to 600851475143 and check if that number is both prime and a factor in our number.  Of course, that would require us to figure out if each number is prime, and that could require (again, in the most naive solution) looping from 2 through to whatever the current number was to see if any number in between divided evenly.  If not, then it’s prime and we win.  This sounds like it could be <em>at least</em> O(n^2) in complexity.</p>
 
 <blockquote>
   <p>For those that aren’t familiar with Big-O notation, that’s a topic for another time, but right now the important thing is that if we double the size of the number we’re getting the largest prime factor of, the calculation time goes up by roughly 4x.  Triple is 9x, etc.  Not going to work for us.</p>
@@ -45,8 +45,8 @@
 
 <p>Here’s my solution:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">largest_prime_factor</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns largest prime factor of a number.&quot;&quot;&quot;</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">largest_prime_factor</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="s">"""Returns largest prime factor of a number."""</span>
     <span class="c"># Start at 2 and walk upward.</span>
     <span class="c"># The first number to divide into our number </span>
     <span class="c"># evenly has to be prime (I think).</span>
@@ -55,7 +55,7 @@
         <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 
             <span class="c"># If we find a number, divide that out.</span>
-            <span class="c"># We&#39;ve pulled out a factor.  Start the process over,</span>
+            <span class="c"># We've pulled out a factor.  Start the process over,</span>
             <span class="c"># Nibbling away at the remaining factors until</span>
             <span class="c"># only one remains.  This would be the largest prime!</span>
 
@@ -66,7 +66,7 @@
 
     <span class="c"># This is the implicit base case, when no number divides evenly,</span>
     <span class="c"># we have found the last prime factor.  Cool, right??</span>
-    <span class="k">return</span> <span class="n">number</span></code></pre></div>
+    <span class="k">return</span> <span class="n">number</span></code></pre></figure>
 
 <p>If you thought that was cool, hold on to your knickers!  The next one builds on these concepts.</p>
 
@@ -74,42 +74,42 @@
   <p>2520 is the smallest number that can be divided by all numbers between 1 and 10 (inclusive).  What is the smallest positive integer that can be evenly divided by all numbers between 1 and 20 (also inclusive)?</p>
 </blockquote>
 
-<p>OK.  What are your first thoughts?  Here are mine.  My first snap intuition is to just multiply all of the numbers together.  Ah, but 10 already works if a number is divisible by 2 and 5.  We’ve got some repeating that is driving our final product up.  I guess we need to see how many prime factors are <em>really</em> required.  One other thought worth mentioning is again the naive solution.  Start at 21 and continue searching upward (<code>if i % 2 == 0, if i % 3 == 0, if i % 4 == 0</code>) until we find the answer.  I’m going to see if I can do better though, because there’s no upper limit guarantee on that and I hate to leave a while loop to just run wild.  Here’s my solution, which I will then explain.</p>
+<p>OK.  What are your first thoughts?  Here are mine.  My first snap intuition is to just multiply all of the numbers together.  Ah, but 10 already works if a number is divisible by 2 and 5.  We’ve got some repeating that is driving our final product up.  I guess we need to see how many prime factors are <em>really</em> required.  One other thought worth mentioning is again the naive solution.  Start at 21 and continue searching upward (<code class="highlighter-rouge">if i % 2 == 0, if i % 3 == 0, if i % 4 == 0</code>) until we find the answer.  I’m going to see if I can do better though, because there’s no upper limit guarantee on that and I hate to leave a while loop to just run wild.  Here’s my solution, which I will then explain.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># First I&#39;m going to need some help from the standard library</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># First I'm going to need some help from the standard library</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
 
-<span class="c"># I&#39;ll also need this helper function to get the</span>
+<span class="c"># I'll also need this helper function to get the</span>
 <span class="c"># prime factors of each number.</span>
 <span class="k">def</span> <span class="nf">prime_factors</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns a list of the prime factors of a number&quot;&quot;&quot;</span>
+    <span class="s">"""Returns a list of the prime factors of a number"""</span>
 
-    <span class="c"># You&#39;ll note that this solution looks eerily similar to the</span>
+    <span class="c"># You'll note that this solution looks eerily similar to the</span>
     <span class="c"># previous section</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">number</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 
             <span class="c"># The only difference is that this time I want to hang</span>
-            <span class="c"># on to each of the values, so I&#39;m using a GENERATOR!</span>
+            <span class="c"># on to each of the values, so I'm using a GENERATOR!</span>
             <span class="k">yield</span> <span class="n">i</span>
 
-            <span class="c"># I&#39;m also using the brand spanking new (ish)</span>
+            <span class="c"># I'm also using the brand spanking new (ish)</span>
             <span class="c"># yield from keyword which allows my GENERATOR to</span>
             <span class="c"># delegate yielding to another GENERATOR</span>
             <span class="c"># or, in this case, the same one on the next recursion!</span>
-            <span class="k">yield from</span> <span class="n">prime_factors</span><span class="p">(</span><span class="n">number</span><span class="o">//</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="k">from</span> <span class="n">prime_factors</span><span class="p">(</span><span class="n">number</span><span class="o">//</span><span class="n">i</span><span class="p">)</span>
 
             <span class="c"># I use a break statement to simulate the multiple level</span>
             <span class="c"># jump out that the return statement gave me.</span>
             <span class="k">break</span>
 
-<span class="c"># Just for clarity, here&#39;s an example of the above function:</span>
+<span class="c"># Just for clarity, here's an example of the above function:</span>
 <span class="c"># prime_factors(24) =&gt; &lt;Generator&gt; [2, 2, 2, 3]</span>
 
 <span class="c"># Now the real meat of the problem.</span>
 <span class="k">def</span> <span class="nf">smallest_common_multiple</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Takes a set of numbers and returns smallest common multiple&quot;&quot;&quot;</span>
+    <span class="s">"""Takes a set of numbers and returns smallest common multiple"""</span>
 
     <span class="c"># I could do everything with a plain dictionary, but this will</span>
     <span class="c"># speed up everything I want.  Counters also have some shwoopy</span>
@@ -133,9 +133,9 @@
     <span class="c"># Multiply all primes to get the smallest possible multiple!</span>
     <span class="c"># Using a little functional programming instead of a multiline for loop.</span>
     <span class="c"># The following line is the multiplication analog to sum().</span>
-    <span class="c"># primes.elements() spits out list of &#39;key&#39; repeated &#39;value&#39; times.</span>
+    <span class="c"># primes.elements() spits out list of 'key' repeated 'value' times.</span>
     <span class="c"># e.g. {2: 2, 3: 1} becomes [2, 2, 3].</span>
-    <span class="k">return</span> <span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">,</span> <span class="n">primes</span><span class="o">.</span><span class="n">elements</span><span class="p">())</span></code></pre></div>
+    <span class="k">return</span> <span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">,</span> <span class="n">primes</span><span class="o">.</span><span class="n">elements</span><span class="p">())</span></code></pre></figure>
 
 <p>Anyways, I thought these were some neat solutions.  I mean, come on!  Recursive delegating generators!  The drama!  The flair!  Anyways, if you can come up with a better way to do it, let me know at hello@assertnotmagic.com.  See you next time!</p>
 

@@ -29,20 +29,20 @@
         <div class="container main">
                 <article class="site-wrap">
     <h1>Cache Me Outside</h1>
-    <p>I just came across a little nugget of wisdom after reading <a href="https://www.amin.space/blog/2017/5/elemental_speller/">this blog post</a> about making words out of Periodic Table Elements.  I highly recommend the read.  However, that’s not why we’re here.  We’re here to cache in on some of the benefits of Python’s standard library.  </p>
+    <p>I just came across a little nugget of wisdom after reading <a href="https://www.amin.space/blog/2017/5/elemental_speller/">this blog post</a> about making words out of Periodic Table Elements.  I highly recommend the read.  However, that’s not why we’re here.  We’re here to cache in on some of the benefits of Python’s standard library.</p>
 
 <p>For those that don’t know, caching is really useful for when a function is getting called with the same arguments repeatedly and you can expect the same result each time.  Instead of calculating the result each time, you save the result in your cache for later.  This is especially useful for functions that intrinsically take a long time to run, like API calls, file I/O, or super-duper nested loops.  Consider, for a moment, our humble friend the Fibonacci function.  In Python, a common (but grossly inefficient) version goes something like this:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Finds the nth fibonacci number.&quot;&quot;&quot;</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="s">"""Finds the nth fibonacci number."""</span>
     <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
         <span class="k">return</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></code></pre></div>
+        <span class="k">return</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></code></pre></figure>
 
-<p>It looks really nice and is pretty understandable.  But imagine it running at even <code>n = 5</code>.  Here’s a rough version of the call-stack:</p>
+<p>It looks really nice and is pretty understandable.  But imagine it running at even <code class="highlighter-rouge">n = 5</code>.  Here’s a rough version of the call-stack:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">fibonacci</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">fibonacci</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
     <span class="n">fibonacci</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
         <span class="n">fibonacci</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="n">fibonacci</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
@@ -55,40 +55,40 @@
             <span class="o">=</span> <span class="mi">2</span>
         <span class="o">=</span> <span class="mi">3</span>
 <span class="o">----------------</span>
-<span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">=</span> <span class="mf">5.</span></code></pre></div>
+<span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">=</span> <span class="mf">5.</span></code></pre></figure>
 
-<p>And that’s only at # 5.  You can see how <code>fibonacci(2)</code> gets called <em>three times!</em>  Imagine what would happen if you tried to calculate <code>n = 10</code> or <code>n = 100</code>!  Don’t worry.  I did.  Actually, for <code>n = 100</code> I got too bored waiting for it to finish up.  In fact, I couldn’t even wait for <code>n = 50</code> to finish!  Even <code>n = 35</code> took like 7 seconds or so.  This is where the cache comes in.  You could probably make your own without too much trouble.  I tried a version way back in <a href="/2017/02/02/default-argument-tricks">this blog post</a>.  It came out pretty good if I do say so myself.  The only problem with adding a cache to a function is that it takes up a good number of lines of code and obscures what you actually want to show the function doing.  There are ways around that too, but why struggle and fight with that problem when the standard library (<em>trumpet fanfare</em>) has got you covered?</p>
+<p>And that’s only at # 5.  You can see how <code class="highlighter-rouge">fibonacci(2)</code> gets called <em>three times!</em>  Imagine what would happen if you tried to calculate <code class="highlighter-rouge">n = 10</code> or <code class="highlighter-rouge">n = 100</code>!  Don’t worry.  I did.  Actually, for <code class="highlighter-rouge">n = 100</code> I got too bored waiting for it to finish up.  In fact, I couldn’t even wait for <code class="highlighter-rouge">n = 50</code> to finish!  Even <code class="highlighter-rouge">n = 35</code> took like 7 seconds or so.  This is where the cache comes in.  You could probably make your own without too much trouble.  I tried a version way back in <a href="/2017/02/02/default-argument-tricks">this blog post</a>.  It came out pretty good if I do say so myself.  The only problem with adding a cache to a function is that it takes up a good number of lines of code and obscures what you actually want to show the function doing.  There are ways around that too, but why struggle and fight with that problem when the standard library (<em>trumpet fanfare</em>) has got you covered?</p>
 
 <p>BEHOLD.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
 <span class="c"># You should really look at the functools docs.</span>
-<span class="c"># I mean it, there&#39;s some awesome stuff in there!</span>
+<span class="c"># I mean it, there's some awesome stuff in there!</span>
 <span class="c"># Also, FYI, LRU stands for Least Recently Used</span>
 <span class="c"># which is the item that gets booted from the cache when</span>
 <span class="c"># it hits its limit</span>
 
 <span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span> <span class="c"># Works best with maxsize as a power of 2.</span>
 <span class="k">def</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Finds the nth fibonacci number.&quot;&quot;&quot;</span>
+    <span class="s">"""Finds the nth fibonacci number."""</span>
     <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
         <span class="k">return</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></code></pre></div>
+        <span class="k">return</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></code></pre></figure>
 
-<p>Notice how I didn’t even change the main function?  I just thought to myself, “Oh, caching might be nice to have here,” and sprinkled a little decorator on top.  I’ll have to talk about decorators in another post, but just know that they’re used to augment functions, usually to add side-effects like registering a function somewhere or, like you might expect, adding a cache.  How much benefit did we gain?  </p>
+<p>Notice how I didn’t even change the main function?  I just thought to myself, “Oh, caching might be nice to have here,” and sprinkled a little decorator on top.  I’ll have to talk about decorators in another post, but just know that they’re used to augment functions, usually to add side-effects like registering a function somewhere or, like you might expect, adding a cache.  How much benefit did we gain?</p>
 
 <p>Without the cache:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>python3 -m cProfile fib.py -n 40
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>python3 -m cProfile fib.py -n 40
 102334155
-         <span class="m">204668315</span> <span class="k">function</span> calls <span class="o">(</span><span class="m">7</span> primitive calls<span class="o">)</span> in 89.028 seconds</code></pre></div>
+         204668315 <span class="k">function </span>calls <span class="o">(</span>7 primitive calls<span class="o">)</span> <span class="k">in </span>89.028 seconds</code></pre></figure>
 
 <p>Wowza.  With the cache:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>python3 -m cProfile fib.py -n 300
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>python3 -m cProfile fib.py -n 300
 222232244629420445529739893461909967206666939096499764990979600
-         <span class="m">323</span> <span class="k">function</span> calls <span class="o">(</span><span class="m">24</span> primitive calls<span class="o">)</span> in 0.001 seconds</code></pre></div>
+         323 <span class="k">function </span>calls <span class="o">(</span>24 primitive calls<span class="o">)</span> <span class="k">in </span>0.001 seconds</code></pre></figure>
 
 <p>How bow dah?</p>
 

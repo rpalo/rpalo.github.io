@@ -31,35 +31,35 @@
     <h1>Meta Feedback</h1>
     <h2 id="the-intro">The Intro</h2>
 
-<p>If you don’t know about <a href="https://exercism.io">Exercism</a>, you should.  To clarify, I definitely mean Ex<strong>e</strong>rcism as in “exercise” and not Ex<strong>o</strong>rcism as in “Satan come out!”  It’s a website/service that is currently free and provides a set of exercises in a <em>ton</em> of languages.  The cool thing is that these exercises are all provided in the “Test-Driven Development” model, so it forces you to practice good habits.  All you have to do is install a command line client and you are off to the races.  <code>$ exercism fetch ruby</code> from within whichever directory you want your files to go.  It will see what the current puzzle you are on is and make sure you have the most updated version.  These puzzles come with a readme that explains the ideas and a <code>puzzlename_test.rb</code> (or equivalent in your language of choice) file containing the unit tests.  All you have to do is run the tests, see where they break, and code until the tests pass.  Once all the tests pass, you can <code>$ exercism submit puzzlename.rb</code> and it pushes the code to the Exercism website.  Once your puzzle is submitted, other users can comment on your code and provide feedback.  There’s even an automated feedback bot that will check in every so often!  It’s really neat.  OK, intro over.</p>
+<p>If you don’t know about <a href="https://exercism.io">Exercism</a>, you should.  To clarify, I definitely mean Ex<strong>e</strong>rcism as in “exercise” and not Ex<strong>o</strong>rcism as in “Satan come out!”  It’s a website/service that is currently free and provides a set of exercises in a <em>ton</em> of languages.  The cool thing is that these exercises are all provided in the “Test-Driven Development” model, so it forces you to practice good habits.  All you have to do is install a command line client and you are off to the races.  <code class="highlighter-rouge">$ exercism fetch ruby</code> from within whichever directory you want your files to go.  It will see what the current puzzle you are on is and make sure you have the most updated version.  These puzzles come with a readme that explains the ideas and a <code class="highlighter-rouge">puzzlename_test.rb</code> (or equivalent in your language of choice) file containing the unit tests.  All you have to do is run the tests, see where they break, and code until the tests pass.  Once all the tests pass, you can <code class="highlighter-rouge">$ exercism submit puzzlename.rb</code> and it pushes the code to the Exercism website.  Once your puzzle is submitted, other users can comment on your code and provide feedback.  There’s even an automated feedback bot that will check in every so often!  It’s really neat.  OK, intro over.</p>
 
 <h2 id="the-code">The Code</h2>
 
 <p>The point of this article is that I received some feedback on some code that, while quite valid, was maybe handled a bit poorly, and had the opposite effect of what I think the service is trying to provide.  I’ll show you and you can judge for yourself.  Here’s the code.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">re</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">re</span>
 
 <span class="k">def</span> <span class="nf">hey</span><span class="p">(</span><span class="n">what</span><span class="p">):</span>
-	<span class="sd">&quot;&quot;&quot;Sassy teenager.  If question: replies &#39;Sure.&#39;</span>
-<span class="sd">						If exclamation and all caps: replies &#39;Whoa, chill out!&#39;</span>
-<span class="sd">						If blank: replies &#39;Fine. Be that way!&#39;</span>
-<span class="sd">						Otherwise: replies &#39;Whatever.&#39;&quot;&quot;&quot;</span>
+	<span class="s">"""Sassy teenager.  If question: replies 'Sure.'
+						If exclamation and all caps: replies 'Whoa, chill out!'
+						If blank: replies 'Fine. Be that way!'
+						Otherwise: replies 'Whatever.'"""</span>
 
 	<span class="c"># Get rid of extra whitespace</span>
 	<span class="n">entry</span> <span class="o">=</span> <span class="n">what</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 
 	<span class="c"># If you say nothing, return Fine.</span>
 	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-		<span class="k">return</span> <span class="s">&quot;Fine. Be that way!&quot;</span>
+		<span class="k">return</span> <span class="s">"Fine. Be that way!"</span>
 	<span class="c"># If you use all caps and at least one letter, return Whoa</span>
-	<span class="k">elif</span> <span class="n">entry</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="n">entry</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&quot;[a-zA-Z]&quot;</span><span class="p">,</span> <span class="n">entry</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-		<span class="k">return</span> <span class="s">&quot;Whoa, chill out!&quot;</span>
+	<span class="k">elif</span> <span class="n">entry</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="n">entry</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">"[a-zA-Z]"</span><span class="p">,</span> <span class="n">entry</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+		<span class="k">return</span> <span class="s">"Whoa, chill out!"</span>
 	<span class="c"># if you end in a question mark, return Sure.</span>
-	<span class="k">elif</span> <span class="n">entry</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;?&quot;</span><span class="p">:</span>
-		<span class="k">return</span> <span class="s">&quot;Sure.&quot;</span>
+	<span class="k">elif</span> <span class="n">entry</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">"?"</span><span class="p">:</span>
+		<span class="k">return</span> <span class="s">"Sure."</span>
 	<span class="c"># otherwise return Whatever</span>
 	<span class="k">else</span><span class="p">:</span>
-		<span class="k">return</span> <span class="s">&quot;Whatever.&quot;</span></code></pre></div>
+		<span class="k">return</span> <span class="s">"Whatever."</span></code></pre></figure>
 
 <p>The idea of the puzzle was to make a function that responded to conversation in various ways.  As you can see, There are definitely places to improve.</p>
 

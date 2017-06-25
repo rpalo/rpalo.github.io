@@ -36,13 +36,13 @@
 <p>What whale, you ask?  In chapter 18, two missiles get randomly transformed into a whale and a potted plant, respectively.  Here’s the excerpt:</p>
 
 <blockquote>
-  <p>Another thing that got forgotten was the fact that against all probability a sperm whale had suddenly been called into existence several miles above the surface of an alien planet.<br />
-And since this is not a naturally tenable position for a whale, this poor innocent creature had very little time to come to terms with its identity as a whale before it then had to come to terms with not being a whale any more.<br />
-This is a complete record of its thoughts from the moment it began its life till the moment it ended it.<br />
-Ah … ! What’s happening? it thought.<br />
-[…]<br />
-And wow! Hey! What’s this thing suddenly coming towards me very fast? Very very fast. So big and flat and round, it needs a big wide sounding name like … ow … ound … round … ground! That’s it! That’s a good name – ground!<br />
-I wonder if it will be friends with me?<br />
+  <p>Another thing that got forgotten was the fact that against all probability a sperm whale had suddenly been called into existence several miles above the surface of an alien planet.
+And since this is not a naturally tenable position for a whale, this poor innocent creature had very little time to come to terms with its identity as a whale before it then had to come to terms with not being a whale any more.
+This is a complete record of its thoughts from the moment it began its life till the moment it ended it.
+Ah … ! What’s happening? it thought.
+[…]
+And wow! Hey! What’s this thing suddenly coming towards me very fast? Very very fast. So big and flat and round, it needs a big wide sounding name like … ow … ound … round … ground! That’s it! That’s a good name – ground!
+I wonder if it will be friends with me?
 And the rest, after a sudden wet thud, was silence.</p>
 </blockquote>
 
@@ -56,20 +56,20 @@ And the rest, after a sudden wet thud, was silence.</p>
 
 <p>Turning the equations into code isn’t super difficult.  We just need to fill in some of the variables above first.  Since getting data on an alien planet and alien whale is more difficult, let’s use Earth and an Earthly Blue Whale.  The mass of the earth is roughly <a href="https://en.wikipedia.org/wiki/Earth">5.97 x 10^24 kg</a>, and its radius is approximately <a href="https://en.wikipedia.org/wiki/Earth">6.37 million meters</a>.  Blue whales live in the region between about <a href="https://en.wikipedia.org/wiki/Blue_whale">80-120 metric tons</a>.  To make the math nice, let’s use 100 (100,000 kg).  Fun fact: the largest known dinosaur came in at around <a href="https://en.wikipedia.org/wiki/Blue_whale">90 metric tons</a>!  Anyways, with these constants, and the Universal Gravitational Constant – <a href="https://en.wikipedia.org/wiki/Gravitational_constant">6.674 x 10^-11 m^3/kg s^2</a> – let’s turn this into code.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">gravity</span><span class="p">(</span><span class="n">altitude</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns the force of gravity [N] at a given altitude [m]&quot;&quot;&quot;</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">gravity</span><span class="p">(</span><span class="n">altitude</span><span class="p">):</span>
+    <span class="s">"""Returns the force of gravity [N] at a given altitude [m]"""</span>
     <span class="n">earth_mass</span> <span class="o">=</span> <span class="mf">5.972e24</span> <span class="c"># [kg]</span>
     <span class="n">earth_radius</span> <span class="o">=</span> <span class="mf">6.367e6</span> <span class="c"># [m]</span>
     <span class="n">whale_mass</span> <span class="o">=</span> <span class="mi">100000</span> <span class="c"># [kg]</span>
     <span class="n">universal_grav_constant</span> <span class="o">=</span> <span class="mf">6.67384e-11</span> <span class="c"># [m^3/kg s^2]</span>
 
     <span class="n">radius</span> <span class="o">=</span> <span class="n">altitude</span> <span class="o">+</span> <span class="n">earth_radius</span> <span class="c"># [m]</span>
-    <span class="c"># Assumption: the &#39;radius&#39; of the whale is negligible compared to</span>
+    <span class="c"># Assumption: the 'radius' of the whale is negligible compared to</span>
     <span class="c"># the other sizes involved</span>
 
-    <span class="c"># Here&#39;s the important bit:</span>
+    <span class="c"># Here's the important bit:</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">universal_grav_constant</span> <span class="o">*</span> <span class="n">whale_mass</span> <span class="o">*</span> <span class="n">earth_mass</span><span class="o">/</span><span class="p">(</span><span class="n">radius</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">result</span></code></pre></div>
+    <span class="k">return</span> <span class="n">result</span></code></pre></figure>
 
 <p>Drag gets a little more interesting.  Because there is a startling lack of data on the aerodynamic characteristics of belly-flopping whales, we’ll assume the whale is diving towards the ground head-first.  <a href="http://jeb.biologists.org/content/jexbio/214/1/131.full.pdf">This article</a> is chock-full of informational goodies, such as the drag coefficient of a swimming whale (0.05) and the approximate projected cross-sectional area (10 m^2).  The projected cross-sectional area is sort-of like the size of the shadow the whale would cast if light was shone on it head-on.</p>
 
@@ -81,8 +81,8 @@ And the rest, after a sudden wet thud, was silence.</p>
 
 <p>Here is the code for drag:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">drag</span><span class="p">(</span><span class="n">altitude</span><span class="p">,</span> <span class="n">velocity</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Given altitude [m] and velocity [m/s], outputs the force of drag [N]&quot;&quot;&quot;</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">drag</span><span class="p">(</span><span class="n">altitude</span><span class="p">,</span> <span class="n">velocity</span><span class="p">):</span>
+    <span class="s">"""Given altitude [m] and velocity [m/s], outputs the force of drag [N]"""</span>
     <span class="n">whale_drag_coefficient</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="c"># [unitless]</span>
     <span class="n">whale_crossectional_area</span> <span class="o">=</span> <span class="mi">10</span> <span class="c"># [m^2]</span>
     <span class="n">result</span> <span class="o">=</span> <span class="o">.</span><span class="mi">5</span> <span class="o">*</span> <span class="n">whale_drag_coefficient</span> <span class="o">*</span> <span class="n">density</span><span class="p">(</span><span class="n">altitude</span><span class="p">)</span> <span class="c"># VIGOROUS HAND-WAVING!</span>
@@ -92,48 +92,48 @@ And the rest, after a sudden wet thud, was silence.</p>
      <span class="c"># i.e. if whale falls down, drag is up and vice versa</span>
     <span class="k">if</span> <span class="n">velocity</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">result</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
-    <span class="k">return</span> <span class="n">result</span></code></pre></div>
+    <span class="k">return</span> <span class="n">result</span></code></pre></figure>
 
-<p>Great!  Two more steps before we get results.  First is to get acceleration of the whale.  Good ole’ <code>F = m * a</code>.  </p>
+<p>Great!  Two more steps before we get results.  First is to get acceleration of the whale.  Good ole’ <code class="highlighter-rouge">F = m * a</code>.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">net_acceleration</span><span class="p">(</span><span class="n">altitude</span><span class="p">,</span> <span class="n">velocity</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sums all forces to calculate a net acceleration for next step.&quot;&quot;&quot;</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">net_acceleration</span><span class="p">(</span><span class="n">altitude</span><span class="p">,</span> <span class="n">velocity</span><span class="p">):</span>
+    <span class="s">"""Sums all forces to calculate a net acceleration for next step."""</span>
     <span class="n">gravity_force</span> <span class="o">=</span> <span class="n">gravity</span><span class="p">(</span><span class="n">altitude</span><span class="p">)</span> <span class="c"># [N]</span>
     <span class="n">drag_force</span> <span class="o">=</span> <span class="n">drag</span><span class="p">(</span><span class="n">altitude</span><span class="p">,</span> <span class="n">velocity</span><span class="p">)</span> <span class="c"># [N]</span>
     <span class="n">net_force</span> <span class="o">=</span> <span class="n">drag_force</span> <span class="o">-</span> <span class="n">gravity_force</span> <span class="c"># [N] assuming gravity is down.</span>
     
     <span class="c"># Since F=ma, a = F/m!</span>
     <span class="n">acceleration</span> <span class="o">=</span> <span class="n">net_force</span> <span class="o">/</span> <span class="n">WHALE_MASS</span> <span class="c"># [m/s^2]</span>
-    <span class="k">return</span> <span class="n">acceleration</span></code></pre></div>
+    <span class="k">return</span> <span class="n">acceleration</span></code></pre></figure>
 
 <h2 id="the-simulation">The Simulation</h2>
 
 <p>Now we need to simulate the whole fall.  We’ll do this by getting each data point one by one.  If we know altitude and velocity at a given time, we can find acceleration with the function above.  In order to get the next velocity and position from a given acceleration, we’ll need the following function:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">integrate</span><span class="p">(</span><span class="n">acceleration</span><span class="p">,</span> <span class="n">current_velocity</span><span class="p">,</span> <span class="n">current_altitude</span><span class="p">,</span> <span class="n">timestep</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Gets future velocity and position from a given acceleration&quot;&quot;&quot;</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">integrate</span><span class="p">(</span><span class="n">acceleration</span><span class="p">,</span> <span class="n">current_velocity</span><span class="p">,</span> <span class="n">current_altitude</span><span class="p">,</span> <span class="n">timestep</span><span class="p">):</span>
+    <span class="s">"""Gets future velocity and position from a given acceleration"""</span>
     <span class="n">new_velocity</span> <span class="o">=</span> <span class="n">current_velocity</span> <span class="o">+</span> <span class="n">acceleration</span> <span class="o">*</span> <span class="n">timestep</span> <span class="c"># Sort of a y = mx + b situation</span>
     <span class="n">new_altitude</span> <span class="o">=</span> <span class="n">current_altitude</span> <span class="o">+</span> <span class="n">current_velocity</span> <span class="o">*</span> <span class="n">timestep</span> <span class="c"># Same, but for altitude</span>
-    <span class="k">return</span> <span class="n">new_velocity</span><span class="p">,</span> <span class="n">new_position</span></code></pre></div>
+    <span class="k">return</span> <span class="n">new_velocity</span><span class="p">,</span> <span class="n">new_position</span> </code></pre></figure>
 
 <p>This set of code is probably the least intuitive, but it basically boils down to the idea that if you go 20 miles per hour for 6 hours, you will have travelled 120 total miles (20 * 6).  Blah blah blah science handwaving.  You can see the full code and comments <a href="https://github.com/rpalo/whale-drop">here</a>.  I’m still working on cleaning it up and factoring out the constants.  Let’s get to the whale.</p>
 
 <h2 id="the-results">The Results</h2>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 
-<span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">&quot;results.csv&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s">&quot;Time&quot;</span><span class="p">],</span> <span class="n">results</span><span class="p">[</span><span class="s">&quot;Height&quot;</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre></div>
+<span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"results.csv"</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s">"Time"</span><span class="p">],</span> <span class="n">results</span><span class="p">[</span><span class="s">"Height"</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre></figure>
 
 <p><img src="/img/whale-height-plot.png" alt="Graph of height vs time" /></p>
 
 <p>Looks pretty much like we would expect.  First he was up.  Then he came down and it was fast.  So?  Let’s look at the forces he felt.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">results</span><span class="p">[</span><span class="s">&quot;Force&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s">&quot;Acceleration&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100000</span> <span class="c"># whale mass [kg]</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s">&quot;Time&quot;</span><span class="p">],</span> <span class="n">results</span><span class="p">[</span><span class="s">&quot;Force&quot;</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">results</span><span class="p">[</span><span class="s">"Force"</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s">"Acceleration"</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100000</span> <span class="c"># whale mass [kg]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s">"Time"</span><span class="p">],</span> <span class="n">results</span><span class="p">[</span><span class="s">"Force"</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre></figure>
 
 <p><img src="/img/whale-force-time-plot.png" alt="Graph of force vs time" /></p>
 
@@ -141,7 +141,7 @@ And the rest, after a sudden wet thud, was silence.</p>
 
 <p><img src="/img/whale-force-impact.png" alt="Zoomed in plot of force" /></p>
 
-<p>You can see he is feeling some crazy gravitational forces in the downward direction until WHAMMO!  Checking the height of the whale right around this point shows that he’s where we are splitting the upper and lower Stratosphere: <a href="https://www.grc.nasa.gov/WWW/K-12/airplane/atmosmet.html">~25000 m</a>.  Basically, our whale is faceplanting onto our atmosphere.  Realistically, I’m pretty sure that, if our whale hadn’t burned up already, we would have a localized whale-splosion and whale-shower.  </p>
+<p>You can see he is feeling some crazy gravitational forces in the downward direction until WHAMMO!  Checking the height of the whale right around this point shows that he’s where we are splitting the upper and lower Stratosphere: <a href="https://www.grc.nasa.gov/WWW/K-12/airplane/atmosmet.html">~25000 m</a>.  Basically, our whale is faceplanting onto our atmosphere.  Realistically, I’m pretty sure that, if our whale hadn’t burned up already, we would have a localized whale-splosion and whale-shower.</p>
 
 <p>So that’s it for now.  That’s probably all you can stand.  For future work, I recommend evaluating the heat generated from drag and estimating the ignition point of an airborne sea mammal to find out if he disintegrates or explodes first.  Too gruesome?  Yeah, probably.  Don’t worry.  He had a very exciting time on the way down.</p>
 

@@ -29,37 +29,37 @@
         <div class="container main">
                 <article class="site-wrap">
     <h1>Piping the Snek</h1>
-    <p>This is going to be just a quick one.  I discovered something the other day that I feel like I should have already known about, but it just made me so happy that I had to write it down.  Scenario: You are working in the command line.  You have a list of files you want to do some jimmy-jacking with.  A little string substitution here.  Adding/removing a file header.  It’s not too complicated, but it is just complicated enough that your standard bash commands start to fail you.  You (if you are like me) begin to slowly realize with dread that you will have to go get the big guns: awk, sed, and others.  Granted, it would probably make you a better person to have a confident control of those commands.  That being said, I do not.  I’m cool with <code>ls, cd, pwd</code>.  Me and <code>cat and echo</code> are buddies.  <code>Grep and find</code> come over for dinner once a month.  Beyond that, I need a couple (ten) tabs of documentation open to get much done.  Until now.</p>
+    <p>This is going to be just a quick one.  I discovered something the other day that I feel like I should have already known about, but it just made me so happy that I had to write it down.  Scenario: You are working in the command line.  You have a list of files you want to do some jimmy-jacking with.  A little string substitution here.  Adding/removing a file header.  It’s not too complicated, but it is just complicated enough that your standard bash commands start to fail you.  You (if you are like me) begin to slowly realize with dread that you will have to go get the big guns: awk, sed, and others.  Granted, it would probably make you a better person to have a confident control of those commands.  That being said, I do not.  I’m cool with <code class="highlighter-rouge">ls, cd, pwd</code>.  Me and <code class="highlighter-rouge">cat and echo</code> are buddies.  <code class="highlighter-rouge">Grep and find</code> come over for dinner once a month.  Beyond that, I need a couple (ten) tabs of documentation open to get much done.  Until now.</p>
 
-<p>You probably know about piping if the previous paragraph made any sense to you.  A pipe looks like this: <code>|</code>.  A pipe is the way you can pass the output of one command to the input of another.  You can do useful things such as find all of the files in the current working directory with “cheese” in their name like this: <code>ls | grep cheese</code>.  Piping is the secret to really getting big things done.  And until a little while ago, piping and Python programs were seperate in my brain.  Then I found out <strong>you can pipe in and out of Python programs</strong>.  Consider the following:</p>
+<p>You probably know about piping if the previous paragraph made any sense to you.  A pipe looks like this: <code class="highlighter-rouge">|</code>.  A pipe is the way you can pass the output of one command to the input of another.  You can do useful things such as find all of the files in the current working directory with “cheese” in their name like this: <code class="highlighter-rouge">ls | grep cheese</code>.  Piping is the secret to really getting big things done.  And until a little while ago, piping and Python programs were seperate in my brain.  Then I found out <strong>you can pipe in and out of Python programs</strong>.  Consider the following:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># flip.py</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># flip.py</span>
 
 <span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="k">def</span> <span class="nf">flip_word</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Simply takes the input string and returns the reverse.&quot;&quot;&quot;</span>
+    <span class="s">"""Simply takes the input string and returns the reverse."""</span>
     <span class="k">return</span> <span class="n">word</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span> <span class="c"># sys provides stdin that is a readable file-like object</span>
         <span class="n">word</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="c"># Each line from stdin comes with a hidden newline</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">flip_word</span><span class="p">(</span><span class="n">word</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span> <span class="c"># stdout does not add a newline like print does</span></code></pre></div>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">flip_word</span><span class="p">(</span><span class="n">word</span><span class="p">)</span><span class="o">+</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span> <span class="c"># stdout does not add a newline like print does</span></code></pre></figure>
 
 <p>Imagine for a moment that you have a file named foods.txt that contains:</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text">cheese
+<figure class="highlight"><pre><code class="language-text" data-lang="text">cheese
 soup
 steak
 sushi
 meatballs
-more sushi</code></pre></div>
+more sushi</code></pre></figure>
 
 <p>You could then do the following:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>cat foods.txt <span class="p">|</span> python flip.py <span class="p">|</span> grep ihsus
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>cat foods.txt | python flip.py | grep ihsus
 ihsus
-ihsus erom</code></pre></div>
+ihsus erom</code></pre></figure>
 
 <p>And thus, if you get stuck in bash, just bang out a quick Python program and pipe to it.</p>
 

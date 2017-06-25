@@ -37,70 +37,70 @@
 
 <h2 id="the-naive-bluntest-solution">The Naive (Bluntest) Solution</h2>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fizzbuzz</span><span class="p">(</span><span class="n">limit</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Print the numbers from 1 to limit (exclusive).</span>
-<span class="sd">    Multiples of 3 say &quot;Fizz&quot;</span>
-<span class="sd">    Multiples of 5 say &quot;Buzz&quot;</span>
-<span class="sd">    Multiples of 3 and 5 say &quot;FizzBuzz&quot;</span>
-<span class="sd">    Everything else says the number&quot;&quot;&quot;</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fizzbuzz</span><span class="p">(</span><span class="n">limit</span><span class="p">):</span>
+    <span class="s">"""Print the numbers from 1 to limit (exclusive).
+    Multiples of 3 say "Fizz"
+    Multiples of 5 say "Buzz"
+    Multiples of 3 and 5 say "FizzBuzz"
+    Everything else says the number"""</span>
     <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">limit</span><span class="p">):</span>
         <span class="c"># Do 15 first to avoid double-printing</span>
         <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">&quot;FizzBuzz&quot;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"FizzBuzz"</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">&quot;Fizz&quot;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"Fizz"</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">&quot;Buzz&quot;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"Buzz"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">fizzbuzz</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span></code></pre></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">fizzbuzz</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span></code></pre></figure>
 
 <p>This solution works, but there’s some efficiency things that we can do to clean up a few loose ends.</p>
 
 <h2 id="the-improved-if-then-solution">The Improved If-Then Solution</h2>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fizzbuzz</span><span class="p">(</span><span class="n">limit</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Same as above, but mo&#39; bettah&quot;&quot;&quot;</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fizzbuzz</span><span class="p">(</span><span class="n">limit</span><span class="p">):</span>
+    <span class="s">"""Same as above, but mo' bettah"""</span>
     <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">result</span> <span class="o">+=</span> <span class="s">&quot;Fizz&quot;</span>
-        <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">result</span> <span class="o">+=</span> <span class="s">&quot;Buzz&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="s">""</span>
+        <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">result</span> <span class="o">+=</span> <span class="s">"Fizz"</span>
+        <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">result</span> <span class="o">+=</span> <span class="s">"Buzz"</span>
         <span class="c"># Doing it this way we skip having to do 15!</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">result</span> <span class="ow">or</span> <span class="n">number</span><span class="p">)</span> <span class="c"># Short circuit or if result is not falsy</span></code></pre></div>
+        <span class="k">print</span><span class="p">(</span><span class="n">result</span> <span class="ow">or</span> <span class="n">number</span><span class="p">)</span> <span class="c"># Short circuit or if result is not falsy</span></code></pre></figure>
 
 <p>A little shorter, a little easier to read.  Let’s keep going.</p>
 
 <h2 id="less-ifs-solution">Less Ifs Solution</h2>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fizzbuzz</span><span class="p">(</span><span class="n">limit</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Fizz Buzz again!&quot;&quot;&quot;</span>
-    <span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">:</span> <span class="s">&quot;Fizz&quot;</span><span class="p">,</span>
-                <span class="mi">5</span><span class="p">:</span> <span class="s">&quot;Buzz&quot;</span><span class="p">,</span>
-                <span class="mi">15</span><span class="p">:</span> <span class="s">&quot;FizzBuzz&quot;</span><span class="p">}</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fizzbuzz</span><span class="p">(</span><span class="n">limit</span><span class="p">):</span>
+    <span class="s">"""Fizz Buzz again!"""</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="p">:</span> <span class="s">"Fizz"</span><span class="p">,</span>
+                <span class="mi">5</span><span class="p">:</span> <span class="s">"Buzz"</span><span class="p">,</span>
+                <span class="mi">15</span><span class="p">:</span> <span class="s">"FizzBuzz"</span><span class="p">}</span>
     <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">limit</span><span class="p">):</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="s">""</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">outputs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="n">key</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
-                <span class="c"># The length checks are necessary because you can&#39;t</span>
+                <span class="c"># The length checks are necessary because you can't</span>
                 <span class="c"># depend on the order of the dict results.</span>
                 <span class="c"># FizzBuzz might get overwritten as Fizz OR Buzz otherwise!</span>
                 <span class="n">result</span> <span class="o">=</span> <span class="n">value</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">result</span> <span class="ow">or</span> <span class="n">number</span><span class="p">)</span></code></pre></div>
+        <span class="k">print</span><span class="p">(</span><span class="n">result</span> <span class="ow">or</span> <span class="n">number</span><span class="p">)</span></code></pre></figure>
 
 <p>In my opinion, not better or clearer, but it has an interesting use of a dictionary which is kind of neat.  From here, you can kind of get more and more into abstract solutions, but it kind of gets Rube Goldberg-ish, seeming like a lot of work for a simplish task.  One more with a little functional pythonic twist.</p>
 
 <h2 id="listy-solution">Listy Solution</h2>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fizzbuzz</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns the fizzbuzz result for one number&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">15</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="s">&quot;FizzBuzz&quot;</span>
-    <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="s">&quot;Fizz&quot;</span>
-    <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="s">&quot;Buzz&quot;</span>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fizzbuzz</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="s">"""Returns the fizzbuzz result for one number"""</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">15</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="s">"FizzBuzz"</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="s">"Fizz"</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="s">"Buzz"</span>
     <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
 
 <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">fizzbuzz</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">)]</span>
-<span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span></code></pre></div>
+<span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span></code></pre></figure>
 
 <p>I think this is my favorite.  If you’ve got a fun solution that’s different than these, share it!  hello@assertnotmagic.com</p>
 
