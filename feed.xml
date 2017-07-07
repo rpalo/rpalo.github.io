@@ -4,11 +4,201 @@
     <title>assert_not magic?</title>
     <description>I'm currently/always doing a lot of learning, and it seems like writing it down in blog form is a good idea to help cement the things I'm learning. Also, all the cool kids are doing it.  My goal is once every two weeks or better.
 </description>
-    <link>http://example.com/</link>
-    <atom:link href="http://example.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 24 Jun 2017 20:14:53 -0700</pubDate>
-    <lastBuildDate>Sat, 24 Jun 2017 20:14:53 -0700</lastBuildDate>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Thu, 06 Jul 2017 20:16:27 -0700</pubDate>
+    <lastBuildDate>Thu, 06 Jul 2017 20:16:27 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Vue on Django, Part 3</title>
+        <description>&lt;p&gt;This is Part 3 of my tutorial for making a Vue app powered by a Django REST backend.  In the first part, we set up just the Vue side.  In Part 2, we set up the data model and got it so we could create and clear our Todos in the browser.  Part 3 is going to be setting up the Django backend.  Initially, this was going to be the last part, and I was going to include the work required to make the front-end API calls to fetch and update the data on the server side.  And then as I looked at the changes that I had made, I realized that that was way too much information for a single post.  So, you get to have a shorter Part 3 and an additional and pretty short Part 4.  Lucky you!  Tutorial, now with 33% more posts!  This section will assume that you’ve got a working knowledge of Django or, at the very least, have gone through their &lt;a href=&quot;https://docs.djangoproject.com/en/1.11/intro/tutorial01/&quot;&gt;Polls Tutorial&lt;/a&gt;, or at the very very least, aren’t scared to Google your way through a tough spot.  If you think I should do a basic tutorial on Django, let me know.  I’d be happy to, since usually I learn things way better when I write a blog post about it.  Anyways, too much rambling.  Let’s &lt;strong&gt;DO THIS.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;0-the-setup&quot;&gt;0. The Setup&lt;/h2&gt;
+
+&lt;p&gt;Ok, I’m going to make a few assumptions about things.  First, I’m going to assume that you’ve been following along with the series.  Go back and run through &lt;a href=&quot;/2017/06/20/vue-on-django-part-1&quot;&gt;Part 1&lt;/a&gt; and &lt;a href=&quot;/2017/06/24/vue-on-django-part-2&quot;&gt;Part 2&lt;/a&gt; if you haven’t.  That wil get you setup with with the project file structure we’re working with.  I’m also going to assume you’re using Python 3 (or are comfortable making the transitions between the two – there shouldn’t be much of a difference).  First, we are going to need a virtual environment to keep our lives sane.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;python3 -m venv .venv
+&lt;span class=&quot;c&quot;&gt;# Create a virtual environment in the .venv/ directory&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; .venv/bin/activate &lt;span class=&quot;c&quot;&gt;# Mac or Linux&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;.venv/Scripts/activate &lt;span class=&quot;c&quot;&gt;# Windows&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Don’t forget to add the &lt;code class=&quot;highlighter-rouge&quot;&gt;.venv&lt;/code&gt; directory to your &lt;code class=&quot;highlighter-rouge&quot;&gt;.gitignore&lt;/code&gt; file if you’re into that kind of thing.  If you accidentally commit your virtual environment, you’ll hate life.  If &lt;code class=&quot;highlighter-rouge&quot;&gt;which pip&lt;/code&gt; points you to &lt;code class=&quot;highlighter-rouge&quot;&gt;/path/to/your/todoapp/.venv/pip.exe&lt;/code&gt;, you’re doing it right.  OK, let’s install the required packages.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;pip install django djangorestframework
+...
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;pip freeze | tee requirements.txt &lt;span class=&quot;c&quot;&gt;# Just so we can see them.&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;Django&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;1.11.2
+&lt;span class=&quot;nv&quot;&gt;djangorestframework&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;3.6.3
+&lt;span class=&quot;nv&quot;&gt;pytz&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;2017.2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;1-setting-up-django&quot;&gt;1. Setting Up Django&lt;/h2&gt;
+
+&lt;p&gt;We’re going to have to tweedle a few things.  There’s a few things that we don’t need or are broken in the project template.  One of these days I’ll open a pull request, but for now, just edit the following lines in your &lt;code class=&quot;highlighter-rouge&quot;&gt;vuedj/settings.py&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;INSTALLED_APPS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'rest_framework'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'app'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# Remove django_nose, we won't use a testing framework now.&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;python manage.py migrate
+...
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;python manage.py createsuperuser
+&lt;span class=&quot;c&quot;&gt;# Fill in the relevant info so you can login to the&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# backend in case of emergency&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;2-the-good-stuff&quot;&gt;2. The Good Stuff&lt;/h2&gt;
+
+&lt;h3 id=&quot;the-model&quot;&gt;The Model&lt;/h3&gt;
+
+&lt;p&gt;Cool.  Now we should be able to get to work.  Let’s create our model.  Open up &lt;code class=&quot;highlighter-rouge&quot;&gt;app/models.py&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.db&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Todo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CharField&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;max_length&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__str__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Todo: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Luckily, we have chosen a very simple object to model.  Not exciting if you’re coming from a Django background though.  Let’s get to the good stuff.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-serializer&quot;&gt;The Serializer&lt;/h3&gt;
+
+&lt;p&gt;Create &lt;code class=&quot;highlighter-rouge&quot;&gt;app/serializers.py&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;.models&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Todo&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;rest_framework&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;serializers&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TodoSerializer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;serializers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ModelSerializer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Meta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Todo&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;fields&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If you’re familiar with &lt;a href=&quot;https://docs.djangoproject.com/en/1.11/topics/class-based-views/&quot;&gt;Class Based Views&lt;/a&gt; this should look similar.  Most of the heavy lifting is already in the base class provided by the Django Rest Framework (henceforth referred to as DRF because I’m lazy).  A serializer is the workhorse of the app, outputting the JSON needed by any good JSON-based REST framework.  How does it get used though?&lt;/p&gt;
+
+&lt;h3 id=&quot;the-views&quot;&gt;The Views&lt;/h3&gt;
+
+&lt;p&gt;Let’s take a look at &lt;code class=&quot;highlighter-rouge&quot;&gt;app/views.py&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.shortcuts&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;render&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.http&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HttpResponse&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;rest_framework&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewsets&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;rest_framework.decorators&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list_route&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;.models&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Todo&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;.serializers&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TodoSerializer&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'index.html'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TodoViewSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewsets&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ModelViewSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;queryset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Todo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;serializer_class&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TodoSerializer&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@list_route&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;methods&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'delete'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;clear_todos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;todos&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Todo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HttpResponse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# It may be a good idea here to return [].  Not sure.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;index&lt;/code&gt; view, we’ll use later to display our Vue awesomeness.  The DRF ModelViewSet provides the standard REST list, create, retrieve, update, and destroy functionality and ties it to the model.  It uses the Serializer we created in &lt;code class=&quot;highlighter-rouge&quot;&gt;serializers.py&lt;/code&gt; to create the output.  You’ll notice that we had to create an additional action since &lt;code class=&quot;highlighter-rouge&quot;&gt;delete many&lt;/code&gt; is not usually a standard REST call.  &lt;code class=&quot;highlighter-rouge&quot;&gt;rest_framework&lt;/code&gt; provides two decorators for adding additional methods to a viewset: the &lt;code class=&quot;highlighter-rouge&quot;&gt;@detail_route&lt;/code&gt; and the &lt;code class=&quot;highlighter-rouge&quot;&gt;@list_route&lt;/code&gt; depending on whether you want to operate on one or many items.  As you can see, we simply delete all Todos in a splendidly Django-esque fashion.  The name of this method (&lt;code class=&quot;highlighter-rouge&quot;&gt;clear_todos&lt;/code&gt;) will come into play later in our URLs.  Speaking of which:&lt;/p&gt;
+
+&lt;h3 id=&quot;the-urls&quot;&gt;The URLs&lt;/h3&gt;
+
+&lt;p&gt;Open up &lt;code class=&quot;highlighter-rouge&quot;&gt;vuedj/urls.py&lt;/code&gt;.  I know usually we create specific urls for our app, but we’re skipping that for simplicity.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.conf.urls&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;include&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;rest_framework&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;routers&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;app&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;views&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;router&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;routers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SimpleRouter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;router&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r'todos'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;views&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TodoViewSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;urlpatterns&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r'^$'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;views&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'home'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;r'^'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;router&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;urls&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)),&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Similar to &lt;code class=&quot;highlighter-rouge&quot;&gt;views.py&lt;/code&gt;, we create a route to our &lt;code class=&quot;highlighter-rouge&quot;&gt;index&lt;/code&gt; view, and we use the &lt;code class=&quot;highlighter-rouge&quot;&gt;SimpleRouter&lt;/code&gt; to create all of the REST url routes we need.  Note that we register our viewset with a &lt;code class=&quot;highlighter-rouge&quot;&gt;basename&lt;/code&gt; of &lt;code class=&quot;highlighter-rouge&quot;&gt;todos&lt;/code&gt;.  This affects all of the urls, which you can see in the beautiful table in the &lt;a href=&quot;http://www.django-rest-framework.org/api-guide/routers/#simplerouter&quot;&gt;DRF docs&lt;/a&gt;.  Note that our extra view &lt;code class=&quot;highlighter-rouge&quot;&gt;clear_todos&lt;/code&gt; gets the route &lt;code class=&quot;highlighter-rouge&quot;&gt;todos/clear_todos&lt;/code&gt;.  We’re actually almost done!&lt;/p&gt;
+
+&lt;h2 id=&quot;3-testing-it-out&quot;&gt;3. Testing It Out&lt;/h2&gt;
+
+&lt;p&gt;Head to the terminal.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python manage.py makemigrations app
+...
+python manage.py migrate &lt;span class=&quot;c&quot;&gt;# To update the DB with the Todos table&lt;/span&gt;
+...
+python manage.py runserver
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Head on over to &lt;code class=&quot;highlighter-rouge&quot;&gt;localhost:8000&lt;/code&gt;.  Blammo!  Template error.  That’s fine, because we know that our Vue app is going to be served via our &lt;code class=&quot;highlighter-rouge&quot;&gt;index&lt;/code&gt; view, and we haven’t quite tied that up yet.  Head to &lt;code class=&quot;highlighter-rouge&quot;&gt;localhost:8000/todos/&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/behold.gif&quot; alt=&quot;BEHOLD&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You see a nice API reference.  At the bottom you can POST some todos.  Do that now.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/vue-django-todo-api.png&quot; alt=&quot;Successful API&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If you don’t see multiple todos, try clicking in the url bar and hitting enter (to revisit without resubmitting any POST requests).  You should see your todos!  To test our &lt;code class=&quot;highlighter-rouge&quot;&gt;clear_todos&lt;/code&gt; route, it will be a little tougher because we made it expect a DELETE request only, which is difficult to do in a browser (as far as I know).  Open up a separate terminal.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;python3&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;requests&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# pip3 install requests if you haven't yet&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;requests&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'http://localhost:8000/todos/clear_todos/'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Response&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# Success!&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Head back and refresh your API page and your Todos are gone!  Huzzah!  You now have a working API that we’ll hit with our front-end in the next and final post.  Go team!&lt;/p&gt;
+
+&lt;h2 id=&quot;4-the-wrap-up&quot;&gt;4. The Wrap-Up&lt;/h2&gt;
+
+&lt;p&gt;So hopefully I didn’t go to fast.  We basically crushed through a Django app at the speed of light.  The &lt;a href=&quot;http://www.django-rest-framework.org/&quot;&gt;DRF documentation&lt;/a&gt; is the &lt;a href=&quot;https://www.youtube.com/watch?v=pCB3kGVc9ic&quot;&gt;knees of the bees&lt;/a&gt;, so if you want to know more, that’s the first place you should go.  Like I said at the beginning, let me know if a basic Django set of tutorials would be helpful or if you have any other questions with any of this.  OR let me know if I did something that could be done better or if I’m spreading something other than best practices!&lt;/p&gt;
+
+&lt;p&gt;See you in the next one!&lt;/p&gt;
+</description>
+        <pubDate>Thu, 06 Jul 2017 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2017/07/06/vue-on-django-part-3.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/06/vue-on-django-part-3.html</guid>
+        
+        <category>vue</category>
+        
+        <category>django</category>
+        
+        <category>es6</category>
+        
+        <category>tutorial</category>
+        
+        
+      </item>
     
       <item>
         <title>Vue on Django, Part 2</title>
@@ -190,8 +380,8 @@
 &lt;p&gt;Like before, I’m pretty much writing this as I learn the things, so if I do something wrong or you’ve got a better way, let me know about it.  Stay tuned for Part 3!&lt;/p&gt;
 </description>
         <pubDate>Sat, 24 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/06/24/vue-on-django-part-2.html</link>
-        <guid isPermaLink="true">http://example.com/2017/06/24/vue-on-django-part-2.html</guid>
+        <link>http://localhost:4000/2017/06/24/vue-on-django-part-2.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/06/24/vue-on-django-part-2.html</guid>
         
         <category>vue</category>
         
@@ -362,8 +552,8 @@
 &lt;p&gt;As a note, this is my first time really using ES6-type syntax for the front-end, my first time using Vue, Webpack, ESLint, and my first time really using npm scripts and node_modules.  If you see any ways that I’m Doing It Wrong™, let me know (gently, please 😁).&lt;/p&gt;
 </description>
         <pubDate>Tue, 20 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/06/20/vue-on-django-part-1.html</link>
-        <guid isPermaLink="true">http://example.com/2017/06/20/vue-on-django-part-1.html</guid>
+        <link>http://localhost:4000/2017/06/20/vue-on-django-part-1.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/06/20/vue-on-django-part-1.html</guid>
         
         <category>vue</category>
         
@@ -429,8 +619,8 @@
 &lt;p&gt;Long story short, Jupyter Notebooks are &lt;strong&gt;The Business&lt;/strong&gt;.  &lt;a href=&quot;http://jupyter.org/install.html&quot;&gt;Get it today.&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 13 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/06/13/jupyter-notebooks-are-the-business.html</link>
-        <guid isPermaLink="true">http://example.com/2017/06/13/jupyter-notebooks-are-the-business.html</guid>
+        <link>http://localhost:4000/2017/06/13/jupyter-notebooks-are-the-business.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/06/13/jupyter-notebooks-are-the-business.html</guid>
         
         <category>python</category>
         
@@ -638,8 +828,8 @@
 &lt;p&gt;Anyways anyways, if you have any questions about decorators (or anything else for that matter), don’t hesitate to ask me!  I’m always happy to help (even though I usually end up doing some vigorous googling before I am able to fully answer most questions).  Ditto goes for if you can explain something better than I did or have extra input. 😁&lt;/p&gt;
 </description>
         <pubDate>Mon, 05 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/06/05/unwrapping-decorators-2.html</link>
-        <guid isPermaLink="true">http://example.com/2017/06/05/unwrapping-decorators-2.html</guid>
+        <link>http://localhost:4000/2017/06/05/unwrapping-decorators-2.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/06/05/unwrapping-decorators-2.html</guid>
         
         <category>python</category>
         
@@ -782,8 +972,8 @@
 &lt;p&gt;&lt;img src=&quot;/img/cliffhanger.gif&quot; alt=&quot;Dog mashing keyboard pillow&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 30 May 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/05/30/unwrapping-decorators-1.html</link>
-        <guid isPermaLink="true">http://example.com/2017/05/30/unwrapping-decorators-1.html</guid>
+        <link>http://localhost:4000/2017/05/30/unwrapping-decorators-1.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/05/30/unwrapping-decorators-1.html</guid>
         
         <category>python</category>
         
@@ -859,8 +1049,8 @@
 &lt;/blockquote&gt;
 </description>
         <pubDate>Mon, 29 May 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/05/29/microdecisions.html</link>
-        <guid isPermaLink="true">http://example.com/2017/05/29/microdecisions.html</guid>
+        <link>http://localhost:4000/2017/05/29/microdecisions.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/05/29/microdecisions.html</guid>
         
         <category>soft-skills</category>
         
@@ -933,8 +1123,8 @@
 &lt;p&gt;How bow dah?&lt;/p&gt;
 </description>
         <pubDate>Thu, 18 May 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/05/18/cache-me-outside.html</link>
-        <guid isPermaLink="true">http://example.com/2017/05/18/cache-me-outside.html</guid>
+        <link>http://localhost:4000/2017/05/18/cache-me-outside.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/05/18/cache-me-outside.html</guid>
         
         <category>python</category>
         
@@ -1066,8 +1256,8 @@ And the rest, after a sudden wet thud, was silence.&lt;/p&gt;
 &lt;/blockquote&gt;
 </description>
         <pubDate>Sun, 14 May 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/05/14/douglas-adams-whale.html</link>
-        <guid isPermaLink="true">http://example.com/2017/05/14/douglas-adams-whale.html</guid>
+        <link>http://localhost:4000/2017/05/14/douglas-adams-whale.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/05/14/douglas-adams-whale.html</guid>
         
         <category>python</category>
         
@@ -1097,91 +1287,12 @@ And the rest, after a sudden wet thud, was silence.&lt;/p&gt;
 &lt;p&gt;So, if your commits look like a pile of &lt;code class=&quot;highlighter-rouge&quot;&gt;[rhymes with commit]&lt;/code&gt;, try writing your commit message (in your head) before you write the code.  If you have a better way, OR, if you have other tricks that would help me keep my head on straight in the long run, please share them!  I’d love to hear them.&lt;/p&gt;
 </description>
         <pubDate>Fri, 05 May 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/05/05/plan-your-commits.html</link>
-        <guid isPermaLink="true">http://example.com/2017/05/05/plan-your-commits.html</guid>
+        <link>http://localhost:4000/2017/05/05/plan-your-commits.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/05/05/plan-your-commits.html</guid>
         
         <category>tricks</category>
         
         <category>git</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Fanbot, and Doing New Things Right</title>
-        <description>&lt;p&gt;I came up with a project about a week ago, and before I started, I decided that, regardless of who else sees it, I wanted to do things the &lt;em&gt;right&lt;/em&gt; way.  The main purpose of this post is to lay things out and get some feedback (hopefully) on things that I could do right-er.  There are a few things in particular I wanted to highlight about the project as well: the structure, the tests, using the Twitter API, and another cool Python package.  I’ll try to keep it relatively short for everyone’s sanity.&lt;/p&gt;
-
-&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
-
-&lt;p&gt;The project is called &lt;a href=&quot;https://github.com/rpalo/fanbot&quot;&gt;FanBot&lt;/a&gt;.  It’s a pretty simple Python bot that runs continuously and can tweet random compliments at a target user.  Additionally, I just finished a feature that allows someone to tweet @ the bot, which prompts it to compliment the target user quasi-immediately (in addition to its standard daily compliment).  Right now the deployment isn’t anything fancy, because the application is whatever the opposite of critical is.  I just set it running on a &lt;a href=&quot;https://pythonanywhere.com&quot;&gt;PythonAnywhere&lt;/a&gt; shell and restart it manually whenever they bounce their servers.  I know I could do more if I wanted.  In this aspect, I don’t really see the need.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-structure&quot;&gt;The Structure&lt;/h2&gt;
-
-&lt;p&gt;In terms of “doing things right,” I made sure to setup the project from the beginning as a git repository.  It’s got a LICENCE file, a .gitignore file, requirements.txt (for those who don’t Python, this is similar to a Gemfile in Ruby or a package.json in JavaScript), a tests directory, and a project directory.  There is also a sample main user file, &lt;code class=&quot;highlighter-rouge&quot;&gt;main.py&lt;/code&gt;.  I made sure my README has short but effective sections including Features, Installation and Use Instructions, Contribution suggestions, and a Code of Conduct.  I’m not sure how much I’ll need to use the last two, but if I’m going to &lt;strong&gt;do things right&lt;/strong&gt;, I’m going to &lt;strong&gt;do things right&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-tests&quot;&gt;The Tests&lt;/h2&gt;
-
-&lt;p&gt;It took me a bit to get the tests all hooked up right since this is one of the first projects I was determined to do via a relaxed version of Test-Driven Development.  I went with Pytest.  Within my tests directory is an &lt;code class=&quot;highlighter-rouge&quot;&gt;__init__.py&lt;/code&gt; file (blank) and a &lt;code class=&quot;highlighter-rouge&quot;&gt;test_fanbot.py&lt;/code&gt; file.  As I add more functionality, I may have to break that into multiple test modules.  The nice thing about using Pytest is that I don’t have to pull any shenanigans with the python path.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;fanbot&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fanbot&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# i.e. from .. (top level) import fanbot&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TestFanBot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Tests for the FanBot class&quot;&quot;&quot;&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;test_example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;assert&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
-
-    &lt;span class=&quot;c&quot;&gt;# Actual tests...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Pytest’s autodetection makes everything work, and you can use simple assertion statements.  I actually had trouble because it was significantly simpler than I thought it was supposed to be.&lt;/p&gt;
-
-&lt;h2 id=&quot;twitter-api&quot;&gt;Twitter API&lt;/h2&gt;
-
-&lt;p&gt;The Twitter API is suuuuuper easy to use once you get into it.  You can find the basic instructions within the project README or by googling “twitter api python”.  There are also several good Python Twitter API clients that simplify things.  I used &lt;a href=&quot;http://tweepy.readthedocs.io/en/v3.5.0/getting_started.html&quot;&gt;Tweepy&lt;/a&gt;, and Tweepy’s documentation will help you get started as well.  Once you’ve authenticated, you can basically ask for whatever you want.  Just be prepared for printing anything to the terminal to basically be pointless, due to the sheer volume of information.&lt;/p&gt;
-
-&lt;p&gt;This is the example from the Tweepy Getting Started page.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tweepy&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tweepy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OAuthHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;consumer_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;consumer_secret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;set_access_token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;access_token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;access_token_secret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;api&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tweepy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;API&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# This is the cool tech hipster way to check your twitter&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;public_tweets&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;api&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;home_timeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tweet&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;public_tweets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tweet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h2 id=&quot;schedule&quot;&gt;Schedule&lt;/h2&gt;
-
-&lt;p&gt;OK.  Last thing, I promise.  I made strong use of the &lt;code class=&quot;highlighter-rouge&quot;&gt;schedule&lt;/code&gt; package.  It was easy to just &lt;code class=&quot;highlighter-rouge&quot;&gt;pip3 install schedule&lt;/code&gt;.  They make it amazingly easy to write human-readable task scheduling.  Check it.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;schedule&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;bark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Woof&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;schedule&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;every&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;minutes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;do&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;schedule&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;every&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;days&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;12:15&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;do&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;schedule&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;run_pending&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sleep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# seconds&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;And like that, you get a barking terminal every ten minutes and/or 4 days around lunchtime.  SO.  EASY.  TO.  READ!  I love it.&lt;/p&gt;
-
-&lt;h2 id=&quot;wrap-up&quot;&gt;Wrap Up&lt;/h2&gt;
-
-&lt;p&gt;So that’s where I’m at now.  I’d like to think that I’m doing ok, but one of the downsides of being self-taught and also not having a developer job yet is the lack of a team to yell at me and show me when I’m not doing things the &lt;em&gt;right&lt;/em&gt; way.  That’s where my adoring fanbase comes in.  If you take a look and see where I’ve done something weird or bad or the harder way unnecessarily, or where I’m missing an opportunity, please let me know.  Thanks in advance!&lt;/p&gt;
-</description>
-        <pubDate>Mon, 01 May 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/05/01/fanbot-and-doing-new-things-right.html</link>
-        <guid isPermaLink="true">http://example.com/2017/05/01/fanbot-and-doing-new-things-right.html</guid>
-        
-        <category>python</category>
-        
-        <category>soft-skills</category>
         
         
       </item>
