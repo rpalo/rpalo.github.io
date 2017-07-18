@@ -6,9 +6,68 @@
 </description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 16 Jul 2017 22:38:21 -0700</pubDate>
-    <lastBuildDate>Sun, 16 Jul 2017 22:38:21 -0700</lastBuildDate>
+    <pubDate>Mon, 17 Jul 2017 18:34:05 -0700</pubDate>
+    <lastBuildDate>Mon, 17 Jul 2017 18:34:05 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Tricking Yourself into Exercising</title>
+        <description>&lt;p&gt;Let me lay out a scenario and see if it’s familiar.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Wake up, groggy because it’s early.&lt;/li&gt;
+  &lt;li&gt;Maybe have a quick breakfast and head to work.&lt;/li&gt;
+  &lt;li&gt;Work hard (ish), getting stuff done and taking names.  Basically, &lt;strong&gt;CRUSH IT&lt;/strong&gt;.&lt;/li&gt;
+  &lt;li&gt;Get off work and head home.&lt;/li&gt;
+  &lt;li&gt;Get home, tired from working so hard (ish).  &lt;strong&gt;CRUSHING IT&lt;/strong&gt; takes lots of focus and energy!&lt;/li&gt;
+  &lt;li&gt;Because you’re tired and worked so hard, reward yourself by laying on the couch and watching Netflix for a little while (or 4 hours of binging).  Substitute video games, cable, reading a book, knitting, or napping to taste.&lt;/li&gt;
+  &lt;li&gt;Have some dinner (stopping Netflix, optional).&lt;/li&gt;
+  &lt;li&gt;Maybe do some hobby stuff before the end of the day.  Depending on how good the Netflix binging is going, keep doing that.&lt;/li&gt;
+  &lt;li&gt;Go to bed, on time… or possibly late.&lt;/li&gt;
+  &lt;li&gt;GOTO 1.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;If this happens to you more often than you’d like to admit, then you and me have that in common.  I’m tired from work!  &lt;strong&gt;IT&lt;/strong&gt; doesn’t really &lt;strong&gt;CRUSH&lt;/strong&gt; &lt;strong&gt;IT&lt;/strong&gt;self, you know.  So when I get home from work, the last thing I feel like doing is working out.  This is bad because my work is pretty sedentary, and working out is what I need to do.  The cycle of work, sleep, laze, hate self for not exercising, hate that the hate is not strong enough to get me to actually exercise, repeat is a rough one.  But last week, I discovered a way out.  It works pretty well, and I wanted to share it!&lt;/p&gt;
+
+&lt;h1 id=&quot;exercise-immediately-after-you-wake-up&quot;&gt;Exercise Immediately After You Wake Up&lt;/h1&gt;
+
+&lt;p&gt;You heard me.  Not like “have a nice breakfast and get ready to exercise.”  Nay.  The night before, set out everything you’ll need to go on a run or lift or whatever you prefer.  Running shoes.  Socks.  If you’re the jammie-wearing sort, wear clean workout clothes as jammies&lt;sup id=&quot;s1&quot;&gt;&lt;a href=&quot;#f1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.  When you wake up (maybe 20 minutes earlier than usual), roll out of bed and put on your gear and get to it immediately.  I have found that currently I can run about a mile and a half loop before I poop out.  This will improve hopefully.  Just do what you can do, but don’t kill yourself.  You want to feel like doing it again tomorrow and the next day and the next day and the…&lt;/p&gt;
+
+&lt;p&gt;But, I can jump right in the shower and head to work.  And the best part?  Since all of this happened between the time of bed and the time of shower, I remember nothing.  I’m not awake yet!  Still asleep, brain-wise.  But my Fitbit says I’ve got steps and burned calories.  And I get to skip the self-loathing that usually comes with not exercising!  🌚&lt;/p&gt;
+
+&lt;h1 id=&quot;caveat&quot;&gt;Caveat&lt;/h1&gt;
+
+&lt;p&gt;The first day, you’ll be pumped to do it.  It will go great and you will feel great.  The second day you will be groggy, but your excitement over being one of the people that exercises will keep you going.  Days 3-5 will be rough, though.  Stick to it.  The bad feels of tiredness/soreness diminish eventually, and the good feels from taking care of your body don’t!&lt;/p&gt;
+
+&lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
+
+&lt;p&gt;Anyways, that’s just been my experience.  I don’t know if I’m actually dropping the babyfat, but I’d like to think so.  If you have any other protips to make it easier to exercise, let me know.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Train while your enemy sleeps.
+Bonus points if your enemy is lazy you.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;— Me, probably.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;sup id=&quot;f1&quot;&gt;1&lt;/sup&gt;I’m a grown man who consistently says “jammies”.  Whatever.  Don’t judge me.&lt;a href=&quot;#s1&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 17 Jul 2017 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2017/07/17/tricking-yourself-into-exercising.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/17/tricking-yourself-into-exercising.html</guid>
+        
+        <category>exercise</category>
+        
+        <category>tricks</category>
+        
+        <category>fitness</category>
+        
+        
+      </item>
     
       <item>
         <title>Vue on Django, Part 4</title>
@@ -1339,143 +1398,6 @@ python manage.py runserver
         <category>python</category>
         
         <category>tricks</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Douglas Adams's Whale</title>
-        <description>&lt;h2 id=&quot;intro&quot;&gt;Intro&lt;/h2&gt;
-
-&lt;p&gt;I think it is important to find ways that your background or experience specifically help you to stand out in any given group.  If you can pinpoint those areas, the group can optimize its tool set and have a better idea of who would be best suited to a specific task.  Personally, while programming is one of my favorite pastimes, I have a degree in Mechanical Engineering and some experience teaching Calculus and Physics.  Because of this, I thought I would share some insight into an area that I know everyone has some questions about: the whale in Douglas Adams’s &lt;em&gt;Hitchhiker’s Guide to the Galaxy&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;What whale, you ask?  In chapter 18, two missiles get randomly transformed into a whale and a potted plant, respectively.  Here’s the excerpt:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Another thing that got forgotten was the fact that against all probability a sperm whale had suddenly been called into existence several miles above the surface of an alien planet.
-And since this is not a naturally tenable position for a whale, this poor innocent creature had very little time to come to terms with its identity as a whale before it then had to come to terms with not being a whale any more.
-This is a complete record of its thoughts from the moment it began its life till the moment it ended it.
-Ah … ! What’s happening? it thought.
-[…]
-And wow! Hey! What’s this thing suddenly coming towards me very fast? Very very fast. So big and flat and round, it needs a big wide sounding name like … ow … ound … round … ground! That’s it! That’s a good name – ground!
-I wonder if it will be friends with me?
-And the rest, after a sudden wet thud, was silence.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;This excerpt leads me to ask: can we simulate it?  With a little help from Python, we can find out.  I’m going to write this assuming the reader has a working knowledge of basic programming principles and what the difference between the Imperial and Metric system are, but has very little physics background beyond that.  Although I’m generally more comfortable using Imperial units like feet and pounds, I’m going to stick to metric units this time, for the sanity of our international friends and because the math works out a little easier.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-forces-involved&quot;&gt;The Forces Involved&lt;/h2&gt;
-
-&lt;p&gt;Let’s start with the forces at play here.  Basically, the only two I’m going to worry about are gravity acting on the whale and drag working against the whale as it falls.  Let’s assume this whale is falling from a geosynchronus orbit (orbit in space that would allow it to keep pace as the earth rotates) – approximately &lt;a href=&quot;https://en.wikipedia.org/wiki/Geostationary_orbit&quot;&gt;3.5786 x 10^7 meters elevation&lt;/a&gt;.  For those that are interested, I’m going to plop the only real in-depth equation here.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/whale-sketch.JPG&quot; alt=&quot;Sketch of Forces&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Turning the equations into code isn’t super difficult.  We just need to fill in some of the variables above first.  Since getting data on an alien planet and alien whale is more difficult, let’s use Earth and an Earthly Blue Whale.  The mass of the earth is roughly &lt;a href=&quot;https://en.wikipedia.org/wiki/Earth&quot;&gt;5.97 x 10^24 kg&lt;/a&gt;, and its radius is approximately &lt;a href=&quot;https://en.wikipedia.org/wiki/Earth&quot;&gt;6.37 million meters&lt;/a&gt;.  Blue whales live in the region between about &lt;a href=&quot;https://en.wikipedia.org/wiki/Blue_whale&quot;&gt;80-120 metric tons&lt;/a&gt;.  To make the math nice, let’s use 100 (100,000 kg).  Fun fact: the largest known dinosaur came in at around &lt;a href=&quot;https://en.wikipedia.org/wiki/Blue_whale&quot;&gt;90 metric tons&lt;/a&gt;!  Anyways, with these constants, and the Universal Gravitational Constant – &lt;a href=&quot;https://en.wikipedia.org/wiki/Gravitational_constant&quot;&gt;6.674 x 10^-11 m^3/kg s^2&lt;/a&gt; – let’s turn this into code.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;gravity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;altitude&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Returns the force of gravity [N] at a given altitude [m]&quot;&quot;&quot;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;earth_mass&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;5.972e24&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# [kg]&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;earth_radius&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;6.367e6&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# [m]&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;whale_mass&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100000&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# [kg]&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;universal_grav_constant&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;6.67384e-11&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# [m^3/kg s^2]&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;radius&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;altitude&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;earth_radius&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# [m]&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;# Assumption: the 'radius' of the whale is negligible compared to&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;# the other sizes involved&lt;/span&gt;
-
-    &lt;span class=&quot;c&quot;&gt;# Here's the important bit:&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;universal_grav_constant&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;whale_mass&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;earth_mass&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;radius&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Drag gets a little more interesting.  Because there is a startling lack of data on the aerodynamic characteristics of belly-flopping whales, we’ll assume the whale is diving towards the ground head-first.  &lt;a href=&quot;http://jeb.biologists.org/content/jexbio/214/1/131.full.pdf&quot;&gt;This article&lt;/a&gt; is chock-full of informational goodies, such as the drag coefficient of a swimming whale (0.05) and the approximate projected cross-sectional area (10 m^2).  The projected cross-sectional area is sort-of like the size of the shadow the whale would cast if light was shone on it head-on.&lt;/p&gt;
-
-&lt;p&gt;It is important to note that the density of the atmosphere decreases with elevation, but not in a nice linear fashion.  We’ll need to model the following relationship in our code (approximately):&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/whale-density.gif&quot; alt=&quot;Density Graph&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;In order to keep your interest, I’ll do some handwaving and leave that code out.&lt;/p&gt;
-
-&lt;p&gt;Here is the code for drag:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;drag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;altitude&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;velocity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Given altitude [m] and velocity [m/s], outputs the force of drag [N]&quot;&quot;&quot;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;whale_drag_coefficient&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.05&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# [unitless]&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;whale_crossectional_area&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# [m^2]&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;whale_drag_coefficient&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;density&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;altitude&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# VIGOROUS HAND-WAVING!&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;whale_crossectional_area&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;velociy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
-
-     &lt;span class=&quot;c&quot;&gt;# Drag always is opposite of the direction of motion.&lt;/span&gt;
-     &lt;span class=&quot;c&quot;&gt;# i.e. if whale falls down, drag is up and vice versa&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;velocity&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Great!  Two more steps before we get results.  First is to get acceleration of the whale.  Good ole’ &lt;code class=&quot;highlighter-rouge&quot;&gt;F = m * a&lt;/code&gt;.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;net_acceleration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;altitude&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;velocity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Sums all forces to calculate a net acceleration for next step.&quot;&quot;&quot;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;gravity_force&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gravity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;altitude&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# [N]&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;drag_force&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;drag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;altitude&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;velocity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# [N]&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;net_force&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;drag_force&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gravity_force&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# [N] assuming gravity is down.&lt;/span&gt;
-    
-    &lt;span class=&quot;c&quot;&gt;# Since F=ma, a = F/m!&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;acceleration&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;net_force&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;WHALE_MASS&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# [m/s^2]&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;acceleration&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h2 id=&quot;the-simulation&quot;&gt;The Simulation&lt;/h2&gt;
-
-&lt;p&gt;Now we need to simulate the whole fall.  We’ll do this by getting each data point one by one.  If we know altitude and velocity at a given time, we can find acceleration with the function above.  In order to get the next velocity and position from a given acceleration, we’ll need the following function:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;integrate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;acceleration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_velocity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_altitude&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;timestep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Gets future velocity and position from a given acceleration&quot;&quot;&quot;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;new_velocity&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_velocity&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;acceleration&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;timestep&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# Sort of a y = mx + b situation&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;new_altitude&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_altitude&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_velocity&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;timestep&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# Same, but for altitude&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;new_velocity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;new_position&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;This set of code is probably the least intuitive, but it basically boils down to the idea that if you go 20 miles per hour for 6 hours, you will have travelled 120 total miles (20 * 6).  Blah blah blah science handwaving.  You can see the full code and comments &lt;a href=&quot;https://github.com/rpalo/whale-drop&quot;&gt;here&lt;/a&gt;.  I’m still working on cleaning it up and factoring out the constants.  Let’s get to the whale.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-results&quot;&gt;The Results&lt;/h2&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;matplotlib&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pyplot&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pandas&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pd&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;results&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read_csv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;results.csv&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Time&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Height&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/whale-height-plot.png&quot; alt=&quot;Graph of height vs time&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Looks pretty much like we would expect.  First he was up.  Then he came down and it was fast.  So?  Let’s look at the forces he felt.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;n&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Force&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Acceleration&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100000&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# whale mass [kg]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Time&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Force&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/whale-force-time-plot.png&quot; alt=&quot;Graph of force vs time&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Woah!  Let’s get a better look at that spike.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/whale-force-impact.png&quot; alt=&quot;Zoomed in plot of force&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;You can see he is feeling some crazy gravitational forces in the downward direction until WHAMMO!  Checking the height of the whale right around this point shows that he’s where we are splitting the upper and lower Stratosphere: &lt;a href=&quot;https://www.grc.nasa.gov/WWW/K-12/airplane/atmosmet.html&quot;&gt;~25000 m&lt;/a&gt;.  Basically, our whale is faceplanting onto our atmosphere.  Realistically, I’m pretty sure that, if our whale hadn’t burned up already, we would have a localized whale-splosion and whale-shower.&lt;/p&gt;
-
-&lt;p&gt;So that’s it for now.  That’s probably all you can stand.  For future work, I recommend evaluating the heat generated from drag and estimating the ignition point of an airborne sea mammal to find out if he disintegrates or explodes first.  Too gruesome?  Yeah, probably.  Don’t worry.  He had a very exciting time on the way down.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Never mind, hey, this is really exciting, so much to find out about, so much to look forward to, I’m quite dizzy with anticipation! - The Whale&lt;/p&gt;
-&lt;/blockquote&gt;
-</description>
-        <pubDate>Sun, 14 May 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/05/14/douglas-adams-whale.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/05/14/douglas-adams-whale.html</guid>
-        
-        <category>python</category>
-        
-        <category>physics</category>
-        
-        <category>fun</category>
-        
-        <category>scientific</category>
         
         
       </item>
