@@ -4,10 +4,10 @@
     <title>assert_not magic?</title>
     <description>I'm currently/always doing a lot of learning, and it seems like writing it down in blog form is a good idea to help cement the things I'm learning. Also, all the cool kids are doing it.  My goal is once every two weeks or better.
 </description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 23 Jul 2017 16:32:27 -0700</pubDate>
-    <lastBuildDate>Sun, 23 Jul 2017 16:32:27 -0700</lastBuildDate>
+    <link>http://example.com/</link>
+    <atom:link href="http://example.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 23 Jul 2017 17:06:10 -0700</pubDate>
+    <lastBuildDate>Sun, 23 Jul 2017 17:06:10 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
     
       <item>
@@ -123,8 +123,8 @@
 &lt;p&gt;Hopefully this post provides you a useful &lt;em&gt;service&lt;/em&gt;!  (Womp womp womp)&lt;/p&gt;
 </description>
         <pubDate>Sun, 23 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/07/23/script-as-a-service.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/07/23/script-as-a-service.html</guid>
+        <link>http://example.com/2017/07/23/script-as-a-service.html</link>
+        <guid isPermaLink="true">http://example.com/2017/07/23/script-as-a-service.html</guid>
         
         <category>python</category>
         
@@ -182,8 +182,8 @@ Bonus points if your enemy is lazy you.&lt;/p&gt;
 &lt;p&gt;&lt;sup id=&quot;f1&quot;&gt;1&lt;/sup&gt;I’m a grown man who consistently says “jammies”.  Whatever.  Don’t judge me.&lt;a href=&quot;#s1&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 17 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/07/17/tricking-yourself-into-exercising.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/07/17/tricking-yourself-into-exercising.html</guid>
+        <link>http://example.com/2017/07/17/tricking-yourself-into-exercising.html</link>
+        <guid isPermaLink="true">http://example.com/2017/07/17/tricking-yourself-into-exercising.html</guid>
         
         <category>exercise</category>
         
@@ -390,8 +390,8 @@ Bonus points if your enemy is lazy you.&lt;/p&gt;
 &lt;p&gt;This has been a long one, and hopefully I didn’t miss anything.  Since I spaced the posts out (which I regret), I had to play some games with reminding myself what changed from Part to Part.  So, if something doesn’t work or is broken, let me know and I’ll see if I can find where I went wrong.  I added my final project folder &lt;a href=&quot;https://github.com/rpalo/vue-django-example&quot;&gt;on GitHub&lt;/a&gt; so you can search for discrepancies to aid in debugging.  Thanks for sticking with me!&lt;/p&gt;
 </description>
         <pubDate>Sun, 16 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/07/16/vue-on-django-part-4.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/07/16/vue-on-django-part-4.html</guid>
+        <link>http://example.com/2017/07/16/vue-on-django-part-4.html</link>
+        <guid isPermaLink="true">http://example.com/2017/07/16/vue-on-django-part-4.html</guid>
         
         <category>vue</category>
         
@@ -580,8 +580,8 @@ python manage.py runserver
 &lt;p&gt;See you in the next one!&lt;/p&gt;
 </description>
         <pubDate>Thu, 06 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/07/06/vue-on-django-part-3.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/07/06/vue-on-django-part-3.html</guid>
+        <link>http://example.com/2017/07/06/vue-on-django-part-3.html</link>
+        <guid isPermaLink="true">http://example.com/2017/07/06/vue-on-django-part-3.html</guid>
         
         <category>vue</category>
         
@@ -774,8 +774,8 @@ python manage.py runserver
 &lt;p&gt;Like before, I’m pretty much writing this as I learn the things, so if I do something wrong or you’ve got a better way, let me know about it.  Stay tuned for Part 3!&lt;/p&gt;
 </description>
         <pubDate>Sat, 24 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/06/24/vue-on-django-part-2.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/06/24/vue-on-django-part-2.html</guid>
+        <link>http://example.com/2017/06/24/vue-on-django-part-2.html</link>
+        <guid isPermaLink="true">http://example.com/2017/06/24/vue-on-django-part-2.html</guid>
         
         <category>vue</category>
         
@@ -946,8 +946,8 @@ python manage.py runserver
 &lt;p&gt;As a note, this is my first time really using ES6-type syntax for the front-end, my first time using Vue, Webpack, ESLint, and my first time really using npm scripts and node_modules.  If you see any ways that I’m Doing It Wrong™, let me know (gently, please 😁).&lt;/p&gt;
 </description>
         <pubDate>Tue, 20 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/06/20/vue-on-django-part-1.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/06/20/vue-on-django-part-1.html</guid>
+        <link>http://example.com/2017/06/20/vue-on-django-part-1.html</link>
+        <guid isPermaLink="true">http://example.com/2017/06/20/vue-on-django-part-1.html</guid>
         
         <category>vue</category>
         
@@ -1013,8 +1013,8 @@ python manage.py runserver
 &lt;p&gt;Long story short, Jupyter Notebooks are &lt;strong&gt;The Business&lt;/strong&gt;.  &lt;a href=&quot;http://jupyter.org/install.html&quot;&gt;Get it today.&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 13 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/06/13/jupyter-notebooks-are-the-business.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/06/13/jupyter-notebooks-are-the-business.html</guid>
+        <link>http://example.com/2017/06/13/jupyter-notebooks-are-the-business.html</link>
+        <guid isPermaLink="true">http://example.com/2017/06/13/jupyter-notebooks-are-the-business.html</guid>
         
         <category>python</category>
         
@@ -1222,8 +1222,8 @@ python manage.py runserver
 &lt;p&gt;Anyways anyways, if you have any questions about decorators (or anything else for that matter), don’t hesitate to ask me!  I’m always happy to help (even though I usually end up doing some vigorous googling before I am able to fully answer most questions).  Ditto goes for if you can explain something better than I did or have extra input. 😁&lt;/p&gt;
 </description>
         <pubDate>Mon, 05 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/06/05/unwrapping-decorators-2.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/06/05/unwrapping-decorators-2.html</guid>
+        <link>http://example.com/2017/06/05/unwrapping-decorators-2.html</link>
+        <guid isPermaLink="true">http://example.com/2017/06/05/unwrapping-decorators-2.html</guid>
         
         <category>python</category>
         
@@ -1366,8 +1366,8 @@ python manage.py runserver
 &lt;p&gt;&lt;img src=&quot;/img/cliffhanger.gif&quot; alt=&quot;Dog mashing keyboard pillow&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 30 May 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/05/30/unwrapping-decorators-1.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/05/30/unwrapping-decorators-1.html</guid>
+        <link>http://example.com/2017/05/30/unwrapping-decorators-1.html</link>
+        <guid isPermaLink="true">http://example.com/2017/05/30/unwrapping-decorators-1.html</guid>
         
         <category>python</category>
         
@@ -1443,8 +1443,8 @@ python manage.py runserver
 &lt;/blockquote&gt;
 </description>
         <pubDate>Mon, 29 May 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/05/29/microdecisions.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/05/29/microdecisions.html</guid>
+        <link>http://example.com/2017/05/29/microdecisions.html</link>
+        <guid isPermaLink="true">http://example.com/2017/05/29/microdecisions.html</guid>
         
         <category>soft-skills</category>
         
