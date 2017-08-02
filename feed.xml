@@ -4,11 +4,134 @@
     <title>assert_not magic?</title>
     <description>I'm currently/always doing a lot of learning, and it seems like writing it down in blog form is a good idea to help cement the things I'm learning. Also, all the cool kids are doing it.  My goal is once every two weeks or better.
 </description>
-    <link>http://example.com/</link>
-    <atom:link href="http://example.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 23 Jul 2017 17:12:15 -0700</pubDate>
-    <lastBuildDate>Sun, 23 Jul 2017 17:12:15 -0700</lastBuildDate>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 01 Aug 2017 21:34:42 -0700</pubDate>
+    <lastBuildDate>Tue, 01 Aug 2017 21:34:42 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Git Hooked on Git Hooks</title>
+        <description>&lt;p&gt;I found something cool that either should be more popular than it is, or it is popular and it should be taught to new programmers sooner than it is.  They are called Git Hooks.  I’m going to write this post assuming you know what Git is, and assuming you’re comfortable with the general process of code, stage, commit, lather, rinse, repeat, push.  If you’re not, Here are a &lt;a href=&quot;http://rogerdudler.github.io/git-guide/&quot;&gt;few&lt;/a&gt; &lt;a href=&quot;https://www.sitepoint.com/git-for-beginners/&quot;&gt;good&lt;/a&gt; &lt;a href=&quot;https://git-scm.com/book/en/v2/Getting-Started-Git-Basics&quot;&gt;resources&lt;/a&gt;.  (Note, those are three separate links, not one long one).&lt;/p&gt;
+
+&lt;h2 id=&quot;the-background&quot;&gt;The Background&lt;/h2&gt;
+
+&lt;p&gt;Git hooks are scripts that, if enabled and set up properly, get fired at certain times in the git process.  Here is a list of the available hooks:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;pre-commit&lt;/code&gt;: Runs first, before a you even enter a commit message (assuming you don’t use -m for messages).&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;prepare-commit-msg&lt;/code&gt;: Runs before displaying the commit message to you for editing.  This is good for templating commit messages.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;commit-msg&lt;/code&gt;: Runs after you hit save on the commit message, but before the commit goes through.  Useful for enforcing commit message standards.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;post-commit&lt;/code&gt;: Runs after the commit is saved and completed.  Used for notifying or status updating usually.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;pre-rebase&lt;/code&gt;: Runs before a rebase occurs.  Git’s default example script for this makes sure you haven’t pushed before you rebase (since that could cause issues for other people).&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;post-rewrite&lt;/code&gt;: Runs after a commit is replaced (e.g. with &lt;code class=&quot;highlighter-rouge&quot;&gt;git commit --amend&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;git rebase&lt;/code&gt;).  Good for generating documentation or copying in untracked files.  Think &lt;code class=&quot;highlighter-rouge&quot;&gt;npm install&lt;/code&gt; or similar, maybe.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;post-checkout&lt;/code&gt;: Runs after &lt;code class=&quot;highlighter-rouge&quot;&gt;git checkout&lt;/code&gt;.  Similar to #6.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;post-merge&lt;/code&gt;: Runs after &lt;code class=&quot;highlighter-rouge&quot;&gt;git merge&lt;/code&gt;.  See #6.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;pre-push&lt;/code&gt;: Happens before a push completes.  You can use it to abort the push if need be, similar to &lt;code class=&quot;highlighter-rouge&quot;&gt;pre-commit&lt;/code&gt;, but for pushes.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In addition to these, there are a few hooks available for an email-based workflow (i.e. when people are emailing you patches to merge).  There are also a few available on the git server side that are useful for deployment.  I’m going to skip all of these for now, and just focus on a really basic case (mostly because that’s about where my skill level is at right now).&lt;/p&gt;
+
+&lt;h2 id=&quot;hook-it-up&quot;&gt;Hook It UP&lt;/h2&gt;
+
+&lt;p&gt;So let’s do it!  For my example, I’m using Python because of course I am, shut up.  I’ll walk through this with you step by step.  First, create a new project folder.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/Desktop
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;mkdir hooky &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$_&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Create a new Python file called &lt;code class=&quot;highlighter-rouge&quot;&gt;hooky.py&lt;/code&gt;.  Note that I’m going to purposefully use poor style for our example.  You’ll see why in a minute.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# hooky.py&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;hook&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;quantity&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;---u&amp;lt;&amp;gt;&amp;lt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;quantity&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hook&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now let’s initialize our git repository.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git init
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git add hooky.py
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Before we commit, take a look at the &lt;code class=&quot;highlighter-rouge&quot;&gt;.git/hooks/&lt;/code&gt; directory.  Also, if you haven’t, install &lt;code class=&quot;highlighter-rouge&quot;&gt;flake8&lt;/code&gt;, which is one of many linters for Python.  If you’re following along in another language, install an equivalent linter.  Normally, we’d use a virtual environment, but a linter is a handy thing to have around globally.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ls -l .git/hooks/
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;pip3 install flake8
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You’ll see a bunch of samples that you should look through later.  They’ve got some neat ideas in them.  For now, we’ll create our own &lt;code class=&quot;highlighter-rouge&quot;&gt;pre-commit&lt;/code&gt; hook.  Create &lt;code class=&quot;highlighter-rouge&quot;&gt;.git/hooks/pre-commit&lt;/code&gt;.  Make sure there is no file extension.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/usr/bin/env bash&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# This is the pre-commit file&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Linting code before commit...&quot;&lt;/span&gt;
+flake8
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now, make sure that your script is executeable and we can attempt to commit.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;chmod +x .git/hooks/pre-commit
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git commit  &lt;span class=&quot;c&quot;&gt;# omit the -m for example's sake.&lt;/span&gt;
+              &lt;span class=&quot;c&quot;&gt;# if you include a message, it will still work&lt;/span&gt;
+              &lt;span class=&quot;c&quot;&gt;# you'll just waste your time typing a message&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Boom!  Flake8 complains about our 💩 style.  No commit.  Prove it with &lt;code class=&quot;highlighter-rouge&quot;&gt;git status&lt;/code&gt;.  Note the files are still staged, but not commited.  But why no commit?  For &lt;code class=&quot;highlighter-rouge&quot;&gt;pre-commit&lt;/code&gt; hooks, if the script exits with any other status but zero, it cancels the commit.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/git-cancel.gif&quot; alt=&quot;Cancelled!&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;prepare-commit-msg&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;commit-msg&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;pre-rebase&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;pre-push&lt;/code&gt; all do similar things.  That’s pretty much it!  Great right?  Go forth and hook away!  Just to drive this home, I want to illustrate one more similar use case.  This is extra, so feel free to skip it if you’re already too excited you can’t wait to try it yourself.&lt;/p&gt;
+
+&lt;h2 id=&quot;bonus-example&quot;&gt;Bonus Example&lt;/h2&gt;
+
+&lt;p&gt;Create two new files: &lt;code class=&quot;highlighter-rouge&quot;&gt;__init__.py&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;test_hooky.py&lt;/code&gt;.  &lt;code class=&quot;highlighter-rouge&quot;&gt;__init__.py&lt;/code&gt; will remain blank, but here are the contents of the test file.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;hooky&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hooky&lt;/span&gt;   &lt;span class=&quot;c&quot;&gt;# From this dir, import the module&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# This test should pass&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;test_hook&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;assert&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hooky&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hook&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;---u&amp;lt;&amp;gt;&amp;lt;---u&amp;lt;&amp;gt;&amp;lt;---u&amp;lt;&amp;gt;&amp;lt;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# This one will fail because there is no such method (yet).&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;test_release&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;assert&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hooky&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;release&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;---u&amp;lt;&amp;gt;&amp;lt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now, update your &lt;code class=&quot;highlighter-rouge&quot;&gt;.git/hooks/pre-commit&lt;/code&gt; file.  Again, if you haven’t yet, intall pytest (an awesome testing framework) via pip.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/usr/bin/env bash&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# This is the pre-commit file&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Linting code before commit...&quot;&lt;/span&gt;
+flake8
+
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Running tests...&quot;&lt;/span&gt;
+pytest
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now, running &lt;code class=&quot;highlighter-rouge&quot;&gt;flake8&lt;/code&gt;, go back into your &lt;code class=&quot;highlighter-rouge&quot;&gt;hooky.py&lt;/code&gt; file and fix all of the warnings until &lt;code class=&quot;highlighter-rouge&quot;&gt;flake8&lt;/code&gt; is appeased.  Then try committing again.  You should see it blow up with the broken test!  Feel cool?  Good, because you are cool.  And it’s not just the git hooks.  Although they add to your overall coolness, you were already cool.  So how about that?&lt;/p&gt;
+</description>
+        <pubDate>Tue, 01 Aug 2017 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2017/08/01/git-hooked-on-git-hooks.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/01/git-hooked-on-git-hooks.html</guid>
+        
+        <category>git</category>
+        
+        
+      </item>
     
       <item>
         <title>Script as a Service</title>
@@ -123,8 +246,8 @@
 &lt;p&gt;Hopefully this post provides you a useful &lt;em&gt;service&lt;/em&gt;!  (Womp womp womp)&lt;/p&gt;
 </description>
         <pubDate>Sun, 23 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/07/23/script-as-a-service.html</link>
-        <guid isPermaLink="true">http://example.com/2017/07/23/script-as-a-service.html</guid>
+        <link>http://localhost:4000/2017/07/23/script-as-a-service.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/23/script-as-a-service.html</guid>
         
         <category>python</category>
         
@@ -182,8 +305,8 @@ Bonus points if your enemy is lazy you.&lt;/p&gt;
 &lt;p&gt;&lt;sup id=&quot;f1&quot;&gt;1&lt;/sup&gt;I’m a grown man who consistently says “jammies”.  Whatever.  Don’t judge me.&lt;a href=&quot;#s1&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 17 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/07/17/tricking-yourself-into-exercising.html</link>
-        <guid isPermaLink="true">http://example.com/2017/07/17/tricking-yourself-into-exercising.html</guid>
+        <link>http://localhost:4000/2017/07/17/tricking-yourself-into-exercising.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/17/tricking-yourself-into-exercising.html</guid>
         
         <category>exercise</category>
         
@@ -390,8 +513,8 @@ Bonus points if your enemy is lazy you.&lt;/p&gt;
 &lt;p&gt;This has been a long one, and hopefully I didn’t miss anything.  Since I spaced the posts out (which I regret), I had to play some games with reminding myself what changed from Part to Part.  So, if something doesn’t work or is broken, let me know and I’ll see if I can find where I went wrong.  I added my final project folder &lt;a href=&quot;https://github.com/rpalo/vue-django-example&quot;&gt;on GitHub&lt;/a&gt; so you can search for discrepancies to aid in debugging.  Thanks for sticking with me!&lt;/p&gt;
 </description>
         <pubDate>Sun, 16 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/07/16/vue-on-django-part-4.html</link>
-        <guid isPermaLink="true">http://example.com/2017/07/16/vue-on-django-part-4.html</guid>
+        <link>http://localhost:4000/2017/07/16/vue-on-django-part-4.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/16/vue-on-django-part-4.html</guid>
         
         <category>vue</category>
         
@@ -580,8 +703,8 @@ python manage.py runserver
 &lt;p&gt;See you in the next one!&lt;/p&gt;
 </description>
         <pubDate>Thu, 06 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/07/06/vue-on-django-part-3.html</link>
-        <guid isPermaLink="true">http://example.com/2017/07/06/vue-on-django-part-3.html</guid>
+        <link>http://localhost:4000/2017/07/06/vue-on-django-part-3.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/06/vue-on-django-part-3.html</guid>
         
         <category>vue</category>
         
@@ -774,8 +897,8 @@ python manage.py runserver
 &lt;p&gt;Like before, I’m pretty much writing this as I learn the things, so if I do something wrong or you’ve got a better way, let me know about it.  Stay tuned for Part 3!&lt;/p&gt;
 </description>
         <pubDate>Sat, 24 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/06/24/vue-on-django-part-2.html</link>
-        <guid isPermaLink="true">http://example.com/2017/06/24/vue-on-django-part-2.html</guid>
+        <link>http://localhost:4000/2017/06/24/vue-on-django-part-2.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/06/24/vue-on-django-part-2.html</guid>
         
         <category>vue</category>
         
@@ -946,8 +1069,8 @@ python manage.py runserver
 &lt;p&gt;As a note, this is my first time really using ES6-type syntax for the front-end, my first time using Vue, Webpack, ESLint, and my first time really using npm scripts and node_modules.  If you see any ways that I’m Doing It Wrong™, let me know (gently, please 😁).&lt;/p&gt;
 </description>
         <pubDate>Tue, 20 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/06/20/vue-on-django-part-1.html</link>
-        <guid isPermaLink="true">http://example.com/2017/06/20/vue-on-django-part-1.html</guid>
+        <link>http://localhost:4000/2017/06/20/vue-on-django-part-1.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/06/20/vue-on-django-part-1.html</guid>
         
         <category>vue</category>
         
@@ -1013,8 +1136,8 @@ python manage.py runserver
 &lt;p&gt;Long story short, Jupyter Notebooks are &lt;strong&gt;The Business&lt;/strong&gt;.  &lt;a href=&quot;http://jupyter.org/install.html&quot;&gt;Get it today.&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 13 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/06/13/jupyter-notebooks-are-the-business.html</link>
-        <guid isPermaLink="true">http://example.com/2017/06/13/jupyter-notebooks-are-the-business.html</guid>
+        <link>http://localhost:4000/2017/06/13/jupyter-notebooks-are-the-business.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/06/13/jupyter-notebooks-are-the-business.html</guid>
         
         <category>python</category>
         
@@ -1222,8 +1345,8 @@ python manage.py runserver
 &lt;p&gt;Anyways anyways, if you have any questions about decorators (or anything else for that matter), don’t hesitate to ask me!  I’m always happy to help (even though I usually end up doing some vigorous googling before I am able to fully answer most questions).  Ditto goes for if you can explain something better than I did or have extra input. 😁&lt;/p&gt;
 </description>
         <pubDate>Mon, 05 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/06/05/unwrapping-decorators-2.html</link>
-        <guid isPermaLink="true">http://example.com/2017/06/05/unwrapping-decorators-2.html</guid>
+        <link>http://localhost:4000/2017/06/05/unwrapping-decorators-2.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/06/05/unwrapping-decorators-2.html</guid>
         
         <category>python</category>
         
@@ -1366,87 +1489,14 @@ python manage.py runserver
 &lt;p&gt;&lt;img src=&quot;/img/cliffhanger.gif&quot; alt=&quot;Dog mashing keyboard pillow&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 30 May 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/05/30/unwrapping-decorators-1.html</link>
-        <guid isPermaLink="true">http://example.com/2017/05/30/unwrapping-decorators-1.html</guid>
+        <link>http://localhost:4000/2017/05/30/unwrapping-decorators-1.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/05/30/unwrapping-decorators-1.html</guid>
         
         <category>python</category>
         
         <category>pythonic</category>
         
         <category>functional</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Microdecisions</title>
-        <description>&lt;p&gt;The background for this post is actually coming mostly from my mechanical engineering experience, but the more I program, the more I’m starting to see that there are a lot of similarities between designing parts and designing software.  What I want to write about today is the importance of &lt;em&gt;microdecisions&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;Scenario:  You are asked to write a function that takes in a string and replaces all of the vowels with “x”.  Why?  Because the manager told you to.  It’ll come in handy later.  Stop asking questions.  Here’s a first cut.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;vowels_to_x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;phrase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Replaces all of the vowels with 'x' and returns the new string&quot;&quot;&quot;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;letter&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phrase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;letter&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;E&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;I&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;O&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;U&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;x&quot;&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;letter&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;It’s a pretty simple function with a pretty simple solution – so simple, in fact, that most of the decisions you have to make seem insignificant.  But here’s another cut, done differently.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;n&quot;&gt;VOWELS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;aeiouAEIOU&quot;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;vowels_to_x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;phrase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Replaces all of the vowels with 'x' and returns the new string&quot;&quot;&quot;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;result_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;character&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phrase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;character&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;VOWELS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;result_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;x&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;result_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;character&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Here’s some of the decision changes:&lt;/p&gt;
-
-&lt;p&gt;1) Pull the vowels out into an external constant to improve readability.
- 2) Shrink the vowels tuple into a string, since it is easier to read and less spread out.
- 3) Build the results as a list instead of a string.  This way you don’t have to recreate the result with every new letter.  This could help if the phrases end up being thousands of characters.
- 4) Change the variable &lt;code class=&quot;highlighter-rouge&quot;&gt;letter&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;character&lt;/code&gt; which is more accurate considering it could be a space or punctuation.&lt;/p&gt;
-
-&lt;p&gt;Here’s yet one other option:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;n&quot;&gt;VOWELS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;aeiouAEIOU&quot;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;vowels_to_x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;phrase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Replaces all of the vowels with 'x' and returns the new string&quot;&quot;&quot;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;result_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;x&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;character&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;VOWELS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;character&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;character&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phrase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;This one is essentially the same as the one above, but it’s condensed down to a list comprehension.  Arguably, this is more “pythonic,” and possibly easier to read.  I’m not 1,000% sure I like this better, but it &lt;em&gt;is&lt;/em&gt; an option.&lt;/p&gt;
-
-&lt;p&gt;So, which one do you choose?   “Does it matter?” you ask.  “It’s a stupid function.  Just pick one.”  Here’s what I think.&lt;/p&gt;
-
-&lt;p&gt;I think that the teeny tiny decisions that don’t really matter are actually some of the most important ones.  If there are no reasons to choose one version over another, take the time to find a reason to pick one.  There are a couple benefits to this.  First, if anyone comes to you questioning your code, you’ll have answers ready and will be able to defend your decisions.  Second, the process of reasoning through each of your decisions will help you to catch mistakes.  Lastly, if you have a reason for everything you choose, it will minimize the WTF moments of the next person to look at your code.  They’ll be less likely to shout, “Why the @!$% would they do things that way!?” and more likely to calmly say, “I see why they did this.  I may disagree, but it makes sense.”&lt;/p&gt;
-
-&lt;p&gt;When in doubt, try to look at it from the eyes of this next person.  Try to go with the least surprising path.  You can do a lot of this with the names of your variables and functions.  Good names will help other people intuit what your design intent was, and if they can do that, they’ll be more likely to sympathize with you and your choices and not immediately write you off as incompetent.  For other ideas, take a look at the &lt;a href=&quot;https://www.python.org/dev/peps/pep-0020/&quot;&gt;“Zen of Python”&lt;/a&gt;.  There’s a lot there that will help choose one thing over another when there are a lot of similar options.&lt;/p&gt;
-
-&lt;p&gt;Let me know if you can think of any other simple ways to make microdecisions easier and more clearly convey design intent!&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;“It’s the little details that are vital.  Little things make big things happen.”&lt;/p&gt;
-  &lt;ul&gt;
-    &lt;li&gt;John Wooden&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;
-</description>
-        <pubDate>Mon, 29 May 2017 00:00:00 -0700</pubDate>
-        <link>http://example.com/2017/05/29/microdecisions.html</link>
-        <guid isPermaLink="true">http://example.com/2017/05/29/microdecisions.html</guid>
-        
-        <category>soft-skills</category>
         
         
       </item>

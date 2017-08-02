@@ -7,34 +7,14 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
-
-        <!-- Custom meta -->
-        <meta name="ROBOTS" content="INDEX,FOLLOW">
-        <meta name="description" content="Personal blog, documenting my progress while learning to program.  Hopefully it is a useful resource to help other developers learn, too!">
-        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, python, django, dev, Ryan, Ryan Palo">
-        <meta name="twitter:card" content="summary">
-        <meta name="twitter:title" content="assert_not magic?">
-        <meta name="twitter:site" content="@paytastic">
-        <meta name="twitter:description" content="Ryan Palo's programming blog">
-        <meta name="twitter:image" content="http://assertnotmagic.com/img/me.jpg">
-        <meta name="twitter:creator" content="@paytastic">
-        <meta name="og:url" content="http://assertnotmagic.com">
-        <meta name="og:title" content="assert_not magic?">
-        <meta name="og:description" content="Ryan Palo's programming blog">
-        <meta name="og:image" content="http://assertnotmagic.com/img/me.jpg">
         
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
-        <link rel="stylesheet" href="/css/home.css">
         <link rel="stylesheet" href="/css/syntax.css">
         
         <title>assert_not magic?</title>
     </head>
     <body>
-        <header id="main-header">
-    <h1>assert_not magic?</h1>
-    <img class="profile" alt="Ryan Palo" src="/img/me.jpg" />
-</header>
         
 <nav id="main-nav">
     <a href="/" class="mobile-home">assert_not magic?</a>
@@ -47,14 +27,9 @@
     </ul>
 </nav>
         <div class="container main">
-          <article class="site-wrap">
-            <div class="home">
-
-  <!-- Current Post -->
-  
-    <h1>Git Hooked on Git Hooks</h2>
-    <small>Aug 1, 2017</small>
-    <p><p>I found something cool that either should be more popular than it is, or it is popular and it should be taught to new programmers sooner than it is.  They are called Git Hooks.  I’m going to write this post assuming you know what Git is, and assuming you’re comfortable with the general process of code, stage, commit, lather, rinse, repeat, push.  If you’re not, Here are a <a href="http://rogerdudler.github.io/git-guide/">few</a> <a href="https://www.sitepoint.com/git-for-beginners/">good</a> <a href="https://git-scm.com/book/en/v2/Getting-Started-Git-Basics">resources</a>.  (Note, those are three separate links, not one long one).</p>
+                <article class="site-wrap">
+    <h1>Git Hooked on Git Hooks</h1>
+    <p>I found something cool that either should be more popular than it is, or it is popular and it should be taught to new programmers sooner than it is.  They are called Git Hooks.  I’m going to write this post assuming you know what Git is, and assuming you’re comfortable with the general process of code, stage, commit, lather, rinse, repeat, push.  If you’re not, Here are a <a href="http://rogerdudler.github.io/git-guide/">few</a> <a href="https://www.sitepoint.com/git-for-beginners/">good</a> <a href="https://git-scm.com/book/en/v2/Getting-Started-Git-Basics">resources</a>.  (Note, those are three separate links, not one long one).</p>
 
 <h2 id="the-background">The Background</h2>
 
@@ -165,128 +140,13 @@ pytest
 </div>
 
 <p>Now, running <code class="highlighter-rouge">flake8</code>, go back into your <code class="highlighter-rouge">hooky.py</code> file and fix all of the warnings until <code class="highlighter-rouge">flake8</code> is appeased.  Then try committing again.  You should see it blow up with the broken test!  Feel cool?  Good, because you are cool.  And it’s not just the git hooks.  Although they add to your overall coolness, you were already cool.  So how about that?</p>
-</p>
-  
-  <hr>
 
-<!-- Footer for Homepage -->
-  <div id="home-footer">
-    <div id="left-home-footer">
-      <!-- Featured Posts List -->
-      <h2>Featured Posts</h2>
-      <ul class="post-list">
-        <li>
-          <span class="post-meta">Jan 18, 2017</span><br />
-          <a class="post-link" href="/2017/01/18/assert-not-magic.html">Assert Not Magic</a>
-        </li>
+    <small>
         
-          <li>
-            <span class="post-meta">Jul 23, 2017</span><br/>
-            <a class="post-link" href="/2017/07/23/script-as-a-service.html">Script as a Service</a>
-          </li>
+        <a href="/tags/git/">git</a>
         
-          <li>
-            <span class="post-meta">Jul 17, 2017</span><br/>
-            <a class="post-link" href="/2017/07/17/tricking-yourself-into-exercising.html">Tricking Yourself into Exercising</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Jul 16, 2017</span><br/>
-            <a class="post-link" href="/2017/07/16/vue-on-django-part-4.html">Vue on Django, Part 4</a>
-          </li>
-        
-      </ul>
-    </div>
-    <div id="center-home-footer">
-      <!-- Spacer -->
-    </div>
-    <div id="right-home-footer">
-      <!-- Tags List -->
-      <h2>Tags</h2>
-      <p>
-        
-        <a href="/tags/python/" style="font-size: 48px">python | </a>
-        
-        <a href="/tags/django/" style="font-size: 22px">django | </a>
-        
-        <a href="/tags/rails/" style="font-size: 14px">rails | </a>
-        
-        <a href="/tags/algorithms/" style="font-size: 20px">algorithms | </a>
-        
-        <a href="/tags/editors/" style="font-size: 16px">editors | </a>
-        
-        <a href="/tags/emacs/" style="font-size: 16px">emacs | </a>
-        
-        <a href="/tags/ai/" style="font-size: 14px">ai | </a>
-        
-        <a href="/tags/r/" style="font-size: 14px">r | </a>
-        
-        <a href="/tags/tools/" style="font-size: 16px">tools | </a>
-        
-        <a href="/tags/javascript/" style="font-size: 14px">javascript | </a>
-        
-        <a href="/tags/not_magic/" style="font-size: 14px">not_magic | </a>
-        
-        <a href="/tags/soft-skills/" style="font-size: 20px">soft-skills | </a>
-        
-        <a href="/tags/tricks/" style="font-size: 28px">tricks | </a>
-        
-        <a href="/tags/vscode/" style="font-size: 14px">vscode | </a>
-        
-        <a href="/tags/vim/" style="font-size: 14px">vim | </a>
-        
-        <a href="/tags/sublime/" style="font-size: 14px">sublime | </a>
-        
-        <a href="/tags/puzzle/" style="font-size: 16px">puzzle | </a>
-        
-        <a href="/tags/bash/" style="font-size: 14px">bash | </a>
-        
-        <a href="/tags/math/" style="font-size: 14px">math | </a>
-        
-        <a href="/tags/teaching/" style="font-size: 16px">teaching | </a>
-        
-        <a href="/tags/ruby/" style="font-size: 16px">ruby | </a>
-        
-        <a href="/tags/jekyll/" style="font-size: 14px">jekyll | </a>
-        
-        <a href="/tags/git/" style="font-size: 16px">git | </a>
-        
-        <a href="/tags/physics/" style="font-size: 14px">physics | </a>
-        
-        <a href="/tags/fun/" style="font-size: 14px">fun | </a>
-        
-        <a href="/tags/scientific/" style="font-size: 14px">scientific | </a>
-        
-        <a href="/tags/pythonic/" style="font-size: 16px">pythonic | </a>
-        
-        <a href="/tags/functional/" style="font-size: 16px">functional | </a>
-        
-        <a href="/tags/vue/" style="font-size: 20px">vue | </a>
-        
-        <a href="/tags/es6/" style="font-size: 20px">es6 | </a>
-        
-        <a href="/tags/tutorial/" style="font-size: 20px">tutorial | </a>
-        
-        <a href="/tags/exercise/" style="font-size: 14px">exercise | </a>
-        
-        <a href="/tags/fitness/" style="font-size: 14px">fitness | </a>
-        
-        <a href="/tags/sysadmin/" style="font-size: 14px">sysadmin | </a>
-        
-        <a href="/tags/linux/" style="font-size: 14px">linux | </a>
-        
-      </p>
-    </div>
-  </div>
-  <hr>
-  
-
-  <p class="rss-subscribe contact">Like my stuff?  Have questions or feedback for me?  Want to mentor me or get my help with something?  <a href="/about/">Get in touch!</a>  To stay updated, subscribe <a href="/feed.xml">via RSS</a></p>
-
-
+    </small>
 </div>
-
-          </article>
         </div>
 
         <footer id="main-footer">
@@ -294,10 +154,25 @@ pytest
         <p class="text-muted">&copy; Ryan Palo 2017 | All things.  Phil. 4:13</p>
     </div>
 </footer>
-        
+        <!-- Scripts -->
+        <!--  
+        jQuery (necessary for Bootstrap's JavaScript plugins)
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        Latest compiled and minified Bootstrap JavaScript
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        -->
         <!-- Custom Javascript -->
-        <script src="/js/home.js"></script>
+        <script src="/js/main.js"></script>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-91889165-1', 'auto');
+            ga('send', 'pageview');
+
+        </script>
         
     </body>
 </html>
-
