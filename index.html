@@ -16,7 +16,7 @@
         <meta name="twitter:title" content="assert_not magic?">
         <meta name="twitter:site" content="@paytastic">
         <meta name="twitter:description" content="Ryan Palo's programming blog">
-        <meta name="twitter:image" content="http://assertnotmagic.com/img/me.jpg">
+        <meta name="twitter:image" content="http://assertnotmagic.com{/img/me.jpg}">
         <meta name="twitter:creator" content="@paytastic">
         <meta name="og:url" content="http://assertnotmagic.com">
         <meta name="og:title" content="assert_not magic?">
@@ -52,119 +52,99 @@
 
   <!-- Current Post -->
   
-    <h1>Git Hooked on Git Hooks</h2>
-    <small>Aug 1, 2017</small>
-    <p><p>I found something cool that either should be more popular than it is, or it is popular and it should be taught to new programmers sooner than it is.  They are called Git Hooks.  I’m going to write this post assuming you know what Git is, and assuming you’re comfortable with the general process of code, stage, commit, lather, rinse, repeat, push.  If you’re not, Here are a <a href="http://rogerdudler.github.io/git-guide/">few</a> <a href="https://www.sitepoint.com/git-for-beginners/">good</a> <a href="https://git-scm.com/book/en/v2/Getting-Started-Git-Basics">resources</a>.  (Note, those are three separate links, not one long one).</p>
+    <h1>Your Own REPL in Twenty Lines or Less</h2>
+    <small>Aug 7, 2017</small>
+    <p><p>Have you ever been in a Python interactive REPL and said to yourself, “You know, this is nice and all, but… it’s missing something.  There’s not enough <em>me</em>!”  Well, worry no more!  I’ll show you how to do it in twenty lines or less!  Let me introduce the main attraction:</p>
 
-<h2 id="the-background">The Background</h2>
+<h2 id="code">Code</h2>
 
-<p>Git hooks are scripts that, if enabled and set up properly, get fired at certain times in the git process.  Here is a list of the available hooks:</p>
+<p>As unhelpful as that sounds, it’s true.  Python has a module in the standard library called <code class="highlighter-rouge">Code</code>.  You can check out the <a href="https://docs.python.org/3/library/code.html">code module documentation</a> if you don’t believe me.  The documentation is maybe a little tough to understand on first pass-through, so I thought I’d create a few examples to show it off.  There are a few objects in the <code class="highlighter-rouge">code</code> module, but only one that I’m going to talk about this time: <code class="highlighter-rouge">interact</code>.</p>
 
-<ol>
-  <li><code class="highlighter-rouge">pre-commit</code>: Runs first, before a you even enter a commit message (assuming you don’t use -m for messages).</li>
-  <li><code class="highlighter-rouge">prepare-commit-msg</code>: Runs before displaying the commit message to you for editing.  This is good for templating commit messages.</li>
-  <li><code class="highlighter-rouge">commit-msg</code>: Runs after you hit save on the commit message, but before the commit goes through.  Useful for enforcing commit message standards.</li>
-  <li><code class="highlighter-rouge">post-commit</code>: Runs after the commit is saved and completed.  Used for notifying or status updating usually.</li>
-  <li><code class="highlighter-rouge">pre-rebase</code>: Runs before a rebase occurs.  Git’s default example script for this makes sure you haven’t pushed before you rebase (since that could cause issues for other people).</li>
-  <li><code class="highlighter-rouge">post-rewrite</code>: Runs after a commit is replaced (e.g. with <code class="highlighter-rouge">git commit --amend</code>, <code class="highlighter-rouge">git rebase</code>).  Good for generating documentation or copying in untracked files.  Think <code class="highlighter-rouge">npm install</code> or similar, maybe.</li>
-  <li><code class="highlighter-rouge">post-checkout</code>: Runs after <code class="highlighter-rouge">git checkout</code>.  Similar to #6.</li>
-  <li><code class="highlighter-rouge">post-merge</code>: Runs after <code class="highlighter-rouge">git merge</code>.  See #6.</li>
-  <li><code class="highlighter-rouge">pre-push</code>: Happens before a push completes.  You can use it to abort the push if need be, similar to <code class="highlighter-rouge">pre-commit</code>, but for pushes.</li>
-</ol>
+<h2 id="interact">Interact</h2>
 
-<p>In addition to these, there are a few hooks available for an email-based workflow (i.e. when people are emailing you patches to merge).  There are also a few available on the git server side that are useful for deployment.  I’m going to skip all of these for now, and just focus on a really basic case (mostly because that’s about where my skill level is at right now).</p>
+<p>Let’s dive in.  I’ll show you.  Let’s create a new file in our directory called <code class="highlighter-rouge">shell.py</code>.</p>
 
-<h2 id="hook-it-up">Hook It UP</h2>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c">#!/usr/bin/env python</span>
+<span class="c"># I'll be using Python 3, for reference.</span>
 
-<p>So let’s do it!  For my example, I’m using Python because of course I am, shut up.  I’ll walk through this with you step by step.  First, create a new project folder.</p>
+<span class="kn">import</span> <span class="nn">code</span>  <span class="c"># seems silly, but works great</span>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nb">cd</span> ~/Desktop
-<span class="gp">$ </span>mkdir hooky <span class="o">&amp;&amp;</span> <span class="nb">cd</span> <span class="nv">$_</span>
-</code></pre>
-</div>
-
-<p>Create a new Python file called <code class="highlighter-rouge">hooky.py</code>.  Note that I’m going to purposefully use poor style for our example.  You’ll see why in a minute.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># hooky.py</span>
-
-<span class="k">def</span> <span class="nf">hook</span><span class="p">(</span> <span class="n">quantity</span> <span class="p">):</span>
-    <span class="k">return</span> <span class="s">"---u&lt;&gt;&lt;"</span><span class="o">*</span><span class="n">quantity</span>
+<span class="k">def</span> <span class="nf">custom_repl</span><span class="p">():</span>
+    <span class="n">pie</span> <span class="o">=</span> <span class="s">"delicious"</span>
+    <span class="n">pi</span> <span class="o">=</span> <span class="mf">3.14159</span>
+    <span class="n">homonyms</span> <span class="o">=</span> <span class="p">(</span><span class="n">pie</span> <span class="o">!=</span> <span class="n">pi</span><span class="p">)</span>
+    <span class="n">code</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span>
+        <span class="n">banner</span><span class="o">=</span><span class="s">"Hello!  My name is Jeeves!  I am fancy.  🎩"</span><span class="p">,</span>
+        <span class="n">local</span><span class="o">=</span><span class="nb">locals</span><span class="p">(),</span>
+        <span class="n">exitmsg</span><span class="o">=</span><span class="s">"Ta-ta!"</span>
+    <span class="p">)</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">hook</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+    <span class="n">custom_repl</span><span class="p">()</span>
 </code></pre>
 </div>
 
-<p>Now let’s initialize our git repository.</p>
+<p>Try running it and watch the magic work.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git init
-<span class="gp">$ </span>git add hooky.py
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="err">$</span> <span class="n">python3</span> <span class="n">shell</span><span class="o">.</span><span class="n">py</span>
+<span class="n">Hello</span><span class="err">!</span>  <span class="n">My</span> <span class="n">name</span> <span class="ow">is</span> <span class="n">Jeeves</span><span class="err">!</span>  <span class="n">I</span> <span class="n">am</span> <span class="n">fancy</span><span class="o">.</span>  <span class="err">🎩</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pi</span>
+<span class="mf">3.1415</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pie</span>
+<span class="s">'delicious'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">homonyms</span>
+<span class="bp">True</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">3</span>
+<span class="mi">7</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">math</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span>
+<span class="mf">1.7724531023414978</span>
+<span class="o">&lt;</span><span class="n">Ctrl</span><span class="o">-</span><span class="n">D</span><span class="o">&gt;</span>
+<span class="n">Ta</span><span class="o">-</span><span class="n">ta</span><span class="err">!</span>
 </code></pre>
 </div>
 
-<p>Before we commit, take a look at the <code class="highlighter-rouge">.git/hooks/</code> directory.  Also, if you haven’t, install <code class="highlighter-rouge">flake8</code>, which is one of many linters for Python.  If you’re following along in another language, install an equivalent linter.  Normally, we’d use a virtual environment, but a linter is a handy thing to have around globally.</p>
+<p>As you can see, the banner message we specified shows, the exit message we specified shows (although it didn’t work for me if I used the built-in <code class="highlighter-rouge">exit()</code> or <code class="highlighter-rouge">quit()</code> commands), and we had access to the local variables when <code class="highlighter-rouge">interact</code> was called.  And we can use anything to act as our local state!  Go back in and create <code class="highlighter-rouge">shell2.py</code>.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ls -l .git/hooks/
-<span class="gp">$ </span>pip3 install flake8
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c">#!/usr/bin/env python</span>
+<span class="c"># shell2.py</span>
+
+<span class="kn">import</span> <span class="nn">code</span>
+
+<span class="k">class</span> <span class="nc">Car</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">mileage</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mileage</span> <span class="o">=</span> <span class="n">mileage</span>
+
+    <span class="k">def</span> <span class="nf">honk</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">"Beep!"</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">"&lt;Car - color: {}, mileage: {}&gt;"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mileage</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Car</span><span class="p">(</span><span class="s">"red"</span><span class="p">,</span> <span class="mi">20000</span><span class="p">)</span>
+    <span class="n">code</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span>
+        <span class="n">banner</span><span class="o">=</span><span class="s">"Now interactively inspecting {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">),</span>
+        <span class="n">local</span><span class="o">=</span><span class="p">{</span><span class="s">"car"</span><span class="p">:</span> <span class="n">c</span><span class="p">},</span>
+    <span class="p">)</span>
+</code></pre>
+</div>
+<p>Back in the shell… <code class="highlighter-rouge">python3 shell2.py</code></p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">Now</span> <span class="n">interactively</span> <span class="n">inspecting</span> <span class="o">&lt;</span><span class="n">Car</span> <span class="o">-</span> <span class="n">color</span><span class="p">:</span> <span class="n">red</span><span class="p">,</span> <span class="n">mileage</span><span class="p">:</span> <span class="mi">20000</span><span class="o">&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">car</span>
+<span class="o">&lt;</span><span class="n">Car</span> <span class="o">-</span> <span class="n">color</span><span class="p">:</span> <span class="n">red</span><span class="p">,</span> <span class="n">mileage</span><span class="p">:</span> <span class="mi">20000</span><span class="o">&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">car</span><span class="o">.</span><span class="n">honk</span><span class="p">()</span>
+<span class="s">'Beep!'</span>
 </code></pre>
 </div>
 
-<p>You’ll see a bunch of samples that you should look through later.  They’ve got some neat ideas in them.  For now, we’ll create our own <code class="highlighter-rouge">pre-commit</code> hook.  Create <code class="highlighter-rouge">.git/hooks/pre-commit</code>.  Make sure there is no file extension.</p>
+<p>Keep in mind that the <code class="highlighter-rouge">local</code> parameter to <code class="highlighter-rouge">interact</code> has to be a Dict – such as the one returned by <code class="highlighter-rouge">local()</code> and <code class="highlighter-rouge">global()</code>.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c">#!/usr/bin/env bash</span>
+<h2 id="wrap-up">Wrap Up</h2>
 
-<span class="c"># This is the pre-commit file</span>
-<span class="nb">echo</span> <span class="s2">"Linting code before commit..."</span>
-flake8
-</code></pre>
-</div>
-
-<p>Now, make sure that your script is executeable and we can attempt to commit.</p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>chmod +x .git/hooks/pre-commit
-<span class="gp">$ </span>git commit  <span class="c"># omit the -m for example's sake.</span>
-              <span class="c"># if you include a message, it will still work</span>
-              <span class="c"># you'll just waste your time typing a message</span>
-</code></pre>
-</div>
-
-<p>Boom!  Flake8 complains about our 💩 style.  No commit.  Prove it with <code class="highlighter-rouge">git status</code>.  Note the files are still staged, but not commited.  But why no commit?  For <code class="highlighter-rouge">pre-commit</code> hooks, if the script exits with any other status but zero, it cancels the commit.</p>
-
-<p><img src="/img/git-cancel.gif" alt="Cancelled!" /></p>
-
-<p><code class="highlighter-rouge">prepare-commit-msg</code>, <code class="highlighter-rouge">commit-msg</code>, <code class="highlighter-rouge">pre-rebase</code>, and <code class="highlighter-rouge">pre-push</code> all do similar things.  That’s pretty much it!  Great right?  Go forth and hook away!  Just to drive this home, I want to illustrate one more similar use case.  This is extra, so feel free to skip it if you’re already too excited you can’t wait to try it yourself.</p>
-
-<h2 id="bonus-example">Bonus Example</h2>
-
-<p>Create two new files: <code class="highlighter-rouge">__init__.py</code> and <code class="highlighter-rouge">test_hooky.py</code>.  <code class="highlighter-rouge">__init__.py</code> will remain blank, but here are the contents of the test file.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code>
-<span class="kn">from</span> <span class="nn">hooky</span> <span class="kn">import</span> <span class="n">hooky</span>   <span class="c"># From this dir, import the module</span>
-
-<span class="c"># This test should pass</span>
-<span class="k">def</span> <span class="nf">test_hook</span><span class="p">():</span>
-    <span class="k">assert</span> <span class="n">hooky</span><span class="o">.</span><span class="n">hook</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="s">"---u&lt;&gt;&lt;---u&lt;&gt;&lt;---u&lt;&gt;&lt;"</span>
-
-<span class="c"># This one will fail because there is no such method (yet).</span>
-<span class="k">def</span> <span class="nf">test_release</span><span class="p">():</span>
-    <span class="k">assert</span> <span class="n">hooky</span><span class="o">.</span><span class="n">release</span><span class="p">(</span><span class="s">"---u&lt;&gt;&lt;"</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-</code></pre>
-</div>
-
-<p>Now, update your <code class="highlighter-rouge">.git/hooks/pre-commit</code> file.  Again, if you haven’t yet, intall pytest (an awesome testing framework) via pip.</p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c">#!/usr/bin/env bash</span>
-
-<span class="c"># This is the pre-commit file</span>
-<span class="nb">echo</span> <span class="s2">"Linting code before commit..."</span>
-flake8
-
-<span class="nb">echo</span> <span class="s2">"Running tests..."</span>
-pytest
-</code></pre>
-</div>
-
-<p>Now, running <code class="highlighter-rouge">flake8</code>, go back into your <code class="highlighter-rouge">hooky.py</code> file and fix all of the warnings until <code class="highlighter-rouge">flake8</code> is appeased.  Then try committing again.  You should see it blow up with the broken test!  Feel cool?  Good, because you are cool.  And it’s not just the git hooks.  Although they add to your overall coolness, you were already cool.  So how about that?</p>
+<p>You can use this to provide a nice interactive aspect to your app to help you do shell things, inspect objects, debug, and much more.  This is roughly how <a href="https://docs.python.org/3/library/pdb.html">pdb</a> works too!  Django and Flask both use a variation on this for their “shell” commands too.  I think I’m going to try to use it to generate an automated quiz or homework for a python intro class (similar to <a href="https://www.youtube.com/watch?v=McoHQIxJd-o">the swirl package in R</a>).  Have any other cool ways you’ve used this?  Let me know!</p>
 </p>
   
   <hr>
@@ -177,22 +157,22 @@ pytest
       <ul class="post-list">
         <li>
           <span class="post-meta">Jan 18, 2017</span><br />
-          <a class="post-link" href="/2017/01/18/assert-not-magic.html">Assert Not Magic</a>
+          <a class="post-link" href="/2017/01/18/assert-not-magic/">Assert Not Magic</a>
         </li>
         
           <li>
+            <span class="post-meta">Aug 1, 2017</span><br/>
+            <a class="post-link" href="/2017/08/01/git-hooked-on-git-hooks/">Git Hooked on Git Hooks</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Jul 23, 2017</span><br/>
-            <a class="post-link" href="/2017/07/23/script-as-a-service.html">Script as a Service</a>
+            <a class="post-link" href="/2017/07/23/script-as-a-service/">Script as a Service</a>
           </li>
         
           <li>
             <span class="post-meta">Jul 17, 2017</span><br/>
-            <a class="post-link" href="/2017/07/17/tricking-yourself-into-exercising.html">Tricking Yourself into Exercising</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Jul 16, 2017</span><br/>
-            <a class="post-link" href="/2017/07/16/vue-on-django-part-4.html">Vue on Django, Part 4</a>
+            <a class="post-link" href="/2017/07/17/tricking-yourself-into-exercising/">Tricking Yourself into Exercising</a>
           </li>
         
       </ul>
@@ -205,7 +185,7 @@ pytest
       <h2>Tags</h2>
       <p>
         
-        <a href="/tags/python/" style="font-size: 48px">python | </a>
+        <a href="/tags/python/" style="font-size: 50px">python | </a>
         
         <a href="/tags/django/" style="font-size: 22px">django | </a>
         
@@ -253,7 +233,7 @@ pytest
         
         <a href="/tags/physics/" style="font-size: 14px">physics | </a>
         
-        <a href="/tags/fun/" style="font-size: 14px">fun | </a>
+        <a href="/tags/fun/" style="font-size: 16px">fun | </a>
         
         <a href="/tags/scientific/" style="font-size: 14px">scientific | </a>
         

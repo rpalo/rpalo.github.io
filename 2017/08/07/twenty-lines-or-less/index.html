@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <!-- Bootstrap Setup -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="ROBOTS" content="INDEX,FOLLOW">
+        <meta name="description" content="Python's standard library makes it easy for you to use custom REPL's">
+        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, python, fun">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="assert_not magic? | Your Own REPL in Twenty Lines or Less">
+        <meta name="twitter:site" content="@paytastic">
+        <meta name="twitter:description" content="Python's standard library makes it easy for you to use custom REPL's">
+        <meta name="twitter:image" content="http://assertnotmagic.com/img/code-repl.gif">
+        <meta name="twitter:creator" content="@paytastic">
+        <meta name="og:url" content="http://assertnotmagic.com/2017/08/07/twenty-lines-or-less/">
+        <meta name="og:title" content="assert_not magic? | Your Own REPL in Twenty Lines or Less">
+        <meta name="og:description" content="Python's standard library makes it easy for you to use custom REPL's">
+        <meta name="og:image" content="http://assertnotmagic.com/img/code-repl.gif">
+        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+        
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <title>assert_not magic?</title>
+    </head>
+    <body>
+        
+<nav id="main-nav">
+    <a href="/" class="mobile-home">assert_not magic?</a>
+    <ul>
+        <li class="logo"><a href="/">assert_not magic?</a></li>
+        <li><a href="/posts/">All Posts</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/sketches/">Sketches</a></li>
+        <li><a href="/todo/">To-Do</a></li>
+    </ul>
+</nav>
+        <div class="container main">
+                <article class="site-wrap">
+    <div id="cover">
+        
+        <img alt="Cover Image" class="cover-image" src="/img/code-repl.gif">
+        
+    </div>
+    <h1>Your Own REPL in Twenty Lines or Less</h1>
+    <p>Have you ever been in a Python interactive REPL and said to yourself, “You know, this is nice and all, but… it’s missing something.  There’s not enough <em>me</em>!”  Well, worry no more!  I’ll show you how to do it in twenty lines or less!  Let me introduce the main attraction:</p>
+
+<h2 id="code">Code</h2>
+
+<p>As unhelpful as that sounds, it’s true.  Python has a module in the standard library called <code class="highlighter-rouge">Code</code>.  You can check out the <a href="https://docs.python.org/3/library/code.html">code module documentation</a> if you don’t believe me.  The documentation is maybe a little tough to understand on first pass-through, so I thought I’d create a few examples to show it off.  There are a few objects in the <code class="highlighter-rouge">code</code> module, but only one that I’m going to talk about this time: <code class="highlighter-rouge">interact</code>.</p>
+
+<h2 id="interact">Interact</h2>
+
+<p>Let’s dive in.  I’ll show you.  Let’s create a new file in our directory called <code class="highlighter-rouge">shell.py</code>.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c">#!/usr/bin/env python</span>
+<span class="c"># I'll be using Python 3, for reference.</span>
+
+<span class="kn">import</span> <span class="nn">code</span>  <span class="c"># seems silly, but works great</span>
+
+<span class="k">def</span> <span class="nf">custom_repl</span><span class="p">():</span>
+    <span class="n">pie</span> <span class="o">=</span> <span class="s">"delicious"</span>
+    <span class="n">pi</span> <span class="o">=</span> <span class="mf">3.14159</span>
+    <span class="n">homonyms</span> <span class="o">=</span> <span class="p">(</span><span class="n">pie</span> <span class="o">!=</span> <span class="n">pi</span><span class="p">)</span>
+    <span class="n">code</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span>
+        <span class="n">banner</span><span class="o">=</span><span class="s">"Hello!  My name is Jeeves!  I am fancy.  🎩"</span><span class="p">,</span>
+        <span class="n">local</span><span class="o">=</span><span class="nb">locals</span><span class="p">(),</span>
+        <span class="n">exitmsg</span><span class="o">=</span><span class="s">"Ta-ta!"</span>
+    <span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">custom_repl</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<p>Try running it and watch the magic work.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="err">$</span> <span class="n">python3</span> <span class="n">shell</span><span class="o">.</span><span class="n">py</span>
+<span class="n">Hello</span><span class="err">!</span>  <span class="n">My</span> <span class="n">name</span> <span class="ow">is</span> <span class="n">Jeeves</span><span class="err">!</span>  <span class="n">I</span> <span class="n">am</span> <span class="n">fancy</span><span class="o">.</span>  <span class="err">🎩</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pi</span>
+<span class="mf">3.1415</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pie</span>
+<span class="s">'delicious'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">homonyms</span>
+<span class="bp">True</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">3</span>
+<span class="mi">7</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">math</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span>
+<span class="mf">1.7724531023414978</span>
+<span class="o">&lt;</span><span class="n">Ctrl</span><span class="o">-</span><span class="n">D</span><span class="o">&gt;</span>
+<span class="n">Ta</span><span class="o">-</span><span class="n">ta</span><span class="err">!</span>
+</code></pre>
+</div>
+
+<p>As you can see, the banner message we specified shows, the exit message we specified shows (although it didn’t work for me if I used the built-in <code class="highlighter-rouge">exit()</code> or <code class="highlighter-rouge">quit()</code> commands), and we had access to the local variables when <code class="highlighter-rouge">interact</code> was called.  And we can use anything to act as our local state!  Go back in and create <code class="highlighter-rouge">shell2.py</code>.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c">#!/usr/bin/env python</span>
+<span class="c"># shell2.py</span>
+
+<span class="kn">import</span> <span class="nn">code</span>
+
+<span class="k">class</span> <span class="nc">Car</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">mileage</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mileage</span> <span class="o">=</span> <span class="n">mileage</span>
+
+    <span class="k">def</span> <span class="nf">honk</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">"Beep!"</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">"&lt;Car - color: {}, mileage: {}&gt;"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mileage</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Car</span><span class="p">(</span><span class="s">"red"</span><span class="p">,</span> <span class="mi">20000</span><span class="p">)</span>
+    <span class="n">code</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span>
+        <span class="n">banner</span><span class="o">=</span><span class="s">"Now interactively inspecting {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">),</span>
+        <span class="n">local</span><span class="o">=</span><span class="p">{</span><span class="s">"car"</span><span class="p">:</span> <span class="n">c</span><span class="p">},</span>
+    <span class="p">)</span>
+</code></pre>
+</div>
+<p>Back in the shell… <code class="highlighter-rouge">python3 shell2.py</code></p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">Now</span> <span class="n">interactively</span> <span class="n">inspecting</span> <span class="o">&lt;</span><span class="n">Car</span> <span class="o">-</span> <span class="n">color</span><span class="p">:</span> <span class="n">red</span><span class="p">,</span> <span class="n">mileage</span><span class="p">:</span> <span class="mi">20000</span><span class="o">&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">car</span>
+<span class="o">&lt;</span><span class="n">Car</span> <span class="o">-</span> <span class="n">color</span><span class="p">:</span> <span class="n">red</span><span class="p">,</span> <span class="n">mileage</span><span class="p">:</span> <span class="mi">20000</span><span class="o">&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">car</span><span class="o">.</span><span class="n">honk</span><span class="p">()</span>
+<span class="s">'Beep!'</span>
+</code></pre>
+</div>
+
+<p>Keep in mind that the <code class="highlighter-rouge">local</code> parameter to <code class="highlighter-rouge">interact</code> has to be a Dict – such as the one returned by <code class="highlighter-rouge">local()</code> and <code class="highlighter-rouge">global()</code>.</p>
+
+<h2 id="wrap-up">Wrap Up</h2>
+
+<p>You can use this to provide a nice interactive aspect to your app to help you do shell things, inspect objects, debug, and much more.  This is roughly how <a href="https://docs.python.org/3/library/pdb.html">pdb</a> works too!  Django and Flask both use a variation on this for their “shell” commands too.  I think I’m going to try to use it to generate an automated quiz or homework for a python intro class (similar to <a href="https://www.youtube.com/watch?v=McoHQIxJd-o">the swirl package in R</a>).  Have any other cool ways you’ve used this?  Let me know!</p>
+
+    <small>
+        
+        <a href="/tags/python/">python</a>
+        
+        <a href="/tags/fun/">fun</a>
+        
+    </small>
+</article>
+        </div>
+
+        <footer id="main-footer">
+    <div class="container">
+        <p class="text-muted">&copy; Ryan Palo 2017 | All things.  Phil. 4:13</p>
+    </div>
+</footer>
+        <!-- Scripts -->
+        <!--  
+        jQuery (necessary for Bootstrap's JavaScript plugins)
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        Latest compiled and minified Bootstrap JavaScript
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        -->
+        <!-- Custom Javascript -->
+        <script src="/js/main.js"></script>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-91889165-1', 'auto');
+            ga('send', 'pageview');
+
+        </script>
+        
+    </body>
+</html>

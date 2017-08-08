@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <!-- Bootstrap Setup -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="ROBOTS" content="INDEX,FOLLOW">
+        <meta name="description" content="A beginner's overview of git hooks to automate your process">
+        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, git">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="assert_not magic? | Git Hooked on Git Hooks">
+        <meta name="twitter:site" content="@paytastic">
+        <meta name="twitter:description" content="A beginner's overview of git hooks to automate your process">
+        <meta name="twitter:image" content="http://assertnotmagic.com/img/hook.jpg">
+        <meta name="twitter:creator" content="@paytastic">
+        <meta name="og:url" content="http://assertnotmagic.com/2017/08/01/git-hooked-on-git-hooks/">
+        <meta name="og:title" content="assert_not magic? | Git Hooked on Git Hooks">
+        <meta name="og:description" content="A beginner's overview of git hooks to automate your process">
+        <meta name="og:image" content="http://assertnotmagic.com/img/hook.jpg">
+        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+        
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/syntax.css">
+        
+        <title>assert_not magic?</title>
+    </head>
+    <body>
+        
+<nav id="main-nav">
+    <a href="/" class="mobile-home">assert_not magic?</a>
+    <ul>
+        <li class="logo"><a href="/">assert_not magic?</a></li>
+        <li><a href="/posts/">All Posts</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/sketches/">Sketches</a></li>
+        <li><a href="/todo/">To-Do</a></li>
+    </ul>
+</nav>
+        <div class="container main">
+                <article class="site-wrap">
+    <div id="cover">
+        
+        <img alt="Cover Image" class="cover-image" src="/img/hook.jpg">
+        
+    </div>
+    <h1>Git Hooked on Git Hooks</h1>
+    <p>I found something cool that either should be more popular than it is, or it is popular and it should be taught to new programmers sooner than it is.  They are called Git Hooks.  I’m going to write this post assuming you know what Git is, and assuming you’re comfortable with the general process of code, stage, commit, lather, rinse, repeat, push.  If you’re not, Here are a <a href="http://rogerdudler.github.io/git-guide/">few</a> <a href="https://www.sitepoint.com/git-for-beginners/">good</a> <a href="https://git-scm.com/book/en/v2/Getting-Started-Git-Basics">resources</a>.  (Note, those are three separate links, not one long one).</p>
+
+<h2 id="the-background">The Background</h2>
+
+<p>Git hooks are scripts that, if enabled and set up properly, get fired at certain times in the git process.  Here is a list of the available hooks:</p>
+
+<ol>
+  <li><code class="highlighter-rouge">pre-commit</code>: Runs first, before a you even enter a commit message (assuming you don’t use -m for messages).</li>
+  <li><code class="highlighter-rouge">prepare-commit-msg</code>: Runs before displaying the commit message to you for editing.  This is good for templating commit messages.</li>
+  <li><code class="highlighter-rouge">commit-msg</code>: Runs after you hit save on the commit message, but before the commit goes through.  Useful for enforcing commit message standards.</li>
+  <li><code class="highlighter-rouge">post-commit</code>: Runs after the commit is saved and completed.  Used for notifying or status updating usually.</li>
+  <li><code class="highlighter-rouge">pre-rebase</code>: Runs before a rebase occurs.  Git’s default example script for this makes sure you haven’t pushed before you rebase (since that could cause issues for other people).</li>
+  <li><code class="highlighter-rouge">post-rewrite</code>: Runs after a commit is replaced (e.g. with <code class="highlighter-rouge">git commit --amend</code>, <code class="highlighter-rouge">git rebase</code>).  Good for generating documentation or copying in untracked files.  Think <code class="highlighter-rouge">npm install</code> or similar, maybe.</li>
+  <li><code class="highlighter-rouge">post-checkout</code>: Runs after <code class="highlighter-rouge">git checkout</code>.  Similar to #6.</li>
+  <li><code class="highlighter-rouge">post-merge</code>: Runs after <code class="highlighter-rouge">git merge</code>.  See #6.</li>
+  <li><code class="highlighter-rouge">pre-push</code>: Happens before a push completes.  You can use it to abort the push if need be, similar to <code class="highlighter-rouge">pre-commit</code>, but for pushes.</li>
+</ol>
+
+<p>In addition to these, there are a few hooks available for an email-based workflow (i.e. when people are emailing you patches to merge).  There are also a few available on the git server side that are useful for deployment.  I’m going to skip all of these for now, and just focus on a really basic case (mostly because that’s about where my skill level is at right now).</p>
+
+<h2 id="hook-it-up">Hook It UP</h2>
+
+<p>So let’s do it!  For my example, I’m using Python because of course I am, shut up.  I’ll walk through this with you step by step.  First, create a new project folder.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nb">cd</span> ~/Desktop
+<span class="gp">$ </span>mkdir hooky <span class="o">&amp;&amp;</span> <span class="nb">cd</span> <span class="nv">$_</span>
+</code></pre>
+</div>
+
+<p>Create a new Python file called <code class="highlighter-rouge">hooky.py</code>.  Note that I’m going to purposefully use poor style for our example.  You’ll see why in a minute.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># hooky.py</span>
+
+<span class="k">def</span> <span class="nf">hook</span><span class="p">(</span> <span class="n">quantity</span> <span class="p">):</span>
+    <span class="k">return</span> <span class="s">"---u&lt;&gt;&lt;"</span><span class="o">*</span><span class="n">quantity</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">hook</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<p>Now let’s initialize our git repository.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git init
+<span class="gp">$ </span>git add hooky.py
+</code></pre>
+</div>
+
+<p>Before we commit, take a look at the <code class="highlighter-rouge">.git/hooks/</code> directory.  Also, if you haven’t, install <code class="highlighter-rouge">flake8</code>, which is one of many linters for Python.  If you’re following along in another language, install an equivalent linter.  Normally, we’d use a virtual environment, but a linter is a handy thing to have around globally.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ls -l .git/hooks/
+<span class="gp">$ </span>pip3 install flake8
+</code></pre>
+</div>
+
+<p>You’ll see a bunch of samples that you should look through later.  They’ve got some neat ideas in them.  For now, we’ll create our own <code class="highlighter-rouge">pre-commit</code> hook.  Create <code class="highlighter-rouge">.git/hooks/pre-commit</code>.  Make sure there is no file extension.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c">#!/usr/bin/env bash</span>
+
+<span class="c"># This is the pre-commit file</span>
+<span class="nb">echo</span> <span class="s2">"Linting code before commit..."</span>
+flake8
+</code></pre>
+</div>
+
+<p>Now, make sure that your script is executeable and we can attempt to commit.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>chmod +x .git/hooks/pre-commit
+<span class="gp">$ </span>git commit  <span class="c"># omit the -m for example's sake.</span>
+              <span class="c"># if you include a message, it will still work</span>
+              <span class="c"># you'll just waste your time typing a message</span>
+</code></pre>
+</div>
+
+<p>Boom!  Flake8 complains about our 💩 style.  No commit.  Prove it with <code class="highlighter-rouge">git status</code>.  Note the files are still staged, but not commited.  But why no commit?  For <code class="highlighter-rouge">pre-commit</code> hooks, if the script exits with any other status but zero, it cancels the commit.</p>
+
+<p><img src="/img/git-cancel.gif" alt="Cancelled!" /></p>
+
+<p><code class="highlighter-rouge">prepare-commit-msg</code>, <code class="highlighter-rouge">commit-msg</code>, <code class="highlighter-rouge">pre-rebase</code>, and <code class="highlighter-rouge">pre-push</code> all do similar things.  That’s pretty much it!  Great right?  Go forth and hook away!  Just to drive this home, I want to illustrate one more similar use case.  This is extra, so feel free to skip it if you’re already too excited you can’t wait to try it yourself.</p>
+
+<h2 id="bonus-example">Bonus Example</h2>
+
+<p>Create two new files: <code class="highlighter-rouge">__init__.py</code> and <code class="highlighter-rouge">test_hooky.py</code>.  <code class="highlighter-rouge">__init__.py</code> will remain blank, but here are the contents of the test file.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code>
+<span class="kn">from</span> <span class="nn">hooky</span> <span class="kn">import</span> <span class="n">hooky</span>   <span class="c"># From this dir, import the module</span>
+
+<span class="c"># This test should pass</span>
+<span class="k">def</span> <span class="nf">test_hook</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">hooky</span><span class="o">.</span><span class="n">hook</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="s">"---u&lt;&gt;&lt;---u&lt;&gt;&lt;---u&lt;&gt;&lt;"</span>
+
+<span class="c"># This one will fail because there is no such method (yet).</span>
+<span class="k">def</span> <span class="nf">test_release</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">hooky</span><span class="o">.</span><span class="n">release</span><span class="p">(</span><span class="s">"---u&lt;&gt;&lt;"</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</code></pre>
+</div>
+
+<p>Now, update your <code class="highlighter-rouge">.git/hooks/pre-commit</code> file.  Again, if you haven’t yet, intall pytest (an awesome testing framework) via pip.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c">#!/usr/bin/env bash</span>
+
+<span class="c"># This is the pre-commit file</span>
+<span class="nb">echo</span> <span class="s2">"Linting code before commit..."</span>
+flake8
+
+<span class="nb">echo</span> <span class="s2">"Running tests..."</span>
+pytest
+</code></pre>
+</div>
+
+<p>Now, running <code class="highlighter-rouge">flake8</code>, go back into your <code class="highlighter-rouge">hooky.py</code> file and fix all of the warnings until <code class="highlighter-rouge">flake8</code> is appeased.  Then try committing again.  You should see it blow up with the broken test!  Feel cool?  Good, because you are cool.  And it’s not just the git hooks.  Although they add to your overall coolness, you were already cool.  So how about that?</p>
+
+    <small>
+        
+        <a href="/tags/git/">git</a>
+        
+    </small>
+</article>
+        </div>
+
+        <footer id="main-footer">
+    <div class="container">
+        <p class="text-muted">&copy; Ryan Palo 2017 | All things.  Phil. 4:13</p>
+    </div>
+</footer>
+        <!-- Scripts -->
+        <!--  
+        jQuery (necessary for Bootstrap's JavaScript plugins)
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        Latest compiled and minified Bootstrap JavaScript
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        -->
+        <!-- Custom Javascript -->
+        <script src="/js/main.js"></script>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-91889165-1', 'auto');
+            ga('send', 'pageview');
+
+        </script>
+        
+    </body>
+</html>

@@ -6,9 +6,114 @@
 </description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 01 Aug 2017 21:34:42 -0700</pubDate>
-    <lastBuildDate>Tue, 01 Aug 2017 21:34:42 -0700</lastBuildDate>
+    <pubDate>Mon, 07 Aug 2017 21:58:38 -0700</pubDate>
+    <lastBuildDate>Mon, 07 Aug 2017 21:58:38 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Your Own REPL in Twenty Lines or Less</title>
+        <description>&lt;p&gt;Have you ever been in a Python interactive REPL and said to yourself, “You know, this is nice and all, but… it’s missing something.  There’s not enough &lt;em&gt;me&lt;/em&gt;!”  Well, worry no more!  I’ll show you how to do it in twenty lines or less!  Let me introduce the main attraction:&lt;/p&gt;
+
+&lt;h2 id=&quot;code&quot;&gt;Code&lt;/h2&gt;
+
+&lt;p&gt;As unhelpful as that sounds, it’s true.  Python has a module in the standard library called &lt;code class=&quot;highlighter-rouge&quot;&gt;Code&lt;/code&gt;.  You can check out the &lt;a href=&quot;https://docs.python.org/3/library/code.html&quot;&gt;code module documentation&lt;/a&gt; if you don’t believe me.  The documentation is maybe a little tough to understand on first pass-through, so I thought I’d create a few examples to show it off.  There are a few objects in the &lt;code class=&quot;highlighter-rouge&quot;&gt;code&lt;/code&gt; module, but only one that I’m going to talk about this time: &lt;code class=&quot;highlighter-rouge&quot;&gt;interact&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;interact&quot;&gt;Interact&lt;/h2&gt;
+
+&lt;p&gt;Let’s dive in.  I’ll show you.  Let’s create a new file in our directory called &lt;code class=&quot;highlighter-rouge&quot;&gt;shell.py&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# I'll be using Python 3, for reference.&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;code&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# seems silly, but works great&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;custom_repl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;pie&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;delicious&quot;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;pi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;3.14159&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;homonyms&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pie&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;interact&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;banner&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello!  My name is Jeeves!  I am fancy.  🎩&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;local&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;locals&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;exitmsg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Ta-ta!&quot;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;custom_repl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Try running it and watch the magic work.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;python3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shell&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;py&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Hello&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;!&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;My&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Jeeves&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;!&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;I&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;am&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fancy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;  &lt;span class=&quot;err&quot;&gt;🎩&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pi&lt;/span&gt;
+&lt;span class=&quot;mf&quot;&gt;3.1415&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pie&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'delicious'&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;homonyms&lt;/span&gt;
+&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;math&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;math&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqrt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;mf&quot;&gt;1.7724531023414978&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Ctrl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Ta&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ta&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;!&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;As you can see, the banner message we specified shows, the exit message we specified shows (although it didn’t work for me if I used the built-in &lt;code class=&quot;highlighter-rouge&quot;&gt;exit()&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;quit()&lt;/code&gt; commands), and we had access to the local variables when &lt;code class=&quot;highlighter-rouge&quot;&gt;interact&lt;/code&gt; was called.  And we can use anything to act as our local state!  Go back in and create &lt;code class=&quot;highlighter-rouge&quot;&gt;shell2.py&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# shell2.py&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;code&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Car&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mileage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;color&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;color&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mileage&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mileage&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;honk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Beep!&quot;&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__repr__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;Car - color: {}, mileage: {}&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mileage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;red&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;interact&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;banner&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Now interactively inspecting {}&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;local&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;car&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Back in the shell… &lt;code class=&quot;highlighter-rouge&quot;&gt;python3 shell2.py&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;Now&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;interactively&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inspecting&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mileage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20000&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mileage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20000&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;honk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'Beep!'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Keep in mind that the &lt;code class=&quot;highlighter-rouge&quot;&gt;local&lt;/code&gt; parameter to &lt;code class=&quot;highlighter-rouge&quot;&gt;interact&lt;/code&gt; has to be a Dict – such as the one returned by &lt;code class=&quot;highlighter-rouge&quot;&gt;local()&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;global()&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;wrap-up&quot;&gt;Wrap Up&lt;/h2&gt;
+
+&lt;p&gt;You can use this to provide a nice interactive aspect to your app to help you do shell things, inspect objects, debug, and much more.  This is roughly how &lt;a href=&quot;https://docs.python.org/3/library/pdb.html&quot;&gt;pdb&lt;/a&gt; works too!  Django and Flask both use a variation on this for their “shell” commands too.  I think I’m going to try to use it to generate an automated quiz or homework for a python intro class (similar to &lt;a href=&quot;https://www.youtube.com/watch?v=McoHQIxJd-o&quot;&gt;the swirl package in R&lt;/a&gt;).  Have any other cool ways you’ve used this?  Let me know!&lt;/p&gt;
+</description>
+        <pubDate>Mon, 07 Aug 2017 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2017/08/07/twenty-lines-or-less/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/07/twenty-lines-or-less/</guid>
+        
+        <category>python</category>
+        
+        <category>fun</category>
+        
+        
+      </item>
     
       <item>
         <title>Git Hooked on Git Hooks</title>
@@ -125,8 +230,8 @@ pytest
 &lt;p&gt;Now, running &lt;code class=&quot;highlighter-rouge&quot;&gt;flake8&lt;/code&gt;, go back into your &lt;code class=&quot;highlighter-rouge&quot;&gt;hooky.py&lt;/code&gt; file and fix all of the warnings until &lt;code class=&quot;highlighter-rouge&quot;&gt;flake8&lt;/code&gt; is appeased.  Then try committing again.  You should see it blow up with the broken test!  Feel cool?  Good, because you are cool.  And it’s not just the git hooks.  Although they add to your overall coolness, you were already cool.  So how about that?&lt;/p&gt;
 </description>
         <pubDate>Tue, 01 Aug 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/08/01/git-hooked-on-git-hooks.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/08/01/git-hooked-on-git-hooks.html</guid>
+        <link>http://localhost:4000/2017/08/01/git-hooked-on-git-hooks/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/01/git-hooked-on-git-hooks/</guid>
         
         <category>git</category>
         
@@ -246,8 +351,8 @@ pytest
 &lt;p&gt;Hopefully this post provides you a useful &lt;em&gt;service&lt;/em&gt;!  (Womp womp womp)&lt;/p&gt;
 </description>
         <pubDate>Sun, 23 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/07/23/script-as-a-service.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/07/23/script-as-a-service.html</guid>
+        <link>http://localhost:4000/2017/07/23/script-as-a-service/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/23/script-as-a-service/</guid>
         
         <category>python</category>
         
@@ -305,8 +410,8 @@ Bonus points if your enemy is lazy you.&lt;/p&gt;
 &lt;p&gt;&lt;sup id=&quot;f1&quot;&gt;1&lt;/sup&gt;I’m a grown man who consistently says “jammies”.  Whatever.  Don’t judge me.&lt;a href=&quot;#s1&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 17 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/07/17/tricking-yourself-into-exercising.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/07/17/tricking-yourself-into-exercising.html</guid>
+        <link>http://localhost:4000/2017/07/17/tricking-yourself-into-exercising/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/17/tricking-yourself-into-exercising/</guid>
         
         <category>exercise</category>
         
@@ -513,8 +618,8 @@ Bonus points if your enemy is lazy you.&lt;/p&gt;
 &lt;p&gt;This has been a long one, and hopefully I didn’t miss anything.  Since I spaced the posts out (which I regret), I had to play some games with reminding myself what changed from Part to Part.  So, if something doesn’t work or is broken, let me know and I’ll see if I can find where I went wrong.  I added my final project folder &lt;a href=&quot;https://github.com/rpalo/vue-django-example&quot;&gt;on GitHub&lt;/a&gt; so you can search for discrepancies to aid in debugging.  Thanks for sticking with me!&lt;/p&gt;
 </description>
         <pubDate>Sun, 16 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/07/16/vue-on-django-part-4.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/07/16/vue-on-django-part-4.html</guid>
+        <link>http://localhost:4000/2017/07/16/vue-on-django-part-4/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/16/vue-on-django-part-4/</guid>
         
         <category>vue</category>
         
@@ -703,8 +808,8 @@ python manage.py runserver
 &lt;p&gt;See you in the next one!&lt;/p&gt;
 </description>
         <pubDate>Thu, 06 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/07/06/vue-on-django-part-3.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/07/06/vue-on-django-part-3.html</guid>
+        <link>http://localhost:4000/2017/07/06/vue-on-django-part-3/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/06/vue-on-django-part-3/</guid>
         
         <category>vue</category>
         
@@ -897,8 +1002,8 @@ python manage.py runserver
 &lt;p&gt;Like before, I’m pretty much writing this as I learn the things, so if I do something wrong or you’ve got a better way, let me know about it.  Stay tuned for Part 3!&lt;/p&gt;
 </description>
         <pubDate>Sat, 24 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/06/24/vue-on-django-part-2.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/06/24/vue-on-django-part-2.html</guid>
+        <link>http://localhost:4000/2017/06/24/vue-on-django-part-2/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/06/24/vue-on-django-part-2/</guid>
         
         <category>vue</category>
         
@@ -1069,8 +1174,8 @@ python manage.py runserver
 &lt;p&gt;As a note, this is my first time really using ES6-type syntax for the front-end, my first time using Vue, Webpack, ESLint, and my first time really using npm scripts and node_modules.  If you see any ways that I’m Doing It Wrong™, let me know (gently, please 😁).&lt;/p&gt;
 </description>
         <pubDate>Tue, 20 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/06/20/vue-on-django-part-1.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/06/20/vue-on-django-part-1.html</guid>
+        <link>http://localhost:4000/2017/06/20/vue-on-django-part-1/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/06/20/vue-on-django-part-1/</guid>
         
         <category>vue</category>
         
@@ -1136,8 +1241,8 @@ python manage.py runserver
 &lt;p&gt;Long story short, Jupyter Notebooks are &lt;strong&gt;The Business&lt;/strong&gt;.  &lt;a href=&quot;http://jupyter.org/install.html&quot;&gt;Get it today.&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 13 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/06/13/jupyter-notebooks-are-the-business.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/06/13/jupyter-notebooks-are-the-business.html</guid>
+        <link>http://localhost:4000/2017/06/13/jupyter-notebooks-are-the-business/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/06/13/jupyter-notebooks-are-the-business/</guid>
         
         <category>python</category>
         
@@ -1345,152 +1450,8 @@ python manage.py runserver
 &lt;p&gt;Anyways anyways, if you have any questions about decorators (or anything else for that matter), don’t hesitate to ask me!  I’m always happy to help (even though I usually end up doing some vigorous googling before I am able to fully answer most questions).  Ditto goes for if you can explain something better than I did or have extra input. 😁&lt;/p&gt;
 </description>
         <pubDate>Mon, 05 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/06/05/unwrapping-decorators-2.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/06/05/unwrapping-decorators-2.html</guid>
-        
-        <category>python</category>
-        
-        <category>pythonic</category>
-        
-        <category>functional</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Unwrapping Decorators, Part 1</title>
-        <description>&lt;h1 id=&quot;preface&quot;&gt;Preface&lt;/h1&gt;
-
-&lt;p&gt;I promised in an earlier post to talk about Python decorators.  A note for the smarty-pantses reading this: there is apparently something called the Decorator Pattern.  While you can use Python “lowercase d” decorators to implement the Decorator Pattern, that is only one possible use for them.  For a longer and more detailed discussion of the naming issues here, the Type A people should read the relevant &lt;a href=&quot;https://www.python.org/dev/peps/pep-0318/#on-the-name-decorator&quot;&gt;PEP&lt;/a&gt;.  For the rest of this post, when I say decorator, I mean the Python decorator language feature.  Now.  Onward!&lt;/p&gt;
-
-&lt;h1 id=&quot;prerequisites&quot;&gt;Prerequisites&lt;/h1&gt;
-
-&lt;p&gt;I have to lay a baseline so that everybody is on the same page.  If you’re comfortable with functional concepts like functions as variables, parameters, returned objects, and functions within functions – and you don’t want to hear me yammer about it – you can &lt;a href=&quot;#Decorators&quot;&gt;skip to the good stuff&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;functions-as-variables&quot;&gt;Functions as Variables&lt;/h2&gt;
-
-&lt;p&gt;For those of you still with me, God bless you.  If you didn’t know, in the same way you assign a literal value to a variable, you can assign a function without calling it.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;soup&quot;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;how_much_food&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;food&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;quantity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;I've got {} {}s!&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;quantity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;food&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gerald&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;how_much_food&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gerald&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&quot;I've got 4 soups!&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h2 id=&quot;functions-as-parameters-and-return-values&quot;&gt;Functions as Parameters and Return Values&lt;/h2&gt;
-
-&lt;p&gt;Cool, right?  Now, as a direct result of that, you can pass functions around in and out of other functions, just like any other variable.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;call_this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Called it!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;call_with_three&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;woof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;times&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Woof!&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;times&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;call_this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;woof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&quot;Woof!&quot;&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&quot;Called it!&quot;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;call_with_three&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;woof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&quot;Woof!Woof!Woof!&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h2 id=&quot;defining-functions-within-other-functions&quot;&gt;Defining Functions within Other Functions&lt;/h2&gt;
-
-&lt;p&gt;You can even define functions within other functions!  This can be &lt;em&gt;super&lt;/em&gt; powerful.  Which leads to one of my favorite coding puzzles of all time: make the following test pass.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;assert five(plus(three())) == 8&lt;/code&gt;&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;three&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;operator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;operator&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;operator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;five&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;operator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;operator&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;operator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;plus&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;second_number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;inner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first_number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;first_number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;second_number&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inner&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Get it?&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# five(plus(three()))&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# five(plus(3)) -&amp;gt; def inner: return first_number + 3&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# five(inner) -&amp;gt; inner(5) -&amp;gt; 5 + 3 -&amp;gt; 8&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Like I said, that one’s a puzzle, so if you don’t get it the first time, try writing in out on paper, and doing the substitutions like a math problem.  Anyways, long story short, functions are neat little objects that you can sling around and define pretty much anywhere you could use literals.  A function doesn’t get called until you slap some () on the end.  Now, the main event.&lt;/p&gt;
-
-&lt;h1 id=&quot;Decorators&quot;&gt;Decorators&lt;/h1&gt;
-
-&lt;p&gt;Decorators are used to wrap other functions to add separate functionality without polluting the function in question.  This helps each function retain a Single Responsibility™.  I believe in learning the crappy way to do something first, so you appreciate the beauty of the pretty way, so let’s look at how we would do that…&lt;/p&gt;
-
-&lt;h2 id=&quot;the-crappy-way&quot;&gt;The Crappy Way&lt;/h2&gt;
-
-&lt;p&gt;Imagine we have a function that barked everytime its inner function was called.  Why?  Because examples are hard.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;pre_bark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;inner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Woof!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inner&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;In order to wrap &lt;code class=&quot;highlighter-rouge&quot;&gt;hello&lt;/code&gt; in the woofing functionality, we’d have to do this:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hello&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pre_bark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&quot;Woof!&quot;&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&quot;Hello!&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Do you see what happens?  We replace &lt;code class=&quot;highlighter-rouge&quot;&gt;hello&lt;/code&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;inner&lt;/code&gt;, which prints “Woof!” before calling the original &lt;code class=&quot;highlighter-rouge&quot;&gt;hello&lt;/code&gt; function.  Not beautiful.  Not beautiful because you have to wrap &lt;code class=&quot;highlighter-rouge&quot;&gt;hello&lt;/code&gt; after it is defined.  Someone could possibly glance at the function definition before calling it, blithely expecting &lt;code class=&quot;highlighter-rouge&quot;&gt;Hello!&lt;/code&gt; but getting an unexpected &lt;code class=&quot;highlighter-rouge&quot;&gt;Woof!&lt;/code&gt;.  The path of least surprise is usually the best one.  What if it looked more like this:&lt;/p&gt;
-
-&lt;h2 id=&quot;the-pretty-way&quot;&gt;The Pretty Way&lt;/h2&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;nd&quot;&gt;@pre_bark&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;You would be able to quickly see what the function did and that it was slightly modified by something called &lt;code class=&quot;highlighter-rouge&quot;&gt;pre_bark&lt;/code&gt;.  Now we’re talking.  And then there was evening, and there was morning – your first decorator.  And it was good.&lt;/p&gt;
-
-&lt;h2 id=&quot;but-what-about-my-arguments&quot;&gt;But What About My Arguments?&lt;/h2&gt;
-
-&lt;p&gt;In order to snag any arguments passed to your function, the inner function will accept those arguments in the form of *args, **kwargs.  I won’t go into that now, but &lt;a href=&quot;https://stackoverflow.com/a/3394898/4100442&quot;&gt;this&lt;/a&gt; has a pretty good explanation if you are not familiar.  Short version: think of *args as a list of all the positional arguments passed and **kwargs as a dictionary of all of the keyword arguments passed.  That’s not quite accurate, but it’s close enough for government work.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_them_args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;the_name_of_this_one_doesnt_matter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{} called with {}&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]))&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;the_name_of_this_one_doesnt_matter&lt;/span&gt;
-
-&lt;span class=&quot;nd&quot;&gt;@print_them_args&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;called&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h1 id=&quot;conclusion-of-part-1&quot;&gt;Conclusion of Part 1&lt;/h1&gt;
-
-&lt;p&gt;I was going to go on, because we still have to talk about passing arguments to decorators, stacking decorators, and we haven’t even &lt;em&gt;begun&lt;/em&gt; to cover what you can do with decorators and classes!  But then I looked at my word-count-o-meter which informed me that I was well beyond even the bravest of attention spans.  I’ll finish up with the rest of this next week.  I’m sure everyone will be mashing their refresh button, anxiously waiting for the dramatic conclusion.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/cliffhanger.gif&quot; alt=&quot;Dog mashing keyboard pillow&quot; /&gt;&lt;/p&gt;
-</description>
-        <pubDate>Tue, 30 May 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/05/30/unwrapping-decorators-1.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/05/30/unwrapping-decorators-1.html</guid>
+        <link>http://localhost:4000/2017/06/05/unwrapping-decorators-2/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/06/05/unwrapping-decorators-2/</guid>
         
         <category>python</category>
         
