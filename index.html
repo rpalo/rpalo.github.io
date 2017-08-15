@@ -52,99 +52,79 @@
 
   <!-- Current Post -->
   
-    <h1>Your Own REPL in Twenty Lines or Less</h2>
-    <small>Aug 7, 2017</small>
-    <p><p>Have you ever been in a Python interactive REPL and said to yourself, “You know, this is nice and all, but… it’s missing something.  There’s not enough <em>me</em>!”  Well, worry no more!  I’ll show you how to do it in twenty lines or less!  Let me introduce the main attraction:</p>
+    <h1>Step Your Meta Game Up</h2>
+    <small>Aug 14, 2017</small>
+    <p><p>Meta tags.  SEO.  For me, these were things I knew existed, and I knew I should be doing something about them, but it was never high on the list of things to do – until I read up on them and found out how cool they can make your website!  They’re quick little things that can give your site just a touch of panache and confidence.</p>
 
-<h2 id="code">Code</h2>
+<p><img src="/img/confident-swanson.gif" alt="I know what I'm about, son." /></p>
 
-<p>As unhelpful as that sounds, it’s true.  Python has a module in the standard library called <code class="highlighter-rouge">Code</code>.  You can check out the <a href="https://docs.python.org/3/library/code.html">code module documentation</a> if you don’t believe me.  The documentation is maybe a little tough to understand on first pass-through, so I thought I’d create a few examples to show it off.  There are a few objects in the <code class="highlighter-rouge">code</code> module, but only one that I’m going to talk about this time: <code class="highlighter-rouge">interact</code>.</p>
+<p>I’m going to cover two types of meta tags here: general utility tags and social tags.</p>
 
-<h2 id="interact">Interact</h2>
+<h2 id="utility-tags">Utility Tags</h2>
 
-<p>Let’s dive in.  I’ll show you.  Let’s create a new file in our directory called <code class="highlighter-rouge">shell.py</code>.</p>
+<p>First let’s cover some things that help search engines, devices, and other robits work well with your site.  I’m just learning about this, but it seems like these should probably exist on every page that you ever make.  Someone correct me if I’m wrong.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c">#!/usr/bin/env python</span>
-<span class="c"># I'll be using Python 3, for reference.</span>
-
-<span class="kn">import</span> <span class="nn">code</span>  <span class="c"># seems silly, but works great</span>
-
-<span class="k">def</span> <span class="nf">custom_repl</span><span class="p">():</span>
-    <span class="n">pie</span> <span class="o">=</span> <span class="s">"delicious"</span>
-    <span class="n">pi</span> <span class="o">=</span> <span class="mf">3.14159</span>
-    <span class="n">homonyms</span> <span class="o">=</span> <span class="p">(</span><span class="n">pie</span> <span class="o">!=</span> <span class="n">pi</span><span class="p">)</span>
-    <span class="n">code</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span>
-        <span class="n">banner</span><span class="o">=</span><span class="s">"Hello!  My name is Jeeves!  I am fancy.  🎩"</span><span class="p">,</span>
-        <span class="n">local</span><span class="o">=</span><span class="nb">locals</span><span class="p">(),</span>
-        <span class="n">exitmsg</span><span class="o">=</span><span class="s">"Ta-ta!"</span>
-    <span class="p">)</span>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">custom_repl</span><span class="p">()</span>
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">"X-UA-Compatible"</span> <span class="na">content=</span><span class="s">"IE=edge"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"viewport"</span> <span class="na">content=</span><span class="s">"width=device-width, initial-scale=1"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"ROBOTS"</span> <span class="na">content=</span><span class="s">"INDEX, FOLLOW"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"description"</span> <span class="na">content=</span><span class="s">"Ryan's site that extols the values of cheese."</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"keywords"</span> <span class="na">content=</span><span class="s">"cheese, virtues, poetry, spoken word, slam poems about cheese"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
 </code></pre>
 </div>
 
-<p>Try running it and watch the magic work.</p>
+<p>Some explanation:</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="err">$</span> <span class="n">python3</span> <span class="n">shell</span><span class="o">.</span><span class="n">py</span>
-<span class="n">Hello</span><span class="err">!</span>  <span class="n">My</span> <span class="n">name</span> <span class="ow">is</span> <span class="n">Jeeves</span><span class="err">!</span>  <span class="n">I</span> <span class="n">am</span> <span class="n">fancy</span><span class="o">.</span>  <span class="err">🎩</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">pi</span>
-<span class="mf">3.1415</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">pie</span>
-<span class="s">'delicious'</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">homonyms</span>
-<span class="bp">True</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">3</span>
-<span class="mi">7</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">math</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span>
-<span class="mf">1.7724531023414978</span>
-<span class="o">&lt;</span><span class="n">Ctrl</span><span class="o">-</span><span class="n">D</span><span class="o">&gt;</span>
-<span class="n">Ta</span><span class="o">-</span><span class="n">ta</span><span class="err">!</span>
+<ol>
+  <li><strong>Charset</strong>: Specifies the character encoding of the website.  UTF-8 is nice, it’s the recommended setting, and it helps with languages that have characters that are outside the basic ASCII set.</li>
+  <li><strong>IE=Edge</strong>: A meta tag that seems like it used to be required to tell Internet Explorer to behave, but from what I can tell, Microsoft seems to be phasing this out.  This might not even be necessary any more.  I don’t think it hurts to have it, though, and it may help with some browser compatibility.</li>
+  <li><strong>Viewport</strong>: Sets the initial viewport and scaling.  According to <a href="https://www.w3schools.com/TAgs/tag_meta.asp">w3</a>, this makes it so your site doesn’t show up teeny tiny on mobile initially.  Always a good idea.</li>
+  <li><strong>ROBOTS</strong>: Tells well-behaving web-crawlers how to index (or not) your site.  You would set this according to whether or not you want the page to be visible from Google, for example.</li>
+  <li><strong>Description</strong>: Your site’s description.</li>
+  <li><strong>Keywords</strong>: Keywords that help people find your site from searches.</li>
+</ol>
+
+<p>Especially if you’re using Jekyll, JavaScript frameworks, or some other method of templating, it’s pretty easy to drop these in once and forget about them and they improve your searchability and accessibility.  But!  They don’t do anything especially shwoopy like the next section does.  Behold!</p>
+
+<h2 id="social-tags">Social Tags</h2>
+
+<p>There are some people who’s links look sad when they share them on social media.  Like this:</p>
+
+<p><img src="/img/sad-link.png" alt="Sad link sharing" /></p>
+
+<p>But, in a few short minutes, their links could look like <strong>this:</strong></p>
+
+<p><img src="/img/amazing-link.png" alt="AMAZING LINK!" /></p>
+
+<p>Let’s take a look at the HTML.</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code>    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:card"</span> <span class="na">content=</span><span class="s">"summary_large_image"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:title"</span> <span class="na">content=</span><span class="s">"assert_not magic? | Gouda?  You mean great!"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:site"</span> <span class="na">content=</span><span class="s">"@paytastic"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:description"</span> <span class="na">content=</span><span class="s">"A point-by-point comparison of Gouda and other cheeses."</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:image"</span> <span class="na">content=</span><span class="s">"http://assertnotmagic.com/gouda.png"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:image:alt"</span> <span class="na">content=</span><span class="s">"Delicious Gouda"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:creator"</span> <span class="na">content=</span><span class="s">"@paytastic"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"og:url"</span> <span class="na">content=</span><span class="s">"http://assertnotmagic.com/gouda/"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"og:title"</span> <span class="na">content=</span><span class="s">"assert_not magic? | Gouda?  You mean great!"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"og:description"</span> <span class="na">content=</span><span class="s">"A point-by-point comparison of Gouda and other cheeses."</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"og:image"</span> <span class="na">content=</span><span class="s">"http://assertnotmagic.com/gouda.png"</span><span class="nt">&gt;</span>
 </code></pre>
 </div>
 
-<p>As you can see, the banner message we specified shows, the exit message we specified shows (although it didn’t work for me if I used the built-in <code class="highlighter-rouge">exit()</code> or <code class="highlighter-rouge">quit()</code> commands), and we had access to the local variables when <code class="highlighter-rouge">interact</code> was called.  And we can use anything to act as our local state!  Go back in and create <code class="highlighter-rouge">shell2.py</code>.</p>
+<p>There’s actually a lot more you could do.  It’s hopefully clear that the lines beginning with ‘twitter’ are for the Twitter API, and it’s probably not clear that the ‘og’ ones are for Facebook for some reason.  There’s also Google+ and others.  These are just the two that I’m using now.  Note the ever-important <code class="highlighter-rouge">twitter:image:alt</code> for screen-readers.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c">#!/usr/bin/env python</span>
-<span class="c"># shell2.py</span>
+<p>Anyways, once you’ve got this in place (or, at least the Twitter ones), head on over to <a href="https://dev.twitter.com/cards/overview">the Twitter Card API documentation</a> and take a peek.  Finally, head to the <a href="https://cards-dev.twitter.com/validator">Twitter Card Validator</a> to make sure you did it right and check to ensure everything is working as planned.  It may take a bit for Twitter and the other sites to crawl and whitelist your site (or blacklist you if you’re a moral delinquent), but then, sharing your site on social media will be super duper shnazzy!</p>
 
-<span class="kn">import</span> <span class="nn">code</span>
+<p>I’m working on figuring out Google’s Rich Cards (i.e. how your site and pages are displayed in their search results), and once I get that all in place and figured out, I’ll write a post about that as well.</p>
 
-<span class="k">class</span> <span class="nc">Car</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">mileage</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mileage</span> <span class="o">=</span> <span class="n">mileage</span>
+<p><img src="/img/google-cards.png" alt="Google cards" /></p>
 
-    <span class="k">def</span> <span class="nf">honk</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">"Beep!"</span>
+<p><small class="centered">Sorry, apparently I’ve got food on my mind.</small></p>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">"&lt;Car - color: {}, mileage: {}&gt;"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mileage</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">Car</span><span class="p">(</span><span class="s">"red"</span><span class="p">,</span> <span class="mi">20000</span><span class="p">)</span>
-    <span class="n">code</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span>
-        <span class="n">banner</span><span class="o">=</span><span class="s">"Now interactively inspecting {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">),</span>
-        <span class="n">local</span><span class="o">=</span><span class="p">{</span><span class="s">"car"</span><span class="p">:</span> <span class="n">c</span><span class="p">},</span>
-    <span class="p">)</span>
-</code></pre>
-</div>
-<p>Back in the shell… <code class="highlighter-rouge">python3 shell2.py</code></p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">Now</span> <span class="n">interactively</span> <span class="n">inspecting</span> <span class="o">&lt;</span><span class="n">Car</span> <span class="o">-</span> <span class="n">color</span><span class="p">:</span> <span class="n">red</span><span class="p">,</span> <span class="n">mileage</span><span class="p">:</span> <span class="mi">20000</span><span class="o">&gt;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">car</span>
-<span class="o">&lt;</span><span class="n">Car</span> <span class="o">-</span> <span class="n">color</span><span class="p">:</span> <span class="n">red</span><span class="p">,</span> <span class="n">mileage</span><span class="p">:</span> <span class="mi">20000</span><span class="o">&gt;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">car</span><span class="o">.</span><span class="n">honk</span><span class="p">()</span>
-<span class="s">'Beep!'</span>
-</code></pre>
-</div>
-
-<p>Keep in mind that the <code class="highlighter-rouge">local</code> parameter to <code class="highlighter-rouge">interact</code> has to be a Dict – such as the one returned by <code class="highlighter-rouge">local()</code> and <code class="highlighter-rouge">global()</code>.</p>
-
-<h2 id="wrap-up">Wrap Up</h2>
-
-<p>You can use this to provide a nice interactive aspect to your app to help you do shell things, inspect objects, debug, and much more.  This is roughly how <a href="https://docs.python.org/3/library/pdb.html">pdb</a> works too!  Django and Flask both use a variation on this for their “shell” commands too.  I think I’m going to try to use it to generate an automated quiz or homework for a python intro class (similar to <a href="https://www.youtube.com/watch?v=McoHQIxJd-o">the swirl package in R</a>).  Have any other cool ways you’ve used this?  Let me know!</p>
+<p>If I missed some meta tags you think are important, or if you’ve got some other cool ones to share, I’d love to hear about it!</p>
 </p>
   
   <hr>
@@ -161,6 +141,11 @@
         </li>
         
           <li>
+            <span class="post-meta">Aug 7, 2017</span><br/>
+            <a class="post-link" href="/2017/08/07/twenty-lines-or-less/">Your Own REPL in Twenty Lines or Less</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Aug 1, 2017</span><br/>
             <a class="post-link" href="/2017/08/01/git-hooked-on-git-hooks/">Git Hooked on Git Hooks</a>
           </li>
@@ -168,11 +153,6 @@
           <li>
             <span class="post-meta">Jul 23, 2017</span><br/>
             <a class="post-link" href="/2017/07/23/script-as-a-service/">Script as a Service</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Jul 17, 2017</span><br/>
-            <a class="post-link" href="/2017/07/17/tricking-yourself-into-exercising/">Tricking Yourself into Exercising</a>
           </li>
         
       </ul>
@@ -254,6 +234,12 @@
         <a href="/tags/sysadmin/" style="font-size: 14px">sysadmin | </a>
         
         <a href="/tags/linux/" style="font-size: 14px">linux | </a>
+        
+        <a href="/tags/html/" style="font-size: 14px">html | </a>
+        
+        <a href="/tags/seo/" style="font-size: 14px">seo | </a>
+        
+        <a href="/tags/social/" style="font-size: 14px">social | </a>
         
       </p>
     </div>
