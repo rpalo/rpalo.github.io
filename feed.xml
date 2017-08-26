@@ -4,10 +4,10 @@
     <title>assert_not magic?</title>
     <description>I'm currently/always doing a lot of learning, and it seems like writing it down in blog form is a good idea to help cement the things I'm learning. Also, all the cool kids are doing it.  My goal is once every two weeks or better.
 </description>
-    <link>http://assertnotmagic.com/</link>
-    <atom:link href="http://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 26 Aug 2017 12:59:06 -0700</pubDate>
-    <lastBuildDate>Sat, 26 Aug 2017 12:59:06 -0700</lastBuildDate>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 26 Aug 2017 15:28:28 -0700</pubDate>
+    <lastBuildDate>Sat, 26 Aug 2017 15:28:28 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
     
       <item>
@@ -158,8 +158,8 @@
 &lt;p&gt;P.P.S. - If you found yourself going “What the F are these F-strings (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;f'WHAT IS THIS'&lt;/code&gt;)”, fear not.  They’re Python’s newest string interpolation/formatting syntax.  I’ve got plans to write a post gushing about them in the near future.  They’re similar to JavaScript’s new &lt;code class=&quot;highlighter-rouge&quot;&gt;#{syntax}&lt;/code&gt;.&lt;/p&gt;
 </description>
         <pubDate>Sat, 26 Aug 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/08/26/metaprogramming-python-method-missing/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/08/26/metaprogramming-python-method-missing/</guid>
+        <link>http://localhost:4000/2017/08/26/metaprogramming-python-method-missing/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/26/metaprogramming-python-method-missing/</guid>
         
         <category>python</category>
         
@@ -245,8 +245,8 @@
 &lt;p&gt;If I missed some meta tags you think are important, or if you’ve got some other cool ones to share, I’d love to hear about it!&lt;/p&gt;
 </description>
         <pubDate>Mon, 14 Aug 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/08/14/step-your-meta-game-up/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/08/14/step-your-meta-game-up/</guid>
+        <link>http://localhost:4000/2017/08/14/step-your-meta-game-up/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/14/step-your-meta-game-up/</guid>
         
         <category>html</category>
         
@@ -352,8 +352,8 @@
 &lt;p&gt;You can use this to provide a nice interactive aspect to your app to help you do shell things, inspect objects, debug, and much more.  This is roughly how &lt;a href=&quot;https://docs.python.org/3/library/pdb.html&quot;&gt;pdb&lt;/a&gt; works too!  Django and Flask both use a variation on this for their “shell” commands too.  I think I’m going to try to use it to generate an automated quiz or homework for a python intro class (similar to &lt;a href=&quot;https://www.youtube.com/watch?v=McoHQIxJd-o&quot;&gt;the swirl package in R&lt;/a&gt;).  Have any other cool ways you’ve used this?  Let me know!&lt;/p&gt;
 </description>
         <pubDate>Mon, 07 Aug 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/08/07/twenty-lines-or-less/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/08/07/twenty-lines-or-less/</guid>
+        <link>http://localhost:4000/2017/08/07/twenty-lines-or-less/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/07/twenty-lines-or-less/</guid>
         
         <category>python</category>
         
@@ -477,8 +477,8 @@ pytest
 &lt;p&gt;Now, running &lt;code class=&quot;highlighter-rouge&quot;&gt;flake8&lt;/code&gt;, go back into your &lt;code class=&quot;highlighter-rouge&quot;&gt;hooky.py&lt;/code&gt; file and fix all of the warnings until &lt;code class=&quot;highlighter-rouge&quot;&gt;flake8&lt;/code&gt; is appeased.  Then try committing again.  You should see it blow up with the broken test!  Feel cool?  Good, because you are cool.  And it’s not just the git hooks.  Although they add to your overall coolness, you were already cool.  So how about that?&lt;/p&gt;
 </description>
         <pubDate>Tue, 01 Aug 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/08/01/git-hooked-on-git-hooks/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/08/01/git-hooked-on-git-hooks/</guid>
+        <link>http://localhost:4000/2017/08/01/git-hooked-on-git-hooks/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/01/git-hooked-on-git-hooks/</guid>
         
         <category>git</category>
         
@@ -598,8 +598,8 @@ pytest
 &lt;p&gt;Hopefully this post provides you a useful &lt;em&gt;service&lt;/em&gt;!  (Womp womp womp)&lt;/p&gt;
 </description>
         <pubDate>Sun, 23 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/07/23/script-as-a-service/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/07/23/script-as-a-service/</guid>
+        <link>http://localhost:4000/2017/07/23/script-as-a-service/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/23/script-as-a-service/</guid>
         
         <category>python</category>
         
@@ -657,8 +657,8 @@ Bonus points if your enemy is lazy you.&lt;/p&gt;
 &lt;p&gt;&lt;sup id=&quot;f1&quot;&gt;1&lt;/sup&gt;I’m a grown man who consistently says “jammies”.  Whatever.  Don’t judge me.&lt;a href=&quot;#s1&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 17 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/07/17/tricking-yourself-into-exercising/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/07/17/tricking-yourself-into-exercising/</guid>
+        <link>http://localhost:4000/2017/07/17/tricking-yourself-into-exercising/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/17/tricking-yourself-into-exercising/</guid>
         
         <category>exercise</category>
         
@@ -865,8 +865,8 @@ Bonus points if your enemy is lazy you.&lt;/p&gt;
 &lt;p&gt;This has been a long one, and hopefully I didn’t miss anything.  Since I spaced the posts out (which I regret), I had to play some games with reminding myself what changed from Part to Part.  So, if something doesn’t work or is broken, let me know and I’ll see if I can find where I went wrong.  I added my final project folder &lt;a href=&quot;https://github.com/rpalo/vue-django-example&quot;&gt;on GitHub&lt;/a&gt; so you can search for discrepancies to aid in debugging.  Thanks for sticking with me!&lt;/p&gt;
 </description>
         <pubDate>Sun, 16 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/07/16/vue-on-django-part-4/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/07/16/vue-on-django-part-4/</guid>
+        <link>http://localhost:4000/2017/07/16/vue-on-django-part-4/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/16/vue-on-django-part-4/</guid>
         
         <category>vue</category>
         
@@ -1055,8 +1055,8 @@ python manage.py runserver
 &lt;p&gt;See you in the next one!&lt;/p&gt;
 </description>
         <pubDate>Thu, 06 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/07/06/vue-on-django-part-3/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/07/06/vue-on-django-part-3/</guid>
+        <link>http://localhost:4000/2017/07/06/vue-on-django-part-3/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/06/vue-on-django-part-3/</guid>
         
         <category>vue</category>
         
@@ -1249,8 +1249,8 @@ python manage.py runserver
 &lt;p&gt;Like before, I’m pretty much writing this as I learn the things, so if I do something wrong or you’ve got a better way, let me know about it.  Stay tuned for Part 3!&lt;/p&gt;
 </description>
         <pubDate>Sat, 24 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/06/24/vue-on-django-part-2/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/06/24/vue-on-django-part-2/</guid>
+        <link>http://localhost:4000/2017/06/24/vue-on-django-part-2/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/06/24/vue-on-django-part-2/</guid>
         
         <category>vue</category>
         
@@ -1421,8 +1421,8 @@ python manage.py runserver
 &lt;p&gt;As a note, this is my first time really using ES6-type syntax for the front-end, my first time using Vue, Webpack, ESLint, and my first time really using npm scripts and node_modules.  If you see any ways that I’m Doing It Wrong™, let me know (gently, please 😁).&lt;/p&gt;
 </description>
         <pubDate>Tue, 20 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/06/20/vue-on-django-part-1/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/06/20/vue-on-django-part-1/</guid>
+        <link>http://localhost:4000/2017/06/20/vue-on-django-part-1/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/06/20/vue-on-django-part-1/</guid>
         
         <category>vue</category>
         
