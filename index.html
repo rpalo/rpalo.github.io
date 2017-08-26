@@ -22,6 +22,14 @@
         <meta name="og:title" content="assert_not magic?">
         <meta name="og:description" content="Ryan Palo's programming blog">
         <meta name="og:image" content="http://assertnotmagic.com/img/me.jpg">
+
+        <!-- Favicon settings -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/manifest.json">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#222222">
+        <meta name="theme-color" content="#ffffff">
         
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
@@ -43,7 +51,8 @@
         <li><a href="/posts/">All Posts</a></li>
         <li><a href="/about/">About</a></li>
         <li><a href="/sketches/">Sketches</a></li>
-        <li><a href="/todo/">To-Do</a></li>
+        <li><a href="/todo/">TODO</a></li>
+        <li><a href="/uses/">Uses</a></li>
     </ul>
 </nav>
         <div class="container main">
@@ -52,81 +61,155 @@
 
   <!-- Current Post -->
   
-    <h1>Step Your Meta Game Up</h2>
-    <small>Aug 14, 2017</small>
-    <p><p>Meta tags.  SEO.  For me, these were things I knew existed, and I knew I should be doing something about them, but it was never high on the list of things to do – until I read up on them and found out how cool they can make your website!  They’re quick little things that can give your site just a touch of panache and confidence.</p>
+    <h1>Metaprogramming Python - Method Missing</h2>
+    <small>Aug 26, 2017</small>
+    <p><p>I’m reading a book called <a href="https://pragprog.com/book/ppmetr2/metaprogramming-ruby-2">Metaprogramming Ruby</a> by Paolo Perrotta, and it’s really interesting!  I’m learning a lot.  Every so often, as I’m reading, I come accross a technique and I think to myself, “That’s neat!  I wonder if I can do something similar in another language like Python?”  After some research, I thought I’d share one such discovery with everybody else.  But first, some background.</p>
 
-<p><img src="/img/confident-swanson.gif" alt="I know what I'm about, son." /></p>
+<h2 id="the-background-what-is-metaprogramming">The Background: What is Metaprogramming?</h2>
 
-<p>I’m going to cover two types of meta tags here: general utility tags and social tags.</p>
+<p>Metaprogramming is a neat thing that some (all?  not sure) dynamic languages can do.  Essentially, it’s a bunch of different ways of writing code that will, at runtime, write your code for you.  Let’s take a look to see what I mean.</p>
 
-<h2 id="utility-tags">Utility Tags</h2>
-
-<p>First let’s cover some things that help search engines, devices, and other robits work well with your site.  I’m just learning about this, but it seems like these should probably exist on every page that you ever make.  Someone correct me if I’m wrong.</p>
-
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">"X-UA-Compatible"</span> <span class="na">content=</span><span class="s">"IE=edge"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"viewport"</span> <span class="na">content=</span><span class="s">"width=device-width, initial-scale=1"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"ROBOTS"</span> <span class="na">content=</span><span class="s">"INDEX, FOLLOW"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"description"</span> <span class="na">content=</span><span class="s">"Ryan's site that extols the values of cheese."</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"keywords"</span> <span class="na">content=</span><span class="s">"cheese, virtues, poetry, spoken word, slam poems about cheese"</span><span class="nt">&gt;</span>
-<span class="nt">&lt;/head&gt;</span>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">Dude</span><span class="p">:</span>
+<span class="o">...</span>     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">...</span>         <span class="k">pass</span>
+<span class="o">...</span>
+<span class="o">...</span>     <span class="k">def</span> <span class="nf">sup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">...</span>         <span class="k">return</span> <span class="s">"Sup, brah!"</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">d</span> <span class="o">=</span> <span class="n">Dude</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">dir</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="p">[</span> <span class="o">...</span><span class="p">(</span><span class="n">lots</span> <span class="n">of</span> <span class="n">built</span><span class="o">-</span><span class="ow">in</span> <span class="n">methods</span><span class="p">,</span> <span class="n">etc</span><span class="o">.</span><span class="p">),</span> <span class="s">'sup'</span><span class="p">]</span>
 </code></pre>
 </div>
 
-<p>Some explanation:</p>
+<p>See that?  At runtime, we just peeked into an object and could see its methods!  Keep going.</p>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="k">if</span> <span class="s">'sup'</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+<span class="o">...</span>     <span class="n">d</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"Brad"</span>
+<span class="o">...</span> <span class="k">else</span><span class="p">:</span>
+<span class="o">...</span>     <span class="n">d</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"Chad"</span>
+<span class="o">...</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">name</span>
+<span class="s">'Brad'</span>
+</code></pre>
+</div>
+
+<p>Now, we have modified our objects based on the methods and attributes of those same objects.  Our code has caused code to be written (a little bit).  FEEL THE POWER.</p>
+
+<h2 id="the-technique-method-missing">The Technique: Method Missing</h2>
+
+<p>If you’re familiar with Ruby, you might know that Ruby objects have a built-in method called <code class="highlighter-rouge">method_missing</code> that gets called – predictably – if you call a method that doesn’t exist inside that particular object.  You can do all sorts of things with this.  One is to dynamically generate methods at run-time based on things out of your control.  It saves on boilerplate code and constant refactoring.  We need an example to make things more clear though.</p>
+
+<h3 id="scenario-crazy-api-designer">Scenario: Crazy API Designer!</h3>
+
+<p>Let’s say you’re working with a teammate that drinks way too much coffee.  They manage the API that your program consumes, but they keep adding and changing the endpoint names.  The layout is always the same though, so that’s predictable at least.  For instance, last Monday, the main resource was <code class="highlighter-rouge">beets</code>, and so you implemented a <code class="highlighter-rouge">get_beets()</code> method on your <code class="highlighter-rouge">Supermarket</code> class.  This method fetches the current <code class="highlighter-rouge">beet</code> objects in inventory…</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Supermarket</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_root</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_root</span> <span class="o">=</span> <span class="n">api_root</span>
+    
+    <span class="k">def</span> <span class="nf">get_beets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s">'{self.api_root}/beets/'</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">api_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="o">...</span>
+        <span class="c"># Imagine this method hits the api with the provided arguments</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">'{url} called with args: {args}'</span><span class="p">)</span>  <span class="c"># for this example</span>
+</code></pre>
+</div>
+
+<p>At least… it did until that yahoo decided to use the slightly more descriptive object name: <code class="highlighter-rouge">beetroot</code>.  And so, you go back to your code and update the method name and API call.  Then, they add <code class="highlighter-rouge">rootabegas</code> on the fly, even though most of your code is the same.  But!  You are sneaky, you are smart, and you know about <strong>Metaprogramming</strong>!  And so you reach for your <code class="highlighter-rouge">Supermarket</code>’s <code class="highlighter-rouge">__getattr__</code> method.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">re</span>
+
+<span class="k">class</span> <span class="nc">Supermarket</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_root</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_root</span> <span class="o">=</span> <span class="n">api_root</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">r'get_([a-z]+)'</span><span class="p">)</span>  <span class="c"># matches any get_[something] call</span>
+
+    <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method_name</span><span class="p">):</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="p">,</span> <span class="n">method_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">temp_method</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s">'{self.api_root}/{match.group(1)}/'</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">temp_method</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="nb">AttributeError</span><span class="p">(</span><span class="n">f</span><span class="s">'No such attribute: {method_name}'</span><span class="p">)</span>
+
+<span class="c"># Let's test it!</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Supermarket</span><span class="p">(</span><span class="s">'example.com'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">get_beetroots</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="s">'example.com/beetroots Called with args: (3)'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">this_should_error</span><span class="p">()</span>
+<span class="o">...</span>
+<span class="nb">AttributeError</span><span class="p">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">attribute</span><span class="p">:</span> <span class="n">this_should_error</span>
+</code></pre>
+</div>
+
+<p>What just happened?  Let’s hit the key points:</p>
 
 <ol>
-  <li><strong>Charset</strong>: Specifies the character encoding of the website.  UTF-8 is nice, it’s the recommended setting, and it helps with languages that have characters that are outside the basic ASCII set.</li>
-  <li><strong>IE=Edge</strong>: A meta tag that seems like it used to be required to tell Internet Explorer to behave, but from what I can tell, Microsoft seems to be phasing this out.  This might not even be necessary any more.  I don’t think it hurts to have it, though, and it may help with some browser compatibility.</li>
-  <li><strong>Viewport</strong>: Sets the initial viewport and scaling.  According to <a href="https://www.w3schools.com/TAgs/tag_meta.asp">w3</a>, this makes it so your site doesn’t show up teeny tiny on mobile initially.  Always a good idea.</li>
-  <li><strong>ROBOTS</strong>: Tells well-behaving web-crawlers how to index (or not) your site.  You would set this according to whether or not you want the page to be visible from Google, for example.</li>
-  <li><strong>Description</strong>: Your site’s description.</li>
-  <li><strong>Keywords</strong>: Keywords that help people find your site from searches.</li>
+  <li><code class="highlighter-rouge">__getattr__</code> is a builtin method in Python objects that gets called if Python can’t find the method or attribute you’re looking for.  We’ll talk about this a little more in a minute.  But Python expects that this method will either return a function to be called or raise an AttributeError like normal.  As you can hopefully see, that’s what we’ve done above.</li>
+  <li>We defined a <a href="http://www.rexegg.com/regex-quickstart.html">regular expression</a> to match the API call method pattern that we expect.  We don’t know what the object/endpoint will be, but we do know that it will start with “get_” and end with the object’s name.</li>
+  <li><code class="highlighter-rouge">__getattr__</code> gets passed the name of the method that gets called.  If the method name matches our regex, we move to step 4.  Otherwise we carry on with raising an AttributeError.  That gets shown in the last REPL call for <code class="highlighter-rouge">this_should_error</code>.</li>
+  <li>If the method call matches our regex, we want to build and return a function to call.  It doesn’t necessarily matter what you call this inner function.  It might if we decided to permanently add it to our class, but we’re not doing that now.  This function lays out the boilerplate we are looking to avoid.  It should take the parameters we expected functions like <code class="highlighter-rouge">get_beets</code> to accept.</li>
+  <li><code class="highlighter-rouge">match.group(1)</code> returns the item in the first (and only) group of parenthesis in our regex, which happens to be the name of the objects we care about.</li>
+  <li>Finally, we return the function, which immediately gets called with the arguments that the user initially specified.</li>
 </ol>
 
-<p>Especially if you’re using Jekyll, JavaScript frameworks, or some other method of templating, it’s pretty easy to drop these in once and forget about them and they improve your searchability and accessibility.  But!  They don’t do anything especially shwoopy like the next section does.  Behold!</p>
+<p>In a perfect world, we should probably have the <code class="highlighter-rouge">Supermarket</code> fetch a list of available endpoints so we can alert the user if they make API calls for something that isn’t an available endpoint.  This might also help with security some.  I’ll leave that as an exercise for the reader.</p>
 
-<h2 id="social-tags">Social Tags</h2>
+<h2 id="overriding-__getattr__s-methods">Overriding <code class="highlighter-rouge">__getattr__</code>’s Methods</h2>
 
-<p>There are some people who’s links look sad when they share them on social media.  Like this:</p>
+<p>I have two more possible scenarios for you.  Both have the same solution.</p>
 
-<p><img src="/img/sad-link.png" alt="Sad link sharing" /></p>
+<h3 id="scenario-example-method-or-overriding">Scenario: Example Method or Overriding</h3>
 
-<p>But, in a few short minutes, their links could look like <strong>this:</strong></p>
+<p>What if you want to lay out an example method, so people who are reading your code can see an example of what one of the dynamically generated methods will look like?  OR.  What if you want to override a method, defining your own behavior.  Both are possible, since <code class="highlighter-rouge">__getattr__</code> only gets called after Python searches the object for the desired attribute.  Take a look.</p>
 
-<p><img src="/img/amazing-link.png" alt="AMAZING LINK!" /></p>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Supermarket</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">get_squash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">"NO.  NO SQUASH.  It is the devil's gourd."</span>
 
-<p>Let’s take a look at the HTML.</p>
+    <span class="k">def</span> <span class="nf">get_peanuts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="s">"""
+        Example of a dynamically generated API call method
+        created by __getattr__
+        """</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s">'{self.api_root}/peanuts/'</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code>    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:card"</span> <span class="na">content=</span><span class="s">"summary_large_image"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:title"</span> <span class="na">content=</span><span class="s">"assert_not magic? | Gouda?  You mean great!"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:site"</span> <span class="na">content=</span><span class="s">"@paytastic"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:description"</span> <span class="na">content=</span><span class="s">"A point-by-point comparison of Gouda and other cheeses."</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:image"</span> <span class="na">content=</span><span class="s">"http://assertnotmagic.com/gouda.png"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:image:alt"</span> <span class="na">content=</span><span class="s">"Delicious Gouda"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:creator"</span> <span class="na">content=</span><span class="s">"@paytastic"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"og:url"</span> <span class="na">content=</span><span class="s">"http://assertnotmagic.com/gouda/"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"og:title"</span> <span class="na">content=</span><span class="s">"assert_not magic? | Gouda?  You mean great!"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"og:description"</span> <span class="na">content=</span><span class="s">"A point-by-point comparison of Gouda and other cheeses."</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"og:image"</span> <span class="na">content=</span><span class="s">"http://assertnotmagic.com/gouda.png"</span><span class="nt">&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Supermarket</span><span class="p">(</span><span class="s">'localhost'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">get_squash</span><span class="p">()</span>
+<span class="s">"NO.  NO SQUASH.  It is the devil's gourd."</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">get_peanuts</span><span class="p">()</span>
+<span class="s">'localhost/peanuts called with args: []'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">get_bananas</span><span class="p">(</span><span class="s">'big ones'</span><span class="p">)</span>
+<span class="s">'localhost/bananas called with args: ["big ones"]'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">soup</span><span class="p">()</span>
+<span class="o">...</span>
+<span class="k">raise</span> <span class="nb">AttributeError</span><span class="p">(</span><span class="n">f</span><span class="s">'No such attribute: {method_name}'</span><span class="p">)</span>
+
 </code></pre>
 </div>
 
-<p>There’s actually a lot more you could do.  It’s hopefully clear that the lines beginning with ‘twitter’ are for the Twitter API, and it’s probably not clear that the ‘og’ ones are for Facebook for some reason.  There’s also Google+ and others.  These are just the two that I’m using now.  Note the ever-important <code class="highlighter-rouge">twitter:image:alt</code> for screen-readers.</p>
+<p>It all works as planned!</p>
 
-<p>Anyways, once you’ve got this in place (or, at least the Twitter ones), head on over to <a href="https://dev.twitter.com/cards/overview">the Twitter Card API documentation</a> and take a peek.  Finally, head to the <a href="https://cards-dev.twitter.com/validator">Twitter Card Validator</a> to make sure you did it right and check to ensure everything is working as planned.  It may take a bit for Twitter and the other sites to crawl and whitelist your site (or blacklist you if you’re a moral delinquent), but then, sharing your site on social media will be super duper shnazzy!</p>
+<h2 id="caveat-meta">Caveat Meta</h2>
 
-<p>I’m working on figuring out Google’s Rich Cards (i.e. how your site and pages are displayed in their search results), and once I get that all in place and figured out, I’ll write a post about that as well.</p>
+<p>You should know that with great metaprogramming power comes great metaprogramming responsibility.  This kind of thing, if not well-laid-out and cleanly implemented, can make code super hard to read, reason about, and debug.  If you find yourself writing out more comments than code to explain how your object works, you should maybe ease up on the Meta.  In fact, I’ve read in several places that if you are unsure of whether or not you need metaprogramming, you probably don’t.  And if you are pretty sure you do need it, you still maybe don’t.  But, in specific instances, like when you need a bunch of methods that are all almost the same and you don’t know ahead of time which ones should exist, it can be very powerful and save you a lot of maintenance, headache, and typing.</p>
 
-<p><img src="/img/google-cards.png" alt="Google cards" /></p>
+<p>Overall, give it a try and maybe it will be a useful tip for you!  Let me know how it goes 😁</p>
 
-<p><small class="centered">Sorry, apparently I’ve got food on my mind.</small></p>
+<hr />
 
-<p>If I missed some meta tags you think are important, or if you’ve got some other cool ones to share, I’d love to hear about it!</p>
+<p>P.S. - I really recommend checking out the <em>Metaprogramming Ruby</em> book I mentioned at the beginning of this article.</p>
+
+<p>P.P.S. - If you found yourself going “What the F are these F-strings (e.g. <code class="highlighter-rouge">f'WHAT IS THIS'</code>)”, fear not.  They’re Python’s newest string interpolation/formatting syntax.  I’ve got plans to write a post gushing about them in the near future.  They’re similar to JavaScript’s new <code class="highlighter-rouge">#{syntax}</code>.</p>
 </p>
   
+
   <hr>
 
 <!-- Footer for Homepage -->
@@ -141,6 +224,11 @@
         </li>
         
           <li>
+            <span class="post-meta">Aug 14, 2017</span><br/>
+            <a class="post-link" href="/2017/08/14/step-your-meta-game-up/">Step Your Meta Game Up</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Aug 7, 2017</span><br/>
             <a class="post-link" href="/2017/08/07/twenty-lines-or-less/">Your Own REPL in Twenty Lines or Less</a>
           </li>
@@ -148,11 +236,6 @@
           <li>
             <span class="post-meta">Aug 1, 2017</span><br/>
             <a class="post-link" href="/2017/08/01/git-hooked-on-git-hooks/">Git Hooked on Git Hooks</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Jul 23, 2017</span><br/>
-            <a class="post-link" href="/2017/07/23/script-as-a-service/">Script as a Service</a>
           </li>
         
       </ul>
@@ -165,7 +248,7 @@
       <h2>Tags</h2>
       <p>
         
-        <a href="/tags/python/" style="font-size: 50px">python | </a>
+        <a href="/tags/python/" style="font-size: 52px">python | </a>
         
         <a href="/tags/django/" style="font-size: 22px">django | </a>
         
@@ -205,7 +288,7 @@
         
         <a href="/tags/teaching/" style="font-size: 16px">teaching | </a>
         
-        <a href="/tags/ruby/" style="font-size: 16px">ruby | </a>
+        <a href="/tags/ruby/" style="font-size: 18px">ruby | </a>
         
         <a href="/tags/jekyll/" style="font-size: 14px">jekyll | </a>
         
@@ -241,6 +324,8 @@
         
         <a href="/tags/social/" style="font-size: 14px">social | </a>
         
+        <a href="/tags/metaprogramming/" style="font-size: 14px">metaprogramming | </a>
+        
       </p>
     </div>
   </div>
@@ -248,6 +333,7 @@
   
 
   <p class="rss-subscribe contact">Like my stuff?  Have questions or feedback for me?  Want to mentor me or get my help with something?  <a href="/about/">Get in touch!</a>  To stay updated, subscribe <a href="/feed.xml">via RSS</a></p>
+
 
 
 </div>

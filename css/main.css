@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Inconsolata|Source+Sans+Pro:200,300");
+@import url("https://fonts.googleapis.com/css?family=Inconsolata|Source+Sans+Pro:300,600");
 /* Colors */
 /* Main */
 html {
@@ -49,7 +49,8 @@ nav ul {
   margin: 0;
   padding: 0;
   list-style: none;
-  display: flex; }
+  display: flex;
+  flex-wrap: wrap; }
 
 nav li {
   flex: 1;
@@ -102,6 +103,11 @@ nav a {
 .site-wrap ul {
   list-style-type: none;
   padding-left: 0; }
+.site-wrap .dotted {
+  list-style-type: disc;
+  padding-left: 20px; }
+  .site-wrap .dotted li {
+    padding-bottom: 10px; }
 .site-wrap img {
   margin: auto;
   display: block;
@@ -172,9 +178,8 @@ body {
 @media only screen and (max-width: 768px) {
   article.site-wrap {
     padding: 50px 30px 30px 30px; }
-
-  pre {
-    white-space: pre-wrap; }
+    article.site-wrap img {
+      max-width: 70vw; }
 
   .highlight code {
     line-height: 70%;
@@ -192,3 +197,5 @@ body {
     font-family: "Inconsolata", "monospace";
     text-transform: lowercase;
     font-size: 150%; } }
+.contact {
+  font-weight: bold; }
