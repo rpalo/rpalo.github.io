@@ -44,7 +44,13 @@ nav {
     position: relative; }
 
   .site-wrap {
-    margin-top: 0px; } }
+    margin-top: 0px; }
+
+  nav ul {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column; } }
 nav ul {
   margin: 0;
   padding: 0;
@@ -124,6 +130,7 @@ nav a {
   margin: auto;
   display: block;
   max-height: 500px;
+  max-width: 40vw;
   border: 1px solid black; }
 
 code {
@@ -143,6 +150,11 @@ blockquote {
   padding-left: 7vw;
   border-left: 3px solid #111; }
 
+@media only screen and (max-width: 768px) {
+  blockquote {
+    padding-left: 3vw;
+    margin-left: 0;
+    margin-right: 0; } }
 .highlight {
   border-radius: 15px;
   padding: 5px 10px;

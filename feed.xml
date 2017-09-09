@@ -4,11 +4,523 @@
     <title>assert_not magic?</title>
     <description>I'm currently/always doing a lot of learning, and it seems like writing it down in blog form is a good idea to help cement the things I'm learning. Also, all the cool kids are doing it.  My goal is once every two weeks or better.
 </description>
-    <link>http://assertnotmagic.com/</link>
-    <atom:link href="http://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 31 Aug 2017 20:10:28 -0700</pubDate>
-    <lastBuildDate>Thu, 31 Aug 2017 20:10:28 -0700</lastBuildDate>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 09 Sep 2017 10:24:54 -0700</pubDate>
+    <lastBuildDate>Sat, 09 Sep 2017 10:24:54 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Learn to Code, Part 1 - Random Walker</title>
+        <description>&lt;p&gt;It finally happened.  My wife is letting me teach her how to code!  Or, at least, letting me audition for the part of “guy teaching her how to code”.  I decided to write out my first lesson to make sure it goes well.  If this one goes well, than there will be more.  So here’s to hoping that this post is one of multiple in this series I’m unoriginally entitling &lt;em&gt;Learn to Code&lt;/em&gt;.  I’ll be drawing a lot of inspiration from Dan Shiffman’s &lt;a href=&quot;http://thecodingtrain.com/&quot;&gt;Coding Train&lt;/a&gt; as well as his book &lt;a href=&quot;http://natureofcode.com/&quot;&gt;The Nature of Code&lt;/a&gt;.  I highly recommend you check both of these things out ASAP.  Now, wish me luck!&lt;/p&gt;
+
+&lt;h1 id=&quot;lesson-1-random-walker&quot;&gt;Lesson 1: Random Walker&lt;/h1&gt;
+
+&lt;p&gt;The first lesson will cover setting up a project, a quick flyby of HTML and JS and how they fit in together, setting up the “Dev Environment” (text editor and browser, no packages), and getting into it.  To cap everything off, we’ll build a random walker in two dimensions.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-1-the-setup&quot;&gt;Step 1: The Setup&lt;/h2&gt;
+
+&lt;p&gt;There’s a few things we’ll need to get started: a browser (I like Chrome, myself) and a text editor (we’ll use &lt;a href=&quot;https://www.sublimetext.com/&quot;&gt;Sublime Text&lt;/a&gt; just to get started).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/sublime.png&quot; alt=&quot;Sublime Text screenshot&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Go ahead and get those installed.&lt;/p&gt;
+
+&lt;p&gt;One more neat thing before we start.  In Chrome, you can use this thing called a &lt;strong&gt;console&lt;/strong&gt; to test out any of the code that we go over before adding it into a project.  There’s a lot of ways to open the console, but the fastest is &lt;code class=&quot;highlighter-rouge&quot;&gt;command + option + j&lt;/code&gt; on Mac and &lt;code class=&quot;highlighter-rouge&quot;&gt;control + shift + j&lt;/code&gt; on Windows/Linux.  You can also get it by right-clicking and selecting &lt;code class=&quot;highlighter-rouge&quot;&gt;inspect&lt;/code&gt;, or by opening the developer tools from the Chrome dropdown menu.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/console.png&quot; alt=&quot;console&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This should come in handy if you get stuck.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-2-htmljs-flyby&quot;&gt;Step 2: HTML/JS Flyby&lt;/h2&gt;
+
+&lt;p&gt;Let’s talk a little about HTML.  We won’t need to know much right away.  Just a little bit.  The first thing to know is that all websites are made up of files that are just text.  In general, the layout of a web page is defined in a text file ending in &lt;code class=&quot;highlighter-rouge&quot;&gt;.html&lt;/code&gt; that contains a special langage and format.  HTML is short for Hyper Text Markup Language, but all that really means is it’s text that written in such a way that a browser can read and parse it and convert it into a pretty, rendered format.  I’m going to talk more about the specifics now, but it’s super important that you don’t try to memorize HTML.  There are so many little rules and options to remember that trying to memorize everything in one go will definitely overwhelm anybody.  I would recommend just picking up the conceptual nuggets and letting the rest wash over you, picking things up organically as you go.  As you use it more and more, you’ll find yourself remembering more and having to Google less.  Leggo.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-super-basics&quot;&gt;The Super Basics&lt;/h3&gt;
+
+&lt;p&gt;HTML is made up of building blocks called &lt;strong&gt;elements&lt;/strong&gt; that look like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;
+  Hi there!  'p' stands for Paragraph!
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Each &lt;strong&gt;element&lt;/strong&gt; is defined by its &lt;strong&gt;tags&lt;/strong&gt; which are the things in angle brackets (&amp;lt;&amp;gt;).  Some &lt;strong&gt;elements&lt;/strong&gt; have an opening and closing &lt;strong&gt;tag&lt;/strong&gt;, like the one shown above.  This is so that these elements can wrap around the outside of other elements, creating this nested hierarchy that will come in handy much later.  Some elements are “self-closing”, so you don’t need a second one.  One example is the &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;hr&amp;gt;&lt;/code&gt; element, that makes a “horizontal rule” or line accross the page.  Since it’s really hard to put anything &lt;em&gt;inside&lt;/em&gt; a line, it makes sense to have that as a self-closing tag.&lt;/p&gt;
+
+&lt;h3 id=&quot;structural-tags&quot;&gt;Structural Tags&lt;/h3&gt;
+
+&lt;p&gt;There are a few tags that make up the foundation of every page.  Every page should have at least this:&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!doctype html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Title in Page Tab&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- This is how we comment in HTML.  Nobody sees this but us --&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    Hi there!
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;!doctype html&amp;gt;&lt;/code&gt;: This tells the browser it’s looking at an HTML file, and what version of HTML we’re using, based on the format.  This simplified format means we’re using the most recent version: HTML5.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;&lt;/code&gt;: These tags contain all the rest of our html.  Nowadays, you can even leave these off and the browser is smart enough to figure out what you mean, but it’s best to make sure you have this anyways.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;head&amp;gt;&lt;/code&gt;: This section doesn’t show up on the page.  It is a header that contains many of the settings and information that the browser, search engines, devices, and other internet things need to interact with your web page.  Once we get there, we’ll put our links to &lt;strong&gt;stylesheets&lt;/strong&gt; there, to make our pages look pretty.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;body&amp;gt;&lt;/code&gt;: This is where the meat of your page goes.  Everything in the body will exist on your webpage.  If you were to save the above snippet as &lt;code class=&quot;highlighter-rouge&quot;&gt;basic.html&lt;/code&gt; and double-click it to open it, you would see this:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/basic-html.png&quot; alt=&quot;Basic HTML rendered&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;One other thing to pay attention to is how we were able to nest the &lt;code class=&quot;highlighter-rouge&quot;&gt;head&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;body&lt;/code&gt; tags inside the &lt;code class=&quot;highlighter-rouge&quot;&gt;html&lt;/code&gt; tags, and we even nested the &lt;code class=&quot;highlighter-rouge&quot;&gt;title&lt;/code&gt; tag inside the head!  Each webpage is a tree-like hierarchy like this that can sometimes get really, really nested.  Also note that it’s considered best practice to indent your tags to the same lines (each nesting indented 2 or 4 spaces) to make it easier to read.&lt;/p&gt;
+
+&lt;h3 id=&quot;adding-in-scripts&quot;&gt;Adding in Scripts&lt;/h3&gt;
+
+&lt;p&gt;Now, we’ll add in the scripts that will allow us to use deeper programming concepts like &lt;strong&gt;variables&lt;/strong&gt;, &lt;strong&gt;loops&lt;/strong&gt;, and more!  There’s a special tag called a &lt;code class=&quot;highlighter-rouge&quot;&gt;script&lt;/code&gt; tag that loads files such as &lt;strong&gt;JavaScript&lt;/strong&gt; files.  &lt;strong&gt;JavaScript&lt;/strong&gt; is the current internet standard for adding code functionality to your web page.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Before we go any further, I just want to make a note.  This is directed at anyone with lots of programming experience that reads this.  Throughout the next few examples, we will cover some code that may not exactly be “best practice” or “industry standard”.  That’s not what I’m trying to do here.  I’m just trying to get some code that is easy to understand and works.  For instance, AirBnB’s JavaScript style guide recommends defining functions like this: &lt;code class=&quot;highlighter-rouge&quot;&gt;var foo = function bar() {};&lt;/code&gt;.  They provide good reasons for why you should do it this way.  It makes a lot of sense.  BUT.  You have to have a good amount of background before it looks like anything other than gobbledygook.  For someone just starting out, it makes a lot more sense to do it the way we’ll do it below.  So all you smarty farties that want to correct: leave it alone for now.  There will be time for that later.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;JavaScript works like this.  Imagine you have the &lt;code class=&quot;highlighter-rouge&quot;&gt;basic.html&lt;/code&gt; file from above in your current directory.  Who knows, maybe you really do!  Next, create a file in the same directory called &lt;code class=&quot;highlighter-rouge&quot;&gt;annoying.js&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// This is how we comment in JavaScript&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Any line that starts with two forward slashes&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// doesn't affect the code.  It's for humans!&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Why are comments different in every language?  Who knows.&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hello friend!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Be sure not to forget your semicolons at the end of each line.  JavaScript is slowly (hopefully) moving away from needing the semicolons, but for now, we’re stuck with them.  I’m sure we’ll talk more about the history and progress of JavaScript later.  For now, let’s add a line to our &lt;code class=&quot;highlighter-rouge&quot;&gt;basic.html&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!doctype html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Title in Page Tab&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- This is how we comment in HTML.  Nobody sees this but us --&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    Hi there!
+    
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;annoying.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Save the file and either re-open it in your browser, or, if you’ve already got it open, click refresh.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/alert.png&quot; alt=&quot;Annoying alert&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Look at you!  You’ve now learned exactly as much as the annoying, good-for-nothing spam website creators know.  &lt;code class=&quot;highlighter-rouge&quot;&gt;alert(&quot;Your computer may have a virus!&quot;);&lt;/code&gt;  Ha.  Ha.&lt;/p&gt;
+
+&lt;p&gt;Just to finish explaining, the &lt;code class=&quot;highlighter-rouge&quot;&gt;src=&lt;/code&gt; portion of the &lt;code class=&quot;highlighter-rouge&quot;&gt;script&lt;/code&gt; tag tells the browser where to look for the file to load.  If you wanted to, you could have omitted that &lt;code class=&quot;highlighter-rouge&quot;&gt;src=&lt;/code&gt; portion and just put the code in between the &lt;code class=&quot;highlighter-rouge&quot;&gt;script&lt;/code&gt; tags.  Anything you put in between those tags is assumed to be JavaScript.  I’m going to show you an example that is cool.  Don’t worry if it doesn’t make total sense yet.&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!doctype html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Title in Page Tab&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- This is how we comment.  Nobody sees this --&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    Hi there!
+
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;annoying.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;// JavaScript *inside* HTML!&lt;/span&gt;
+      &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;bt&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createElement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'p'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;bt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHTML&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;bottom text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;appendChild&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;bt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;In a short explanation, I create a new “paragraph” element, like we saw above.  I set the text inside that &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;p&amp;gt;&lt;/code&gt; element to be &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;bottom text&quot;&lt;/code&gt;, and then I attach it to the bottom of the &lt;code class=&quot;highlighter-rouge&quot;&gt;body&lt;/code&gt; tag, modifying the original code after the browser has read it.  If you right-click the page and click &lt;code class=&quot;highlighter-rouge&quot;&gt;inspect&lt;/code&gt;, you should see some HTML, but there’s a new &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;p&amp;gt;&lt;/code&gt; element sitting there at the bottom that we didn’t have in our &lt;code class=&quot;highlighter-rouge&quot;&gt;basic.html&lt;/code&gt; file!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/modified-html.png&quot; alt=&quot;MAGIC PARAGRAPH ELEMENT&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Cool right?  OK, I think we know as much as we need to move forward.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-3-introducing-p5&quot;&gt;Step 3: Introducing P5&lt;/h2&gt;
+
+&lt;p&gt;With JavaScript (and pretty much any other programming language), you can load in and build on top of other people’s work.  This is great!  This is great because otherwise, everyone who wanted to make something would have to write all of the supporting/utility/framework-ey code as well.  There would be a billion people all writing libraries that helped capitalize words and take the square root of things.  One way you load in an external library is by including the relevant &lt;code class=&quot;highlighter-rouge&quot;&gt;script&lt;/code&gt; tag before the &lt;code class=&quot;highlighter-rouge&quot;&gt;script&lt;/code&gt; tags for your own code.  Since HTML files are read and processed from top to bottom, the &lt;code class=&quot;highlighter-rouge&quot;&gt;script&lt;/code&gt; tags that come first get loaded first and become available for your code to reference.&lt;/p&gt;
+
+&lt;p&gt;One other thing to note.  Before, we showed that you can include your code in between the &lt;code class=&quot;highlighter-rouge&quot;&gt;script&lt;/code&gt; tags, like this: &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;script&amp;gt;alert(&quot;Woohoo!&quot;);&amp;lt;/script&amp;gt;&lt;/code&gt;.  We also showed that you can load a local file like this: &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;script src=&quot;path/to/the/file.js&quot;&amp;gt;&amp;lt;/script&amp;gt;&lt;/code&gt;.  What I didn’t include is that the &lt;code class=&quot;highlighter-rouge&quot;&gt;src&lt;/code&gt; can also be a path to a website, so you can load the file from the web!  This is one easy way to load external libraries without having to download a bunch of files or keep track of them.&lt;/p&gt;
+
+&lt;p&gt;Enter: P5.js.  P5 is an animation library, with a really easy interface that is based on an earlier project called &lt;a href=&quot;https://processing.org/&quot;&gt;Processing&lt;/a&gt;.  You can go to the &lt;a href=&quot;https://p5js.org/&quot;&gt;P5.js homepage&lt;/a&gt; for more info, examples, and documentation.  We’ll do more with that later.  I’ll show you the basics with a second example.  Create a new folder called &lt;code class=&quot;highlighter-rouge&quot;&gt;example2&lt;/code&gt; and create a file called &lt;code class=&quot;highlighter-rouge&quot;&gt;index.html&lt;/code&gt; inside it.  (More on why it’s called &lt;code class=&quot;highlighter-rouge&quot;&gt;index&lt;/code&gt; later, because that’s important-ish).  Also create a file called &lt;code class=&quot;highlighter-rouge&quot;&gt;sketch.js&lt;/code&gt;.  Here’s your &lt;code class=&quot;highlighter-rouge&quot;&gt;index.html&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!doctype html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;lang=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;My First P5.js Sketch!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- This is the external P5 library we're loading  --&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- Here's the link to our script --&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sketch.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;That’s it!  This will actually be the starting point for pretty much all of your projects, so feel free to save this file somewhere you can copy it from later as a starting point.  Let’s take a look at your &lt;code class=&quot;highlighter-rouge&quot;&gt;sketch.js&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;createCanvas&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;600&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;stroke&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;fill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;rect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;There’s a lot of new things there that we should talk about.&lt;/p&gt;
+
+&lt;h3 id=&quot;functions&quot;&gt;Functions&lt;/h3&gt;
+
+&lt;p&gt;In programming, the computer reads the code line by line from top to bottom.  (There are some things that happen that are exceptions to that, but that’s not important now.)  You could, in theory write every instruction one after another, typing everything out.  However, &lt;strong&gt;functions&lt;/strong&gt; are blocks of code that we can reuse.  We’ll talk about the benefits of doing this as we go.  You can think of functions like a combination of microwave presets and math functions.&lt;/p&gt;
+
+&lt;h3 id=&quot;microwave-presets&quot;&gt;Microwave Presets&lt;/h3&gt;
+
+&lt;p&gt;When you push Quick Minute on your microwave, it turns the light on, starts the turntable, activates the microwave, puts 1:00 on the timer, and begins counting down.  Once it gets to 0:00, it turns the microwave off, turns the light off, stops the turn table, and beeps.  If it’s one of those horrible microwaves, it beeps every 15 seconds after that until someone opens the door.  Can you imagine having to push one or more buttons for each of those steps?  Isn’t it so much nicer to simply push Quick Minute?  If the manufacturer wanted to add a step that starts a disco ball inside the microwave, they could just add that line to the Quick Minute function instead of making you remember to add that in everytime you pushed the button sequence.  It might look something like this in JavaScript.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;quickMinute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;lightOn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;turnTableOn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;microwaveOn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;cook&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;microwaveOff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;turnTableOff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;lightOff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;beep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// beepUntilOpened();  Only if you're unlucky...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Functions in JavaScript are defined by the word &lt;code class=&quot;highlighter-rouge&quot;&gt;function&lt;/code&gt;, a name (in this case: &lt;code class=&quot;highlighter-rouge&quot;&gt;quickMinute&lt;/code&gt;), any function inputs in parenthesis (in this case: there are none), and then the code in the function within the {} brackets.  You can then call this function whenever you want by simply typing the name of the function and a pair of parenthesis () like this:  &lt;code class=&quot;highlighter-rouge&quot;&gt;quickMinute()&lt;/code&gt;.  In JavaScript, adding those parenthesis acts as a trigger, meaning “Call this function now please!”&lt;/p&gt;
+
+&lt;h3 id=&quot;math-functions&quot;&gt;Math Functions&lt;/h3&gt;
+
+&lt;p&gt;Functions can take input and produce output as well!  Remember the parenthesis?  You can put names for the things that you expect inside them.  You can output a value with the word &lt;code class=&quot;highlighter-rouge&quot;&gt;return&lt;/code&gt;.  Watch:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;multiply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Then, if you &lt;strong&gt;call&lt;/strong&gt; the function (call means run) with inputs, you’ll get outputs as expected.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;multiply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// =&amp;gt; results in 12!&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;But be careful!  It’s up to you to name things in a way that makes sense.  Take a look at this misleading function:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;misleadingMultiply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Butt&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;misleadingMultiply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// =&amp;gt; 'Butt'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This is one of the responsibilities of a good programmer!  Okay!  Back to the &lt;code class=&quot;highlighter-rouge&quot;&gt;sketch.js&lt;/code&gt; code.&lt;/p&gt;
+
+&lt;h3 id=&quot;setup-and-draw&quot;&gt;Setup and Draw&lt;/h3&gt;
+
+&lt;p&gt;P5.js expects two main functions to be defined by you.  &lt;code class=&quot;highlighter-rouge&quot;&gt;setup&lt;/code&gt; is run once, right at the beginning, by P5.  It’s a good place to set things up.  &lt;code class=&quot;highlighter-rouge&quot;&gt;draw&lt;/code&gt; is run repeatedly, over and over, after that.  Currently we’re not making use of that, but we’ll do it in the final project in this lesson.  Let’s look at the &lt;code class=&quot;highlighter-rouge&quot;&gt;setup&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;draw&lt;/code&gt; that we defined above.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;createCanvas&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;600&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;P5 animations (also called &lt;strong&gt;sketches&lt;/strong&gt;) occur on a canvas (which is a special HTML element that you can draw shapes on).  The easiest way to do that is via  function provided by P5, called &lt;code class=&quot;highlighter-rouge&quot;&gt;createCanvas&lt;/code&gt;.  You just have to tell it a width and a height (in pixels).  In our example, we made it 600 wide and 400 tall.  That’s all the setup we did for this one!&lt;/p&gt;
+
+&lt;p&gt;Next is &lt;code class=&quot;highlighter-rouge&quot;&gt;draw&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;stroke&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;fill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;rect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Every loop, we redraw the background with the &lt;code class=&quot;highlighter-rouge&quot;&gt;background&lt;/code&gt; function.  There are several ways to call this function, but this way is with a number between 0 and 255 (I’ll explain the significance of that number later).  0 is full black, and 255 is full white.  That means that we’re drawing a white background.  Next, we set the stroke or pen color for the edges of our shapes.  You can see that we’re setting it to be black.  After that, we set the fill color for our shapes to white.  Lastly we actually draw a rectangle.  When you draw a rectangle, you call it with &lt;code class=&quot;highlighter-rouge&quot;&gt;(x-position, y-position, width, height)&lt;/code&gt;.  How do I know what numbers are needed in parenthesis?  I’m magic and know everything.  Also, it’s on their website.  Check out their &lt;a href=&quot;https://p5js.org/reference/#/p5/rect&quot;&gt;documentation for the &lt;code class=&quot;highlighter-rouge&quot;&gt;rect&lt;/code&gt; function&lt;/a&gt;.  Any time you have a question, start with the documentation.  There is a lot of good stuff there.  In fact, all four of these are functions provided by P5: &lt;a href=&quot;https://p5js.org/reference/#/p5/background&quot;&gt;background&lt;/a&gt;, &lt;a href=&quot;https://p5js.org/reference/#/p5/stroke&quot;&gt;stroke&lt;/a&gt;, and &lt;a href=&quot;https://p5js.org/reference/#/p5/fill&quot;&gt;fill&lt;/a&gt; all have their own documentation as well!&lt;/p&gt;
+
+&lt;p&gt;Okay!  That about covers it!  Save your files and open up &lt;code class=&quot;highlighter-rouge&quot;&gt;index.html&lt;/code&gt; in your browser!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/a-rectangle.png&quot; alt=&quot;Our first sketch&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;TADA!&lt;/strong&gt;  Aren’t you so excited?!  After all of that, we made… a rectangle.  A square to be precise.  I hear you say: booooooo.  Okay smarty pants.  Let’s move onto the main project for this lesson: The Random Walker.&lt;/p&gt;
+
+&lt;h2 id=&quot;project-the-random-walker&quot;&gt;Project: The Random Walker&lt;/h2&gt;
+
+&lt;p&gt;If you’ve stayed with me so far, it might be a good idea for you to take a break at this point and have a snack or something.  We’re going to learn a lot in this project.  Here’s a list of firsts you’ll encounter:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;variables&lt;/li&gt;
+  &lt;li&gt;true and false&lt;/li&gt;
+  &lt;li&gt;comparing numbers&lt;/li&gt;
+  &lt;li&gt;doing math&lt;/li&gt;
+  &lt;li&gt;branching (i.e. if statements: if &lt;code class=&quot;highlighter-rouge&quot;&gt;something is true&lt;/code&gt;, do one thing.  Otherwise do another)&lt;/li&gt;
+  &lt;li&gt;pixels and why things are upside-down&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;And that’s it!  Stay tuned.  To get setup, create a folder called &lt;code class=&quot;highlighter-rouge&quot;&gt;project1&lt;/code&gt; and inside that, copy your baseline &lt;code class=&quot;highlighter-rouge&quot;&gt;index.html&lt;/code&gt; and create a new file called &lt;code class=&quot;highlighter-rouge&quot;&gt;sketch.js&lt;/code&gt;.  I’m going to lay out the entire project code up front so you can see where we are going, and then I’ll explain the parts one after another, much like I did in the last section.  Here’s the code for your &lt;code class=&quot;highlighter-rouge&quot;&gt;sketch.js&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;createCanvas&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;600&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;stroke&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;floor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;point&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Alrighty.  There’s a lot here.  If you’re a super genius, you can kind of get a sense of what’s going on, but I’ll explain it for the normal humans like me.&lt;/p&gt;
+
+&lt;h3 id=&quot;variables&quot;&gt;Variables&lt;/h3&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;We’re declaring our variables up front.  A lot of times, this isn’t the best practice, and we should avoid it if we can.  For our initial sketches, though, it’ll probably be ok.  A variable is like an address or mailbox slot that could hold a value.  You use the word &lt;code class=&quot;highlighter-rouge&quot;&gt;var&lt;/code&gt; to tell JavaScript you want to create new ones.  If you’re anything like me, you’ll forget to write &lt;code class=&quot;highlighter-rouge&quot;&gt;var&lt;/code&gt; all the time.  If you just write &lt;code class=&quot;highlighter-rouge&quot;&gt;var x&lt;/code&gt; and not &lt;code class=&quot;highlighter-rouge&quot;&gt;var x = 3&lt;/code&gt; or something, then then the value of &lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt; (at least until you assign something to it i.e. put a value in that particular PO box called &lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt;) will be the JavaScript concept &lt;code class=&quot;highlighter-rouge&quot;&gt;undefined&lt;/code&gt;.  More on that later.  Hopefully right now you can see that we’re saying right at the beginning, “Hey!  I’m going to have three values that I care about and want to get access to later: x, y, and rand.”  Don’t forget the semicolon at the end of the line!&lt;/p&gt;
+
+&lt;h3 id=&quot;the-setup-function&quot;&gt;The Setup Function&lt;/h3&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;createCanvas&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;600&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;stroke&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;There’s not actually that much that is new here.  Hopefully you’ll recognize &lt;code class=&quot;highlighter-rouge&quot;&gt;stroke&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;createCanvas&lt;/code&gt; from the last example.  There’s only two new things here:&lt;/p&gt;
+
+&lt;p&gt;One is that we are finally assigning our first values to &lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;y&lt;/code&gt;, using the single equals sign (=).  You can think of the single equals sign as an arrow that points to the left, saying, “Take whatever value you end up with on the right side of the equals and put it in the PO box named &lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt;.”  P5 provides us with some handy variables &lt;code class=&quot;highlighter-rouge&quot;&gt;width&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;height&lt;/code&gt; that contain the width and height of the canvas that we’re working in.  Since we know we created it to be 600px wide and 400px tall, hopefully you can see that after this function gets run, the value of &lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt; is 300 and the value of &lt;code class=&quot;highlighter-rouge&quot;&gt;y&lt;/code&gt; is 200.  I wanted to start exactly in the middle of the canvas.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-draw-function&quot;&gt;The Draw Function&lt;/h3&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;floor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;point&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;There’s a &lt;em&gt;lot&lt;/em&gt; of new stuff in this function.  You can see we finally assign a value to &lt;code class=&quot;highlighter-rouge&quot;&gt;rand&lt;/code&gt;, but what is it?  P5 provides two useful functions for us: &lt;a href=&quot;https://p5js.org/reference/#/p5/floor&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;floor&lt;/code&gt;&lt;/a&gt;, and &lt;a href=&quot;https://p5js.org/reference/#/p5/random&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;random&lt;/code&gt;&lt;/a&gt;.  The way that we’re using &lt;code class=&quot;highlighter-rouge&quot;&gt;random&lt;/code&gt;, it takes in an optional maximum value, and it returns a random value between zero and that maximum, noninclusive (i.e. [0, max), i.e. between 0 and 3.99999).  &lt;code class=&quot;highlighter-rouge&quot;&gt;floor&lt;/code&gt; takes any number in and returns that number rounded down to the nearest integer (e.g. 3.4 becomes 3 and 2.9 becomes 2).  All together, you are assigning a random choice of (0, 1, 2, 3) to &lt;code class=&quot;highlighter-rouge&quot;&gt;rand&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;comparing-things&quot;&gt;Comparing Things&lt;/h4&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;There’s a large section in this function that has 4 of these equations in parenthesis.  In JavaScript, the triple equals compares two things.  If the thing on the left is the same as the thing on the right, it evaluates to the JavaScript value &lt;code class=&quot;highlighter-rouge&quot;&gt;true&lt;/code&gt;.  Otherwise it evaluates to false.&lt;/p&gt;
+
+&lt;h4 id=&quot;branching-with-if-else-if-else-statements&quot;&gt;Branching with IF, ELSE IF, ELSE Statements&lt;/h4&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This is what is known as an &lt;strong&gt;if statement&lt;/strong&gt;.  The way it works is by starting at the top.  &lt;strong&gt;If&lt;/strong&gt; the first test in parenthesis evaluates to &lt;code class=&quot;highlighter-rouge&quot;&gt;true&lt;/code&gt;, then the code within the brackets {} is run and nothing else is.  Otherwise, the code moves on to the next &lt;strong&gt;if&lt;/strong&gt;.  If none of the &lt;strong&gt;if&lt;/strong&gt; statements ends up being true, and there is an &lt;strong&gt;else&lt;/strong&gt; statement present, that runs instead.  You can mix and match your &lt;strong&gt;ifs&lt;/strong&gt; with &lt;strong&gt;else ifs&lt;/strong&gt; and &lt;strong&gt;elses&lt;/strong&gt; as you see fit:&lt;/p&gt;
+
+&lt;p&gt;You can omit the &lt;strong&gt;else if&lt;/strong&gt; statements:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Jim&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Hi Jim!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Hi stranger!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You can even omit the &lt;strong&gt;else&lt;/strong&gt; statement:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;65&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Here's your senior discount!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Here's your child's discount!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If there’s no else and, for example, &lt;code class=&quot;highlighter-rouge&quot;&gt;age&lt;/code&gt; was 29, nothing would happen in the block of code above.&lt;/p&gt;
+
+&lt;p&gt;So, to bring us back to the code in our &lt;code class=&quot;highlighter-rouge&quot;&gt;draw&lt;/code&gt; function, what we’re doing is checking each possible value of &lt;code class=&quot;highlighter-rouge&quot;&gt;rand&lt;/code&gt;.  If &lt;code class=&quot;highlighter-rouge&quot;&gt;rand&lt;/code&gt; is 0, do this.  If &lt;code class=&quot;highlighter-rouge&quot;&gt;rand&lt;/code&gt; is 1, do this.  If &lt;code class=&quot;highlighter-rouge&quot;&gt;rand&lt;/code&gt; is 2, do this.  Otherwise (we know &lt;code class=&quot;highlighter-rouge&quot;&gt;rand&lt;/code&gt; is 3), do this other thing.  In theory, only one branch will be run, depending on &lt;code class=&quot;highlighter-rouge&quot;&gt;rand&lt;/code&gt;’s value.&lt;/p&gt;
+
+&lt;h4 id=&quot;modifying-variables-in-place&quot;&gt;Modifying Variables In-Place&lt;/h4&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This is a short cut.  There’s a couple of ways to modify variables in JavaScript.  You can do it the long-form way that you’ve seen before:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You can even use the variable in both sides of the equation!&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// The right side evaluates to 15, so then&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// x gets set to 15&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;There’s a shorthand to the method above:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// += is short for add the following&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// to the current value of x&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Thus, x === 15 now.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;There’s even a shorter shorthand if you want to just add 1 to the variable (i.e. increment it).  That’s what you see above:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// x === 13&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;drawing-points&quot;&gt;Drawing Points&lt;/h4&gt;
+
+&lt;p&gt;Lastly, there is a function provided by P5 called &lt;a href=&quot;https://p5js.org/reference/#/p5/point&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;point&lt;/code&gt;&lt;/a&gt; that places a 1px dot at the provided &lt;code class=&quot;highlighter-rouge&quot;&gt;(x, y)&lt;/code&gt; coordinates.  Speaking of which:&lt;/p&gt;
+
+&lt;h4 id=&quot;canvas-x-and-y&quot;&gt;Canvas X and Y&lt;/h4&gt;
+
+&lt;p&gt;In the browser, all points are referenced from Top and Left.  In fact, x and y are aliases for Top and Left, respectively.  Top is the number of pixels something is from the top of the window, and left is the number of pixels from the left side.  What this means is that X makes sense as x+ to the right, but Y is backwards from what you would assume.  Y+ is down, meaning that y = 10 is almost at the top of the screen and y = 100 is further towards the bottom.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/coordinate-system.jpg&quot; alt=&quot;Canvas coordinates&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Thus, in our code above, if &lt;code class=&quot;highlighter-rouge&quot;&gt;rand&lt;/code&gt; is 0, we add 1 to &lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt;, causing the &lt;code class=&quot;highlighter-rouge&quot;&gt;point&lt;/code&gt; to move right one.  If &lt;code class=&quot;highlighter-rouge&quot;&gt;rand&lt;/code&gt; is 1, we subtract 1 from &lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt;, causing the &lt;code class=&quot;highlighter-rouge&quot;&gt;point&lt;/code&gt; to move left one.  If &lt;code class=&quot;highlighter-rouge&quot;&gt;rand&lt;/code&gt; is 2, we add 1 to &lt;code class=&quot;highlighter-rouge&quot;&gt;y&lt;/code&gt;, thus causing the &lt;code class=&quot;highlighter-rouge&quot;&gt;point&lt;/code&gt; to move down one.  And if &lt;code class=&quot;highlighter-rouge&quot;&gt;rand&lt;/code&gt; is 3, we subtract 1 from &lt;code class=&quot;highlighter-rouge&quot;&gt;y&lt;/code&gt;, causing the &lt;code class=&quot;highlighter-rouge&quot;&gt;point&lt;/code&gt; to move up one.  Overall, this code causes the point to randomly choose a direction and take one step that way.&lt;/p&gt;
+
+&lt;h3 id=&quot;wrapping-up&quot;&gt;Wrapping Up&lt;/h3&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;createCanvas&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;600&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;stroke&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;floor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;rand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;point&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Putting it all together, remembering that &lt;code class=&quot;highlighter-rouge&quot;&gt;setup&lt;/code&gt; gets run once and &lt;code class=&quot;highlighter-rouge&quot;&gt;draw&lt;/code&gt; gets run over and over after that, our code starts with a &lt;code class=&quot;highlighter-rouge&quot;&gt;point&lt;/code&gt; in the middle of the screen.  Every time we run through &lt;code class=&quot;highlighter-rouge&quot;&gt;draw&lt;/code&gt; (known as one &lt;strong&gt;animation frame&lt;/strong&gt; or &lt;strong&gt;frame&lt;/strong&gt; for short), the &lt;code class=&quot;highlighter-rouge&quot;&gt;point&lt;/code&gt; moves randomly in one of the four cardinal directions, and we re-draw the point.  Save your code and open up &lt;code class=&quot;highlighter-rouge&quot;&gt;index.html&lt;/code&gt; in your browser!  If everything is right, you should see our little buddy noodling his way around the middle of the canvas.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/walker.gif&quot; alt=&quot;Our random walker!&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Feel accomplished yet??  You should.  You did awesome!  (Awesomely?)  Here’s some homework:&lt;/p&gt;
+
+&lt;h4 id=&quot;homework&quot;&gt;Homework&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Try making our walker more active: make his steps larger.&lt;/li&gt;
+  &lt;li&gt;Make it so our walker is biased towards the right side.  Make it so that he is equally likely to go up, down, or left, but slightly more likely to go right.  (Hint: try using &amp;lt; and &amp;gt; instead of ===).&lt;/li&gt;
+  &lt;li&gt;Change our walker’s color!  Now, change our walker’s color every single frame.&lt;/li&gt;
+  &lt;li&gt;Make our random walker’s step size vary randomly by some amount.&lt;/li&gt;
+  &lt;li&gt;Make it so that if our walker reaches the edge of the canvas, he/she gets teleported to the other side of the canvas.  (Hint: use a very small canvas to save time in testing).&lt;/li&gt;
+  &lt;li&gt;Currently the walker’s steps are preserved.  This is because we aren’t redrawing the background every time.  Make it so that you can’t see the walker’s previous steps.  Now make it so you can’t se the steps and the walker is moving around in a rave (i.e. random background color!).&lt;/li&gt;
+  &lt;li&gt;Using the P5 documentation: instead of drawing a &lt;code class=&quot;highlighter-rouge&quot;&gt;point&lt;/code&gt;, draw a circle.  Do something creative with the circle’s fill color.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Let me know if you get stuck or have any questions!  Let me know if I explained anything confusingly or could do better.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 09 Sep 2017 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2017/09/09/p5-part-1-random-walker/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/09/p5-part-1-random-walker/</guid>
+        
+        <category>p5</category>
+        
+        <category>javascript</category>
+        
+        <category>beginner</category>
+        
+        <category>tutorial</category>
+        
+        
+      </item>
     
       <item>
         <title>CSS Animations are Probably Magic</title>
@@ -165,8 +677,8 @@
 &lt;p&gt;&lt;em&gt;Cover image credit: &lt;a href=&quot;http://www.wisegeek.org/&quot;&gt;WiseGeek.org&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 31 Aug 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/08/31/css-animations/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/08/31/css-animations/</guid>
+        <link>http://localhost:4000/2017/08/31/css-animations/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/31/css-animations/</guid>
         
         <category>html</category>
         
@@ -327,8 +839,8 @@
 &lt;p&gt;P.P.S. - If you found yourself going “What the F are these F-strings (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;f'WHAT IS THIS'&lt;/code&gt;)”, fear not.  They’re Python’s newest string interpolation/formatting syntax.  I’ve got plans to write a post gushing about them in the near future.  They’re similar to JavaScript’s new &lt;code class=&quot;highlighter-rouge&quot;&gt;#{syntax}&lt;/code&gt;.&lt;/p&gt;
 </description>
         <pubDate>Sat, 26 Aug 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/08/26/metaprogramming-python-method-missing/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/08/26/metaprogramming-python-method-missing/</guid>
+        <link>http://localhost:4000/2017/08/26/metaprogramming-python-method-missing/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/26/metaprogramming-python-method-missing/</guid>
         
         <category>python</category>
         
@@ -414,8 +926,8 @@
 &lt;p&gt;If I missed some meta tags you think are important, or if you’ve got some other cool ones to share, I’d love to hear about it!&lt;/p&gt;
 </description>
         <pubDate>Mon, 14 Aug 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/08/14/step-your-meta-game-up/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/08/14/step-your-meta-game-up/</guid>
+        <link>http://localhost:4000/2017/08/14/step-your-meta-game-up/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/14/step-your-meta-game-up/</guid>
         
         <category>html</category>
         
@@ -521,8 +1033,8 @@
 &lt;p&gt;You can use this to provide a nice interactive aspect to your app to help you do shell things, inspect objects, debug, and much more.  This is roughly how &lt;a href=&quot;https://docs.python.org/3/library/pdb.html&quot;&gt;pdb&lt;/a&gt; works too!  Django and Flask both use a variation on this for their “shell” commands too.  I think I’m going to try to use it to generate an automated quiz or homework for a python intro class (similar to &lt;a href=&quot;https://www.youtube.com/watch?v=McoHQIxJd-o&quot;&gt;the swirl package in R&lt;/a&gt;).  Have any other cool ways you’ve used this?  Let me know!&lt;/p&gt;
 </description>
         <pubDate>Mon, 07 Aug 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/08/07/twenty-lines-or-less/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/08/07/twenty-lines-or-less/</guid>
+        <link>http://localhost:4000/2017/08/07/twenty-lines-or-less/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/07/twenty-lines-or-less/</guid>
         
         <category>python</category>
         
@@ -646,8 +1158,8 @@ pytest
 &lt;p&gt;Now, running &lt;code class=&quot;highlighter-rouge&quot;&gt;flake8&lt;/code&gt;, go back into your &lt;code class=&quot;highlighter-rouge&quot;&gt;hooky.py&lt;/code&gt; file and fix all of the warnings until &lt;code class=&quot;highlighter-rouge&quot;&gt;flake8&lt;/code&gt; is appeased.  Then try committing again.  You should see it blow up with the broken test!  Feel cool?  Good, because you are cool.  And it’s not just the git hooks.  Although they add to your overall coolness, you were already cool.  So how about that?&lt;/p&gt;
 </description>
         <pubDate>Tue, 01 Aug 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/08/01/git-hooked-on-git-hooks/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/08/01/git-hooked-on-git-hooks/</guid>
+        <link>http://localhost:4000/2017/08/01/git-hooked-on-git-hooks/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/01/git-hooked-on-git-hooks/</guid>
         
         <category>git</category>
         
@@ -767,8 +1279,8 @@ pytest
 &lt;p&gt;Hopefully this post provides you a useful &lt;em&gt;service&lt;/em&gt;!  (Womp womp womp)&lt;/p&gt;
 </description>
         <pubDate>Sun, 23 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/07/23/script-as-a-service/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/07/23/script-as-a-service/</guid>
+        <link>http://localhost:4000/2017/07/23/script-as-a-service/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/23/script-as-a-service/</guid>
         
         <category>python</category>
         
@@ -826,8 +1338,8 @@ Bonus points if your enemy is lazy you.&lt;/p&gt;
 &lt;p&gt;&lt;sup id=&quot;f1&quot;&gt;1&lt;/sup&gt;I’m a grown man who consistently says “jammies”.  Whatever.  Don’t judge me.&lt;a href=&quot;#s1&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 17 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/07/17/tricking-yourself-into-exercising/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/07/17/tricking-yourself-into-exercising/</guid>
+        <link>http://localhost:4000/2017/07/17/tricking-yourself-into-exercising/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/17/tricking-yourself-into-exercising/</guid>
         
         <category>exercise</category>
         
@@ -1034,8 +1546,8 @@ Bonus points if your enemy is lazy you.&lt;/p&gt;
 &lt;p&gt;This has been a long one, and hopefully I didn’t miss anything.  Since I spaced the posts out (which I regret), I had to play some games with reminding myself what changed from Part to Part.  So, if something doesn’t work or is broken, let me know and I’ll see if I can find where I went wrong.  I added my final project folder &lt;a href=&quot;https://github.com/rpalo/vue-django-example&quot;&gt;on GitHub&lt;/a&gt; so you can search for discrepancies to aid in debugging.  Thanks for sticking with me!&lt;/p&gt;
 </description>
         <pubDate>Sun, 16 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/07/16/vue-on-django-part-4/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/07/16/vue-on-django-part-4/</guid>
+        <link>http://localhost:4000/2017/07/16/vue-on-django-part-4/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/16/vue-on-django-part-4/</guid>
         
         <category>vue</category>
         
@@ -1224,202 +1736,8 @@ python manage.py runserver
 &lt;p&gt;See you in the next one!&lt;/p&gt;
 </description>
         <pubDate>Thu, 06 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/07/06/vue-on-django-part-3/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/07/06/vue-on-django-part-3/</guid>
-        
-        <category>vue</category>
-        
-        <category>django</category>
-        
-        <category>es6</category>
-        
-        <category>tutorial</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Vue on Django, Part 2</title>
-        <description>&lt;p&gt;This is Part 2 of my tutorial for making a Vue app powered by a Django REST backend.  In the first part, we set up just the Vue side.  Part 2 will be the hardest part, setting up the data model.  Finally, part 3 – next time – will be the Django backend.  The tutorial will assume a working knowledge of JavaScript syntax, but I’ll try to explain some of the infrastructure involved.  Once again, let’s get to it.&lt;/p&gt;
-
-&lt;h2 id=&quot;1-introducing-vuex&quot;&gt;1. Introducing Vuex&lt;/h2&gt;
-
-&lt;p&gt;Vuex is the “back of the frontend” that we’ll be using to interface with (eventually) the REST backend.  The nice thing about setting this up is that we can tie all of the front-end components into our data-store and point the data-store nowhere.  With that in place, the store will operate only on what is in-memory.  But once we’re good and ready to point it at our django server, all we have to do is adjust a little bit and we don’t have to change actions all over the front end.  Once hooked up, Vuex will help us appear to be doing things super-fast, when we are, in reality, possibly sending a slow network call to update the database.  It will take care of that overhead in the background, leaving the user to wreak havoc on the todo list in the meantime.&lt;/p&gt;
-
-&lt;p&gt;In order to get started, all we’ll need is what you had after Part 1 – and to install Vuex.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;npm install --save vuex
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;2-creating-the-store&quot;&gt;2. Creating the Store&lt;/h2&gt;
-
-&lt;p&gt;Create a folder &lt;code class=&quot;highlighter-rouge&quot;&gt;src/store/&lt;/code&gt; and create &lt;code class=&quot;highlighter-rouge&quot;&gt;store.js&lt;/code&gt; inside that folder.  Vuex Stores are made of up a few modular parts, similar to the way Vue components are.  For this app, we’ll only use three of these: the &lt;code class=&quot;highlighter-rouge&quot;&gt;state&lt;/code&gt;, the &lt;code class=&quot;highlighter-rouge&quot;&gt;mutations&lt;/code&gt;, and the &lt;code class=&quot;highlighter-rouge&quot;&gt;actions&lt;/code&gt;.  The following shows their relationship to the rest of our app.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/vuex-flowchart.png&quot; alt=&quot;Vuex process flowchart&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;State&lt;/code&gt; represents the state of your data.  What is the current value of &lt;code class=&quot;highlighter-rouge&quot;&gt;todos&lt;/code&gt;?  Your components can read from this state directly (or through &lt;code class=&quot;highlighter-rouge&quot;&gt;getters&lt;/code&gt; if there is some processing to be done.  We won’t cover that now), but in order to write to it, they need to go through actions.  A component can &lt;code class=&quot;highlighter-rouge&quot;&gt;dispatch&lt;/code&gt; an action, and actions can be as asynchronus as you like.  Once the action has completed all side-effects, like hitting the database, it can &lt;code class=&quot;highlighter-rouge&quot;&gt;commit&lt;/code&gt; a &lt;code class=&quot;highlighter-rouge&quot;&gt;mutation&lt;/code&gt;.  A &lt;code class=&quot;highlighter-rouge&quot;&gt;mutation&lt;/code&gt; is a synchronus change to the Vuex &lt;code class=&quot;highlighter-rouge&quot;&gt;state&lt;/code&gt;, and they &lt;em&gt;must&lt;/em&gt; be synchronus.  Get it?  Actions: asynchronus.  Mutations: the last step of the action, totally synchronus.  Anyways, too much theory.  Boo theory.  More code!  Here are the contents of &lt;code class=&quot;highlighter-rouge&quot;&gt;store.js&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// store.js&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'vue'&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vuex&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'vuex'&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Vuex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// only required if you're using modules.&lt;/span&gt;
-              &lt;span class=&quot;c1&quot;&gt;// We're using modules, so there you go.&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vuex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Learn Vue.'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Do hard things.'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;mutations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;s1&quot;&gt;'ADD_TODO'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;todo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;todo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-    &lt;span class=&quot;s1&quot;&gt;'CLEAR_TODOS'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;
-      &lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;splice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;actions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;addTodo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;todo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;commit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'ADD_TODO'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;todo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;clearTodos&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;commit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'CLEAR_TODOS'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;You can see most of the pieces we talked about above.  Our actions could (and will) do more, but currently they just pass through and &lt;code class=&quot;highlighter-rouge&quot;&gt;commit&lt;/code&gt; their respective mutations.  You can see that if we had very many more mutations and/or actions, we would want to break them out into separate files: &lt;code class=&quot;highlighter-rouge&quot;&gt;actions.js&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;mutations.js&lt;/code&gt; and import them separately.  The mutations don’t have to be in all caps, either.  You could declare them as in-place functions just like the actions (and even use the same names as the actions if you want).  The tutorial I saw used &lt;code class=&quot;highlighter-rouge&quot;&gt;SCREAMING_SNAKE&lt;/code&gt; case, and I kind of like it because it helps me tell the difference between the actions and the mutations.  Do what you want, it’s your life.&lt;/p&gt;
-
-&lt;h2 id=&quot;3-using-the-store&quot;&gt;3. Using the Store&lt;/h2&gt;
-
-&lt;p&gt;OK!  Now we need to make this delicious little store available to our app.  Modify your &lt;code class=&quot;highlighter-rouge&quot;&gt;main.js&lt;/code&gt; file to look like the following.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// main.js&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'vue'&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;App&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'./App'&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'./store/store.js'&lt;/span&gt;
-
-&lt;span class=&quot;cm&quot;&gt;/* eslint-disable no-new */&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;el&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'body'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;components&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;App&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Now our store will be available from within the Components.  The following is the new shiny &lt;code class=&quot;highlighter-rouge&quot;&gt;TodoList.vue&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// src/components/TodoList.vue
-
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;template&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;todolist&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;ul&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;todo&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;v-for=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;todo in todos&quot;&lt;/span&gt;
-            &lt;span class=&quot;na&quot;&gt;v-bind:todo=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;todo&quot;&lt;/span&gt; 
-            &lt;span class=&quot;na&quot;&gt;v-bind:key=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;todo.id&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/todo&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/ul&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/template&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;script&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Todo&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'./Todo.vue'&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;components&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;Todo&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;computed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;You’ll notice that there was really only one change for the store.  We changed the &lt;code class=&quot;highlighter-rouge&quot;&gt;data&lt;/code&gt; key of the component to a &lt;code class=&quot;highlighter-rouge&quot;&gt;computed&lt;/code&gt; section.  That makes it so that our component will update as the outside data changes.  &lt;code class=&quot;highlighter-rouge&quot;&gt;Computed&lt;/code&gt; contains functions for each variable you reference.  In our case that’s just todos.  We reference the store object with &lt;code class=&quot;highlighter-rouge&quot;&gt;$store&lt;/code&gt; and can read from it directly, like we talked about before.  Please also notice that I tweaked the template as well to make it work better.  I took out the &lt;code class=&quot;highlighter-rouge&quot;&gt;li&lt;/code&gt; element and placed the &lt;code class=&quot;highlighter-rouge&quot;&gt;v-for&lt;/code&gt; directly within the &lt;code class=&quot;highlighter-rouge&quot;&gt;todo&lt;/code&gt;.  I’m not sure, but I kind of think it wouldn’t have worked the way we had it previously.  Whoopsie.  That’s all the changes here.  Next is &lt;code class=&quot;highlighter-rouge&quot;&gt;Todo.vue&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// src/components/Todo.vue
-
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;template&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;
-    {{ todo.text }}
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/template&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;script&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'todo'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;As you can see, the only change was fixing my previous booboo, and placing the &lt;code class=&quot;highlighter-rouge&quot;&gt;li&lt;/code&gt; element that we took out of &lt;code class=&quot;highlighter-rouge&quot;&gt;TodoList.vue&lt;/code&gt; into here, replacing the &lt;code class=&quot;highlighter-rouge&quot;&gt;p&lt;/code&gt; tags.  It’s also slightly more intuitive, I think.  Moving on to the &lt;code class=&quot;highlighter-rouge&quot;&gt;UserInput.vue&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// src/components/UserInput.vue
-
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;template&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;user-inputs&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;v-model=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;newTodoText&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;v-on:keyup&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;enter=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;createTodo&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;button&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;v-on:click=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;clearTodos&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-      Clear
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/button&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/template&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;script&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;newTodoText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;methods&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;createTodo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dispatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'addTodo'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;newTodoText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;newTodoText&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;clearTodos&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dispatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'clearTodos'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;No changes to the template.  We updated the &lt;code class=&quot;highlighter-rouge&quot;&gt;createTodo&lt;/code&gt; method here to &lt;code class=&quot;highlighter-rouge&quot;&gt;dispatch&lt;/code&gt; the &lt;code class=&quot;highlighter-rouge&quot;&gt;createTodo&lt;/code&gt; action of our &lt;code class=&quot;highlighter-rouge&quot;&gt;store&lt;/code&gt;.  Note that we can pass a new Todo object as a second argument to &lt;code class=&quot;highlighter-rouge&quot;&gt;dispatch&lt;/code&gt;.  &lt;code class=&quot;highlighter-rouge&quot;&gt;clearTodos&lt;/code&gt; functions in a similar manner.  This is interesting because you can see that not &lt;em&gt;all&lt;/em&gt; state is kept in the store.  The &lt;code class=&quot;highlighter-rouge&quot;&gt;newTodoText&lt;/code&gt; variable doesn’t need to be saved for later, so we keep that in the &lt;code class=&quot;highlighter-rouge&quot;&gt;data&lt;/code&gt; section of the component and the &lt;code class=&quot;highlighter-rouge&quot;&gt;store&lt;/code&gt; never even worries about it.&lt;/p&gt;
-
-&lt;h2 id=&quot;4-check-out-our-work&quot;&gt;4. Check out our Work!&lt;/h2&gt;
-
-&lt;p&gt;And that’s it!  After a quick &lt;code class=&quot;highlighter-rouge&quot;&gt;npm run dev&lt;/code&gt;, you should be able to see your todo list with preloaded two items.  Try typing a new todo and hitting enter.  The todo list updates!  Try clearing everything.  Everything works great!&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/vue-part2-final.gif&quot; alt=&quot;Part 2 demo&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/celebrate.gif&quot; alt=&quot;Celebrate!&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;A few common errors.  If you see an error that says something like &lt;code class=&quot;highlighter-rouge&quot;&gt;no such method as dispatch&lt;/code&gt;, it means you probably created your store like this: &lt;code class=&quot;highlighter-rouge&quot;&gt;const store = {}&lt;/code&gt; as opposed to &lt;code class=&quot;highlighter-rouge&quot;&gt;const store = new Vuex.Store({})&lt;/code&gt;.  Again, if it says &lt;code class=&quot;highlighter-rouge&quot;&gt;could not get /&lt;/code&gt;, you have probably angered the ESLint gods.  Check your terminal and put a darn space before those function parens.&lt;/p&gt;
-
-&lt;p&gt;Like before, I’m pretty much writing this as I learn the things, so if I do something wrong or you’ve got a better way, let me know about it.  Stay tuned for Part 3!&lt;/p&gt;
-</description>
-        <pubDate>Sat, 24 Jun 2017 00:00:00 -0700</pubDate>
-        <link>http://assertnotmagic.com/2017/06/24/vue-on-django-part-2/</link>
-        <guid isPermaLink="true">http://assertnotmagic.com/2017/06/24/vue-on-django-part-2/</guid>
+        <link>http://localhost:4000/2017/07/06/vue-on-django-part-3/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/06/vue-on-django-part-3/</guid>
         
         <category>vue</category>
         
