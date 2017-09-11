@@ -4,10 +4,10 @@
     <title>assert_not magic?</title>
     <description>I'm currently/always doing a lot of learning, and it seems like writing it down in blog form is a good idea to help cement the things I'm learning. Also, all the cool kids are doing it.  My goal is once every two weeks or better.
 </description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 09 Sep 2017 10:24:54 -0700</pubDate>
-    <lastBuildDate>Sat, 09 Sep 2017 10:24:54 -0700</lastBuildDate>
+    <link>https://assertnotmagic.com</link>
+    <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Mon, 11 Sep 2017 06:32:46 -0700</pubDate>
+    <lastBuildDate>Mon, 11 Sep 2017 06:32:46 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
     
       <item>
@@ -17,6 +17,10 @@
 &lt;h1 id=&quot;lesson-1-random-walker&quot;&gt;Lesson 1: Random Walker&lt;/h1&gt;
 
 &lt;p&gt;The first lesson will cover setting up a project, a quick flyby of HTML and JS and how they fit in together, setting up the “Dev Environment” (text editor and browser, no packages), and getting into it.  To cap everything off, we’ll build a random walker in two dimensions.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-note-for-newbies&quot;&gt;A Note for Newbies&lt;/h2&gt;
+
+&lt;p&gt;If you’re just starting to learn to program, let me tell you something.  Programming is Hard.  So please don’t feel discouraged or stupid.  This tutorial moves &lt;em&gt;really&lt;/em&gt; fast and covers a &lt;em&gt;lot&lt;/em&gt;, so feeling overwhelmed or not understanding everything on the first pass-through is &lt;strong&gt;totally normal&lt;/strong&gt;.  My goal here is to take you through the motions and have you experience the thrill programmers feel of creating something dynamic and awesome out of nothing.  So, here’s what I’ll ask.  Please, even if you get stuck or don’t understand what’s happening, just go through and type out the code examples.  Get to the end and build our Random Walker.  Once you’ve got that little dude wandering around your screen, ask me every question you can think of until things make more sense.  You can email me or send me a Twitter message.  Links are in my bio on the &lt;a href=&quot;/about/&quot;&gt;about page&lt;/a&gt;.  I’ll work through the homework with you (since the homework will really help get things solidified some).  Just put your head down, get through it, don’t give up, and don’t feel weird asking for help.  If something doesn’t make sense, it’s not because you’re a doofus – it’s because I didn’t write well enough.  Now.  For real this time.  Let’s get started&lt;/p&gt;
 
 &lt;h2 id=&quot;step-1-the-setup&quot;&gt;Step 1: The Setup&lt;/h2&gt;
 
@@ -508,8 +512,8 @@
 &lt;p&gt;Let me know if you get stuck or have any questions!  Let me know if I explained anything confusingly or could do better.&lt;/p&gt;
 </description>
         <pubDate>Sat, 09 Sep 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/09/09/p5-part-1-random-walker/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/09/09/p5-part-1-random-walker/</guid>
+        <link>https://assertnotmagic.com/2017/09/09/p5-part-1-random-walker/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/09/09/p5-part-1-random-walker/</guid>
         
         <category>p5</category>
         
@@ -677,8 +681,8 @@
 &lt;p&gt;&lt;em&gt;Cover image credit: &lt;a href=&quot;http://www.wisegeek.org/&quot;&gt;WiseGeek.org&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 31 Aug 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/08/31/css-animations/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/08/31/css-animations/</guid>
+        <link>https://assertnotmagic.com/2017/08/31/css-animations/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/08/31/css-animations/</guid>
         
         <category>html</category>
         
@@ -839,8 +843,8 @@
 &lt;p&gt;P.P.S. - If you found yourself going “What the F are these F-strings (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;f'WHAT IS THIS'&lt;/code&gt;)”, fear not.  They’re Python’s newest string interpolation/formatting syntax.  I’ve got plans to write a post gushing about them in the near future.  They’re similar to JavaScript’s new &lt;code class=&quot;highlighter-rouge&quot;&gt;#{syntax}&lt;/code&gt;.&lt;/p&gt;
 </description>
         <pubDate>Sat, 26 Aug 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/08/26/metaprogramming-python-method-missing/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/08/26/metaprogramming-python-method-missing/</guid>
+        <link>https://assertnotmagic.com/2017/08/26/metaprogramming-python-method-missing/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/08/26/metaprogramming-python-method-missing/</guid>
         
         <category>python</category>
         
@@ -926,8 +930,8 @@
 &lt;p&gt;If I missed some meta tags you think are important, or if you’ve got some other cool ones to share, I’d love to hear about it!&lt;/p&gt;
 </description>
         <pubDate>Mon, 14 Aug 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/08/14/step-your-meta-game-up/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/08/14/step-your-meta-game-up/</guid>
+        <link>https://assertnotmagic.com/2017/08/14/step-your-meta-game-up/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/08/14/step-your-meta-game-up/</guid>
         
         <category>html</category>
         
@@ -1033,8 +1037,8 @@
 &lt;p&gt;You can use this to provide a nice interactive aspect to your app to help you do shell things, inspect objects, debug, and much more.  This is roughly how &lt;a href=&quot;https://docs.python.org/3/library/pdb.html&quot;&gt;pdb&lt;/a&gt; works too!  Django and Flask both use a variation on this for their “shell” commands too.  I think I’m going to try to use it to generate an automated quiz or homework for a python intro class (similar to &lt;a href=&quot;https://www.youtube.com/watch?v=McoHQIxJd-o&quot;&gt;the swirl package in R&lt;/a&gt;).  Have any other cool ways you’ve used this?  Let me know!&lt;/p&gt;
 </description>
         <pubDate>Mon, 07 Aug 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/08/07/twenty-lines-or-less/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/08/07/twenty-lines-or-less/</guid>
+        <link>https://assertnotmagic.com/2017/08/07/twenty-lines-or-less/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/08/07/twenty-lines-or-less/</guid>
         
         <category>python</category>
         
@@ -1158,8 +1162,8 @@ pytest
 &lt;p&gt;Now, running &lt;code class=&quot;highlighter-rouge&quot;&gt;flake8&lt;/code&gt;, go back into your &lt;code class=&quot;highlighter-rouge&quot;&gt;hooky.py&lt;/code&gt; file and fix all of the warnings until &lt;code class=&quot;highlighter-rouge&quot;&gt;flake8&lt;/code&gt; is appeased.  Then try committing again.  You should see it blow up with the broken test!  Feel cool?  Good, because you are cool.  And it’s not just the git hooks.  Although they add to your overall coolness, you were already cool.  So how about that?&lt;/p&gt;
 </description>
         <pubDate>Tue, 01 Aug 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/08/01/git-hooked-on-git-hooks/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/08/01/git-hooked-on-git-hooks/</guid>
+        <link>https://assertnotmagic.com/2017/08/01/git-hooked-on-git-hooks/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/08/01/git-hooked-on-git-hooks/</guid>
         
         <category>git</category>
         
@@ -1279,8 +1283,8 @@ pytest
 &lt;p&gt;Hopefully this post provides you a useful &lt;em&gt;service&lt;/em&gt;!  (Womp womp womp)&lt;/p&gt;
 </description>
         <pubDate>Sun, 23 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/07/23/script-as-a-service/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/07/23/script-as-a-service/</guid>
+        <link>https://assertnotmagic.com/2017/07/23/script-as-a-service/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/07/23/script-as-a-service/</guid>
         
         <category>python</category>
         
@@ -1338,8 +1342,8 @@ Bonus points if your enemy is lazy you.&lt;/p&gt;
 &lt;p&gt;&lt;sup id=&quot;f1&quot;&gt;1&lt;/sup&gt;I’m a grown man who consistently says “jammies”.  Whatever.  Don’t judge me.&lt;a href=&quot;#s1&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 17 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/07/17/tricking-yourself-into-exercising/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/07/17/tricking-yourself-into-exercising/</guid>
+        <link>https://assertnotmagic.com/2017/07/17/tricking-yourself-into-exercising/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/07/17/tricking-yourself-into-exercising/</guid>
         
         <category>exercise</category>
         
@@ -1546,8 +1550,8 @@ Bonus points if your enemy is lazy you.&lt;/p&gt;
 &lt;p&gt;This has been a long one, and hopefully I didn’t miss anything.  Since I spaced the posts out (which I regret), I had to play some games with reminding myself what changed from Part to Part.  So, if something doesn’t work or is broken, let me know and I’ll see if I can find where I went wrong.  I added my final project folder &lt;a href=&quot;https://github.com/rpalo/vue-django-example&quot;&gt;on GitHub&lt;/a&gt; so you can search for discrepancies to aid in debugging.  Thanks for sticking with me!&lt;/p&gt;
 </description>
         <pubDate>Sun, 16 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/07/16/vue-on-django-part-4/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/07/16/vue-on-django-part-4/</guid>
+        <link>https://assertnotmagic.com/2017/07/16/vue-on-django-part-4/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/07/16/vue-on-django-part-4/</guid>
         
         <category>vue</category>
         
@@ -1736,8 +1740,8 @@ python manage.py runserver
 &lt;p&gt;See you in the next one!&lt;/p&gt;
 </description>
         <pubDate>Thu, 06 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/07/06/vue-on-django-part-3/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/07/06/vue-on-django-part-3/</guid>
+        <link>https://assertnotmagic.com/2017/07/06/vue-on-django-part-3/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/07/06/vue-on-django-part-3/</guid>
         
         <category>vue</category>
         
