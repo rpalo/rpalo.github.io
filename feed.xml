@@ -5,10 +5,79 @@
     <description>I'm currently/always doing a lot of learning, and it seems like writing it down in blog form is a good idea to help cement the things I'm learning. Also, all the cool kids are doing it.  My goal is once every two weeks or better.
 </description>
     <link>https://assertnotmagic.com</link>
-    <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 16 Sep 2017 12:20:32 -0700</pubDate>
-    <lastBuildDate>Sat, 16 Sep 2017 12:20:32 -0700</lastBuildDate>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 23 Sep 2017 17:05:05 -0700</pubDate>
+    <lastBuildDate>Sat, 23 Sep 2017 17:05:05 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Comparison Time</title>
+        <description>&lt;p&gt;You hear a lot of people giving some form of this piece of advice:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Don’t compare yourself to others.  Comparing yourself with someone with more experience only leads to disappointment and discouragement.  Comparing yourself to someone with less experience leads to a false sense of pride.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I think that this is great advice.  But, I think that I can refine it a little to add a bit more value.&lt;/p&gt;
+
+&lt;h2 id=&quot;definitely-compare-yourself-to-others&quot;&gt;Definitely Compare Yourself to Others&lt;/h2&gt;
+
+&lt;p&gt;“That’s a pretty substantial refinement!” you say.  To this I say, “Yes.  Yes it is.  It is also a shameless attention-grabbing subtitle.”  Let me clarify.  I think you should compare the appropriate moment in time of “you” to others.  Do you see someone who is super amazing and it seems like they know everything?  Are you thinking to yourself, “Oh, man, I can’t believe how much stuff they know.  I barely know anything in comparison.  Therefore, I suck and should just give up.”?  Take a moment.  How many years of experience does that person have?  Or — possibly a better metric — how many projects/teams/technologies has this person worked on.  In how much depth?  How many mentors has this person had?  OK, with that information, we can reframe the question to an even comparison.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Picture yourself after that same number of years, projects, technologies, teams, and mentors.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Now, how does this future you compare to this person right now?  Does it seem like “future you” could be just as smart/skilled/knowledgeable?  That’s a good comparison to have.&lt;/p&gt;
+
+&lt;h3 id=&quot;example-grumpy-senior-engineer-15-years-with-the-company&quot;&gt;Example: Grumpy Senior Engineer (15 years with the company)&lt;/h3&gt;
+
+&lt;p&gt;In our example, let’s imagine you recently got hired at &lt;em&gt;software.io&lt;/em&gt;, neat, trendy software company.  You’ve been working there for a few months.  There’s another employee that’s been with the company for 15 years!  They are grumpy, and that’s being polite about it, but they really know their stuff.  Based on their skill and their seniority, you generally look up to them.  This, combined with their grumpiness makes them kind of intimidating.  You’re trying to do your best as you work and things are generally good, but every so often, they’ll snap or make an off-handed comment about &lt;em&gt;junior developers&lt;/em&gt; or explain something using the words &lt;em&gt;simple&lt;/em&gt; and &lt;em&gt;obviously&lt;/em&gt; a lot.  This is discouraging, because it starts to seem like you &lt;em&gt;should&lt;/em&gt; know all of this stuff.  I mean, this senior engineer does!  Maybe there’s something wrong with you.  You’re probably dumb.  Maybe this programming thing just isn’t for you.  You start to keep an eye open for data entry jobs.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/worms.gif&quot; alt=&quot;We are worms!&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Stop.&lt;/strong&gt;  That’s enough of that nonsense.  Let’s practice our scale leveling.  This employee has worked at this company for 15 years.  Is it possible that, given 15 years, you could get to a point where you know as much as this employee does?  Or even more?  How much work would you have to put in over that time period for that to be the case?  Does that seem reasonable?  Easy?  Difficult, but doable if you really work?  If you answered yes to some of those questions, then stop worrying.  You’re exactly where you need to be.  Or, using this logic, you can figure out that you have actually been just cruising and need to be putting more time/effort into your learning.  Less episodes of NBC’s hit TV series Parks and Recreation and more side projects.  One fewer scroll through InstaTwitFaceSnapBlr and one more coding challenge on &lt;a href=&quot;http://exercism.io/&quot;&gt;Exercism&lt;/a&gt;.  Any way you look at this, you’ll get some valuable insight and hopefully feel more motivated and less… um… de-motivated?  Bad?  Like 💩.&lt;/p&gt;
+
+&lt;h3 id=&quot;example-2-question-filled-newbie&quot;&gt;Example 2: Question Filled Newbie&lt;/h3&gt;
+
+&lt;p&gt;It goes the other way.  Let’s say you have a bit more experience.  You know your way around a &lt;code class=&quot;highlighter-rouge&quot;&gt;class&lt;/code&gt; definition.  You’re a real hotshot.  But there’s this intern who is a sophomore in college who never. stops. asking. questions.  Questions that any poor fool knows the answer to.  Any poor fool, that is, except apparently for this intern.  But they are your poor fool and you’re supposed to be a mentor to them.  Let’s apply our scale leveling again.  Think of the questions this person is asking.  How long have they been with the company?  How long have they been programming?  It takes a certain amount of time and practice to figure out that most things are Google-able, and it takes even more practice to figure out how to ask the right questions.  Think about yourself at that level (I know it’s tough).  Think about what it was like to learn the very, very basics.  Think about learning about functions and the difference between parameters and arguments and why one didn’t have to match the other, but sometimes they did because that was the best name for the variable.  Think about hearing about each new technology that you were “supposed” to know.  For me, I learned Python, but as I started to get into Django (a web framework), I was like, “Oh, crap, now I’m supposed to know HTML, CSS, SQL, and JavaScript.”  And then there’s something called jQuery, which is JavaScript, but it’s not.  And there’s something called JSON, which is also JavaScript, but it’s not.  And then, and then, and then…&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/and-then.gif&quot; alt=&quot;And then and then and then&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Once you’ve done this, three things happen.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;The questions the intern asks stop being so annoying (or maybe, they become less annoying).&lt;/li&gt;
+  &lt;li&gt;Feeling superior to them becomes less important (which is good since feelings of superiority are pretty much never useful).&lt;/li&gt;
+  &lt;li&gt;You begin to see the questions from their eyes, which helps you pinpoint the most effective answers, shortening the list and duration of each of the questions as you explain things better.  This saves both of you time and helps them to feel less like a burden (because — trust me, if they are anything like me — they do).&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;So, to wrap up, this is very good advice.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Don’t compare yourself to others, only to past and future you.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;But, I propose that this is possibly even better advice.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Don’t compare current you to others.  Only compare equivalent versions of you to others and evaluate the work needed to get there (or the work it took to get where you are).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Hopefully this helps.  Anything I can do to help keep Codenewbies from giving up is one more person who can use technology to help make the world a better place.  Let me know what you think!&lt;/p&gt;
+</description>
+        <pubDate>Sat, 23 Sep 2017 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2017/09/23/comparison-time/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/23/comparison-time/</guid>
+        
+        <category>soft-skills,</category>
+        
+        <category>encouragement,</category>
+        
+        <category>not-magic</category>
+        
+        
+      </item>
     
       <item>
         <title>Learn to Code, Part 2 - Looping Targets</title>
@@ -395,8 +464,8 @@
 &lt;p&gt;As before, I’m super dooper available to answer any questions you might have.  Let me know what went well, and let me know what I could have explained better.  Additionally, let me know how this lesson compared to the last lesson!  Was this progressive building approach better than seeing the project up front like last time?  Did you like getting the hard stuff (&lt;strong&gt;for loops&lt;/strong&gt;) at the beginning and having the difficulty relax a little after that?  Maybe you thought loops were easier than the last sections!  I’d love to hear from you.&lt;/p&gt;
 </description>
         <pubDate>Sat, 16 Sep 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/09/16/p5-part-2-looping-targets/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/09/16/p5-part-2-looping-targets/</guid>
+        <link>http://localhost:4000/2017/09/16/p5-part-2-looping-targets/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/16/p5-part-2-looping-targets/</guid>
         
         <category>p5</category>
         
@@ -911,8 +980,8 @@
 &lt;p&gt;Let me know if you get stuck or have any questions!  Let me know if I explained anything confusingly or could do better.&lt;/p&gt;
 </description>
         <pubDate>Sat, 09 Sep 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/09/09/p5-part-1-random-walker/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/09/09/p5-part-1-random-walker/</guid>
+        <link>http://localhost:4000/2017/09/09/p5-part-1-random-walker/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/09/p5-part-1-random-walker/</guid>
         
         <category>p5</category>
         
@@ -1080,8 +1149,8 @@
 &lt;p&gt;&lt;em&gt;Cover image credit: &lt;a href=&quot;http://www.wisegeek.org/&quot;&gt;WiseGeek.org&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 31 Aug 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/08/31/css-animations/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/08/31/css-animations/</guid>
+        <link>http://localhost:4000/2017/08/31/css-animations/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/31/css-animations/</guid>
         
         <category>html</category>
         
@@ -1242,8 +1311,8 @@
 &lt;p&gt;P.P.S. - If you found yourself going “What the F are these F-strings (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;f'WHAT IS THIS'&lt;/code&gt;)”, fear not.  They’re Python’s newest string interpolation/formatting syntax.  I’ve got plans to write a post gushing about them in the near future.  They’re similar to JavaScript’s new &lt;code class=&quot;highlighter-rouge&quot;&gt;#{syntax}&lt;/code&gt;.&lt;/p&gt;
 </description>
         <pubDate>Sat, 26 Aug 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/08/26/metaprogramming-python-method-missing/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/08/26/metaprogramming-python-method-missing/</guid>
+        <link>http://localhost:4000/2017/08/26/metaprogramming-python-method-missing/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/26/metaprogramming-python-method-missing/</guid>
         
         <category>python</category>
         
@@ -1329,8 +1398,8 @@
 &lt;p&gt;If I missed some meta tags you think are important, or if you’ve got some other cool ones to share, I’d love to hear about it!&lt;/p&gt;
 </description>
         <pubDate>Mon, 14 Aug 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/08/14/step-your-meta-game-up/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/08/14/step-your-meta-game-up/</guid>
+        <link>http://localhost:4000/2017/08/14/step-your-meta-game-up/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/14/step-your-meta-game-up/</guid>
         
         <category>html</category>
         
@@ -1436,8 +1505,8 @@
 &lt;p&gt;You can use this to provide a nice interactive aspect to your app to help you do shell things, inspect objects, debug, and much more.  This is roughly how &lt;a href=&quot;https://docs.python.org/3/library/pdb.html&quot;&gt;pdb&lt;/a&gt; works too!  Django and Flask both use a variation on this for their “shell” commands too.  I think I’m going to try to use it to generate an automated quiz or homework for a python intro class (similar to &lt;a href=&quot;https://www.youtube.com/watch?v=McoHQIxJd-o&quot;&gt;the swirl package in R&lt;/a&gt;).  Have any other cool ways you’ve used this?  Let me know!&lt;/p&gt;
 </description>
         <pubDate>Mon, 07 Aug 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/08/07/twenty-lines-or-less/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/08/07/twenty-lines-or-less/</guid>
+        <link>http://localhost:4000/2017/08/07/twenty-lines-or-less/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/07/twenty-lines-or-less/</guid>
         
         <category>python</category>
         
@@ -1561,8 +1630,8 @@ pytest
 &lt;p&gt;Now, running &lt;code class=&quot;highlighter-rouge&quot;&gt;flake8&lt;/code&gt;, go back into your &lt;code class=&quot;highlighter-rouge&quot;&gt;hooky.py&lt;/code&gt; file and fix all of the warnings until &lt;code class=&quot;highlighter-rouge&quot;&gt;flake8&lt;/code&gt; is appeased.  Then try committing again.  You should see it blow up with the broken test!  Feel cool?  Good, because you are cool.  And it’s not just the git hooks.  Although they add to your overall coolness, you were already cool.  So how about that?&lt;/p&gt;
 </description>
         <pubDate>Tue, 01 Aug 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/08/01/git-hooked-on-git-hooks/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/08/01/git-hooked-on-git-hooks/</guid>
+        <link>http://localhost:4000/2017/08/01/git-hooked-on-git-hooks/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/01/git-hooked-on-git-hooks/</guid>
         
         <category>git</category>
         
@@ -1682,8 +1751,8 @@ pytest
 &lt;p&gt;Hopefully this post provides you a useful &lt;em&gt;service&lt;/em&gt;!  (Womp womp womp)&lt;/p&gt;
 </description>
         <pubDate>Sun, 23 Jul 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/07/23/script-as-a-service/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/07/23/script-as-a-service/</guid>
+        <link>http://localhost:4000/2017/07/23/script-as-a-service/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/23/script-as-a-service/</guid>
         
         <category>python</category>
         
@@ -1741,224 +1810,14 @@ Bonus points if your enemy is lazy you.&lt;/p&gt;
 &lt;p&gt;&lt;sup id=&quot;f1&quot;&gt;1&lt;/sup&gt;I’m a grown man who consistently says “jammies”.  Whatever.  Don’t judge me.&lt;a href=&quot;#s1&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 17 Jul 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/07/17/tricking-yourself-into-exercising/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/07/17/tricking-yourself-into-exercising/</guid>
+        <link>http://localhost:4000/2017/07/17/tricking-yourself-into-exercising/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/17/tricking-yourself-into-exercising/</guid>
         
         <category>exercise</category>
         
         <category>tricks</category>
         
         <category>fitness</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Vue on Django, Part 4</title>
-        <description>&lt;p&gt;This is Part 4 of my tutorial for making a Vue app powered by a Django REST backend.  Finally!  We’ve done it.  You’ve done it.  But most importantly, I’ve done it.  😊  In the first part, we set up just the Vue side.  In Part 2, we set up the data model and got it so we could create and clear our Todos in the browser.  In Part 3, we set up the Django backend.  Part 4 will consist of giving our front end a way to talk to our backend, so that our todos can be persisted for all time.  This section will make some API calls, so it would be useful to you to have some kind of knowledge of HTTP requests and JavaScript promises.  If you’re not familiar with these, you should at least be comfortable shrugging, following my lead, and Googling later.&lt;/p&gt;
-
-&lt;h2 id=&quot;0-setting-up&quot;&gt;0. Setting Up&lt;/h2&gt;
-
-&lt;p&gt;We should only need one other thing installed for this part: Vue Resource, which helps us to make HTTP requests.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;npm install -s vue-resource
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;That’s it!  Let’s get into the changes, shall we?&lt;/p&gt;
-
-&lt;h2 id=&quot;1-the-client-side-api-utility&quot;&gt;1. The Client-Side API Utility&lt;/h2&gt;
-
-&lt;p&gt;Add a file called &lt;code class=&quot;highlighter-rouge&quot;&gt;api.js&lt;/code&gt; to your &lt;code class=&quot;highlighter-rouge&quot;&gt;src/store&lt;/code&gt; folder.  Here we go:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// src/store/api.js&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'vue'&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;VueResource&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'vue-resource'&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;VueResource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;reject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;reject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;patch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;patch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;reject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;delete&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;reject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;This file just exports an object with the HTTP methods we’ll be using.  This way, you can call it via &lt;code class=&quot;highlighter-rouge&quot;&gt;api.post(stuff)&lt;/code&gt;.  You’ll see an example of this.  Keep in mind, that this section uses a lot of what I think is JavaScript promises, and I’m a little foggy on the inner workings of these so far.  It’s on the list to read more in-depth about.&lt;/p&gt;
-
-&lt;p&gt;We’re also going to update our &lt;code class=&quot;highlighter-rouge&quot;&gt;store.js&lt;/code&gt; file to use these new methods in our actions.  Remember, actions are allowed to be asynchronus, but mutations must be synchronus.  This is why we do our API calls from within the actions, and it’s a big part of why actions exist at all!&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// src/store/store.js&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'vue'&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vuex&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'vuex'&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;api&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'./api.js'&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Vuex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;apiRoot&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'http://localhost:8000'&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// This will change if you deploy later&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vuex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;mutations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Keep in mind that response is an HTTP response&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// returned by the Promise.&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// The mutations are in charge of updating the client state.&lt;/span&gt;
-    &lt;span class=&quot;s1&quot;&gt;'GET_TODOS'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;body&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-    &lt;span class=&quot;s1&quot;&gt;'ADD_TODO'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-    &lt;span class=&quot;s1&quot;&gt;'CLEAR_TODOS'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;
-      &lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;splice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Note that we added one more for logging out errors.&lt;/span&gt;
-    &lt;span class=&quot;s1&quot;&gt;'API_FAIL'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;actions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// We added a getTodos action for the initial load from the server&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// These URLs come straight from the Django URL router we did in Part 3&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;getTodos&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;api&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;apiRoot&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/todos/'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;commit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'GET_TODOS'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;commit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'API_FAIL'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;addTodo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;todo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;api&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;apiRoot&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/todos/'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;todo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;commit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'ADD_TODO'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;commit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'API_FAIL'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;clearTodos&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;api&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;apiRoot&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/todos/clear_todos/'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;commit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'CLEAR_TODOS'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;commit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'API_FAIL'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;There is a lot of change in this file, but this is really the meat of it.  Everything else from here on out is really just book-keeping.  Keep in mind that because of the way we set everything up, we are able to hook our app up to a back-end database and we aren’t even going to touch the Components at all!  That is the neatest part I think.&lt;/p&gt;
-
-&lt;p&gt;We’re also going to add one line to our &lt;code class=&quot;highlighter-rouge&quot;&gt;main.js&lt;/code&gt; file, right at the bottom.  When our app loads up, the last thing we want it to do before the client sees it is load up the todos array with the saved todos.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// src/main.js&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'vue'&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;App&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'./App'&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'./store/store.js'&lt;/span&gt;
-
-&lt;span class=&quot;cm&quot;&gt;/* eslint-disable no-new */&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;v&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;el&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'body'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;components&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;App&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// This should be the only new line ***&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dispatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'getTodos'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;There’s just one more thing that we should do to make our lives easier.  Open up the file &lt;code class=&quot;highlighter-rouge&quot;&gt;format_index_html.py&lt;/code&gt;.  There’s a few typos here from the vue project template that will make our life hard.  Here’s the fixed version.  It’s pretty much the same with some quotation marks added.&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sys&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;fileinput&lt;/span&gt;
-
-&lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'templates/index.html'&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;r+&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seek&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;% &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;load staticfiles &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fileinput&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inplace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stdout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'href=//'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;href=&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;% &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;static '&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fileinput&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inplace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stdout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'css'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;css' &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fileinput&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inplace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stdout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'src=//'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;src=&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;% &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;static '&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fileinput&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inplace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stdout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'js'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;js' &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Again, this code came with the vue template, and it’s pretty ok (maybe not my favorite).  But it’s already written for us, so we’re going with it.&lt;/p&gt;
-
-&lt;h2 id=&quot;2-get-ready&quot;&gt;2. Get Ready&lt;/h2&gt;
-
-&lt;p&gt;That should just about do it.  Here’s how we kick the whole thing off.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Make sure your virtual environment is active.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; .venv/bin/activate
-&lt;span class=&quot;c&quot;&gt;# Windows: .venv\Scripts\activate&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Run &lt;code class=&quot;highlighter-rouge&quot;&gt;./deploy.sh&lt;/code&gt;.  If it complains about permissions, either &lt;code class=&quot;highlighter-rouge&quot;&gt;chmod&lt;/code&gt; the permissions or just run &lt;code class=&quot;highlighter-rouge&quot;&gt;bash deploy.sh&lt;/code&gt;.  On windows, you should be able to run all of the steps in the deploy script manually.  The only one you should change is running &lt;code class=&quot;highlighter-rouge&quot;&gt;python manage.py runserver 8000&lt;/code&gt; instead of doing it in two steps.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Watch all of the output closely.  If there are any errors, you’ll see them in this deluge of output.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Head over to localhost:8000 and enjoy!&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;25-debugging&quot;&gt;2.5 Debugging&lt;/h2&gt;
-
-&lt;p&gt;If it doesn’t work, don’t panic.  Check your browser console.  Errors there?  Errors of a 500 nature are most likely server side.  You’re going to want to work on your django-rest app.  If the errors are on your javascript side, kill any running dev servers and run &lt;code class=&quot;highlighter-rouge&quot;&gt;npm run dev&lt;/code&gt; to run the vue server standalone.  This won’t have access to any server functions, but it will be easier to find the real error message.&lt;/p&gt;
-
-&lt;h2 id=&quot;3-wrap-up&quot;&gt;3. Wrap Up&lt;/h2&gt;
-
-&lt;p&gt;This has been a long one, and hopefully I didn’t miss anything.  Since I spaced the posts out (which I regret), I had to play some games with reminding myself what changed from Part to Part.  So, if something doesn’t work or is broken, let me know and I’ll see if I can find where I went wrong.  I added my final project folder &lt;a href=&quot;https://github.com/rpalo/vue-django-example&quot;&gt;on GitHub&lt;/a&gt; so you can search for discrepancies to aid in debugging.  Thanks for sticking with me!&lt;/p&gt;
-</description>
-        <pubDate>Sun, 16 Jul 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/07/16/vue-on-django-part-4/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/07/16/vue-on-django-part-4/</guid>
-        
-        <category>vue</category>
-        
-        <category>django</category>
-        
-        <category>es6</category>
-        
-        <category>tutorial</category>
         
         
       </item>

@@ -61,389 +61,61 @@
 
   <!-- Current Post -->
   
-    <h1>Learn to Code, Part 2 - Looping Targets</h2>
-    <small>Sep 16, 2017</small>
-    <p><p>This is part two in my series on Learning to Code.  Check out <a href="https://assertnotmagic.com/2017/09/09/p5-part-1-random-walker/">Part 1</a> if you missed it.  Somehow, my wife is still with me after the first one, so let’s keep at it!  I’m going to drop this excerpt from the previous part here, because I think it’s really important to repeat as often as possible.</p>
+    <h1>Comparison Time</h2>
+    <small>Sep 23, 2017</small>
+    <p><p>You hear a lot of people giving some form of this piece of advice:</p>
 
 <blockquote>
-  <p>If you’re just starting to learn to program, let me tell you something.  Programming is Hard.  So please don’t feel discouraged or stupid.  This tutorial moves <em>really</em> fast and covers a <em>lot</em>, so feeling overwhelmed or not understanding everything on the first pass-through is <strong>totally normal</strong>.  My goal here is to take you through the motions and have you experience the thrill programmers feel of creating something dynamic and awesome out of nothing.  Once you’re through, ask me every question you can think of until things make more sense.  You can email me or send me a Twitter message.  Links are in my bio on the <a href="/about/">about page</a>.  I’ll work through the homework with you (since the homework will really help get things solidified some).  Just put your head down, get through it, don’t give up, and don’t feel weird asking for help.  If something doesn’t make sense, it’s not because you’re a doofus – it’s because I didn’t write well enough.  Now.  For real this time.  Let’s get started</p>
+  <p>Don’t compare yourself to others.  Comparing yourself with someone with more experience only leads to disappointment and discouragement.  Comparing yourself to someone with less experience leads to a false sense of pride.</p>
 </blockquote>
 
-<h1 id="lesson-2-looping-targets">Lesson 2: Looping Targets</h1>
+<p>I think that this is great advice.  But, I think that I can refine it a little to add a bit more value.</p>
 
-<p>Congratulations, you survived Lesson 1!  Hopefully you’re hungry for more.  In this lesson, we’re going to take what we learned in the previous lesson and cement it in place.  We’ll take <strong>if statements</strong>, <strong>assigning variables</strong>, and <strong>using functions</strong> to the next level.  I’ll try to mix in a few new cool P5 functions as well.  Lastly, we’ll get to see our first <strong>loop</strong>.  This lesson will also work a little different than the previous one in that, instead of getting the final product at the beginning of the project and working through it backwards, we’re going to do what programmers often do, which is build something small and slowly increment it.  I will, however, give you a little taste of what is to come.</p>
+<h2 id="definitely-compare-yourself-to-others">Definitely Compare Yourself to Others</h2>
 
-<p><img src="/img/teaser.png" alt="final product teaser" /></p>
+<p>“That’s a pretty substantial refinement!” you say.  To this I say, “Yes.  Yes it is.  It is also a shameless attention-grabbing subtitle.”  Let me clarify.  I think you should compare the appropriate moment in time of “you” to others.  Do you see someone who is super amazing and it seems like they know everything?  Are you thinking to yourself, “Oh, man, I can’t believe how much stuff they know.  I barely know anything in comparison.  Therefore, I suck and should just give up.”?  Take a moment.  How many years of experience does that person have?  Or — possibly a better metric — how many projects/teams/technologies has this person worked on.  In how much depth?  How many mentors has this person had?  OK, with that information, we can reframe the question to an even comparison.</p>
 
-<p>We’re going to make it so that when you click on the canvas, a randomly sized target gets drawn, with a random number of rings.  These rings should go from black on the outside to white in the center, and get darker linearly.</p>
+<p><strong>Picture yourself after that same number of years, projects, technologies, teams, and mentors.</strong></p>
 
-<h2 id="step-1-loops-and-noloops">Step 1: Loops (and <code class="highlighter-rouge">noLoops</code>)</h2>
+<p>Now, how does this future you compare to this person right now?  Does it seem like “future you” could be just as smart/skilled/knowledgeable?  That’s a good comparison to have.</p>
 
-<p>Let’s get the hard stuff out of the way up front so you have longer to get familiar with it.  Here’s our goal for Step 1:</p>
+<h3 id="example-grumpy-senior-engineer-15-years-with-the-company">Example: Grumpy Senior Engineer (15 years with the company)</h3>
 
-<p><img src="/img/step1-goal.png" alt="step 1 goal" /></p>
+<p>In our example, let’s imagine you recently got hired at <em>software.io</em>, neat, trendy software company.  You’ve been working there for a few months.  There’s another employee that’s been with the company for 15 years!  They are grumpy, and that’s being polite about it, but they really know their stuff.  Based on their skill and their seniority, you generally look up to them.  This, combined with their grumpiness makes them kind of intimidating.  You’re trying to do your best as you work and things are generally good, but every so often, they’ll snap or make an off-handed comment about <em>junior developers</em> or explain something using the words <em>simple</em> and <em>obviously</em> a lot.  This is discouraging, because it starts to seem like you <em>should</em> know all of this stuff.  I mean, this senior engineer does!  Maybe there’s something wrong with you.  You’re probably dumb.  Maybe this programming thing just isn’t for you.  You start to keep an eye open for data entry jobs.</p>
 
-<p>It might not look that different, but we’re removing a lot of our requirements initially.  We’re taking a big problem, and we’re breaking it into a few smaller, easier to solve problems.  I (and many others) call this “eating an elephant”.</p>
+<p><img src="/img/worms.gif" alt="We are worms!" /></p>
 
-<blockquote>
-  <p>As a programmer, you have to know how to eat elephants.  How do you eat an elephant?</p>
+<p><strong>Stop.</strong>  That’s enough of that nonsense.  Let’s practice our scale leveling.  This employee has worked at this company for 15 years.  Is it possible that, given 15 years, you could get to a point where you know as much as this employee does?  Or even more?  How much work would you have to put in over that time period for that to be the case?  Does that seem reasonable?  Easy?  Difficult, but doable if you really work?  If you answered yes to some of those questions, then stop worrying.  You’re exactly where you need to be.  Or, using this logic, you can figure out that you have actually been just cruising and need to be putting more time/effort into your learning.  Less episodes of NBC’s hit TV series Parks and Recreation and more side projects.  One fewer scroll through InstaTwitFaceSnapBlr and one more coding challenge on <a href="http://exercism.io/">Exercism</a>.  Any way you look at this, you’ll get some valuable insight and hopefully feel more motivated and less… um… de-motivated?  Bad?  Like 💩.</p>
 
-  <p><em>One bite at a time, man.  One bite at a time.</em></p>
-</blockquote>
+<h3 id="example-2-question-filled-newbie">Example 2: Question Filled Newbie</h3>
 
-<p>So what are our requirements for Step 1?  We must draw a static, unmoving set of 10 circles in the middle of the canvas.  The overall diameter must be 400px.  The rings must go from white to black, linearly.</p>
+<p>It goes the other way.  Let’s say you have a bit more experience.  You know your way around a <code class="highlighter-rouge">class</code> definition.  You’re a real hotshot.  But there’s this intern who is a sophomore in college who never. stops. asking. questions.  Questions that any poor fool knows the answer to.  Any poor fool, that is, except apparently for this intern.  But they are your poor fool and you’re supposed to be a mentor to them.  Let’s apply our scale leveling again.  Think of the questions this person is asking.  How long have they been with the company?  How long have they been programming?  It takes a certain amount of time and practice to figure out that most things are Google-able, and it takes even more practice to figure out how to ask the right questions.  Think about yourself at that level (I know it’s tough).  Think about what it was like to learn the very, very basics.  Think about learning about functions and the difference between parameters and arguments and why one didn’t have to match the other, but sometimes they did because that was the best name for the variable.  Think about hearing about each new technology that you were “supposed” to know.  For me, I learned Python, but as I started to get into Django (a web framework), I was like, “Oh, crap, now I’m supposed to know HTML, CSS, SQL, and JavaScript.”  And then there’s something called jQuery, which is JavaScript, but it’s not.  And there’s something called JSON, which is also JavaScript, but it’s not.  And then, and then, and then…</p>
 
-<h3 id="our-first-try">Our First Try</h3>
+<p><img src="/img/and-then.gif" alt="And then and then and then" /></p>
 
-<p>Ok, let’s get started with the easy stuff: the setup.  We need a canvas, a grayish background, we don’t need our drawing looping, and none of the circles really have outlines.</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">125</span><span class="p">);</span>
-  <span class="nx">noStroke</span><span class="p">();</span>
-  <span class="nx">noLoop</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p>The first two lines should look familiar.  We wanted a medium gray background, and remember that our grayscale goes from 0 to 255 by default.  125 falls relatively into the middle of that range.  The last two functions need only a little introduction.  <code class="highlighter-rouge">noStroke</code> turns off the borders, and <code class="highlighter-rouge">noLoop</code> makes it so our draw loop doesn’t update.  If none of our shapes are moving, we can save some CPU cycles if we tell the canvas not to run draw over and over.  You’re welcome, CPU!  We love you!</p>
-
-<p>Cool!  So canvas: check.  Gray background: check.  Static, non-moving drawing: check.  What’s next?  The requirements of the circles.  Let’s declare some variables to make our lives easier.</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">maxSize</span> <span class="o">=</span> <span class="mi">400</span><span class="p">;</span>  <span class="c1">// pixels</span>
-  <span class="kd">var</span> <span class="nx">steps</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">sizeStep</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>  <span class="c1">// We'll use this to define our ring sizes</span>
-  <span class="kd">var</span> <span class="nx">colorStep</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">centerX</span> <span class="o">=</span> <span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels </span>
-  <span class="kd">var</span> <span class="nx">centerY</span> <span class="o">=</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p>We covered all of the above in Lesson 1, so no worries there.  You might ask, “Ryan, if we’re not using the <code class="highlighter-rouge">draw</code> function to loop (because of <code class="highlighter-rouge">noLoop</code>), how come we don’t just do everything in the setup function and forget the draw function altogether?”  You’re right!  You totally could.  From what I can tell, the two are functionally equivalent.  I chose to do things this way because it makes more sense in my head to only do “setup-ish” things in <code class="highlighter-rouge">setup</code> and “drawing” things in <code class="highlighter-rouge">draw</code>.  Whatever floats your boat.  You’re the artist here!</p>
-
-<p>OK, it’s finally time to create our circles.  Luckily, P5 provides us with the <a href="https://p5js.org/reference/#/p5/ellipse"><code class="highlighter-rouge">ellipse</code> function</a>, which takes an <code class="highlighter-rouge">x, y, x width and y height</code>.  Since we are geometry geniuses, we know that if we draw an ellipse whose width and height are the same, it’s the same as drawing a circle.</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">maxSize</span> <span class="o">=</span> <span class="mi">400</span><span class="p">;</span>  <span class="c1">// pixels</span>
-  <span class="kd">var</span> <span class="nx">steps</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">sizeStep</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>  <span class="c1">// We'll use this to define our ring sizes</span>
-  <span class="kd">var</span> <span class="nx">colorStep</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">centerX</span> <span class="o">=</span> <span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels </span>
-  <span class="kd">var</span> <span class="nx">centerY</span> <span class="o">=</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels</span>
-  
-  <span class="c1">// Draw the circles, start with the biggest, black one on bottom</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-  <span class="nx">ellipse</span><span class="p">(</span><span class="nx">centerX</span><span class="p">,</span> <span class="nx">centerY</span><span class="p">,</span> <span class="nx">maxSize</span><span class="p">,</span> <span class="nx">maxSize</span><span class="p">);</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="nx">colorStep</span><span class="p">);</span>
-  <span class="nx">ellipse</span><span class="p">(</span><span class="nx">centerX</span><span class="p">,</span> <span class="nx">centerY</span><span class="p">,</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="mi">1</span><span class="o">*</span><span class="nx">sizeStep</span><span class="p">,</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="mi">1</span><span class="o">*</span><span class="nx">sizeStep</span><span class="p">);</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nx">colorStep</span><span class="p">);</span>
-  <span class="nx">ellipse</span><span class="p">(</span><span class="nx">centerX</span><span class="p">,</span> <span class="nx">centerY</span><span class="p">,</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="nx">sizeStep</span><span class="p">,</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="nx">sizeStep</span><span class="p">);</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="nx">colorStep</span><span class="p">);</span>
-  <span class="nx">ellipse</span><span class="p">(</span><span class="nx">centerX</span><span class="p">,</span> <span class="nx">centerY</span><span class="p">,</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="nx">sizeStep</span><span class="p">,</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="nx">sizeStep</span><span class="p">);</span>
-  <span class="c1">// oy vey...  Getting tired of typing yet?</span>
-  <span class="c1">// ...</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p>Nope.  I refuse to let you copy paste all that code.  We’re learning about the <strong>for loop</strong>.</p>
-
-<h3 id="for-loops">For Loops</h3>
-
-<p>Try this in your console:</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Yeeeeeeaaaaaahhhhh boooyyyyyyyy'</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p><img src="/img/first-loop.png" alt="Yeah boy loop output" /></p>
-
-<p>Let’s break it down now.  This was a <strong>for loop</strong>.  Now you can see why they’re called that.  We’re saying “for each time through this loop, perform the following actions”.  There are three main parts of a <strong>for loop</strong>.  The <strong>initialization step</strong>, the <strong>test step</strong>, and the <strong>incrementing step</strong>.</p>
-
-<p>The <strong>initialization step</strong> is the first section you come to:</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-</code></pre>
-</div>
-
-<p>Everything here gets run once at the start of the loop.  Generally you’re just setting the initial looping variable value, but you can do whatever you want here.</p>
-
-<p>Next is the <strong>test step</strong>.  This runs before every loop.  If the test step is true, the loop continues on.</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span>
-</code></pre>
-</div>
-
-<p>The first time the computer reads the code, we will have just set <code class="highlighter-rouge">i = 0</code>, so — 0 being less than 10 — the loop activates, running everything inside.</p>
-
-<p>After that happens comes the <strong>incrementing step</strong>.</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">i</span><span class="o">++</span>
-</code></pre>
-</div>
-
-<p>We saw this in Lesson 1 when we were stepping our walker over one pixel.  This simply increases <code class="highlighter-rouge">i</code> by 1.  Then, we loop back to the <strong>test step</strong>.  Now, <code class="highlighter-rouge">i</code> is equal to 1, which is still less than 10, so the loop happens again.  And again and again until after <code class="highlighter-rouge">i</code> equals 9.  After that last loop, <code class="highlighter-rouge">i</code> is 10, which is not <em>less than</em> 10.  Satisfied, the loop exits and we can continue on with our program.  Are you beginning to see how we can use this in our program?</p>
-
-<h3 id="our-second-try">Our Second Try</h3>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">125</span><span class="p">);</span>
-  <span class="nx">noStroke</span><span class="p">();</span>
-  <span class="nx">noLoop</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">maxSize</span> <span class="o">=</span> <span class="mi">400</span><span class="p">;</span>  <span class="c1">// pixels</span>
-  <span class="kd">var</span> <span class="nx">steps</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">sizeStep</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>  <span class="c1">// We'll use this to define our ring sizes</span>
-  <span class="kd">var</span> <span class="nx">colorStep</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels </span>
-  <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels</span>
-  
-  <span class="c1">// The new stuff!</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">steps</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">fill</span><span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">colorStep</span><span class="p">);</span>  <span class="c1">// 0, 25.5, 50.0, 75.5 ...</span>
-    <span class="kd">var</span> <span class="nx">thisSize</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">sizeStep</span><span class="p">);</span>  <span class="c1">// 400, 360, 320 ...</span>
-    <span class="nx">ellipse</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p>Make sense?  First the loop goes through with <code class="highlighter-rouge">i === 0</code>.  Thus, we call <code class="highlighter-rouge">fill(0)</code> and our fill is black.  <code class="highlighter-rouge">thisSize</code> gets set to <code class="highlighter-rouge">400 - 0 * 40</code>, and our largest circle is 400.  And we draw a circle.  The next time through, <code class="highlighter-rouge">i === 1</code>, so we call <code class="highlighter-rouge">fill(25.5)</code> and <code class="highlighter-rouge">thisSize === 400 - 1 * 40 === 360</code>, and so forth!</p>
-
-<p>Only one problem, a problem that has plagued programmers since the dawn of programs.  The <strong>off-by-one</strong> error.  Note that in the last iteration of the loop, <code class="highlighter-rouge">i</code> will be equal to 9.  Thus, the fill color will be <code class="highlighter-rouge">9 * 25.5</code> which is only <code class="highlighter-rouge">229.5!</code>  Not <code class="highlighter-rouge">255</code> like we want.  Our center dot is <em>off-white</em>!  The humanity!  The problem stems from the fact that we have 10 rings, but the first one starts at zero.  We’re only really stepping <em>nine times</em>.  Thus, we need to fix our <code class="highlighter-rouge">colorStep</code>.</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">colorStep</span> <span class="o">=</span> <span class="mi">255</span><span class="o">/</span><span class="p">(</span><span class="nx">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
-<span class="c1">// now our fill will be 0, 28.33, 56.66, 85 ... 255</span>
-</code></pre>
-</div>
-
-<p>The same issue affects our <code class="highlighter-rouge">sizeStep</code>, but in that case, we want that to happen.  We want our last circle to have a diameter of 40px, not 0px.  If we did want 0px to be our stopping point, we would have to make the last adjustment there as well.</p>
-
-<p>Off-by-one errors are super confusing to get your head around and one of the most common causes of errors, so don’t worry if this was a bit dense and confusing.  If you have any questions, hit me up and I’ll see what I can do to clarify.  But for now, we’re moving on!  ONWARDS!</p>
-
-<h2 id="step-2-mouse-clicks-and-functions">Step 2: Mouse Clicks and Functions</h2>
-
-<p>Now that we’ve achieved our first milestone goals, let’s step up the complexity a bit to try to get closer to our final goal.  For this step, we want to draw a target 400px large with 10 rings, — same as before — but we want to draw it only when the user clicks on the canvas, and we want to place it <em>where</em> the user clicks on the canvas.  Two new goals.</p>
-
-<h3 id="the-mouse-functionsvariables">The Mouse Functions/Variables</h3>
-
-<p>P5 provides us with a function called <code class="highlighter-rouge">mouseClicked</code> function.  This function gets called whenever your mouse clicks the canvas.  P5 also provides us with two built-in variables <code class="highlighter-rouge">mouseY</code> and <code class="highlighter-rouge">mouseX</code>.  You get three guesses for what these contain.  Let’s take our previous sketch and tweak it a little to see what we’re talking about.</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// This stuff is all the same as before</span>
-
-<span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">125</span><span class="p">);</span>
-  <span class="nx">noStroke</span><span class="p">();</span>
-  <span class="nx">noLoop</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">maxSize</span> <span class="o">=</span> <span class="mi">400</span><span class="p">;</span>  <span class="c1">// pixels</span>
-  <span class="kd">var</span> <span class="nx">steps</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">sizeStep</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>  <span class="c1">// We'll use this to define our ring sizes</span>
-  <span class="kd">var</span> <span class="nx">colorStep</span> <span class="o">=</span> <span class="mi">255</span><span class="o">/</span><span class="p">(</span><span class="nx">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
-  <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels </span>
-  <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">steps</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">fill</span><span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">colorStep</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">thisSize</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">sizeStep</span><span class="p">);</span>
-    <span class="nx">ellipse</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// Here is the new hotness</span>
-
-<span class="kd">function</span> <span class="nx">mouseClicked</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">ellipse</span><span class="p">(</span><span class="nx">mouseX</span><span class="p">,</span> <span class="nx">mouseY</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p>Try it out!</p>
-
-<p><img src="/img/first-click.png" alt="our first mouse clicked function" /></p>
-
-<p>I think you can see where I’m going with this.</p>
-
-<h3 id="review-of-functions">Review of Functions</h3>
-
-<p>But first, I’m going to do a little cleanup (also known as a <strong>refactor</strong>) that will make our life marginally easier and, more importantly, help us to review <strong>functions</strong>.  Let’s pull our target drawing out of the draw loop and put it in a function called <code class="highlighter-rouge">createTarget</code>.</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// ...</span>
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createTarget</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="kd">function</span> <span class="nx">createTarget</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">maxSize</span> <span class="o">=</span> <span class="mi">400</span><span class="p">;</span>  <span class="c1">// pixels</span>
-  <span class="kd">var</span> <span class="nx">steps</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">sizeStep</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>  <span class="c1">// We'll use this to define our ring sizes</span>
-  <span class="kd">var</span> <span class="nx">colorStep</span> <span class="o">=</span> <span class="mi">255</span><span class="o">/</span><span class="p">(</span><span class="nx">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
-  <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels </span>
-  <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">steps</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">fill</span><span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">colorStep</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">thisSize</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">sizeStep</span><span class="p">);</span>
-    <span class="nx">ellipse</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p>See?  Nothing too much different.  But let’s do one better.  Let’s make the target customizable via <strong>parameters</strong>.  Remember them?  Those are the function inputs that you put inside the parenthesis.  Luckily, we have our inputs all stacked at the top of the function so they are easy to spot.</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// ...</span>
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createTarget</span><span class="p">(</span><span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kd">function</span> <span class="nx">createTarget</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">maxSize</span><span class="p">,</span> <span class="nx">steps</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// calculate what we need from our inputs</span>
-  <span class="kd">var</span> <span class="nx">sizeStep</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">colorStep</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">/</span> <span class="p">(</span><span class="nx">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
-  
-  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">steps</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">fill</span><span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">colorStep</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">thisSize</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">sizeStep</span><span class="p">);</span>
-    <span class="nx">ellipse</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p>Refresh the page, and nothing changes!  Great!  That’s when you know you’ve had a successful <strong>refactor</strong>.  So why did we do this?  Because it makes it really easy to do this:</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createTarget</span><span class="p">(</span><span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-  <span class="nx">createTarget</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
-  <span class="nx">createTarget</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p><img src="/img/functions.png" alt="the effects of using functions" /></p>
-
-<p>Or even:</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">createTarget</span><span class="p">(</span><span class="mi">40</span> <span class="o">+</span> <span class="nx">i</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">50</span> <span class="o">+</span> <span class="nx">i</span><span class="o">*</span><span class="mi">125</span><span class="p">,</span> <span class="mi">100</span> <span class="o">+</span> <span class="nx">i</span><span class="o">*</span><span class="mi">50</span><span class="p">,</span> <span class="mi">5</span> <span class="o">+</span> <span class="nx">i</span><span class="p">);</span>
-    <span class="c1">// Get it?</span>
-    <span class="c1">// x = 40, 140, 240, 340, 440</span>
-    <span class="c1">// y = 50, 175, 300, 425, 550</span>
-    <span class="c1">// maxSize = 100, 150, 200, 250, 300</span>
-    <span class="c1">// steps = 5, 6, 7, 8, 9</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p><img src="/img/functions-and-loops.png" alt="a loop inside a function!" /></p>
-
-<p>To try to clarify what’s happening in a function, I’ll try to explain it another way, that helped me.  When you first define a function, the things you put into parenthesis are like a recipe.  You’re saying what you expect.  Similar to a recipe book saying: get some kind of meat and some kind of vegetable.</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">iAmTheBest</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">r</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// ...</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p>Then, when you actually <strong>call</strong> the function, it’s like you’re actually making the recipe.</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">iAmTheBest</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p>The function looks at the things you’ve passed in and goes, “OK.  I’m going to do this with <code class="highlighter-rouge">x = 25, y = 30, and r = 50</code>.”  To carry on with the strained recipe metaphor, it’s like you read the recipe and you start cooking with beef and broccoli, but following the steps in the recipe with those options.  If you use beef and broccoli, it’ll be similar to but not exactly the same as if you were to use chicken and carrots.  Have I beat this metaphor to death successfully?</p>
-
-<h3 id="finishing-up-step-2">Finishing Up Step 2</h3>
-
-<p>Great.  Let’s wrap up this Step by completing our objectives.</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">125</span><span class="p">);</span>
-  <span class="nx">noStroke</span><span class="p">();</span>
-  <span class="nx">noLoop</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// nothing in here anymore!</span>
-<span class="p">}</span>
-
-<span class="kd">function</span> <span class="nx">mouseClicked</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createTarget</span><span class="p">(</span><span class="nx">mouseX</span><span class="p">,</span> <span class="nx">mouseY</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kd">function</span> <span class="nx">createTarget</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">maxSize</span><span class="p">,</span> <span class="nx">steps</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">sizeStep</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">colorStep</span> <span class="o">=</span> <span class="mi">255</span><span class="o">/</span><span class="p">(</span><span class="nx">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">steps</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">fill</span><span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">colorStep</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">thisSize</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">sizeStep</span><span class="p">);</span>
-    <span class="nx">ellipse</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p><img src="/img/complete-step-2.gif" alt="step two is complete" /></p>
-
-<h2 id="step-3-adding-randomness">Step 3: Adding Randomness</h2>
-
-<p>If you remember our initial goal:</p>
-
-<blockquote>
-  <p>We’re going to make it so that when you click on the canvas, a randomly sized target gets drawn, with a random number of rings.  These rings should go from black on the outside to white in the center, and get darker linearly.</p>
-</blockquote>
-
-<p>You’ll notice that we’re pretty much all the way there!  We just need to add randomness.  Let’s make a new function to handle this extra complexity.  Thanks to our <code class="highlighter-rouge">createTarget</code> function, this new function should be relatively straightforward.</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">createRandomTarget</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">maxSize</span> <span class="o">=</span> <span class="nx">random</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">350</span><span class="p">);</span>
-  <span class="kd">var</span> <span class="nx">steps</span> <span class="o">=</span> <span class="nx">random</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-  <span class="nx">createTarget</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">maxSize</span><span class="p">,</span> <span class="nx">steps</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p>Finally, let’s use that in our <code class="highlighter-rouge">mouseClicked</code> function instead.</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">mouseClicked</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createRandomTarget</span><span class="p">(</span><span class="nx">mouseX</span><span class="p">,</span> <span class="nx">mouseY</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p>SHABLAM!  CIRCLES GALORE.</p>
-
-<p><img src="/img/complete.gif" alt="final product" /></p>
-
-<p>Not too shabby huh?</p>
-
-<h2 id="homework">Homework</h2>
+<p>Once you’ve done this, three things happen.</p>
 
 <ol>
-  <li>Go back to your Random Walker.  Make it so that when you click on the screen, it clears the screen and he resets in the center of the canvas.</li>
-  <li>Do #1, but make it so he starts wherever you click the mouse.</li>
-  <li>Make a random walker that is not a <code class="highlighter-rouge">point</code>, but a target!</li>
-  <li>Update your target function to use colors.  BONUS: make it a rainbow.</li>
-  <li>Figure out how to make your target rectangular/square instead of a circle.</li>
+  <li>The questions the intern asks stop being so annoying (or maybe, they become less annoying).</li>
+  <li>Feeling superior to them becomes less important (which is good since feelings of superiority are pretty much never useful).</li>
+  <li>You begin to see the questions from their eyes, which helps you pinpoint the most effective answers, shortening the list and duration of each of the questions as you explain things better.  This saves both of you time and helps them to feel less like a burden (because — trust me, if they are anything like me — they do).</li>
 </ol>
 
-<p>As before, I’m super dooper available to answer any questions you might have.  Let me know what went well, and let me know what I could have explained better.  Additionally, let me know how this lesson compared to the last lesson!  Was this progressive building approach better than seeing the project up front like last time?  Did you like getting the hard stuff (<strong>for loops</strong>) at the beginning and having the difficulty relax a little after that?  Maybe you thought loops were easier than the last sections!  I’d love to hear from you.</p>
+<h2 id="conclusion">Conclusion</h2>
+
+<p>So, to wrap up, this is very good advice.</p>
+
+<blockquote>
+  <p>Don’t compare yourself to others, only to past and future you.</p>
+</blockquote>
+
+<p>But, I propose that this is possibly even better advice.</p>
+
+<blockquote>
+  <p>Don’t compare current you to others.  Only compare equivalent versions of you to others and evaluate the work needed to get there (or the work it took to get where you are).</p>
+</blockquote>
+
+<p>Hopefully this helps.  Anything I can do to help keep Codenewbies from giving up is one more person who can use technology to help make the world a better place.  Let me know what you think!</p>
 </p>
   
 
@@ -461,6 +133,11 @@
         </li>
         
           <li>
+            <span class="post-meta">Sep 16, 2017</span><br/>
+            <a class="post-link" href="/2017/09/16/p5-part-2-looping-targets/">Learn to Code, Part 2 - Looping Targets</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Sep 9, 2017</span><br/>
             <a class="post-link" href="/2017/09/09/p5-part-1-random-walker/">Learn to Code, Part 1 - Random Walker</a>
           </li>
@@ -468,11 +145,6 @@
           <li>
             <span class="post-meta">Aug 31, 2017</span><br/>
             <a class="post-link" href="/2017/08/31/css-animations/">CSS Animations are Probably Magic</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Aug 26, 2017</span><br/>
-            <a class="post-link" href="/2017/08/26/metaprogramming-python-method-missing/">Metaprogramming Python - Method Missing</a>
           </li>
         
       </ul>
@@ -572,6 +244,12 @@
         <a href="/tags/p5/" style="font-size: 16px">p5 | </a>
         
         <a href="/tags/beginner/" style="font-size: 16px">beginner | </a>
+        
+        <a href="/tags/soft-skills,/" style="font-size: 14px">soft-skills, | </a>
+        
+        <a href="/tags/encouragement,/" style="font-size: 14px">encouragement, | </a>
+        
+        <a href="/tags/not-magic/" style="font-size: 14px">not-magic | </a>
         
       </p>
     </div>
