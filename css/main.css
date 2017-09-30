@@ -145,6 +145,10 @@ nav a {
   max-height: 500px;
   max-width: 40vw;
   border: 1px solid black; }
+.site-wrap iframe {
+  margin: auto;
+  display: block;
+  max-width: 40vw; }
 
 code {
   font-size: 80%;
@@ -227,6 +231,8 @@ body {
   article.site-wrap {
     padding: 50px 30px 30px 30px; }
     article.site-wrap img {
+      max-width: 70vw; }
+    article.site-wrap iframe {
       max-width: 70vw; }
 
   .highlight code {

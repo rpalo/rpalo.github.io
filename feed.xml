@@ -5,10 +5,64 @@
     <description>I'm currently/always doing a lot of learning, and it seems like writing it down in blog form is a good idea to help cement the things I'm learning. Also, all the cool kids are doing it.  My goal is once every two weeks or better.
 </description>
     <link>https://assertnotmagic.com</link>
-    <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 23 Sep 2017 17:10:52 -0700</pubDate>
-    <lastBuildDate>Sat, 23 Sep 2017 17:10:52 -0700</lastBuildDate>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 30 Sep 2017 11:28:24 -0700</pubDate>
+    <lastBuildDate>Sat, 30 Sep 2017 11:28:24 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>First Screencast</title>
+        <description>&lt;p&gt;I created my first (and second) screencast tutorial!  I wanted to share my experience a little bit and encourage everybody else that’s secretly wanting to do a screenshare but not sure.&lt;/p&gt;
+
+&lt;h2 id=&quot;how-i-did-it&quot;&gt;How I Did It&lt;/h2&gt;
+
+&lt;p&gt;I didn’t even have to buy any software or hardware at all.  I’m sure there are programs out there that would let me do higher-quality editing, exporting, etc., and I’m sure there are microphones that would improve audio quality.  Those are probably a good idea, and I’ll have to look into them.  However, for this first one, I had such a low threshhold for chickening out and giving up, I had to make it as easy as possible for myself to do it.  Here’s my setup:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Created a new account on my Macbook, specifically for these screencasts.  No accidental notifications during the screencast, no personal files and info showing up that I don’t want, no initial settings or configurations skewing how my machine works compared to anybody watching.&lt;/li&gt;
+  &lt;li&gt;Microphone: Apple earbuds mic.  No external powersource or cords or stand or setup needed.  Just plug them in and go.&lt;/li&gt;
+  &lt;li&gt;Screen Recording Software: QuickTime Player comes stock on a Mac (I think).  You can record screencasts with it by opening it and clicking &lt;strong&gt;File -&amp;gt; New Screen Recording&lt;/strong&gt;.  You can then set it to use whatever mic you want (including those handy dandy platinum-quality earbuds).  You can also have it highlight your mouse clicks if you want.  I chose to do that.&lt;/li&gt;
+  &lt;li&gt;Video Editing Software: iMovie.  Simple-ish.  Easy-ish.  Got it for free.  I used it mostly to strip out the really long pauses whenever I didn’t know what to say.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;what-i-learned&quot;&gt;What I Learned&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Your first screencast will suck.  That’s ok.  Just push through, throw away your first couple of takes (but not much more than that), and get it edited and exported to YouTube (or wherever).  Don’t try to perfect it, just get it out there.  It won’t be perfect, and that’s ok, because, unless you shamelessly plug your screencasts on a popular blogging platform, no one will watch them.  BUT.  That’s the good thing.  Because, once you make the first one and get through the “curled-up-in-a-ball-of-social-anxiety-will-they-hate-it-oh-my-gosh-the-trolls-are-coming” phase, you’ll be less scared to make the second one.  And the second one will be a bit better.  And as you make more and more, you’ll get more confident — at this point I’m speculating, but, this is my hope — and the videos will get better.  And leave them up, because you can always make another, better video.&lt;/li&gt;
+  &lt;li&gt;There are some things you should leave out.  Trust me.  &lt;strong&gt;Don’t&lt;/strong&gt; do an intro to the video in the same video you’re recording.  If you have to do an intro, do it in a separate video in the same playlist that people can opt out of/not watch.  Your video already has a title and a description.  People (mostly) can read.  They know.  Just jump right into the material.  Somebody told me this, and I didn’t believe them.  And I did an intro to my first video.  And when I went back and watched it, &lt;em&gt;it was so boring&lt;/em&gt;.  It also adds minutes to your video, which adds to the time it takes to export and upload it.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;what-i-need-from-you&quot;&gt;What I Need from You&lt;/h2&gt;
+
+&lt;p&gt;I have a couple of favors to ask, if you’ve got time and are willing.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;If you know of a decent microphone (not platinum quality, but something that will get me 80% of the way there and sounding professional) that I can get on Amazon or something, let me know.&lt;/li&gt;
+  &lt;li&gt;Ditto for screencast/editing software.&lt;/li&gt;
+  &lt;li&gt;If you’ve got time, check out my video (see below).  The second one is better than the first, but I know there’s a lot of improvement to be made yet.  Message me (email, tweet, comment, etc.) if you have any feedback.  I know that’s a big favor, so I appreciate it, and I don’t take it lightly.  I want to get better and make things that people enjoy watching and can learn something from.&lt;/li&gt;
+  &lt;li&gt;If you’ve been thinking about making a screencast for a while but have been too nervous or didn’t know how, sit down and make one!  (Or stand up, I don’t care, live your life homie).  Put it up on YouTube.  And know that everything will be ok.  If you send me a link, I will shower you with complements, praise, and click the like button.  You’ve got the Palo guarantee on that one*.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;the-reveal&quot;&gt;The Reveal&lt;/h2&gt;
+
+&lt;p&gt;This is the second part, because it’s shorter and better and the first part makes me cringe.  Thanks for reading/watching!&lt;/p&gt;
+
+&lt;iframe width=&quot;560&quot; height=&quot;315&quot; style=&quot;text-align:center;&quot; src=&quot;https://www.youtube.com/embed/T5q9KFJdCzk?rel=0&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;*Not an actual legally binding guarantee. 😬&lt;/p&gt;
+</description>
+        <pubDate>Sat, 30 Sep 2017 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2017/09/30/first-screencast/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/30/first-screencast/</guid>
+        
+        <category>screencast</category>
+        
+        <category>encouragement</category>
+        
+        <category>showdev</category>
+        
+        
+      </item>
     
       <item>
         <title>Comparison Time</title>
@@ -67,8 +121,8 @@
 &lt;p&gt;Hopefully this helps.  Anything I can do to help keep Codenewbies from giving up is one more person who can use technology to help make the world a better place.  Let me know what you think!&lt;/p&gt;
 </description>
         <pubDate>Sat, 23 Sep 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/09/23/comparison-time/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/09/23/comparison-time/</guid>
+        <link>http://localhost:4000/2017/09/23/comparison-time/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/23/comparison-time/</guid>
         
         <category>soft-skills</category>
         
@@ -464,8 +518,8 @@
 &lt;p&gt;As before, I’m super dooper available to answer any questions you might have.  Let me know what went well, and let me know what I could have explained better.  Additionally, let me know how this lesson compared to the last lesson!  Was this progressive building approach better than seeing the project up front like last time?  Did you like getting the hard stuff (&lt;strong&gt;for loops&lt;/strong&gt;) at the beginning and having the difficulty relax a little after that?  Maybe you thought loops were easier than the last sections!  I’d love to hear from you.&lt;/p&gt;
 </description>
         <pubDate>Sat, 16 Sep 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/09/16/p5-part-2-looping-targets/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/09/16/p5-part-2-looping-targets/</guid>
+        <link>http://localhost:4000/2017/09/16/p5-part-2-looping-targets/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/16/p5-part-2-looping-targets/</guid>
         
         <category>p5</category>
         
@@ -980,8 +1034,8 @@
 &lt;p&gt;Let me know if you get stuck or have any questions!  Let me know if I explained anything confusingly or could do better.&lt;/p&gt;
 </description>
         <pubDate>Sat, 09 Sep 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/09/09/p5-part-1-random-walker/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/09/09/p5-part-1-random-walker/</guid>
+        <link>http://localhost:4000/2017/09/09/p5-part-1-random-walker/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/09/p5-part-1-random-walker/</guid>
         
         <category>p5</category>
         
@@ -1149,8 +1203,8 @@
 &lt;p&gt;&lt;em&gt;Cover image credit: &lt;a href=&quot;http://www.wisegeek.org/&quot;&gt;WiseGeek.org&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 31 Aug 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/08/31/css-animations/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/08/31/css-animations/</guid>
+        <link>http://localhost:4000/2017/08/31/css-animations/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/31/css-animations/</guid>
         
         <category>html</category>
         
@@ -1311,8 +1365,8 @@
 &lt;p&gt;P.P.S. - If you found yourself going “What the F are these F-strings (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;f'WHAT IS THIS'&lt;/code&gt;)”, fear not.  They’re Python’s newest string interpolation/formatting syntax.  I’ve got plans to write a post gushing about them in the near future.  They’re similar to JavaScript’s new &lt;code class=&quot;highlighter-rouge&quot;&gt;#{syntax}&lt;/code&gt;.&lt;/p&gt;
 </description>
         <pubDate>Sat, 26 Aug 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/08/26/metaprogramming-python-method-missing/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/08/26/metaprogramming-python-method-missing/</guid>
+        <link>http://localhost:4000/2017/08/26/metaprogramming-python-method-missing/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/26/metaprogramming-python-method-missing/</guid>
         
         <category>python</category>
         
@@ -1398,8 +1452,8 @@
 &lt;p&gt;If I missed some meta tags you think are important, or if you’ve got some other cool ones to share, I’d love to hear about it!&lt;/p&gt;
 </description>
         <pubDate>Mon, 14 Aug 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/08/14/step-your-meta-game-up/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/08/14/step-your-meta-game-up/</guid>
+        <link>http://localhost:4000/2017/08/14/step-your-meta-game-up/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/14/step-your-meta-game-up/</guid>
         
         <category>html</category>
         
@@ -1505,8 +1559,8 @@
 &lt;p&gt;You can use this to provide a nice interactive aspect to your app to help you do shell things, inspect objects, debug, and much more.  This is roughly how &lt;a href=&quot;https://docs.python.org/3/library/pdb.html&quot;&gt;pdb&lt;/a&gt; works too!  Django and Flask both use a variation on this for their “shell” commands too.  I think I’m going to try to use it to generate an automated quiz or homework for a python intro class (similar to &lt;a href=&quot;https://www.youtube.com/watch?v=McoHQIxJd-o&quot;&gt;the swirl package in R&lt;/a&gt;).  Have any other cool ways you’ve used this?  Let me know!&lt;/p&gt;
 </description>
         <pubDate>Mon, 07 Aug 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/08/07/twenty-lines-or-less/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/08/07/twenty-lines-or-less/</guid>
+        <link>http://localhost:4000/2017/08/07/twenty-lines-or-less/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/07/twenty-lines-or-less/</guid>
         
         <category>python</category>
         
@@ -1630,8 +1684,8 @@ pytest
 &lt;p&gt;Now, running &lt;code class=&quot;highlighter-rouge&quot;&gt;flake8&lt;/code&gt;, go back into your &lt;code class=&quot;highlighter-rouge&quot;&gt;hooky.py&lt;/code&gt; file and fix all of the warnings until &lt;code class=&quot;highlighter-rouge&quot;&gt;flake8&lt;/code&gt; is appeased.  Then try committing again.  You should see it blow up with the broken test!  Feel cool?  Good, because you are cool.  And it’s not just the git hooks.  Although they add to your overall coolness, you were already cool.  So how about that?&lt;/p&gt;
 </description>
         <pubDate>Tue, 01 Aug 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/08/01/git-hooked-on-git-hooks/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/08/01/git-hooked-on-git-hooks/</guid>
+        <link>http://localhost:4000/2017/08/01/git-hooked-on-git-hooks/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/01/git-hooked-on-git-hooks/</guid>
         
         <category>git</category>
         
@@ -1751,73 +1805,14 @@ pytest
 &lt;p&gt;Hopefully this post provides you a useful &lt;em&gt;service&lt;/em&gt;!  (Womp womp womp)&lt;/p&gt;
 </description>
         <pubDate>Sun, 23 Jul 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/07/23/script-as-a-service/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/07/23/script-as-a-service/</guid>
+        <link>http://localhost:4000/2017/07/23/script-as-a-service/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/07/23/script-as-a-service/</guid>
         
         <category>python</category>
         
         <category>sysadmin</category>
         
         <category>linux</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Tricking Yourself into Exercising</title>
-        <description>&lt;p&gt;Let me lay out a scenario and see if it’s familiar.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Wake up, groggy because it’s early.&lt;/li&gt;
-  &lt;li&gt;Maybe have a quick breakfast and head to work.&lt;/li&gt;
-  &lt;li&gt;Work hard (ish), getting stuff done and taking names.  Basically, &lt;strong&gt;CRUSH IT&lt;/strong&gt;.&lt;/li&gt;
-  &lt;li&gt;Get off work and head home.&lt;/li&gt;
-  &lt;li&gt;Get home, tired from working so hard (ish).  &lt;strong&gt;CRUSHING IT&lt;/strong&gt; takes lots of focus and energy!&lt;/li&gt;
-  &lt;li&gt;Because you’re tired and worked so hard, reward yourself by laying on the couch and watching Netflix for a little while (or 4 hours of binging).  Substitute video games, cable, reading a book, knitting, or napping to taste.&lt;/li&gt;
-  &lt;li&gt;Have some dinner (stopping Netflix, optional).&lt;/li&gt;
-  &lt;li&gt;Maybe do some hobby stuff before the end of the day.  Depending on how good the Netflix binging is going, keep doing that.&lt;/li&gt;
-  &lt;li&gt;Go to bed, on time… or possibly late.&lt;/li&gt;
-  &lt;li&gt;GOTO 1.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;If this happens to you more often than you’d like to admit, then you and me have that in common.  I’m tired from work!  &lt;strong&gt;IT&lt;/strong&gt; doesn’t really &lt;strong&gt;CRUSH&lt;/strong&gt; &lt;strong&gt;IT&lt;/strong&gt;self, you know.  So when I get home from work, the last thing I feel like doing is working out.  This is bad because my work is pretty sedentary, and working out is what I need to do.  The cycle of work, sleep, laze, hate self for not exercising, hate that the hate is not strong enough to get me to actually exercise, repeat is a rough one.  But last week, I discovered a way out.  It works pretty well, and I wanted to share it!&lt;/p&gt;
-
-&lt;h1 id=&quot;exercise-immediately-after-you-wake-up&quot;&gt;Exercise Immediately After You Wake Up&lt;/h1&gt;
-
-&lt;p&gt;You heard me.  Not like “have a nice breakfast and get ready to exercise.”  Nay.  The night before, set out everything you’ll need to go on a run or lift or whatever you prefer.  Running shoes.  Socks.  If you’re the jammie-wearing sort, wear clean workout clothes as jammies&lt;sup id=&quot;s1&quot;&gt;&lt;a href=&quot;#f1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.  When you wake up (maybe 20 minutes earlier than usual), roll out of bed and put on your gear and get to it immediately.  I have found that currently I can run about a mile and a half loop before I poop out.  This will improve hopefully.  Just do what you can do, but don’t kill yourself.  You want to feel like doing it again tomorrow and the next day and the next day and the…&lt;/p&gt;
-
-&lt;p&gt;But, I can jump right in the shower and head to work.  And the best part?  Since all of this happened between the time of bed and the time of shower, I remember nothing.  I’m not awake yet!  Still asleep, brain-wise.  But my Fitbit says I’ve got steps and burned calories.  And I get to skip the self-loathing that usually comes with not exercising!  🌚&lt;/p&gt;
-
-&lt;h1 id=&quot;caveat&quot;&gt;Caveat&lt;/h1&gt;
-
-&lt;p&gt;The first day, you’ll be pumped to do it.  It will go great and you will feel great.  The second day you will be groggy, but your excitement over being one of the people that exercises will keep you going.  Days 3-5 will be rough, though.  Stick to it.  The bad feels of tiredness/soreness diminish eventually, and the good feels from taking care of your body don’t!&lt;/p&gt;
-
-&lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
-
-&lt;p&gt;Anyways, that’s just been my experience.  I don’t know if I’m actually dropping the babyfat, but I’d like to think so.  If you have any other protips to make it easier to exercise, let me know.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Train while your enemy sleeps.
-Bonus points if your enemy is lazy you.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;— Me, probably.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;sup id=&quot;f1&quot;&gt;1&lt;/sup&gt;I’m a grown man who consistently says “jammies”.  Whatever.  Don’t judge me.&lt;a href=&quot;#s1&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Mon, 17 Jul 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/07/17/tricking-yourself-into-exercising/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/07/17/tricking-yourself-into-exercising/</guid>
-        
-        <category>exercise</category>
-        
-        <category>tricks</category>
-        
-        <category>fitness</category>
         
         
       </item>
