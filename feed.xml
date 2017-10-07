@@ -6,9 +6,157 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 30 Sep 2017 11:28:24 -0700</pubDate>
-    <lastBuildDate>Sat, 30 Sep 2017 11:28:24 -0700</lastBuildDate>
+    <pubDate>Sat, 07 Oct 2017 13:29:06 -0700</pubDate>
+    <lastBuildDate>Sat, 07 Oct 2017 13:29:06 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Smooth Ruby One-Liners</title>
+        <description>&lt;p&gt;When I first started learning Ruby, the first book I read had a chapter at the front about all of the command line options and flags for the &lt;code class=&quot;highlighter-rouge&quot;&gt;ruby&lt;/code&gt; command.  Missing the point as usual, I flipped quickly through that section without reading much.  “Yeah, yeah, yeah,” I said to myself as I pulled open my editor.  “Whatever.  Just get to the good stuff.  Show me those &lt;em&gt;objects&lt;/em&gt;!  Those &lt;em&gt;classes!&lt;/em&gt;”  Well, I’m here to say: I Missed Out.  A chapter on a different book I’m now reading (&lt;a href=&quot;http://www.apress.com/us/book/9781590598214&quot;&gt;Practical Ruby for System Administration&lt;/a&gt; by Andre Ben-Hamou) also had a section about this, and this time I paid attention.  Now I want to share the highlights with everybody else!&lt;/p&gt;
+
+&lt;h2 id=&quot;the-good-stuff&quot;&gt;The Good Stuff&lt;/h2&gt;
+
+&lt;h3 id=&quot;simple-execution&quot;&gt;Simple Execution&lt;/h3&gt;
+
+&lt;p&gt;Let’s start simple.  The &lt;code class=&quot;highlighter-rouge&quot;&gt;-e&lt;/code&gt; flag will have the Ruby interpreter execute a command string inline and output the result to &lt;code class=&quot;highlighter-rouge&quot;&gt;stdout&lt;/code&gt;.  Useful if you can’t remember that darn Bash command for doing floating point math (&lt;em&gt;hint: it’s &lt;code class=&quot;highlighter-rouge&quot;&gt;bc&lt;/code&gt;&lt;/em&gt;)!&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -e &lt;span class=&quot;s1&quot;&gt;'puts (Math.sqrt(32**2/57.2))'&lt;/span&gt; &amp;gt; calc.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;A note about quotation marks.  Many of the useful Ruby one-liners contain special variables like &lt;code class=&quot;highlighter-rouge&quot;&gt;$_, $&amp;lt;, and $.&lt;/code&gt;.  This is all fine and dandy until you add Bash string interpolation into the mix.  Since you interpolate variables like this in Bash:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;That's no &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$silly_thing&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;, that's my wife!&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If you surround your Ruby command with double quotes, your special variables will have unpredictable results.  It’s best to stick to single quotes around the command at all times.&lt;/p&gt;
+
+&lt;p&gt;The first example is a bit useful if you’re stubbornly refusing to Google Bash commands, but only slightly more convenient.  But stay with me, because we’re just getting warmed up.&lt;/p&gt;
+
+&lt;h3 id=&quot;line-by-line-processing&quot;&gt;Line-by-Line Processing&lt;/h3&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;-n&lt;/code&gt; flag wraps your executed one-liner in an implicit &lt;code class=&quot;highlighter-rouge&quot;&gt;while gets ... end&lt;/code&gt; block.  When you combine this with the usage of Ruby’s special global variable &lt;code class=&quot;highlighter-rouge&quot;&gt;$_&lt;/code&gt;, which stores the result of the most recent &lt;code class=&quot;highlighter-rouge&quot;&gt;Kernel.gets&lt;/code&gt; command, you can do some nice (&lt;strong&gt;and readable&lt;/strong&gt;) file processing!&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -ne &lt;span class=&quot;s1&quot;&gt;'puts $_.strip if $_ =~ /soup/'&lt;/span&gt; /home/rpalo/recipes
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Which will strip out excess whitespace and print me every line that contains the word ‘soup’.  I don’t know about you, but a script like that would be critical to my infrastructure.&lt;/p&gt;
+
+&lt;p&gt;If you get tired of typing &lt;code class=&quot;highlighter-rouge&quot;&gt;puts $_.something.something&lt;/code&gt; after a while, don’t worry.  The &lt;code class=&quot;highlighter-rouge&quot;&gt;-p&lt;/code&gt; flag drops an implicit &lt;code class=&quot;highlighter-rouge&quot;&gt;print $_&lt;/code&gt; at the end of your command, so you can just modify the variable.  We can clean up the previous example like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -pe &lt;span class=&quot;s1&quot;&gt;'$_strip! if $_ =~ /soup/'&lt;/span&gt; /home/rpalo/recipes
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You’re saving at least 4 whole characters there.  Don’t spend it all in one place.&lt;/p&gt;
+
+&lt;h3 id=&quot;in-place-file-editing&quot;&gt;In-Place File Editing&lt;/h3&gt;
+
+&lt;p&gt;“I feel like I’m not a real developer because I haven’t taken the time to learn to use the &lt;code class=&quot;highlighter-rouge&quot;&gt;sed&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;awk&lt;/code&gt; command!”  Firstly, that’s silly.  You should disregard anyone who begins any sentence with the phrase, “You’re not a real developer if…”.  Additionally, you can make them feel sad when you edit files in place (like &lt;code class=&quot;highlighter-rouge&quot;&gt;sed -i&lt;/code&gt; does)!  Here’s four ways to do this, in order of increasing levels of shwoopiness.  Let’s say you wanted to remove the default comments from a configuration file (not recommended unless you promise to add your own back in).&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -pe &lt;span class=&quot;s1&quot;&gt;'$_.gsub!(/#.*$/, &quot;&quot;)'&lt;/span&gt; .myconfig &amp;gt; .myconfig
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Redirect the modified lines to overwrite the file instead of printing to &lt;code class=&quot;highlighter-rouge&quot;&gt;STDOUT&lt;/code&gt;.  You can leave that off if you use the &lt;code class=&quot;highlighter-rouge&quot;&gt;-i&lt;/code&gt; flag.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -i -pe &lt;span class=&quot;s1&quot;&gt;'$_.gsub!(/#.*$/, &quot;&quot;)'&lt;/span&gt; .myconfig
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This works great when you want to run this command against multiple files.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -i -pe &lt;span class=&quot;s1&quot;&gt;'$_.gsub!(/#.*$/, &quot;&quot;)'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.conf
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The glob match will run through each of the files ending in .conf and overwrite them.&lt;/p&gt;
+
+&lt;p&gt;Lastly, if you’re paranoid and risk averse (i.e. you’ve been using the terminal long enough to know the pain of overwriting a file with an error in your script and losing everything – #GodBlessGit), you can add a file extension to your &lt;code class=&quot;highlighter-rouge&quot;&gt;-i&lt;/code&gt; flag like this: &lt;code class=&quot;highlighter-rouge&quot;&gt;-i.bak&lt;/code&gt; and it will save the old version with that file extension before writing; &lt;code class=&quot;highlighter-rouge&quot;&gt;.myconfig&lt;/code&gt; won’t have comments, but there will be a new &lt;code class=&quot;highlighter-rouge&quot;&gt;.myconfig.bak&lt;/code&gt; that still does.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;There MUST be NO space between the &lt;code class=&quot;highlighter-rouge&quot;&gt;-i&lt;/code&gt; and the backup file extension or it won’t work.  You have been warned.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;farming-the-rows-and-fields&quot;&gt;Farming the Rows and Fields&lt;/h3&gt;
+
+&lt;p&gt;I want to talk about two more special global variables: &lt;code class=&quot;highlighter-rouge&quot;&gt;$&amp;lt; and $.&lt;/code&gt;.  The first one refers to the file that was input.  The second one refers to the current line number.  (Note that this means that &lt;code class=&quot;highlighter-rouge&quot;&gt;$. and $&amp;lt;.lineno&lt;/code&gt; are synonymous).  You can implement a rough version of &lt;code class=&quot;highlighter-rouge&quot;&gt;head&lt;/code&gt; like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -ne &lt;span class=&quot;s1&quot;&gt;'puts $_ if $. &amp;lt;= 10'&lt;/span&gt; test.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;To use fields in files that might be delimited, such as csv’s or system files like &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/passwd&lt;/code&gt;, you might first try doing this:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -ne &lt;span class=&quot;s1&quot;&gt;'puts $_.split.first + $_.split.last'&lt;/span&gt; test.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;That works, but you can have the heavy lifting done for you with &lt;code class=&quot;highlighter-rouge&quot;&gt;-a&lt;/code&gt;, which stands for “autosplit”.  It drops the pre-split fields into a special variable called &lt;code class=&quot;highlighter-rouge&quot;&gt;$F&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -a -ne &lt;span class=&quot;s1&quot;&gt;'puts $F.first + $F.last'&lt;/span&gt; test.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The above example only works with spaces as delimiters, though!  you can specify &lt;em&gt;that&lt;/em&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;-F&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -a -F: -ne &lt;span class=&quot;s1&quot;&gt;'puts $F.first'&lt;/span&gt; /etc/passwd
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;setup-and-teardown&quot;&gt;Setup and Teardown&lt;/h3&gt;
+
+&lt;p&gt;If you &lt;em&gt;have&lt;/em&gt; used &lt;code class=&quot;highlighter-rouge&quot;&gt;awk&lt;/code&gt;, then this next part may be familiar.  You can do some initializing before you run through the input file and teardown/final output after, using &lt;code class=&quot;highlighter-rouge&quot;&gt;BEGIN&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;END&lt;/code&gt; blocks.  Useful for things like counting the total number of lines that match a pattern.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -ne &lt;span class=&quot;s1&quot;&gt;'BEGIN { ducks = 0 }; ducks += 1 if $_ =~ /ducks/; END { puts ducks }'&lt;/span&gt; duckfile.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Using this setup and teardown, your one-liners get quite a bit more powerful.&lt;/p&gt;
+
+&lt;h3 id=&quot;requiring-modules&quot;&gt;Requiring Modules&lt;/h3&gt;
+
+&lt;p&gt;You’ve probably actually used this in other ways, but you can require gems and modules from the standard library with the &lt;code class=&quot;highlighter-rouge&quot;&gt;-r&lt;/code&gt; command.  For instance, to list out your machine’s IP addresses, you could do this:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -rsocket -e &lt;span class=&quot;s1&quot;&gt;'puts Socket.ip_address_list.map(&amp;amp;:inspect)'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Play with primes!&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -rprime -e &lt;span class=&quot;s1&quot;&gt;'puts Prime.first(20)'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;wrapping-up&quot;&gt;Wrapping Up&lt;/h2&gt;
+
+&lt;p&gt;Overall, these may not give you a 10x productivity boost, but they are fun and I feel like they provide an interesting approach.  They seem especially useful if you’ve been deep into a Ruby project and switching your brain over to Bash is too much work.  Halfway through writing this post, I went to Google, and there are an amazing number of blog posts about this topic.  (Kind of made me feel lame for posting about it, to be honest).  But it’s a fun topic, and it’s just one more of those things that makes Ruby fun to use, so I thought it would be good to share.  Anyways, tweet/message me if you’ve got any cool Ruby one-liners that you use all the time!  I’ll add them to this list:&lt;/p&gt;
+
+&lt;h2 id=&quot;submitted-by-awesome-people&quot;&gt;Submitted by Awesome People&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Delete trailing whitespace - Ryan Palo&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -pe &lt;span class=&quot;s1&quot;&gt;'gsub(/\s+$/, &quot;\n&quot;)'&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Prints too long lines - Ryan Palo&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -ne &lt;span class=&quot;s1&quot;&gt;'puts $_ if $_.length &amp;gt; 80'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+</description>
+        <pubDate>Thu, 05 Oct 2017 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2017/10/05/smooth-one-liners/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/10/05/smooth-one-liners/</guid>
+        
+        <category>ruby</category>
+        
+        <category>bash</category>
+        
+        <category>sysadmin</category>
+        
+        
+      </item>
     
       <item>
         <title>First Screencast</title>
@@ -1688,131 +1836,6 @@ pytest
         <guid isPermaLink="true">http://localhost:4000/2017/08/01/git-hooked-on-git-hooks/</guid>
         
         <category>git</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Script as a Service</title>
-        <description>&lt;p&gt;I’m going to show you how I got a Python script to run as a service on Ubuntu.  I was working on a project of mine that is a &lt;a href=&quot;https://github.com/rpalo/fanbot&quot;&gt;Twitter Bot that tweets compliments at people&lt;/a&gt;.  I wrote a (slightly disjointed) &lt;a href=&quot;http://assertnotmagic.com/2017/05/01/fanbot-and-doing-new-things-right.html&quot;&gt;post about it&lt;/a&gt; a little while ago, if you want more background.  Basically, I have this bot running in a Python script, and I want this Python script to run for a long time.  I definitely want to be able to kick it off and log out of my server!  So I went in search of some options.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-options&quot;&gt;The Options&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Never log out of the server.  Run &lt;code class=&quot;highlighter-rouge&quot;&gt;python main.py&lt;/code&gt; and leave the shell open.  Pros: very easy to do, and I already knew how to do it.  Cons: probably won’t work for long.  I assume ssh connections time out eventually.  Also, logging becomes an extra step of &lt;code class=&quot;highlighter-rouge&quot;&gt;python main.py | tee fanbot.log&lt;/code&gt; or something of that nature.  All in all, feels hacky.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;nohup&lt;/code&gt;.  A HUP (hangup) signal is sent to any job if its controlling terminal is closed.  One example of this is logging out of an SSH session or closing an open terminal window.  This causes it to wrap up and shut down.  &lt;code class=&quot;highlighter-rouge&quot;&gt;nohup&lt;/code&gt; is a command that tells a job to ignore the HUP signal.  I would be able to do &lt;code class=&quot;highlighter-rouge&quot;&gt;nohup python main.py &amp;amp;&lt;/code&gt;.  The &amp;amp; pushes the job to the background.  The job then runs in the background and appends all output to &lt;code class=&quot;highlighter-rouge&quot;&gt;nohup.out&lt;/code&gt;.  You can get a custom logfile thusly: &lt;code class=&quot;highlighter-rouge&quot;&gt;nohup python main.py &amp;gt; custom.log &amp;amp;&lt;/code&gt;.  Pros: I can log out, I get logfiles where I want them, fairly simple command.  Cons: Dies if the server resets.  I’m also not sure how cleanly it could be killed.  It would at least be a couple commands to get it done properly.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Use a terminal multiplexer.  I could use something like &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; to run in.  For those of you that don’t know what &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; is, it’s a neat way of saving and reusing terminal window, pane, and histories.  You can attach and detach from a tmux session whenever you want, but the programs running in the session stay running.  I’ll have to add a &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; overview to my list of things to write.  It would go like this.  Pros: Easy to use.  Works basically just like running things in the terminal.  Cons: Also dies if the server resets.  &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; feels like a little bit of overkill just to manage this one single job.  If you’re interested, here’s how that would go down:&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;tmux new -s fanbot_session
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;python main.py | tee fanbot.log
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;&amp;lt;ctrl-b&amp;gt;d &lt;span class=&quot;c&quot;&gt;# To detach from tmux&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Later, to check on things:&lt;/span&gt;
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;tmux attach -t fanbot_session
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;we-pride-ourselves-on-service&quot;&gt;We Pride Ourselves on Service&lt;/h2&gt;
-
-&lt;p&gt;Finally I gave in.  I had been putting off doing it as a service because it sounded hard and scary, even if it sounded like maybe it was the “right” way of doing things.  Turns out, it’s not that bad.  But, I hear what you are thinking: less talk, more examples!  Let us say that we have the script below.&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# /home/ryan/bigben.py&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;time&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;bong&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;BONG!  It is now {}&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;bong&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sleep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3600&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# Tell the time once an hour&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Kind of silly, but it is the type of script that you’d like to run for a long time, possibly be auto-restarted, and see the logs later.  OK.  So we’ll only need one other file: the service’s Unit File!  Create a file called &lt;code class=&quot;highlighter-rouge&quot;&gt;bong.service&lt;/code&gt;.  The .service is not really needed, but I think it’s nice to have.&lt;/p&gt;
-
-&lt;div class=&quot;language-ini highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;; /home/ryan/bong.service
-&lt;/span&gt;
-&lt;span class=&quot;nn&quot;&gt;[Unit]&lt;/span&gt;
-&lt;span class=&quot;py&quot;&gt;Description&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Bong time telling service&lt;/span&gt;
-&lt;span class=&quot;py&quot;&gt;After&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;multi-user.target&lt;/span&gt;
-
-&lt;span class=&quot;nn&quot;&gt;[Service]&lt;/span&gt;
-&lt;span class=&quot;py&quot;&gt;Type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;idle&lt;/span&gt;
-&lt;span class=&quot;py&quot;&gt;ExecStart&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/usr/local/bin/python /home/ryan/bigben.py&lt;/span&gt;
-
-&lt;span class=&quot;nn&quot;&gt;[Install]&lt;/span&gt;
-&lt;span class=&quot;py&quot;&gt;WantedBy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;multi-user.target&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Some explanation.  The &lt;code class=&quot;highlighter-rouge&quot;&gt;Unit&lt;/code&gt; section describes what this service is and how it should be run.  The &lt;code class=&quot;highlighter-rouge&quot;&gt;After&lt;/code&gt; variable tells this service when is allowed to run.  &lt;code class=&quot;highlighter-rouge&quot;&gt;After=multi-user.target&lt;/code&gt; essentially just means that this service will be ok to run once the server is ready for logging in.  The &lt;code class=&quot;highlighter-rouge&quot;&gt;Service&lt;/code&gt; section desribes what &lt;code class=&quot;highlighter-rouge&quot;&gt;systemd&lt;/code&gt; (the service controller) will do and how.  &lt;code class=&quot;highlighter-rouge&quot;&gt;Type=idle&lt;/code&gt; tells it to only run our service once there are no more jobs to run.  The &lt;code class=&quot;highlighter-rouge&quot;&gt;ExecStart&lt;/code&gt; variable is the command we would want it to run.  Note that absolute paths are required.  Lastly, the &lt;code class=&quot;highlighter-rouge&quot;&gt;Install&lt;/code&gt; section allows us to have our service auto-run at boot.  The &lt;code class=&quot;highlighter-rouge&quot;&gt;WantedBy&lt;/code&gt; variable tells it which already auto-run service our service should get started after.&lt;/p&gt;
-
-&lt;p&gt;Copy our service file into the systemd service library, setup permissions, load it up, and let er rip!&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;sudo cp bong.service /lib/systemd/system/bong.service
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;sudo chmod 644 /lib/systemd/system/bong.service
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;sudo systemctl daemon-reload  &lt;span class=&quot;c&quot;&gt;# Refresh the available service list&lt;/span&gt;
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;sudo systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;bong.service
-
-&lt;span class=&quot;c&quot;&gt;# Now watch your service auto run at bootup&lt;/span&gt;
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;sudo reboot
-...
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;sudo systemctl status bong.service
-&lt;span class=&quot;c&quot;&gt;# Blah blah blah you should see something happy and green&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Want to check your logs?&lt;/span&gt;
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;sudo journalctl -e -u bong.service
-&lt;span class=&quot;c&quot;&gt;# -e scrolls to the end of the logs&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# -u bong.service filters by the service that we care about&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# OR: sudo journalctl -f -u bong.service to follow, similar to tail -f&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;So that’s really it!  Create a service file, pop it in the right directory, and tell &lt;code class=&quot;highlighter-rouge&quot;&gt;systemd&lt;/code&gt; about it.  Not as hard as I thought!  And you get auto-restarting, sane log files, easy status checks.  As you can see, this applies not just to Python, but to any language, script, program, etc. that you can run from the command line.  It should work with Ruby, Bash, Node, and more!&lt;/p&gt;
-
-&lt;h2 id=&quot;bonus-virtual-environments&quot;&gt;Bonus: Virtual Environments&lt;/h2&gt;
-
-&lt;p&gt;If you’re one of the cool kids, you’re programming Python in a virtual environment.  You may usually do something like the following to run your script by hand:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;python -m venv .venv  &lt;span class=&quot;c&quot;&gt;# Creating a virtual environment in .venv/&lt;/span&gt;
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; .venv/bin/activate
-&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;.venv&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;which python
-/home/ryan/.venv/bin/python
-&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;.venv&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;python bigben.py
-...
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;How, you ask me excitedly, do you get the service to run from within your virtual environment?  It’s simpler than you might think!  Remember this line in our &lt;code class=&quot;highlighter-rouge&quot;&gt;bong.service&lt;/code&gt; file?&lt;/p&gt;
-
-&lt;div class=&quot;language-ini highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;py&quot;&gt;ExecStart&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/usr/local/bin/python /home/ryan/bigben.py&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Simply point the python path to your virtual environment.  It will automatically pick up the installed packages from there as well.&lt;/p&gt;
-
-&lt;div class=&quot;language-ini highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;py&quot;&gt;ExecStart&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/home/ryan/.venv/bin/python /home/ryan/bigben.py&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Hopefully this post provides you a useful &lt;em&gt;service&lt;/em&gt;!  (Womp womp womp)&lt;/p&gt;
-</description>
-        <pubDate>Sun, 23 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/07/23/script-as-a-service/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/07/23/script-as-a-service/</guid>
-        
-        <category>python</category>
-        
-        <category>sysadmin</category>
-        
-        <category>linux</category>
         
         
       </item>

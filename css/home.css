@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Inconsolata|Source+Sans+Pro:300,600");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Yrsa:300,400,600");
 /* Colors */
 /* Navigation (Fancy) */
 header {
@@ -21,7 +21,7 @@ header {
           justify-content: center; }
   header h1 {
     color: white;
-    font-family: "Inconsolata", monospace;
+    font-family: "Open Sans", monospace;
     font-size: 3vw;
     text-shadow: 3px 4px 0 rgba(0, 0, 0, 0.2); }
   header .profile {
@@ -79,7 +79,7 @@ li.logo {
 
 li.logo a {
   color: #AA3939;
-  font-family: "Inconsolata", "monospace";
+  font-family: "Open Sans", "monospace";
   text-transform: lowercase;
   font-weight: 600;
   font-size: 25px;

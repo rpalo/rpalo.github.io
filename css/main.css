@@ -1,14 +1,14 @@
-@import url("https://fonts.googleapis.com/css?family=Inconsolata|Source+Sans+Pro:300,600");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Yrsa:300,400,600");
 /* Colors */
 /* Main */
 html {
   box-sizing: border-box;
   background: #DEE1EC;
-  font-family: "Source Sans Pro", "Verdana", "Arial", "sans-serif";
+  font-family: "Vollkorn", Palatino, Times;
   font-size: 19px;
   letter-spacing: 1.5px;
   line-height: 26px;
-  font-weight: lighter;
+  font-weight: 200;
   position: relative;
   min-height: 100%; }
 
@@ -22,7 +22,7 @@ body {
   max-width: 1100px;
   margin: 100px auto;
   background: white;
-  padding: 70px;
+  padding: 70px 150px;
   text-align: left;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5); }
 
@@ -85,7 +85,7 @@ li.logo {
 
 li.logo a {
   color: #AA3939;
-  font-family: "Inconsolata", "monospace";
+  font-family: "Open Sans", "monospace";
   text-transform: lowercase;
   font-weight: 600;
   font-size: 25px;
@@ -106,7 +106,7 @@ nav a {
     max-width: 100%;
     max-height: 50vh; }
 .site-wrap h1, .site-wrap h2, .site-wrap h3, .site-wrap h4, .site-wrap h5, .site-wrap small {
-  font-family: Inconsolata, monospace; }
+  font-family: "Open Sans", monospace; }
 .site-wrap h1 {
   border-bottom: 1px solid #CCC;
   padding-top: 10px;
@@ -151,17 +151,15 @@ nav a {
   max-width: 40vw; }
 
 code {
-  font-size: 80%;
+  font-size: .8em;
   background-color: #FFEEEE;
   padding: 5px; }
 
 .highlight code {
-  background-color: inherit;
-  padding: inherit;
-  font-weight: none; }
+  background-color: inherit; }
 
 blockquote {
-  color: #111;
+  color: #333;
   font-weight: 200;
   font-style: italic;
   padding-left: 7vw;
@@ -173,10 +171,9 @@ blockquote {
     margin-left: 0;
     margin-right: 0; } }
 .highlight {
-  border-radius: 15px;
-  padding: 5px 10px;
   line-height: 20px;
-  overflow: scroll; }
+  overflow: scroll;
+  padding: 20px; }
 
 .contact-link {
   max-width: 50px; }
@@ -223,6 +220,8 @@ body {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1; }
+  #right-home-footer p {
+    line-height: 1.7em; }
 
 .mobile-home {
   display: none; }
@@ -248,7 +247,7 @@ body {
     background: #FFFEEE;
     color: #AA3939;
     text-align: center;
-    font-family: "Inconsolata", "monospace";
+    font-family: "Open Sans", "monospace";
     text-transform: lowercase;
     font-size: 150%; }
 
