@@ -6,22 +6,19 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
-
-        <!-- Custom meta -->
         <meta name="ROBOTS" content="INDEX,FOLLOW">
-        <meta name="description" content="Personal blog, documenting my progress while learning to program.  Hopefully it is a useful resource to help other developers learn, too!">
-        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, python, django, dev, Ryan, Ryan Palo">
-        <meta name="twitter:card" content="summary">
-        <meta name="twitter:title" content="assert_not magic?">
+        <meta name="description" content="Part 3 in the learn-to-code using JavaScript and P5.js series.  Learn how collections like arrays and objects can amplify our coding power.">
+        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, p5, javascript, beginner, tutorial">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="assert_not magic? | Learn to Code, Part 3 - Rainbow Collections">
         <meta name="twitter:site" content="@paytastic">
-        <meta name="twitter:description" content="Ryan Palo's programming blog">
-        <meta name="twitter:image" content="http://assertnotmagic.com{/img/me.jpg}">
+        <meta name="twitter:description" content="Part 3 in the learn-to-code using JavaScript and P5.js series.  Learn how collections like arrays and objects can amplify our coding power.">
+        <meta name="twitter:image" content="http://assertnotmagic.com/img/rainbow.jpg">
         <meta name="twitter:creator" content="@paytastic">
-        <meta name="og:url" content="http://assertnotmagic.com">
-        <meta name="og:title" content="assert_not magic?">
-        <meta name="og:description" content="Ryan Palo's programming blog">
-        <meta name="og:image" content="http://assertnotmagic.com/img/me.jpg">
+        <meta name="og:url" content="http://assertnotmagic.com/2017/10/09/p5-part-3-rainbow-collections/">
+        <meta name="og:title" content="assert_not magic? | Learn to Code, Part 3 - Rainbow Collections">
+        <meta name="og:description" content="Part 3 in the learn-to-code using JavaScript and P5.js series.  Learn how collections like arrays and objects can amplify our coding power.">
+        <meta name="og:image" content="http://assertnotmagic.com/img/rainbow.jpg">
 
         <!-- Favicon settings -->
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -30,19 +27,15 @@
         <link rel="manifest" href="/manifest.json">
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#222222">
         <meta name="theme-color" content="#ffffff">
+        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
         
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
-        <link rel="stylesheet" href="/css/home.css">
         <link rel="stylesheet" href="/css/syntax.css">
         
         <title>assert_not magic?</title>
     </head>
     <body>
-        <header id="main-header">
-    <h1>assert_not magic?</h1>
-    <img class="profile" alt="Ryan Palo" src="/img/me.jpg" />
-</header>
         
 <nav id="main-nav">
     <a href="/" class="mobile-home">assert_not magic?</a>
@@ -56,14 +49,14 @@
     </ul>
 </nav>
         <div class="container main">
-          <article class="site-wrap">
-            <div class="home">
-
-  <!-- Current Post -->
-  
-    <h1>Learn to Code, Part 3 - Rainbow Collections</h2>
-    <small>Oct 9, 2017</small>
-    <p><p><img src="/img/rainbow-final.gif" alt="Final Product" /></p>
+                <article class="site-wrap">
+    <div id="cover">
+        
+        <img alt="Cover Image" class="cover-image" src="/img/rainbow.jpg">
+        
+    </div>
+    <h1>Learn to Code, Part 3 - Rainbow Collections</h1>
+    <p><img src="/img/rainbow-final.gif" alt="Final Product" /></p>
 
 <p>Back for Lesson 3?  Awesome!  Hopefully the gif above is enough motivation to get you through this lesson.  This time, we’ll build on what we have used before, and expand with two new concepts.  In the last lesson we learned about <strong>for-loops</strong>.</p>
 
@@ -413,10 +406,21 @@
 <p>That’s it for this lesson!  Don’t forget to reach out if you have any questions or troubles with the homeworks!  Now that we have the full powers of arrays, objects, and for-loops, we can really get some cool things made.</p>
 
 <p><em>Cover image credit: Huffington Post</em></p>
-</p>
-  
 
-  <hr>
+    <small>
+        Author: Ryan Palo | Tags: 
+        
+        <a href="/tags/p5/">p5</a>
+        
+        <a href="/tags/javascript/">javascript</a>
+        
+        <a href="/tags/beginner/">beginner</a>
+        
+        <a href="/tags/tutorial/">tutorial</a>
+        
+    </small>
+
+    <hr>
 
 <!-- Footer for Homepage -->
   <div id="home-footer">
@@ -560,9 +564,7 @@
 
 
 
-</div>
-
-          </article>
+</article>
         </div>
 
         <footer id="main-footer">
@@ -570,19 +572,25 @@
         <p class="text-muted">&copy; Ryan Palo 2017 | All things.  Phil. 4:13</p>
     </div>
 </footer>
-        
+        <!-- Scripts -->
+        <!--  
+        jQuery (necessary for Bootstrap's JavaScript plugins)
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        Latest compiled and minified Bootstrap JavaScript
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        -->
         <!-- Custom Javascript -->
-        <script src="/js/home.js"></script>
+        <script src="/js/main.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
             })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-          
+
             ga('create', 'UA-91889165-1', 'auto');
             ga('send', 'pageview');
-          
-          </script>
+
+        </script>
+        
     </body>
 </html>
-

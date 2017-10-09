@@ -1,13 +1,12 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans|Yrsa:300,400,600");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro:300,400,600");
 /* Colors */
 /* Main */
 html {
   box-sizing: border-box;
   background: #DEE1EC;
-  font-family: "Vollkorn", Palatino, Times;
+  font-family: "Source Sans Pro", Palatino, Times;
   font-size: 19px;
   letter-spacing: 1.5px;
-  line-height: 26px;
   font-weight: 200;
   position: relative;
   min-height: 100%; }
@@ -116,7 +115,7 @@ nav a {
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 2em;
-  line-height: 1.5em;
+  line-height: 2.1em;
   text-align: center; }
 .site-wrap h3 {
   padding-top: 5px;

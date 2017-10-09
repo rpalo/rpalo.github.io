@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans|Yrsa:300,400,600");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
 /* Colors */
 /* Navigation (Fancy) */
 header {
@@ -22,7 +22,8 @@ header {
   header h1 {
     color: white;
     font-family: "Open Sans", monospace;
-    font-size: 3vw;
+    font-size: 2em;
+    line-height: 2.1em;
     text-shadow: 3px 4px 0 rgba(0, 0, 0, 0.2); }
   header .profile {
     border-radius: 50%; }
