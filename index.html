@@ -61,196 +61,83 @@
 
   <!-- Current Post -->
   
-    <h1>Secret Message</h2>
-    <small>Oct 16, 2017</small>
-    <p><p>Today I was reading through an article on Dev.to by <a href="http://www.bengreenberg.org/">Ben Greenberg</a> about an interview coding challenge, and I got hooked and had to try it for myself.  I highly recommend you read <a href="https://dev.to/benhayehudi/solving-a-job-application-code-challenge-30d">his original post</a> before you read this so you have some background.  That being said, for the lazy ones, let me give you…</p>
+    <h1>Accelerated Vim-Provement</h2>
+    <small>Oct 25, 2017</small>
+    <p><p>I’m currently working on practicing and learning to use Vim as an editor.  After a few sorry attempts to learn it quickly by sitting down and doing a few tutorials, I’ve learned that the road to Vim mastery for me will consist of a slow, steady grind of practice, learning and conquering one thing at a time, letting the Vim philosophy soak in as I go.</p>
 
-<h2 id="some-background">Some Background</h2>
+<p><img src="/img/slow-and-steady.gif" alt="Slow and steady" /></p>
 
-<p>The challenge is this (copied from the original post):</p>
+<p>Learning to take the pressure off of myself to learn quickly and move on the the next thing has been difficult, but I’m glad for it.  It’s turned the hiccups, small frustrations, and the disappointment of having to Google the same thing for the umpty-seventh time into a weirdly relaxing and enjoyable journey.  Instead of <em>“I’m so dumb, I can’t believe I can never remember how to delete a word”</em>, it has become, <em>“Oh Vim, you little rascal, you got me again.  We’ll see who has the last laugh.”</em></p>
+
+<p><img src="/img/oh-you.gif" alt="Oh, Vim..." /></p>
+
+<p>I did come up with one thing that helped me speed things up a little bit, which I thought I could share.</p>
+
+<h2 id="take-the-training-wheels-off">Take the Training Wheels Off</h2>
+
+<p>One of the first things you learn when learning Vim is how to move around using <code class="highlighter-rouge">h, j, k, l</code> keys instead of the arrow keys.  In theory, it’s more efficient and keeps your hands in an ideal typing position.  I don’t think that using the arrow keys makes you a bad person, but there is one additional benefit to using these keys instead of the arrow keys:</p>
 
 <blockquote>
-  <p>Sort the characters in the following string:
-<code class="highlighter-rouge">abcdefghijklmnopqrstuvwxyz_</code></p>
-
-  <p>by the number of times the character appears in the following text (descending):</p>
-
-  <p>… [String omitted for brevity]</p>
-
-  <p>Now take the sorted string, and drop all the characters after (and including) the _. The remaining word is the answer.</p>
+  <p>You have exactly as much practice using <code class="highlighter-rouge">h, j, k, and l</code> to move around as you have with any of the other motion/command keys in Vim.</p>
 </blockquote>
 
-<p>You can find the super long string in the comments section of his post (where I asked for it 😁) if you want to try it yourself.  You should!  And share your solution!  Anyways, on with the story.</p>
+<p>The arrow keys are sort of a crutch, because, if you want, you can ignore all of the commands and keys that make Vim extra useful and stick to just using the arrow keys and staying in Insert mode all the time.  If this is how you’re using Vim, you’re essentially just using an obnoxious version of <a href="https://www.nano-editor.org/">Nano</a>.</p>
 
-<h2 id="my-solution-part-1">My Solution (Part 1)</h2>
+<blockquote>
+  <p>All the features of Nano, with the added joy of continuously forgetting you’re in Normal mode and trying to start typing, only to have your cursor do crazy things all over the screen.</p>
+</blockquote>
 
-<p>If it’s not abundantly clear, I’m about to share my solution.  If you want to work it out for yourself without spoilers, go ahead and stop reading until you’re done.  I won’t write anymore until you’re finished. 😄</p>
+<p>If that’s the way you like it, I have no problem with that.  You do you.  If you’re trying to break that habit and convert your brain to the Vim way of doing things (via Vimception, maybe?), then I’ve found it is super helpful to actually <strong>throw away the crutch entirely</strong> and turn off your arrow keys.</p>
 
-<p>Finished?  Great!  <strong>ONWARD.</strong></p>
+<p>Add these lines to your  <code class="highlighter-rouge">.vimrc</code> file.</p>
 
-<p>I decided to use Ruby because Ruby is fun and great.  Initially, I just wanted to knock out the first solution I could think of – regardless of how inefficient or slow it was – and come back to clean it up after.</p>
-
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># I stored the huge string in a separate file called</span>
-<span class="c1"># `blob.txt` so as to not clutter my main script</span>
-
-<span class="n">blob</span> <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s1">'blob.txt'</span><span class="p">)</span>
-<span class="n">letters</span> <span class="o">=</span> <span class="s1">'abcdefghijklmnopqrstuvwxyz_'</span><span class="p">.</span><span class="nf">chars</span>
-
-<span class="k">def</span> <span class="nf">naive_message</span><span class="p">(</span><span class="n">letters</span><span class="p">,</span> <span class="n">blob</span><span class="p">)</span>
-  <span class="n">letters</span>
-    <span class="p">.</span><span class="nf">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">letter</span><span class="o">|</span> <span class="n">blob</span><span class="p">.</span><span class="nf">count</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span> <span class="p">}</span>
-    <span class="p">.</span><span class="nf">reverse</span>  <span class="c1"># to get desc. order</span>
-    <span class="p">.</span><span class="nf">join</span>
-    <span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s1">'_'</span><span class="p">)</span>
-    <span class="p">.</span><span class="nf">first</span>
-<span class="k">end</span>
-
-<span class="nb">puts</span> <span class="n">naive_message</span><span class="p">(</span><span class="n">letters</span><span class="p">,</span> <span class="n">blob</span><span class="p">)</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>nnoremap &lt;Up&gt; &lt;Nop&gt;
+nnoremap &lt;Down&gt; &lt;Nop&gt;
+nnoremap &lt;Left&gt; &lt;Nop&gt;
+nnoremap &lt;Rigth&gt; &lt;Nop&gt;
 </code></pre>
 </div>
 
-<p>I won’t spoil the answer, but let’s just say that I “pray, plead, beseech, urge” you to try it on your own.  Possibly in the past tense.  I think the markdown format of the initial text blob may have skewed the number of “_” characters, causing my answer to have slightly more characters on the end than should actually be there.  UPDATE: That’s totally what happened.  <a href="https://repl.it/MivX">Accurate text blob here</a>.</p>
+<p>Mapping a key to <code class="highlighter-rouge">&lt;Nop&gt;</code> (or no-op, or no-operation) causes it to do nothing.</p>
 
-<h2 id="my-solution-part-2">My Solution (Part 2)</h2>
+<h2 id="but-why">But Why?</h2>
 
-<p>Anyways, I looked back at my solution and thought to myself, “Ryan, that doesn’t look very performant.  I have to imagine that running <code class="highlighter-rouge">blob.count(letter)</code> for each letter is the worst case performance for this scenario (27 ‘letters’ * n chars in the blob, looping through the whole blob for each letter).  It seems like it should be more efficient to do it the way Ben did it, which is by looping through the blob once and counting each letter along the way.  So I tried that.</p>
+<p>This is actually pretty common advice, but most articles will tell you only that it’s to help get you more comfortable with <code class="highlighter-rouge">h, j, k, l</code>.  This seemed dumb to me because… why would I want to learn a new set of keys that just do the same thing if I’m already efficient with arrow keys?  I would say the benefit is not that I got more comfortable with <code class="highlighter-rouge">h, j, k, l</code>, but that I <em>quickly got tired</em> of pushing these keys.  Without the arrow keys to fall back on, but with a desire to be more efficient, I’ve had a much larger incentive to learn keys like <code class="highlighter-rouge">w, e, $, 0, G, gg</code> and others!</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">efficient_message</span><span class="p">(</span><span class="n">letters</span><span class="p">,</span> <span class="n">blob</span><span class="p">)</span>
-  <span class="c1"># counter = {a: 0, b: 0, c: 0...}</span>
-  <span class="n">counter</span> <span class="o">=</span> <span class="n">letters</span><span class="p">.</span><span class="nf">product</span><span class="p">([</span><span class="mi">0</span><span class="p">]).</span><span class="nf">to_h</span>
+<blockquote>
+  <p>You don’t take the training wheels off of a bike so that you can say you’re not using training wheels – while continuing to ride slowly.  You take the training wheels off of a bike so that you can quickly learn that it’s actually much easier when you go faster.</p>
+</blockquote>
 
-  <span class="c1"># run through blob once only</span>
-  <span class="n">blob</span><span class="p">.</span><span class="nf">each_char</span> <span class="p">{</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="n">counter</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span> <span class="p">}</span>
+<h2 id="hard-mode-enabled">Hard Mode Enabled</h2>
 
-  <span class="c1"># sort and trim off everything after _</span>
-  <span class="n">counter</span>
-    <span class="p">.</span><span class="nf">sort_by</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:last</span><span class="p">)</span>	<span class="c1"># sort by the count</span>
-    <span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:first</span><span class="p">)</span>		<span class="c1"># grab just the letter key into an array</span>
-    <span class="p">.</span><span class="nf">reverse</span>
-    <span class="p">.</span><span class="nf">join</span>
-    <span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s1">'_'</span><span class="p">)</span>
-    <span class="p">.</span><span class="nf">first</span>
-<span class="k">end</span>
+<p>This works well, but there’s still the temptation to just drop into Insert mode and use the arrow keys there, which defeats the entire purpose.  To circumvent this, You can also disable the arrows in Insert mode as well by adding the following to your <code class="highlighter-rouge">.vimrc</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>inoremap &lt;Up&gt; &lt;Nop&gt;
+inoremap &lt;Down&gt; &lt;Nop&gt;
+inoremap &lt;Left&gt; &lt;Nop&gt;
+inoremap &lt;Right&gt; &lt;Nop&gt;
 </code></pre>
 </div>
 
-<p>Not as pretty, in my opinion, but hopefully faster.  Ruby, being interpreted, is slower than most compiled langauges, so this should help.  (So I thought…)</p>
+<p>This will make your life frustrating at times.  “But I just want to move over two characters!  I don’t want to have to drop out of Insert mode, move over and go back in!”</p>
 
-<h2 id="comparing-performance">Comparing Performance</h2>
+<h3 id="tough--cookies">Tough.  Cookies.</h3>
 
-<p>Was this optimization worth it?  I needed to find out.  Luckily Ruby comes with an awesome Benchmarking library built-in.  (Oh Ruby, what is there that you can’t do?)</p>
+<p><img src="/img/tough-cookie.jpg" alt="You're a tough cookie." /></p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'benchmark'</span>
+<p>Stick with it!  It’ll pay off.  I’ve only been doing that for like a week and I’m seeing huge improvements.</p>
 
-<span class="c1"># ... My code above</span>
+<h2 id="bonus">Bonus</h2>
 
-<span class="no">Benchmark</span><span class="p">.</span><span class="nf">bmbm</span> <span class="k">do</span> <span class="o">|</span><span class="n">bm</span><span class="o">|</span>
-  <span class="n">bm</span><span class="p">.</span><span class="nf">report</span><span class="p">(</span><span class="s2">"Naive: "</span><span class="p">)</span> <span class="p">{</span> <span class="mi">1000</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span> <span class="n">naive_message</span><span class="p">(</span><span class="n">letters</span><span class="p">,</span> <span class="n">contents</span><span class="p">)</span> <span class="p">}</span> <span class="p">}</span>
-  <span class="n">bm</span><span class="p">.</span><span class="nf">report</span><span class="p">(</span><span class="s2">"Efficient: "</span><span class="p">)</span> <span class="p">{</span> <span class="mi">1000</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span> <span class="n">efficient_message</span><span class="p">(</span><span class="n">letters</span><span class="p">,</span> <span class="n">contents</span><span class="p">)</span> <span class="p">}</span> <span class="p">}</span>
-<span class="k">end</span>
+<p>For extra encouragement, replace all of the <code class="highlighter-rouge">&lt;Nop&gt;</code>’s above with this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>:echo 'STAHP.'&lt;CR&gt;
 </code></pre>
 </div>
-
-<p><code class="highlighter-rouge">Benchmark</code> has a method called <code class="highlighter-rouge">bmbm</code> that runs one trial run and then a second real run.  This helps shake out any overhead performance drains from the garbage collector.  And to my horror:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>~\desktop&gt; ruby .\secret_word.rb
-Rehearsal -----------------------------------------------
-Naive:        0.047000   0.000000   0.047000 (  0.039974)
-Efficient:    0.484000   0.000000   0.484000 (  0.481631)
--------------------------------------- total: 0.531000sec
-
-                  user     system      total        real
-Naive:        0.031000   0.000000   0.031000 (  0.038011)
-Efficient:    0.483000   0.000000   0.483000 (  0.478715)
-</code></pre>
-</div>
-
-<p><strong>The “Efficient” version is ~10x slower than the “Naive” version!</strong>  Noooo!  “But, why?” you ask.  “How can this be?”  I had the same questions.</p>
-
-<h2 id="algorithmic-profiling">Algorithmic Profiling</h2>
-
-<p>Ruby has a built-in profiler, but a short Google search told me that there was a better option: <code class="highlighter-rouge">ruby-prof</code>.  After a quick <code class="highlighter-rouge">gem install ruby-prof</code>, I was back at it again with the white vans.  (Check out the <a href="https://github.com/ruby-prof/ruby-prof">Ruby-Prof Documentation</a> to learn more).</p>
-
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'ruby-prof'</span>
-
-<span class="c1"># ... The previous code</span>
-
-<span class="no">RubyProf</span><span class="p">.</span><span class="nf">start</span>
-<span class="mi">1000</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span> <span class="n">naive_message</span><span class="p">(</span><span class="n">letters</span><span class="p">,</span> <span class="n">contents</span><span class="p">)</span> <span class="p">}</span>
-<span class="n">result</span> <span class="o">=</span> <span class="no">RubyProf</span><span class="p">.</span><span class="nf">stop</span>
-
-<span class="no">RubyProf</span><span class="o">::</span><span class="no">FlatPrinter</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">result</span><span class="p">).</span><span class="nf">print</span><span class="p">(</span><span class="no">STDOUT</span><span class="p">)</span>
-
-<span class="no">RubyProf</span><span class="p">.</span><span class="nf">start</span>
-<span class="mi">1000</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span> <span class="n">efficient_message</span><span class="p">(</span><span class="n">letters</span><span class="p">,</span> <span class="n">contents</span><span class="p">)</span> <span class="p">}</span>
-<span class="n">result</span> <span class="o">=</span> <span class="no">RubyProf</span><span class="p">.</span><span class="nf">stop</span>
-
-<span class="no">RubyProf</span><span class="o">::</span><span class="no">FlatPrinter</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">result</span><span class="p">).</span><span class="nf">print</span><span class="p">(</span><span class="no">STDOUT</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<p>I added titles below for clarity.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>Naive:
-===================
-Measure Mode: wall_time
-Thread ID: 3259000
-Fiber ID: 20752200
-Total: 0.066000
-Sort by: self_time
-
- %self      total      self      wait     child     calls  name
- 50.00      0.033     0.033     0.000     0.000    27000   String#count
- 18.18      0.059     0.012     0.000     0.047     1000   Enumerable#sort_by
- 10.61      0.007     0.007     0.000     0.000   136000   Integer#&lt;=&gt;
- 10.61      0.040     0.007     0.000     0.033     1000   Array#each
-  3.03      0.002     0.002     0.000     0.000     1000   Array#reverse
-  3.03      0.066     0.002     0.000     0.064     1000   Object#naive_message
-  1.52      0.001     0.001     0.000     0.000     1000   Array#first
-  1.52      0.001     0.001     0.000     0.000     1000   Array#join
-  1.52      0.001     0.001     0.000     0.000     1000   String#split
-  0.00      0.066     0.000     0.000     0.066        1   Global#[No method]
-  0.00      0.066     0.000     0.000     0.066        1   Integer#times
-
-* indicates recursively called methods
-
-Efficient:
-==============
-Measure Mode: wall_time
-Thread ID: 3259000
-Fiber ID: 20752200
-Total: 0.688000
-Sort by: self_time
-
- %self      total      self      wait     child     calls  name
- 93.60      0.644     0.644     0.000     0.000     1000   String#each_char
-  2.04      0.025     0.014     0.000     0.011     1000   Enumerable#sort_by
-  1.16      0.008     0.008     0.000     0.000   136000   Integer#&lt;=&gt;
-  0.58      0.005     0.004     0.000     0.001     1000   Array#map
-  0.44      0.688     0.003     0.000     0.685     1000   Object#efficient_message
-  0.44      0.003     0.003     0.000     0.000     1000   Array#reverse
-  0.44      0.003     0.003     0.000     0.000     1000   Array#product
-  0.44      0.003     0.003     0.000     0.000     1000   Array#to_h
-  0.29      0.003     0.002     0.000     0.001     1000   Hash#each
-  0.29      0.002     0.002     0.000     0.000     1000   String#split
-  0.15      0.001     0.001     0.000     0.000    27000   Array#last
-  0.15      0.001     0.001     0.000     0.000    28000   Array#first
-  0.00      0.688     0.000     0.000     0.688        1   Global#[No method]
-  0.00      0.000     0.000     0.000     0.000     1000   Array#join
-  0.00      0.688     0.000     0.000     0.688        1   Integer#times
-
-* indicates recursively called methods
-</code></pre>
-</div>
-
-<p>From what I can tell, the <code class="highlighter-rouge">String#count</code> method is super-optimized, and <code class="highlighter-rouge">String#each_char</code> is a relatively expensive operation (it has to create an array the length of the blob!).  So, in the long run, looping through the blob string a bunch of times using the faster <code class="highlighter-rouge">String#count</code> ends up being more performant.  So much for going through the trouble to generate an <em>efficient</em> solution.</p>
 
 <h2 id="wrap-up">Wrap Up</h2>
 
-<p>Anyways, I hope you’re able to get your heart rate back to normal after such a roller-coaster ride.  Be sure to share your solution on <a href="https://dev.to/benhayehudi/solving-a-job-application-code-challenge-30d">Ben’s post</a>.  Also, since this was originally a kind of interview code puzzle, if you’re someone that has interviewed people, <strong>I would love any feedback on my solution or the surrounding presentation</strong>!  Is it similar to what you would expect from an applicant, or am I missing something important?</p>
-
-<p>Thanks for reading!</p>
-
+<p>If you’ve got any Vim pro-tips, let me know.  Vim is a fairly popular tutorial topic and everybody’s got lots of opinions about it, but I’m always on the lookout for cool resources, books, guides, games, ways to practice, etc.  I know there’s a lot of people with a lot of knowledge to share, so share away!</p>
 </p>
   
 
@@ -268,6 +155,11 @@ Sort by: self_time
         </li>
         
           <li>
+            <span class="post-meta">Oct 16, 2017</span><br/>
+            <a class="post-link" href="/2017/10/16/secret-message/">Secret Message</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Oct 9, 2017</span><br/>
             <a class="post-link" href="/2017/10/09/p5-part-3-rainbow-collections/">Learn to Code, Part 3 - Rainbow Collections</a>
           </li>
@@ -275,11 +167,6 @@ Sort by: self_time
           <li>
             <span class="post-meta">Oct 5, 2017</span><br/>
             <a class="post-link" href="/2017/10/05/smooth-one-liners/">Smooth Ruby One-Liners</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Sep 30, 2017</span><br/>
-            <a class="post-link" href="/2017/09/30/first-screencast/">First Screencast</a>
           </li>
         
       </ul>
@@ -320,7 +207,7 @@ Sort by: self_time
         
         <a href="/tags/vscode/" style="font-size: 14px">vscode | </a>
         
-        <a href="/tags/vim/" style="font-size: 14px">vim | </a>
+        <a href="/tags/vim/" style="font-size: 16px">vim | </a>
         
         <a href="/tags/sublime/" style="font-size: 14px">sublime | </a>
         
@@ -380,7 +267,7 @@ Sort by: self_time
         
         <a href="/tags/beginner/" style="font-size: 18px">beginner | </a>
         
-        <a href="/tags/encouragement/" style="font-size: 16px">encouragement | </a>
+        <a href="/tags/encouragement/" style="font-size: 18px">encouragement | </a>
         
         <a href="/tags/not-magic/" style="font-size: 14px">not-magic | </a>
         
@@ -391,6 +278,8 @@ Sort by: self_time
         <a href="/tags/interview/" style="font-size: 14px">interview | </a>
         
         <a href="/tags/performance/" style="font-size: 14px">performance | </a>
+        
+        <a href="/tags/editor/" style="font-size: 14px">editor | </a>
         
       </p>
     </div>

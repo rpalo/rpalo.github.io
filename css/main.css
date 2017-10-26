@@ -155,7 +155,8 @@ code {
   padding: 5px; }
 
 .highlight code {
-  background-color: inherit; }
+  background-color: inherit;
+  padding: 0; }
 
 blockquote {
   color: #333;
@@ -259,3 +260,13 @@ body {
     line-height: 1.25em; } }
 .contact {
   font-weight: bold; }
+
+.post {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #AAA; }
+  .post .post-title {
+    font-size: 1.5em; }
+  .post .img-small {
+    max-height: 150px;
+    margin: 5px; }

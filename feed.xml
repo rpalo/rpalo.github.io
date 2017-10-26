@@ -6,9 +6,100 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 16 Oct 2017 18:11:40 -0700</pubDate>
-    <lastBuildDate>Mon, 16 Oct 2017 18:11:40 -0700</lastBuildDate>
+    <pubDate>Wed, 25 Oct 2017 20:07:50 -0700</pubDate>
+    <lastBuildDate>Wed, 25 Oct 2017 20:07:50 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Accelerated Vim-Provement</title>
+        <description>&lt;p&gt;I’m currently working on practicing and learning to use Vim as an editor.  After a few sorry attempts to learn it quickly by sitting down and doing a few tutorials, I’ve learned that the road to Vim mastery for me will consist of a slow, steady grind of practice, learning and conquering one thing at a time, letting the Vim philosophy soak in as I go.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/slow-and-steady.gif&quot; alt=&quot;Slow and steady&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Learning to take the pressure off of myself to learn quickly and move on the the next thing has been difficult, but I’m glad for it.  It’s turned the hiccups, small frustrations, and the disappointment of having to Google the same thing for the umpty-seventh time into a weirdly relaxing and enjoyable journey.  Instead of &lt;em&gt;“I’m so dumb, I can’t believe I can never remember how to delete a word”&lt;/em&gt;, it has become, &lt;em&gt;“Oh Vim, you little rascal, you got me again.  We’ll see who has the last laugh.”&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/oh-you.gif&quot; alt=&quot;Oh, Vim...&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I did come up with one thing that helped me speed things up a little bit, which I thought I could share.&lt;/p&gt;
+
+&lt;h2 id=&quot;take-the-training-wheels-off&quot;&gt;Take the Training Wheels Off&lt;/h2&gt;
+
+&lt;p&gt;One of the first things you learn when learning Vim is how to move around using &lt;code class=&quot;highlighter-rouge&quot;&gt;h, j, k, l&lt;/code&gt; keys instead of the arrow keys.  In theory, it’s more efficient and keeps your hands in an ideal typing position.  I don’t think that using the arrow keys makes you a bad person, but there is one additional benefit to using these keys instead of the arrow keys:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;You have exactly as much practice using &lt;code class=&quot;highlighter-rouge&quot;&gt;h, j, k, and l&lt;/code&gt; to move around as you have with any of the other motion/command keys in Vim.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The arrow keys are sort of a crutch, because, if you want, you can ignore all of the commands and keys that make Vim extra useful and stick to just using the arrow keys and staying in Insert mode all the time.  If this is how you’re using Vim, you’re essentially just using an obnoxious version of &lt;a href=&quot;https://www.nano-editor.org/&quot;&gt;Nano&lt;/a&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;All the features of Nano, with the added joy of continuously forgetting you’re in Normal mode and trying to start typing, only to have your cursor do crazy things all over the screen.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;If that’s the way you like it, I have no problem with that.  You do you.  If you’re trying to break that habit and convert your brain to the Vim way of doing things (via Vimception, maybe?), then I’ve found it is super helpful to actually &lt;strong&gt;throw away the crutch entirely&lt;/strong&gt; and turn off your arrow keys.&lt;/p&gt;
+
+&lt;p&gt;Add these lines to your  &lt;code class=&quot;highlighter-rouge&quot;&gt;.vimrc&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nnoremap &amp;lt;Up&amp;gt; &amp;lt;Nop&amp;gt;
+nnoremap &amp;lt;Down&amp;gt; &amp;lt;Nop&amp;gt;
+nnoremap &amp;lt;Left&amp;gt; &amp;lt;Nop&amp;gt;
+nnoremap &amp;lt;Rigth&amp;gt; &amp;lt;Nop&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Mapping a key to &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;Nop&amp;gt;&lt;/code&gt; (or no-op, or no-operation) causes it to do nothing.&lt;/p&gt;
+
+&lt;h2 id=&quot;but-why&quot;&gt;But Why?&lt;/h2&gt;
+
+&lt;p&gt;This is actually pretty common advice, but most articles will tell you only that it’s to help get you more comfortable with &lt;code class=&quot;highlighter-rouge&quot;&gt;h, j, k, l&lt;/code&gt;.  This seemed dumb to me because… why would I want to learn a new set of keys that just do the same thing if I’m already efficient with arrow keys?  I would say the benefit is not that I got more comfortable with &lt;code class=&quot;highlighter-rouge&quot;&gt;h, j, k, l&lt;/code&gt;, but that I &lt;em&gt;quickly got tired&lt;/em&gt; of pushing these keys.  Without the arrow keys to fall back on, but with a desire to be more efficient, I’ve had a much larger incentive to learn keys like &lt;code class=&quot;highlighter-rouge&quot;&gt;w, e, $, 0, G, gg&lt;/code&gt; and others!&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;You don’t take the training wheels off of a bike so that you can say you’re not using training wheels – while continuing to ride slowly.  You take the training wheels off of a bike so that you can quickly learn that it’s actually much easier when you go faster.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;hard-mode-enabled&quot;&gt;Hard Mode Enabled&lt;/h2&gt;
+
+&lt;p&gt;This works well, but there’s still the temptation to just drop into Insert mode and use the arrow keys there, which defeats the entire purpose.  To circumvent this, You can also disable the arrows in Insert mode as well by adding the following to your &lt;code class=&quot;highlighter-rouge&quot;&gt;.vimrc&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;inoremap &amp;lt;Up&amp;gt; &amp;lt;Nop&amp;gt;
+inoremap &amp;lt;Down&amp;gt; &amp;lt;Nop&amp;gt;
+inoremap &amp;lt;Left&amp;gt; &amp;lt;Nop&amp;gt;
+inoremap &amp;lt;Right&amp;gt; &amp;lt;Nop&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This will make your life frustrating at times.  “But I just want to move over two characters!  I don’t want to have to drop out of Insert mode, move over and go back in!”&lt;/p&gt;
+
+&lt;h3 id=&quot;tough--cookies&quot;&gt;Tough.  Cookies.&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/tough-cookie.jpg&quot; alt=&quot;You're a tough cookie.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Stick with it!  It’ll pay off.  I’ve only been doing that for like a week and I’m seeing huge improvements.&lt;/p&gt;
+
+&lt;h2 id=&quot;bonus&quot;&gt;Bonus&lt;/h2&gt;
+
+&lt;p&gt;For extra encouragement, replace all of the &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;Nop&amp;gt;&lt;/code&gt;’s above with this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;:echo 'STAHP.'&amp;lt;CR&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;wrap-up&quot;&gt;Wrap Up&lt;/h2&gt;
+
+&lt;p&gt;If you’ve got any Vim pro-tips, let me know.  Vim is a fairly popular tutorial topic and everybody’s got lots of opinions about it, but I’m always on the lookout for cool resources, books, guides, games, ways to practice, etc.  I know there’s a lot of people with a lot of knowledge to share, so share away!&lt;/p&gt;
+</description>
+        <pubDate>Wed, 25 Oct 2017 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2017/10/25/accelerated-vimprovement/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/10/25/accelerated-vimprovement/</guid>
+        
+        <category>vim</category>
+        
+        <category>editor</category>
+        
+        <category>encouragement</category>
+        
+        
+      </item>
     
       <item>
         <title>Secret Message</title>
@@ -2096,93 +2187,6 @@ Sort by: self_time
         <category>ruby</category>
         
         <category>metaprogramming</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Step Your Meta Game Up</title>
-        <description>&lt;p&gt;Meta tags.  SEO.  For me, these were things I knew existed, and I knew I should be doing something about them, but it was never high on the list of things to do – until I read up on them and found out how cool they can make your website!  They’re quick little things that can give your site just a touch of panache and confidence.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/confident-swanson.gif&quot; alt=&quot;I know what I'm about, son.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I’m going to cover two types of meta tags here: general utility tags and social tags.&lt;/p&gt;
-
-&lt;h2 id=&quot;utility-tags&quot;&gt;Utility Tags&lt;/h2&gt;
-
-&lt;p&gt;First let’s cover some things that help search engines, devices, and other robits work well with your site.  I’m just learning about this, but it seems like these should probably exist on every page that you ever make.  Someone correct me if I’m wrong.&lt;/p&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;http-equiv=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;X-UA-Compatible&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;IE=edge&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;viewport&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;width=device-width, initial-scale=1&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ROBOTS&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;INDEX, FOLLOW&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;description&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Ryan's site that extols the values of cheese.&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;keywords&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cheese, virtues, poetry, spoken word, slam poems about cheese&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Some explanation:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;strong&gt;Charset&lt;/strong&gt;: Specifies the character encoding of the website.  UTF-8 is nice, it’s the recommended setting, and it helps with languages that have characters that are outside the basic ASCII set.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;IE=Edge&lt;/strong&gt;: A meta tag that seems like it used to be required to tell Internet Explorer to behave, but from what I can tell, Microsoft seems to be phasing this out.  This might not even be necessary any more.  I don’t think it hurts to have it, though, and it may help with some browser compatibility.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Viewport&lt;/strong&gt;: Sets the initial viewport and scaling.  According to &lt;a href=&quot;https://www.w3schools.com/TAgs/tag_meta.asp&quot;&gt;w3&lt;/a&gt;, this makes it so your site doesn’t show up teeny tiny on mobile initially.  Always a good idea.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;ROBOTS&lt;/strong&gt;: Tells well-behaving web-crawlers how to index (or not) your site.  You would set this according to whether or not you want the page to be visible from Google, for example.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Description&lt;/strong&gt;: Your site’s description.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Keywords&lt;/strong&gt;: Keywords that help people find your site from searches.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Especially if you’re using Jekyll, JavaScript frameworks, or some other method of templating, it’s pretty easy to drop these in once and forget about them and they improve your searchability and accessibility.  But!  They don’t do anything especially shwoopy like the next section does.  Behold!&lt;/p&gt;
-
-&lt;h2 id=&quot;social-tags&quot;&gt;Social Tags&lt;/h2&gt;
-
-&lt;p&gt;There are some people who’s links look sad when they share them on social media.  Like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/sad-link.png&quot; alt=&quot;Sad link sharing&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;But, in a few short minutes, their links could look like &lt;strong&gt;this:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/amazing-link.png&quot; alt=&quot;AMAZING LINK!&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Let’s take a look at the HTML.&lt;/p&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;twitter:card&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summary_large_image&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;twitter:title&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;assert_not magic? | Gouda?  You mean great!&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;twitter:site&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;@paytastic&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;twitter:description&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;A point-by-point comparison of Gouda and other cheeses.&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;twitter:image&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://assertnotmagic.com/gouda.png&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;twitter:image:alt&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Delicious Gouda&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;twitter:creator&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;@paytastic&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;og:url&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://assertnotmagic.com/gouda/&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;og:title&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;assert_not magic? | Gouda?  You mean great!&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;og:description&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;A point-by-point comparison of Gouda and other cheeses.&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;og:image&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://assertnotmagic.com/gouda.png&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;There’s actually a lot more you could do.  It’s hopefully clear that the lines beginning with ‘twitter’ are for the Twitter API, and it’s probably not clear that the ‘og’ ones are for Facebook for some reason.  There’s also Google+ and others.  These are just the two that I’m using now.  Note the ever-important &lt;code class=&quot;highlighter-rouge&quot;&gt;twitter:image:alt&lt;/code&gt; for screen-readers.&lt;/p&gt;
-
-&lt;p&gt;Anyways, once you’ve got this in place (or, at least the Twitter ones), head on over to &lt;a href=&quot;https://dev.twitter.com/cards/overview&quot;&gt;the Twitter Card API documentation&lt;/a&gt; and take a peek.  Finally, head to the &lt;a href=&quot;https://cards-dev.twitter.com/validator&quot;&gt;Twitter Card Validator&lt;/a&gt; to make sure you did it right and check to ensure everything is working as planned.  It may take a bit for Twitter and the other sites to crawl and whitelist your site (or blacklist you if you’re a moral delinquent), but then, sharing your site on social media will be super duper shnazzy!&lt;/p&gt;
-
-&lt;p&gt;I’m working on figuring out Google’s Rich Cards (i.e. how your site and pages are displayed in their search results), and once I get that all in place and figured out, I’ll write a post about that as well.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/google-cards.png&quot; alt=&quot;Google cards&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;small class=&quot;centered&quot;&gt;Sorry, apparently I’ve got food on my mind.&lt;/small&gt;&lt;/p&gt;
-
-&lt;p&gt;If I missed some meta tags you think are important, or if you’ve got some other cool ones to share, I’d love to hear about it!&lt;/p&gt;
-</description>
-        <pubDate>Mon, 14 Aug 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/08/14/step-your-meta-game-up/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/08/14/step-your-meta-game-up/</guid>
-        
-        <category>html</category>
-        
-        <category>seo</category>
-        
-        <category>social</category>
         
         
       </item>
