@@ -1,10 +1,9 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans");
-/* Colors */
 /* Navigation (Fancy) */
 header {
   text-align: center;
-  height: 50vh;
-  background: url(/img/header_bg.png) bottom center no-repeat;
+  height: 100vh;
+  background: -webkit-radial-gradient(#020509, #020509 90%, #222);
+  background: radial-gradient(#020509, #020509 90%, #222);
   background-size: cover;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -18,94 +17,63 @@ header {
           align-items: center;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
-          justify-content: center; }
-  header h1 {
-    color: white;
-    font-family: "Open Sans", monospace;
-    font-size: 2em;
-    line-height: 2.1em;
-    text-shadow: 3px 4px 0 rgba(0, 0, 0, 0.2); }
-  header .profile {
-    border-radius: 50%; }
+          justify-content: center;
+  position: relative; }
+@-webkit-keyframes bounce {
+  0% {
+    -webkit-transform: translate(-20px, 0px);
+            transform: translate(-20px, 0px); }
+  50% {
+    -webkit-transform: translate(-20px, -20px);
+            transform: translate(-20px, -20px); }
+  100% {
+    tranform: translate(-20px, 0px); } }
+@keyframes bounce {
+  0% {
+    -webkit-transform: translate(-20px, 0px);
+            transform: translate(-20px, 0px); }
+  50% {
+    -webkit-transform: translate(-20px, -20px);
+            transform: translate(-20px, -20px); }
+  100% {
+    tranform: translate(-20px, 0px); } }
+  header .down-arrow {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    -webkit-transform: translate(-20px, 0px);
+            transform: translate(-20px, 0px);
+    width: 40px;
+    height: 20px;
+    -webkit-animation: bounce 2s infinite;
+            animation: bounce 2s infinite; }
 
 nav {
-  background: #303D74;
-  top: 0;
-  width: 100%;
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
-  position: relative;
-  z-index: 1; }
+  position: relative; }
 
 body.fixed-nav nav {
   position: fixed;
   box-shadow: 0 5px 0 rgba(0, 0, 0, 0.1); }
 
-/*
-@media only screen and (max-width: 768px) and (orientation: landscape) {
-    body.fixed-nav nav {
-        position: relative;
-    }
-}
-*/
-nav ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex; }
-
-nav li {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-  text-align: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center; }
-
 li.logo {
   max-width: 0;
-  overflow: hidden;
   -webkit-transition: all 0.5s;
-  transition: all 0.5s;
-  background-color: #FFFEEE; }
-
-li.logo a {
-  color: #AA3939;
-  font-family: "Open Sans", "monospace";
-  text-transform: lowercase;
-  font-weight: 600;
-  font-size: 25px;
-  padding: 0px; }
+  transition: all 0.5s; }
 
 .fixed-nav li.logo {
   max-width: 500px; }
 
 nav a {
-  text-decoration: none;
-  padding: 20px;
   display: inline-block;
-  color: #DEE1EC;
   -webkit-transition: all 0.2s;
-  transition: all 0.2s;
-  text-transform: uppercase; }
+  transition: all 0.2s; }
 
 /* Main Content */
 .site-wrap {
-  max-width: 1100px;
   margin: 70px auto;
-  background: white;
   padding: 70px 200px;
-  text-align: left;
-  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
   -webkit-transform: scale(0.99);
           transform: scale(0.99);
   -webkit-transition: -webkit-transform 0.5s;
@@ -116,3 +84,25 @@ nav a {
 body.fixed-nav .site-wrap {
   -webkit-transform: scale(1);
           transform: scale(1); }
+
+#home-footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+
+#left-home-footer {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1; }
+
+#center-home-footer {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1; }
+
+#right-home-footer {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1; }
+  #right-home-footer p {
+    line-height: 1.7em; }
