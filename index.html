@@ -67,213 +67,112 @@
 
   <!-- Current Post -->
   
-    <h1>E for Everywhere</h2>
-    <small>Oct 28, 2017</small>
-    <p><p>I just learned something new and it prompted me to want to share it (and a whole bunch of other things).  Let’s talk about the letter <code class="highlighter-rouge">e</code>.  This post will have a little bit of math in it, but I’ll try to make those parts painless enough to keep you with me.</p>
+    <h1>Git Wrecked — Keeping Your Branches Synced Without Breaking Things</h2>
+    <small>Nov 4, 2017</small>
+    <p><p>Last month, I took part in Digital Ocean’s <a href="https://hacktoberfest.digitalocean.com/">Hacktoberfest</a> event, and it was awesome.  It helped give me the kick in the pants that I needed to get up the courage to contribute to Open Source Software.  It was definitely a great experience (and I got a t-shirt out of it 😬).  With this really being my first time interacting with the <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow">Forking Git Workflow</a>, I wasn’t exactly sure what to do.  I had seen snippets here and there about how you’re supposed to do it, but I wasn’t familiar enough with that <em>or</em> git commands other than the basic <code class="highlighter-rouge">push, pull, add, commit</code> commands needed for local/personal Git.  So I thought I’d share a story and what I learned.</p>
 
-<h2 id="e">e</h2>
+<h2 id="forking-gui">Forking GUI</h2>
 
-<p><code class="highlighter-rouge">e</code> is a mathmatical constant (like <code class="highlighter-rouge">pi</code>) that crops up a lot of places.</p>
+<p>I was working on some additions to a README for this contribution.  I had already forked the repo, cloned a local version to my machine, created a branch for the fix, made some initial changes, pushed back to Github, and opened a pull request.  So far, so good.  I felt accomplished.</p>
 
-<script type="math/tex; mode=display">e = 2.71828182845904523536028747135266249775724709369995</script>
+<p><img src="/img/git-plan.gif" alt="I love it when a plan comes together" /></p>
 
-<p>Like <code class="highlighter-rouge">pi</code>, it’s a number that is <em>irrational</em>, meaning that its decimal places never end and never repeat (go into an infinite loop).</p>
+<p>A couple days later, the maintainer got back to me with some thoughts and possible revisions.  Great!  This was real collaboration!  So exhilarating!  I headed back to my local repo, but I noticed that the original upstream repo had had some changes made to it.  Having heard that it was a good idea to keep your local repo and branches up to date, I decided to attempt to refresh everything… but I didn’t really know how.  I looked around, but I got intimidated by the official git documentation.  That’s when I remembered that I had my handy-dandy git GUI application, <a href="https://www.gitkraken.com/">GitKraken</a>.  I opened it up, and in a couple of clicks, I had updated my <code class="highlighter-rouge">origin</code> and local branches, made the quick edits I was trying to make, and pushed everything up to GitHub.  Or so I thought.</p>
 
-<p>“Blah blah blah blah,” you say – eloquently, I might add.  “All I hear is blah blah math letters-that-are-really-numbers blah.  Why are you bothering me about this <code class="highlighter-rouge">e</code>?”</p>
+<p>That night I got a message from the maintainer, asking what these extra files were that I had added to my Pull Request.  To my horror, as I looked at the commit history of my GitHub repo, it was all jumbled up, and I had even included someone else’s commit from <code class="highlighter-rouge">upstream/master</code> in my pull request branch changes somehow.  I was very confused — and mortified.  Not only had I bungled “doing the git”, but someone else (and possibly many someones) had seen me do it.</p>
 
-<p>I want to tell you about it, because, even though it doesn’t get the kind of press that <code class="highlighter-rouge">pi</code> does (not to mention <code class="highlighter-rouge">phi</code> – the golden ratio), it shows up everywhere you look and helps us with all kinds of statistics, finance, and more!  I’m writing this post to show off a couple of the ways that <code class="highlighter-rouge">e</code> works behind the scenes.</p>
+<p><img src="/img/git-oh-no.png" alt="Oh no." /></p>
 
-<h2 id="something-interesting-and-practical">Something Interesting and Practical</h2>
+<p>Don’t get me wrong.  GitKraken is an amazing tool, very pretty, and very powerful.  I just think that I personally should only use it to inspect projects, and not use its editing functionality.  On the command line, when you type a git command, you know that you’re changing stuff and it’s a big deal.  In the GUI, they make it so easy to just click some buttons and do a lot of potentially dangerous things if you don’t already know what you’re doing, where I’m used to buttons in a GUI almost always being low-risk and undoable.  I definitely need the extra reflection time required to type out git commands.</p>
 
-<p>Let’s talk about <strong>interest</strong>.  Like bank interest!  Like investment stocks interest.  You ever wonder how that was calculated?  Here’s the interest equation:</p>
+<p>But anyway, that leads me to the important part of this post:</p>
 
-<script type="math/tex; mode=display">A = P(1 + \frac{r}{n})^n</script>
+<h2 id="the-right-way">The Right Way™</h2>
 
-<p>Where:</p>
+<p>The goal of this section is to lay out each step of the Forking Git Workflow, with the associated commands, in the correct manner (or, at least, one of the correct manners) so that future me can come back and read this when I inevitably forget.  I’m going to lay this out, but if you see anything that I’ve done wrong or could do better, be sure to let me know and I’ll try to keep this updated with the best practices you share.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>A is the future value of your money.
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># This is assuming you've already forked the Upstream Repo</span>
+<span class="c"># on GitHub/BitBucket/GitLab/etc.</span>
 
-P is the present value of your money.
+<span class="c"># Clone to get an initial local copy.</span>
+git clone &lt;url-to-your-fork&gt;
 
-r is the interest rate over the time period you care about (usually a year, in practice).
+<span class="c"># Add a remote link to the upstream repo</span>
+git remote add upstream &lt;url-to-upstream-repo&gt;
 
-n is the number of times you compound your interest over the time period.
+<span class="c"># Create a new branch for the feature/fix that you're doing</span>
+git checkout -b &lt;new-branch-name&gt;
+
+<span class="c"># Do some work, edit some files</span>
+git add &lt;files&gt;
+git commit -m &lt;your-commit-message&gt;
 </code></pre>
 </div>
 
-<p>For example, if you put $100 into a bank for a year, and the bank provided a 7% (or .07) interest rate over that time, <em>and</em> the bank only compounded your interest one time (which they sometimes do), after one year, you’d end up with:</p>
+<p>Oh no!  The <code class="highlighter-rouge">upstream</code> and/or your <code class="highlighter-rouge">origin/master</code> and/or your <code class="highlighter-rouge">origin/&lt;branch-name&gt;</code> had changes made to it that aren’t on your local machine.</p>
 
-<script type="math/tex; mode=display">100(1 + \frac{.07}{1})^{1} = 107</script>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># Inspect the changes made to origin</span>
+git fetch origin
 
-<p>This is as expected, because we already said you’re getting 7% yearly interest (also known as APR), and 7% of 100 is 7, so getting $107 at the end of the year should hopefully seem reasonable.</p>
+<span class="c"># Update your branch</span>
+git merge origin/&lt;branch-name&gt;
 
-<p>But some banks compound your interest every month!  Check your bank statement – yours probably does!  What does that look like?</p>
+<span class="c"># Update your master</span>
+git checkout master
+git merge origin/master
 
-<script type="math/tex; mode=display">100(1 + \frac{.07}{12})^{12} = 107.23</script>
+<span class="c"># Inspect the changes made to upstream</span>
+git fetch upstream
 
-<p>WHAAAAAAT?  You just got an extra $0.25, simply by doing some math 12 times a year instead of once at the end.  You squint at me skeptically, and ask, “Does that pattern continue like that?”  Let’s try it!  Let’s compound once a day.</p>
+<span class="c"># If you don't have any commits on master ahead of upstream,</span>
+<span class="c"># you can just pull the upstream changes in</span>
+git checkout master
+git merge upstream/master
 
-<script type="math/tex; mode=display">100(1 + \frac{.07}{365})^{365} = 107.25</script>
+<span class="c"># If your master branch is ahead of upstream, you may want to rebase</span>
+<span class="c"># In order to "work on top of" everyone else's changes, instead of merging</span>
+git rebase upstream/master
 
-<p>Yep!  Kind of.  Definitely not as much increase, and we’re compounding waaaay more.  Let’s really amp up the compounding and see what happens.</p>
+<span class="c"># Now that your master branch is up to date, you can decide whether</span>
+<span class="c"># or not you want to rebase your feature branch onto the new</span>
+<span class="c"># tip of your master branch.  Generally a good idea.</span>
+git checkout &lt;your-feature-branch&gt;
+git rebase master
 
-<p>Actually, let’s simplify our life a little bit first to make the math easy:</p>
+<span class="c"># OR, if you're about to submit a pull request and you  want to</span>
+<span class="c"># clean up your commit history, do an interactive rebase and</span>
+<span class="c"># squash and otherwise clean your commits/messages</span>
+git rebase --interactive master
+
+<span class="c"># Finally, push your updated branch</span>
+git push -u origin &lt;your-feature-branch&gt;
+
+<span class="c"># Sometimes, rebasing rewrites history, and pushing won't work.</span>
+<span class="c"># Try --force-with-lease, which is the safe way to force the push</span>
+<span class="c"># through.  More on that later</span>
+git push origin &lt;your-feature-branch&gt; --force-with-lease
+
+<span class="c"># Optionally, push everything to update your origin/master too</span>
+git push origin --all
+</code></pre>
+</div>
+
+<h2 id="what-is-git-rebase">What is Git Rebase</h2>
+
+<p>Git Rebase confused me.  I don’t know that I can provide a better/more picture-laden explanation than the <a href="https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase">Atlassian Tutorial</a>.  Here’s the short version for the extra-lazy.</p>
 
 <ol>
-  <li>Let’s assume we’re starting with just $1.</li>
-  <li>Let’s assume our interest rate is 100% (i.e. 1).  Thus compounding yearly, we would double our money.</li>
+  <li>Your feature branch branched off of master at a certain point, called the “base”.</li>
+  <li>Rebasing points this “base” to a new place, often moving it forward to the new head of another branch.</li>
+  <li>During this process, you can reword commit messages, re-order commits, delete commits, and squash commits together.</li>
+  <li>In general, you should never rebase something that is already pushed to a public place, <em>especially</em> if there’s a possibility that somebody else already began working on the things that your rebasing.  Try to rebase <em>only on your local system</em>.</li>
+  <li>During the pull request progress, once you’ve submitted the initial request, you’ll be asked to update/modify your original pull-requested code, which will add mulitple commits to the pull request history.  You’ll be tempted to squash these to keep the pull request looking pretty and concise.  <strong>Resist this urge.</strong>  After doing research, it seems like a) doing so would violate #4, and b) a pull request is supposed to be a forum/record of the discussion, and if you go rewriting things to hide all of the intermediate changes, nothing will make sense and you’ll miss out on that history.</li>
+  <li>Remote repositories don’t necessarily like this rewriting history.  Often, a simple <code class="highlighter-rouge">git push</code> will be rejected.  Doing a <code class="highlighter-rouge">git push --force</code> will force the remote repo to accept the push, but you probably shouldn’t be using <code class="highlighter-rouge">--force</code>.  The safe way is to use <code class="highlighter-rouge">--force-with-lease</code>, which only allows a force if it won’t mess anybody up.   Well, most of the time.  Read <a href="https://developer.atlassian.com/blog/2015/04/force-with-lease/">this post about —force-with-lease</a> and the dangers of fetching and pushing without first merging.</li>
 </ol>
 
-<p>Now let’s see what our pattern looks like.</p>
+<h2 id="wrap-up">Wrap Up</h2>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">r</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="n">p</span> <span class="o">=</span> <span class="mf">1.0</span>
-
-<span class="k">def</span> <span class="nf">compound</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-    <span class="s">"""Calculates interest after one time period (e.g. a year).
-    p: float - initial money amount
-    r: float - interest rate over the time period
-    n: int - number of times we compound
-    returns float - amount of money after one time period
-    """</span>
-    <span class="k">return</span> <span class="n">p</span><span class="o">*</span><span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">r</span><span class="o">/</span><span class="n">n</span><span class="p">)</span><span class="o">**</span><span class="n">n</span><span class="p">)</span>
-
-<span class="n">result_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">compound</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)]</span>
-
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result_data</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</code></pre>
-</div>
-
-<p><img src="/img/e-interest.png" alt="Result of Interest experiment" /></p>
-
-<p>You can see that with 1 compound, we get 100% return, just like we planned.  Start with $1, end up with $2.  And as we compound more and more, we see it go up by quite a bit and then the gains start to level off.  But wait.  What number are the gains leveling off at?</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">e</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>  <span class="c"># Plot horizontal line at 2.71828...</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result_data</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</code></pre>
-</div>
-
-<p><img src="/img/e-interest-with-line.png" alt="Result of Interest experiment with line at e" /></p>
-
-<p>OH SNAP, IT’S E.  As we approach higher and higher frequency of compounding, we approach a return amount of E.  This is where the concept of <strong>continuously compounding interest</strong> comes from.</p>
-
-<p>So we’ve found <code class="highlighter-rouge">e</code> once.  Let’s do another.</p>
-
-<h2 id="factorials-and-e">Factorials and e</h2>
-
-<p>If you’ve read any of my other blog posts, you’re probably sick and tired of factorials.  Well, that’s too bad.  Let’s combine them with fractions and see what we can come up with.</p>
-
-<script type="math/tex; mode=display">\frac{1}{0!} = \frac{1}{1} = 1</script>
-
-<script type="math/tex; mode=display">\frac{1}{1!} = \frac{1}{1} = 1</script>
-
-<script type="math/tex; mode=display">\frac{1}{2!} = \frac{1}{2 * 1} = .5</script>
-
-<script type="math/tex; mode=display">\frac{1}{3!} = \frac{1}{3 * 2 * 1} = 0.16666</script>
-
-<p>Where am I going with this?  Let’s add them up and see.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">factorial</span>
-
-<span class="k">def</span> <span class="nf">sum_of_factorial_fractions</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="s">"""Calculates the sum of 1/0! + 1/1! + 1/2! ... 1/n!"""</span>
-    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">factorial</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-               
-<span class="n">results2</span> <span class="o">=</span> <span class="p">[</span><span class="n">sum_of_factorial_fractions</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results2</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"The last result:"</span><span class="p">,</span> <span class="n">results2</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-</code></pre>
-</div>
-
-<p><img src="/img/e-factorials.png" alt="Result of Factorials experiment" /></p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>The last result: 2.7182815255731922
-</code></pre>
-</div>
-
-<p>A;LSDKJF;ALKJSDFJSDLKFJEIVLENNVOIEJ.</p>
-
-<h3 id="e-1">E</h3>
-
-<p>(approximately).</p>
-
-<p>Let’s do one more: my favorite one.</p>
-
-<h2 id="random-e">Random E</h2>
-
-<p>This one comes courtesy of <a href="https://twitter.com/fermatslibrary">Fermat’s Library on Twitter</a>.  Pick a random number between 0 and 1.  Keep picking numbers and adding them until the sum is greater than 1.  For example:</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>0.185263666584764
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">x</span> <span class="o">+=</span> <span class="n">random</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>0.5797470876977189
-</code></pre>
-</div>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">x</span> <span class="o">+=</span> <span class="n">random</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>1.2821236982804123
-</code></pre>
-</div>
-
-<p>Alright!  We’re now greater than 1, and it took us 3 rolls to get there.  Let’s do that a ton of times and see what the average number of rolls is.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">rolls_to_greater_than_n</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="s">"""Rolls a random number between 0 and 1 and adds them up
-    until the sum is greater than n.  Returns the number of rolls it took.
-    """</span>
-    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">rolls</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">while</span> <span class="n">total</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
-        <span class="n">total</span> <span class="o">+=</span> <span class="n">random</span><span class="p">()</span>
-        <span class="n">rolls</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">return</span> <span class="n">rolls</span>
-
-<span class="k">def</span> <span class="nf">roll_experiment_avg</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
-    <span class="s">"""Performs the rolls_to_greater_than_n 'times' times.
-    Returs the average number of rolls it took."""</span>
-    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">rolls_to_greater_than_n</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">times</span><span class="p">))</span><span class="o">/</span><span class="n">times</span>
-
-<span class="n">results3</span> <span class="o">=</span> <span class="p">[</span><span class="n">roll_experiment_avg</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)]</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results3</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span> <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>  <span class="c"># Line representing e for reference.</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"The last result was"</span><span class="p">,</span> <span class="n">results3</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-</code></pre>
-</div>
-
-<p><img src="/img/e-random.png" alt="Results of Random experiment" /></p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>The last result was 2.712271227122712
-</code></pre>
-</div>
-
-<p>This one definitely is converging a lot slower, <a href="https://twitter.com/fermatslibrary/status/924263998589145090">but it does.  Math says so.</a></p>
-
-<p>Anyways, this was kind of a long post about nothing, but I though that the way that <code class="highlighter-rouge">e</code> seems to pop up all over the place, even amidst factorials and random numbers, was pretty cool.  Let me know if you can think of any other cool ways to come up with <code class="highlighter-rouge">e</code>!</p>
+<p>Like I said at the beginning, I’ve been learning this workflow for the last two weeks, so I am by no means anything more than a beginner.  Hopefully this helps, and hopefully people smarter than me will let me know if I got anything wrong here.  Shoutout to the <a href="https://github.com/exercism/ruby/pull/760">Exercism Ruby Track team</a> that has been so patient with me as I bumble through my contributions.</p>
 </p>
   
 
@@ -291,6 +190,11 @@ n is the number of times you compound your interest over the time period.
         </li>
         
           <li>
+            <span class="post-meta">Oct 28, 2017</span><br/>
+            <a class="post-link" href="/2017/10/28/e-for-everywhere/">E for Everywhere</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Oct 25, 2017</span><br/>
             <a class="post-link" href="/2017/10/25/accelerated-vimprovement/">Accelerated Vim-Provement</a>
           </li>
@@ -298,11 +202,6 @@ n is the number of times you compound your interest over the time period.
           <li>
             <span class="post-meta">Oct 16, 2017</span><br/>
             <a class="post-link" href="/2017/10/16/secret-message/">Secret Message</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Oct 9, 2017</span><br/>
-            <a class="post-link" href="/2017/10/09/p5-part-3-rainbow-collections/">Learn to Code, Part 3 - Rainbow Collections</a>
           </li>
         
       </ul>
@@ -359,7 +258,7 @@ n is the number of times you compound your interest over the time period.
         
         <a href="/tags/jekyll/" style="font-size: 14px">jekyll | </a>
         
-        <a href="/tags/git/" style="font-size: 16px">git | </a>
+        <a href="/tags/git/" style="font-size: 18px">git | </a>
         
         <a href="/tags/physics/" style="font-size: 14px">physics | </a>
         
@@ -416,6 +315,12 @@ n is the number of times you compound your interest over the time period.
         <a href="/tags/performance/" style="font-size: 14px">performance | </a>
         
         <a href="/tags/editor/" style="font-size: 14px">editor | </a>
+        
+        <a href="/tags/workflow/" style="font-size: 14px">workflow | </a>
+        
+        <a href="/tags/best-practice/" style="font-size: 14px">best-practice | </a>
+        
+        <a href="/tags/oss/" style="font-size: 14px">oss | </a>
         
       </p>
     </div>

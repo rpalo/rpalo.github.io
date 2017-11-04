@@ -5,10 +5,132 @@
     <description>I'm currently/always doing a lot of learning, and it seems like writing it down in blog form is a good idea to help cement the things I'm learning. Also, all the cool kids are doing it.  My goal is once every two weeks or better.
 </description>
     <link>https://assertnotmagic.com</link>
-    <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 30 Oct 2017 22:43:40 -0700</pubDate>
-    <lastBuildDate>Mon, 30 Oct 2017 22:43:40 -0700</lastBuildDate>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 04 Nov 2017 12:59:04 -0700</pubDate>
+    <lastBuildDate>Sat, 04 Nov 2017 12:59:04 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Git Wrecked — Keeping Your Branches Synced Without Breaking Things</title>
+        <description>&lt;p&gt;Last month, I took part in Digital Ocean’s &lt;a href=&quot;https://hacktoberfest.digitalocean.com/&quot;&gt;Hacktoberfest&lt;/a&gt; event, and it was awesome.  It helped give me the kick in the pants that I needed to get up the courage to contribute to Open Source Software.  It was definitely a great experience (and I got a t-shirt out of it 😬).  With this really being my first time interacting with the &lt;a href=&quot;https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow&quot;&gt;Forking Git Workflow&lt;/a&gt;, I wasn’t exactly sure what to do.  I had seen snippets here and there about how you’re supposed to do it, but I wasn’t familiar enough with that &lt;em&gt;or&lt;/em&gt; git commands other than the basic &lt;code class=&quot;highlighter-rouge&quot;&gt;push, pull, add, commit&lt;/code&gt; commands needed for local/personal Git.  So I thought I’d share a story and what I learned.&lt;/p&gt;
+
+&lt;h2 id=&quot;forking-gui&quot;&gt;Forking GUI&lt;/h2&gt;
+
+&lt;p&gt;I was working on some additions to a README for this contribution.  I had already forked the repo, cloned a local version to my machine, created a branch for the fix, made some initial changes, pushed back to Github, and opened a pull request.  So far, so good.  I felt accomplished.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/git-plan.gif&quot; alt=&quot;I love it when a plan comes together&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;A couple days later, the maintainer got back to me with some thoughts and possible revisions.  Great!  This was real collaboration!  So exhilarating!  I headed back to my local repo, but I noticed that the original upstream repo had had some changes made to it.  Having heard that it was a good idea to keep your local repo and branches up to date, I decided to attempt to refresh everything… but I didn’t really know how.  I looked around, but I got intimidated by the official git documentation.  That’s when I remembered that I had my handy-dandy git GUI application, &lt;a href=&quot;https://www.gitkraken.com/&quot;&gt;GitKraken&lt;/a&gt;.  I opened it up, and in a couple of clicks, I had updated my &lt;code class=&quot;highlighter-rouge&quot;&gt;origin&lt;/code&gt; and local branches, made the quick edits I was trying to make, and pushed everything up to GitHub.  Or so I thought.&lt;/p&gt;
+
+&lt;p&gt;That night I got a message from the maintainer, asking what these extra files were that I had added to my Pull Request.  To my horror, as I looked at the commit history of my GitHub repo, it was all jumbled up, and I had even included someone else’s commit from &lt;code class=&quot;highlighter-rouge&quot;&gt;upstream/master&lt;/code&gt; in my pull request branch changes somehow.  I was very confused — and mortified.  Not only had I bungled “doing the git”, but someone else (and possibly many someones) had seen me do it.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/git-oh-no.png&quot; alt=&quot;Oh no.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Don’t get me wrong.  GitKraken is an amazing tool, very pretty, and very powerful.  I just think that I personally should only use it to inspect projects, and not use its editing functionality.  On the command line, when you type a git command, you know that you’re changing stuff and it’s a big deal.  In the GUI, they make it so easy to just click some buttons and do a lot of potentially dangerous things if you don’t already know what you’re doing, where I’m used to buttons in a GUI almost always being low-risk and undoable.  I definitely need the extra reflection time required to type out git commands.&lt;/p&gt;
+
+&lt;p&gt;But anyway, that leads me to the important part of this post:&lt;/p&gt;
+
+&lt;h2 id=&quot;the-right-way&quot;&gt;The Right Way™&lt;/h2&gt;
+
+&lt;p&gt;The goal of this section is to lay out each step of the Forking Git Workflow, with the associated commands, in the correct manner (or, at least, one of the correct manners) so that future me can come back and read this when I inevitably forget.  I’m going to lay this out, but if you see anything that I’ve done wrong or could do better, be sure to let me know and I’ll try to keep this updated with the best practices you share.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# This is assuming you've already forked the Upstream Repo&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# on GitHub/BitBucket/GitLab/etc.&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Clone to get an initial local copy.&lt;/span&gt;
+git clone &amp;lt;url-to-your-fork&amp;gt;
+
+&lt;span class=&quot;c&quot;&gt;# Add a remote link to the upstream repo&lt;/span&gt;
+git remote add upstream &amp;lt;url-to-upstream-repo&amp;gt;
+
+&lt;span class=&quot;c&quot;&gt;# Create a new branch for the feature/fix that you're doing&lt;/span&gt;
+git checkout -b &amp;lt;new-branch-name&amp;gt;
+
+&lt;span class=&quot;c&quot;&gt;# Do some work, edit some files&lt;/span&gt;
+git add &amp;lt;files&amp;gt;
+git commit -m &amp;lt;your-commit-message&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Oh no!  The &lt;code class=&quot;highlighter-rouge&quot;&gt;upstream&lt;/code&gt; and/or your &lt;code class=&quot;highlighter-rouge&quot;&gt;origin/master&lt;/code&gt; and/or your &lt;code class=&quot;highlighter-rouge&quot;&gt;origin/&amp;lt;branch-name&amp;gt;&lt;/code&gt; had changes made to it that aren’t on your local machine.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Inspect the changes made to origin&lt;/span&gt;
+git fetch origin
+
+&lt;span class=&quot;c&quot;&gt;# Update your branch&lt;/span&gt;
+git merge origin/&amp;lt;branch-name&amp;gt;
+
+&lt;span class=&quot;c&quot;&gt;# Update your master&lt;/span&gt;
+git checkout master
+git merge origin/master
+
+&lt;span class=&quot;c&quot;&gt;# Inspect the changes made to upstream&lt;/span&gt;
+git fetch upstream
+
+&lt;span class=&quot;c&quot;&gt;# If you don't have any commits on master ahead of upstream,&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# you can just pull the upstream changes in&lt;/span&gt;
+git checkout master
+git merge upstream/master
+
+&lt;span class=&quot;c&quot;&gt;# If your master branch is ahead of upstream, you may want to rebase&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# In order to &quot;work on top of&quot; everyone else's changes, instead of merging&lt;/span&gt;
+git rebase upstream/master
+
+&lt;span class=&quot;c&quot;&gt;# Now that your master branch is up to date, you can decide whether&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# or not you want to rebase your feature branch onto the new&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# tip of your master branch.  Generally a good idea.&lt;/span&gt;
+git checkout &amp;lt;your-feature-branch&amp;gt;
+git rebase master
+
+&lt;span class=&quot;c&quot;&gt;# OR, if you're about to submit a pull request and you  want to&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# clean up your commit history, do an interactive rebase and&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# squash and otherwise clean your commits/messages&lt;/span&gt;
+git rebase --interactive master
+
+&lt;span class=&quot;c&quot;&gt;# Finally, push your updated branch&lt;/span&gt;
+git push -u origin &amp;lt;your-feature-branch&amp;gt;
+
+&lt;span class=&quot;c&quot;&gt;# Sometimes, rebasing rewrites history, and pushing won't work.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Try --force-with-lease, which is the safe way to force the push&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# through.  More on that later&lt;/span&gt;
+git push origin &amp;lt;your-feature-branch&amp;gt; --force-with-lease
+
+&lt;span class=&quot;c&quot;&gt;# Optionally, push everything to update your origin/master too&lt;/span&gt;
+git push origin --all
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;what-is-git-rebase&quot;&gt;What is Git Rebase&lt;/h2&gt;
+
+&lt;p&gt;Git Rebase confused me.  I don’t know that I can provide a better/more picture-laden explanation than the &lt;a href=&quot;https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase&quot;&gt;Atlassian Tutorial&lt;/a&gt;.  Here’s the short version for the extra-lazy.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Your feature branch branched off of master at a certain point, called the “base”.&lt;/li&gt;
+  &lt;li&gt;Rebasing points this “base” to a new place, often moving it forward to the new head of another branch.&lt;/li&gt;
+  &lt;li&gt;During this process, you can reword commit messages, re-order commits, delete commits, and squash commits together.&lt;/li&gt;
+  &lt;li&gt;In general, you should never rebase something that is already pushed to a public place, &lt;em&gt;especially&lt;/em&gt; if there’s a possibility that somebody else already began working on the things that your rebasing.  Try to rebase &lt;em&gt;only on your local system&lt;/em&gt;.&lt;/li&gt;
+  &lt;li&gt;During the pull request progress, once you’ve submitted the initial request, you’ll be asked to update/modify your original pull-requested code, which will add mulitple commits to the pull request history.  You’ll be tempted to squash these to keep the pull request looking pretty and concise.  &lt;strong&gt;Resist this urge.&lt;/strong&gt;  After doing research, it seems like a) doing so would violate #4, and b) a pull request is supposed to be a forum/record of the discussion, and if you go rewriting things to hide all of the intermediate changes, nothing will make sense and you’ll miss out on that history.&lt;/li&gt;
+  &lt;li&gt;Remote repositories don’t necessarily like this rewriting history.  Often, a simple &lt;code class=&quot;highlighter-rouge&quot;&gt;git push&lt;/code&gt; will be rejected.  Doing a &lt;code class=&quot;highlighter-rouge&quot;&gt;git push --force&lt;/code&gt; will force the remote repo to accept the push, but you probably shouldn’t be using &lt;code class=&quot;highlighter-rouge&quot;&gt;--force&lt;/code&gt;.  The safe way is to use &lt;code class=&quot;highlighter-rouge&quot;&gt;--force-with-lease&lt;/code&gt;, which only allows a force if it won’t mess anybody up.   Well, most of the time.  Read &lt;a href=&quot;https://developer.atlassian.com/blog/2015/04/force-with-lease/&quot;&gt;this post about —force-with-lease&lt;/a&gt; and the dangers of fetching and pushing without first merging.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;wrap-up&quot;&gt;Wrap Up&lt;/h2&gt;
+
+&lt;p&gt;Like I said at the beginning, I’ve been learning this workflow for the last two weeks, so I am by no means anything more than a beginner.  Hopefully this helps, and hopefully people smarter than me will let me know if I got anything wrong here.  Shoutout to the &lt;a href=&quot;https://github.com/exercism/ruby/pull/760&quot;&gt;Exercism Ruby Track team&lt;/a&gt; that has been so patient with me as I bumble through my contributions.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 04 Nov 2017 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2017/11/04/git-wrecked/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/11/04/git-wrecked/</guid>
+        
+        <category>git</category>
+        
+        <category>workflow</category>
+        
+        <category>best-practice</category>
+        
+        <category>oss</category>
+        
+        
+      </item>
     
       <item>
         <title>E for Everywhere</title>
@@ -219,8 +341,8 @@ n is the number of times you compound your interest over the time period.
 &lt;p&gt;Anyways, this was kind of a long post about nothing, but I though that the way that &lt;code class=&quot;highlighter-rouge&quot;&gt;e&lt;/code&gt; seems to pop up all over the place, even amidst factorials and random numbers, was pretty cool.  Let me know if you can think of any other cool ways to come up with &lt;code class=&quot;highlighter-rouge&quot;&gt;e&lt;/code&gt;!&lt;/p&gt;
 </description>
         <pubDate>Sat, 28 Oct 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/10/28/e-for-everywhere/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/10/28/e-for-everywhere/</guid>
+        <link>http://localhost:4000/2017/10/28/e-for-everywhere/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/10/28/e-for-everywhere/</guid>
         
         <category>math</category>
         
@@ -310,8 +432,8 @@ inoremap &amp;lt;Right&amp;gt; &amp;lt;Nop&amp;gt;
 &lt;p&gt;If you’ve got any Vim pro-tips, let me know.  Vim is a fairly popular tutorial topic and everybody’s got lots of opinions about it, but I’m always on the lookout for cool resources, books, guides, games, ways to practice, etc.  I know there’s a lot of people with a lot of knowledge to share, so share away!&lt;/p&gt;
 </description>
         <pubDate>Wed, 25 Oct 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/10/25/accelerated-vimprovement/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/10/25/accelerated-vimprovement/</guid>
+        <link>http://localhost:4000/2017/10/25/accelerated-vimprovement/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/10/25/accelerated-vimprovement/</guid>
         
         <category>vim</category>
         
@@ -514,8 +636,8 @@ Sort by: self_time
 
 </description>
         <pubDate>Mon, 16 Oct 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/10/16/secret-message/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/10/16/secret-message/</guid>
+        <link>http://localhost:4000/2017/10/16/secret-message/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/10/16/secret-message/</guid>
         
         <category>ruby</category>
         
@@ -882,8 +1004,8 @@ Sort by: self_time
 &lt;p&gt;&lt;em&gt;Cover image credit: Huffington Post&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 09 Oct 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/10/09/p5-part-3-rainbow-collections/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/10/09/p5-part-3-rainbow-collections/</guid>
+        <link>http://localhost:4000/2017/10/09/p5-part-3-rainbow-collections/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/10/09/p5-part-3-rainbow-collections/</guid>
         
         <category>p5</category>
         
@@ -1033,8 +1155,8 @@ Sort by: self_time
 
 </description>
         <pubDate>Thu, 05 Oct 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/10/05/smooth-one-liners/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/10/05/smooth-one-liners/</guid>
+        <link>http://localhost:4000/2017/10/05/smooth-one-liners/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/10/05/smooth-one-liners/</guid>
         
         <category>ruby</category>
         
@@ -1087,8 +1209,8 @@ Sort by: self_time
 &lt;p&gt;*Not an actual legally binding guarantee. 😬&lt;/p&gt;
 </description>
         <pubDate>Sat, 30 Sep 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/09/30/first-screencast/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/09/30/first-screencast/</guid>
+        <link>http://localhost:4000/2017/09/30/first-screencast/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/30/first-screencast/</guid>
         
         <category>screencast</category>
         
@@ -1156,8 +1278,8 @@ Sort by: self_time
 &lt;p&gt;Hopefully this helps.  Anything I can do to help keep Codenewbies from giving up is one more person who can use technology to help make the world a better place.  Let me know what you think!&lt;/p&gt;
 </description>
         <pubDate>Sat, 23 Sep 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/09/23/comparison-time/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/09/23/comparison-time/</guid>
+        <link>http://localhost:4000/2017/09/23/comparison-time/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/23/comparison-time/</guid>
         
         <category>soft-skills</category>
         
@@ -1553,8 +1675,8 @@ Sort by: self_time
 &lt;p&gt;As before, I’m super dooper available to answer any questions you might have.  Let me know what went well, and let me know what I could have explained better.  Additionally, let me know how this lesson compared to the last lesson!  Was this progressive building approach better than seeing the project up front like last time?  Did you like getting the hard stuff (&lt;strong&gt;for loops&lt;/strong&gt;) at the beginning and having the difficulty relax a little after that?  Maybe you thought loops were easier than the last sections!  I’d love to hear from you.&lt;/p&gt;
 </description>
         <pubDate>Sat, 16 Sep 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/09/16/p5-part-2-looping-targets/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/09/16/p5-part-2-looping-targets/</guid>
+        <link>http://localhost:4000/2017/09/16/p5-part-2-looping-targets/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/16/p5-part-2-looping-targets/</guid>
         
         <category>p5</category>
         
@@ -2069,8 +2191,8 @@ Sort by: self_time
 &lt;p&gt;Let me know if you get stuck or have any questions!  Let me know if I explained anything confusingly or could do better.&lt;/p&gt;
 </description>
         <pubDate>Sat, 09 Sep 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/09/09/p5-part-1-random-walker/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/09/09/p5-part-1-random-walker/</guid>
+        <link>http://localhost:4000/2017/09/09/p5-part-1-random-walker/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/09/p5-part-1-random-walker/</guid>
         
         <category>p5</category>
         
@@ -2079,175 +2201,6 @@ Sort by: self_time
         <category>beginner</category>
         
         <category>tutorial</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>CSS Animations are Probably Magic</title>
-        <description>&lt;p&gt;Stop what you are doing right now and listen to me because CSS animations are actual magic and are amazing.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/css-magic.gif&quot; alt=&quot;MAGIC&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Now that I’ve got your attention, let me explain myself a little more coherently.  If you’ve read many of my other posts you’re probably thinking, “Wait a minute.  You post about Python and Ruby and back-end languages and scripting.  What’s all this front-end nonsense?”  To which I reply, with great affront, “&lt;strong&gt;Nonsense?!&lt;/strong&gt;  Your face is nonsense.  The people who do front-end things are geniuses (Genii?  Genies?) that make our world look pretty and make our user experiences streamlined, and other things that I take for granted and don’t even know about.  But even still, CSS animations are magical enough that they should be shared with all, not just one lucky subset.”  So, what follows will be a introduction and guide that should get even the grumpiest sysadmin to a point where they feel comfortable animating with CSS all on their own.&lt;/p&gt;
-
-&lt;p&gt;Let’s begin.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-background&quot;&gt;The Background&lt;/h2&gt;
-
-&lt;p&gt;CSS.  It’s a language.  It’s scary, maybe, for some.  A lot of times, for me, it ends up looking more like a wishlist of how I want my page to look rather than a well-planned and crafted stylesheet.  To guarantee that we’re all starting at the same place, I’m going to sprint through the very basics.  Things you should know before moving on:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;HTML is a markup language used to layout web pages.  It looks like this.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;Hi there!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;CSS is used to dictate how your website should look.  It looks like this:&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;language-css highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;peachpuff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;font-size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;20px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;border&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;2px&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;solid&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;chartreuse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;You’ll note that I specify what &lt;code class=&quot;highlighter-rouge&quot;&gt;element&lt;/code&gt; gets targeted for these styles at the beginning.  I’m targeting my &lt;code class=&quot;highlighter-rouge&quot;&gt;div&lt;/code&gt; from above.  (Don’t worry.  A &lt;code class=&quot;highlighter-rouge&quot;&gt;div&lt;/code&gt; is just a container/box.)  The webpage would now look like this:&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/css-peachpuff.png&quot; alt=&quot;Colors!&quot; /&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;You can get more specific with targeting your elements by adding classes and ID’s to your elements.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;underlined&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;main-div&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Hi there!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;I'm a sad div...&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;You can access these classes and ID’s from within your CSS like this.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;language-css highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;peachpuff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;nc&quot;&gt;.underlined&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;border-bottom&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;2px&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;solid&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;blue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;nf&quot;&gt;#main-div&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;font-size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;36px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;font-weight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;bold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The final product will end up looking like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/css-selectors.png&quot; alt=&quot;Selectors at work&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Note how the main div gets all three style improvements, but &lt;em&gt;both divs&lt;/em&gt; get the color, because the &lt;code class=&quot;highlighter-rouge&quot;&gt;div&lt;/code&gt; section targets everything it applies to.&lt;/p&gt;
-
-&lt;p&gt;OK!  That should get us up to speed.  There are a few more things than that that allow us to get more complicated, but I’m going to leave that alone for now.&lt;/p&gt;
-
-&lt;h2 id=&quot;a-note&quot;&gt;A Note&lt;/h2&gt;
-
-&lt;p&gt;As we continue, it should be known that not all browsers currently support some of the animation CSS.  I highly recommend using a site or tool like &lt;a href=&quot;https://autoprefixer.github.io/&quot;&gt;this AutoPrefixer&lt;/a&gt; to generate the relevant vendor prefixes that will allow all of this to work in more browsers.  Copy/paste your generic CSS into the input window, run the autoprefixer, and copy the output css to the file that you reference in your HTML document.  Or use a tool that does all of this for you, if you’re a fancy pants.&lt;/p&gt;
-
-&lt;h2 id=&quot;lets-get-to-animations&quot;&gt;Let’s Get to Animations&lt;/h2&gt;
-
-&lt;p&gt;As it turns out, you can animate a lot of things a lot of different ways.  Let’s start simple and go from there.&lt;/p&gt;
-
-&lt;h3 id=&quot;the-simple-way-transitions&quot;&gt;The Simple Way: Transitions&lt;/h3&gt;
-
-&lt;p&gt;Transitions are a way of switching your changes on and off, simulating animations quasi-manually.  There are several &lt;em&gt;pseudo-selectors&lt;/em&gt; that you can use to apply styles based on what the user is doing.  Try this, continuing with the HTML we had before.&lt;/p&gt;
-
-&lt;div class=&quot;language-css highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;/* ... */&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:hover&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#111&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#CCC&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/css-hover.gif&quot; alt=&quot;Showing hover effect&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Cool right?  However, for those of you with an eye for design, you might complain that the transition is a bit abrupt and clunky.  All we have to do is add one line!&lt;/p&gt;
-
-&lt;div class=&quot;language-css highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;peachpuff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;transition&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;background&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1s&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ease-in&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;color&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1s&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ease-in&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;And it smoothly transitions!  Cool right?  But we want more control!  We want animations to happen without hover!  We.  Want.  Keyframes!&lt;/p&gt;
-
-&lt;h2 id=&quot;keyframes&quot;&gt;Keyframes&lt;/h2&gt;
-
-&lt;p&gt;Keyframes are where the money is at.  You just specify what changes you want made throughout the animation, with values from 0% to 100%.  You can also replace 0% with “from” if you like, and 100% with “to”.  Up to you.&lt;/p&gt;
-
-&lt;div class=&quot;language-css highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;@keyframes&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flip-flop&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0deg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;top&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;40&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;180deg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;top&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;50%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;60&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;180deg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;top&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;50%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;360deg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;top&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;One thing to note is that my 40% and 60% are the same.  That’s because I want my div to pause in its motion for part of the duration.  As you can see, all I did was specify the what the attributes should be throughout the animation.  The browser should fill in the rest.  To attach this animation to your div, insert the following:&lt;/p&gt;
-
-&lt;div class=&quot;language-css highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nf&quot;&gt;#main-div&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nl&quot;&gt;font-size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;36px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;nl&quot;&gt;font-weight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;bold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;nl&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;absolute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;nl&quot;&gt;animation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flip-flop&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;3s&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;infinite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Note that I added a &lt;code class=&quot;highlighter-rouge&quot;&gt;position: absolute&lt;/code&gt; to increase wow factor.  The key line is the animation line.  You specify the name of the keyframe animation to use, how long, and how many times.  There are &lt;a href=&quot;https://www.w3schools.com/css/css3_animations.asp&quot;&gt;a lot more settings&lt;/a&gt; that you can use as well.  Let’s take a look.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/css-flip-flop.gif&quot; alt=&quot;Spinny divs&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Ok there &lt;code class=&quot;highlighter-rouge&quot;&gt;main-div&lt;/code&gt;, calm yourself down.  Stop showing off.  One thing, sometimes shapes get weird as they get animated in Firefox.  If that happens to you, just add &lt;code class=&quot;highlighter-rouge&quot;&gt;outline: 1px solid transparent&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;wrap-up&quot;&gt;Wrap Up&lt;/h2&gt;
-&lt;p&gt;And that’s it!  You’re well on your way to CSS animation mastery.  Soon you’ll be animating SVG’s (not very different than this), buttons, and more!  If you’ve made some cool stuff like this, share!  Or, if you have some tips on how to do this better/cooler/more performantly, also let me know.  &lt;a href=&quot;https://webdesign.tutsplus.com/tutorials/a-beginners-introduction-to-css-animation--cms-21068&quot;&gt;This tutorial on Tutsplus&lt;/a&gt; is a really fun tutorial that you should do right now after reading this article.  To see more cool/inspiring/disgustingly amazing things, you should sign up for the &lt;a href=&quot;https://codepen.io/accounts/signup&quot;&gt;CodePen newsletter&lt;/a&gt;.  I don’t even really do much on there, but the weekly newsletter makes me so happy.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Cover image credit: &lt;a href=&quot;http://www.wisegeek.org/&quot;&gt;WiseGeek.org&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
-</description>
-        <pubDate>Thu, 31 Aug 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/08/31/css-animations/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/08/31/css-animations/</guid>
-        
-        <category>html</category>
-        
-        <category>css</category>
-        
-        <category>front-end</category>
-        
-        <category>animations</category>
         
         
       </item>

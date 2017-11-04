@@ -1,6 +1,15 @@
 const posts = [
     
     {
+        title: "Git Wrecked — Keeping Your Branches Synced Without Breaking Things",
+        url: "/2017/11/04/git-wrecked/",
+        cover: "/img/git-wrecked.jpg",
+        tags: "git, workflow, best-practice, oss",
+        date: "November 04, 2017",
+        description: ""
+    } ,
+    
+    {
         title: "E for Everywhere",
         url: "/2017/10/28/e-for-everywhere/",
         cover: "/img/treble-e.png",
