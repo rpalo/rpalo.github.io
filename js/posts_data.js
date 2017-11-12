@@ -1,6 +1,15 @@
 const posts = [
     
     {
+        title: "Add Search to Your Static Site with Vue",
+        url: "/2017/11/11/static-site-search-with-vue/",
+        cover: "/img/search-cover.png",
+        tags: "vue, jekyll, static-site, tutorial",
+        date: "November 11, 2017",
+        description: "In 30 minutes or less!  With no build tools!"
+    } ,
+    
+    {
         title: "Git Wrecked — Keeping Your Branches Synced Without Breaking Things",
         url: "/2017/11/04/git-wrecked/",
         cover: "/img/git-wrecked.jpg",
