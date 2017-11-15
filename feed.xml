@@ -5,10 +5,304 @@
     <description>I'm currently/always doing a lot of learning, and it seems like writing it down in blog form is a good idea to help cement the things I'm learning. Also, all the cool kids are doing it.  My goal is once every two weeks or better.
 </description>
     <link>https://assertnotmagic.com</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 11 Nov 2017 17:15:10 -0800</pubDate>
-    <lastBuildDate>Sat, 11 Nov 2017 17:15:10 -0800</lastBuildDate>
+    <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 14 Nov 2017 23:37:29 -0800</pubDate>
+    <lastBuildDate>Tue, 14 Nov 2017 23:37:29 -0800</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Cake and Duplicates</title>
+        <description>&lt;p&gt;&lt;em&gt;Post Page Cover Image credit: &lt;a href=&quot;http://profroster.com&quot;&gt;The ProFroster&lt;/a&gt;.  Fun fact: our team helped design and manufacture these!&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Let me talk to you about cake.  Hungry yet?  Good.  Hungry for &lt;strong&gt;knowledge?!&lt;/strong&gt;  Even better.  Because I’m not talking about cake that you eat — I’m talking about &lt;a href=&quot;https://www.interviewcake.com/&quot;&gt;Interview Cake&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/interview-cake.jpg&quot; alt=&quot;Interview Cake Logo&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Interview Cake is a website that I found recently that provides a ton of tech-interview-level questions and write-ups to help you get better at things like algorithms, time and space efficiency, explaining yourself, and thinking problems all the way through, even past the sticky edge cases.  Is this an advertisement for them?  No it is not.  Am I going to continue to pepper you with rhetorical questions?  Possibly.  Mind your own business.  Anyway, the purpose of this article is to write up a solution that I went through last week that initially looked like a snap and turned out to be way harder.  Their final solution was, at least in my eyes, mindblasting.  You read that right.  I said&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/mind-blasting.gif&quot; alt=&quot;Mind blasting&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let me lay out the problem for you.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-problem&quot;&gt;The Problem&lt;/h2&gt;
+
+&lt;p&gt;The problem is this:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;You are given a list of integers in the range &lt;em&gt;(0, n]&lt;/em&gt; (excluding 0, including n), that fill an array such that there are &lt;em&gt;n + 1&lt;/em&gt; numbers in the array.  In other words, this array has one of each integer except for one unknown value that has a duplicate.  The numbers in the array are not in any particular order.&lt;/p&gt;
+
+  &lt;p&gt;Example: [4, 3, 7, 1, 5, 3, 2, 6] : 8 numbers, 1..7.  The only duplicate is 3.&lt;/p&gt;
+
+  &lt;p&gt;Your goal: Find the duplicate.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;If you’re feeling spunky, go ahead and give it a try.  This is just the first portion of the problem, but it’ll help you get your head in the game.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/waiting.gif&quot; alt=&quot;I'm waiting&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Ready with your solution?  Here’s mine, for reference.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;find_duplicate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;first&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Alright, that’s it.  That’s the whole thing, article over.  Just kidding.  I forgot to mention:&lt;/p&gt;
+
+&lt;h2 id=&quot;the-rest-of-the-problem&quot;&gt;The Rest of the Problem&lt;/h2&gt;
+
+&lt;p&gt;Here’s where it gets interesting: the last two requirements of the problem.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;ol&gt;
+    &lt;li&gt;Your solution must be better than O(n^2) in time.&lt;/li&gt;
+    &lt;li&gt;Your solution must remain O(1) in space.&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;To make sure everybody is on the same page with me in terms of what that means, let me do a 30 second explanation of &lt;em&gt;“Big-O Notation”&lt;/em&gt;, which is what those O(n) and O(1) are called.  If you’re already comfortable with Big-O, go ahead and skip ahead.&lt;/p&gt;
+
+&lt;h3 id=&quot;big-o-notation&quot;&gt;Big-O Notation&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;“Big-O Notation”&lt;/em&gt; has to do with how efficient an algorithm or program is, as a function of the number of items used as inputs.  Let me put it this way:  Let’s say you’re given &lt;em&gt;n&lt;/em&gt; numbers in your input list.  If your solution requires you to loop through the whole list once (in the worst case, like if the number you’re looking for is at the end of the list), then your solution is considered O(n).  O(n) is also known as &lt;em&gt;linear efficiency&lt;/em&gt;.  This is because, if we double the size of the input to &lt;code class=&quot;highlighter-rouge&quot;&gt;2*n&lt;/code&gt;, your algorithm will have to process twice as many steps and most likely will be twice as slow.  If we increase the size to &lt;code class=&quot;highlighter-rouge&quot;&gt;100*n&lt;/code&gt;, your algorithm will similarly do &lt;code class=&quot;highlighter-rouge&quot;&gt;100*n&lt;/code&gt; steps.&lt;/p&gt;
+
+&lt;p&gt;Now, what if you had a function that was O(n^2)?  That would mean that your function looped through each of the &lt;code class=&quot;highlighter-rouge&quot;&gt;n&lt;/code&gt; inputs &lt;code class=&quot;highlighter-rouge&quot;&gt;n&lt;/code&gt; times (e.g. in a double for-loop).  Thus, if, instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;n&lt;/code&gt; inputs, you had &lt;code class=&quot;highlighter-rouge&quot;&gt;2*n&lt;/code&gt; inputs, your program would actually have to do &lt;code class=&quot;highlighter-rouge&quot;&gt;(2*n)^2&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;4*n&lt;/code&gt; steps!  If your program had &lt;code class=&quot;highlighter-rouge&quot;&gt;100*n&lt;/code&gt; inputs, it would have to do &lt;code class=&quot;highlighter-rouge&quot;&gt;(100*n)^2&lt;/code&gt; steps — &lt;code class=&quot;highlighter-rouge&quot;&gt;10000*n&lt;/code&gt;!  Hopefully you can see that O(n) is quite a bit more efficient than O(n^2).&lt;/p&gt;
+
+&lt;p&gt;So what does O(1) mean?  The 1 is a little misleading, because it simply stands for &lt;em&gt;constant time&lt;/em&gt;, meaning that no matter how many inputs you have, your program will always take the same amount of steps, and thus, roughly the same amount of time.  This is the Holy Grail of algorithms.  This is the reason why it’s so much faster to look up items from a Hash (or dict, or object, or whatever your language of choice calls it) than it is from a List or Array.&lt;/p&gt;
+
+&lt;p&gt;The last thing: Space Complexity.  Space Complexity works the same as Time Complexity, except it has to do with how much computer memory you’re using.  Some examples might get things accross better.&lt;/p&gt;
+
+&lt;p&gt;O(1): When you have 10 inputs, your program keeps track of 3 variables.  When you have 20,000 inputs, your program keeps track of 3 variables.&lt;/p&gt;
+
+&lt;p&gt;O(n): When you have 10 inputs, your program keeps track of two separate extra lists for a total of 20 slots.  When you have 20,000 inputs, you need 40,000 extra slots to keep track of everything.&lt;/p&gt;
+
+&lt;p&gt;O(n^2): When you have 10 inputs, you need 100 extra slots.  (Don’t ask me why, you wrote the program.  Seems like overkill).  When you have 20,000 inputs, you end up needing 400,000,000 extra slots (and also a new computer because, congratulations, you killed this one).&lt;/p&gt;
+
+&lt;p&gt;Hopefully this super brief explanation helps.  If you’re still confused, Vaidehi Joshi &lt;a href=&quot;https://dev.to/vaidehijoshi/whats-a-linked-list-anyway-part-2&quot;&gt;does a better job than me of explaining it, with pictures!&lt;/a&gt;  See also &lt;a href=&quot;https://medium.com/basecs&quot;&gt;the whole BaseCS series&lt;/a&gt;.  See also also the &lt;a href=&quot;https://www.codenewbie.org/basecs&quot;&gt;BaseCS Podcast&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;ONWARD!&lt;/p&gt;
+
+&lt;h3 id=&quot;rejecting-some-possible-solutions&quot;&gt;Rejecting Some Possible Solutions&lt;/h3&gt;
+
+&lt;h4 id=&quot;possibility-1-the-naive-solution-aka-my-solution&quot;&gt;Possibility 1: The Naive Solution (a.k.a. My Solution)&lt;/h4&gt;
+
+&lt;p&gt;So what do those requirements really mean for us?  Well, let’s look back at my initial solution.  For each item in the list, I go back through the list &lt;em&gt;again&lt;/em&gt; and count the number of occurrences.  My function is actually O(n^2) in Time (a double-for-loop!).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/boo.gif&quot; alt=&quot;Boooooo&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;While you might argue that my solution is “good enough” for most cases (and I would agree), that’s not what the requirements say we have to do.&lt;/p&gt;
+
+&lt;h4 id=&quot;possibility-2-the-other-naive-solution-aka-keeping-track&quot;&gt;Possibility 2: The Other Naive Solution (a.k.a. Keeping Track)&lt;/h4&gt;
+
+&lt;p&gt;You could loop through just once, keeping track of the numbers you’ve already seen in a set.  Once you see a number that’s already in your set, you know that’s the duplicate!&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'set'&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;find_dupes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;history&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;history&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;include?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;history&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# We should never reach this stage&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;How’d we do?  Well, we only ever loop through the whole list once at most, bringing us to O(n) Time Complexity.  Right on!  But we create the &lt;code class=&quot;highlighter-rouge&quot;&gt;history&lt;/code&gt; set that could contain (in the worst case) almost all &lt;code class=&quot;highlighter-rouge&quot;&gt;n&lt;/code&gt; of our input values.  This looks like O(n) in Space as well, which means that we fail the second requirement.  💩!&lt;/p&gt;
+
+&lt;h4 id=&quot;possibility-3-the-sorting-solution-aka-the-slightly-tricky-solution&quot;&gt;Possibility 3: The Sorting Solution (a.k.a. The Slightly Tricky Solution)&lt;/h4&gt;
+
+&lt;p&gt;What about doing a &lt;strong&gt;sort&lt;/strong&gt;?  Since sorting &lt;a href=&quot;https://en.wikipedia.org/wiki/Merge_sort&quot;&gt;can be done in O(nlogn) time&lt;/a&gt;, which is better than O(n^2), we might have a chance.  We could sort our numbers, and then loop through them once while only keeping track of the last number that we saw.  If we see the same number twice, it’s a duplicate.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;find_dupes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sort!&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;previous&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;previous&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;previous&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This gets us O(1) in Space and O(nlogn) (ish) in Time.  One problem with this.  If we don’t create a new array to put our sorted numbers in, we’re destroying/modifying the order of the list that gets passed into us, which isn’t good.  If we create a new array to put our sorted numbers in, we jump up to O(n) in Space, which is a fail.  Hmmm…  There’s a better way — trust me.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-better-way&quot;&gt;The Better Way&lt;/h2&gt;
+
+&lt;p&gt;OK.  Here’s the solution they provided.  It has some CS concepts in it, but don’t worry.  I’ll walk you through.  I don’t think I would have ever thought of it in a million years, but I guess that’s why we practice, right?&lt;/p&gt;
+
+&lt;h3 id=&quot;a-linked-list-sort-of&quot;&gt;A Linked List (Sort Of)&lt;/h3&gt;
+
+&lt;p&gt;OK.  Do me a favor and imagine the input list as a series of connected nodes: a Linked List, if you will.  Each slot in the array has its own index and the number that points to the index of another node in the list.  The original problem on Interview Cake bases things on a 1-base array, so that’s how I’ll explain things too.  Thus, we end up with something like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/cake-node-list.jpg&quot; alt=&quot;List of nodes drawn with arrows pointing to the next nodes&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Study that list for a minute.  Get a piece of paper and pencil and try some more.  [3, 1, 2, 4, 1].  [8, 6, 4, 2, 1, 2, 5, 3, 7].  [2, 1, 1, 3].  What do those look like?  Do you start to see patterns?  I mean, besides the pattern that I suck at freehand diagrams?&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/cake-nodes-2.png&quot; alt=&quot;Diagram of the first example&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/cake-nodes-3.png&quot; alt=&quot;Diagram of the second example&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/cake-nodes-4.png&quot; alt=&quot;Diagram of the third example&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here’s some things to note:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;The last node never has any arrows pointing at it.  That’s because it’s at position &lt;code class=&quot;highlighter-rouge&quot;&gt;n+1&lt;/code&gt;, and the maximum value in the list is &lt;code class=&quot;highlighter-rouge&quot;&gt;n&lt;/code&gt;.  If we’re thinking of our array like a kind of linked list, the last node would be a good candidate for the &lt;strong&gt;head&lt;/strong&gt;.&lt;/li&gt;
+  &lt;li&gt;Because there is always a duplicate, there is &lt;strong&gt;always a loop somewhere in the list&lt;/strong&gt;.  At some point, every diagram becomes cyclic.&lt;/li&gt;
+  &lt;li&gt;Because there is always a cycle, there is always a node that has &lt;strong&gt;two arrows pointing at it&lt;/strong&gt;.&lt;/li&gt;
+  &lt;li&gt;This node with two arrows pointing at it is always &lt;strong&gt;the first node in the cycle&lt;/strong&gt;.&lt;/li&gt;
+  &lt;li&gt;The index (1-based) of this two-arrow node is &lt;strong&gt;always the duplicate value&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/cake-oh-my.gif&quot; alt=&quot;Oh snap!&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;So how does that help us?  Well, if we can find a way to figure out where the start of the cycle is, we can return the index of that node as our result.&lt;/p&gt;
+
+&lt;h3 id=&quot;finding-the-length-of-the-cycle&quot;&gt;Finding the Length of the Cycle&lt;/h3&gt;
+
+&lt;p&gt;To find the start of the cycle, we’ll need its length.  Trust me on this, and it’ll make sense in a little bit.  That is actually not as hard as you might think.  In order to get the cycle’s length, we need a sure-fire way to get into the cycle.  Well, we only have a certain number of nodes, right?  So, if we just start stepping, we might end up in the cycle at some point, but after &lt;code class=&quot;highlighter-rouge&quot;&gt;n+1&lt;/code&gt; steps, we’re &lt;strong&gt;guaranteed&lt;/strong&gt; to be somewhere within the cycle.  Because, even if the cycle is the size of the entire list like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/cake-cycle-length.png&quot; alt=&quot;Max steps to cycle&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You still can only go to each of the nodes once before you create a cycle.  I’ll try to show my solution being built as we go.  If you’re somebody who has to see things written out in code, hopefully this will help you.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DuplicateFinder&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# Convenience method to move to next node&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# -1 because of 1-based counting&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;find_a_number_in_the_cycle&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;next_step&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;last&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;times&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;next_step&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;next_step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;next_step&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Returns the number at the index we're on&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;OK.  So now we’re in the cycle, so what do we do?  Well, within the cycle, the numbers are all unique!  So all we have to do is remember the node we’re at initially, and start stepping and counting.  Once we see the same number again, we’ll know that we’ve travelled the loop exactly one time and we’ll know how long the loop is!&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DuplicateFinder&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# ...&lt;/span&gt;
+  
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;length_of_cycle&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;stop_num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;find_a_number_in_the_cycle&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;next_num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stop_num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;next_num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stop_num&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;next_num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;next_num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;steps&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;the-yardstick-method&quot;&gt;The Yardstick Method&lt;/h3&gt;
+
+&lt;p&gt;Now we’re at the real amazing part.  It has to do with something that could be called the Yardstick Method (or, I suppose, the Meterstick Method, if you must 😉).  Let’s go back to the head of the list and start over.  For example.  Let’s say we have the list &lt;code class=&quot;highlighter-rouge&quot;&gt;[4, 1, 2, 3, 4, 5, 6, 7, 8, 9]&lt;/code&gt;.  If you draw it out, the cycle is 4 nodes long.  So, what we need to do is imagine we have a stick that is 4 nodes long, just like the cycle.  We can translate this into code by using two &lt;em&gt;pointers&lt;/em&gt;: one at the head of the stick and one at the tail.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/yardstick3.png&quot; alt=&quot;Diagram of the yardstick&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now we step our whole stick forward one node, moving both the head and the tail, so the stick stays the same length.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/yardstick4.png&quot; alt=&quot;Diagram of stepping our stick forward&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;What happens if we continue this process?&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/yardstick5.png&quot; alt=&quot;Diagram of the stick wrapped around the cycle&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Both the head and the tail of the stick are  pointing at the same number!  And it’s the number with two arrows at the beginning of the cycle!  AND what index (1-based, like our linked list) do they meet at?  Index 4!  AAAAND what is the duplicate number in our list?  4!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/mission-accomplished.gif&quot; alt=&quot;Mission accomplished.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;For completeness, how does this look in code?&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DuplicateFinder&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;find_a_number_in_the_cycle&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;next_step&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;last&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;times&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;next_step&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;next_step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;next_step&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;length_of_cycle&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;stop_num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;find_a_number_in_the_cycle&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;next_num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stop_num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;next_num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stop_num&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;next_num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;next_num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;steps&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;duplicate&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;stick&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;length_of_cycle&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;last&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;tail&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;last&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;stick&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;times&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tail&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;tail&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# When head and tail point to the same number&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# then on the next step, they'll be on the same node&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# This current same number means head and tail both = the duplicate!&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;head&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;evaluation&quot;&gt;Evaluation&lt;/h2&gt;
+
+&lt;p&gt;So, how’d we do?&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Space&lt;/strong&gt;: We generally keep track of the next node to step to, and a few other variables, but I think we can safely say that our space usage is ~O(1).  We don’t ever save a copy of our array anywhere.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Time&lt;/strong&gt;: We loop through once to find the length of the cycle, and then we loop again to find the duplicate.  This gets us to ~O(n) since we always loop through the array the same number of times regardless of input length and it’s only a matter of how long the array is.&lt;/p&gt;
+
+&lt;p&gt;VICTORY.  This was a really tricky one.  If it didn’t make sense, it’s not your fault.  I had to read through it a few times, do the problem a few times, and even write this blog post before I fully understood how it worked.  Feel free to reach out with questions if I can help clarify anything for you.  And again, go check out &lt;a href=&quot;https://interviewcake.com&quot;&gt;Interview Cake&lt;/a&gt; for more practice on puzzles like these (although they’re not all quite as tricky as this one is).&lt;/p&gt;
+</description>
+        <pubDate>Tue, 14 Nov 2017 00:00:00 -0800</pubDate>
+        <link>https://assertnotmagic.com/2017/11/14/cake-and-duplicates/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/11/14/cake-and-duplicates/</guid>
+        
+        <category>algorithms</category>
+        
+        <category>ruby</category>
+        
+        <category>big-o</category>
+        
+        <category>linked-lists</category>
+        
+        
+      </item>
     
       <item>
         <title>Add Search to Your Static Site with Vue</title>
@@ -263,8 +557,8 @@ description: A list of all of my blog posts
 &lt;p&gt;That’s all!  A few file changes, less than 100 lines of code, and no build tools or &lt;code class=&quot;highlighter-rouge&quot;&gt;node_modules&lt;/code&gt;, and our site — well, currently just my site — is looking snazzy.  Now yours can too!  Let me know how it goes or if you run into problems, or if there are ways I can improve my setup.  Thanks for reading!&lt;/p&gt;
 </description>
         <pubDate>Sat, 11 Nov 2017 00:00:00 -0800</pubDate>
-        <link>http://localhost:4000/2017/11/11/static-site-search-with-vue/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/11/11/static-site-search-with-vue/</guid>
+        <link>https://assertnotmagic.com/2017/11/11/static-site-search-with-vue/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/11/11/static-site-search-with-vue/</guid>
         
         <category>vue</category>
         
@@ -385,8 +679,8 @@ git push origin --all
 &lt;p&gt;Like I said at the beginning, I’ve been learning this workflow for the last two weeks, so I am by no means anything more than a beginner.  Hopefully this helps, and hopefully people smarter than me will let me know if I got anything wrong here.  Shoutout to the &lt;a href=&quot;https://github.com/exercism/ruby/pull/760&quot;&gt;Exercism Ruby Track team&lt;/a&gt; that has been so patient with me as I bumble through my contributions.&lt;/p&gt;
 </description>
         <pubDate>Sat, 04 Nov 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/11/04/git-wrecked/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/11/04/git-wrecked/</guid>
+        <link>https://assertnotmagic.com/2017/11/04/git-wrecked/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/11/04/git-wrecked/</guid>
         
         <category>git</category>
         
@@ -608,8 +902,8 @@ n is the number of times you compound your interest over the time period.
 &lt;p&gt;Anyways, this was kind of a long post about nothing, but I though that the way that &lt;code class=&quot;highlighter-rouge&quot;&gt;e&lt;/code&gt; seems to pop up all over the place, even amidst factorials and random numbers, was pretty cool.  Let me know if you can think of any other cool ways to come up with &lt;code class=&quot;highlighter-rouge&quot;&gt;e&lt;/code&gt;!&lt;/p&gt;
 </description>
         <pubDate>Sat, 28 Oct 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/10/28/e-for-everywhere/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/10/28/e-for-everywhere/</guid>
+        <link>https://assertnotmagic.com/2017/10/28/e-for-everywhere/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/10/28/e-for-everywhere/</guid>
         
         <category>math</category>
         
@@ -699,8 +993,8 @@ inoremap &amp;lt;Right&amp;gt; &amp;lt;Nop&amp;gt;
 &lt;p&gt;If you’ve got any Vim pro-tips, let me know.  Vim is a fairly popular tutorial topic and everybody’s got lots of opinions about it, but I’m always on the lookout for cool resources, books, guides, games, ways to practice, etc.  I know there’s a lot of people with a lot of knowledge to share, so share away!&lt;/p&gt;
 </description>
         <pubDate>Wed, 25 Oct 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/10/25/accelerated-vimprovement/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/10/25/accelerated-vimprovement/</guid>
+        <link>https://assertnotmagic.com/2017/10/25/accelerated-vimprovement/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/10/25/accelerated-vimprovement/</guid>
         
         <category>vim</category>
         
@@ -903,8 +1197,8 @@ Sort by: self_time
 
 </description>
         <pubDate>Mon, 16 Oct 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/10/16/secret-message/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/10/16/secret-message/</guid>
+        <link>https://assertnotmagic.com/2017/10/16/secret-message/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/10/16/secret-message/</guid>
         
         <category>ruby</category>
         
@@ -1271,8 +1565,8 @@ Sort by: self_time
 &lt;p&gt;&lt;em&gt;Cover image credit: Huffington Post&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 09 Oct 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/10/09/p5-part-3-rainbow-collections/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/10/09/p5-part-3-rainbow-collections/</guid>
+        <link>https://assertnotmagic.com/2017/10/09/p5-part-3-rainbow-collections/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/10/09/p5-part-3-rainbow-collections/</guid>
         
         <category>p5</category>
         
@@ -1422,8 +1716,8 @@ Sort by: self_time
 
 </description>
         <pubDate>Thu, 05 Oct 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/10/05/smooth-one-liners/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/10/05/smooth-one-liners/</guid>
+        <link>https://assertnotmagic.com/2017/10/05/smooth-one-liners/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/10/05/smooth-one-liners/</guid>
         
         <category>ruby</category>
         
@@ -1476,8 +1770,8 @@ Sort by: self_time
 &lt;p&gt;*Not an actual legally binding guarantee. 😬&lt;/p&gt;
 </description>
         <pubDate>Sat, 30 Sep 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/09/30/first-screencast/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/09/30/first-screencast/</guid>
+        <link>https://assertnotmagic.com/2017/09/30/first-screencast/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/09/30/first-screencast/</guid>
         
         <category>screencast</category>
         
@@ -1545,413 +1839,14 @@ Sort by: self_time
 &lt;p&gt;Hopefully this helps.  Anything I can do to help keep Codenewbies from giving up is one more person who can use technology to help make the world a better place.  Let me know what you think!&lt;/p&gt;
 </description>
         <pubDate>Sat, 23 Sep 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/09/23/comparison-time/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/09/23/comparison-time/</guid>
+        <link>https://assertnotmagic.com/2017/09/23/comparison-time/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2017/09/23/comparison-time/</guid>
         
         <category>soft-skills</category>
         
         <category>encouragement</category>
         
         <category>not-magic</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Learn to Code, Part 2 - Looping Targets</title>
-        <description>&lt;p&gt;This is part two in my series on Learning to Code.  Check out &lt;a href=&quot;https://assertnotmagic.com/2017/09/09/p5-part-1-random-walker/&quot;&gt;Part 1&lt;/a&gt; if you missed it.  Somehow, my wife is still with me after the first one, so let’s keep at it!  I’m going to drop this excerpt from the previous part here, because I think it’s really important to repeat as often as possible.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;If you’re just starting to learn to program, let me tell you something.  Programming is Hard.  So please don’t feel discouraged or stupid.  This tutorial moves &lt;em&gt;really&lt;/em&gt; fast and covers a &lt;em&gt;lot&lt;/em&gt;, so feeling overwhelmed or not understanding everything on the first pass-through is &lt;strong&gt;totally normal&lt;/strong&gt;.  My goal here is to take you through the motions and have you experience the thrill programmers feel of creating something dynamic and awesome out of nothing.  Once you’re through, ask me every question you can think of until things make more sense.  You can email me or send me a Twitter message.  Links are in my bio on the &lt;a href=&quot;/about/&quot;&gt;about page&lt;/a&gt;.  I’ll work through the homework with you (since the homework will really help get things solidified some).  Just put your head down, get through it, don’t give up, and don’t feel weird asking for help.  If something doesn’t make sense, it’s not because you’re a doofus – it’s because I didn’t write well enough.  Now.  For real this time.  Let’s get started&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&quot;lesson-2-looping-targets&quot;&gt;Lesson 2: Looping Targets&lt;/h1&gt;
-
-&lt;p&gt;Congratulations, you survived Lesson 1!  Hopefully you’re hungry for more.  In this lesson, we’re going to take what we learned in the previous lesson and cement it in place.  We’ll take &lt;strong&gt;if statements&lt;/strong&gt;, &lt;strong&gt;assigning variables&lt;/strong&gt;, and &lt;strong&gt;using functions&lt;/strong&gt; to the next level.  I’ll try to mix in a few new cool P5 functions as well.  Lastly, we’ll get to see our first &lt;strong&gt;loop&lt;/strong&gt;.  This lesson will also work a little different than the previous one in that, instead of getting the final product at the beginning of the project and working through it backwards, we’re going to do what programmers often do, which is build something small and slowly increment it.  I will, however, give you a little taste of what is to come.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/teaser.png&quot; alt=&quot;final product teaser&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;We’re going to make it so that when you click on the canvas, a randomly sized target gets drawn, with a random number of rings.  These rings should go from black on the outside to white in the center, and get darker linearly.&lt;/p&gt;
-
-&lt;h2 id=&quot;step-1-loops-and-noloops&quot;&gt;Step 1: Loops (and &lt;code class=&quot;highlighter-rouge&quot;&gt;noLoops&lt;/code&gt;)&lt;/h2&gt;
-
-&lt;p&gt;Let’s get the hard stuff out of the way up front so you have longer to get familiar with it.  Here’s our goal for Step 1:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/step1-goal.png&quot; alt=&quot;step 1 goal&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;It might not look that different, but we’re removing a lot of our requirements initially.  We’re taking a big problem, and we’re breaking it into a few smaller, easier to solve problems.  I (and many others) call this “eating an elephant”.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;As a programmer, you have to know how to eat elephants.  How do you eat an elephant?&lt;/p&gt;
-
-  &lt;p&gt;&lt;em&gt;One bite at a time, man.  One bite at a time.&lt;/em&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;So what are our requirements for Step 1?  We must draw a static, unmoving set of 10 circles in the middle of the canvas.  The overall diameter must be 400px.  The rings must go from white to black, linearly.&lt;/p&gt;
-
-&lt;h3 id=&quot;our-first-try&quot;&gt;Our First Try&lt;/h3&gt;
-
-&lt;p&gt;Ok, let’s get started with the easy stuff: the setup.  We need a canvas, a grayish background, we don’t need our drawing looping, and none of the circles really have outlines.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;createCanvas&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;600&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;600&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;125&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;noStroke&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;noLoop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The first two lines should look familiar.  We wanted a medium gray background, and remember that our grayscale goes from 0 to 255 by default.  125 falls relatively into the middle of that range.  The last two functions need only a little introduction.  &lt;code class=&quot;highlighter-rouge&quot;&gt;noStroke&lt;/code&gt; turns off the borders, and &lt;code class=&quot;highlighter-rouge&quot;&gt;noLoop&lt;/code&gt; makes it so our draw loop doesn’t update.  If none of our shapes are moving, we can save some CPU cycles if we tell the canvas not to run draw over and over.  You’re welcome, CPU!  We love you!&lt;/p&gt;
-
-&lt;p&gt;Cool!  So canvas: check.  Gray background: check.  Static, non-moving drawing: check.  What’s next?  The requirements of the circles.  Let’s declare some variables to make our lives easier.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// pixels&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;sizeStep&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// We'll use this to define our ring sizes&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;colorStep&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;centerX&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// pixels &lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;centerY&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// pixels&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;We covered all of the above in Lesson 1, so no worries there.  You might ask, “Ryan, if we’re not using the &lt;code class=&quot;highlighter-rouge&quot;&gt;draw&lt;/code&gt; function to loop (because of &lt;code class=&quot;highlighter-rouge&quot;&gt;noLoop&lt;/code&gt;), how come we don’t just do everything in the setup function and forget the draw function altogether?”  You’re right!  You totally could.  From what I can tell, the two are functionally equivalent.  I chose to do things this way because it makes more sense in my head to only do “setup-ish” things in &lt;code class=&quot;highlighter-rouge&quot;&gt;setup&lt;/code&gt; and “drawing” things in &lt;code class=&quot;highlighter-rouge&quot;&gt;draw&lt;/code&gt;.  Whatever floats your boat.  You’re the artist here!&lt;/p&gt;
-
-&lt;p&gt;OK, it’s finally time to create our circles.  Luckily, P5 provides us with the &lt;a href=&quot;https://p5js.org/reference/#/p5/ellipse&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ellipse&lt;/code&gt; function&lt;/a&gt;, which takes an &lt;code class=&quot;highlighter-rouge&quot;&gt;x, y, x width and y height&lt;/code&gt;.  Since we are geometry geniuses, we know that if we draw an ellipse whose width and height are the same, it’s the same as drawing a circle.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// pixels&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;sizeStep&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// We'll use this to define our ring sizes&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;colorStep&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;centerX&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// pixels &lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;centerY&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// pixels&lt;/span&gt;
-  
-  &lt;span class=&quot;c1&quot;&gt;// Draw the circles, start with the biggest, black one on bottom&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;fill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;ellipse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;centerX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;centerY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;fill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;colorStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;ellipse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;centerX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;centerY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sizeStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sizeStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;fill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;colorStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;ellipse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;centerX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;centerY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sizeStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sizeStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;fill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;colorStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;ellipse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;centerX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;centerY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sizeStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sizeStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;// oy vey...  Getting tired of typing yet?&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Nope.  I refuse to let you copy paste all that code.  We’re learning about the &lt;strong&gt;for loop&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;for-loops&quot;&gt;For Loops&lt;/h3&gt;
-
-&lt;p&gt;Try this in your console:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Yeeeeeeaaaaaahhhhh boooyyyyyyyy'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/first-loop.png&quot; alt=&quot;Yeah boy loop output&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Let’s break it down now.  This was a &lt;strong&gt;for loop&lt;/strong&gt;.  Now you can see why they’re called that.  We’re saying “for each time through this loop, perform the following actions”.  There are three main parts of a &lt;strong&gt;for loop&lt;/strong&gt;.  The &lt;strong&gt;initialization step&lt;/strong&gt;, the &lt;strong&gt;test step&lt;/strong&gt;, and the &lt;strong&gt;incrementing step&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;The &lt;strong&gt;initialization step&lt;/strong&gt; is the first section you come to:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Everything here gets run once at the start of the loop.  Generally you’re just setting the initial looping variable value, but you can do whatever you want here.&lt;/p&gt;
-
-&lt;p&gt;Next is the &lt;strong&gt;test step&lt;/strong&gt;.  This runs before every loop.  If the test step is true, the loop continues on.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The first time the computer reads the code, we will have just set &lt;code class=&quot;highlighter-rouge&quot;&gt;i = 0&lt;/code&gt;, so — 0 being less than 10 — the loop activates, running everything inside.&lt;/p&gt;
-
-&lt;p&gt;After that happens comes the &lt;strong&gt;incrementing step&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;We saw this in Lesson 1 when we were stepping our walker over one pixel.  This simply increases &lt;code class=&quot;highlighter-rouge&quot;&gt;i&lt;/code&gt; by 1.  Then, we loop back to the &lt;strong&gt;test step&lt;/strong&gt;.  Now, &lt;code class=&quot;highlighter-rouge&quot;&gt;i&lt;/code&gt; is equal to 1, which is still less than 10, so the loop happens again.  And again and again until after &lt;code class=&quot;highlighter-rouge&quot;&gt;i&lt;/code&gt; equals 9.  After that last loop, &lt;code class=&quot;highlighter-rouge&quot;&gt;i&lt;/code&gt; is 10, which is not &lt;em&gt;less than&lt;/em&gt; 10.  Satisfied, the loop exits and we can continue on with our program.  Are you beginning to see how we can use this in our program?&lt;/p&gt;
-
-&lt;h3 id=&quot;our-second-try&quot;&gt;Our Second Try&lt;/h3&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;createCanvas&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;600&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;600&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;125&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;noStroke&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;noLoop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// pixels&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;sizeStep&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// We'll use this to define our ring sizes&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;colorStep&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// pixels &lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// pixels&lt;/span&gt;
-  
-  &lt;span class=&quot;c1&quot;&gt;// The new stuff!&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;fill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;colorStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// 0, 25.5, 50.0, 75.5 ...&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;sizeStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// 400, 360, 320 ...&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;ellipse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Make sense?  First the loop goes through with &lt;code class=&quot;highlighter-rouge&quot;&gt;i === 0&lt;/code&gt;.  Thus, we call &lt;code class=&quot;highlighter-rouge&quot;&gt;fill(0)&lt;/code&gt; and our fill is black.  &lt;code class=&quot;highlighter-rouge&quot;&gt;thisSize&lt;/code&gt; gets set to &lt;code class=&quot;highlighter-rouge&quot;&gt;400 - 0 * 40&lt;/code&gt;, and our largest circle is 400.  And we draw a circle.  The next time through, &lt;code class=&quot;highlighter-rouge&quot;&gt;i === 1&lt;/code&gt;, so we call &lt;code class=&quot;highlighter-rouge&quot;&gt;fill(25.5)&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;thisSize === 400 - 1 * 40 === 360&lt;/code&gt;, and so forth!&lt;/p&gt;
-
-&lt;p&gt;Only one problem, a problem that has plagued programmers since the dawn of programs.  The &lt;strong&gt;off-by-one&lt;/strong&gt; error.  Note that in the last iteration of the loop, &lt;code class=&quot;highlighter-rouge&quot;&gt;i&lt;/code&gt; will be equal to 9.  Thus, the fill color will be &lt;code class=&quot;highlighter-rouge&quot;&gt;9 * 25.5&lt;/code&gt; which is only &lt;code class=&quot;highlighter-rouge&quot;&gt;229.5!&lt;/code&gt;  Not &lt;code class=&quot;highlighter-rouge&quot;&gt;255&lt;/code&gt; like we want.  Our center dot is &lt;em&gt;off-white&lt;/em&gt;!  The humanity!  The problem stems from the fact that we have 10 rings, but the first one starts at zero.  We’re only really stepping &lt;em&gt;nine times&lt;/em&gt;.  Thus, we need to fix our &lt;code class=&quot;highlighter-rouge&quot;&gt;colorStep&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;colorStep&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// now our fill will be 0, 28.33, 56.66, 85 ... 255&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The same issue affects our &lt;code class=&quot;highlighter-rouge&quot;&gt;sizeStep&lt;/code&gt;, but in that case, we want that to happen.  We want our last circle to have a diameter of 40px, not 0px.  If we did want 0px to be our stopping point, we would have to make the last adjustment there as well.&lt;/p&gt;
-
-&lt;p&gt;Off-by-one errors are super confusing to get your head around and one of the most common causes of errors, so don’t worry if this was a bit dense and confusing.  If you have any questions, hit me up and I’ll see what I can do to clarify.  But for now, we’re moving on!  ONWARDS!&lt;/p&gt;
-
-&lt;h2 id=&quot;step-2-mouse-clicks-and-functions&quot;&gt;Step 2: Mouse Clicks and Functions&lt;/h2&gt;
-
-&lt;p&gt;Now that we’ve achieved our first milestone goals, let’s step up the complexity a bit to try to get closer to our final goal.  For this step, we want to draw a target 400px large with 10 rings, — same as before — but we want to draw it only when the user clicks on the canvas, and we want to place it &lt;em&gt;where&lt;/em&gt; the user clicks on the canvas.  Two new goals.&lt;/p&gt;
-
-&lt;h3 id=&quot;the-mouse-functionsvariables&quot;&gt;The Mouse Functions/Variables&lt;/h3&gt;
-
-&lt;p&gt;P5 provides us with a function called &lt;code class=&quot;highlighter-rouge&quot;&gt;mouseClicked&lt;/code&gt; function.  This function gets called whenever your mouse clicks the canvas.  P5 also provides us with two built-in variables &lt;code class=&quot;highlighter-rouge&quot;&gt;mouseY&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;mouseX&lt;/code&gt;.  You get three guesses for what these contain.  Let’s take our previous sketch and tweak it a little to see what we’re talking about.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// This stuff is all the same as before&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;createCanvas&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;600&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;600&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;125&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;noStroke&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;noLoop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// pixels&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;sizeStep&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// We'll use this to define our ring sizes&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;colorStep&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// pixels &lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// pixels&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;fill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;colorStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;sizeStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;ellipse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// Here is the new hotness&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;mouseClicked&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;fill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;ellipse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;mouseX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;mouseY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Try it out!&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/first-click.png&quot; alt=&quot;our first mouse clicked function&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I think you can see where I’m going with this.&lt;/p&gt;
-
-&lt;h3 id=&quot;review-of-functions&quot;&gt;Review of Functions&lt;/h3&gt;
-
-&lt;p&gt;But first, I’m going to do a little cleanup (also known as a &lt;strong&gt;refactor&lt;/strong&gt;) that will make our life marginally easier and, more importantly, help us to review &lt;strong&gt;functions&lt;/strong&gt;.  Let’s pull our target drawing out of the draw loop and put it in a function called &lt;code class=&quot;highlighter-rouge&quot;&gt;createTarget&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;createTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;createTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// pixels&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;sizeStep&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// We'll use this to define our ring sizes&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;colorStep&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// pixels &lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// pixels&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;fill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;colorStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;sizeStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;ellipse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;See?  Nothing too much different.  But let’s do one better.  Let’s make the target customizable via &lt;strong&gt;parameters&lt;/strong&gt;.  Remember them?  Those are the function inputs that you put inside the parenthesis.  Luckily, we have our inputs all stacked at the top of the function so they are easy to spot.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;createTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;createTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;// calculate what we need from our inputs&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;sizeStep&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;colorStep&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  
-  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;fill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;colorStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;sizeStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;ellipse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Refresh the page, and nothing changes!  Great!  That’s when you know you’ve had a successful &lt;strong&gt;refactor&lt;/strong&gt;.  So why did we do this?  Because it makes it really easy to do this:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;createTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;createTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;createTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;300&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/functions.png&quot; alt=&quot;the effects of using functions&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Or even:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;createTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;40&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;125&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Get it?&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// x = 40, 140, 240, 340, 440&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// y = 50, 175, 300, 425, 550&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// maxSize = 100, 150, 200, 250, 300&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// steps = 5, 6, 7, 8, 9&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/functions-and-loops.png&quot; alt=&quot;a loop inside a function!&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;To try to clarify what’s happening in a function, I’ll try to explain it another way, that helped me.  When you first define a function, the things you put into parenthesis are like a recipe.  You’re saying what you expect.  Similar to a recipe book saying: get some kind of meat and some kind of vegetable.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;iAmTheBest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Then, when you actually &lt;strong&gt;call&lt;/strong&gt; the function, it’s like you’re actually making the recipe.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;iAmTheBest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The function looks at the things you’ve passed in and goes, “OK.  I’m going to do this with &lt;code class=&quot;highlighter-rouge&quot;&gt;x = 25, y = 30, and r = 50&lt;/code&gt;.”  To carry on with the strained recipe metaphor, it’s like you read the recipe and you start cooking with beef and broccoli, but following the steps in the recipe with those options.  If you use beef and broccoli, it’ll be similar to but not exactly the same as if you were to use chicken and carrots.  Have I beat this metaphor to death successfully?&lt;/p&gt;
-
-&lt;h3 id=&quot;finishing-up-step-2&quot;&gt;Finishing Up Step 2&lt;/h3&gt;
-
-&lt;p&gt;Great.  Let’s wrap up this Step by completing our objectives.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;createCanvas&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;600&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;600&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;125&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;noStroke&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;noLoop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;// nothing in here anymore!&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;mouseClicked&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;createTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;mouseX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;mouseY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;createTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;sizeStep&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;colorStep&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;fill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;colorStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;sizeStep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;ellipse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/complete-step-2.gif&quot; alt=&quot;step two is complete&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;step-3-adding-randomness&quot;&gt;Step 3: Adding Randomness&lt;/h2&gt;
-
-&lt;p&gt;If you remember our initial goal:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;We’re going to make it so that when you click on the canvas, a randomly sized target gets drawn, with a random number of rings.  These rings should go from black on the outside to white in the center, and get darker linearly.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;You’ll notice that we’re pretty much all the way there!  We just need to add randomness.  Let’s make a new function to handle this extra complexity.  Thanks to our &lt;code class=&quot;highlighter-rouge&quot;&gt;createTarget&lt;/code&gt; function, this new function should be relatively straightforward.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;createRandomTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;350&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;createTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Finally, let’s use that in our &lt;code class=&quot;highlighter-rouge&quot;&gt;mouseClicked&lt;/code&gt; function instead.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;mouseClicked&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;createRandomTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;mouseX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;mouseY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;SHABLAM!  CIRCLES GALORE.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/complete.gif&quot; alt=&quot;final product&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Not too shabby huh?&lt;/p&gt;
-
-&lt;h2 id=&quot;homework&quot;&gt;Homework&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Go back to your Random Walker.  Make it so that when you click on the screen, it clears the screen and he resets in the center of the canvas.&lt;/li&gt;
-  &lt;li&gt;Do #1, but make it so he starts wherever you click the mouse.&lt;/li&gt;
-  &lt;li&gt;Make a random walker that is not a &lt;code class=&quot;highlighter-rouge&quot;&gt;point&lt;/code&gt;, but a target!&lt;/li&gt;
-  &lt;li&gt;Update your target function to use colors.  BONUS: make it a rainbow.&lt;/li&gt;
-  &lt;li&gt;Figure out how to make your target rectangular/square instead of a circle.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;As before, I’m super dooper available to answer any questions you might have.  Let me know what went well, and let me know what I could have explained better.  Additionally, let me know how this lesson compared to the last lesson!  Was this progressive building approach better than seeing the project up front like last time?  Did you like getting the hard stuff (&lt;strong&gt;for loops&lt;/strong&gt;) at the beginning and having the difficulty relax a little after that?  Maybe you thought loops were easier than the last sections!  I’d love to hear from you.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 16 Sep 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/09/16/p5-part-2-looping-targets/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/09/16/p5-part-2-looping-targets/</guid>
-        
-        <category>p5</category>
-        
-        <category>javascript</category>
-        
-        <category>beginner</category>
-        
-        <category>tutorial</category>
         
         
       </item>

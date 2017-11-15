@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <!-- Bootstrap Setup -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="ROBOTS" content="INDEX,FOLLOW">
+        <meta name="description" content="The crazy solution to an interview problem">
+        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, algorithms, ruby, big-o, linked-lists">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="assert_not magic? | Cake and Duplicates">
+        <meta name="twitter:site" content="@paytastic">
+        <meta name="twitter:description" content="The crazy solution to an interview problem">
+        <meta name="twitter:image" content="http://assertnotmagic.com/img/cake.jpg">
+        <meta name="twitter:creator" content="@paytastic">
+        <meta name="og:url" content="http://assertnotmagic.com/2017/11/14/cake-and-duplicates/">
+        <meta name="og:title" content="assert_not magic? | Cake and Duplicates">
+        <meta name="og:description" content="The crazy solution to an interview problem">
+        <meta name="og:image" content="http://assertnotmagic.com/img/cake.jpg">
+
+        <!-- Favicon settings -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/manifest.json">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#222222">
+        <meta name="theme-color" content="#ffffff">
+        
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+        
+        <title>assert_not magic?</title>
+    </head>
+    <body>
+        
+<nav id="main-nav">
+    <a href="/" class="mobile-home">assert_not magic?</a>
+    <ul>
+        <li class="logo"><a href="/">assert_not magic?</a></li>
+        <li><a href="/posts/">All Posts</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/sketches/">Sketches</a></li>
+        <li><a href="/todo/">TODO</a></li>
+        <li><a href="/uses/">Uses</a></li>
+    </ul>
+</nav>
+        <div class="container main">
+                <article class="site-wrap">
+    <div id="cover">
+        
+        <img alt="Cover Image" class="cover-image" src="/img/cake.jpg">
+        
+    </div>
+    <h1>Cake and Duplicates</h1>
+    <p><em>Post Page Cover Image credit: <a href="http://profroster.com">The ProFroster</a>.  Fun fact: our team helped design and manufacture these!</em></p>
+
+<p>Let me talk to you about cake.  Hungry yet?  Good.  Hungry for <strong>knowledge?!</strong>  Even better.  Because I’m not talking about cake that you eat — I’m talking about <a href="https://www.interviewcake.com/">Interview Cake</a>.</p>
+
+<p><img src="/img/interview-cake.jpg" alt="Interview Cake Logo" /></p>
+
+<p>Interview Cake is a website that I found recently that provides a ton of tech-interview-level questions and write-ups to help you get better at things like algorithms, time and space efficiency, explaining yourself, and thinking problems all the way through, even past the sticky edge cases.  Is this an advertisement for them?  No it is not.  Am I going to continue to pepper you with rhetorical questions?  Possibly.  Mind your own business.  Anyway, the purpose of this article is to write up a solution that I went through last week that initially looked like a snap and turned out to be way harder.  Their final solution was, at least in my eyes, mindblasting.  You read that right.  I said</p>
+
+<p><img src="/img/mind-blasting.gif" alt="Mind blasting" /></p>
+
+<p>Let me lay out the problem for you.</p>
+
+<h2 id="the-problem">The Problem</h2>
+
+<p>The problem is this:</p>
+
+<blockquote>
+  <p>You are given a list of integers in the range <em>(0, n]</em> (excluding 0, including n), that fill an array such that there are <em>n + 1</em> numbers in the array.  In other words, this array has one of each integer except for one unknown value that has a duplicate.  The numbers in the array are not in any particular order.</p>
+
+  <p>Example: [4, 3, 7, 1, 5, 3, 2, 6] : 8 numbers, 1..7.  The only duplicate is 3.</p>
+
+  <p>Your goal: Find the duplicate.</p>
+</blockquote>
+
+<p>If you’re feeling spunky, go ahead and give it a try.  This is just the first portion of the problem, but it’ll help you get your head in the game.</p>
+
+<p><img src="/img/waiting.gif" alt="I'm waiting" /></p>
+
+<p>Ready with your solution?  Here’s mine, for reference.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">find_duplicate</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+  <span class="n">nums</span><span class="p">.</span><span class="nf">select</span> <span class="p">{</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span> <span class="n">nums</span><span class="p">.</span><span class="nf">count</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="p">}.</span><span class="nf">first</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>Alright, that’s it.  That’s the whole thing, article over.  Just kidding.  I forgot to mention:</p>
+
+<h2 id="the-rest-of-the-problem">The Rest of the Problem</h2>
+
+<p>Here’s where it gets interesting: the last two requirements of the problem.</p>
+
+<blockquote>
+  <ol>
+    <li>Your solution must be better than O(n^2) in time.</li>
+    <li>Your solution must remain O(1) in space.</li>
+  </ol>
+</blockquote>
+
+<p>To make sure everybody is on the same page with me in terms of what that means, let me do a 30 second explanation of <em>“Big-O Notation”</em>, which is what those O(n) and O(1) are called.  If you’re already comfortable with Big-O, go ahead and skip ahead.</p>
+
+<h3 id="big-o-notation">Big-O Notation</h3>
+
+<p><em>“Big-O Notation”</em> has to do with how efficient an algorithm or program is, as a function of the number of items used as inputs.  Let me put it this way:  Let’s say you’re given <em>n</em> numbers in your input list.  If your solution requires you to loop through the whole list once (in the worst case, like if the number you’re looking for is at the end of the list), then your solution is considered O(n).  O(n) is also known as <em>linear efficiency</em>.  This is because, if we double the size of the input to <code class="highlighter-rouge">2*n</code>, your algorithm will have to process twice as many steps and most likely will be twice as slow.  If we increase the size to <code class="highlighter-rouge">100*n</code>, your algorithm will similarly do <code class="highlighter-rouge">100*n</code> steps.</p>
+
+<p>Now, what if you had a function that was O(n^2)?  That would mean that your function looped through each of the <code class="highlighter-rouge">n</code> inputs <code class="highlighter-rouge">n</code> times (e.g. in a double for-loop).  Thus, if, instead of <code class="highlighter-rouge">n</code> inputs, you had <code class="highlighter-rouge">2*n</code> inputs, your program would actually have to do <code class="highlighter-rouge">(2*n)^2</code> or <code class="highlighter-rouge">4*n</code> steps!  If your program had <code class="highlighter-rouge">100*n</code> inputs, it would have to do <code class="highlighter-rouge">(100*n)^2</code> steps — <code class="highlighter-rouge">10000*n</code>!  Hopefully you can see that O(n) is quite a bit more efficient than O(n^2).</p>
+
+<p>So what does O(1) mean?  The 1 is a little misleading, because it simply stands for <em>constant time</em>, meaning that no matter how many inputs you have, your program will always take the same amount of steps, and thus, roughly the same amount of time.  This is the Holy Grail of algorithms.  This is the reason why it’s so much faster to look up items from a Hash (or dict, or object, or whatever your language of choice calls it) than it is from a List or Array.</p>
+
+<p>The last thing: Space Complexity.  Space Complexity works the same as Time Complexity, except it has to do with how much computer memory you’re using.  Some examples might get things accross better.</p>
+
+<p>O(1): When you have 10 inputs, your program keeps track of 3 variables.  When you have 20,000 inputs, your program keeps track of 3 variables.</p>
+
+<p>O(n): When you have 10 inputs, your program keeps track of two separate extra lists for a total of 20 slots.  When you have 20,000 inputs, you need 40,000 extra slots to keep track of everything.</p>
+
+<p>O(n^2): When you have 10 inputs, you need 100 extra slots.  (Don’t ask me why, you wrote the program.  Seems like overkill).  When you have 20,000 inputs, you end up needing 400,000,000 extra slots (and also a new computer because, congratulations, you killed this one).</p>
+
+<p>Hopefully this super brief explanation helps.  If you’re still confused, Vaidehi Joshi <a href="https://dev.to/vaidehijoshi/whats-a-linked-list-anyway-part-2">does a better job than me of explaining it, with pictures!</a>  See also <a href="https://medium.com/basecs">the whole BaseCS series</a>.  See also also the <a href="https://www.codenewbie.org/basecs">BaseCS Podcast</a>.</p>
+
+<p>ONWARD!</p>
+
+<h3 id="rejecting-some-possible-solutions">Rejecting Some Possible Solutions</h3>
+
+<h4 id="possibility-1-the-naive-solution-aka-my-solution">Possibility 1: The Naive Solution (a.k.a. My Solution)</h4>
+
+<p>So what do those requirements really mean for us?  Well, let’s look back at my initial solution.  For each item in the list, I go back through the list <em>again</em> and count the number of occurrences.  My function is actually O(n^2) in Time (a double-for-loop!).</p>
+
+<p><img src="/img/boo.gif" alt="Boooooo" /></p>
+
+<p>While you might argue that my solution is “good enough” for most cases (and I would agree), that’s not what the requirements say we have to do.</p>
+
+<h4 id="possibility-2-the-other-naive-solution-aka-keeping-track">Possibility 2: The Other Naive Solution (a.k.a. Keeping Track)</h4>
+
+<p>You could loop through just once, keeping track of the numbers you’ve already seen in a set.  Once you see a number that’s already in your set, you know that’s the duplicate!</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'set'</span>
+
+<span class="k">def</span> <span class="nf">find_dupes</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+  <span class="n">history</span> <span class="o">=</span> <span class="no">Set</span><span class="p">.</span><span class="nf">new</span>
+  <span class="n">nums</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span>
+    <span class="k">return</span> <span class="n">num</span> <span class="k">if</span> <span class="n">history</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+
+    <span class="n">history</span> <span class="o">&lt;&lt;</span> <span class="n">num</span>
+  <span class="k">end</span>
+
+  <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>  <span class="c1"># We should never reach this stage</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>How’d we do?  Well, we only ever loop through the whole list once at most, bringing us to O(n) Time Complexity.  Right on!  But we create the <code class="highlighter-rouge">history</code> set that could contain (in the worst case) almost all <code class="highlighter-rouge">n</code> of our input values.  This looks like O(n) in Space as well, which means that we fail the second requirement.  💩!</p>
+
+<h4 id="possibility-3-the-sorting-solution-aka-the-slightly-tricky-solution">Possibility 3: The Sorting Solution (a.k.a. The Slightly Tricky Solution)</h4>
+
+<p>What about doing a <strong>sort</strong>?  Since sorting <a href="https://en.wikipedia.org/wiki/Merge_sort">can be done in O(nlogn) time</a>, which is better than O(n^2), we might have a chance.  We could sort our numbers, and then loop through them once while only keeping track of the last number that we saw.  If we see the same number twice, it’s a duplicate.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">find_dupes</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+  <span class="n">nums</span><span class="p">.</span><span class="nf">sort!</span>
+  <span class="n">previous</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">nums</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span>
+    <span class="k">return</span> <span class="n">num</span> <span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="n">previous</span>
+
+    <span class="n">previous</span> <span class="o">=</span> <span class="n">num</span>
+  <span class="k">end</span>
+
+  <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>This gets us O(1) in Space and O(nlogn) (ish) in Time.  One problem with this.  If we don’t create a new array to put our sorted numbers in, we’re destroying/modifying the order of the list that gets passed into us, which isn’t good.  If we create a new array to put our sorted numbers in, we jump up to O(n) in Space, which is a fail.  Hmmm…  There’s a better way — trust me.</p>
+
+<h2 id="the-better-way">The Better Way</h2>
+
+<p>OK.  Here’s the solution they provided.  It has some CS concepts in it, but don’t worry.  I’ll walk you through.  I don’t think I would have ever thought of it in a million years, but I guess that’s why we practice, right?</p>
+
+<h3 id="a-linked-list-sort-of">A Linked List (Sort Of)</h3>
+
+<p>OK.  Do me a favor and imagine the input list as a series of connected nodes: a Linked List, if you will.  Each slot in the array has its own index and the number that points to the index of another node in the list.  The original problem on Interview Cake bases things on a 1-base array, so that’s how I’ll explain things too.  Thus, we end up with something like this:</p>
+
+<p><img src="/img/cake-node-list.jpg" alt="List of nodes drawn with arrows pointing to the next nodes" /></p>
+
+<p>Study that list for a minute.  Get a piece of paper and pencil and try some more.  [3, 1, 2, 4, 1].  [8, 6, 4, 2, 1, 2, 5, 3, 7].  [2, 1, 1, 3].  What do those look like?  Do you start to see patterns?  I mean, besides the pattern that I suck at freehand diagrams?</p>
+
+<p><img src="/img/cake-nodes-2.png" alt="Diagram of the first example" /></p>
+
+<p><img src="/img/cake-nodes-3.png" alt="Diagram of the second example" /></p>
+
+<p><img src="/img/cake-nodes-4.png" alt="Diagram of the third example" /></p>
+
+<p>Here’s some things to note:</p>
+
+<ol>
+  <li>The last node never has any arrows pointing at it.  That’s because it’s at position <code class="highlighter-rouge">n+1</code>, and the maximum value in the list is <code class="highlighter-rouge">n</code>.  If we’re thinking of our array like a kind of linked list, the last node would be a good candidate for the <strong>head</strong>.</li>
+  <li>Because there is always a duplicate, there is <strong>always a loop somewhere in the list</strong>.  At some point, every diagram becomes cyclic.</li>
+  <li>Because there is always a cycle, there is always a node that has <strong>two arrows pointing at it</strong>.</li>
+  <li>This node with two arrows pointing at it is always <strong>the first node in the cycle</strong>.</li>
+  <li>The index (1-based) of this two-arrow node is <strong>always the duplicate value</strong>.</li>
+</ol>
+
+<p><img src="/img/cake-oh-my.gif" alt="Oh snap!" /></p>
+
+<p>So how does that help us?  Well, if we can find a way to figure out where the start of the cycle is, we can return the index of that node as our result.</p>
+
+<h3 id="finding-the-length-of-the-cycle">Finding the Length of the Cycle</h3>
+
+<p>To find the start of the cycle, we’ll need its length.  Trust me on this, and it’ll make sense in a little bit.  That is actually not as hard as you might think.  In order to get the cycle’s length, we need a sure-fire way to get into the cycle.  Well, we only have a certain number of nodes, right?  So, if we just start stepping, we might end up in the cycle at some point, but after <code class="highlighter-rouge">n+1</code> steps, we’re <strong>guaranteed</strong> to be somewhere within the cycle.  Because, even if the cycle is the size of the entire list like this:</p>
+
+<p><img src="/img/cake-cycle-length.png" alt="Max steps to cycle" /></p>
+
+<p>You still can only go to each of the nodes once before you create a cycle.  I’ll try to show my solution being built as we go.  If you’re somebody who has to see things written out in code, hopefully this will help you.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DuplicateFinder</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+    <span class="vi">@nums</span> <span class="o">=</span> <span class="n">nums</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
+    <span class="c1"># Convenience method to move to next node</span>
+    <span class="vi">@nums</span><span class="p">[</span><span class="n">current</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># -1 because of 1-based counting</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">find_a_number_in_the_cycle</span>
+    <span class="n">next_step</span> <span class="o">=</span> <span class="vi">@nums</span><span class="p">.</span><span class="nf">last</span>
+    <span class="vi">@nums</span><span class="p">.</span><span class="nf">length</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
+      <span class="n">next_step</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">next_step</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="n">next_step</span>  <span class="c1"># Returns the number at the index we're on</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>OK.  So now we’re in the cycle, so what do we do?  Well, within the cycle, the numbers are all unique!  So all we have to do is remember the node we’re at initially, and start stepping and counting.  Once we see the same number again, we’ll know that we’ve travelled the loop exactly one time and we’ll know how long the loop is!</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DuplicateFinder</span>
+  <span class="c1"># ...</span>
+  
+  <span class="k">def</span> <span class="nf">length_of_cycle</span>
+    <span class="n">stop_num</span> <span class="o">=</span> <span class="n">find_a_number_in_the_cycle</span>
+    <span class="n">next_num</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">stop_num</span><span class="p">)</span>
+    <span class="n">steps</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">until</span> <span class="n">next_num</span> <span class="o">==</span> <span class="n">stop_num</span>
+      <span class="n">next_num</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">next_num</span><span class="p">)</span>
+      <span class="n">steps</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">end</span>
+    <span class="n">steps</span>
+  <span class="k">end</span>
+</code></pre>
+</div>
+
+<h3 id="the-yardstick-method">The Yardstick Method</h3>
+
+<p>Now we’re at the real amazing part.  It has to do with something that could be called the Yardstick Method (or, I suppose, the Meterstick Method, if you must 😉).  Let’s go back to the head of the list and start over.  For example.  Let’s say we have the list <code class="highlighter-rouge">[4, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code>.  If you draw it out, the cycle is 4 nodes long.  So, what we need to do is imagine we have a stick that is 4 nodes long, just like the cycle.  We can translate this into code by using two <em>pointers</em>: one at the head of the stick and one at the tail.</p>
+
+<p><img src="/img/yardstick3.png" alt="Diagram of the yardstick" /></p>
+
+<p>Now we step our whole stick forward one node, moving both the head and the tail, so the stick stays the same length.</p>
+
+<p><img src="/img/yardstick4.png" alt="Diagram of stepping our stick forward" /></p>
+
+<p>What happens if we continue this process?</p>
+
+<p><img src="/img/yardstick5.png" alt="Diagram of the stick wrapped around the cycle" /></p>
+
+<p>Both the head and the tail of the stick are  pointing at the same number!  And it’s the number with two arrows at the beginning of the cycle!  AND what index (1-based, like our linked list) do they meet at?  Index 4!  AAAAND what is the duplicate number in our list?  4!</p>
+
+<p><img src="/img/mission-accomplished.gif" alt="Mission accomplished." /></p>
+
+<p>For completeness, how does this look in code?</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DuplicateFinder</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+    <span class="vi">@nums</span> <span class="o">=</span> <span class="n">nums</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
+    <span class="vi">@nums</span><span class="p">[</span><span class="n">current</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">find_a_number_in_the_cycle</span>
+    <span class="n">next_step</span> <span class="o">=</span> <span class="vi">@nums</span><span class="p">.</span><span class="nf">last</span>
+    <span class="vi">@nums</span><span class="p">.</span><span class="nf">length</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
+      <span class="n">next_step</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">next_step</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="n">next_step</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">length_of_cycle</span>
+    <span class="n">stop_num</span> <span class="o">=</span> <span class="n">find_a_number_in_the_cycle</span>
+    <span class="n">next_num</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">stop_num</span><span class="p">)</span>
+    <span class="n">steps</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">until</span> <span class="n">next_num</span> <span class="o">==</span> <span class="n">stop_num</span>
+      <span class="n">next_num</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">next_num</span><span class="p">)</span>
+      <span class="n">steps</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">end</span>
+    <span class="n">steps</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">duplicate</span>
+    <span class="n">stick</span> <span class="o">=</span> <span class="n">length_of_cycle</span>
+    <span class="n">head</span> <span class="o">=</span> <span class="vi">@nums</span><span class="p">.</span><span class="nf">last</span>
+    <span class="n">tail</span> <span class="o">=</span> <span class="vi">@nums</span><span class="p">.</span><span class="nf">last</span>
+    <span class="n">stick</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span> <span class="n">head</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">head</span><span class="p">)</span> <span class="p">}</span>
+    <span class="k">until</span> <span class="n">head</span> <span class="o">==</span> <span class="n">tail</span>
+      <span class="n">head</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">head</span><span class="p">)</span>
+      <span class="n">tail</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">tail</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="c1"># When head and tail point to the same number</span>
+    <span class="c1"># then on the next step, they'll be on the same node</span>
+    <span class="c1"># This current same number means head and tail both = the duplicate!</span>
+    <span class="n">head</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<h2 id="evaluation">Evaluation</h2>
+
+<p>So, how’d we do?</p>
+
+<p><strong>Space</strong>: We generally keep track of the next node to step to, and a few other variables, but I think we can safely say that our space usage is ~O(1).  We don’t ever save a copy of our array anywhere.</p>
+
+<p><strong>Time</strong>: We loop through once to find the length of the cycle, and then we loop again to find the duplicate.  This gets us to ~O(n) since we always loop through the array the same number of times regardless of input length and it’s only a matter of how long the array is.</p>
+
+<p>VICTORY.  This was a really tricky one.  If it didn’t make sense, it’s not your fault.  I had to read through it a few times, do the problem a few times, and even write this blog post before I fully understood how it worked.  Feel free to reach out with questions if I can help clarify anything for you.  And again, go check out <a href="https://interviewcake.com">Interview Cake</a> for more practice on puzzles like these (although they’re not all quite as tricky as this one is).</p>
+
+    <small>
+        Author: Ryan Palo | Tags: 
+        
+        <a href="/tags/algorithms/">algorithms</a>
+        
+        <a href="/tags/ruby/">ruby</a>
+        
+        <a href="/tags/big-o/">big-o</a>
+        
+        <a href="/tags/linked-lists/">linked-lists</a>
+        
+    </small>
+
+    <hr>
+
+<!-- Footer for Homepage -->
+  <div id="home-footer">
+    <div id="left-home-footer">
+      <!-- Featured Posts List -->
+      <h2>Featured Posts</h2>
+      <ul class="post-list">
+        <li>
+          <span class="post-meta">Jan 18, 2017</span><br />
+          <a class="post-link" href="/2017/01/18/assert-not-magic/">Assert Not Magic</a>
+        </li>
+        
+          <li>
+            <span class="post-meta">Nov 11, 2017</span><br/>
+            <a class="post-link" href="/2017/11/11/static-site-search-with-vue/">Add Search to Your Static Site with Vue</a>
+          </li>
+        
+          <li>
+            <span class="post-meta">Nov 4, 2017</span><br/>
+            <a class="post-link" href="/2017/11/04/git-wrecked/">Git Wrecked — Keeping Your Branches Synced Without Breaking Things</a>
+          </li>
+        
+          <li>
+            <span class="post-meta">Oct 28, 2017</span><br/>
+            <a class="post-link" href="/2017/10/28/e-for-everywhere/">E for Everywhere</a>
+          </li>
+        
+      </ul>
+    </div>
+    <div id="center-home-footer">
+      <!-- Spacer -->
+    </div>
+    <div id="right-home-footer">
+      <!-- Tags List -->
+      <h2>Tags</h2>
+      <p>
+        
+        <a href="/tags/python/" style="font-size: 54px">python | </a>
+        
+        <a href="/tags/django/" style="font-size: 22px">django | </a>
+        
+        <a href="/tags/rails/" style="font-size: 14px">rails | </a>
+        
+        <a href="/tags/algorithms/" style="font-size: 22px">algorithms | </a>
+        
+        <a href="/tags/editors/" style="font-size: 16px">editors | </a>
+        
+        <a href="/tags/emacs/" style="font-size: 16px">emacs | </a>
+        
+        <a href="/tags/ai/" style="font-size: 14px">ai | </a>
+        
+        <a href="/tags/r/" style="font-size: 14px">r | </a>
+        
+        <a href="/tags/tools/" style="font-size: 16px">tools | </a>
+        
+        <a href="/tags/javascript/" style="font-size: 20px">javascript | </a>
+        
+        <a href="/tags/not_magic/" style="font-size: 14px">not_magic | </a>
+        
+        <a href="/tags/soft-skills/" style="font-size: 22px">soft-skills | </a>
+        
+        <a href="/tags/tricks/" style="font-size: 28px">tricks | </a>
+        
+        <a href="/tags/vscode/" style="font-size: 14px">vscode | </a>
+        
+        <a href="/tags/vim/" style="font-size: 16px">vim | </a>
+        
+        <a href="/tags/sublime/" style="font-size: 14px">sublime | </a>
+        
+        <a href="/tags/puzzle/" style="font-size: 18px">puzzle | </a>
+        
+        <a href="/tags/bash/" style="font-size: 16px">bash | </a>
+        
+        <a href="/tags/math/" style="font-size: 16px">math | </a>
+        
+        <a href="/tags/teaching/" style="font-size: 16px">teaching | </a>
+        
+        <a href="/tags/ruby/" style="font-size: 24px">ruby | </a>
+        
+        <a href="/tags/jekyll/" style="font-size: 16px">jekyll | </a>
+        
+        <a href="/tags/git/" style="font-size: 18px">git | </a>
+        
+        <a href="/tags/physics/" style="font-size: 14px">physics | </a>
+        
+        <a href="/tags/fun/" style="font-size: 18px">fun | </a>
+        
+        <a href="/tags/scientific/" style="font-size: 14px">scientific | </a>
+        
+        <a href="/tags/pythonic/" style="font-size: 16px">pythonic | </a>
+        
+        <a href="/tags/functional/" style="font-size: 16px">functional | </a>
+        
+        <a href="/tags/vue/" style="font-size: 22px">vue | </a>
+        
+        <a href="/tags/es6/" style="font-size: 20px">es6 | </a>
+        
+        <a href="/tags/tutorial/" style="font-size: 28px">tutorial | </a>
+        
+        <a href="/tags/exercise/" style="font-size: 14px">exercise | </a>
+        
+        <a href="/tags/fitness/" style="font-size: 14px">fitness | </a>
+        
+        <a href="/tags/sysadmin/" style="font-size: 16px">sysadmin | </a>
+        
+        <a href="/tags/linux/" style="font-size: 14px">linux | </a>
+        
+        <a href="/tags/html/" style="font-size: 16px">html | </a>
+        
+        <a href="/tags/seo/" style="font-size: 14px">seo | </a>
+        
+        <a href="/tags/social/" style="font-size: 14px">social | </a>
+        
+        <a href="/tags/metaprogramming/" style="font-size: 14px">metaprogramming | </a>
+        
+        <a href="/tags/css/" style="font-size: 14px">css | </a>
+        
+        <a href="/tags/front-end/" style="font-size: 14px">front-end | </a>
+        
+        <a href="/tags/animations/" style="font-size: 14px">animations | </a>
+        
+        <a href="/tags/p5/" style="font-size: 18px">p5 | </a>
+        
+        <a href="/tags/beginner/" style="font-size: 18px">beginner | </a>
+        
+        <a href="/tags/encouragement/" style="font-size: 18px">encouragement | </a>
+        
+        <a href="/tags/not-magic/" style="font-size: 14px">not-magic | </a>
+        
+        <a href="/tags/screencast/" style="font-size: 14px">screencast | </a>
+        
+        <a href="/tags/showdev/" style="font-size: 14px">showdev | </a>
+        
+        <a href="/tags/interview/" style="font-size: 14px">interview | </a>
+        
+        <a href="/tags/performance/" style="font-size: 14px">performance | </a>
+        
+        <a href="/tags/editor/" style="font-size: 14px">editor | </a>
+        
+        <a href="/tags/workflow/" style="font-size: 14px">workflow | </a>
+        
+        <a href="/tags/best-practice/" style="font-size: 14px">best-practice | </a>
+        
+        <a href="/tags/oss/" style="font-size: 14px">oss | </a>
+        
+        <a href="/tags/static-site/" style="font-size: 14px">static-site | </a>
+        
+        <a href="/tags/big-o/" style="font-size: 14px">big-o | </a>
+        
+        <a href="/tags/linked-lists/" style="font-size: 14px">linked-lists | </a>
+        
+      </p>
+    </div>
+  </div>
+  <hr>
+  
+
+  <p class="rss-subscribe contact">Like my stuff?  Have questions or feedback for me?  Want to mentor me or get my help with something?  <a href="/about/">Get in touch!</a>  To stay updated, subscribe <a href="/feed.xml">via RSS</a></p>
+
+
+
+</article>
+        </div>
+
+        <footer id="main-footer">
+    <div class="container">
+        <p class="text-muted">&copy; Ryan Palo 2017 | All things.  Phil. 4:13</p>
+    </div>
+</footer>
+        <!-- Scripts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+        <script src="/js/main.js"></script>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-91889165-1', 'auto');
+            ga('send', 'pageview');
+
+        </script>
+        
+    </body>
+</html>

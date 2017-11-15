@@ -1,6 +1,15 @@
 const posts = [
     
     {
+        title: "Cake and Duplicates",
+        url: "/2017/11/14/cake-and-duplicates/",
+        cover: "/img/cake.jpg",
+        tags: "algorithms, ruby, big-o, linked-lists",
+        date: "November 14, 2017",
+        description: "The crazy solution to an interview problem"
+    } ,
+    
+    {
         title: "Add Search to Your Static Site with Vue",
         url: "/2017/11/11/static-site-search-with-vue/",
         cover: "/img/search-cover.png",
