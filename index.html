@@ -67,284 +67,273 @@
 
   <!-- Current Post -->
   
-    <h1>Cake and Duplicates</h2>
-    <small>Nov 14, 2017</small>
-    <p><p><em>Post Page Cover Image credit: <a href="http://profroster.com">The ProFroster</a>.  Fun fact: our team helped design and manufacture these!</em></p>
+    <h1>Thunder-Struct</h2>
+    <small>Nov 27, 2017</small>
+    <p><p>I just found out about this super handy built-in class in Ruby called a <code class="highlighter-rouge">Struct</code>, and I wanted to share.</p>
 
-<p>Let me talk to you about cake.  Hungry yet?  Good.  Hungry for <strong>knowledge?!</strong>  Even better.  Because I’m not talking about cake that you eat — I’m talking about <a href="https://www.interviewcake.com/">Interview Cake</a>.</p>
+<h2 id="what-is-a-struct">What is a Struct</h2>
 
-<p><img src="/img/interview-cake.jpg" alt="Interview Cake Logo" /></p>
+<p>Very simply put, a <code class="highlighter-rouge">Struct</code> is a data object that is simulates a quick way to declare a class.  A common need in a program is to glue a bunch of related data together.  You can think of our options for that as a sort of continuum.</p>
 
-<p>Interview Cake is a website that I found recently that provides a ton of tech-interview-level questions and write-ups to help you get better at things like algorithms, time and space efficiency, explaining yourself, and thinking problems all the way through, even past the sticky edge cases.  Is this an advertisement for them?  No it is not.  Am I going to continue to pepper you with rhetorical questions?  Possibly.  Mind your own business.  Anyway, the purpose of this article is to write up a solution that I went through last week that initially looked like a snap and turned out to be way harder.  Their final solution was, at least in my eyes, mindblasting.  You read that right.  I said</p>
+<p><img src="/img/struct-continuum.png" alt="Different data types and how flexible vs. how structured they are" /></p>
 
-<p><img src="/img/mind-blasting.gif" alt="Mind blasting" /></p>
+<p>Let’s say, for example, that you have a student grade that you want to keep track of.  You could define a class to explicitly lay out your data structure.</p>
 
-<p>Let me lay out the problem for you.</p>
-
-<h2 id="the-problem">The Problem</h2>
-
-<p>The problem is this:</p>
-
-<blockquote>
-  <p>You are given a list of integers in the range <em>(0, n]</em> (excluding 0, including n), that fill an array such that there are <em>n + 1</em> numbers in the array.  In other words, this array has one of each integer except for one unknown value that has a duplicate.  The numbers in the array are not in any particular order.</p>
-
-  <p>Example: [4, 3, 7, 1, 5, 3, 2, 6] : 8 numbers, 1..7.  The only duplicate is 3.</p>
-
-  <p>Your goal: Find the duplicate.</p>
-</blockquote>
-
-<p>If you’re feeling spunky, go ahead and give it a try.  This is just the first portion of the problem, but it’ll help you get your head in the game.</p>
-
-<p><img src="/img/waiting.gif" alt="I'm waiting" /></p>
-
-<p>Ready with your solution?  Here’s mine, for reference.</p>
-
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">find_duplicate</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
-  <span class="n">nums</span><span class="p">.</span><span class="nf">select</span> <span class="p">{</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span> <span class="n">nums</span><span class="p">.</span><span class="nf">count</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="p">}.</span><span class="nf">first</span>
-<span class="k">end</span>
-</code></pre>
-</div>
-
-<p>Alright, that’s it.  That’s the whole thing, article over.  Just kidding.  I forgot to mention:</p>
-
-<h2 id="the-rest-of-the-problem">The Rest of the Problem</h2>
-
-<p>Here’s where it gets interesting: the last two requirements of the problem.</p>
-
-<blockquote>
-  <ol>
-    <li>Your solution must be better than O(n^2) in time.</li>
-    <li>Your solution must remain O(1) in space.</li>
-  </ol>
-</blockquote>
-
-<p>To make sure everybody is on the same page with me in terms of what that means, let me do a 30 second explanation of <em>“Big-O Notation”</em>, which is what those O(n) and O(1) are called.  If you’re already comfortable with Big-O, go ahead and skip ahead.</p>
-
-<h3 id="big-o-notation">Big-O Notation</h3>
-
-<p><em>“Big-O Notation”</em> has to do with how efficient an algorithm or program is, as a function of the number of items used as inputs.  Let me put it this way:  Let’s say you’re given <em>n</em> numbers in your input list.  If your solution requires you to loop through the whole list once (in the worst case, like if the number you’re looking for is at the end of the list), then your solution is considered O(n).  O(n) is also known as <em>linear efficiency</em>.  This is because, if we double the size of the input to <code class="highlighter-rouge">2*n</code>, your algorithm will have to process twice as many steps and most likely will be twice as slow.  If we increase the size to <code class="highlighter-rouge">100*n</code>, your algorithm will similarly do <code class="highlighter-rouge">100*n</code> steps.</p>
-
-<p>Now, what if you had a function that was O(n^2)?  That would mean that your function looped through each of the <code class="highlighter-rouge">n</code> inputs <code class="highlighter-rouge">n</code> times (e.g. in a double for-loop).  Thus, if, instead of <code class="highlighter-rouge">n</code> inputs, you had <code class="highlighter-rouge">2*n</code> inputs, your program would actually have to do <code class="highlighter-rouge">(2*n)^2</code> or <code class="highlighter-rouge">4*n</code> steps!  If your program had <code class="highlighter-rouge">100*n</code> inputs, it would have to do <code class="highlighter-rouge">(100*n)^2</code> steps — <code class="highlighter-rouge">10000*n</code>!  Hopefully you can see that O(n) is quite a bit more efficient than O(n^2).</p>
-
-<p>So what does O(1) mean?  The 1 is a little misleading, because it simply stands for <em>constant time</em>, meaning that no matter how many inputs you have, your program will always take the same amount of steps, and thus, roughly the same amount of time.  This is the Holy Grail of algorithms.  This is the reason why it’s so much faster to look up items from a Hash (or dict, or object, or whatever your language of choice calls it) than it is from a List or Array.</p>
-
-<p>The last thing: Space Complexity.  Space Complexity works the same as Time Complexity, except it has to do with how much computer memory you’re using.  Some examples might get things accross better.</p>
-
-<p>O(1): When you have 10 inputs, your program keeps track of 3 variables.  When you have 20,000 inputs, your program keeps track of 3 variables.</p>
-
-<p>O(n): When you have 10 inputs, your program keeps track of two separate extra lists for a total of 20 slots.  When you have 20,000 inputs, you need 40,000 extra slots to keep track of everything.</p>
-
-<p>O(n^2): When you have 10 inputs, you need 100 extra slots.  (Don’t ask me why, you wrote the program.  Seems like overkill).  When you have 20,000 inputs, you end up needing 400,000,000 extra slots (and also a new computer because, congratulations, you killed this one).</p>
-
-<p>Hopefully this super brief explanation helps.  If you’re still confused, Vaidehi Joshi <a href="https://dev.to/vaidehijoshi/whats-a-linked-list-anyway-part-2">does a better job than me of explaining it, with pictures!</a>  See also <a href="https://medium.com/basecs">the whole BaseCS series</a>.  See also also the <a href="https://www.codenewbie.org/basecs">BaseCS Podcast</a>.</p>
-
-<p>ONWARD!</p>
-
-<h3 id="rejecting-some-possible-solutions">Rejecting Some Possible Solutions</h3>
-
-<h4 id="possibility-1-the-naive-solution-aka-my-solution">Possibility 1: The Naive Solution (a.k.a. My Solution)</h4>
-
-<p>So what do those requirements really mean for us?  Well, let’s look back at my initial solution.  For each item in the list, I go back through the list <em>again</em> and count the number of occurrences.  My function is actually O(n^2) in Time (a double-for-loop!).</p>
-
-<p><img src="/img/boo.gif" alt="Boooooo" /></p>
-
-<p>While you might argue that my solution is “good enough” for most cases (and I would agree), that’s not what the requirements say we have to do.</p>
-
-<h4 id="possibility-2-the-other-naive-solution-aka-keeping-track">Possibility 2: The Other Naive Solution (a.k.a. Keeping Track)</h4>
-
-<p>You could loop through just once, keeping track of the numbers you’ve already seen in a set.  Once you see a number that’s already in your set, you know that’s the duplicate!</p>
-
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'set'</span>
-
-<span class="k">def</span> <span class="nf">find_dupes</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
-  <span class="n">history</span> <span class="o">=</span> <span class="no">Set</span><span class="p">.</span><span class="nf">new</span>
-  <span class="n">nums</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span>
-    <span class="k">return</span> <span class="n">num</span> <span class="k">if</span> <span class="n">history</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
-
-    <span class="n">history</span> <span class="o">&lt;&lt;</span> <span class="n">num</span>
-  <span class="k">end</span>
-
-  <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>  <span class="c1"># We should never reach this stage</span>
-<span class="k">end</span>
-</code></pre>
-</div>
-
-<p>How’d we do?  Well, we only ever loop through the whole list once at most, bringing us to O(n) Time Complexity.  Right on!  But we create the <code class="highlighter-rouge">history</code> set that could contain (in the worst case) almost all <code class="highlighter-rouge">n</code> of our input values.  This looks like O(n) in Space as well, which means that we fail the second requirement.  💩!</p>
-
-<h4 id="possibility-3-the-sorting-solution-aka-the-slightly-tricky-solution">Possibility 3: The Sorting Solution (a.k.a. The Slightly Tricky Solution)</h4>
-
-<p>What about doing a <strong>sort</strong>?  Since sorting <a href="https://en.wikipedia.org/wiki/Merge_sort">can be done in O(nlogn) time</a>, which is better than O(n^2), we might have a chance.  We could sort our numbers, and then loop through them once while only keeping track of the last number that we saw.  If we see the same number twice, it’s a duplicate.</p>
-
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">find_dupes</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
-  <span class="n">nums</span><span class="p">.</span><span class="nf">sort!</span>
-  <span class="n">previous</span> <span class="o">=</span> <span class="mi">0</span>
-  <span class="n">nums</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span>
-    <span class="k">return</span> <span class="n">num</span> <span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="n">previous</span>
-
-    <span class="n">previous</span> <span class="o">=</span> <span class="n">num</span>
-  <span class="k">end</span>
-
-  <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
-<span class="k">end</span>
-</code></pre>
-</div>
-
-<p>This gets us O(1) in Space and O(nlogn) (ish) in Time.  One problem with this.  If we don’t create a new array to put our sorted numbers in, we’re destroying/modifying the order of the list that gets passed into us, which isn’t good.  If we create a new array to put our sorted numbers in, we jump up to O(n) in Space, which is a fail.  Hmmm…  There’s a better way — trust me.</p>
-
-<h2 id="the-better-way">The Better Way</h2>
-
-<p>OK.  Here’s the solution they provided.  It has some CS concepts in it, but don’t worry.  I’ll walk you through.  I don’t think I would have ever thought of it in a million years, but I guess that’s why we practice, right?</p>
-
-<h3 id="a-linked-list-sort-of">A Linked List (Sort Of)</h3>
-
-<p>OK.  Do me a favor and imagine the input list as a series of connected nodes: a Linked List, if you will.  Each slot in the array has its own index and the number that points to the index of another node in the list.  The original problem on Interview Cake bases things on a 1-base array, so that’s how I’ll explain things too.  Thus, we end up with something like this:</p>
-
-<p><img src="/img/cake-node-list.jpg" alt="List of nodes drawn with arrows pointing to the next nodes" /></p>
-
-<p>Study that list for a minute.  Get a piece of paper and pencil and try some more.  [3, 1, 2, 4, 1].  [8, 6, 4, 2, 1, 2, 5, 3, 7].  [2, 1, 1, 3].  What do those look like?  Do you start to see patterns?  I mean, besides the pattern that I suck at freehand diagrams?</p>
-
-<p><img src="/img/cake-nodes-2.PNG" alt="Diagram of the first example" /></p>
-
-<p><img src="/img/cake-nodes-3.PNG" alt="Diagram of the second example" /></p>
-
-<p><img src="/img/cake-nodes-4.PNG" alt="Diagram of the third example" /></p>
-
-<p>Here’s some things to note:</p>
-
-<ol>
-  <li>The last node never has any arrows pointing at it.  That’s because it’s at position <code class="highlighter-rouge">n+1</code>, and the maximum value in the list is <code class="highlighter-rouge">n</code>.  If we’re thinking of our array like a kind of linked list, the last node would be a good candidate for the <strong>head</strong>.</li>
-  <li>Because there is always a duplicate, there is <strong>always a loop somewhere in the list</strong>.  At some point, every diagram becomes cyclic.</li>
-  <li>Because there is always a cycle, there is always a node that has <strong>two arrows pointing at it</strong>.</li>
-  <li>This node with two arrows pointing at it is always <strong>the first node in the cycle</strong>.</li>
-  <li>The index (1-based) of this two-arrow node is <strong>always the duplicate value</strong>.</li>
-</ol>
-
-<p><img src="/img/cake-oh-my.gif" alt="Oh snap!" /></p>
-
-<p>So how does that help us?  Well, if we can find a way to figure out where the start of the cycle is, we can return the index of that node as our result.</p>
-
-<h3 id="finding-the-length-of-the-cycle">Finding the Length of the Cycle</h3>
-
-<p>To find the start of the cycle, we’ll need its length.  Trust me on this, and it’ll make sense in a little bit.  That is actually not as hard as you might think.  In order to get the cycle’s length, we need a sure-fire way to get into the cycle.  Well, we only have a certain number of nodes, right?  So, if we just start stepping, we might end up in the cycle at some point, but after <code class="highlighter-rouge">n+1</code> steps, we’re <strong>guaranteed</strong> to be somewhere within the cycle.  Because, even if the cycle is the size of the entire list like this:</p>
-
-<p><img src="/img/cake-cycle-length.png" alt="Max steps to cycle" /></p>
-
-<p>You still can only go to each of the nodes once before you create a cycle.  I’ll try to show my solution being built as we go.  If you’re somebody who has to see things written out in code, hopefully this will help you.</p>
-
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DuplicateFinder</span>
-  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
-    <span class="vi">@nums</span> <span class="o">=</span> <span class="n">nums</span>
-  <span class="k">end</span>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Grade</span>
+  <span class="kp">attr_reader</span> <span class="ss">:assignment</span><span class="p">,</span> <span class="ss">:number_grade</span><span class="p">,</span> <span class="ss">:letter_grade</span>
   
-  <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
-    <span class="c1"># Convenience method to move to next node</span>
-    <span class="vi">@nums</span><span class="p">[</span><span class="n">current</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># -1 because of 1-based counting</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">assignment</span><span class="p">,</span> <span class="n">number_grade</span><span class="p">,</span> <span class="n">letter_grade</span><span class="p">)</span>
+    <span class="vi">@assignment</span> <span class="o">=</span> <span class="n">assignment</span>
+    <span class="vi">@number_grade</span> <span class="o">=</span> <span class="n">number_grade</span>
+    <span class="vi">@letter_grade</span> <span class="o">=</span> <span class="n">letter_grade</span>
   <span class="k">end</span>
-  
-  <span class="k">def</span> <span class="nf">find_a_number_in_the_cycle</span>
-    <span class="n">next_step</span> <span class="o">=</span> <span class="vi">@nums</span><span class="p">.</span><span class="nf">last</span>
-    <span class="vi">@nums</span><span class="p">.</span><span class="nf">length</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
-      <span class="n">next_step</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">next_step</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">jerrys_grade</span> <span class="o">=</span> <span class="no">Grade</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Physics Quiz #3"</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="s2">"B"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Or, seeing all of the typing, you could violently overreact and go in the opposite direction.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">jerrys_grade</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Physics Quiz #3"</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="s2">"B"</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<p>For a simple data object like this where there aren’t really methods to define yet, I think a lot of people’s first thought is to try to be more in the middle of the spectrum.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">jerrys_grade</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">assignment: </span><span class="s2">"Physics Quiz #3"</span><span class="p">,</span>
+  <span class="ss">number_grade: </span><span class="mi">85</span><span class="p">,</span>
+  <span class="ss">letter_grade: </span><span class="s2">"B"</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>But there’s another, even awesomer (yeah, I said it) way: the <code class="highlighter-rouge">Struct</code>.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="no">Grade</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:assignment</span><span class="p">,</span> <span class="ss">:number_grade</span><span class="p">,</span> <span class="ss">:letter_grade</span><span class="p">)</span>
+
+<span class="n">jerrys_grade</span> <span class="o">=</span> <span class="no">Grade</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Physics Quiz #3"</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="s2">"B"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h2 id="what-do-i-do-with-it">What Do I Do With It?</h2>
+
+<p><code class="highlighter-rouge">Structs</code> are cool because they give you a lot of flexibility in how you access and use the data without giving up any explicit-ness.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">jerrys_grade</span><span class="p">.</span><span class="nf">assignment</span>
+<span class="c1"># =&gt; "Physics Quiz #3"</span>
+<span class="n">jerrys_grade</span><span class="p">[</span><span class="s2">"number_grade"</span><span class="p">]</span>
+<span class="c1"># =&gt; 85</span>
+<span class="n">jerrys_grade</span><span class="p">[</span><span class="ss">:letter_grade</span><span class="p">]</span>
+<span class="c1"># =&gt; "B"</span>
+
+<span class="c1"># Jerry must have done some extra credit</span>
+<span class="n">jerrys_grade</span><span class="p">.</span><span class="nf">number_grade</span> <span class="o">+=</span> <span class="mi">10</span>
+<span class="n">jerrys_grade</span><span class="p">[</span><span class="s2">"letter_grade"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"A"</span>
+</code></pre>
+</div>
+
+<p>They also come pre-built with some of the features that you’d have to build yourself if you used an actual <code class="highlighter-rouge">class</code> definition.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># Equality</span>
+<span class="n">doras_grade</span> <span class="o">=</span> <span class="no">Grade</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Physics Quiz #3"</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="s2">"A"</span><span class="p">)</span>
+<span class="n">doras_grade</span> <span class="o">==</span> <span class="n">jerrys_grade</span>
+<span class="c1"># =&gt; true</span>
+
+<span class="c1"># Can be enumerated</span>
+<span class="n">jerrys_grade</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">datapoint</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">datapoint</span> <span class="p">}</span>
+<span class="c1"># =&gt; Physics Quiz #3</span>
+<span class="c1"># =&gt; 95</span>
+<span class="c1"># =&gt; A</span>
+
+<span class="c1"># Or enumerated like a hash with key and value</span>
+<span class="n">doras_grade</span><span class="p">.</span><span class="nf">each_pair</span> <span class="p">{</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
+<span class="c1"># =&gt; assignment: Physics Quiz #3</span>
+<span class="c1"># =&gt; number_grade: 95</span>
+<span class="c1"># =&gt; letter_grade: A</span>
+
+<span class="c1"># Can be converted to an array or hash</span>
+<span class="n">jerrys_grade</span><span class="p">.</span><span class="nf">to_a</span>
+<span class="c1"># =&gt; ["Physics Quiz #3", 95, "A"]</span>
+<span class="n">doras_grade</span><span class="p">.</span><span class="nf">to_h</span>
+<span class="c1"># =&gt; {assignment: "Physics Quiz #3", number_grade: 95, letter_grade: "A"}</span>
+</code></pre>
+</div>
+
+<p>And if you need your own methods, you can add them via a block when creating them.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="no">Grade</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:assignment</span><span class="p">,</span> <span class="ss">:number_grade</span><span class="p">)</span> <span class="k">do</span>
+  <span class="k">def</span> <span class="nf">letter_grade</span>
+    <span class="k">case</span> <span class="n">number_grade</span>
+    <span class="k">when</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="nf">.</span><span class="mi">64</span><span class="p">)</span>
+      <span class="s2">"F"</span>
+    <span class="k">when</span> <span class="p">(</span><span class="mi">65</span><span class="p">.</span><span class="nf">.</span><span class="mi">69</span><span class="p">)</span>
+      <span class="s2">"D"</span>
+    <span class="k">when</span> <span class="p">(</span><span class="mi">70</span><span class="p">.</span><span class="nf">.</span><span class="mi">79</span><span class="p">)</span>
+      <span class="s2">"C"</span>
+    <span class="k">when</span> <span class="p">(</span><span class="mi">80</span><span class="p">.</span><span class="nf">.</span><span class="mi">89</span><span class="p">)</span>
+      <span class="s2">"B"</span>
+    <span class="k">when</span> <span class="p">(</span><span class="mi">90</span><span class="p">.</span><span class="nf">.</span><span class="mi">100</span><span class="p">)</span>
+      <span class="s2">"A"</span>
+    <span class="k">else</span>
+      <span class="s2">"WTF"</span>
     <span class="k">end</span>
-    <span class="n">next_step</span>  <span class="c1"># Returns the number at the index we're on</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
 </div>
 
-<p>OK.  So now we’re in the cycle, so what do we do?  Well, within the cycle, the numbers are all unique!  So all we have to do is remember the node we’re at initially, and start stepping and counting.  Once we see the same number again, we’ll know that we’ve travelled the loop exactly one time and we’ll know how long the loop is!</p>
+<p>Neat, right?  I bet right now, you’re feeling… inde-<strong>struct</strong>-ible?</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DuplicateFinder</span>
-  <span class="c1"># ...</span>
-  
-  <span class="k">def</span> <span class="nf">length_of_cycle</span>
-    <span class="n">stop_num</span> <span class="o">=</span> <span class="n">find_a_number_in_the_cycle</span>
-    <span class="n">next_num</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">stop_num</span><span class="p">)</span>
-    <span class="n">steps</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">until</span> <span class="n">next_num</span> <span class="o">==</span> <span class="n">stop_num</span>
-      <span class="n">next_num</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">next_num</span><span class="p">)</span>
-      <span class="n">steps</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">end</span>
-    <span class="n">steps</span>
-  <span class="k">end</span>
+<p><img src="/img/waka-waka.gif" alt="Waka waka!" /></p>
+
+<p>But now, you might have the same questions that I did once I got to this point.</p>
+
+<h2 id="whats-the-benefit">What’s the Benefit?</h2>
+
+<p>Why would I want to use a <code class="highlighter-rouge">Struct</code> instead of a <code class="highlighter-rouge">Class</code> or a <code class="highlighter-rouge">Hash</code>?  When is one better than the other?  It’s all a matter of what you’re trying to do.</p>
+
+<h3 id="static-vs-dynamic-attributes">Static vs. Dynamic Attributes</h3>
+
+<p>You can’t easily add attributes to a <code class="highlighter-rouge">Struct</code>, so in applications where your keys/attributes need to be dynamic or you don’t know what they’ll be ahead of time (think “word-counter”), you might be better suited with a <code class="highlighter-rouge">Hash</code>.  On the other hand, if you know exactly what keys you’ll need, the object-based “dot access” looks nice, and having a constructor can save you a lot of time typing.  It can be a good, clean way of signaling your design intent.  A good example of having well-defined attributes is if you work with an Address.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># This is nice and clear, and you don't have to retype the keys</span>
+<span class="c1"># for every new address</span>
+<span class="no">Address</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:street</span><span class="p">,</span> <span class="ss">:city</span><span class="p">,</span> <span class="ss">:postal_code</span><span class="p">,</span> <span class="ss">:country</span><span class="p">)</span>
+
+<span class="n">the_worlds_greatest_place</span> <span class="o">=</span> <span class="no">Address</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
+  <span class="s2">"211 Main St."</span><span class="p">,</span>
+  <span class="s2">"Savanna, IL"</span><span class="p">,</span>
+  <span class="mi">61074</span><span class="p">,</span>
+  <span class="s2">"USA"</span>
+<span class="p">)</span>
+
+<span class="c1"># This is ok, but more typing, harder to discern intent,</span>
+<span class="c1"># and more prone to typos and misinterpretation</span>
+<span class="n">more_typing</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">street: </span><span class="s2">"211 Main St."</span><span class="p">,</span>
+  <span class="ss">city: </span><span class="s2">"Savanna, IL"</span><span class="p">,</span>
+  <span class="ss">postal_code: </span><span class="mi">61074</span><span class="p">,</span>
+  <span class="ss">country: </span><span class="s2">"USA"</span>
+<span class="p">}</span>
 </code></pre>
 </div>
 
-<h3 id="the-yardstick-method">The Yardstick Method</h3>
+<h3 id="less-error-prone">Less Error Prone</h3>
 
-<p>Now we’re at the real amazing part.  It has to do with something that could be called the Yardstick Method (or, I suppose, the Meterstick Method, if you must 😉).  Let’s go back to the head of the list and start over.  For example.  Let’s say we have the list <code class="highlighter-rouge">[4, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code>.  If you draw it out, the cycle is 4 nodes long.  So, what we need to do is imagine we have a stick that is 4 nodes long, just like the cycle.  We can translate this into code by using two <em>pointers</em>: one at the head of the stick and one at the tail.</p>
+<p><code class="highlighter-rouge">Structs</code> tend to be more rigid, which can help protect from errors and uncaught typos.</p>
 
-<p><img src="/img/yardstick3.png" alt="Diagram of the yardstick" /></p>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">whoops_i_made_a_typo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">stroot: </span><span class="s2">"211 Main St."</span><span class="p">,</span>
+  <span class="c1"># Forgot that I commented out this one: city: "Savanna, IL",</span>
+  <span class="ss">postal_code: </span><span class="mi">61074</span><span class="p">,</span>
+  <span class="ss">country: </span><span class="s2">"USA"</span>
+<span class="p">}</span>
+<span class="c1"># And no errors get thrown</span>
+<span class="n">whoops_i_made_a_typo</span><span class="p">[</span><span class="s2">"street"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"309 Main St."</span>
 
-<p>Now we step our whole stick forward one node, moving both the head and the tail, so the stick stays the same length.</p>
+<span class="c1"># And if I access a key that doesn't exist</span>
+<span class="n">whoops_i_made_a_typo</span><span class="p">[</span><span class="s2">"city"</span><span class="p">]</span>
+<span class="c1"># =&gt; nil</span>
 
-<p><img src="/img/yardstick4.png" alt="Diagram of stepping our stick forward" /></p>
+<span class="c1"># But if we construct an Address with too many keys:</span>
+<span class="n">big_ole_error</span> <span class="o">=</span> <span class="no">Address</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
+  <span class="s2">"123 Fake St."</span><span class="p">,</span>
+  <span class="s2">"Fake, FK"</span><span class="p">,</span>
+  <span class="mi">12345</span><span class="p">,</span>
+  <span class="s2">"USA"</span><span class="p">,</span>
+  <span class="s2">"BLARGLFLURB"</span>
+<span class="p">)</span>
+<span class="c1"># =&gt; ArgumentError: Struct size differs</span>
 
-<p>What happens if we continue this process?</p>
+<span class="c1"># And if we try to access a key that doesn't exist?</span>
+<span class="n">the_worlds_greatest_place</span><span class="p">[</span><span class="s2">"potato"</span><span class="p">]</span>
+<span class="c1"># =&gt; NoMethodError: undefined method 'potato'</span>
+</code></pre>
+</div>
 
-<p><img src="/img/yardstick5.png" alt="Diagram of the stick wrapped around the cycle" /></p>
+<h3 id="theyre-fast">They’re Fast</h3>
 
-<p>Both the head and the tail of the stick are  pointing at the same number!  And it’s the number with two arrows at the beginning of the cycle!  AND what index (1-based, like our linked list) do they meet at?  Index 4!  AAAAND what is the duplicate number in our list?  4!</p>
+<p><code class="highlighter-rouge">Structs</code> can also be much faster to create than hashes.</p>
 
-<p><img src="/img/mission-accomplished.gif" alt="Mission accomplished." /></p>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'benchmark'</span>
 
-<p>For completeness, how does this look in code?</p>
-
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DuplicateFinder</span>
-  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
-    <span class="vi">@nums</span> <span class="o">=</span> <span class="n">nums</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
-    <span class="vi">@nums</span><span class="p">[</span><span class="n">current</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
-  <span class="k">end</span>
-  
-  <span class="k">def</span> <span class="nf">find_a_number_in_the_cycle</span>
-    <span class="n">next_step</span> <span class="o">=</span> <span class="vi">@nums</span><span class="p">.</span><span class="nf">last</span>
-    <span class="vi">@nums</span><span class="p">.</span><span class="nf">length</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
-      <span class="n">next_step</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">next_step</span><span class="p">)</span>
-    <span class="k">end</span>
-    <span class="n">next_step</span>
-  <span class="k">end</span>
-  
-  <span class="k">def</span> <span class="nf">length_of_cycle</span>
-    <span class="n">stop_num</span> <span class="o">=</span> <span class="n">find_a_number_in_the_cycle</span>
-    <span class="n">next_num</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">stop_num</span><span class="p">)</span>
-    <span class="n">steps</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">until</span> <span class="n">next_num</span> <span class="o">==</span> <span class="n">stop_num</span>
-      <span class="n">next_num</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">next_num</span><span class="p">)</span>
-      <span class="n">steps</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">end</span>
-    <span class="n">steps</span>
+<span class="no">Benchmark</span><span class="p">.</span><span class="nf">bm</span> <span class="mi">10</span> <span class="k">do</span> <span class="o">|</span><span class="n">bench</span><span class="o">|</span>
+  <span class="n">bench</span><span class="p">.</span><span class="nf">report</span> <span class="s2">"Hash"</span> <span class="k">do</span>
+    <span class="mi">1_000_000</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span> <span class="p">{</span> <span class="ss">name: </span><span class="s2">"Ryan"</span><span class="p">,</span> <span class="ss">coolness: </span><span class="mi">27</span> <span class="p">}</span> <span class="k">end</span>
   <span class="k">end</span>
   
-  <span class="k">def</span> <span class="nf">duplicate</span>
-    <span class="n">stick</span> <span class="o">=</span> <span class="n">length_of_cycle</span>
-    <span class="n">head</span> <span class="o">=</span> <span class="vi">@nums</span><span class="p">.</span><span class="nf">last</span>
-    <span class="n">tail</span> <span class="o">=</span> <span class="vi">@nums</span><span class="p">.</span><span class="nf">last</span>
-    <span class="n">stick</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span> <span class="n">head</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">head</span><span class="p">)</span> <span class="p">}</span>
-    <span class="k">until</span> <span class="n">head</span> <span class="o">==</span> <span class="n">tail</span>
-      <span class="n">head</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">head</span><span class="p">)</span>
-      <span class="n">tail</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">tail</span><span class="p">)</span>
-    <span class="k">end</span>
-    <span class="c1"># When head and tail point to the same number</span>
-    <span class="c1"># then on the next step, they'll be on the same node</span>
-    <span class="c1"># This current same number means head and tail both = the duplicate!</span>
-    <span class="n">head</span>
+  <span class="n">bench</span><span class="p">.</span><span class="nf">report</span> <span class="s2">"Struct"</span> <span class="k">do</span>
+    <span class="no">Dev</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:coolness</span><span class="p">)</span>
+    <span class="mi">1_000_000</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span> <span class="no">Dev</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Ryan"</span><span class="p">,</span> <span class="mi">27</span><span class="p">)</span> <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
+
+<span class="c1">#                  user     system      total        real</span>
+<span class="c1"># Hash         0.750000   0.010000   0.760000 (  0.762069)</span>
+<span class="c1"># Struct       0.270000   0.000000   0.270000 (  0.272200)</span>
 </code></pre>
 </div>
 
-<h2 id="evaluation">Evaluation</h2>
+<h3 id="theyre-compact">They’re Compact</h3>
 
-<p>So, how’d we do?</p>
+<p><em>And</em>, because they don’t have all of the methods that come with <code class="highlighter-rouge">Hashes</code>, they end up using less memory.  This isn’t a huge savings, but maybe it counts if you’re working in a constrained environment or with a bazillion data points.</p>
 
-<p><strong>Space</strong>: We generally keep track of the next node to step to, and a few other variables, but I think we can safely say that our space usage is ~O(1).  We don’t ever save a copy of our array anywhere.</p>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'objspace'</span>
 
-<p><strong>Time</strong>: We loop through once to find the length of the cycle, and then we loop again to find the duplicate.  This gets us to ~O(n) since we always loop through the array the same number of times regardless of input length and it’s only a matter of how long the array is.</p>
+<span class="no">Dev</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:age</span><span class="p">)</span>
+<span class="nb">p</span> <span class="o">=</span> <span class="no">Dev</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Ryan"</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">name: </span><span class="s2">"Ryan"</span><span class="p">,</span> <span class="ss">age: </span><span class="mi">25</span> <span class="p">}</span>
 
-<p>VICTORY.  This was a really tricky one.  If it didn’t make sense, it’s not your fault.  I had to read through it a few times, do the problem a few times, and even write this blog post before I fully understood how it worked.  Feel free to reach out with questions if I can help clarify anything for you.  And again, go check out <a href="https://interviewcake.com">Interview Cake</a> for more practice on puzzles like these (although they’re not all quite as tricky as this one is).</p>
+<span class="nb">puts</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">memsize_of</span><span class="p">(</span><span class="nb">p</span><span class="p">)</span>
+<span class="c1"># =&gt; 40</span>
+<span class="nb">puts</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">memsize_of</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="c1"># =&gt; 232</span>
+</code></pre>
+</div>
+
+<p>However, if you need some of those methods, maybe you’re better off with a <code class="highlighter-rouge">Hash</code>.</p>
+
+<h2 id="but-dont-go-crazy">But Don’t Go Crazy</h2>
+
+<p>If you have a lot of methods and custom functionality, or if the object is a larger part of your application, it’s probably better to stick with our good old friend, the Class.  While the upside of <code class="highlighter-rouge">Structs</code> is that they are quick and easy to create on the fly, that’s also their downfall.  Having too many <code class="highlighter-rouge">structs</code>, or ones that are too large, can be hard to read and might miss out on the benefits of defining a Class the normal, idiomatic way.  Just like most things in programming, it all comes down to trade-offs.</p>
+
+<h2 id="one-last-thing-openstructs">One Last Thing: OpenStructs</h2>
+
+<p>I thought I should add this in because, when I initially started researching, I thought <code class="highlighter-rouge">OpenStructs</code> were the same as regular <code class="highlighter-rouge">structs</code>.  Some StackOverflow answers can be misleading.  <code class="highlighter-rouge">OpenStructs</code> get created in a similar manner to regular ones, except for the fact that they’re essentially anonymous.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'ostruct'</span>
+
+<span class="n">me</span> <span class="o">=</span> <span class="no">OpenStruct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">name: </span><span class="s2">"Ryan"</span><span class="p">,</span> <span class="ss">blog: </span><span class="s2">"assert_not magic?"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>The main difference is that you can dynamically add attributes to this kind.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">me</span><span class="p">.</span><span class="nf">favorite_food</span> <span class="o">=</span> <span class="s2">"chorizo breakfast burrito"</span>
+</code></pre>
+</div>
+
+<p><img src="/img/struct-chorizo.jpg" alt="Breakfast burritos…mmmm…" /></p>
+
+<p>If you tried that with a regular <code class="highlighter-rouge">struct</code>, you’d get a <code class="highlighter-rouge">NoMethodError</code>.</p>
+
+<p>What’s the trade-off here?  You don’t get to name it.  Also, OpenStructs are <strong>outrageously slow and memory intensive</strong> .  Check out <a href="https://stackoverflow.com/a/5440064/4100442">these benchmarks</a>.</p>
+
+<h2 id="wrap-up">Wrap-Up</h2>
+
+<p>So that’s it.  I thought it was a super handy tool — kind of like a <code class="highlighter-rouge">NamedTuple</code> in Python, but with even nicer syntax!  Now we’re one trick closer to Ruby mastery!</p>
+
+<p><strong>More Resources</strong>:</p>
+
+<ul>
+  <li><a href="https://stackoverflow.com/questions/25873672/ruby-class-vs-struct">Class vs. Struct</a></li>
+  <li><a href="https://stackoverflow.com/questions/3275594/when-to-use-struct-instead-of-hash-in-ruby">Hash vs. Struct</a></li>
+  <li><a href="https://stackoverflow.com/questions/1177594/when-should-i-use-struct-vs-openstruct">OpenStruct vs. Struct</a></li>
+  <li><a href="http://culttt.com/2015/04/15/working-with-structs-in-ruby/">Working with Structs - Philip Brown</a></li>
+</ul>
+
 </p>
   
 
@@ -362,6 +351,11 @@
         </li>
         
           <li>
+            <span class="post-meta">Nov 14, 2017</span><br/>
+            <a class="post-link" href="/2017/11/14/cake-and-duplicates/">Cake and Duplicates</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Nov 11, 2017</span><br/>
             <a class="post-link" href="/2017/11/11/static-site-search-with-vue/">Add Search to Your Static Site with Vue</a>
           </li>
@@ -369,11 +363,6 @@
           <li>
             <span class="post-meta">Nov 4, 2017</span><br/>
             <a class="post-link" href="/2017/11/04/git-wrecked/">Git Wrecked — Keeping Your Branches Synced Without Breaking Things</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Oct 28, 2017</span><br/>
-            <a class="post-link" href="/2017/10/28/e-for-everywhere/">E for Everywhere</a>
           </li>
         
       </ul>
@@ -410,7 +399,7 @@
         
         <a href="/tags/soft-skills/" style="font-size: 22px">soft-skills | </a>
         
-        <a href="/tags/tricks/" style="font-size: 28px">tricks | </a>
+        <a href="/tags/tricks/" style="font-size: 30px">tricks | </a>
         
         <a href="/tags/vscode/" style="font-size: 14px">vscode | </a>
         
@@ -426,7 +415,7 @@
         
         <a href="/tags/teaching/" style="font-size: 16px">teaching | </a>
         
-        <a href="/tags/ruby/" style="font-size: 24px">ruby | </a>
+        <a href="/tags/ruby/" style="font-size: 26px">ruby | </a>
         
         <a href="/tags/jekyll/" style="font-size: 16px">jekyll | </a>
         
@@ -499,6 +488,10 @@
         <a href="/tags/big-o/" style="font-size: 14px">big-o | </a>
         
         <a href="/tags/linked-lists/" style="font-size: 14px">linked-lists | </a>
+        
+        <a href="/tags/design-intent/" style="font-size: 14px">design-intent | </a>
+        
+        <a href="/tags/struct/" style="font-size: 14px">struct | </a>
         
       </p>
     </div>

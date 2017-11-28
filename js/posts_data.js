@@ -1,6 +1,15 @@
 const posts = [
     
     {
+        title: "Thunder-Struct",
+        url: "/2017/11/27/thunder-struct/",
+        cover: "/img/thunder-struct.jpg",
+        tags: "ruby, tricks, design-intent, struct",
+        date: "November 27, 2017",
+        description: "Ruby Structs are the objects you didn&#39;t know you needed."
+    } ,
+    
+    {
         title: "Cake and Duplicates",
         url: "/2017/11/14/cake-and-duplicates/",
         cover: "/img/cake.jpg",

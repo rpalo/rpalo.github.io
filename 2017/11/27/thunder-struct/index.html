@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <!-- Bootstrap Setup -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="ROBOTS" content="INDEX,FOLLOW">
+        <meta name="description" content="Ruby Structs are the objects you didn't know you needed.">
+        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, ruby, tricks, design-intent, struct">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="assert_not magic? | Thunder-Struct">
+        <meta name="twitter:site" content="@paytastic">
+        <meta name="twitter:description" content="Ruby Structs are the objects you didn't know you needed.">
+        <meta name="twitter:image" content="http://assertnotmagic.com/img/thunder-struct.jpg">
+        <meta name="twitter:creator" content="@paytastic">
+        <meta name="og:url" content="http://assertnotmagic.com/2017/11/27/thunder-struct/">
+        <meta name="og:title" content="assert_not magic? | Thunder-Struct">
+        <meta name="og:description" content="Ruby Structs are the objects you didn't know you needed.">
+        <meta name="og:image" content="http://assertnotmagic.com/img/thunder-struct.jpg">
+
+        <!-- Favicon settings -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/manifest.json">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#222222">
+        <meta name="theme-color" content="#ffffff">
+        
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+        
+        <title>assert_not magic?</title>
+    </head>
+    <body>
+        
+<nav id="main-nav">
+    <a href="/" class="mobile-home">assert_not magic?</a>
+    <ul>
+        <li class="logo"><a href="/">assert_not magic?</a></li>
+        <li><a href="/posts/">All Posts</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/sketches/">Sketches</a></li>
+        <li><a href="/todo/">TODO</a></li>
+        <li><a href="/uses/">Uses</a></li>
+    </ul>
+</nav>
+        <div class="container main">
+                <article class="site-wrap">
+    <div id="cover">
+        
+        <img alt="Cover Image" class="cover-image" src="/img/thunder-struct.jpg">
+        
+    </div>
+    <h1>Thunder-Struct</h1>
+    <p>I just found out about this super handy built-in class in Ruby called a <code class="highlighter-rouge">Struct</code>, and I wanted to share.</p>
+
+<h2 id="what-is-a-struct">What is a Struct</h2>
+
+<p>Very simply put, a <code class="highlighter-rouge">Struct</code> is a data object that is simulates a quick way to declare a class.  A common need in a program is to glue a bunch of related data together.  You can think of our options for that as a sort of continuum.</p>
+
+<p><img src="/img/struct-continuum.png" alt="Different data types and how flexible vs. how structured they are" /></p>
+
+<p>Let’s say, for example, that you have a student grade that you want to keep track of.  You could define a class to explicitly lay out your data structure.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Grade</span>
+  <span class="kp">attr_reader</span> <span class="ss">:assignment</span><span class="p">,</span> <span class="ss">:number_grade</span><span class="p">,</span> <span class="ss">:letter_grade</span>
+  
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">assignment</span><span class="p">,</span> <span class="n">number_grade</span><span class="p">,</span> <span class="n">letter_grade</span><span class="p">)</span>
+    <span class="vi">@assignment</span> <span class="o">=</span> <span class="n">assignment</span>
+    <span class="vi">@number_grade</span> <span class="o">=</span> <span class="n">number_grade</span>
+    <span class="vi">@letter_grade</span> <span class="o">=</span> <span class="n">letter_grade</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">jerrys_grade</span> <span class="o">=</span> <span class="no">Grade</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Physics Quiz #3"</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="s2">"B"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Or, seeing all of the typing, you could violently overreact and go in the opposite direction.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">jerrys_grade</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Physics Quiz #3"</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="s2">"B"</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<p>For a simple data object like this where there aren’t really methods to define yet, I think a lot of people’s first thought is to try to be more in the middle of the spectrum.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">jerrys_grade</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">assignment: </span><span class="s2">"Physics Quiz #3"</span><span class="p">,</span>
+  <span class="ss">number_grade: </span><span class="mi">85</span><span class="p">,</span>
+  <span class="ss">letter_grade: </span><span class="s2">"B"</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>But there’s another, even awesomer (yeah, I said it) way: the <code class="highlighter-rouge">Struct</code>.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="no">Grade</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:assignment</span><span class="p">,</span> <span class="ss">:number_grade</span><span class="p">,</span> <span class="ss">:letter_grade</span><span class="p">)</span>
+
+<span class="n">jerrys_grade</span> <span class="o">=</span> <span class="no">Grade</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Physics Quiz #3"</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="s2">"B"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h2 id="what-do-i-do-with-it">What Do I Do With It?</h2>
+
+<p><code class="highlighter-rouge">Structs</code> are cool because they give you a lot of flexibility in how you access and use the data without giving up any explicit-ness.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">jerrys_grade</span><span class="p">.</span><span class="nf">assignment</span>
+<span class="c1"># =&gt; "Physics Quiz #3"</span>
+<span class="n">jerrys_grade</span><span class="p">[</span><span class="s2">"number_grade"</span><span class="p">]</span>
+<span class="c1"># =&gt; 85</span>
+<span class="n">jerrys_grade</span><span class="p">[</span><span class="ss">:letter_grade</span><span class="p">]</span>
+<span class="c1"># =&gt; "B"</span>
+
+<span class="c1"># Jerry must have done some extra credit</span>
+<span class="n">jerrys_grade</span><span class="p">.</span><span class="nf">number_grade</span> <span class="o">+=</span> <span class="mi">10</span>
+<span class="n">jerrys_grade</span><span class="p">[</span><span class="s2">"letter_grade"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"A"</span>
+</code></pre>
+</div>
+
+<p>They also come pre-built with some of the features that you’d have to build yourself if you used an actual <code class="highlighter-rouge">class</code> definition.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># Equality</span>
+<span class="n">doras_grade</span> <span class="o">=</span> <span class="no">Grade</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Physics Quiz #3"</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="s2">"A"</span><span class="p">)</span>
+<span class="n">doras_grade</span> <span class="o">==</span> <span class="n">jerrys_grade</span>
+<span class="c1"># =&gt; true</span>
+
+<span class="c1"># Can be enumerated</span>
+<span class="n">jerrys_grade</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">datapoint</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">datapoint</span> <span class="p">}</span>
+<span class="c1"># =&gt; Physics Quiz #3</span>
+<span class="c1"># =&gt; 95</span>
+<span class="c1"># =&gt; A</span>
+
+<span class="c1"># Or enumerated like a hash with key and value</span>
+<span class="n">doras_grade</span><span class="p">.</span><span class="nf">each_pair</span> <span class="p">{</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
+<span class="c1"># =&gt; assignment: Physics Quiz #3</span>
+<span class="c1"># =&gt; number_grade: 95</span>
+<span class="c1"># =&gt; letter_grade: A</span>
+
+<span class="c1"># Can be converted to an array or hash</span>
+<span class="n">jerrys_grade</span><span class="p">.</span><span class="nf">to_a</span>
+<span class="c1"># =&gt; ["Physics Quiz #3", 95, "A"]</span>
+<span class="n">doras_grade</span><span class="p">.</span><span class="nf">to_h</span>
+<span class="c1"># =&gt; {assignment: "Physics Quiz #3", number_grade: 95, letter_grade: "A"}</span>
+</code></pre>
+</div>
+
+<p>And if you need your own methods, you can add them via a block when creating them.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="no">Grade</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:assignment</span><span class="p">,</span> <span class="ss">:number_grade</span><span class="p">)</span> <span class="k">do</span>
+  <span class="k">def</span> <span class="nf">letter_grade</span>
+    <span class="k">case</span> <span class="n">number_grade</span>
+    <span class="k">when</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="nf">.</span><span class="mi">64</span><span class="p">)</span>
+      <span class="s2">"F"</span>
+    <span class="k">when</span> <span class="p">(</span><span class="mi">65</span><span class="p">.</span><span class="nf">.</span><span class="mi">69</span><span class="p">)</span>
+      <span class="s2">"D"</span>
+    <span class="k">when</span> <span class="p">(</span><span class="mi">70</span><span class="p">.</span><span class="nf">.</span><span class="mi">79</span><span class="p">)</span>
+      <span class="s2">"C"</span>
+    <span class="k">when</span> <span class="p">(</span><span class="mi">80</span><span class="p">.</span><span class="nf">.</span><span class="mi">89</span><span class="p">)</span>
+      <span class="s2">"B"</span>
+    <span class="k">when</span> <span class="p">(</span><span class="mi">90</span><span class="p">.</span><span class="nf">.</span><span class="mi">100</span><span class="p">)</span>
+      <span class="s2">"A"</span>
+    <span class="k">else</span>
+      <span class="s2">"WTF"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>Neat, right?  I bet right now, you’re feeling… inde-<strong>struct</strong>-ible?</p>
+
+<p><img src="/img/waka-waka.gif" alt="Waka waka!" /></p>
+
+<p>But now, you might have the same questions that I did once I got to this point.</p>
+
+<h2 id="whats-the-benefit">What’s the Benefit?</h2>
+
+<p>Why would I want to use a <code class="highlighter-rouge">Struct</code> instead of a <code class="highlighter-rouge">Class</code> or a <code class="highlighter-rouge">Hash</code>?  When is one better than the other?  It’s all a matter of what you’re trying to do.</p>
+
+<h3 id="static-vs-dynamic-attributes">Static vs. Dynamic Attributes</h3>
+
+<p>You can’t easily add attributes to a <code class="highlighter-rouge">Struct</code>, so in applications where your keys/attributes need to be dynamic or you don’t know what they’ll be ahead of time (think “word-counter”), you might be better suited with a <code class="highlighter-rouge">Hash</code>.  On the other hand, if you know exactly what keys you’ll need, the object-based “dot access” looks nice, and having a constructor can save you a lot of time typing.  It can be a good, clean way of signaling your design intent.  A good example of having well-defined attributes is if you work with an Address.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># This is nice and clear, and you don't have to retype the keys</span>
+<span class="c1"># for every new address</span>
+<span class="no">Address</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:street</span><span class="p">,</span> <span class="ss">:city</span><span class="p">,</span> <span class="ss">:postal_code</span><span class="p">,</span> <span class="ss">:country</span><span class="p">)</span>
+
+<span class="n">the_worlds_greatest_place</span> <span class="o">=</span> <span class="no">Address</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
+  <span class="s2">"211 Main St."</span><span class="p">,</span>
+  <span class="s2">"Savanna, IL"</span><span class="p">,</span>
+  <span class="mi">61074</span><span class="p">,</span>
+  <span class="s2">"USA"</span>
+<span class="p">)</span>
+
+<span class="c1"># This is ok, but more typing, harder to discern intent,</span>
+<span class="c1"># and more prone to typos and misinterpretation</span>
+<span class="n">more_typing</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">street: </span><span class="s2">"211 Main St."</span><span class="p">,</span>
+  <span class="ss">city: </span><span class="s2">"Savanna, IL"</span><span class="p">,</span>
+  <span class="ss">postal_code: </span><span class="mi">61074</span><span class="p">,</span>
+  <span class="ss">country: </span><span class="s2">"USA"</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h3 id="less-error-prone">Less Error Prone</h3>
+
+<p><code class="highlighter-rouge">Structs</code> tend to be more rigid, which can help protect from errors and uncaught typos.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">whoops_i_made_a_typo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">stroot: </span><span class="s2">"211 Main St."</span><span class="p">,</span>
+  <span class="c1"># Forgot that I commented out this one: city: "Savanna, IL",</span>
+  <span class="ss">postal_code: </span><span class="mi">61074</span><span class="p">,</span>
+  <span class="ss">country: </span><span class="s2">"USA"</span>
+<span class="p">}</span>
+<span class="c1"># And no errors get thrown</span>
+<span class="n">whoops_i_made_a_typo</span><span class="p">[</span><span class="s2">"street"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"309 Main St."</span>
+
+<span class="c1"># And if I access a key that doesn't exist</span>
+<span class="n">whoops_i_made_a_typo</span><span class="p">[</span><span class="s2">"city"</span><span class="p">]</span>
+<span class="c1"># =&gt; nil</span>
+
+<span class="c1"># But if we construct an Address with too many keys:</span>
+<span class="n">big_ole_error</span> <span class="o">=</span> <span class="no">Address</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
+  <span class="s2">"123 Fake St."</span><span class="p">,</span>
+  <span class="s2">"Fake, FK"</span><span class="p">,</span>
+  <span class="mi">12345</span><span class="p">,</span>
+  <span class="s2">"USA"</span><span class="p">,</span>
+  <span class="s2">"BLARGLFLURB"</span>
+<span class="p">)</span>
+<span class="c1"># =&gt; ArgumentError: Struct size differs</span>
+
+<span class="c1"># And if we try to access a key that doesn't exist?</span>
+<span class="n">the_worlds_greatest_place</span><span class="p">[</span><span class="s2">"potato"</span><span class="p">]</span>
+<span class="c1"># =&gt; NoMethodError: undefined method 'potato'</span>
+</code></pre>
+</div>
+
+<h3 id="theyre-fast">They’re Fast</h3>
+
+<p><code class="highlighter-rouge">Structs</code> can also be much faster to create than hashes.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'benchmark'</span>
+
+<span class="no">Benchmark</span><span class="p">.</span><span class="nf">bm</span> <span class="mi">10</span> <span class="k">do</span> <span class="o">|</span><span class="n">bench</span><span class="o">|</span>
+  <span class="n">bench</span><span class="p">.</span><span class="nf">report</span> <span class="s2">"Hash"</span> <span class="k">do</span>
+    <span class="mi">1_000_000</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span> <span class="p">{</span> <span class="ss">name: </span><span class="s2">"Ryan"</span><span class="p">,</span> <span class="ss">coolness: </span><span class="mi">27</span> <span class="p">}</span> <span class="k">end</span>
+  <span class="k">end</span>
+  
+  <span class="n">bench</span><span class="p">.</span><span class="nf">report</span> <span class="s2">"Struct"</span> <span class="k">do</span>
+    <span class="no">Dev</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:coolness</span><span class="p">)</span>
+    <span class="mi">1_000_000</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span> <span class="no">Dev</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Ryan"</span><span class="p">,</span> <span class="mi">27</span><span class="p">)</span> <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1">#                  user     system      total        real</span>
+<span class="c1"># Hash         0.750000   0.010000   0.760000 (  0.762069)</span>
+<span class="c1"># Struct       0.270000   0.000000   0.270000 (  0.272200)</span>
+</code></pre>
+</div>
+
+<h3 id="theyre-compact">They’re Compact</h3>
+
+<p><em>And</em>, because they don’t have all of the methods that come with <code class="highlighter-rouge">Hashes</code>, they end up using less memory.  This isn’t a huge savings, but maybe it counts if you’re working in a constrained environment or with a bazillion data points.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'objspace'</span>
+
+<span class="no">Dev</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:age</span><span class="p">)</span>
+<span class="nb">p</span> <span class="o">=</span> <span class="no">Dev</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Ryan"</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">name: </span><span class="s2">"Ryan"</span><span class="p">,</span> <span class="ss">age: </span><span class="mi">25</span> <span class="p">}</span>
+
+<span class="nb">puts</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">memsize_of</span><span class="p">(</span><span class="nb">p</span><span class="p">)</span>
+<span class="c1"># =&gt; 40</span>
+<span class="nb">puts</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">memsize_of</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="c1"># =&gt; 232</span>
+</code></pre>
+</div>
+
+<p>However, if you need some of those methods, maybe you’re better off with a <code class="highlighter-rouge">Hash</code>.</p>
+
+<h2 id="but-dont-go-crazy">But Don’t Go Crazy</h2>
+
+<p>If you have a lot of methods and custom functionality, or if the object is a larger part of your application, it’s probably better to stick with our good old friend, the Class.  While the upside of <code class="highlighter-rouge">Structs</code> is that they are quick and easy to create on the fly, that’s also their downfall.  Having too many <code class="highlighter-rouge">structs</code>, or ones that are too large, can be hard to read and might miss out on the benefits of defining a Class the normal, idiomatic way.  Just like most things in programming, it all comes down to trade-offs.</p>
+
+<h2 id="one-last-thing-openstructs">One Last Thing: OpenStructs</h2>
+
+<p>I thought I should add this in because, when I initially started researching, I thought <code class="highlighter-rouge">OpenStructs</code> were the same as regular <code class="highlighter-rouge">structs</code>.  Some StackOverflow answers can be misleading.  <code class="highlighter-rouge">OpenStructs</code> get created in a similar manner to regular ones, except for the fact that they’re essentially anonymous.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'ostruct'</span>
+
+<span class="n">me</span> <span class="o">=</span> <span class="no">OpenStruct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">name: </span><span class="s2">"Ryan"</span><span class="p">,</span> <span class="ss">blog: </span><span class="s2">"assert_not magic?"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>The main difference is that you can dynamically add attributes to this kind.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">me</span><span class="p">.</span><span class="nf">favorite_food</span> <span class="o">=</span> <span class="s2">"chorizo breakfast burrito"</span>
+</code></pre>
+</div>
+
+<p><img src="/img/struct-chorizo.jpg" alt="Breakfast burritos…mmmm…" /></p>
+
+<p>If you tried that with a regular <code class="highlighter-rouge">struct</code>, you’d get a <code class="highlighter-rouge">NoMethodError</code>.</p>
+
+<p>What’s the trade-off here?  You don’t get to name it.  Also, OpenStructs are <strong>outrageously slow and memory intensive</strong> .  Check out <a href="https://stackoverflow.com/a/5440064/4100442">these benchmarks</a>.</p>
+
+<h2 id="wrap-up">Wrap-Up</h2>
+
+<p>So that’s it.  I thought it was a super handy tool — kind of like a <code class="highlighter-rouge">NamedTuple</code> in Python, but with even nicer syntax!  Now we’re one trick closer to Ruby mastery!</p>
+
+<p><strong>More Resources</strong>:</p>
+
+<ul>
+  <li><a href="https://stackoverflow.com/questions/25873672/ruby-class-vs-struct">Class vs. Struct</a></li>
+  <li><a href="https://stackoverflow.com/questions/3275594/when-to-use-struct-instead-of-hash-in-ruby">Hash vs. Struct</a></li>
+  <li><a href="https://stackoverflow.com/questions/1177594/when-should-i-use-struct-vs-openstruct">OpenStruct vs. Struct</a></li>
+  <li><a href="http://culttt.com/2015/04/15/working-with-structs-in-ruby/">Working with Structs - Philip Brown</a></li>
+</ul>
+
+
+    <small>
+        Author: Ryan Palo | Tags: 
+        
+        <a href="/tags/ruby/">ruby</a>
+        
+        <a href="/tags/tricks/">tricks</a>
+        
+        <a href="/tags/design-intent/">design-intent</a>
+        
+        <a href="/tags/struct/">struct</a>
+        
+    </small>
+
+    <hr>
+
+<!-- Footer for Homepage -->
+  <div id="home-footer">
+    <div id="left-home-footer">
+      <!-- Featured Posts List -->
+      <h2>Featured Posts</h2>
+      <ul class="post-list">
+        <li>
+          <span class="post-meta">Jan 18, 2017</span><br />
+          <a class="post-link" href="/2017/01/18/assert-not-magic/">Assert Not Magic</a>
+        </li>
+        
+          <li>
+            <span class="post-meta">Nov 14, 2017</span><br/>
+            <a class="post-link" href="/2017/11/14/cake-and-duplicates/">Cake and Duplicates</a>
+          </li>
+        
+          <li>
+            <span class="post-meta">Nov 11, 2017</span><br/>
+            <a class="post-link" href="/2017/11/11/static-site-search-with-vue/">Add Search to Your Static Site with Vue</a>
+          </li>
+        
+          <li>
+            <span class="post-meta">Nov 4, 2017</span><br/>
+            <a class="post-link" href="/2017/11/04/git-wrecked/">Git Wrecked — Keeping Your Branches Synced Without Breaking Things</a>
+          </li>
+        
+      </ul>
+    </div>
+    <div id="center-home-footer">
+      <!-- Spacer -->
+    </div>
+    <div id="right-home-footer">
+      <!-- Tags List -->
+      <h2>Tags</h2>
+      <p>
+        
+        <a href="/tags/python/" style="font-size: 54px">python | </a>
+        
+        <a href="/tags/django/" style="font-size: 22px">django | </a>
+        
+        <a href="/tags/rails/" style="font-size: 14px">rails | </a>
+        
+        <a href="/tags/algorithms/" style="font-size: 22px">algorithms | </a>
+        
+        <a href="/tags/editors/" style="font-size: 16px">editors | </a>
+        
+        <a href="/tags/emacs/" style="font-size: 16px">emacs | </a>
+        
+        <a href="/tags/ai/" style="font-size: 14px">ai | </a>
+        
+        <a href="/tags/r/" style="font-size: 14px">r | </a>
+        
+        <a href="/tags/tools/" style="font-size: 16px">tools | </a>
+        
+        <a href="/tags/javascript/" style="font-size: 20px">javascript | </a>
+        
+        <a href="/tags/not_magic/" style="font-size: 14px">not_magic | </a>
+        
+        <a href="/tags/soft-skills/" style="font-size: 22px">soft-skills | </a>
+        
+        <a href="/tags/tricks/" style="font-size: 30px">tricks | </a>
+        
+        <a href="/tags/vscode/" style="font-size: 14px">vscode | </a>
+        
+        <a href="/tags/vim/" style="font-size: 16px">vim | </a>
+        
+        <a href="/tags/sublime/" style="font-size: 14px">sublime | </a>
+        
+        <a href="/tags/puzzle/" style="font-size: 18px">puzzle | </a>
+        
+        <a href="/tags/bash/" style="font-size: 16px">bash | </a>
+        
+        <a href="/tags/math/" style="font-size: 16px">math | </a>
+        
+        <a href="/tags/teaching/" style="font-size: 16px">teaching | </a>
+        
+        <a href="/tags/ruby/" style="font-size: 26px">ruby | </a>
+        
+        <a href="/tags/jekyll/" style="font-size: 16px">jekyll | </a>
+        
+        <a href="/tags/git/" style="font-size: 18px">git | </a>
+        
+        <a href="/tags/physics/" style="font-size: 14px">physics | </a>
+        
+        <a href="/tags/fun/" style="font-size: 18px">fun | </a>
+        
+        <a href="/tags/scientific/" style="font-size: 14px">scientific | </a>
+        
+        <a href="/tags/pythonic/" style="font-size: 16px">pythonic | </a>
+        
+        <a href="/tags/functional/" style="font-size: 16px">functional | </a>
+        
+        <a href="/tags/vue/" style="font-size: 22px">vue | </a>
+        
+        <a href="/tags/es6/" style="font-size: 20px">es6 | </a>
+        
+        <a href="/tags/tutorial/" style="font-size: 28px">tutorial | </a>
+        
+        <a href="/tags/exercise/" style="font-size: 14px">exercise | </a>
+        
+        <a href="/tags/fitness/" style="font-size: 14px">fitness | </a>
+        
+        <a href="/tags/sysadmin/" style="font-size: 16px">sysadmin | </a>
+        
+        <a href="/tags/linux/" style="font-size: 14px">linux | </a>
+        
+        <a href="/tags/html/" style="font-size: 16px">html | </a>
+        
+        <a href="/tags/seo/" style="font-size: 14px">seo | </a>
+        
+        <a href="/tags/social/" style="font-size: 14px">social | </a>
+        
+        <a href="/tags/metaprogramming/" style="font-size: 14px">metaprogramming | </a>
+        
+        <a href="/tags/css/" style="font-size: 14px">css | </a>
+        
+        <a href="/tags/front-end/" style="font-size: 14px">front-end | </a>
+        
+        <a href="/tags/animations/" style="font-size: 14px">animations | </a>
+        
+        <a href="/tags/p5/" style="font-size: 18px">p5 | </a>
+        
+        <a href="/tags/beginner/" style="font-size: 18px">beginner | </a>
+        
+        <a href="/tags/encouragement/" style="font-size: 18px">encouragement | </a>
+        
+        <a href="/tags/not-magic/" style="font-size: 14px">not-magic | </a>
+        
+        <a href="/tags/screencast/" style="font-size: 14px">screencast | </a>
+        
+        <a href="/tags/showdev/" style="font-size: 14px">showdev | </a>
+        
+        <a href="/tags/interview/" style="font-size: 14px">interview | </a>
+        
+        <a href="/tags/performance/" style="font-size: 14px">performance | </a>
+        
+        <a href="/tags/editor/" style="font-size: 14px">editor | </a>
+        
+        <a href="/tags/workflow/" style="font-size: 14px">workflow | </a>
+        
+        <a href="/tags/best-practice/" style="font-size: 14px">best-practice | </a>
+        
+        <a href="/tags/oss/" style="font-size: 14px">oss | </a>
+        
+        <a href="/tags/static-site/" style="font-size: 14px">static-site | </a>
+        
+        <a href="/tags/big-o/" style="font-size: 14px">big-o | </a>
+        
+        <a href="/tags/linked-lists/" style="font-size: 14px">linked-lists | </a>
+        
+        <a href="/tags/design-intent/" style="font-size: 14px">design-intent | </a>
+        
+        <a href="/tags/struct/" style="font-size: 14px">struct | </a>
+        
+      </p>
+    </div>
+  </div>
+  <hr>
+  
+
+  <p class="rss-subscribe contact">Like my stuff?  Have questions or feedback for me?  Want to mentor me or get my help with something?  <a href="/about/">Get in touch!</a>  To stay updated, subscribe <a href="/feed.xml">via RSS</a></p>
+
+
+
+</article>
+        </div>
+
+        <footer id="main-footer">
+    <div class="container">
+        <p class="text-muted">&copy; Ryan Palo 2017 | All things.  Phil. 4:13</p>
+    </div>
+</footer>
+        <!-- Scripts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+        <script src="/js/main.js"></script>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-91889165-1', 'auto');
+            ga('send', 'pageview');
+
+        </script>
+        
+    </body>
+</html>

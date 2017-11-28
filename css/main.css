@@ -33,12 +33,16 @@ li.logo a {
 .site-wrap h1 {
   font-family: "Patrick Hand SC", Arial, Helvetica, sans-serif;
   font-size: 3em;
+  -webkit-font-variant-ligatures: none;
+          font-variant-ligatures: none;
   line-height: 1.5em;
   border-bottom: 1px solid #CCC;
   padding-top: 10px;
   padding-bottom: 20px; }
 .site-wrap h2 {
   font-family: "Patrick Hand SC", Arial, Helvetica, sans-serif;
+  -webkit-font-variant-ligatures: none;
+          font-variant-ligatures: none;
   font-size: 2em;
   line-height: 1.5em;
   text-align: center;

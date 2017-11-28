@@ -5,10 +5,293 @@
     <description>I'm currently/always doing a lot of learning, and it seems like writing it down in blog form is a good idea to help cement the things I'm learning. Also, all the cool kids are doing it.  My goal is once every two weeks or better.
 </description>
     <link>https://assertnotmagic.com</link>
-    <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 14 Nov 2017 23:52:45 -0800</pubDate>
-    <lastBuildDate>Tue, 14 Nov 2017 23:52:45 -0800</lastBuildDate>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Mon, 27 Nov 2017 21:42:11 -0800</pubDate>
+    <lastBuildDate>Mon, 27 Nov 2017 21:42:11 -0800</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Thunder-Struct</title>
+        <description>&lt;p&gt;I just found out about this super handy built-in class in Ruby called a &lt;code class=&quot;highlighter-rouge&quot;&gt;Struct&lt;/code&gt;, and I wanted to share.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-a-struct&quot;&gt;What is a Struct&lt;/h2&gt;
+
+&lt;p&gt;Very simply put, a &lt;code class=&quot;highlighter-rouge&quot;&gt;Struct&lt;/code&gt; is a data object that is simulates a quick way to declare a class.  A common need in a program is to glue a bunch of related data together.  You can think of our options for that as a sort of continuum.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/struct-continuum.png&quot; alt=&quot;Different data types and how flexible vs. how structured they are&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s say, for example, that you have a student grade that you want to keep track of.  You could define a class to explicitly lay out your data structure.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Grade&lt;/span&gt;
+  &lt;span class=&quot;kp&quot;&gt;attr_reader&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:assignment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:number_grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:letter_grade&lt;/span&gt;
+  
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;assignment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number_grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;letter_grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@assignment&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;assignment&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@number_grade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number_grade&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@letter_grade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;letter_grade&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;jerrys_grade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Physics Quiz #3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;85&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;B&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Or, seeing all of the typing, you could violently overreact and go in the opposite direction.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;jerrys_grade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Physics Quiz #3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;85&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;B&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;For a simple data object like this where there aren’t really methods to define yet, I think a lot of people’s first thought is to try to be more in the middle of the spectrum.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;jerrys_grade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;assignment: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Physics Quiz #3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;number_grade: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;85&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;letter_grade: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;B&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;But there’s another, even awesomer (yeah, I said it) way: the &lt;code class=&quot;highlighter-rouge&quot;&gt;Struct&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;Grade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Struct&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:assignment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:number_grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:letter_grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;jerrys_grade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Physics Quiz #3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;85&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;B&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;what-do-i-do-with-it&quot;&gt;What Do I Do With It?&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Structs&lt;/code&gt; are cool because they give you a lot of flexibility in how you access and use the data without giving up any explicit-ness.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;jerrys_grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;assignment&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; &quot;Physics Quiz #3&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;jerrys_grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;number_grade&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; 85&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;jerrys_grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:letter_grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; &quot;B&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Jerry must have done some extra credit&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;jerrys_grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;number_grade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;jerrys_grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;letter_grade&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;A&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;They also come pre-built with some of the features that you’d have to build yourself if you used an actual &lt;code class=&quot;highlighter-rouge&quot;&gt;class&lt;/code&gt; definition.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Equality&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;doras_grade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Physics Quiz #3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;A&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;doras_grade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jerrys_grade&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; true&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Can be enumerated&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;jerrys_grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;datapoint&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;datapoint&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; Physics Quiz #3&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; 95&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; A&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Or enumerated like a hash with key and value&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;doras_grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each_pair&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; assignment: Physics Quiz #3&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; number_grade: 95&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; letter_grade: A&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Can be converted to an array or hash&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;jerrys_grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to_a&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; [&quot;Physics Quiz #3&quot;, 95, &quot;A&quot;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;doras_grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to_h&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; {assignment: &quot;Physics Quiz #3&quot;, number_grade: 95, letter_grade: &quot;A&quot;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;And if you need your own methods, you can add them via a block when creating them.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;Grade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Struct&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:assignment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:number_grade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;letter_grade&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number_grade&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;s2&quot;&gt;&quot;F&quot;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;65&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;69&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;s2&quot;&gt;&quot;D&quot;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;70&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;79&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;s2&quot;&gt;&quot;C&quot;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;89&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;s2&quot;&gt;&quot;B&quot;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;90&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;s2&quot;&gt;&quot;A&quot;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
+      &lt;span class=&quot;s2&quot;&gt;&quot;WTF&quot;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Neat, right?  I bet right now, you’re feeling… inde-&lt;strong&gt;struct&lt;/strong&gt;-ible?&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/waka-waka.gif&quot; alt=&quot;Waka waka!&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;But now, you might have the same questions that I did once I got to this point.&lt;/p&gt;
+
+&lt;h2 id=&quot;whats-the-benefit&quot;&gt;What’s the Benefit?&lt;/h2&gt;
+
+&lt;p&gt;Why would I want to use a &lt;code class=&quot;highlighter-rouge&quot;&gt;Struct&lt;/code&gt; instead of a &lt;code class=&quot;highlighter-rouge&quot;&gt;Class&lt;/code&gt; or a &lt;code class=&quot;highlighter-rouge&quot;&gt;Hash&lt;/code&gt;?  When is one better than the other?  It’s all a matter of what you’re trying to do.&lt;/p&gt;
+
+&lt;h3 id=&quot;static-vs-dynamic-attributes&quot;&gt;Static vs. Dynamic Attributes&lt;/h3&gt;
+
+&lt;p&gt;You can’t easily add attributes to a &lt;code class=&quot;highlighter-rouge&quot;&gt;Struct&lt;/code&gt;, so in applications where your keys/attributes need to be dynamic or you don’t know what they’ll be ahead of time (think “word-counter”), you might be better suited with a &lt;code class=&quot;highlighter-rouge&quot;&gt;Hash&lt;/code&gt;.  On the other hand, if you know exactly what keys you’ll need, the object-based “dot access” looks nice, and having a constructor can save you a lot of time typing.  It can be a good, clean way of signaling your design intent.  A good example of having well-defined attributes is if you work with an Address.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# This is nice and clear, and you don't have to retype the keys&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# for every new address&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;Address&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Struct&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:street&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:city&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:postal_code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:country&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;the_worlds_greatest_place&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;211 Main St.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;Savanna, IL&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;mi&quot;&gt;61074&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;USA&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# This is ok, but more typing, harder to discern intent,&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# and more prone to typos and misinterpretation&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;more_typing&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;street: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;211 Main St.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;city: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Savanna, IL&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;postal_code: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;61074&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;country: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;USA&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;less-error-prone&quot;&gt;Less Error Prone&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Structs&lt;/code&gt; tend to be more rigid, which can help protect from errors and uncaught typos.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;whoops_i_made_a_typo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;stroot: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;211 Main St.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# Forgot that I commented out this one: city: &quot;Savanna, IL&quot;,&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;postal_code: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;61074&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;country: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;USA&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# And no errors get thrown&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;whoops_i_made_a_typo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;street&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;309 Main St.&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# And if I access a key that doesn't exist&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;whoops_i_made_a_typo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;city&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; nil&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# But if we construct an Address with too many keys:&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;big_ole_error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;123 Fake St.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;Fake, FK&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;mi&quot;&gt;12345&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;USA&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;BLARGLFLURB&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; ArgumentError: Struct size differs&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# And if we try to access a key that doesn't exist?&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;the_worlds_greatest_place&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;potato&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; NoMethodError: undefined method 'potato'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;theyre-fast&quot;&gt;They’re Fast&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Structs&lt;/code&gt; can also be much faster to create than hashes.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'benchmark'&lt;/span&gt;
+
+&lt;span class=&quot;no&quot;&gt;Benchmark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;bm&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bench&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;bench&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;report&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hash&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+    &lt;span class=&quot;mi&quot;&gt;1_000_000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;times&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;name: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Ryan&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;coolness: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;27&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  
+  &lt;span class=&quot;n&quot;&gt;bench&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;report&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Struct&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+    &lt;span class=&quot;no&quot;&gt;Dev&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Struct&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:coolness&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;mi&quot;&gt;1_000_000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;times&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Dev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Ryan&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;27&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;#                  user     system      total        real&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Hash         0.750000   0.010000   0.760000 (  0.762069)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Struct       0.270000   0.000000   0.270000 (  0.272200)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;theyre-compact&quot;&gt;They’re Compact&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;And&lt;/em&gt;, because they don’t have all of the methods that come with &lt;code class=&quot;highlighter-rouge&quot;&gt;Hashes&lt;/code&gt;, they end up using less memory.  This isn’t a huge savings, but maybe it counts if you’re working in a constrained environment or with a bazillion data points.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'objspace'&lt;/span&gt;
+
+&lt;span class=&quot;no&quot;&gt;Dev&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Struct&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Dev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Ryan&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;q&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;name: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Ryan&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;age: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ObjectSpace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;memsize_of&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; 40&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ObjectSpace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;memsize_of&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;q&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; 232&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;However, if you need some of those methods, maybe you’re better off with a &lt;code class=&quot;highlighter-rouge&quot;&gt;Hash&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;but-dont-go-crazy&quot;&gt;But Don’t Go Crazy&lt;/h2&gt;
+
+&lt;p&gt;If you have a lot of methods and custom functionality, or if the object is a larger part of your application, it’s probably better to stick with our good old friend, the Class.  While the upside of &lt;code class=&quot;highlighter-rouge&quot;&gt;Structs&lt;/code&gt; is that they are quick and easy to create on the fly, that’s also their downfall.  Having too many &lt;code class=&quot;highlighter-rouge&quot;&gt;structs&lt;/code&gt;, or ones that are too large, can be hard to read and might miss out on the benefits of defining a Class the normal, idiomatic way.  Just like most things in programming, it all comes down to trade-offs.&lt;/p&gt;
+
+&lt;h2 id=&quot;one-last-thing-openstructs&quot;&gt;One Last Thing: OpenStructs&lt;/h2&gt;
+
+&lt;p&gt;I thought I should add this in because, when I initially started researching, I thought &lt;code class=&quot;highlighter-rouge&quot;&gt;OpenStructs&lt;/code&gt; were the same as regular &lt;code class=&quot;highlighter-rouge&quot;&gt;structs&lt;/code&gt;.  Some StackOverflow answers can be misleading.  &lt;code class=&quot;highlighter-rouge&quot;&gt;OpenStructs&lt;/code&gt; get created in a similar manner to regular ones, except for the fact that they’re essentially anonymous.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'ostruct'&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;me&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;OpenStruct&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;name: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Ryan&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;blog: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;assert_not magic?&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The main difference is that you can dynamically add attributes to this kind.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;me&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;favorite_food&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;chorizo breakfast burrito&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/struct-chorizo.jpg&quot; alt=&quot;Breakfast burritos…mmmm…&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If you tried that with a regular &lt;code class=&quot;highlighter-rouge&quot;&gt;struct&lt;/code&gt;, you’d get a &lt;code class=&quot;highlighter-rouge&quot;&gt;NoMethodError&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;What’s the trade-off here?  You don’t get to name it.  Also, OpenStructs are &lt;strong&gt;outrageously slow and memory intensive&lt;/strong&gt; .  Check out &lt;a href=&quot;https://stackoverflow.com/a/5440064/4100442&quot;&gt;these benchmarks&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;wrap-up&quot;&gt;Wrap-Up&lt;/h2&gt;
+
+&lt;p&gt;So that’s it.  I thought it was a super handy tool — kind of like a &lt;code class=&quot;highlighter-rouge&quot;&gt;NamedTuple&lt;/code&gt; in Python, but with even nicer syntax!  Now we’re one trick closer to Ruby mastery!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;More Resources&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://stackoverflow.com/questions/25873672/ruby-class-vs-struct&quot;&gt;Class vs. Struct&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://stackoverflow.com/questions/3275594/when-to-use-struct-instead-of-hash-in-ruby&quot;&gt;Hash vs. Struct&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://stackoverflow.com/questions/1177594/when-should-i-use-struct-vs-openstruct&quot;&gt;OpenStruct vs. Struct&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://culttt.com/2015/04/15/working-with-structs-in-ruby/&quot;&gt;Working with Structs - Philip Brown&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Mon, 27 Nov 2017 00:00:00 -0800</pubDate>
+        <link>http://localhost:4000/2017/11/27/thunder-struct/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/11/27/thunder-struct/</guid>
+        
+        <category>ruby</category>
+        
+        <category>tricks</category>
+        
+        <category>design-intent</category>
+        
+        <category>struct</category>
+        
+        
+      </item>
     
       <item>
         <title>Cake and Duplicates</title>
@@ -290,8 +573,8 @@
 &lt;p&gt;VICTORY.  This was a really tricky one.  If it didn’t make sense, it’s not your fault.  I had to read through it a few times, do the problem a few times, and even write this blog post before I fully understood how it worked.  Feel free to reach out with questions if I can help clarify anything for you.  And again, go check out &lt;a href=&quot;https://interviewcake.com&quot;&gt;Interview Cake&lt;/a&gt; for more practice on puzzles like these (although they’re not all quite as tricky as this one is).&lt;/p&gt;
 </description>
         <pubDate>Tue, 14 Nov 2017 00:00:00 -0800</pubDate>
-        <link>https://assertnotmagic.com/2017/11/14/cake-and-duplicates/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/11/14/cake-and-duplicates/</guid>
+        <link>http://localhost:4000/2017/11/14/cake-and-duplicates/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/11/14/cake-and-duplicates/</guid>
         
         <category>algorithms</category>
         
@@ -557,8 +840,8 @@ description: A list of all of my blog posts
 &lt;p&gt;That’s all!  A few file changes, less than 100 lines of code, and no build tools or &lt;code class=&quot;highlighter-rouge&quot;&gt;node_modules&lt;/code&gt;, and our site — well, currently just my site — is looking snazzy.  Now yours can too!  Let me know how it goes or if you run into problems, or if there are ways I can improve my setup.  Thanks for reading!&lt;/p&gt;
 </description>
         <pubDate>Sat, 11 Nov 2017 00:00:00 -0800</pubDate>
-        <link>https://assertnotmagic.com/2017/11/11/static-site-search-with-vue/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/11/11/static-site-search-with-vue/</guid>
+        <link>http://localhost:4000/2017/11/11/static-site-search-with-vue/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/11/11/static-site-search-with-vue/</guid>
         
         <category>vue</category>
         
@@ -679,8 +962,8 @@ git push origin --all
 &lt;p&gt;Like I said at the beginning, I’ve been learning this workflow for the last two weeks, so I am by no means anything more than a beginner.  Hopefully this helps, and hopefully people smarter than me will let me know if I got anything wrong here.  Shoutout to the &lt;a href=&quot;https://github.com/exercism/ruby/pull/760&quot;&gt;Exercism Ruby Track team&lt;/a&gt; that has been so patient with me as I bumble through my contributions.&lt;/p&gt;
 </description>
         <pubDate>Sat, 04 Nov 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/11/04/git-wrecked/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/11/04/git-wrecked/</guid>
+        <link>http://localhost:4000/2017/11/04/git-wrecked/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/11/04/git-wrecked/</guid>
         
         <category>git</category>
         
@@ -902,8 +1185,8 @@ n is the number of times you compound your interest over the time period.
 &lt;p&gt;Anyways, this was kind of a long post about nothing, but I though that the way that &lt;code class=&quot;highlighter-rouge&quot;&gt;e&lt;/code&gt; seems to pop up all over the place, even amidst factorials and random numbers, was pretty cool.  Let me know if you can think of any other cool ways to come up with &lt;code class=&quot;highlighter-rouge&quot;&gt;e&lt;/code&gt;!&lt;/p&gt;
 </description>
         <pubDate>Sat, 28 Oct 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/10/28/e-for-everywhere/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/10/28/e-for-everywhere/</guid>
+        <link>http://localhost:4000/2017/10/28/e-for-everywhere/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/10/28/e-for-everywhere/</guid>
         
         <category>math</category>
         
@@ -993,8 +1276,8 @@ inoremap &amp;lt;Right&amp;gt; &amp;lt;Nop&amp;gt;
 &lt;p&gt;If you’ve got any Vim pro-tips, let me know.  Vim is a fairly popular tutorial topic and everybody’s got lots of opinions about it, but I’m always on the lookout for cool resources, books, guides, games, ways to practice, etc.  I know there’s a lot of people with a lot of knowledge to share, so share away!&lt;/p&gt;
 </description>
         <pubDate>Wed, 25 Oct 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/10/25/accelerated-vimprovement/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/10/25/accelerated-vimprovement/</guid>
+        <link>http://localhost:4000/2017/10/25/accelerated-vimprovement/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/10/25/accelerated-vimprovement/</guid>
         
         <category>vim</category>
         
@@ -1197,8 +1480,8 @@ Sort by: self_time
 
 </description>
         <pubDate>Mon, 16 Oct 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/10/16/secret-message/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/10/16/secret-message/</guid>
+        <link>http://localhost:4000/2017/10/16/secret-message/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/10/16/secret-message/</guid>
         
         <category>ruby</category>
         
@@ -1565,8 +1848,8 @@ Sort by: self_time
 &lt;p&gt;&lt;em&gt;Cover image credit: Huffington Post&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 09 Oct 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/10/09/p5-part-3-rainbow-collections/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/10/09/p5-part-3-rainbow-collections/</guid>
+        <link>http://localhost:4000/2017/10/09/p5-part-3-rainbow-collections/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/10/09/p5-part-3-rainbow-collections/</guid>
         
         <category>p5</category>
         
@@ -1716,8 +1999,8 @@ Sort by: self_time
 
 </description>
         <pubDate>Thu, 05 Oct 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/10/05/smooth-one-liners/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/10/05/smooth-one-liners/</guid>
+        <link>http://localhost:4000/2017/10/05/smooth-one-liners/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/10/05/smooth-one-liners/</guid>
         
         <category>ruby</category>
         
@@ -1770,83 +2053,14 @@ Sort by: self_time
 &lt;p&gt;*Not an actual legally binding guarantee. 😬&lt;/p&gt;
 </description>
         <pubDate>Sat, 30 Sep 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/09/30/first-screencast/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/09/30/first-screencast/</guid>
+        <link>http://localhost:4000/2017/09/30/first-screencast/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/30/first-screencast/</guid>
         
         <category>screencast</category>
         
         <category>encouragement</category>
         
         <category>showdev</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Comparison Time</title>
-        <description>&lt;p&gt;You hear a lot of people giving some form of this piece of advice:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Don’t compare yourself to others.  Comparing yourself with someone with more experience only leads to disappointment and discouragement.  Comparing yourself to someone with less experience leads to a false sense of pride.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;I think that this is great advice.  But, I think that I can refine it a little to add a bit more value.&lt;/p&gt;
-
-&lt;h2 id=&quot;definitely-compare-yourself-to-others&quot;&gt;Definitely Compare Yourself to Others&lt;/h2&gt;
-
-&lt;p&gt;“That’s a pretty substantial refinement!” you say.  To this I say, “Yes.  Yes it is.  It is also a shameless attention-grabbing subtitle.”  Let me clarify.  I think you should compare the appropriate moment in time of “you” to others.  Do you see someone who is super amazing and it seems like they know everything?  Are you thinking to yourself, “Oh, man, I can’t believe how much stuff they know.  I barely know anything in comparison.  Therefore, I suck and should just give up.”?  Take a moment.  How many years of experience does that person have?  Or — possibly a better metric — how many projects/teams/technologies has this person worked on.  In how much depth?  How many mentors has this person had?  OK, with that information, we can reframe the question to an even comparison.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Picture yourself after that same number of years, projects, technologies, teams, and mentors.&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Now, how does this future you compare to this person right now?  Does it seem like “future you” could be just as smart/skilled/knowledgeable?  That’s a good comparison to have.&lt;/p&gt;
-
-&lt;h3 id=&quot;example-grumpy-senior-engineer-15-years-with-the-company&quot;&gt;Example: Grumpy Senior Engineer (15 years with the company)&lt;/h3&gt;
-
-&lt;p&gt;In our example, let’s imagine you recently got hired at &lt;em&gt;software.io&lt;/em&gt;, neat, trendy software company.  You’ve been working there for a few months.  There’s another employee that’s been with the company for 15 years!  They are grumpy, and that’s being polite about it, but they really know their stuff.  Based on their skill and their seniority, you generally look up to them.  This, combined with their grumpiness makes them kind of intimidating.  You’re trying to do your best as you work and things are generally good, but every so often, they’ll snap or make an off-handed comment about &lt;em&gt;junior developers&lt;/em&gt; or explain something using the words &lt;em&gt;simple&lt;/em&gt; and &lt;em&gt;obviously&lt;/em&gt; a lot.  This is discouraging, because it starts to seem like you &lt;em&gt;should&lt;/em&gt; know all of this stuff.  I mean, this senior engineer does!  Maybe there’s something wrong with you.  You’re probably dumb.  Maybe this programming thing just isn’t for you.  You start to keep an eye open for data entry jobs.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/worms.gif&quot; alt=&quot;We are worms!&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Stop.&lt;/strong&gt;  That’s enough of that nonsense.  Let’s practice our scale leveling.  This employee has worked at this company for 15 years.  Is it possible that, given 15 years, you could get to a point where you know as much as this employee does?  Or even more?  How much work would you have to put in over that time period for that to be the case?  Does that seem reasonable?  Easy?  Difficult, but doable if you really work?  If you answered yes to some of those questions, then stop worrying.  You’re exactly where you need to be.  Or, using this logic, you can figure out that you have actually been just cruising and need to be putting more time/effort into your learning.  Less episodes of NBC’s hit TV series Parks and Recreation and more side projects.  One fewer scroll through InstaTwitFaceSnapBlr and one more coding challenge on &lt;a href=&quot;http://exercism.io/&quot;&gt;Exercism&lt;/a&gt;.  Any way you look at this, you’ll get some valuable insight and hopefully feel more motivated and less… um… de-motivated?  Bad?  Like 💩.&lt;/p&gt;
-
-&lt;h3 id=&quot;example-2-question-filled-newbie&quot;&gt;Example 2: Question Filled Newbie&lt;/h3&gt;
-
-&lt;p&gt;It goes the other way.  Let’s say you have a bit more experience.  You know your way around a &lt;code class=&quot;highlighter-rouge&quot;&gt;class&lt;/code&gt; definition.  You’re a real hotshot.  But there’s this intern who is a sophomore in college who never. stops. asking. questions.  Questions that any poor fool knows the answer to.  Any poor fool, that is, except apparently for this intern.  But they are your poor fool and you’re supposed to be a mentor to them.  Let’s apply our scale leveling again.  Think of the questions this person is asking.  How long have they been with the company?  How long have they been programming?  It takes a certain amount of time and practice to figure out that most things are Google-able, and it takes even more practice to figure out how to ask the right questions.  Think about yourself at that level (I know it’s tough).  Think about what it was like to learn the very, very basics.  Think about learning about functions and the difference between parameters and arguments and why one didn’t have to match the other, but sometimes they did because that was the best name for the variable.  Think about hearing about each new technology that you were “supposed” to know.  For me, I learned Python, but as I started to get into Django (a web framework), I was like, “Oh, crap, now I’m supposed to know HTML, CSS, SQL, and JavaScript.”  And then there’s something called jQuery, which is JavaScript, but it’s not.  And there’s something called JSON, which is also JavaScript, but it’s not.  And then, and then, and then…&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/and-then.gif&quot; alt=&quot;And then and then and then&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Once you’ve done this, three things happen.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;The questions the intern asks stop being so annoying (or maybe, they become less annoying).&lt;/li&gt;
-  &lt;li&gt;Feeling superior to them becomes less important (which is good since feelings of superiority are pretty much never useful).&lt;/li&gt;
-  &lt;li&gt;You begin to see the questions from their eyes, which helps you pinpoint the most effective answers, shortening the list and duration of each of the questions as you explain things better.  This saves both of you time and helps them to feel less like a burden (because — trust me, if they are anything like me — they do).&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
-
-&lt;p&gt;So, to wrap up, this is very good advice.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Don’t compare yourself to others, only to past and future you.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;But, I propose that this is possibly even better advice.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Don’t compare current you to others.  Only compare equivalent versions of you to others and evaluate the work needed to get there (or the work it took to get where you are).&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Hopefully this helps.  Anything I can do to help keep Codenewbies from giving up is one more person who can use technology to help make the world a better place.  Let me know what you think!&lt;/p&gt;
-</description>
-        <pubDate>Sat, 23 Sep 2017 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2017/09/23/comparison-time/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/09/23/comparison-time/</guid>
-        
-        <category>soft-skills</category>
-        
-        <category>encouragement</category>
-        
-        <category>not-magic</category>
         
         
       </item>
