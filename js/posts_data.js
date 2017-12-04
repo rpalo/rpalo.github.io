@@ -165,7 +165,7 @@ const posts = [
     {
         title: "Script as a Service",
         url: "/2017/07/23/script-as-a-service/",
-        cover: "/img/",
+        cover: "/img/python-service.jpg",
         tags: "python, sysadmin, linux",
         date: "July 23, 2017",
         description: "Setting up a python script to run for a long time on a server"
@@ -262,7 +262,7 @@ const posts = [
     } ,
     
     {
-        title: "Douglas Adams&#39;s Whale",
+        title: "Douglas Adams's Whale",
         url: "/2017/05/14/douglas-adams-whale/",
         cover: "/img/whale.jpg",
         tags: "python, physics, fun, scientific",
@@ -343,7 +343,7 @@ const posts = [
     } ,
     
     {
-        title: "Let&#39;s Get Pythonic -- Generators",
+        title: "Let's Get Pythonic -- Generators",
         url: "/2017/03/14/lets-get-pythonic-generators/",
         cover: "/img/generator.png",
         tags: "python, tricks",
