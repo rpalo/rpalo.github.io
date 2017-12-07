@@ -1,6 +1,15 @@
 const posts = [
     
     {
+        title: "Search Your Site via the Omnibar (Even Static Sites)",
+        url: "/2017/12/05/search-your-site-via-omnibar-even-static-ones/",
+        cover: "/img/omnibar.png",
+        tags: "browser, html, javascript, tutorial",
+        date: "December 05, 2017",
+        description: "A quick guide for how to add Chrome Omnibar search functionality to your websites."
+    } ,
+    
+    {
         title: "Thunder-Struct",
         url: "/2017/11/27/thunder-struct/",
         cover: "/img/thunder-struct.jpg",

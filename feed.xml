@@ -6,9 +6,158 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 03 Dec 2017 19:35:09 -0800</pubDate>
-    <lastBuildDate>Sun, 03 Dec 2017 19:35:09 -0800</lastBuildDate>
+    <pubDate>Wed, 06 Dec 2017 20:33:21 -0800</pubDate>
+    <lastBuildDate>Wed, 06 Dec 2017 20:33:21 -0800</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Search Your Site via the Omnibar (Even Static Sites)</title>
+        <description>&lt;p&gt;A little while ago, &lt;a href=&quot;https://dev.to/twhite&quot;&gt;Tiffany White&lt;/a&gt; posted an update on &lt;a href=&quot;https://dev.to&quot;&gt;Dev.to&lt;/a&gt;, documenting a new feature: Chrome Omnibar search.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/omnibar-in-action.gif&quot; alt=&quot;Searching with the omnibar&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It’s one of those features that I take for granted on so many of the popular sites that I use, not considering the fact that I could actually have that feature on my own site!  So I looked into how to implement it, and I wanted to share what I found with everybody else.  Part of the point of this post is that I cobbled my suggestion together from a bunch of different search results I found, so if I missed something important, let me know and I’ll add it to the guide (and update how I did it on my blog).&lt;/p&gt;
+
+&lt;h2 id=&quot;part-1-opensearch&quot;&gt;Part 1: OpenSearch&lt;/h2&gt;
+
+&lt;p&gt;The first (and almost only) thing you’ll need is to add a &lt;code class=&quot;highlighter-rouge&quot;&gt;/opensearch.xml&lt;/code&gt; file (in the root of your website) with the contents below.  I’m using my blog in the links below.  You’ll probably want to change things to match your site, unless you really like me and want to forward your search traffic to me.&lt;/p&gt;
+
+&lt;div class=&quot;language-xml highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;OpenSearchDescription&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;xmlns=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://a9.com/-/spec/opensearch/1.1/&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;xmlns:moz=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://mozilla.org/2006/browser/search/&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+	&lt;span class=&quot;nt&quot;&gt;&amp;lt;ShortName&amp;gt;&lt;/span&gt;Assert_Not Magic&lt;span class=&quot;nt&quot;&gt;&amp;lt;/ShortName&amp;gt;&lt;/span&gt;
+  	&lt;span class=&quot;nt&quot;&gt;&amp;lt;Description&amp;gt;&lt;/span&gt;Search blog posts on assert_not magic&lt;span class=&quot;nt&quot;&gt;&amp;lt;/Description&amp;gt;&lt;/span&gt;
+  	&lt;span class=&quot;nt&quot;&gt;&amp;lt;InputEncoding&amp;gt;&lt;/span&gt;UTF-8&lt;span class=&quot;nt&quot;&gt;&amp;lt;/InputEncoding&amp;gt;&lt;/span&gt;
+  	&lt;span class=&quot;nt&quot;&gt;&amp;lt;Image&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;16&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;16&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image/png&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;https://assertnotmagic.com/favicon-16x16.png&lt;span class=&quot;nt&quot;&gt;&amp;lt;/Image&amp;gt;&lt;/span&gt;
+  	&lt;span class=&quot;nt&quot;&gt;&amp;lt;Url&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/html&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;method=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;get&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;template=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://assertnotmagic.com/posts/?q={searchTerms}&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+  	&lt;span class=&quot;nt&quot;&gt;&amp;lt;Url&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;application/opensearchdescription+xml&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;self&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;template=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://assertnotmagic.com/opensearch.xml&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+  	&lt;span class=&quot;nt&quot;&gt;&amp;lt;SearchForm&amp;gt;&lt;/span&gt;https://assertnotmagic.com/posts/&lt;span class=&quot;nt&quot;&gt;&amp;lt;/SearchForm&amp;gt;&lt;/span&gt;
+  	&lt;span class=&quot;nt&quot;&gt;&amp;lt;moz:SearchForm&amp;gt;&lt;/span&gt;https://assertnotmagic.com/posts/&lt;span class=&quot;nt&quot;&gt;&amp;lt;/moz:SearchForm&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/OpenSearchDescription&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;A quick description of each item:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;ShortName&lt;/strong&gt;: A short name for you (and the browser) to refer to your search engine by (&amp;lt; 16 characters).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Description&lt;/strong&gt;: A longer description (&amp;lt; 1024 characters).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;InputEncoding&lt;/strong&gt;: The encoding of characters to expect.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Image&lt;/strong&gt;: The absolute path to (or Base64 data representation of) an icon of your choosing to show up next to search bars in some clients (see the image below).  Make sure the &lt;code class=&quot;highlighter-rouge&quot;&gt;type&lt;/code&gt; matches the filetype of your image (whether it’s &lt;code class=&quot;highlighter-rouge&quot;&gt;.png, .jpg, or .ico&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Url&lt;/strong&gt;: This is the URL that gets pinged when the user completes their search.  Note that it uses a “magical” {searchTerms}.  It will fill in the URL with whatever the user types.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Url (The second one)&lt;/strong&gt;: You can include this and some browsers will automatically update themselves &lt;del&gt;if&lt;/del&gt; WHEN you make changes to your &lt;code class=&quot;highlighter-rouge&quot;&gt;opensearch.xml&lt;/code&gt;.  More on that in a second.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;SearchForm/moz:SearchForm&lt;/strong&gt;: Tags that hold a link to your search page.  I believe this is so that if your user gets frustrated with the Omnibar, they can say “BAH.  Just take me to their search page and I’ll do it there.”&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/OpenSearch&quot;&gt;Firefox OpenSearch documentation&lt;/a&gt; has some solid guidance to these terms, what is involved, and what is required, if you’re not satisfied with my explanation.  They also have help for if you want to use the Omni-bar to ping a JSON endpoint.&lt;/p&gt;
+
+&lt;h3 id=&quot;possible-gotcha-updating-during-development&quot;&gt;Possible Gotcha: Updating During Development&lt;/h3&gt;
+
+&lt;p&gt;While you’re getting setup, it’s possible that you’ll make a typo or a mistake somewhere.  And then you’ll wonder how you clear the @!#$ing cache so your browser reloads the new configuration.  For Chrome, you can right-click the Omnibar and select “Edit Search Engines”.  Find your bar in that menu and delete it to allow your browser to pull in your most recent update.  In theory, the auto-update URL above should save you from this, but this can be your backup nuclear option.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/omnibar-cache.png&quot; alt=&quot;How to clear the OpenSearch cache&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;part-2-link-tag&quot;&gt;Part 2: Link Tag&lt;/h2&gt;
+
+&lt;p&gt;Next, all you need to do is throw a &lt;code class=&quot;highlighter-rouge&quot;&gt;link&lt;/code&gt; tag into your &lt;code class=&quot;highlighter-rouge&quot;&gt;head&lt;/code&gt; section.  I think it’s enough to just have it on your homepage.  Someone correct me if that’s not true.&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- index.html --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE HTML&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;lang=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- ... All the rest of your head tags --&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;search&quot;&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;application/opensearchdescription+xml&quot;&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;title=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Search assert_not magic&quot;&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/opensearch.xml&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- ... the rest of your site --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;And you should be good to go!  If you’ve got your own back-end, you can process the &lt;code class=&quot;highlighter-rouge&quot;&gt;q={searchTerms}&lt;/code&gt; from the XML document above in the &lt;code class=&quot;highlighter-rouge&quot;&gt;GET&lt;/code&gt; request to your Search Results page.  But what if you don’t &lt;em&gt;have&lt;/em&gt; a back end?&lt;/p&gt;
+
+&lt;h2 id=&quot;bonus-part-static-sites&quot;&gt;Bonus Part: Static Sites&lt;/h2&gt;
+
+&lt;p&gt;No back end?  No worries!  I’ll show you how to make it work with your dynamic JavaScript search form.  In &lt;a href=&quot;https://assertnotmagic.com/2017/11/11/static-site-search-with-vue/&quot;&gt;a previous post&lt;/a&gt;, I walked through how I added search functionality to my static-ly generated blog.  I’m going to use the code from the end of that post as a starting point.  For those that are too lazy to click the link:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;el&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'#app'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;post_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;posts&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;computed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;filteredPosts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toLowerCase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;includes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toLowerCase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The trick that we’re going to pull is that as we’re creating the Vue-powered search component, we’re going to check our URL for parameters.  Place this before the above code.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;URLSearchParams&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;location&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;URLSearchParams&lt;/code&gt; are a handy dandy way to parse parameters (everything after the &lt;code class=&quot;highlighter-rouge&quot;&gt;?&lt;/code&gt;) in a url.  While browser support isn’t quite 100%, I’m going to assume that a) you have transpilation figured out, b) you know &lt;a href=&quot;https://twitter.com/paytastic&quot;&gt;how to @ me&lt;/a&gt;, and I’ll help you out.&lt;/p&gt;
+
+&lt;p&gt;Now that we have our parameters (if they exist), let’s use them to have our search component pre-load the searched items.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;URLSearchParams&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;location&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;el&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'#app'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;has&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'q'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'q'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// &amp;lt;- This is the key part&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;post_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;posts&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;computed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;filteredPosts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toLowerCase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;includes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toLowerCase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If our URL has a &lt;code class=&quot;highlighter-rouge&quot;&gt;q&lt;/code&gt; parameter (which it does if it’s coming from the Omni-bar search), we load that into the search box, which causes our search results to update.  Otherwise, we start with a blank search box and carry on as usual.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/omnibar-in-action.gif&quot; alt=&quot;Here's how it works on my site&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And that’s it!  Like I said, if you know of any best practices for OpenSearch that I’m missing or ways that I can use it better/cooler, let me know and I’ll try to update the post.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Extra References:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://wynnnetherland.com/journal/enhance-your-site-search-with-opensearch/&quot;&gt;Enhance your site with opensearch - Wynn Netherland&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/OpenSearch&quot;&gt;Mozilla OpenSearch Docs&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.hanselman.com/blog/OnTheImportanceOfOpenSearch.aspx&quot;&gt;On the Importance of OpenSearch - Scott Hanselman&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Tue, 05 Dec 2017 00:00:00 -0800</pubDate>
+        <link>http://localhost:4000/2017/12/05/search-your-site-via-omnibar-even-static-ones/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/12/05/search-your-site-via-omnibar-even-static-ones/</guid>
+        
+        <category>browser</category>
+        
+        <category>html</category>
+        
+        <category>javascript</category>
+        
+        <category>tutorial</category>
+        
+        
+      </item>
     
       <item>
         <title>Thunder-Struct</title>
@@ -2007,60 +2156,6 @@ Sort by: self_time
         <category>bash</category>
         
         <category>sysadmin</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>First Screencast</title>
-        <description>&lt;p&gt;I created my first (and second) screencast tutorial!  I wanted to share my experience a little bit and encourage everybody else that’s secretly wanting to do a screenshare but not sure.&lt;/p&gt;
-
-&lt;h2 id=&quot;how-i-did-it&quot;&gt;How I Did It&lt;/h2&gt;
-
-&lt;p&gt;I didn’t even have to buy any software or hardware at all.  I’m sure there are programs out there that would let me do higher-quality editing, exporting, etc., and I’m sure there are microphones that would improve audio quality.  Those are probably a good idea, and I’ll have to look into them.  However, for this first one, I had such a low threshhold for chickening out and giving up, I had to make it as easy as possible for myself to do it.  Here’s my setup:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Created a new account on my Macbook, specifically for these screencasts.  No accidental notifications during the screencast, no personal files and info showing up that I don’t want, no initial settings or configurations skewing how my machine works compared to anybody watching.&lt;/li&gt;
-  &lt;li&gt;Microphone: Apple earbuds mic.  No external powersource or cords or stand or setup needed.  Just plug them in and go.&lt;/li&gt;
-  &lt;li&gt;Screen Recording Software: QuickTime Player comes stock on a Mac (I think).  You can record screencasts with it by opening it and clicking &lt;strong&gt;File -&amp;gt; New Screen Recording&lt;/strong&gt;.  You can then set it to use whatever mic you want (including those handy dandy platinum-quality earbuds).  You can also have it highlight your mouse clicks if you want.  I chose to do that.&lt;/li&gt;
-  &lt;li&gt;Video Editing Software: iMovie.  Simple-ish.  Easy-ish.  Got it for free.  I used it mostly to strip out the really long pauses whenever I didn’t know what to say.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;what-i-learned&quot;&gt;What I Learned&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Your first screencast will suck.  That’s ok.  Just push through, throw away your first couple of takes (but not much more than that), and get it edited and exported to YouTube (or wherever).  Don’t try to perfect it, just get it out there.  It won’t be perfect, and that’s ok, because, unless you shamelessly plug your screencasts on a popular blogging platform, no one will watch them.  BUT.  That’s the good thing.  Because, once you make the first one and get through the “curled-up-in-a-ball-of-social-anxiety-will-they-hate-it-oh-my-gosh-the-trolls-are-coming” phase, you’ll be less scared to make the second one.  And the second one will be a bit better.  And as you make more and more, you’ll get more confident — at this point I’m speculating, but, this is my hope — and the videos will get better.  And leave them up, because you can always make another, better video.&lt;/li&gt;
-  &lt;li&gt;There are some things you should leave out.  Trust me.  &lt;strong&gt;Don’t&lt;/strong&gt; do an intro to the video in the same video you’re recording.  If you have to do an intro, do it in a separate video in the same playlist that people can opt out of/not watch.  Your video already has a title and a description.  People (mostly) can read.  They know.  Just jump right into the material.  Somebody told me this, and I didn’t believe them.  And I did an intro to my first video.  And when I went back and watched it, &lt;em&gt;it was so boring&lt;/em&gt;.  It also adds minutes to your video, which adds to the time it takes to export and upload it.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;what-i-need-from-you&quot;&gt;What I Need from You&lt;/h2&gt;
-
-&lt;p&gt;I have a couple of favors to ask, if you’ve got time and are willing.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;If you know of a decent microphone (not platinum quality, but something that will get me 80% of the way there and sounding professional) that I can get on Amazon or something, let me know.&lt;/li&gt;
-  &lt;li&gt;Ditto for screencast/editing software.&lt;/li&gt;
-  &lt;li&gt;If you’ve got time, check out my video (see below).  The second one is better than the first, but I know there’s a lot of improvement to be made yet.  Message me (email, tweet, comment, etc.) if you have any feedback.  I know that’s a big favor, so I appreciate it, and I don’t take it lightly.  I want to get better and make things that people enjoy watching and can learn something from.&lt;/li&gt;
-  &lt;li&gt;If you’ve been thinking about making a screencast for a while but have been too nervous or didn’t know how, sit down and make one!  (Or stand up, I don’t care, live your life homie).  Put it up on YouTube.  And know that everything will be ok.  If you send me a link, I will shower you with complements, praise, and click the like button.  You’ve got the Palo guarantee on that one*.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;the-reveal&quot;&gt;The Reveal&lt;/h2&gt;
-
-&lt;p&gt;This is the second part, because it’s shorter and better and the first part makes me cringe.  Thanks for reading/watching!&lt;/p&gt;
-
-&lt;iframe width=&quot;560&quot; height=&quot;315&quot; style=&quot;text-align:center;&quot; src=&quot;https://www.youtube.com/embed/T5q9KFJdCzk?rel=0&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;*Not an actual legally binding guarantee. 😬&lt;/p&gt;
-</description>
-        <pubDate>Sat, 30 Sep 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/09/30/first-screencast/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/09/30/first-screencast/</guid>
-        
-        <category>screencast</category>
-        
-        <category>encouragement</category>
-        
-        <category>showdev</category>
         
         
       </item>
