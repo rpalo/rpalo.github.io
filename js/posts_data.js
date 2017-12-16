@@ -1,6 +1,15 @@
 const posts = [
     
     {
+        title: "Wishful Coding",
+        url: "/2017/12/13/wishful-coding/",
+        cover: "/img/wishful-cat.jpg",
+        tags: "tricks, focus, productivity",
+        date: "December 13, 2017",
+        description: "Write code using methods you wish existed, and go back and write them later."
+    } ,
+    
+    {
         title: "Search Your Site via the Omnibar (Even Static Sites)",
         url: "/2017/12/05/search-your-site-via-omnibar-even-static-ones/",
         cover: "/img/omnibar.png",

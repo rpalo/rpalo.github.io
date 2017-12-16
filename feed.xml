@@ -6,9 +6,93 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 06 Dec 2017 20:33:21 -0800</pubDate>
-    <lastBuildDate>Wed, 06 Dec 2017 20:33:21 -0800</lastBuildDate>
+    <pubDate>Fri, 15 Dec 2017 20:48:04 -0800</pubDate>
+    <lastBuildDate>Fri, 15 Dec 2017 20:48:04 -0800</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Wishful Coding</title>
+        <description>&lt;p&gt;&lt;em&gt;Cover Image credit to &lt;a href=&quot;https://hatrabbits.com/author/rene/&quot;&gt;René de Ruijter&lt;/a&gt;, at least, as far as I can tell.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;I’ve been doing the &lt;a href=&quot;https://github.com/rpalo/advent-of-code-2017&quot;&gt;Advent of Code 2017&lt;/a&gt; challenge this Advent, and I noticed that as I’ve been working on some of the harder challenges (number spirals, amirite?) I’ve started doing something that seems to really help me stay locked in to the problem.  It’s definitely not something groundbreaking, but I figured that I’d share it, in case it helps somebody else.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-problem-short-attention-spans-and-&quot;&gt;The Problem: Short Attention Spans and –&lt;/h2&gt;
+
+&lt;p&gt;Stop me if this scenario seems like a personal attack:&lt;/p&gt;
+
+&lt;p&gt;You’ve just been handed a problem/assignment.  You know where you need to start, but as you begin to type the first outlines of your code, one of the things you need to do next pops into your head.  You quickly jump over and create a new file for that and try to get a brief sketch down so you won’t forget later.  As you’re doing that, you realize that the new thing that you’re adding will need a test case, so you hop over and “just real quick” jot down the test case for what you were working on.  You run your tests to make sure everything’s failing as expected, but you forgot to configure your tests and the output is all ugly and who could continue to work in that kind of environment?  You’re not a &lt;em&gt;barbarian&lt;/em&gt; after all!  And then two hours later… wait a minute, what was I originally working on?&lt;/p&gt;
+
+&lt;p&gt;Some of the solution is just self-discipline – forcing yourself to finish what you’re working on before you start the next thing.  However, one place I find these mental self-interruptions especially problematic is when I’m trying to solve a big problem and have to keep worrying about little parts of the solution.  This is where my tip can come in handy.&lt;/p&gt;
+
+&lt;h2 id=&quot;one-solution-use-methods-you-wish-you-had&quot;&gt;One Solution: Use Methods You &lt;em&gt;Wish&lt;/em&gt; You Had&lt;/h2&gt;
+
+&lt;p&gt;This is probably best described with an example.&lt;/p&gt;
+
+&lt;p&gt;Let’s say you’re writing a script that controls an automatic treat dispenser for your dog.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/wishful-willy.jpg&quot; alt=&quot;My dog Willy&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;This is Willy.  He’s a very good boy.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;On your first pass through the code, you might write something like this.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dogs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;dogs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Pause here&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now you might think to yourself, &lt;em&gt;“Shoot!  Now I need to figure out when these dogs should get treats!”&lt;/em&gt;  And just like that, your train of thought for the rest of the high-level function is gone.&lt;/p&gt;
+
+&lt;p&gt;Here’s my solution.&lt;/p&gt;
+
+&lt;p&gt;I propose that you confidently carry on like nothing is wrong, and use the methods that you hope Future-You will write.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dogs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;dogs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;good_boy?&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;dog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;pat!&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;give_treat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;vi&quot;&gt;@treats&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;“But Ryan!  We haven’t written methods like &lt;code class=&quot;highlighter-rouge&quot;&gt;good_boy?&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;pat!&lt;/code&gt;,  or &lt;code class=&quot;highlighter-rouge&quot;&gt;give_treat&lt;/code&gt; yet.”&lt;/em&gt;  EXACTLY.  That’s a problem for Future-Us.  The important thing now is to keep you in that flow state and make sure you get your whole thought on the screen before you forget what you’re supposed to be doing.  We’ll come back and fill in the cracks later.&lt;/p&gt;
+
+&lt;p&gt;(For those of you that are really concerned, here’s how &lt;code class=&quot;highlighter-rouge&quot;&gt;good_boy?&lt;/code&gt; is implemented):&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Dog&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# ...&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;good_boy?&lt;/span&gt;
+    &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;😬&lt;/p&gt;
+
+&lt;h2 id=&quot;wrap-up&quot;&gt;Wrap Up&lt;/h2&gt;
+
+&lt;p&gt;So that’s the tip!  Write the code, and when you come to a section  that seems like it might bog you down &lt;strong&gt;even a little bit&lt;/strong&gt;, just pretend you already have a method for that.  A secondary benefit of this is that it helps you identify where good places to pull code into separate methods are.  You can always come back and clean things up after everything’s working a little better.&lt;/p&gt;
+
+&lt;p&gt;Got any other pro-tips for blocking out the distractions?  Let me know — I’d love to hear them!&lt;/p&gt;
+</description>
+        <pubDate>Wed, 13 Dec 2017 00:00:00 -0800</pubDate>
+        <link>http://localhost:4000/2017/12/13/wishful-coding/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/12/13/wishful-coding/</guid>
+        
+        <category>tricks</category>
+        
+        <category>focus</category>
+        
+        <category>productivity</category>
+        
+        
+      </item>
     
       <item>
         <title>Search Your Site via the Omnibar (Even Static Sites)</title>
@@ -2007,155 +2091,6 @@ Sort by: self_time
         <category>beginner</category>
         
         <category>tutorial</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Smooth Ruby One-Liners</title>
-        <description>&lt;p&gt;When I first started learning Ruby, the first book I read had a chapter at the front about all of the command line options and flags for the &lt;code class=&quot;highlighter-rouge&quot;&gt;ruby&lt;/code&gt; command.  Missing the point as usual, I flipped quickly through that section without reading much.  “Yeah, yeah, yeah,” I said to myself as I pulled open my editor.  “Whatever.  Just get to the good stuff.  Show me those &lt;em&gt;objects&lt;/em&gt;!  Those &lt;em&gt;classes!&lt;/em&gt;”  Well, I’m here to say: I Missed Out.  A chapter on a different book I’m now reading (&lt;a href=&quot;http://www.apress.com/us/book/9781590598214&quot;&gt;Practical Ruby for System Administration&lt;/a&gt; by Andre Ben-Hamou) also had a section about this, and this time I paid attention.  Now I want to share the highlights with everybody else!&lt;/p&gt;
-
-&lt;h2 id=&quot;the-good-stuff&quot;&gt;The Good Stuff&lt;/h2&gt;
-
-&lt;h3 id=&quot;simple-execution&quot;&gt;Simple Execution&lt;/h3&gt;
-
-&lt;p&gt;Let’s start simple.  The &lt;code class=&quot;highlighter-rouge&quot;&gt;-e&lt;/code&gt; flag will have the Ruby interpreter execute a command string inline and output the result to &lt;code class=&quot;highlighter-rouge&quot;&gt;stdout&lt;/code&gt;.  Useful if you can’t remember that darn Bash command for doing floating point math (&lt;em&gt;hint: it’s &lt;code class=&quot;highlighter-rouge&quot;&gt;bc&lt;/code&gt;&lt;/em&gt;)!&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -e &lt;span class=&quot;s1&quot;&gt;'puts (Math.sqrt(32**2/57.2))'&lt;/span&gt; &amp;gt; calc.txt
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;A note about quotation marks.  Many of the useful Ruby one-liners contain special variables like &lt;code class=&quot;highlighter-rouge&quot;&gt;$_, $&amp;lt;, and $.&lt;/code&gt;.  This is all fine and dandy until you add Bash string interpolation into the mix.  Since you interpolate variables like this in Bash:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;That's no &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$silly_thing&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;, that's my wife!&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;If you surround your Ruby command with double quotes, your special variables will have unpredictable results.  It’s best to stick to single quotes around the command at all times.&lt;/p&gt;
-
-&lt;p&gt;The first example is a bit useful if you’re stubbornly refusing to Google Bash commands, but only slightly more convenient.  But stay with me, because we’re just getting warmed up.&lt;/p&gt;
-
-&lt;h3 id=&quot;line-by-line-processing&quot;&gt;Line-by-Line Processing&lt;/h3&gt;
-
-&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;-n&lt;/code&gt; flag wraps your executed one-liner in an implicit &lt;code class=&quot;highlighter-rouge&quot;&gt;while gets ... end&lt;/code&gt; block.  When you combine this with the usage of Ruby’s special global variable &lt;code class=&quot;highlighter-rouge&quot;&gt;$_&lt;/code&gt;, which stores the result of the most recent &lt;code class=&quot;highlighter-rouge&quot;&gt;Kernel.gets&lt;/code&gt; command, you can do some nice (&lt;strong&gt;and readable&lt;/strong&gt;) file processing!&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -ne &lt;span class=&quot;s1&quot;&gt;'puts $_.strip if $_ =~ /soup/'&lt;/span&gt; /home/rpalo/recipes
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Which will strip out excess whitespace and print me every line that contains the word ‘soup’.  I don’t know about you, but a script like that would be critical to my infrastructure.&lt;/p&gt;
-
-&lt;p&gt;If you get tired of typing &lt;code class=&quot;highlighter-rouge&quot;&gt;puts $_.something.something&lt;/code&gt; after a while, don’t worry.  The &lt;code class=&quot;highlighter-rouge&quot;&gt;-p&lt;/code&gt; flag drops an implicit &lt;code class=&quot;highlighter-rouge&quot;&gt;print $_&lt;/code&gt; at the end of your command, so you can just modify the variable.  We can clean up the previous example like this:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -pe &lt;span class=&quot;s1&quot;&gt;'$_strip! if $_ =~ /soup/'&lt;/span&gt; /home/rpalo/recipes
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;You’re saving at least 4 whole characters there.  Don’t spend it all in one place.&lt;/p&gt;
-
-&lt;h3 id=&quot;in-place-file-editing&quot;&gt;In-Place File Editing&lt;/h3&gt;
-
-&lt;p&gt;“I feel like I’m not a real developer because I haven’t taken the time to learn to use the &lt;code class=&quot;highlighter-rouge&quot;&gt;sed&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;awk&lt;/code&gt; command!”  Firstly, that’s silly.  You should disregard anyone who begins any sentence with the phrase, “You’re not a real developer if…”.  Additionally, you can make them feel sad when you edit files in place (like &lt;code class=&quot;highlighter-rouge&quot;&gt;sed -i&lt;/code&gt; does)!  Here’s four ways to do this, in order of increasing levels of shwoopiness.  Let’s say you wanted to remove the default comments from a configuration file (not recommended unless you promise to add your own back in).&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -pe &lt;span class=&quot;s1&quot;&gt;'$_.gsub!(/#.*$/, &quot;&quot;)'&lt;/span&gt; .myconfig &amp;gt; .myconfig
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Redirect the modified lines to overwrite the file instead of printing to &lt;code class=&quot;highlighter-rouge&quot;&gt;STDOUT&lt;/code&gt;.  You can leave that off if you use the &lt;code class=&quot;highlighter-rouge&quot;&gt;-i&lt;/code&gt; flag.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -i -pe &lt;span class=&quot;s1&quot;&gt;'$_.gsub!(/#.*$/, &quot;&quot;)'&lt;/span&gt; .myconfig
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;This works great when you want to run this command against multiple files.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -i -pe &lt;span class=&quot;s1&quot;&gt;'$_.gsub!(/#.*$/, &quot;&quot;)'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.conf
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The glob match will run through each of the files ending in .conf and overwrite them.&lt;/p&gt;
-
-&lt;p&gt;Lastly, if you’re paranoid and risk averse (i.e. you’ve been using the terminal long enough to know the pain of overwriting a file with an error in your script and losing everything – #GodBlessGit), you can add a file extension to your &lt;code class=&quot;highlighter-rouge&quot;&gt;-i&lt;/code&gt; flag like this: &lt;code class=&quot;highlighter-rouge&quot;&gt;-i.bak&lt;/code&gt; and it will save the old version with that file extension before writing; &lt;code class=&quot;highlighter-rouge&quot;&gt;.myconfig&lt;/code&gt; won’t have comments, but there will be a new &lt;code class=&quot;highlighter-rouge&quot;&gt;.myconfig.bak&lt;/code&gt; that still does.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;There MUST be NO space between the &lt;code class=&quot;highlighter-rouge&quot;&gt;-i&lt;/code&gt; and the backup file extension or it won’t work.  You have been warned.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;farming-the-rows-and-fields&quot;&gt;Farming the Rows and Fields&lt;/h3&gt;
-
-&lt;p&gt;I want to talk about two more special global variables: &lt;code class=&quot;highlighter-rouge&quot;&gt;$&amp;lt; and $.&lt;/code&gt;.  The first one refers to the file that was input.  The second one refers to the current line number.  (Note that this means that &lt;code class=&quot;highlighter-rouge&quot;&gt;$. and $&amp;lt;.lineno&lt;/code&gt; are synonymous).  You can implement a rough version of &lt;code class=&quot;highlighter-rouge&quot;&gt;head&lt;/code&gt; like this:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -ne &lt;span class=&quot;s1&quot;&gt;'puts $_ if $. &amp;lt;= 10'&lt;/span&gt; test.txt
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;To use fields in files that might be delimited, such as csv’s or system files like &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/passwd&lt;/code&gt;, you might first try doing this:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -ne &lt;span class=&quot;s1&quot;&gt;'puts $_.split.first + $_.split.last'&lt;/span&gt; test.txt
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;That works, but you can have the heavy lifting done for you with &lt;code class=&quot;highlighter-rouge&quot;&gt;-a&lt;/code&gt;, which stands for “autosplit”.  It drops the pre-split fields into a special variable called &lt;code class=&quot;highlighter-rouge&quot;&gt;$F&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -a -ne &lt;span class=&quot;s1&quot;&gt;'puts $F.first + $F.last'&lt;/span&gt; test.txt
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The above example only works with spaces as delimiters, though!  you can specify &lt;em&gt;that&lt;/em&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;-F&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -a -F: -ne &lt;span class=&quot;s1&quot;&gt;'puts $F.first'&lt;/span&gt; /etc/passwd
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;setup-and-teardown&quot;&gt;Setup and Teardown&lt;/h3&gt;
-
-&lt;p&gt;If you &lt;em&gt;have&lt;/em&gt; used &lt;code class=&quot;highlighter-rouge&quot;&gt;awk&lt;/code&gt;, then this next part may be familiar.  You can do some initializing before you run through the input file and teardown/final output after, using &lt;code class=&quot;highlighter-rouge&quot;&gt;BEGIN&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;END&lt;/code&gt; blocks.  Useful for things like counting the total number of lines that match a pattern.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -ne &lt;span class=&quot;s1&quot;&gt;'BEGIN { ducks = 0 }; ducks += 1 if $_ =~ /ducks/; END { puts ducks }'&lt;/span&gt; duckfile.txt
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Using this setup and teardown, your one-liners get quite a bit more powerful.&lt;/p&gt;
-
-&lt;h3 id=&quot;requiring-modules&quot;&gt;Requiring Modules&lt;/h3&gt;
-
-&lt;p&gt;You’ve probably actually used this in other ways, but you can require gems and modules from the standard library with the &lt;code class=&quot;highlighter-rouge&quot;&gt;-r&lt;/code&gt; command.  For instance, to list out your machine’s IP addresses, you could do this:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -rsocket -e &lt;span class=&quot;s1&quot;&gt;'puts Socket.ip_address_list.map(&amp;amp;:inspect)'&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Play with primes!&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -rprime -e &lt;span class=&quot;s1&quot;&gt;'puts Prime.first(20)'&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;wrapping-up&quot;&gt;Wrapping Up&lt;/h2&gt;
-
-&lt;p&gt;Overall, these may not give you a 10x productivity boost, but they are fun and I feel like they provide an interesting approach.  They seem especially useful if you’ve been deep into a Ruby project and switching your brain over to Bash is too much work.  Halfway through writing this post, I went to Google, and there are an amazing number of blog posts about this topic.  (Kind of made me feel lame for posting about it, to be honest).  But it’s a fun topic, and it’s just one more of those things that makes Ruby fun to use, so I thought it would be good to share.  Anyways, tweet/message me if you’ve got any cool Ruby one-liners that you use all the time!  I’ll add them to this list:&lt;/p&gt;
-
-&lt;h2 id=&quot;submitted-by-awesome-people&quot;&gt;Submitted by Awesome People&lt;/h2&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# First two submitted by me to avoid a sad empty list here&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Delete trailing whitespace&lt;/span&gt;
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -pe &lt;span class=&quot;s1&quot;&gt;'gsub(/\s+$/, &quot;\n&quot;)'&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Prints too long lines&lt;/span&gt;
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;ruby -ne &lt;span class=&quot;s1&quot;&gt;'puts $_ if $_.length &amp;gt; 80'&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-</description>
-        <pubDate>Thu, 05 Oct 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/10/05/smooth-one-liners/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/10/05/smooth-one-liners/</guid>
-        
-        <category>ruby</category>
-        
-        <category>bash</category>
-        
-        <category>sysadmin</category>
         
         
       </item>

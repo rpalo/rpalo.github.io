@@ -71,139 +71,76 @@
 
   <!-- Current Post -->
   
-    <h1>Search Your Site via the Omnibar (Even Static Sites)</h2>
-    <small>Dec 5, 2017</small>
-    <p><p>A little while ago, <a href="https://dev.to/twhite">Tiffany White</a> posted an update on <a href="https://dev.to">Dev.to</a>, documenting a new feature: Chrome Omnibar search.</p>
+    <h1>Wishful Coding</h2>
+    <small>Dec 13, 2017</small>
+    <p><p><em>Cover Image credit to <a href="https://hatrabbits.com/author/rene/">René de Ruijter</a>, at least, as far as I can tell.</em></p>
 
-<p><img src="/img/omnibar-in-action.gif" alt="Searching with the omnibar" /></p>
+<p>I’ve been doing the <a href="https://github.com/rpalo/advent-of-code-2017">Advent of Code 2017</a> challenge this Advent, and I noticed that as I’ve been working on some of the harder challenges (number spirals, amirite?) I’ve started doing something that seems to really help me stay locked in to the problem.  It’s definitely not something groundbreaking, but I figured that I’d share it, in case it helps somebody else.</p>
 
-<p>It’s one of those features that I take for granted on so many of the popular sites that I use, not considering the fact that I could actually have that feature on my own site!  So I looked into how to implement it, and I wanted to share what I found with everybody else.  Part of the point of this post is that I cobbled my suggestion together from a bunch of different search results I found, so if I missed something important, let me know and I’ll add it to the guide (and update how I did it on my blog).</p>
+<h2 id="the-problem-short-attention-spans-and-">The Problem: Short Attention Spans and –</h2>
 
-<h2 id="part-1-opensearch">Part 1: OpenSearch</h2>
+<p>Stop me if this scenario seems like a personal attack:</p>
 
-<p>The first (and almost only) thing you’ll need is to add a <code class="highlighter-rouge">/opensearch.xml</code> file (in the root of your website) with the contents below.  I’m using my blog in the links below.  You’ll probably want to change things to match your site, unless you really like me and want to forward your search traffic to me.</p>
+<p>You’ve just been handed a problem/assignment.  You know where you need to start, but as you begin to type the first outlines of your code, one of the things you need to do next pops into your head.  You quickly jump over and create a new file for that and try to get a brief sketch down so you won’t forget later.  As you’re doing that, you realize that the new thing that you’re adding will need a test case, so you hop over and “just real quick” jot down the test case for what you were working on.  You run your tests to make sure everything’s failing as expected, but you forgot to configure your tests and the output is all ugly and who could continue to work in that kind of environment?  You’re not a <em>barbarian</em> after all!  And then two hours later… wait a minute, what was I originally working on?</p>
 
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;OpenSearchDescription</span> <span class="na">xmlns=</span><span class="s">"http://a9.com/-/spec/opensearch/1.1/"</span> <span class="na">xmlns:moz=</span><span class="s">"http://mozilla.org/2006/browser/search/"</span><span class="nt">&gt;</span>
-	<span class="nt">&lt;ShortName&gt;</span>Assert_Not Magic<span class="nt">&lt;/ShortName&gt;</span>
-  	<span class="nt">&lt;Description&gt;</span>Search blog posts on assert_not magic<span class="nt">&lt;/Description&gt;</span>
-  	<span class="nt">&lt;InputEncoding&gt;</span>UTF-8<span class="nt">&lt;/InputEncoding&gt;</span>
-  	<span class="nt">&lt;Image</span> <span class="na">width=</span><span class="s">"16"</span> <span class="na">height=</span><span class="s">"16"</span> <span class="na">type=</span><span class="s">"image/png"</span><span class="nt">&gt;</span>https://assertnotmagic.com/favicon-16x16.png<span class="nt">&lt;/Image&gt;</span>
-  	<span class="nt">&lt;Url</span> <span class="na">type=</span><span class="s">"text/html"</span> <span class="na">method=</span><span class="s">"get"</span> <span class="na">template=</span><span class="s">"https://assertnotmagic.com/posts/?q={searchTerms}"</span> <span class="nt">/&gt;</span>
-  	<span class="nt">&lt;Url</span> <span class="na">type=</span><span class="s">"application/opensearchdescription+xml"</span> <span class="na">rel=</span><span class="s">"self"</span> <span class="na">template=</span><span class="s">"https://assertnotmagic.com/opensearch.xml"</span> <span class="nt">/&gt;</span>
-  	<span class="nt">&lt;SearchForm&gt;</span>https://assertnotmagic.com/posts/<span class="nt">&lt;/SearchForm&gt;</span>
-  	<span class="nt">&lt;moz:SearchForm&gt;</span>https://assertnotmagic.com/posts/<span class="nt">&lt;/moz:SearchForm&gt;</span>
-<span class="nt">&lt;/OpenSearchDescription&gt;</span>
+<p>Some of the solution is just self-discipline – forcing yourself to finish what you’re working on before you start the next thing.  However, one place I find these mental self-interruptions especially problematic is when I’m trying to solve a big problem and have to keep worrying about little parts of the solution.  This is where my tip can come in handy.</p>
+
+<h2 id="one-solution-use-methods-you-wish-you-had">One Solution: Use Methods You <em>Wish</em> You Had</h2>
+
+<p>This is probably best described with an example.</p>
+
+<p>Let’s say you’re writing a script that controls an automatic treat dispenser for your dog.</p>
+
+<p><img src="/img/wishful-willy.jpg" alt="My dog Willy" /></p>
+
+<p><em>This is Willy.  He’s a very good boy.</em></p>
+
+<p>On your first pass through the code, you might write something like this.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">dogs</span><span class="p">)</span>
+  <span class="n">dogs</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">dog</span><span class="o">|</span>
+    <span class="k">if</span> <span class="n">dog</span><span class="o">.</span> <span class="c1"># Pause here</span>
 </code></pre>
 </div>
 
-<p>A quick description of each item:</p>
+<p>Now you might think to yourself, <em>“Shoot!  Now I need to figure out when these dogs should get treats!”</em>  And just like that, your train of thought for the rest of the high-level function is gone.</p>
 
-<p><strong>ShortName</strong>: A short name for you (and the browser) to refer to your search engine by (&lt; 16 characters).</p>
+<p>Here’s my solution.</p>
 
-<p><strong>Description</strong>: A longer description (&lt; 1024 characters).</p>
+<p>I propose that you confidently carry on like nothing is wrong, and use the methods that you hope Future-You will write.</p>
 
-<p><strong>InputEncoding</strong>: The encoding of characters to expect.</p>
-
-<p><strong>Image</strong>: The absolute path to (or Base64 data representation of) an icon of your choosing to show up next to search bars in some clients (see the image below).  Make sure the <code class="highlighter-rouge">type</code> matches the filetype of your image (whether it’s <code class="highlighter-rouge">.png, .jpg, or .ico</code>).</p>
-
-<p><strong>Url</strong>: This is the URL that gets pinged when the user completes their search.  Note that it uses a “magical” {searchTerms}.  It will fill in the URL with whatever the user types.</p>
-
-<p><strong>Url (The second one)</strong>: You can include this and some browsers will automatically update themselves <del>if</del> WHEN you make changes to your <code class="highlighter-rouge">opensearch.xml</code>.  More on that in a second.</p>
-
-<p><strong>SearchForm/moz:SearchForm</strong>: Tags that hold a link to your search page.  I believe this is so that if your user gets frustrated with the Omnibar, they can say “BAH.  Just take me to their search page and I’ll do it there.”</p>
-
-<p>The <a href="https://developer.mozilla.org/en-US/docs/Web/OpenSearch">Firefox OpenSearch documentation</a> has some solid guidance to these terms, what is involved, and what is required, if you’re not satisfied with my explanation.  They also have help for if you want to use the Omni-bar to ping a JSON endpoint.</p>
-
-<h3 id="possible-gotcha-updating-during-development">Possible Gotcha: Updating During Development</h3>
-
-<p>While you’re getting setup, it’s possible that you’ll make a typo or a mistake somewhere.  And then you’ll wonder how you clear the @!#$ing cache so your browser reloads the new configuration.  For Chrome, you can right-click the Omnibar and select “Edit Search Engines”.  Find your bar in that menu and delete it to allow your browser to pull in your most recent update.  In theory, the auto-update URL above should save you from this, but this can be your backup nuclear option.</p>
-
-<p><img src="/img/omnibar-cache.png" alt="How to clear the OpenSearch cache" /></p>
-
-<h2 id="part-2-link-tag">Part 2: Link Tag</h2>
-
-<p>Next, all you need to do is throw a <code class="highlighter-rouge">link</code> tag into your <code class="highlighter-rouge">head</code> section.  I think it’s enough to just have it on your homepage.  Someone correct me if that’s not true.</p>
-
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="c">&lt;!-- index.html --&gt;</span>
-<span class="cp">&lt;!DOCTYPE HTML&gt;</span>
-<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;head&gt;</span>
-    <span class="c">&lt;!-- ... All the rest of your head tags --&gt;</span>
-    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"search"</span>
-          <span class="na">type=</span><span class="s">"application/opensearchdescription+xml"</span>
-          <span class="na">title=</span><span class="s">"Search assert_not magic"</span>
-          <span class="na">href=</span><span class="s">"/opensearch.xml"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;/head&gt;</span>
-  <span class="c">&lt;!-- ... the rest of your site --&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">dogs</span><span class="p">)</span>
+  <span class="n">dogs</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">dog</span><span class="o">|</span>
+    <span class="k">if</span> <span class="n">dog</span><span class="p">.</span><span class="nf">good_boy?</span>
+      <span class="n">dog</span><span class="p">.</span><span class="nf">pat!</span>
+      <span class="n">give_treat</span><span class="p">(</span><span class="n">dog</span><span class="p">)</span>
+      <span class="vi">@treats</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 </code></pre>
 </div>
 
-<p>And you should be good to go!  If you’ve got your own back-end, you can process the <code class="highlighter-rouge">q={searchTerms}</code> from the XML document above in the <code class="highlighter-rouge">GET</code> request to your Search Results page.  But what if you don’t <em>have</em> a back end?</p>
+<p><em>“But Ryan!  We haven’t written methods like <code class="highlighter-rouge">good_boy?</code>, <code class="highlighter-rouge">pat!</code>,  or <code class="highlighter-rouge">give_treat</code> yet.”</em>  EXACTLY.  That’s a problem for Future-Us.  The important thing now is to keep you in that flow state and make sure you get your whole thought on the screen before you forget what you’re supposed to be doing.  We’ll come back and fill in the cracks later.</p>
 
-<h2 id="bonus-part-static-sites">Bonus Part: Static Sites</h2>
+<p>(For those of you that are really concerned, here’s how <code class="highlighter-rouge">good_boy?</code> is implemented):</p>
 
-<p>No back end?  No worries!  I’ll show you how to make it work with your dynamic JavaScript search form.  In <a href="https://assertnotmagic.com/2017/11/11/static-site-search-with-vue/">a previous post</a>, I walked through how I added search functionality to my static-ly generated blog.  I’m going to use the code from the end of that post as a starting point.  For those that are too lazy to click the link:</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
-  <span class="na">el</span><span class="p">:</span> <span class="s1">'#app'</span><span class="p">,</span>
-  <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">search</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span>
-    <span class="na">post_list</span><span class="p">:</span> <span class="nx">posts</span>
-  <span class="p">},</span>
-  <span class="na">computed</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nx">filteredPosts</span><span class="p">()</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">post_list</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span> <span class="nx">post</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">post</span><span class="p">.</span><span class="nx">tags</span><span class="p">}</span> <span class="nx">$</span><span class="p">{</span><span class="nx">post</span><span class="p">.</span><span class="nx">title</span><span class="p">}</span><span class="err">`</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">().</span><span class="nx">includes</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">search</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">());</span>
-      <span class="p">});</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">});</span>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Dog</span>
+  <span class="c1"># ...</span>
+  <span class="k">def</span> <span class="nf">good_boy?</span>
+    <span class="kp">true</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 </code></pre>
 </div>
 
-<p>The trick that we’re going to pull is that as we’re creating the Vue-powered search component, we’re going to check our URL for parameters.  Place this before the above code.</p>
+<p>😬</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">params</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">URLSearchParams</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">search</span><span class="p">);</span>
-</code></pre>
-</div>
+<h2 id="wrap-up">Wrap Up</h2>
 
-<p><code class="highlighter-rouge">URLSearchParams</code> are a handy dandy way to parse parameters (everything after the <code class="highlighter-rouge">?</code>) in a url.  While browser support isn’t quite 100%, I’m going to assume that a) you have transpilation figured out, b) you know <a href="https://twitter.com/paytastic">how to @ me</a>, and I’ll help you out.</p>
+<p>So that’s the tip!  Write the code, and when you come to a section  that seems like it might bog you down <strong>even a little bit</strong>, just pretend you already have a method for that.  A secondary benefit of this is that it helps you identify where good places to pull code into separate methods are.  You can always come back and clean things up after everything’s working a little better.</p>
 
-<p>Now that we have our parameters (if they exist), let’s use them to have our search component pre-load the searched items.</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">params</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">URLSearchParams</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">search</span><span class="p">);</span>
-
-<span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
-  <span class="na">el</span><span class="p">:</span> <span class="s1">'#app'</span><span class="p">,</span>
-  <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">search</span><span class="p">:</span> <span class="nx">params</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="s1">'q'</span><span class="p">)</span> <span class="p">?</span> <span class="nx">params</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'q'</span><span class="p">)</span> <span class="p">:</span> <span class="s1">''</span><span class="p">,</span>  <span class="c1">// &lt;- This is the key part</span>
-    <span class="na">post_list</span><span class="p">:</span> <span class="nx">posts</span>
-  <span class="p">},</span>
-  <span class="na">computed</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nx">filteredPosts</span><span class="p">()</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">post_list</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span> <span class="nx">post</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">post</span><span class="p">.</span><span class="nx">tags</span><span class="p">}</span> <span class="nx">$</span><span class="p">{</span><span class="nx">post</span><span class="p">.</span><span class="nx">title</span><span class="p">}</span><span class="err">`</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">().</span><span class="nx">includes</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">search</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">());</span>
-      <span class="p">});</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">});</span>
-</code></pre>
-</div>
-
-<p>If our URL has a <code class="highlighter-rouge">q</code> parameter (which it does if it’s coming from the Omni-bar search), we load that into the search box, which causes our search results to update.  Otherwise, we start with a blank search box and carry on as usual.</p>
-
-<p><img src="/img/omnibar-in-action.gif" alt="Here's how it works on my site" /></p>
-
-<p>And that’s it!  Like I said, if you know of any best practices for OpenSearch that I’m missing or ways that I can use it better/cooler, let me know and I’ll try to update the post.</p>
-
-<p><strong>Extra References:</strong></p>
-
-<ul>
-  <li><a href="https://wynnnetherland.com/journal/enhance-your-site-search-with-opensearch/">Enhance your site with opensearch - Wynn Netherland</a></li>
-  <li><a href="https://developer.mozilla.org/en-US/docs/Web/OpenSearch">Mozilla OpenSearch Docs</a></li>
-  <li><a href="https://www.hanselman.com/blog/OnTheImportanceOfOpenSearch.aspx">On the Importance of OpenSearch - Scott Hanselman</a></li>
-</ul>
+<p>Got any other pro-tips for blocking out the distractions?  Let me know — I’d love to hear them!</p>
 </p>
   
 
@@ -221,6 +158,11 @@
         </li>
         
           <li>
+            <span class="post-meta">Dec 5, 2017</span><br/>
+            <a class="post-link" href="/2017/12/05/search-your-site-via-omnibar-even-static-ones/">Search Your Site via the Omnibar (Even Static Sites)</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Nov 27, 2017</span><br/>
             <a class="post-link" href="/2017/11/27/thunder-struct/">Thunder-Struct</a>
           </li>
@@ -228,11 +170,6 @@
           <li>
             <span class="post-meta">Nov 14, 2017</span><br/>
             <a class="post-link" href="/2017/11/14/cake-and-duplicates/">Cake and Duplicates</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Nov 11, 2017</span><br/>
-            <a class="post-link" href="/2017/11/11/static-site-search-with-vue/">Add Search to Your Static Site with Vue</a>
           </li>
         
       </ul>
@@ -269,7 +206,7 @@
         
         <a href="/tags/soft-skills/" style="font-size: 22px">soft-skills | </a>
         
-        <a href="/tags/tricks/" style="font-size: 30px">tricks | </a>
+        <a href="/tags/tricks/" style="font-size: 32px">tricks | </a>
         
         <a href="/tags/vscode/" style="font-size: 14px">vscode | </a>
         
@@ -364,6 +301,10 @@
         <a href="/tags/struct/" style="font-size: 14px">struct | </a>
         
         <a href="/tags/browser/" style="font-size: 14px">browser | </a>
+        
+        <a href="/tags/focus/" style="font-size: 14px">focus | </a>
+        
+        <a href="/tags/productivity/" style="font-size: 14px">productivity | </a>
         
       </p>
     </div>
