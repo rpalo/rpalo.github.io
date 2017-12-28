@@ -1,6 +1,15 @@
 const posts = [
     
     {
+        title: "LTC4 - Falling in Love with Vectors",
+        url: "/2017/12/28/p5-part-4-falling-in-love-with-vectors/",
+        cover: "/img/gravity.jpg",
+        tags: "p5, javascript, beginner, tutorial",
+        date: "December 28, 2017",
+        description: "Part 4 in the learn-to-code using JavaScript and P5.js series.  Learn how vectors and physics can create realistic effects and object methods can help us keep our code clean."
+    } ,
+    
+    {
         title: "Wishful Coding",
         url: "/2017/12/13/wishful-coding/",
         cover: "/img/wishful-cat.jpg",
