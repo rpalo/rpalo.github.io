@@ -6,9 +6,143 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 28 Dec 2017 12:03:43 -0800</pubDate>
-    <lastBuildDate>Thu, 28 Dec 2017 12:03:43 -0800</lastBuildDate>
+    <pubDate>Sun, 31 Dec 2017 16:24:22 -0800</pubDate>
+    <lastBuildDate>Sun, 31 Dec 2017 16:24:22 -0800</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Ruby 2.5 - Tap and Yield Self</title>
+        <description>&lt;p&gt;I was reading through &lt;a href=&quot;https://www.ruby-lang.org/en/news/2017/12/25/ruby-2-5-0-released/&quot;&gt;the Ruby 2.5.0 release blurb&lt;/a&gt;, referred from &lt;a href=&quot;https://dev.to/ben/ruby-ruby-250-was-released-b98&quot;&gt;Ben Halpern’s article here&lt;/a&gt;, and I saw that one of the new features is the &lt;code class=&quot;highlighter-rouge&quot;&gt;#yield_self&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# This is roughly what it is&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Object&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;yield_self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;When I went to do more research, some people mentioned that it was very similar to &lt;code class=&quot;highlighter-rouge&quot;&gt;#tap&lt;/code&gt;.  “Super!” I thought, “… what is &lt;code class=&quot;highlighter-rouge&quot;&gt;#tap&lt;/code&gt;?”  After doing a bunch of reading and searching for the different definitions, use cases, pros, and cons, I ended up with a blog post’s worth of research, so I thought I should share my thoughts and see if anybody else had anything to add.&lt;/p&gt;
+
+&lt;p&gt;To get you in the right mindset, both of these methods find their use cases in the area that I like to call “method pipelining”.&lt;/p&gt;
+
+&lt;h2 id=&quot;method-pipelining&quot;&gt;Method Pipelining&lt;/h2&gt;
+
+&lt;p&gt;One of my favorite things about Ruby (and one of the things that I wish Python did as nicely as Ruby) is that, since everything is an object, &lt;em&gt;and&lt;/em&gt; most functions are methods, &lt;em&gt;and&lt;/em&gt; the &lt;code class=&quot;highlighter-rouge&quot;&gt;.&lt;/code&gt; (dot) operator works on method return values, you can chain methods out in one “sentence” to your heart’s content.  This is especially useful for data manipulation like transforming, reducing, mapping, etc.  Code like this is possible:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;a&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;z&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:upcase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:ord&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;zero?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;even?&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sum&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; 390&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Each step passes its output to the next step in the data pipeline, allowing us to go from the range &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;a&quot;..&quot;z&quot;&lt;/code&gt; to the number &lt;code class=&quot;highlighter-rouge&quot;&gt;390&lt;/code&gt;  in a few lines of code.  For some reason, this way of working really clicks in my head and I’ve noticed this style creeping into my code all the time.  Both &lt;code class=&quot;highlighter-rouge&quot;&gt;#tap&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;#yield_self&lt;/code&gt; have their own places in this ecosystem as well.&lt;/p&gt;
+
+&lt;h2 id=&quot;tap-unixs-tee-for-ruby&quot;&gt;Tap: Unix’s Tee for Ruby&lt;/h2&gt;
+
+&lt;p&gt;At first I was very confused by the name of &lt;code class=&quot;highlighter-rouge&quot;&gt;#tap&lt;/code&gt;.  Unlike &lt;code class=&quot;highlighter-rouge&quot;&gt;#select, #map, or #reduce&lt;/code&gt;, the name &lt;code class=&quot;highlighter-rouge&quot;&gt;#tap&lt;/code&gt; didn’t initially provide me any clues to what it does.  After some digging, the name actually makes quite a bit more sense.  &lt;code class=&quot;highlighter-rouge&quot;&gt;#tap&lt;/code&gt; is a way of &lt;em&gt;“tapping”&lt;/em&gt; into the method pipeline without disturbing the flow.  You call &lt;code class=&quot;highlighter-rouge&quot;&gt;#tap&lt;/code&gt; on an object, it runs whatever code you want, and it returns the original object.  Since it returns the original object, you can insert it anywhere in the pipeline without causing any errors (mostly).  Let’s work with the example above.  Say you needed to do some debugging.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;a..z&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:upcase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;tap&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;letters&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Uppercase: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;letters&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:ord&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;tap&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Ascii: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;zero?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;even?&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;tap&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Filtered: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sum&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Uppercase: Uppercase: [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, ... &quot;Y&quot;, &quot;Z&quot;]&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Ascii: [65, 66, 67, ... 89, 90]&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Filtered: [66, 72, 78, 84, 90]&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; 390&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;As you can see, adding in the &lt;code class=&quot;highlighter-rouge&quot;&gt;#tap&lt;/code&gt; didn’t affect the steps in the pipeline, and it allowed us to do some good ole &lt;code class=&quot;highlighter-rouge&quot;&gt;puts&lt;/code&gt; debugging on each step.&lt;/p&gt;
+
+&lt;p&gt;Another use case is to modify the object as it goes through the pipeline — although, I will admit that I had a harder time coming up with a realistic reason that you would want to do this.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;a&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;z&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:upcase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:ord&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;tap&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6666666&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Modifying the array of ASCII ORD numbers in place!&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;zero?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;even?&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sum&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; 667056&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;In either case, the main point is that &lt;code class=&quot;highlighter-rouge&quot;&gt;#tap&lt;/code&gt; returns the object that it received (whether or not it gets modified).&lt;/p&gt;
+
+&lt;h2 id=&quot;yield-self-expanding-your-pipelines&quot;&gt;Yield Self: Expanding Your Pipelines&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;#yield_self&lt;/code&gt; is a little bit different, because it returns &lt;em&gt;the result of the block&lt;/em&gt; instead.  Here is an example that shows what it does but is a little pointless.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;yield_self&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; 4&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;When I saw this example, my first thought was, “What is the point?  Why not just do &lt;code class=&quot;highlighter-rouge&quot;&gt;2 * 2&lt;/code&gt;?”  Where &lt;code class=&quot;highlighter-rouge&quot;&gt;#yield_self&lt;/code&gt; really shines is when you’re dealing with functions that are “un-pipeline-able”.  You can find these functions in two main places: Procs and Class Methods.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Procs/Lambdas must be called in front of their arguments&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;shout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;phrase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phrase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;upcase&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shout&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; #&amp;lt;Proc:0x00007fcfac82bf80@(irb):1 (lambda)&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Shout must be used via .call, .(), [], or .===&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;shout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;call&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;hello, dear friends&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; &quot;HELLO, DEAR FRIENDS&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Same with class methods&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;contents&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;test.txt&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; &quot;Test contents\n&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;What if you want to incorporate these into a pipeline somewhere?  Here comes &lt;code class=&quot;highlighter-rouge&quot;&gt;#yield_self&lt;/code&gt; to the rescue!&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s2&quot;&gt;&quot;TXT.TSET&quot;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;downcase&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;reverse&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;yield_self&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;yield_self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:shout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; &quot;TEST CONTENTS\n&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This saves you from having to do two steps.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;contents&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;TXT.TSET&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;downcase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;reverse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;shouty_results&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;It also keeps your code looking vertical and pipeline-y instead of horizontally nested.  Also, imagine if you had several class methods or procs you wanted to use!  Nested functions very quickly become hard to read.&lt;/p&gt;
+
+&lt;h2 id=&quot;wrap-up&quot;&gt;Wrap Up&lt;/h2&gt;
+
+&lt;p&gt;That’s what I got from my research.  &lt;code class=&quot;highlighter-rouge&quot;&gt;#yield_self&lt;/code&gt; is brand new, so I’m sure that as we work with it more, we’ll come up with the “right” and “wrong” ways of using it.  While doing research I had to slog through a billion comments like “yield_self is dumb” and “I hate the name” and “F# is better”, so I very specifically am not looking for any more of that, but if you’ve got some other use cases or ideas for &lt;code class=&quot;highlighter-rouge&quot;&gt;#tap&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;#yield_self&lt;/code&gt;, I’d love to hear about them.&lt;/p&gt;
+
+&lt;h2 id=&quot;other-resources&quot;&gt;Other Resources&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bogdanvlviv.github.io/posts/ruby/new-method-kernel-yield_self-since-ruby-2_5_0.html&quot;&gt;Bogdan Denkovych’s blog post&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://mlomnicki.com/yield-self-in-ruby-25/&quot;&gt;Michał Łomnicki’s blog post&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://stackoverflow.com/a/47890832/4100442&quot;&gt;This StackOverflow Answer&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://augustl.com/blog/2008/procs_blocks_and_anonymous_functions/&quot;&gt;This Post by Augustl&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Fri, 29 Dec 2017 00:00:00 -0800</pubDate>
+        <link>http://localhost:4000/2017/12/29/tap-and-yield-self/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/12/29/tap-and-yield-self/</guid>
+        
+        <category>ruby</category>
+        
+        
+      </item>
     
       <item>
         <title>LTC4 - Falling in Love with Vectors</title>
@@ -1932,212 +2066,6 @@ inoremap &amp;lt;Right&amp;gt; &amp;lt;Nop&amp;gt;
         <category>editor</category>
         
         <category>encouragement</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Secret Message</title>
-        <description>&lt;p&gt;Today I was reading through an article on Dev.to by &lt;a href=&quot;http://www.bengreenberg.org/&quot;&gt;Ben Greenberg&lt;/a&gt; about an interview coding challenge, and I got hooked and had to try it for myself.  I highly recommend you read &lt;a href=&quot;https://dev.to/benhayehudi/solving-a-job-application-code-challenge-30d&quot;&gt;his original post&lt;/a&gt; before you read this so you have some background.  That being said, for the lazy ones, let me give you…&lt;/p&gt;
-
-&lt;h2 id=&quot;some-background&quot;&gt;Some Background&lt;/h2&gt;
-
-&lt;p&gt;The challenge is this (copied from the original post):&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Sort the characters in the following string:
-&lt;code class=&quot;highlighter-rouge&quot;&gt;abcdefghijklmnopqrstuvwxyz_&lt;/code&gt;&lt;/p&gt;
-
-  &lt;p&gt;by the number of times the character appears in the following text (descending):&lt;/p&gt;
-
-  &lt;p&gt;… [String omitted for brevity]&lt;/p&gt;
-
-  &lt;p&gt;Now take the sorted string, and drop all the characters after (and including) the _. The remaining word is the answer.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;You can find the super long string in the comments section of his post (where I asked for it 😁) if you want to try it yourself.  You should!  And share your solution!  Anyways, on with the story.&lt;/p&gt;
-
-&lt;h2 id=&quot;my-solution-part-1&quot;&gt;My Solution (Part 1)&lt;/h2&gt;
-
-&lt;p&gt;If it’s not abundantly clear, I’m about to share my solution.  If you want to work it out for yourself without spoilers, go ahead and stop reading until you’re done.  I won’t write anymore until you’re finished. 😄&lt;/p&gt;
-
-&lt;p&gt;Finished?  Great!  &lt;strong&gt;ONWARD.&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;I decided to use Ruby because Ruby is fun and great.  Initially, I just wanted to knock out the first solution I could think of – regardless of how inefficient or slow it was – and come back to clean it up after.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# I stored the huge string in a separate file called&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# `blob.txt` so as to not clutter my main script&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;blob&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'blob.txt'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;letters&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'abcdefghijklmnopqrstuvwxyz_'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;chars&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;naive_message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;letters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;blob&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;letters&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sort_by&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;letter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;blob&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;letter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;reverse&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# to get desc. order&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;join&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'_'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;first&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;naive_message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;letters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;blob&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;I won’t spoil the answer, but let’s just say that I “pray, plead, beseech, urge” you to try it on your own.  Possibly in the past tense.  I think the markdown format of the initial text blob may have skewed the number of “_” characters, causing my answer to have slightly more characters on the end than should actually be there.  UPDATE: That’s totally what happened.  &lt;a href=&quot;https://repl.it/MivX&quot;&gt;Accurate text blob here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;my-solution-part-2&quot;&gt;My Solution (Part 2)&lt;/h2&gt;
-
-&lt;p&gt;Anyways, I looked back at my solution and thought to myself, “Ryan, that doesn’t look very performant.  I have to imagine that running &lt;code class=&quot;highlighter-rouge&quot;&gt;blob.count(letter)&lt;/code&gt; for each letter is the worst case performance for this scenario (27 ‘letters’ * n chars in the blob, looping through the whole blob for each letter).  It seems like it should be more efficient to do it the way Ben did it, which is by looping through the blob once and counting each letter along the way.  So I tried that.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;efficient_message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;letters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;blob&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;# counter = {a: 0, b: 0, c: 0...}&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;counter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;letters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;product&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to_h&lt;/span&gt;
-
-  &lt;span class=&quot;c1&quot;&gt;# run through blob once only&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;blob&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each_char&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;counter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-  &lt;span class=&quot;c1&quot;&gt;# sort and trim off everything after _&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;counter&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sort_by&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:last&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;	&lt;span class=&quot;c1&quot;&gt;# sort by the count&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:first&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;		&lt;span class=&quot;c1&quot;&gt;# grab just the letter key into an array&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;reverse&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;join&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'_'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;first&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Not as pretty, in my opinion, but hopefully faster.  Ruby, being interpreted, is slower than most compiled langauges, so this should help.  (So I thought…)&lt;/p&gt;
-
-&lt;h2 id=&quot;comparing-performance&quot;&gt;Comparing Performance&lt;/h2&gt;
-
-&lt;p&gt;Was this optimization worth it?  I needed to find out.  Luckily Ruby comes with an awesome Benchmarking library built-in.  (Oh Ruby, what is there that you can’t do?)&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'benchmark'&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# ... My code above&lt;/span&gt;
-
-&lt;span class=&quot;no&quot;&gt;Benchmark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;bmbm&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bm&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;bm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;report&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Naive: &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;times&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;naive_message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;letters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;bm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;report&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Efficient: &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;times&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;efficient_message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;letters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Benchmark&lt;/code&gt; has a method called &lt;code class=&quot;highlighter-rouge&quot;&gt;bmbm&lt;/code&gt; that runs one trial run and then a second real run.  This helps shake out any overhead performance drains from the garbage collector.  And to my horror:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;~\desktop&amp;gt; ruby .\secret_word.rb
-Rehearsal -----------------------------------------------
-Naive:        0.047000   0.000000   0.047000 (  0.039974)
-Efficient:    0.484000   0.000000   0.484000 (  0.481631)
--------------------------------------- total: 0.531000sec
-
-                  user     system      total        real
-Naive:        0.031000   0.000000   0.031000 (  0.038011)
-Efficient:    0.483000   0.000000   0.483000 (  0.478715)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;The “Efficient” version is ~10x slower than the “Naive” version!&lt;/strong&gt;  Noooo!  “But, why?” you ask.  “How can this be?”  I had the same questions.&lt;/p&gt;
-
-&lt;h2 id=&quot;algorithmic-profiling&quot;&gt;Algorithmic Profiling&lt;/h2&gt;
-
-&lt;p&gt;Ruby has a built-in profiler, but a short Google search told me that there was a better option: &lt;code class=&quot;highlighter-rouge&quot;&gt;ruby-prof&lt;/code&gt;.  After a quick &lt;code class=&quot;highlighter-rouge&quot;&gt;gem install ruby-prof&lt;/code&gt;, I was back at it again with the white vans.  (Check out the &lt;a href=&quot;https://github.com/ruby-prof/ruby-prof&quot;&gt;Ruby-Prof Documentation&lt;/a&gt; to learn more).&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'ruby-prof'&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# ... The previous code&lt;/span&gt;
-
-&lt;span class=&quot;no&quot;&gt;RubyProf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;start&lt;/span&gt;
-&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;times&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;naive_message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;letters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;RubyProf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;stop&lt;/span&gt;
-
-&lt;span class=&quot;no&quot;&gt;RubyProf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;FlatPrinter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;STDOUT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;no&quot;&gt;RubyProf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;start&lt;/span&gt;
-&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;times&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;efficient_message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;letters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;RubyProf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;stop&lt;/span&gt;
-
-&lt;span class=&quot;no&quot;&gt;RubyProf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;FlatPrinter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;STDOUT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;I added titles below for clarity.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Naive:
-===================
-Measure Mode: wall_time
-Thread ID: 3259000
-Fiber ID: 20752200
-Total: 0.066000
-Sort by: self_time
-
- %self      total      self      wait     child     calls  name
- 50.00      0.033     0.033     0.000     0.000    27000   String#count
- 18.18      0.059     0.012     0.000     0.047     1000   Enumerable#sort_by
- 10.61      0.007     0.007     0.000     0.000   136000   Integer#&amp;lt;=&amp;gt;
- 10.61      0.040     0.007     0.000     0.033     1000   Array#each
-  3.03      0.002     0.002     0.000     0.000     1000   Array#reverse
-  3.03      0.066     0.002     0.000     0.064     1000   Object#naive_message
-  1.52      0.001     0.001     0.000     0.000     1000   Array#first
-  1.52      0.001     0.001     0.000     0.000     1000   Array#join
-  1.52      0.001     0.001     0.000     0.000     1000   String#split
-  0.00      0.066     0.000     0.000     0.066        1   Global#[No method]
-  0.00      0.066     0.000     0.000     0.066        1   Integer#times
-
-* indicates recursively called methods
-
-Efficient:
-==============
-Measure Mode: wall_time
-Thread ID: 3259000
-Fiber ID: 20752200
-Total: 0.688000
-Sort by: self_time
-
- %self      total      self      wait     child     calls  name
- 93.60      0.644     0.644     0.000     0.000     1000   String#each_char
-  2.04      0.025     0.014     0.000     0.011     1000   Enumerable#sort_by
-  1.16      0.008     0.008     0.000     0.000   136000   Integer#&amp;lt;=&amp;gt;
-  0.58      0.005     0.004     0.000     0.001     1000   Array#map
-  0.44      0.688     0.003     0.000     0.685     1000   Object#efficient_message
-  0.44      0.003     0.003     0.000     0.000     1000   Array#reverse
-  0.44      0.003     0.003     0.000     0.000     1000   Array#product
-  0.44      0.003     0.003     0.000     0.000     1000   Array#to_h
-  0.29      0.003     0.002     0.000     0.001     1000   Hash#each
-  0.29      0.002     0.002     0.000     0.000     1000   String#split
-  0.15      0.001     0.001     0.000     0.000    27000   Array#last
-  0.15      0.001     0.001     0.000     0.000    28000   Array#first
-  0.00      0.688     0.000     0.000     0.688        1   Global#[No method]
-  0.00      0.000     0.000     0.000     0.000     1000   Array#join
-  0.00      0.688     0.000     0.000     0.688        1   Integer#times
-
-* indicates recursively called methods
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;From what I can tell, the &lt;code class=&quot;highlighter-rouge&quot;&gt;String#count&lt;/code&gt; method is super-optimized, and &lt;code class=&quot;highlighter-rouge&quot;&gt;String#each_char&lt;/code&gt; is a relatively expensive operation (it has to create an array the length of the blob!).  So, in the long run, looping through the blob string a bunch of times using the faster &lt;code class=&quot;highlighter-rouge&quot;&gt;String#count&lt;/code&gt; ends up being more performant.  So much for going through the trouble to generate an &lt;em&gt;efficient&lt;/em&gt; solution.&lt;/p&gt;
-
-&lt;h2 id=&quot;wrap-up&quot;&gt;Wrap Up&lt;/h2&gt;
-
-&lt;p&gt;Anyways, I hope you’re able to get your heart rate back to normal after such a roller-coaster ride.  Be sure to share your solution on &lt;a href=&quot;https://dev.to/benhayehudi/solving-a-job-application-code-challenge-30d&quot;&gt;Ben’s post&lt;/a&gt;.  Also, since this was originally a kind of interview code puzzle, if you’re someone that has interviewed people, &lt;strong&gt;I would love any feedback on my solution or the surrounding presentation&lt;/strong&gt;!  Is it similar to what you would expect from an applicant, or am I missing something important?&lt;/p&gt;
-
-&lt;p&gt;Thanks for reading!&lt;/p&gt;
-
-</description>
-        <pubDate>Mon, 16 Oct 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/10/16/secret-message/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/10/16/secret-message/</guid>
-        
-        <category>ruby</category>
-        
-        <category>puzzle</category>
-        
-        <category>interview</category>
-        
-        <category>performance</category>
         
         
       </item>

@@ -1,6 +1,15 @@
 const posts = [
     
     {
+        title: "Ruby 2.5 - Tap and Yield Self",
+        url: "/2017/12/29/tap-and-yield-self/",
+        cover: "/img/yield.jpg",
+        tags: "ruby",
+        date: "December 29, 2017",
+        description: ""
+    } ,
+    
+    {
         title: "LTC4 - Falling in Love with Vectors",
         url: "/2017/12/28/p5-part-4-falling-in-love-with-vectors/",
         cover: "/img/gravity.jpg",
