@@ -6,9 +6,108 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 31 Dec 2017 16:24:22 -0800</pubDate>
-    <lastBuildDate>Sun, 31 Dec 2017 16:24:22 -0800</lastBuildDate>
+    <pubDate>Thu, 04 Jan 2018 21:39:44 -0800</pubDate>
+    <lastBuildDate>Thu, 04 Jan 2018 21:39:44 -0800</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>CNC 2018 Pre-Mission</title>
+        <description>&lt;p&gt;As part of the &lt;a href=&quot;https://2018.codenewbie.org/&quot;&gt;Code Newbie Challenge 2018 (Code More Track)&lt;/a&gt;, our first &lt;em&gt;pre-mission&lt;/em&gt; is to reflect on what we’ve done in the past — what worked, what didn’t, and why.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-what-has-worked&quot;&gt;1. What Has Worked&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Think about the times you’ve been happy with what you’ve coded and jot down three things that went well. Were you happy with how the project turned out? How consistently you worked on it? How much you learned? Next, jot down three reasons &lt;em&gt;why&lt;/em&gt; that was a happy coding session. Was it your passion for the idea that got you through? Was it having a support system that helped you make time to code? Was it figuring out your learning style and finding great resources? - Saron&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;a-advent-of-code-2017&quot;&gt;a) Advent of Code 2017&lt;/h3&gt;
+
+&lt;p&gt;Advent of Code was a great coding experience for a few reasons.  I was able to code sustainably and continuously over about a month period.  I kept coming back (mostly) every day to knock that day’s challenge out.  I didn’t get bored, I didn’t forget what I was supposed to be doing, I didn’t get discouraged, and I didn’t lose interest.  I think this challenge went well for a few reasons.&lt;/p&gt;
+
+&lt;p&gt;First, there was a deadline for each day, so I had something driving me to stay on track.  The days that I didn’t keep up and had to finish two challenges the next day were tough.  This pushed me to make sure I was in the zone each day.&lt;/p&gt;
+
+&lt;p&gt;Second, the challenges were really interesting.  I feel like some code challenges are kind of a pain.  Personally, I believe that the &lt;a href=&quot;https://www.hackerrank.com/contests/codejam/challenges/roman-numerals&quot;&gt;Roman Numerals&lt;/a&gt; and &lt;a href=&quot;http://www.99-bottles-of-beer.net/language-python-808.html&quot;&gt;99 Bottles of Beer&lt;/a&gt; challenges can blow it out their heiney.  The Advent of Code challenges didn’t feel like that.&lt;/p&gt;
+
+&lt;p&gt;Lastly, I think it helped that there were really clear milestones and goals.  Some projects begin to drag or I lose interest because I never feel like I’ve completed something or reached a “stopping point”.  With Advent of Code’s 25 distinct challenges and crystal clear December 25th deadline, I was able to grit up and push through when things were hard or slow because I knew the end was coming.&lt;/p&gt;
+
+&lt;h3 id=&quot;b-cs50&quot;&gt;b) CS50&lt;/h3&gt;
+
+&lt;p&gt;Going through Harvard’s online CS50 was one my my favorite learning experiences.  I also begin to see some similarities with Advent of Code in terms of the things that kept me going.&lt;/p&gt;
+
+&lt;p&gt;First, there were clear assignments and deadlines.  Get &lt;em&gt;these&lt;/em&gt; tests passing by &lt;em&gt;this&lt;/em&gt; date.  This helped me stay focused.&lt;/p&gt;
+
+&lt;p&gt;Second, the instructor and staff kept the content extremely interesting and fresh.  Catering to a bunch of different learning styles really helped shake things up and keep them from stagnating.&lt;/p&gt;
+
+&lt;p&gt;Finally, the subject matter changed pretty frequently.  We never spent more than a couple of weeks on a single topic before moving on.  I’m not somebody who can work on the same project for years at a time, so that helped a lot.&lt;/p&gt;
+
+&lt;h3 id=&quot;c-the-nature-of-code&quot;&gt;c) The Nature of Code&lt;/h3&gt;
+
+&lt;p&gt;I really enjoyed working through &lt;a href=&quot;http://natureofcode.com/&quot;&gt;Dan Shiffman’s &lt;strong&gt;The Nature of Code&lt;/strong&gt;&lt;/a&gt;, doing the code examples, watching the videos, and working on the projects.  This time, the subject material really interested me.  It also helped that I was consistently learning something new.  Learning is really fun for me!  Also, Dan Shiffman is a great teacher and very entertaining to read and watch.&lt;/p&gt;
+
+&lt;h2 id=&quot;2-what-has-not-worked&quot;&gt;2. What Has Not Worked&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;What’s a coding moment in the past that didn’t turn out the way you hoped? Write down three things that you were unhappy about. Was what you built not as functional as you’d hoped? Did you not spend as much time on it as you wanted? Next, write down three reasons &lt;em&gt;why&lt;/em&gt; those unhappy things happened. Was it the wrong idea? Was the project too big? Were you missing the tools and resources you needed to make it work? - Saron&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;a-every-time-i-build-a-djangorails-project&quot;&gt;a) Every Time I Build a Django/Rails Project&lt;/h3&gt;
+
+&lt;p&gt;I love Python.  I love Ruby.  I think Django and Rails are neat!  That being said, it seems like every time I try to start a new web project (and those are my go-to technologies for that), I get into it, get part of the way through, get bogged down before I get to see my idea come to fruition, &lt;code class=&quot;highlighter-rouge&quot;&gt;git push&lt;/code&gt; and never come back to the idea after.  I have some suspicions for why this is.&lt;/p&gt;
+
+&lt;p&gt;I tend to get bogged down in the front end.  I get the app set up, but then I get stuck typing page after page of HTML and CSS, trying to get it to look not dumb.  Then I get tired of typing HTML and CSS.  Then I get distracted trying to see if there’s an easier way to have it just build the &lt;code class=&quot;highlighter-rouge&quot;&gt;*******&lt;/code&gt; form for me because I hate typing &lt;code class=&quot;highlighter-rouge&quot;&gt;label for=&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;input type=text&lt;/code&gt; over and over.  Then I get sucked down rabbit hole after rabbit hole of distraction.  Then I forget what I was doing.  Then I never come back to the project.  Can you detect the hints of frustration?&lt;/p&gt;
+
+&lt;p&gt;I also forget what I was doing for other reasons.  There’s so much to do that I keep thinking of more things, so I write them down on paper so I don’t forget.  I lose the paper and forget what I needed to do, and I’ve got so much code that I’m intimidated by my own codebase.  I don’t care enough about a side project like that to put in the work to try to figure out what mind state I was in when I last left the project originally, so I never come back and finish it.&lt;/p&gt;
+
+&lt;h3 id=&quot;b-contributing-to-open-source&quot;&gt;b) Contributing to Open Source&lt;/h3&gt;
+
+&lt;p&gt;Again, I’ll start by saying the positives: open source software is awesome and my life is so much better for it. That being said, most times I try to contribute to open source, it seems like it goes poorly.  I get all psyched that I finally found a repo that I can contribute to without feeling intimidated, and I do the work (or at least, comment on the issue to get started).  But it seems like about half of the time, we get bogged down in details, or people get busy and the progress halts, or worse, nothing happens at all.&lt;/p&gt;
+
+&lt;p&gt;Some notes: getting bogged down in the details is probably a Good Thing™.  I know that software projects have to be picky on their pull requests to make sure the project grows in a healthy way.  I totally get it and I appreciate the maintainers doing that.  That doesn’t mean it’s not frustrating.  See above about me and my relationship with long-running projects.  Also, I understand that people get busy.  They have lives outside of open source.  This is also a Good Thing™.  It prevents burnout, and they’re often doing it for free, so why should they have to be on call for these projects.  Again, that doesn’t mean that it’s not frustrating.&lt;/p&gt;
+
+&lt;h3 id=&quot;c-100-days-of-code&quot;&gt;c) 100 Days of Code&lt;/h3&gt;
+
+&lt;p&gt;This one is 100% on me.  (Let’s be real — they’re all 100% on me).  I failed so hard at 100 Days of Code.  I actually want to try it again to redeem myself.  I think I failed because I didn’t set myself up for success.  I didn’t prioritize coding over other things.  I didn’t put an hour of code into my calendar every day.  I didn’t have an accountability buddy.  And the goal was So.  Far.  Away.  100 days?  That’s more than a month!  (Joking.  I know there are 40 days in a month.)  Also, I didn’t set myself up with a plan/schedule.   I left myself too open-ended, so when I went to do my code for the day, I didn’t have an assignment I knew I was supposed to do.&lt;/p&gt;
+
+&lt;h2 id=&quot;3-what-are-your-long-term-goals&quot;&gt;3. What Are Your Long Term Goals?&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Your goal is to code more, but what does that look like for you? Write down what you hope to accomplish in 6-12 months (we’ll call that long-term for our purposes). - Saron&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;My goals for the next 6-12 months are to learn a new language, and to learn it more than just a little bit.&lt;/p&gt;
+
+&lt;p&gt;In the second half of 2017, I told myself that if I was going to learn Ruby, I was going to do it 100%.  I told myself that I was &lt;em&gt;only&lt;/em&gt; allowed to code in Ruby unless forced to do otherwise at gunpoint.  (I had a few days where I pretended to be at gunpoint and dove deep into Bash, but I did pretty well for the most part at sticking to that requirement).  It totally paid off!  I now feel a lot more confident in Ruby, and it’s currently the language I would reach for on a new problem right now.  I was able to do more than just scratch the surface.&lt;/p&gt;
+
+&lt;p&gt;I’m still waffling on which language it’s going to be next, but I’ve got it narrowed down to Ruby (some more), Go, or Crystal.  I want to limit myself to one of those languages again for at least 6 months, if not the whole of 2018.&lt;/p&gt;
+
+&lt;h2 id=&quot;4-what-are-your-short-term-goals&quot;&gt;4. What Are Your Short Term Goals?&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Since this challenge is 5 weeks long, let’s focus on goals you can achieve in that timeframe. What do you hope to accomplish by the end of this challenge? How does it relate to your long-term goals in Question 4? - Saron&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I’d like to pick one (or two… or three, tops, I promise!) side projects to work on and get to a reasonable milestone over the next five weeks.  They would be written in one of the languages mentioned above.  After answering all of the other questions above, it’s pretty clear that in order to meet this goal, I’ll have to do the following:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Choose a project with a hard, clear milestone in view&lt;/li&gt;
+  &lt;li&gt;Break that milestone up into smaller, achieveable assignments.  It’s not a five-week goal — it’s 10 three-day goals!  Bonus points if I use a &lt;a href=&quot;https://en.wikipedia.org/wiki/Gantt_chart&quot;&gt;Gantt chart&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Schedule my other time accordingly.&lt;/li&gt;
+  &lt;li&gt;Do all of this planning up front.&lt;/li&gt;
+  &lt;li&gt;Be disciplined about documenting my process along the way so I remember where I am and what I need to do next.  This will also help me (and everybody else!) keep me accountable.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Wish me luck!&lt;/p&gt;
+</description>
+        <pubDate>Thu, 04 Jan 2018 00:00:00 -0800</pubDate>
+        <link>http://localhost:4000/2018/01/04/cnc2018-pre-mission/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/01/04/cnc2018-pre-mission/</guid>
+        
+        <category>codenewbie</category>
+        
+        <category>reflection</category>
+        
+        
+      </item>
     
       <item>
         <title>Ruby 2.5 - Tap and Yield Self</title>
@@ -1975,97 +2074,6 @@ n is the number of times you compound your interest over the time period.
         <category>fun</category>
         
         <category>python</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Accelerated Vim-Provement</title>
-        <description>&lt;p&gt;I’m currently working on practicing and learning to use Vim as an editor.  After a few sorry attempts to learn it quickly by sitting down and doing a few tutorials, I’ve learned that the road to Vim mastery for me will consist of a slow, steady grind of practice, learning and conquering one thing at a time, letting the Vim philosophy soak in as I go.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/slow-and-steady.gif&quot; alt=&quot;Slow and steady&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Learning to take the pressure off of myself to learn quickly and move on the the next thing has been difficult, but I’m glad for it.  It’s turned the hiccups, small frustrations, and the disappointment of having to Google the same thing for the umpty-seventh time into a weirdly relaxing and enjoyable journey.  Instead of &lt;em&gt;“I’m so dumb, I can’t believe I can never remember how to delete a word”&lt;/em&gt;, it has become, &lt;em&gt;“Oh Vim, you little rascal, you got me again.  We’ll see who has the last laugh.”&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/oh-you.gif&quot; alt=&quot;Oh, Vim...&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I did come up with one thing that helped me speed things up a little bit, which I thought I could share.&lt;/p&gt;
-
-&lt;h2 id=&quot;take-the-training-wheels-off&quot;&gt;Take the Training Wheels Off&lt;/h2&gt;
-
-&lt;p&gt;One of the first things you learn when learning Vim is how to move around using &lt;code class=&quot;highlighter-rouge&quot;&gt;h, j, k, l&lt;/code&gt; keys instead of the arrow keys.  In theory, it’s more efficient and keeps your hands in an ideal typing position.  I don’t think that using the arrow keys makes you a bad person, but there is one additional benefit to using these keys instead of the arrow keys:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;You have exactly as much practice using &lt;code class=&quot;highlighter-rouge&quot;&gt;h, j, k, and l&lt;/code&gt; to move around as you have with any of the other motion/command keys in Vim.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;The arrow keys are sort of a crutch, because, if you want, you can ignore all of the commands and keys that make Vim extra useful and stick to just using the arrow keys and staying in Insert mode all the time.  If this is how you’re using Vim, you’re essentially just using an obnoxious version of &lt;a href=&quot;https://www.nano-editor.org/&quot;&gt;Nano&lt;/a&gt;.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;All the features of Nano, with the added joy of continuously forgetting you’re in Normal mode and trying to start typing, only to have your cursor do crazy things all over the screen.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;If that’s the way you like it, I have no problem with that.  You do you.  If you’re trying to break that habit and convert your brain to the Vim way of doing things (via Vimception, maybe?), then I’ve found it is super helpful to actually &lt;strong&gt;throw away the crutch entirely&lt;/strong&gt; and turn off your arrow keys.&lt;/p&gt;
-
-&lt;p&gt;Add these lines to your  &lt;code class=&quot;highlighter-rouge&quot;&gt;.vimrc&lt;/code&gt; file.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nnoremap &amp;lt;Up&amp;gt; &amp;lt;Nop&amp;gt;
-nnoremap &amp;lt;Down&amp;gt; &amp;lt;Nop&amp;gt;
-nnoremap &amp;lt;Left&amp;gt; &amp;lt;Nop&amp;gt;
-nnoremap &amp;lt;Rigth&amp;gt; &amp;lt;Nop&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Mapping a key to &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;Nop&amp;gt;&lt;/code&gt; (or no-op, or no-operation) causes it to do nothing.&lt;/p&gt;
-
-&lt;h2 id=&quot;but-why&quot;&gt;But Why?&lt;/h2&gt;
-
-&lt;p&gt;This is actually pretty common advice, but most articles will tell you only that it’s to help get you more comfortable with &lt;code class=&quot;highlighter-rouge&quot;&gt;h, j, k, l&lt;/code&gt;.  This seemed dumb to me because… why would I want to learn a new set of keys that just do the same thing if I’m already efficient with arrow keys?  I would say the benefit is not that I got more comfortable with &lt;code class=&quot;highlighter-rouge&quot;&gt;h, j, k, l&lt;/code&gt;, but that I &lt;em&gt;quickly got tired&lt;/em&gt; of pushing these keys.  Without the arrow keys to fall back on, but with a desire to be more efficient, I’ve had a much larger incentive to learn keys like &lt;code class=&quot;highlighter-rouge&quot;&gt;w, e, $, 0, G, gg&lt;/code&gt; and others!&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;You don’t take the training wheels off of a bike so that you can say you’re not using training wheels – while continuing to ride slowly.  You take the training wheels off of a bike so that you can quickly learn that it’s actually much easier when you go faster.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;hard-mode-enabled&quot;&gt;Hard Mode Enabled&lt;/h2&gt;
-
-&lt;p&gt;This works well, but there’s still the temptation to just drop into Insert mode and use the arrow keys there, which defeats the entire purpose.  To circumvent this, You can also disable the arrows in Insert mode as well by adding the following to your &lt;code class=&quot;highlighter-rouge&quot;&gt;.vimrc&lt;/code&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;inoremap &amp;lt;Up&amp;gt; &amp;lt;Nop&amp;gt;
-inoremap &amp;lt;Down&amp;gt; &amp;lt;Nop&amp;gt;
-inoremap &amp;lt;Left&amp;gt; &amp;lt;Nop&amp;gt;
-inoremap &amp;lt;Right&amp;gt; &amp;lt;Nop&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;This will make your life frustrating at times.  “But I just want to move over two characters!  I don’t want to have to drop out of Insert mode, move over and go back in!”&lt;/p&gt;
-
-&lt;h3 id=&quot;tough--cookies&quot;&gt;Tough.  Cookies.&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/tough-cookie.jpg&quot; alt=&quot;You're a tough cookie.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Stick with it!  It’ll pay off.  I’ve only been doing that for like a week and I’m seeing huge improvements.&lt;/p&gt;
-
-&lt;h2 id=&quot;bonus&quot;&gt;Bonus&lt;/h2&gt;
-
-&lt;p&gt;For extra encouragement, replace all of the &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;Nop&amp;gt;&lt;/code&gt;’s above with this:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;:echo 'STAHP.'&amp;lt;CR&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;wrap-up&quot;&gt;Wrap Up&lt;/h2&gt;
-
-&lt;p&gt;If you’ve got any Vim pro-tips, let me know.  Vim is a fairly popular tutorial topic and everybody’s got lots of opinions about it, but I’m always on the lookout for cool resources, books, guides, games, ways to practice, etc.  I know there’s a lot of people with a lot of knowledge to share, so share away!&lt;/p&gt;
-</description>
-        <pubDate>Wed, 25 Oct 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/10/25/accelerated-vimprovement/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/10/25/accelerated-vimprovement/</guid>
-        
-        <category>vim</category>
-        
-        <category>editor</category>
-        
-        <category>encouragement</category>
         
         
       </item>

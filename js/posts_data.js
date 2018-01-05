@@ -1,6 +1,15 @@
 const posts = [
     
     {
+        title: "CNC 2018 Pre-Mission",
+        url: "/2018/01/04/cnc2018-pre-mission/",
+        cover: "/img/tree-reflection.jpg",
+        tags: "codenewbie, reflection",
+        date: "January 04, 2018",
+        description: "As part of the Code Newbie Challenge 2018 (Code More Track), our first pre-mission is to reflect on what we&#39;ve done in the past — what worked, what didn&#39;t, and why."
+    } ,
+    
+    {
         title: "Ruby 2.5 - Tap and Yield Self",
         url: "/2017/12/29/tap-and-yield-self/",
         cover: "/img/yield.jpg",
