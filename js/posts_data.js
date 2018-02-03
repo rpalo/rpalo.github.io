@@ -1,6 +1,15 @@
 const posts = [
     
     {
+        title: "Checking In",
+        url: "/2018/02/03/checking-in/",
+        cover: "/img/checking-in.png",
+        tags: "update, preview",
+        date: "February 03, 2018",
+        description: "It&#39;s been a while since I&#39;ve published a blog post, so I&#39;m checking in to share some stuff that&#39;s coming up."
+    } ,
+    
+    {
         title: "CNC 2018 Pre-Mission",
         url: "/2018/01/04/cnc2018-pre-mission/",
         cover: "/img/tree-reflection.jpg",

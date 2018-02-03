@@ -6,9 +6,63 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 05 Jan 2018 06:50:50 -0800</pubDate>
-    <lastBuildDate>Fri, 05 Jan 2018 06:50:50 -0800</lastBuildDate>
+    <pubDate>Sat, 03 Feb 2018 10:14:20 -0800</pubDate>
+    <lastBuildDate>Sat, 03 Feb 2018 10:14:20 -0800</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Checking In</title>
+        <description>&lt;p&gt;Hi!  It’s been almost four weeks since my last blog post, so I need to write &lt;em&gt;something&lt;/em&gt; to keep things flowing.  This will just be an update for what’s been going on and what’s coming up.&lt;/p&gt;
+
+&lt;h2 id=&quot;so-far-this-year&quot;&gt;So Far This Year&lt;/h2&gt;
+
+&lt;p&gt;This year, my wife and I have tried to set some concrete goals for ourselves and stick to them.  It’s working out well so far, but it’s definitely making it harder to juggle everything at once.  We’ve joined a gym &lt;em&gt;and&lt;/em&gt; an East Bay community basketball league, trying to be more active.  As it turns out, when you burn a lot of energy exercising, it leaves you with less motivation to do things like write blog posts and code after work.  Hence the situation I now find myself in.  But, I find that as I get more used to doing less Netflix and video games, I’m getting more used to being productive by default.&lt;/p&gt;
+
+&lt;p&gt;I’ve joined the &lt;a href=&quot;https://2018.codenewbie.org/&quot;&gt;CodeNewbie Challenge 2018&lt;/a&gt;, which is a guided, community-based process of meeting coding goals in 2018.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/cnc2018.jpg&quot; alt=&quot;CNC 2018, because this year will be different&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;There are four tracks: Start Coding, Code More, Blog More, and Get a Job.  I’m working on the Code More goal, and trying to schedule out some milestones and tasks in order to make progress and actually finish some side-projects.  Already, working on my projects has really helped me learn more and dig deeper into Ruby, and it’s starting to rain blog post ideas.&lt;/p&gt;
+
+&lt;p&gt;Also, I submitted a talk proposal to &lt;a href=&quot;https://www.deconstructconf.com/&quot;&gt;Deconstruct Conference&lt;/a&gt;, so… fingers crossed!&lt;/p&gt;
+
+&lt;h2 id=&quot;coming-up&quot;&gt;Coming Up&lt;/h2&gt;
+
+&lt;p&gt;Another reason that I haven’t had a post come out recently is that I’ve been working on &lt;strong&gt;something pretty big&lt;/strong&gt; that should come out in the next couple of days.  I’ll be sure to share a link to it when it does.&lt;/p&gt;
+
+&lt;p&gt;Lastly, I wanted to share some of the blog post ideas that I’ve got now that I want to work on.&lt;/p&gt;
+
+&lt;ul class=&quot;dotted&quot;&gt;
+
+&lt;li&gt;Closures - why they are more useful and interesting than you think&lt;/li&gt;
+
+&lt;li&gt;My Compiler Can Beat Me Up&lt;/li&gt;
+
+&lt;li&gt;Teaching the Art of Stepping Through Code&lt;/li&gt;
+
+&lt;li&gt;I Discovered Bullet Journaling and It's Neat&lt;/li&gt;
+
+&lt;li&gt;Powershell is Awesome Once You Get the Basics&lt;/li&gt;
+
+&lt;li&gt;Building a CLI with &lt;a href=&quot;https://github.com/mdub/clamp&quot;&gt;Clamp&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;Demystifying Building a Gem with Bundler: Load Paths, Require Statements, and Running Scripts&lt;/li&gt;
+
+&lt;/ul&gt;
+
+&lt;p&gt;Let me know if any of these topics are more interesting to you than any of the others and I’ll know which ones to prioritize.  Good things are coming!&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 03 Feb 2018 00:00:00 -0800</pubDate>
+        <link>http://localhost:4000/2018/02/03/checking-in/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/02/03/checking-in/</guid>
+        
+        <category>update</category>
+        
+        <category>preview</category>
+        
+        
+      </item>
     
       <item>
         <title>CNC 2018 Pre-Mission</title>
@@ -1855,227 +1909,6 @@ git push origin --all
         <category>best-practice</category>
         
         <category>oss</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>E for Everywhere</title>
-        <description>&lt;p&gt;I just learned something new and it prompted me to want to share it (and a whole bunch of other things).  Let’s talk about the letter &lt;code class=&quot;highlighter-rouge&quot;&gt;e&lt;/code&gt;.  This post will have a little bit of math in it, but I’ll try to make those parts painless enough to keep you with me.&lt;/p&gt;
-
-&lt;h2 id=&quot;e&quot;&gt;e&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;e&lt;/code&gt; is a mathmatical constant (like &lt;code class=&quot;highlighter-rouge&quot;&gt;pi&lt;/code&gt;) that crops up a lot of places.&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;e = 2.71828182845904523536028747135266249775724709369995&lt;/script&gt;
-
-&lt;p&gt;Like &lt;code class=&quot;highlighter-rouge&quot;&gt;pi&lt;/code&gt;, it’s a number that is &lt;em&gt;irrational&lt;/em&gt;, meaning that its decimal places never end and never repeat (go into an infinite loop).&lt;/p&gt;
-
-&lt;p&gt;“Blah blah blah blah,” you say – eloquently, I might add.  “All I hear is blah blah math letters-that-are-really-numbers blah.  Why are you bothering me about this &lt;code class=&quot;highlighter-rouge&quot;&gt;e&lt;/code&gt;?”&lt;/p&gt;
-
-&lt;p&gt;I want to tell you about it, because, even though it doesn’t get the kind of press that &lt;code class=&quot;highlighter-rouge&quot;&gt;pi&lt;/code&gt; does (not to mention &lt;code class=&quot;highlighter-rouge&quot;&gt;phi&lt;/code&gt; – the golden ratio), it shows up everywhere you look and helps us with all kinds of statistics, finance, and more!  I’m writing this post to show off a couple of the ways that &lt;code class=&quot;highlighter-rouge&quot;&gt;e&lt;/code&gt; works behind the scenes.&lt;/p&gt;
-
-&lt;h2 id=&quot;something-interesting-and-practical&quot;&gt;Something Interesting and Practical&lt;/h2&gt;
-
-&lt;p&gt;Let’s talk about &lt;strong&gt;interest&lt;/strong&gt;.  Like bank interest!  Like investment stocks interest.  You ever wonder how that was calculated?  Here’s the interest equation:&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;A = P(1 + \frac{r}{n})^n&lt;/script&gt;
-
-&lt;p&gt;Where:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;A is the future value of your money.
-
-P is the present value of your money.
-
-r is the interest rate over the time period you care about (usually a year, in practice).
-
-n is the number of times you compound your interest over the time period.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;For example, if you put $100 into a bank for a year, and the bank provided a 7% (or .07) interest rate over that time, &lt;em&gt;and&lt;/em&gt; the bank only compounded your interest one time (which they sometimes do), after one year, you’d end up with:&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;100(1 + \frac{.07}{1})^{1} = 107&lt;/script&gt;
-
-&lt;p&gt;This is as expected, because we already said you’re getting 7% yearly interest (also known as APR), and 7% of 100 is 7, so getting $107 at the end of the year should hopefully seem reasonable.&lt;/p&gt;
-
-&lt;p&gt;But some banks compound your interest every month!  Check your bank statement – yours probably does!  What does that look like?&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;100(1 + \frac{.07}{12})^{12} = 107.23&lt;/script&gt;
-
-&lt;p&gt;WHAAAAAAT?  You just got an extra $0.25, simply by doing some math 12 times a year instead of once at the end.  You squint at me skeptically, and ask, “Does that pattern continue like that?”  Let’s try it!  Let’s compound once a day.&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;100(1 + \frac{.07}{365})^{365} = 107.25&lt;/script&gt;
-
-&lt;p&gt;Yep!  Kind of.  Definitely not as much increase, and we’re compounding waaaay more.  Let’s really amp up the compounding and see what happens.&lt;/p&gt;
-
-&lt;p&gt;Actually, let’s simplify our life a little bit first to make the math easy:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Let’s assume we’re starting with just $1.&lt;/li&gt;
-  &lt;li&gt;Let’s assume our interest rate is 100% (i.e. 1).  Thus compounding yearly, we would double our money.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Now let’s see what our pattern looks like.&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;compound&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Calculates interest after one time period (e.g. a year).
-    p: float - initial money amount
-    r: float - interest rate over the time period
-    n: int - number of times we compound
-    returns float - amount of money after one time period
-    &quot;&quot;&quot;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;result_data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compound&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;matplotlib&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pyplot&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/e-interest.png&quot; alt=&quot;Result of Interest experiment&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;You can see that with 1 compound, we get 100% return, just like we planned.  Start with $1, end up with $2.  And as we compound more and more, we see it go up by quite a bit and then the gains start to level off.  But wait.  What number are the gains leveling off at?&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;math&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# Plot horizontal line at 2.71828...&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/e-interest-with-line.png&quot; alt=&quot;Result of Interest experiment with line at e&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;OH SNAP, IT’S E.  As we approach higher and higher frequency of compounding, we approach a return amount of E.  This is where the concept of &lt;strong&gt;continuously compounding interest&lt;/strong&gt; comes from.&lt;/p&gt;
-
-&lt;p&gt;So we’ve found &lt;code class=&quot;highlighter-rouge&quot;&gt;e&lt;/code&gt; once.  Let’s do another.&lt;/p&gt;
-
-&lt;h2 id=&quot;factorials-and-e&quot;&gt;Factorials and e&lt;/h2&gt;
-
-&lt;p&gt;If you’ve read any of my other blog posts, you’re probably sick and tired of factorials.  Well, that’s too bad.  Let’s combine them with fractions and see what we can come up with.&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{1}{0!} = \frac{1}{1} = 1&lt;/script&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{1}{1!} = \frac{1}{1} = 1&lt;/script&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{1}{2!} = \frac{1}{2 * 1} = .5&lt;/script&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{1}{3!} = \frac{1}{3 * 2 * 1} = 0.16666&lt;/script&gt;
-
-&lt;p&gt;Where am I going with this?  Let’s add them up and see.&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;math&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;factorial&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;sum_of_factorial_fractions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Calculates the sum of 1/0! + 1/1! + 1/2! ... 1/n!&quot;&quot;&quot;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;factorial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-               
-&lt;span class=&quot;n&quot;&gt;results2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sum_of_factorial_fractions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;results2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;The last result:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;results2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/e-factorials.png&quot; alt=&quot;Result of Factorials experiment&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;The last result: 2.7182815255731922
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;A;LSDKJF;ALKJSDFJSDLKFJEIVLENNVOIEJ.&lt;/p&gt;
-
-&lt;h3 id=&quot;e-1&quot;&gt;E&lt;/h3&gt;
-
-&lt;p&gt;(approximately).&lt;/p&gt;
-
-&lt;p&gt;Let’s do one more: my favorite one.&lt;/p&gt;
-
-&lt;h2 id=&quot;random-e&quot;&gt;Random E&lt;/h2&gt;
-
-&lt;p&gt;This one comes courtesy of &lt;a href=&quot;https://twitter.com/fermatslibrary&quot;&gt;Fermat’s Library on Twitter&lt;/a&gt;.  Pick a random number between 0 and 1.  Keep picking numbers and adding them until the sum is greater than 1.  For example:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;random&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0.185263666584764
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0.5797470876977189
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1.2821236982804123
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Alright!  We’re now greater than 1, and it took us 3 rolls to get there.  Let’s do that a ton of times and see what the average number of rolls is.&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;rolls_to_greater_than_n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Rolls a random number between 0 and 1 and adds them up
-    until the sum is greater than n.  Returns the number of rolls it took.
-    &quot;&quot;&quot;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;total&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;rolls&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;total&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;total&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;rolls&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rolls&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;roll_experiment_avg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;times&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Performs the rolls_to_greater_than_n 'times' times.
-    Returs the average number of rolls it took.&quot;&quot;&quot;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rolls_to_greater_than_n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;times&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;times&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;results3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;roll_experiment_avg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;results3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;plot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# Line representing e for reference.&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;The last result was&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;results3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/e-random.png&quot; alt=&quot;Results of Random experiment&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;The last result was 2.712271227122712
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;This one definitely is converging a lot slower, &lt;a href=&quot;https://twitter.com/fermatslibrary/status/924263998589145090&quot;&gt;but it does.  Math says so.&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Anyways, this was kind of a long post about nothing, but I though that the way that &lt;code class=&quot;highlighter-rouge&quot;&gt;e&lt;/code&gt; seems to pop up all over the place, even amidst factorials and random numbers, was pretty cool.  Let me know if you can think of any other cool ways to come up with &lt;code class=&quot;highlighter-rouge&quot;&gt;e&lt;/code&gt;!&lt;/p&gt;
-</description>
-        <pubDate>Sat, 28 Oct 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/10/28/e-for-everywhere/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/10/28/e-for-everywhere/</guid>
-        
-        <category>math</category>
-        
-        <category>fun</category>
-        
-        <category>python</category>
         
         
       </item>
