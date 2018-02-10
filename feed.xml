@@ -6,9 +6,277 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 03 Feb 2018 10:14:20 -0800</pubDate>
-    <lastBuildDate>Sat, 03 Feb 2018 10:14:20 -0800</lastBuildDate>
+    <pubDate>Sat, 10 Feb 2018 09:26:54 -0800</pubDate>
+    <lastBuildDate>Sat, 10 Feb 2018 09:26:54 -0800</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Closure? I Hardly Know Her!</title>
+        <description>&lt;p&gt;&lt;em&gt;Cover image credit: &lt;a href=&quot;https://stackoverflow.com/a/29558498/4100442&quot;&gt;this amazing StackOverflow answer&lt;/a&gt;&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;I’ve learned about closures a few different times, and each time, I’ve come away feeling like I get it, but I don’t necessarily understand why people make such a big deal out of them.  Yeah, hooray, you get functions that can persist their data!  I’ve seen people post things like, “If you’re not using closures, you’re really missing out.”  I think I’ve finally figured out why people are so excited, and why I was confused.  This post will explain what closures are, when you might want to use them, and why it took me so long to get why they’re special.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-are-closures&quot;&gt;What are Closures&lt;/h2&gt;
+
+&lt;p&gt;A closure (also called a &lt;em&gt;function closure&lt;/em&gt; or a &lt;em&gt;lexical closure&lt;/em&gt;) is when you find a way of wrapping up a function with the state in which it was defined into one connected and persistent bundle.  I’ll show you a bunch of examples if that doesn’t make sense.  There’s a number of ways to create a closure, but the canonical one is to define and return a function from within another function.  Here’s what I mean.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;build_zoo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;add_animal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;animal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;animal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;increment&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;zoo_a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build_zoo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;zoo_b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build_zoo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;zoo_a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;zebra&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; [&quot;zebra&quot;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;zoo_a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;monkey&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; [&quot;zebra&quot;, &quot;monkey&quot;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;zoo_b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;snek&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; [&quot;snek&quot;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;zoo_a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;panda&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; [&quot;zebra&quot;, &quot;monkey&quot;, &quot;panda&quot;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;build_zoo&lt;/code&gt; function is a kind of “factory” that creates a &lt;em&gt;scope&lt;/em&gt; and defines a function within that scope.  Then it gives the function &lt;em&gt;that still has access to that scope (and the variables therein)&lt;/em&gt; to you.  After the &lt;code class=&quot;highlighter-rouge&quot;&gt;build_zoo&lt;/code&gt; function ends, it keeps the stack frame and variables defined (like &lt;code class=&quot;highlighter-rouge&quot;&gt;animals&lt;/code&gt;) available to the returned &lt;code class=&quot;highlighter-rouge&quot;&gt;add_animal&lt;/code&gt; function, for later reference.  And every time you call this &lt;code class=&quot;highlighter-rouge&quot;&gt;build_zoo&lt;/code&gt; function, it creates a brand new scope, unconnected to any of the other scopes.  That’s why &lt;code class=&quot;highlighter-rouge&quot;&gt;zoo_a&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;zoo_b&lt;/code&gt; were not able to affect each other when they were called!&lt;/p&gt;
+
+&lt;h3 id=&quot;side-note-python-and-scopes&quot;&gt;Side Note: Python and Scopes&lt;/h3&gt;
+
+&lt;p&gt;In Python, you are unable to modify variables outside your scope without extra work.  So, if you tried something like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;build_incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;current_value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;increment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;current_value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_value&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;increment&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;incrementer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build_incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; UnboundLocalError: local variable 'current_value' referenced before assignment&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You get an error!  This is not so in many languages.  In many languages, it’s ok to access variables in parent scopes.  In Python, you’ll have to do this:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;build_incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;current_value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;increment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;nonlocal&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_value&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# &amp;lt;==&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;current_value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_value&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;increment&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This lets you reach out and modify this value.  You could also use global, but we’re not animals, so we won’t.&lt;/p&gt;
+
+&lt;h2 id=&quot;ok-but-so-what&quot;&gt;OK, but So What?&lt;/h2&gt;
+
+&lt;p&gt;“You can keep track of state like a billion different ways!” you say exaggeratingly.  “What’s so special about closures?  They seem unnecessarily complicated.”  And that’s a little bit true.  Generally, if I wanted to keep track of my state with a function, I would do it in one of a few different ways.&lt;/p&gt;
+
+&lt;h3 id=&quot;generator-functions&quot;&gt;Generator Functions&lt;/h3&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;build_incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;current_value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;current_value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_value&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;inc_a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build_incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;inc_b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build_incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inc_a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 1&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inc_a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 2&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inc_a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 3&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inc_b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This method is very “Pythonic”.  It has no inner functions (that you know of), has a reasonably easy-to-discern flow-path, and (provided you understand generators), and gets the job done.&lt;/p&gt;
+
+&lt;h3 id=&quot;build-an-object&quot;&gt;Build an Object&lt;/h3&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;increment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;
+    
+    &lt;span class=&quot;c&quot;&gt;# Or, just so we can match the section above:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__next__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;increment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    
+&lt;span class=&quot;n&quot;&gt;inc_a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;inc_b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inc_a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 1&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inc_a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 2&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inc_b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This is another good option, and one that also makes a lot of sense to me coming, having done a good amount of Ruby as well as Python.&lt;/p&gt;
+
+&lt;h3 id=&quot;global-variables&quot;&gt;Global Variables&lt;/h3&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;current_value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;increment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;global&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_value&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;current_value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_value&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;increment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 1&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;increment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 2&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;increment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 3&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;No.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;But, I–&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;No.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Wait!  Just let me–&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Nope.  Don’t do it.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/closure-bugs.jpg&quot; alt=&quot;Do you want bugs?  Because that's how you get bugs.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Global variables will work in very simple situations, but it’s an really quick and easy way to shoot yourself in the foot when things get more complicated.  You’ll have seventeen different unconnected functions that all affect this one variable.  And, if that variable isn’t incredibly well named, it quickly becomes confusion and nonsense.  And, if you made one, you probably made twenty, and now no-one but you knows what your code does.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/closure-obfuscating.jpg&quot; alt=&quot;Well, at least it doesn't need obfuscating.&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;why-closures-are-cool&quot;&gt;Why Closures are Cool&lt;/h2&gt;
+
+&lt;p&gt;Closures are exciting for three reasons: they’re pretty small, they’re pretty fast, and they’re pretty available.&lt;/p&gt;
+
+&lt;h3 id=&quot;theyre-small&quot;&gt;They’re Small&lt;/h3&gt;
+
+&lt;p&gt;Let’s look at the rough memory usage of each method (except global variables) above:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sys&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;build_function_incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# ...&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;funky&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build_function_incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;build_generator_incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+	&lt;span class=&quot;c&quot;&gt;# ...&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;jenny&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build_generator_incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# ...&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;classy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;### Functional Closure&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getsizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;build_function_incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# The factory&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 136&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getsizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;funky&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# The individual closure&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 136&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;### Generator Function&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getsizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;build_generator_incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# The factory&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 136&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getsizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jenny&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# The individual generator&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 88&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;### Class&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getsizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Incrementer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# The factory (class)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 1056&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getsizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;classy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# The instance&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 56&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Surprisingly, the generator function’s output actually ends up being the smallest.  But both the generator function, and the traditional closure are much smaller than creating a class.&lt;/p&gt;
+
+&lt;h3 id=&quot;theyre-fast&quot;&gt;They’re Fast&lt;/h3&gt;
+
+&lt;p&gt;Let’s see how they stack up, time-wise.  Keep in mind, I’m going to use &lt;code class=&quot;highlighter-rouge&quot;&gt;timeit&lt;/code&gt; because it’s easy, but it won’t be perfect.  Also, I’m doing this from my slowish little laptop.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;timeit&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;### Functional Closure&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;timeit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;timeit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;
+def build_function_incrementer():
+	# ...
+funky = build_function_incrementer()
+for _ in range(1000):
+	funky()
+&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 0.0003780449624173343&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;### Generator Function&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;timeit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;timeit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;
+def build_generator_incrementer():
+	# ...
+jenny = build_generator_incrementer()
+for _ in range(1000):
+	next(jenny)
+&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 0.0004897500039078295&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;### Class&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;timeit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;timeit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;
+class Incrementer:
+    def __init__(self):
+        self.value = 0
+
+    def increment(self):
+        self.value += 1
+        return self.value
+
+    def __next__(self):
+        return self.increment()
+
+classy = Incrementer()
+for _ in range(1000):
+    next(classy)
+&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# =&amp;gt; 0.001482799998484552&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Once again, the class method comes in at the bottom, but this time we see a marginal speed bump with the functional closure.  However, keep in mind, the final argument for closures is the strongest one.&lt;/p&gt;
+
+&lt;h3 id=&quot;theyre-available&quot;&gt;They’re Available&lt;/h3&gt;
+
+&lt;p&gt;This is the one that took me the longest to find out.  &lt;em&gt;Not all languages are as lucky as Python.&lt;/em&gt;  (Excuse me while I prepare my inbox for a deluge of hate mail.)  In Python, we are lucky enough to have Generators as well as a number of ways to create them, like Generator functions.  Honestly, if I had to choose from the above methods, and I was writing Python, I’d actually recommend the Generator Function method, since it’s easier to read and reason about.&lt;/p&gt;
+
+&lt;p&gt;However, there are a lot of languages that aren’t as “batteries included.”  This can actually be a benefit if you want a small application size, or if you’re constrained somehow.  In these cases, as long as your language supports creating functions, you should be able to get all the benefits of Generators (lazy evaluation, memoization, the ability to iterate through a possibly infinite series…) without any fancy features.&lt;/p&gt;
+
+&lt;p&gt;In JavaScript, you can now use &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators&quot;&gt;a version of generators&lt;/a&gt;, but that’s ES6 functionality that hasn’t always been there.  As far as I can tell, this isn’t a built-in functionality in Go either (although some research shows that it might be more idiomatic to &lt;a href=&quot;https://stackoverflow.com/questions/11385556/python-style-generators-in-go&quot;&gt;use channels instead&lt;/a&gt;).  I’m sure there are many other lower-level languages as well where a simple function closure is easier than trying to write your own Generator.&lt;/p&gt;
+
+&lt;h2 id=&quot;share-your-wisdom&quot;&gt;Share Your Wisdom!&lt;/h2&gt;
+
+&lt;p&gt;Since I don’t have a whole lot of experience with low-level languages, the pros and cons of closures are new to me.  If you have some better explanations or any examples of when a closure is the perfect tool for the job, please &lt;a href=&quot;https://twitter.com/paytastic&quot;&gt;let me know about it&lt;/a&gt; and I’ll do my best to broadcast your wisdom.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 10 Feb 2018 00:00:00 -0800</pubDate>
+        <link>http://localhost:4000/2018/02/10/closure-i-hardly-know-her/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/02/10/closure-i-hardly-know-her/</guid>
+        
+        <category>python</category>
+        
+        <category>functional</category>
+        
+        
+      </item>
     
       <item>
         <title>Checking In</title>
@@ -1787,128 +2055,6 @@ description: A list of all of my blog posts
         <category>static-site</category>
         
         <category>tutorial</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Git Wrecked — Keeping Your Branches Synced Without Breaking Things</title>
-        <description>&lt;p&gt;Last month, I took part in Digital Ocean’s &lt;a href=&quot;https://hacktoberfest.digitalocean.com/&quot;&gt;Hacktoberfest&lt;/a&gt; event, and it was awesome.  It helped give me the kick in the pants that I needed to get up the courage to contribute to Open Source Software.  It was definitely a great experience (and I got a t-shirt out of it 😬).  With this really being my first time interacting with the &lt;a href=&quot;https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow&quot;&gt;Forking Git Workflow&lt;/a&gt;, I wasn’t exactly sure what to do.  I had seen snippets here and there about how you’re supposed to do it, but I wasn’t familiar enough with that &lt;em&gt;or&lt;/em&gt; git commands other than the basic &lt;code class=&quot;highlighter-rouge&quot;&gt;push, pull, add, commit&lt;/code&gt; commands needed for local/personal Git.  So I thought I’d share a story and what I learned.&lt;/p&gt;
-
-&lt;h2 id=&quot;forking-gui&quot;&gt;Forking GUI&lt;/h2&gt;
-
-&lt;p&gt;I was working on some additions to a README for this contribution.  I had already forked the repo, cloned a local version to my machine, created a branch for the fix, made some initial changes, pushed back to Github, and opened a pull request.  So far, so good.  I felt accomplished.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/git-plan.gif&quot; alt=&quot;I love it when a plan comes together&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;A couple days later, the maintainer got back to me with some thoughts and possible revisions.  Great!  This was real collaboration!  So exhilarating!  I headed back to my local repo, but I noticed that the original upstream repo had had some changes made to it.  Having heard that it was a good idea to keep your local repo and branches up to date, I decided to attempt to refresh everything… but I didn’t really know how.  I looked around, but I got intimidated by the official git documentation.  That’s when I remembered that I had my handy-dandy git GUI application, &lt;a href=&quot;https://www.gitkraken.com/&quot;&gt;GitKraken&lt;/a&gt;.  I opened it up, and in a couple of clicks, I had updated my &lt;code class=&quot;highlighter-rouge&quot;&gt;origin&lt;/code&gt; and local branches, made the quick edits I was trying to make, and pushed everything up to GitHub.  Or so I thought.&lt;/p&gt;
-
-&lt;p&gt;That night I got a message from the maintainer, asking what these extra files were that I had added to my Pull Request.  To my horror, as I looked at the commit history of my GitHub repo, it was all jumbled up, and I had even included someone else’s commit from &lt;code class=&quot;highlighter-rouge&quot;&gt;upstream/master&lt;/code&gt; in my pull request branch changes somehow.  I was very confused — and mortified.  Not only had I bungled “doing the git”, but someone else (and possibly many someones) had seen me do it.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/git-oh-no.png&quot; alt=&quot;Oh no.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Don’t get me wrong.  GitKraken is an amazing tool, very pretty, and very powerful.  I just think that I personally should only use it to inspect projects, and not use its editing functionality.  On the command line, when you type a git command, you know that you’re changing stuff and it’s a big deal.  In the GUI, they make it so easy to just click some buttons and do a lot of potentially dangerous things if you don’t already know what you’re doing, where I’m used to buttons in a GUI almost always being low-risk and undoable.  I definitely need the extra reflection time required to type out git commands.&lt;/p&gt;
-
-&lt;p&gt;But anyway, that leads me to the important part of this post:&lt;/p&gt;
-
-&lt;h2 id=&quot;the-right-way&quot;&gt;The Right Way™&lt;/h2&gt;
-
-&lt;p&gt;The goal of this section is to lay out each step of the Forking Git Workflow, with the associated commands, in the correct manner (or, at least, one of the correct manners) so that future me can come back and read this when I inevitably forget.  I’m going to lay this out, but if you see anything that I’ve done wrong or could do better, be sure to let me know and I’ll try to keep this updated with the best practices you share.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# This is assuming you've already forked the Upstream Repo&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# on GitHub/BitBucket/GitLab/etc.&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Clone to get an initial local copy.&lt;/span&gt;
-git clone &amp;lt;url-to-your-fork&amp;gt;
-
-&lt;span class=&quot;c&quot;&gt;# Add a remote link to the upstream repo&lt;/span&gt;
-git remote add upstream &amp;lt;url-to-upstream-repo&amp;gt;
-
-&lt;span class=&quot;c&quot;&gt;# Create a new branch for the feature/fix that you're doing&lt;/span&gt;
-git checkout -b &amp;lt;new-branch-name&amp;gt;
-
-&lt;span class=&quot;c&quot;&gt;# Do some work, edit some files&lt;/span&gt;
-git add &amp;lt;files&amp;gt;
-git commit -m &amp;lt;your-commit-message&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Oh no!  The &lt;code class=&quot;highlighter-rouge&quot;&gt;upstream&lt;/code&gt; and/or your &lt;code class=&quot;highlighter-rouge&quot;&gt;origin/master&lt;/code&gt; and/or your &lt;code class=&quot;highlighter-rouge&quot;&gt;origin/&amp;lt;branch-name&amp;gt;&lt;/code&gt; had changes made to it that aren’t on your local machine.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Inspect the changes made to origin&lt;/span&gt;
-git fetch origin
-
-&lt;span class=&quot;c&quot;&gt;# Update your branch&lt;/span&gt;
-git merge origin/&amp;lt;branch-name&amp;gt;
-
-&lt;span class=&quot;c&quot;&gt;# Update your master&lt;/span&gt;
-git checkout master
-git merge origin/master
-
-&lt;span class=&quot;c&quot;&gt;# Inspect the changes made to upstream&lt;/span&gt;
-git fetch upstream
-
-&lt;span class=&quot;c&quot;&gt;# If you don't have any commits on master ahead of upstream,&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# you can just pull the upstream changes in&lt;/span&gt;
-git checkout master
-git merge upstream/master
-
-&lt;span class=&quot;c&quot;&gt;# If your master branch is ahead of upstream, you may want to rebase&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# In order to &quot;work on top of&quot; everyone else's changes, instead of merging&lt;/span&gt;
-git rebase upstream/master
-
-&lt;span class=&quot;c&quot;&gt;# Now that your master branch is up to date, you can decide whether&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# or not you want to rebase your feature branch onto the new&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# tip of your master branch.  Generally a good idea.&lt;/span&gt;
-git checkout &amp;lt;your-feature-branch&amp;gt;
-git rebase master
-
-&lt;span class=&quot;c&quot;&gt;# OR, if you're about to submit a pull request and you  want to&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# clean up your commit history, do an interactive rebase and&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# squash and otherwise clean your commits/messages&lt;/span&gt;
-git rebase --interactive master
-
-&lt;span class=&quot;c&quot;&gt;# Finally, push your updated branch&lt;/span&gt;
-git push -u origin &amp;lt;your-feature-branch&amp;gt;
-
-&lt;span class=&quot;c&quot;&gt;# Sometimes, rebasing rewrites history, and pushing won't work.&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Try --force-with-lease, which is the safe way to force the push&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# through.  More on that later&lt;/span&gt;
-git push origin &amp;lt;your-feature-branch&amp;gt; --force-with-lease
-
-&lt;span class=&quot;c&quot;&gt;# Optionally, push everything to update your origin/master too&lt;/span&gt;
-git push origin --all
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;what-is-git-rebase&quot;&gt;What is Git Rebase&lt;/h2&gt;
-
-&lt;p&gt;Git Rebase confused me.  I don’t know that I can provide a better/more picture-laden explanation than the &lt;a href=&quot;https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase&quot;&gt;Atlassian Tutorial&lt;/a&gt;.  Here’s the short version for the extra-lazy.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Your feature branch branched off of master at a certain point, called the “base”.&lt;/li&gt;
-  &lt;li&gt;Rebasing points this “base” to a new place, often moving it forward to the new head of another branch.&lt;/li&gt;
-  &lt;li&gt;During this process, you can reword commit messages, re-order commits, delete commits, and squash commits together.&lt;/li&gt;
-  &lt;li&gt;In general, you should never rebase something that is already pushed to a public place, &lt;em&gt;especially&lt;/em&gt; if there’s a possibility that somebody else already began working on the things that your rebasing.  Try to rebase &lt;em&gt;only on your local system&lt;/em&gt;.&lt;/li&gt;
-  &lt;li&gt;During the pull request progress, once you’ve submitted the initial request, you’ll be asked to update/modify your original pull-requested code, which will add mulitple commits to the pull request history.  You’ll be tempted to squash these to keep the pull request looking pretty and concise.  &lt;strong&gt;Resist this urge.&lt;/strong&gt;  After doing research, it seems like a) doing so would violate #4, and b) a pull request is supposed to be a forum/record of the discussion, and if you go rewriting things to hide all of the intermediate changes, nothing will make sense and you’ll miss out on that history.&lt;/li&gt;
-  &lt;li&gt;Remote repositories don’t necessarily like this rewriting history.  Often, a simple &lt;code class=&quot;highlighter-rouge&quot;&gt;git push&lt;/code&gt; will be rejected.  Doing a &lt;code class=&quot;highlighter-rouge&quot;&gt;git push --force&lt;/code&gt; will force the remote repo to accept the push, but you probably shouldn’t be using &lt;code class=&quot;highlighter-rouge&quot;&gt;--force&lt;/code&gt;.  The safe way is to use &lt;code class=&quot;highlighter-rouge&quot;&gt;--force-with-lease&lt;/code&gt;, which only allows a force if it won’t mess anybody up.   Well, most of the time.  Read &lt;a href=&quot;https://developer.atlassian.com/blog/2015/04/force-with-lease/&quot;&gt;this post about —force-with-lease&lt;/a&gt; and the dangers of fetching and pushing without first merging.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;wrap-up&quot;&gt;Wrap Up&lt;/h2&gt;
-
-&lt;p&gt;Like I said at the beginning, I’ve been learning this workflow for the last two weeks, so I am by no means anything more than a beginner.  Hopefully this helps, and hopefully people smarter than me will let me know if I got anything wrong here.  Shoutout to the &lt;a href=&quot;https://github.com/exercism/ruby/pull/760&quot;&gt;Exercism Ruby Track team&lt;/a&gt; that has been so patient with me as I bumble through my contributions.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 04 Nov 2017 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2017/11/04/git-wrecked/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/11/04/git-wrecked/</guid>
-        
-        <category>git</category>
-        
-        <category>workflow</category>
-        
-        <category>best-practice</category>
-        
-        <category>oss</category>
         
         
       </item>

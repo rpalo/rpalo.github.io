@@ -455,6 +455,9 @@ nav a {
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5); }
   .site-wrap #cover {
     max-width: 100%; }
+  .site-wrap .contact-link {
+    display: inline;
+    max-height: 25px; }
   .site-wrap .post-list {
     list-style: none; }
   .site-wrap ul {

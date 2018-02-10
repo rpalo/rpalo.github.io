@@ -1,6 +1,15 @@
 const posts = [
     
     {
+        title: "Closure? I Hardly Know Her!",
+        url: "/2018/02/10/closure-i-hardly-know-her/",
+        cover: "/img/closures.png",
+        tags: "python, functional",
+        date: "February 10, 2018",
+        description: "Why closures are useful, even if you don&#39;t notice that you&#39;re using them."
+    } ,
+    
+    {
         title: "Checking In",
         url: "/2018/02/03/checking-in/",
         cover: "/img/checking-in.png",
