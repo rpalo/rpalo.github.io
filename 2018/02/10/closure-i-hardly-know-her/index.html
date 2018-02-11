@@ -69,7 +69,7 @@
     <span class="k">def</span> <span class="nf">add_animal</span><span class="p">(</span><span class="n">animal</span><span class="p">):</span>
         <span class="n">animals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">animal</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">animals</span>
-    <span class="k">return</span> <span class="n">increment</span>
+    <span class="k">return</span> <span class="n">add_animal</span>
 
 <span class="n">zoo_a</span> <span class="o">=</span> <span class="n">build_zoo</span><span class="p">()</span>
 <span class="n">zoo_b</span> <span class="o">=</span> <span class="n">build_zoo</span><span class="p">()</span>
@@ -84,6 +84,8 @@
 <span class="c"># =&gt; ["zebra", "monkey", "panda"]</span>
 </code></pre>
 </div>
+
+<p><em>Thanks to <a href="https://twitter.com/Doshirae">@Doshirae</a> and <a href="https://dev.to/nixlend">Nicholas Lee</a> for pointing out a typo in the <code class="highlighter-rouge">return</code> statement!</em></p>
 
 <p>The <code class="highlighter-rouge">build_zoo</code> function is a kind of “factory” that creates a <em>scope</em> and defines a function within that scope.  Then it gives the function <em>that still has access to that scope (and the variables therein)</em> to you.  After the <code class="highlighter-rouge">build_zoo</code> function ends, it keeps the stack frame and variables defined (like <code class="highlighter-rouge">animals</code>) available to the returned <code class="highlighter-rouge">add_animal</code> function, for later reference.  And every time you call this <code class="highlighter-rouge">build_zoo</code> function, it creates a brand new scope, unconnected to any of the other scopes.  That’s why <code class="highlighter-rouge">zoo_a</code> and <code class="highlighter-rouge">zoo_b</code> were not able to affect each other when they were called!</p>
 
