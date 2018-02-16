@@ -1,6 +1,15 @@
 const posts = [
     
     {
+        title: "Lucky Numbers and Science",
+        url: "/2018/02/15/lucky-numbers-and-science/",
+        cover: "/img/lucky.jpg",
+        tags: "ruby, puzzle, performance",
+        date: "February 15, 2018",
+        description: "I tried to solve a coding challenge and ended up doing science."
+    } ,
+    
+    {
         title: "Closure? I Hardly Know Her!",
         url: "/2018/02/10/closure-i-hardly-know-her/",
         cover: "/img/closures.png",

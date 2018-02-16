@@ -6,21 +6,19 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <!-- Custom meta -->
         <meta name="ROBOTS" content="INDEX,FOLLOW">
-        <meta name="description" content="Ryan Palo's personal blog, documenting my progress while learning to program.  Hopefully it is a useful resource to help other developers learn, too!">
-        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, python, django, dev, Ryan, Ryan Palo">
+        <meta name="description" content="I tried to solve a coding challenge and ended up doing science.">
+        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, ruby, puzzle, performance">
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="assert_not magic?">
+        <meta name="twitter:title" content="assert_not magic? | Lucky Numbers and Science">
         <meta name="twitter:site" content="@paytastic">
-        <meta name="twitter:description" content="Ryan Palo's programming blog">
-        <meta name="twitter:image" content="https://assertnotmagic.com/img/twitter-card.png">
+        <meta name="twitter:description" content="I tried to solve a coding challenge and ended up doing science.">
+        <meta name="twitter:image" content="http://assertnotmagic.com/img/lucky.jpg">
         <meta name="twitter:creator" content="@paytastic">
-        <meta name="og:url" content="https://assertnotmagic.com">
-        <meta name="og:title" content="assert_not magic?">
-        <meta name="og:description" content="Ryan Palo's programming blog">
-        <meta name="og:image" content="https://assertnotmagic.com/img/twitter-card.png">
+        <meta name="og:url" content="http://assertnotmagic.com/2018/02/15/lucky-numbers-and-science/">
+        <meta name="og:title" content="assert_not magic? | Lucky Numbers and Science">
+        <meta name="og:description" content="I tried to solve a coding challenge and ended up doing science.">
+        <meta name="og:image" content="http://assertnotmagic.com/img/lucky.jpg">
 
         <!-- Favicon settings -->
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -33,28 +31,12 @@
         <!-- Omnisearch -->
         <link rel="search" type="application/opensearchdescription+xml" title="search assert_not magic" href="/opensearch.xml">
         
-        
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
-        <link rel="stylesheet" href="/css/home.css">
         
         <title>assert_not magic?</title>
     </head>
     <body>
-        <header id="main-header">
-    <h1>assert_not magic?</h1>
-    <img class="profile" alt="Ryan Palo" src="/img/me.jpg" />
-    <div class="magic-code highlight">
-        <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">        <span class="k">def</span> <span class="nf">test_code_isnt_magic</span>
-          <span class="n">code</span> <span class="o">=</span> <span class="p">[</span><span class="ss">:ruby</span><span class="p">,</span> <span class="ss">:python</span><span class="p">,</span> <span class="ss">:javascript</span><span class="p">,</span> <span class="ss">:html</span><span class="p">,</span> <span class="ss">:css</span><span class="p">,</span> <span class="ss">:bash</span><span class="p">]</span>
-          <span class="n">assert_not</span> <span class="n">code</span><span class="p">.</span><span class="nf">any?</span> <span class="p">{</span> <span class="o">|</span><span class="n">language</span><span class="o">|</span> <span class="n">language</span><span class="p">.</span><span class="nf">magic?</span> <span class="p">}</span>
-        <span class="k">end</span>
-
-        <span class="c1"># A programming blog by Ryan Palo</span>
-        </code></pre></figure>
-    </div>
-    <img class="down-arrow" alt="Scroll down..." src="/img/down.png">
-</header>
         
 <nav id="main-nav">
     <a href="/" class="mobile-home">assert_not magic?</a>
@@ -67,14 +49,14 @@
     </ul>
 </nav>
         <div class="container main">
-          <article class="site-wrap">
-            <div class="home">
-
-  <!-- Current Post -->
-  
-    <h1 id="title">Lucky Numbers and Science</h1>
-    <small>Feb 15, 2018</small>
-    <p><p>Earlier this week, <a href="https://dev.to/heikodudzus">Heiko Dudzus</a> posted <a href="https://dev.to/heikodudzus/write-a-program-or-script-to-find-lucky-numbers--23me">this challenge post</a> on Dev.to.  The challenge was this:</p>
+                <article class="site-wrap">
+    <div id="cover">
+        
+        <img alt="Cover Image" class="cover-image" src="/img/lucky.jpg">
+        
+    </div>
+    <h1>Lucky Numbers and Science</h1>
+    <p>Earlier this week, <a href="https://dev.to/heikodudzus">Heiko Dudzus</a> posted <a href="https://dev.to/heikodudzus/write-a-program-or-script-to-find-lucky-numbers--23me">this challenge post</a> on Dev.to.  The challenge was this:</p>
 
 <blockquote>
   <p>Write a program or script in your language of choice, that prints the lucky numbers between 1 and n.  Try to make it as fast as possible for sieving lucky numbers between 1 and a million. (Perhaps it is sensible to measure the time without printing the results.)</p>
@@ -332,10 +314,19 @@ Version 3  19.517162  20.816684  40.333846 ( 40.470201)
 <p>My wife teaches middle school science and I just got done helping her judge their science fair, so I’ve got experimentation on the brain.  Hopefully this little experiment makes her proud!</p>
 
 <p>I’m sure my solution wasn’t the best possible solution, but it gets the job done.  Ruby isn’t necessarily the language of choice for high-throughput calculations (<a href="https://blog.heroku.com/ruby-3-by-3">although it’s not necessarily a bad choice either</a>).  If anybody can come up with a convincing reason for why my data came out the way it did, including the dip at 1000, I’ll personally send you a shiny new trophy emoji. 🏆  Also, if you’ve got a solution that you like better than these, I want to see it.  Share it! (or share a link to your solution commented on <a href="https://dev.to/heikodudzus/write-a-program-or-script-to-find-lucky-numbers--23me">Heiko’s original post</a>).</p>
-</p>
-  
 
-  <hr>
+    <small>
+        Author: Ryan Palo | Tags: 
+        
+        <a href="/tags/ruby/">ruby</a>
+        
+        <a href="/tags/puzzle/">puzzle</a>
+        
+        <a href="/tags/performance/">performance</a>
+        
+    </small>
+
+    <hr>
 
 <!-- Footer for Homepage -->
   <div id="home-footer">
@@ -515,9 +506,7 @@ Version 3  19.517162  20.816684  40.333846 ( 40.470201)
 
 
 
-</div>
-
-          </article>
+</article>
         </div>
 
         <footer id="main-footer">
@@ -525,19 +514,19 @@ Version 3  19.517162  20.816684  40.333846 ( 40.470201)
         <p class="text-muted">&copy; Ryan Palo 2018 | All things.  Phil. 4:13</p>
     </div>
 </footer>
-        
-        <!-- Custom Javascript -->
+        <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-        <script src="/js/home.js"></script>
+        <script src="/js/main.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
             })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-          
+
             ga('create', 'UA-91889165-1', 'auto');
             ga('send', 'pageview');
-          
-          </script>
+
+        </script>
+        
     </body>
 </html>
