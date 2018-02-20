@@ -6,9 +6,129 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 15 Feb 2018 22:44:15 -0800</pubDate>
-    <lastBuildDate>Thu, 15 Feb 2018 22:44:15 -0800</lastBuildDate>
+    <pubDate>Mon, 19 Feb 2018 17:31:00 -0800</pubDate>
+    <lastBuildDate>Mon, 19 Feb 2018 17:31:00 -0800</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Getting Things Done - A Programmer Productivity Guide</title>
+        <description>&lt;p&gt;&lt;em&gt;This article was originally posted on &lt;a href=&quot;https://simpleprogrammer.com/getting-things-done-productivity-guide/&quot;&gt;The Simple Programmer&lt;/a&gt;.  Images and links are courtesy of their team.  I got to work with a team of really amazing editors and it was a great experience.  I think, overall, it helped the article come out way better than I originally imagined it.  I cannot recommend working with an editor enough.  You have to give up a bit of creative control on the article and put on a team mindset, but it’s definitely worth it.  You can write for Simple Programmer too.  Just &lt;a href=&quot;https://simpleprogrammer.com/write-for-us/&quot;&gt;submit an article draft or idea!&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Programming is hard. It’s fun, it’s rewarding, but it’s definitely not easy. In order to be successful and productive, being able to get into that deep focus state and stay there is key.&lt;/p&gt;
+
+&lt;p&gt;At the same time, it seems like the universe is trying its best to keep you out of that state by peppering you with other things that clamor for your attention at irregular and infuriatingly unpredictable intervals: email, meetings, phone calls, and more.&lt;/p&gt;
+
+&lt;p&gt;Even if you manage to successfully get rid of all of the unnecessary &lt;a href=&quot;https://simpleprogrammer.com/how-to-avoid-distractions/&quot;&gt;distractions&lt;/a&gt;, there is some minimum amount of outside world engagement that is required to be a successful and well-adjusted employee, co-worker, and human being. Depending on how much you’re storing “in memory” at any given time, even these small distractions can be enough for you to lose your focus and have to get back into “the zone.”&lt;/p&gt;
+
+&lt;p&gt;That being said, here’s the question: how do you keep track of your thoughts? How do you make sure that everything you need to do gets done?&lt;/p&gt;
+
+&lt;p&gt;Everybody has some sort of system—even not having a system and trying to remember everything is technically a system. I wanted to share mine because it seems to work pretty well.&lt;/p&gt;
+
+&lt;p&gt;There’s a method that is fairly well-established called the “Getting Things Done” (GTD) approach for managing the things that you have to do. It was &lt;a href=&quot;https://gettingthingsdone.com/meet-david/&quot;&gt;created by David Allen&lt;/a&gt; around 2002 and been discussed in &lt;a href=&quot;https://www.wired.com/2005/07/gtd-a-new-cult-for-the-info-age/?currentPage=all&quot;&gt;Wired&lt;/a&gt; magazine and on &lt;a href=&quot;https://www.hanselminutes.com/234/getting-things-done-with-lane-newsom&quot;&gt;Hanselminutes&lt;/a&gt; (Scott Hanselman’s podcast). I heard about it from Wes Bos and Scott Tolinski on their &lt;a href=&quot;https://syntax.fm/show/011/our-favourite-productivity-hacks&quot;&gt;Syntax podcast&lt;/a&gt;. You can read more about the philosophy behind it on the &lt;a href=&quot;https://gettingthingsdone.com/fivesteps/&quot;&gt;Getting Things Done website&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I’ll go over my own process step by step, which is loosely based on the GTD approach. I like to think about it in terms of a few catchy mantras that I came up with all by myself.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-remember-nothing-record-everything&quot;&gt;1. Remember Nothing; Record Everything.&lt;/h2&gt;
+
+&lt;p&gt;Don’t remember anything. You’re not good at it. Find someplace to store all the things you need to think about and remember.&lt;/p&gt;
+
+&lt;p&gt;I use &lt;a href=&quot;https://trello.com/&quot;&gt;Trello&lt;/a&gt; because it’s a tool that really fits with how my brain works. Trello is a web app that provides users with any number of boards, which are basically blank canvases that will eventually house all of your to-dos, ideas, projects, and everything else.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/gtd-trello1.png&quot; alt=&quot;Blank Trello board&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;On these &lt;em&gt;boards,&lt;/em&gt; you can create &lt;em&gt;lists,&lt;/em&gt; which are vertically aligned and ordered collections of &lt;em&gt;cards.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/gtd-trello2.png&quot; alt=&quot;Board with cards&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You can use these cards to store individual brain items. They can have images, comments, documents (like this article), checklists, and even due dates attached to them. I call this system my Other Brain.&lt;/p&gt;
+
+&lt;p&gt;The most important feature for me is that Trello allows you to drag and drop your lists and cards. You can create a task, keep all the information about that task (including conversations, history, and data) bundled along with the same card, and even use your lists as a form of workflow control.&lt;/p&gt;
+
+&lt;p&gt;For example, you might have several stages to your programming workflow: tasks that are pending, currently-being-worked-on, ready for review, and those that are finished and ready to publish/push this week. You can create a card when you first get a task and just drag it from one list to the next as you work. This process gives you a nice, visual snapshot of your progress at any given point.&lt;/p&gt;
+
+&lt;p&gt;If you’ve got a ton of items in the pending list and someone asks you if you have time to take on just one more quick task, there is a concrete record that you can look at, instead of trying to remember all of the things you have to do.&lt;/p&gt;
+
+&lt;p&gt;Personally, I tend to make lists based on the category of the thing. Is it somebody else’s blog post I want to remember to read later? Is it a future idea for my own blog? Is it a programming project to complete? I’ve got a list for that.&lt;/p&gt;
+
+&lt;p&gt;And as you list your tasks, try to sort your thoughts in order of urgency and/or ease of completion. I like to put the things that I need to (or can) finish first down at the bottom of my lists and work my way up.&lt;/p&gt;
+
+&lt;p&gt;Sorting your tasks allows you to quickly find the next thing you need to work on and get started in it, minimizing the brain space your task management system takes up.&lt;/p&gt;
+
+&lt;p&gt;If Trello doesn’t fit your style, use a note-taking app, an actual paper notebook, or something else. The important thing is that you &lt;strong&gt;get everything out of your head!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Here’s why. You’ve only got so much brain. Granted, you’re reading articles on Simple Programmer, so you’ve probably got a lot of brains. But it’s a &lt;em&gt;finite amount.&lt;/em&gt; If you’re carrying everything you have to do later around in your head, you’re not using that space for thinking about the thing you need to do now.&lt;/p&gt;
+
+&lt;p&gt;For programmers especially, having that extra space can make a big impact. When you’re programming, you need to be able to simulate the code in your head, stepping through each line and understanding how that line affects the current values of each variable. This process necessarily means that you need to constantly be remembering what variable values are, what function inputs &lt;em&gt;could be,&lt;/em&gt; and—depending on those values—which branches of program flow could be triggered.&lt;/p&gt;
+
+&lt;p&gt;Having the space to accommodate all of these values in your “mental memory,” without bumping up against the space containing your dentist appointment at 3:30 or what you’re going to say to the customer tomorrow morning, can make your life significantly less error-prone and stressful.&lt;/p&gt;
+
+&lt;p&gt;In the same way that you feel better and more productive when you clear off your desk, clean up your room when it’s messy, or refactor your code, this step is all about &lt;em&gt;cleaning out your brain.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Once you’ve picked how you want to store your information, you can begin the process. The very second you: 
+have a brilliant idea,
+remember something you have to do,
+finish a feature which causes you to have new problems,
+someone stops by your desk to ask you to take a look at something,
+get an email from a customer that needs a long answer,
+or get assigned something at a meeting,
+put it in your Other Brain.&lt;/p&gt;
+
+&lt;p&gt;Feel free to make your Other Brain pretty, and create various sections for different parts of your brain. I’ve got one board for personal/programming stuff, one for work (I design plastic molds), and one for house chores and to-dos that I share with my wife.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/gtd-trello3.png&quot; alt=&quot;My personal board&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;2-your-inbox-is-a-receiving-area-not-a-to-do-list&quot;&gt;2. Your Inbox Is a Receiving Area, Not a To-Do List&lt;/h2&gt;
+
+&lt;p&gt;After you get your Main Brain cleaned out and offloaded into your Other Brain, you need to stop all of the junk that’s pouring into your Main Brain from cluttering it up. The main place this junk pours in, especially in the professional setting, is your email inbox.&lt;/p&gt;
+
+&lt;p&gt;For me, I do a lot of customer-facing work: generating quotes, formalizing requirements, and working through design issues with customers. For you, maybe it’s tons of QA tickets or new issues being filed. Maybe you’ve got several different projects and chat notifications coming in from different sources.&lt;/p&gt;
+
+&lt;p&gt;I used to keep things in my email inbox until I was done with them. Then I realized that having a full inbox stresses me out. It makes me feel like I have a billion things to do, and there’s no categorizing or organization. It’s just a big 💩-pile of things that make me feel bad and give me anxiety.&lt;/p&gt;
+
+&lt;p&gt;Now, a couple of times a day, I open up my email. For each thing, if I can handle it quickly, I take care of it right away.&lt;/p&gt;
+
+&lt;p&gt;The question that goes through my head is, “Can I answer this in the next 30 seconds, without stopping and looking something up?” And depending on how overwhelmed I’m feeling by things that aren’t yet tracked in my Other Brain, that time limit gets shorter and shorter.&lt;/p&gt;
+
+&lt;p&gt;If it’s going to take me a little while to track down the answer or information I need to respond, I enter it into my Other Brain and archive it in its corresponding email folder. When in doubt, put it in the Other Brain.&lt;/p&gt;
+
+&lt;p&gt;One way or another, it’s out of my inbox quickly and painlessly. Generally, this lets me get to Inbox Zero in less than an hour. (Hopefully).&lt;/p&gt;
+
+&lt;h2 id=&quot;3-get-things-done-one-bite-at-a-time&quot;&gt;3. Get Things Done, One Bite at a Time&lt;/h2&gt;
+
+&lt;p&gt;After you’ve stemmed the tide of ideas, emails, and people asking you to do things, open up your Other Brain and get to work. Don’t get freaked out by everything that’s on your list, because it will probably be a lot. It’s your whole Other Brain!&lt;/p&gt;
+
+&lt;p&gt;But since you don’t have to spend valuable time remembering all the things you have to do, you’re going to be able to fully focus on your tasks. And since you’ve already pre-sorted your thoughts by order of importance, you should be able to look at your list and find the first thing that needs to be done.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Do it.&lt;/strong&gt; Don’t think about any of the other things. Once you’re done, cross it off, archive it, or do whatever you have to do to close it out. And find the next thing. Do it again and again until you are tired, hungry, or your list is empty.&lt;/p&gt;
+
+&lt;p&gt;The nice thing about this approach is that it matters less if you get interrupted or if somebody jams something in the front of your queue in a panic. It allows you to stay in that all-important deep-focus state, since the act of putting something in your Other Brain doesn’t take nearly as much focus as actually handling the item that threatens to disrupt your concentration. You just file the interruption into the Other Brain, and when they go away, you get right back into your tasks!&lt;/p&gt;
+
+&lt;h2 id=&quot;now-get-started-getting-things-done&quot;&gt;Now, Get Started Getting Things Done&lt;/h2&gt;
+
+&lt;p&gt;That’s it. Remember nothing, get everything out of your brain &lt;em&gt;and&lt;/em&gt; your inbox, record everything &lt;em&gt;somewhere,&lt;/em&gt; and do the things you can, when you can focus, &lt;a href=&quot;https://simpleprogrammer.com/taking-breaks-will-boost-productivity/&quot;&gt;one bite at a time.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I no longer spend entire days trying to get all the way through my inbox. I forget which methods to write next way less frequently. My ideas for projects and posts like this one are no longer just shower thoughts that disappear after fifteen minutes.&lt;/p&gt;
+
+&lt;p&gt;When you’re coding, in order to know what you’re program is doing, you have to be the computer—and that takes a lot of focus.&lt;/p&gt;
+
+&lt;p&gt;Like, “everything you’ve got” levels of focus.&lt;/p&gt;
+
+&lt;p&gt;Like, “if someone asks you a question in the middle of a session, you have to stare blearily at them for a second, figure out who they are and what’s happening, and probably end up saying ‘Um. What?’” levels of focus.&lt;/p&gt;
+
+&lt;p&gt;So, distracting yourself with anything else while you’re doing that is not only unproductive—it’s unnecessary. I mean, come on! We’re programmers. We’ve got tools for this. Automate it, delegate it, and get back to the fun stuff.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 19 Feb 2018 00:00:00 -0800</pubDate>
+        <link>https://assertnotmagic.com/2018/02/19/getting-things-done/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/02/19/getting-things-done/</guid>
+        
+        <category>productivity</category>
+        
+        <category>gtd</category>
+        
+        
+      </item>
     
       <item>
         <title>Lucky Numbers and Science</title>
@@ -1770,300 +1890,6 @@ for _ in range(1000):
         <category>design-intent</category>
         
         <category>struct</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Cake and Duplicates</title>
-        <description>&lt;p&gt;&lt;em&gt;Post Page Cover Image credit: &lt;a href=&quot;http://profroster.com&quot;&gt;The ProFroster&lt;/a&gt;.  Fun fact: our team helped design and manufacture these!&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Let me talk to you about cake.  Hungry yet?  Good.  Hungry for &lt;strong&gt;knowledge?!&lt;/strong&gt;  Even better.  Because I’m not talking about cake that you eat — I’m talking about &lt;a href=&quot;https://www.interviewcake.com/&quot;&gt;Interview Cake&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/interview-cake.jpg&quot; alt=&quot;Interview Cake Logo&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Interview Cake is a website that I found recently that provides a ton of tech-interview-level questions and write-ups to help you get better at things like algorithms, time and space efficiency, explaining yourself, and thinking problems all the way through, even past the sticky edge cases.  Is this an advertisement for them?  No it is not.  Am I going to continue to pepper you with rhetorical questions?  Possibly.  Mind your own business.  Anyway, the purpose of this article is to write up a solution that I went through last week that initially looked like a snap and turned out to be way harder.  Their final solution was, at least in my eyes, mindblasting.  You read that right.  I said&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/mind-blasting.gif&quot; alt=&quot;Mind blasting&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Let me lay out the problem for you.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-problem&quot;&gt;The Problem&lt;/h2&gt;
-
-&lt;p&gt;The problem is this:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;You are given a list of integers in the range &lt;em&gt;(0, n]&lt;/em&gt; (excluding 0, including n), that fill an array such that there are &lt;em&gt;n + 1&lt;/em&gt; numbers in the array.  In other words, this array has one of each integer except for one unknown value that has a duplicate.  The numbers in the array are not in any particular order.&lt;/p&gt;
-
-  &lt;p&gt;Example: [4, 3, 7, 1, 5, 3, 2, 6] : 8 numbers, 1..7.  The only duplicate is 3.&lt;/p&gt;
-
-  &lt;p&gt;Your goal: Find the duplicate.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;If you’re feeling spunky, go ahead and give it a try.  This is just the first portion of the problem, but it’ll help you get your head in the game.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/waiting.gif&quot; alt=&quot;I'm waiting&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Ready with your solution?  Here’s mine, for reference.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;find_duplicate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;first&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Alright, that’s it.  That’s the whole thing, article over.  Just kidding.  I forgot to mention:&lt;/p&gt;
-
-&lt;h2 id=&quot;the-rest-of-the-problem&quot;&gt;The Rest of the Problem&lt;/h2&gt;
-
-&lt;p&gt;Here’s where it gets interesting: the last two requirements of the problem.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;ol&gt;
-    &lt;li&gt;Your solution must be better than O(n^2) in time.&lt;/li&gt;
-    &lt;li&gt;Your solution must remain O(1) in space.&lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;To make sure everybody is on the same page with me in terms of what that means, let me do a 30 second explanation of &lt;em&gt;“Big-O Notation”&lt;/em&gt;, which is what those O(n) and O(1) are called.  If you’re already comfortable with Big-O, go ahead and skip ahead.&lt;/p&gt;
-
-&lt;h3 id=&quot;big-o-notation&quot;&gt;Big-O Notation&lt;/h3&gt;
-
-&lt;p&gt;&lt;em&gt;“Big-O Notation”&lt;/em&gt; has to do with how efficient an algorithm or program is, as a function of the number of items used as inputs.  Let me put it this way:  Let’s say you’re given &lt;em&gt;n&lt;/em&gt; numbers in your input list.  If your solution requires you to loop through the whole list once (in the worst case, like if the number you’re looking for is at the end of the list), then your solution is considered O(n).  O(n) is also known as &lt;em&gt;linear efficiency&lt;/em&gt;.  This is because, if we double the size of the input to &lt;code class=&quot;highlighter-rouge&quot;&gt;2*n&lt;/code&gt;, your algorithm will have to process twice as many steps and most likely will be twice as slow.  If we increase the size to &lt;code class=&quot;highlighter-rouge&quot;&gt;100*n&lt;/code&gt;, your algorithm will similarly do &lt;code class=&quot;highlighter-rouge&quot;&gt;100*n&lt;/code&gt; steps.&lt;/p&gt;
-
-&lt;p&gt;Now, what if you had a function that was O(n^2)?  That would mean that your function looped through each of the &lt;code class=&quot;highlighter-rouge&quot;&gt;n&lt;/code&gt; inputs &lt;code class=&quot;highlighter-rouge&quot;&gt;n&lt;/code&gt; times (e.g. in a double for-loop).  Thus, if, instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;n&lt;/code&gt; inputs, you had &lt;code class=&quot;highlighter-rouge&quot;&gt;2*n&lt;/code&gt; inputs, your program would actually have to do &lt;code class=&quot;highlighter-rouge&quot;&gt;(2*n)^2&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;4*n&lt;/code&gt; steps!  If your program had &lt;code class=&quot;highlighter-rouge&quot;&gt;100*n&lt;/code&gt; inputs, it would have to do &lt;code class=&quot;highlighter-rouge&quot;&gt;(100*n)^2&lt;/code&gt; steps — &lt;code class=&quot;highlighter-rouge&quot;&gt;10000*n&lt;/code&gt;!  Hopefully you can see that O(n) is quite a bit more efficient than O(n^2).&lt;/p&gt;
-
-&lt;p&gt;So what does O(1) mean?  The 1 is a little misleading, because it simply stands for &lt;em&gt;constant time&lt;/em&gt;, meaning that no matter how many inputs you have, your program will always take the same amount of steps, and thus, roughly the same amount of time.  This is the Holy Grail of algorithms.  This is the reason why it’s so much faster to look up items from a Hash (or dict, or object, or whatever your language of choice calls it) than it is from a List or Array.&lt;/p&gt;
-
-&lt;p&gt;The last thing: Space Complexity.  Space Complexity works the same as Time Complexity, except it has to do with how much computer memory you’re using.  Some examples might get things accross better.&lt;/p&gt;
-
-&lt;p&gt;O(1): When you have 10 inputs, your program keeps track of 3 variables.  When you have 20,000 inputs, your program keeps track of 3 variables.&lt;/p&gt;
-
-&lt;p&gt;O(n): When you have 10 inputs, your program keeps track of two separate extra lists for a total of 20 slots.  When you have 20,000 inputs, you need 40,000 extra slots to keep track of everything.&lt;/p&gt;
-
-&lt;p&gt;O(n^2): When you have 10 inputs, you need 100 extra slots.  (Don’t ask me why, you wrote the program.  Seems like overkill).  When you have 20,000 inputs, you end up needing 400,000,000 extra slots (and also a new computer because, congratulations, you killed this one).&lt;/p&gt;
-
-&lt;p&gt;Hopefully this super brief explanation helps.  If you’re still confused, Vaidehi Joshi &lt;a href=&quot;https://dev.to/vaidehijoshi/whats-a-linked-list-anyway-part-2&quot;&gt;does a better job than me of explaining it, with pictures!&lt;/a&gt;  See also &lt;a href=&quot;https://medium.com/basecs&quot;&gt;the whole BaseCS series&lt;/a&gt;.  See also also the &lt;a href=&quot;https://www.codenewbie.org/basecs&quot;&gt;BaseCS Podcast&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;ONWARD!&lt;/p&gt;
-
-&lt;h3 id=&quot;rejecting-some-possible-solutions&quot;&gt;Rejecting Some Possible Solutions&lt;/h3&gt;
-
-&lt;h4 id=&quot;possibility-1-the-naive-solution-aka-my-solution&quot;&gt;Possibility 1: The Naive Solution (a.k.a. My Solution)&lt;/h4&gt;
-
-&lt;p&gt;So what do those requirements really mean for us?  Well, let’s look back at my initial solution.  For each item in the list, I go back through the list &lt;em&gt;again&lt;/em&gt; and count the number of occurrences.  My function is actually O(n^2) in Time (a double-for-loop!).&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/boo.gif&quot; alt=&quot;Boooooo&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;While you might argue that my solution is “good enough” for most cases (and I would agree), that’s not what the requirements say we have to do.&lt;/p&gt;
-
-&lt;h4 id=&quot;possibility-2-the-other-naive-solution-aka-keeping-track&quot;&gt;Possibility 2: The Other Naive Solution (a.k.a. Keeping Track)&lt;/h4&gt;
-
-&lt;p&gt;You could loop through just once, keeping track of the numbers you’ve already seen in a set.  Once you see a number that’s already in your set, you know that’s the duplicate!&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'set'&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;find_dupes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;history&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;history&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;include?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;history&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# We should never reach this stage&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;How’d we do?  Well, we only ever loop through the whole list once at most, bringing us to O(n) Time Complexity.  Right on!  But we create the &lt;code class=&quot;highlighter-rouge&quot;&gt;history&lt;/code&gt; set that could contain (in the worst case) almost all &lt;code class=&quot;highlighter-rouge&quot;&gt;n&lt;/code&gt; of our input values.  This looks like O(n) in Space as well, which means that we fail the second requirement.  💩!&lt;/p&gt;
-
-&lt;h4 id=&quot;possibility-3-the-sorting-solution-aka-the-slightly-tricky-solution&quot;&gt;Possibility 3: The Sorting Solution (a.k.a. The Slightly Tricky Solution)&lt;/h4&gt;
-
-&lt;p&gt;What about doing a &lt;strong&gt;sort&lt;/strong&gt;?  Since sorting &lt;a href=&quot;https://en.wikipedia.org/wiki/Merge_sort&quot;&gt;can be done in O(nlogn) time&lt;/a&gt;, which is better than O(n^2), we might have a chance.  We could sort our numbers, and then loop through them once while only keeping track of the last number that we saw.  If we see the same number twice, it’s a duplicate.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;find_dupes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sort!&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;previous&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;previous&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;previous&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;This gets us O(1) in Space and O(nlogn) (ish) in Time.  One problem with this.  If we don’t create a new array to put our sorted numbers in, we’re destroying/modifying the order of the list that gets passed into us, which isn’t good.  If we create a new array to put our sorted numbers in, we jump up to O(n) in Space, which is a fail.  Hmmm…  There’s a better way — trust me.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-better-way&quot;&gt;The Better Way&lt;/h2&gt;
-
-&lt;p&gt;OK.  Here’s the solution they provided.  It has some CS concepts in it, but don’t worry.  I’ll walk you through.  I don’t think I would have ever thought of it in a million years, but I guess that’s why we practice, right?&lt;/p&gt;
-
-&lt;h3 id=&quot;a-linked-list-sort-of&quot;&gt;A Linked List (Sort Of)&lt;/h3&gt;
-
-&lt;p&gt;OK.  Do me a favor and imagine the input list as a series of connected nodes: a Linked List, if you will.  Each slot in the array has its own index and the number that points to the index of another node in the list.  The original problem on Interview Cake bases things on a 1-base array, so that’s how I’ll explain things too.  Thus, we end up with something like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/cake-node-list.jpg&quot; alt=&quot;List of nodes drawn with arrows pointing to the next nodes&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Study that list for a minute.  Get a piece of paper and pencil and try some more.  [3, 1, 2, 4, 1].  [8, 6, 4, 2, 1, 2, 5, 3, 7].  [2, 1, 1, 3].  What do those look like?  Do you start to see patterns?  I mean, besides the pattern that I suck at freehand diagrams?&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/cake-nodes-2.PNG&quot; alt=&quot;Diagram of the first example&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/cake-nodes-3.PNG&quot; alt=&quot;Diagram of the second example&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/cake-nodes-4.PNG&quot; alt=&quot;Diagram of the third example&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Here’s some things to note:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;The last node never has any arrows pointing at it.  That’s because it’s at position &lt;code class=&quot;highlighter-rouge&quot;&gt;n+1&lt;/code&gt;, and the maximum value in the list is &lt;code class=&quot;highlighter-rouge&quot;&gt;n&lt;/code&gt;.  If we’re thinking of our array like a kind of linked list, the last node would be a good candidate for the &lt;strong&gt;head&lt;/strong&gt;.&lt;/li&gt;
-  &lt;li&gt;Because there is always a duplicate, there is &lt;strong&gt;always a loop somewhere in the list&lt;/strong&gt;.  At some point, every diagram becomes cyclic.&lt;/li&gt;
-  &lt;li&gt;Because there is always a cycle, there is always a node that has &lt;strong&gt;two arrows pointing at it&lt;/strong&gt;.&lt;/li&gt;
-  &lt;li&gt;This node with two arrows pointing at it is always &lt;strong&gt;the first node in the cycle&lt;/strong&gt;.&lt;/li&gt;
-  &lt;li&gt;The index (1-based) of this two-arrow node is &lt;strong&gt;always the duplicate value&lt;/strong&gt;.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/cake-oh-my.gif&quot; alt=&quot;Oh snap!&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;So how does that help us?  Well, if we can find a way to figure out where the start of the cycle is, we can return the index of that node as our result.&lt;/p&gt;
-
-&lt;h3 id=&quot;finding-the-length-of-the-cycle&quot;&gt;Finding the Length of the Cycle&lt;/h3&gt;
-
-&lt;p&gt;To find the start of the cycle, we’ll need its length.  Trust me on this, and it’ll make sense in a little bit.  That is actually not as hard as you might think.  In order to get the cycle’s length, we need a sure-fire way to get into the cycle.  Well, we only have a certain number of nodes, right?  So, if we just start stepping, we might end up in the cycle at some point, but after &lt;code class=&quot;highlighter-rouge&quot;&gt;n+1&lt;/code&gt; steps, we’re &lt;strong&gt;guaranteed&lt;/strong&gt; to be somewhere within the cycle.  Because, even if the cycle is the size of the entire list like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/cake-cycle-length.png&quot; alt=&quot;Max steps to cycle&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;You still can only go to each of the nodes once before you create a cycle.  I’ll try to show my solution being built as we go.  If you’re somebody who has to see things written out in code, hopefully this will help you.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DuplicateFinder&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-  
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;# Convenience method to move to next node&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# -1 because of 1-based counting&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-  
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;find_a_number_in_the_cycle&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;next_step&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;last&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;times&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;next_step&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;next_step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;next_step&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Returns the number at the index we're on&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;OK.  So now we’re in the cycle, so what do we do?  Well, within the cycle, the numbers are all unique!  So all we have to do is remember the node we’re at initially, and start stepping and counting.  Once we see the same number again, we’ll know that we’ve travelled the loop exactly one time and we’ll know how long the loop is!&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DuplicateFinder&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;# ...&lt;/span&gt;
-  
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;length_of_cycle&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;stop_num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;find_a_number_in_the_cycle&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;next_num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stop_num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;next_num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stop_num&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;next_num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;next_num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;steps&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;the-yardstick-method&quot;&gt;The Yardstick Method&lt;/h3&gt;
-
-&lt;p&gt;Now we’re at the real amazing part.  It has to do with something that could be called the Yardstick Method (or, I suppose, the Meterstick Method, if you must 😉).  Let’s go back to the head of the list and start over.  For example.  Let’s say we have the list &lt;code class=&quot;highlighter-rouge&quot;&gt;[4, 1, 2, 3, 4, 5, 6, 7, 8, 9]&lt;/code&gt;.  If you draw it out, the cycle is 4 nodes long.  So, what we need to do is imagine we have a stick that is 4 nodes long, just like the cycle.  We can translate this into code by using two &lt;em&gt;pointers&lt;/em&gt;: one at the head of the stick and one at the tail.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/yardstick3.png&quot; alt=&quot;Diagram of the yardstick&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Now we step our whole stick forward one node, moving both the head and the tail, so the stick stays the same length.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/yardstick4.png&quot; alt=&quot;Diagram of stepping our stick forward&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;What happens if we continue this process?&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/yardstick5.png&quot; alt=&quot;Diagram of the stick wrapped around the cycle&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Both the head and the tail of the stick are  pointing at the same number!  And it’s the number with two arrows at the beginning of the cycle!  AND what index (1-based, like our linked list) do they meet at?  Index 4!  AAAAND what is the duplicate number in our list?  4!&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/mission-accomplished.gif&quot; alt=&quot;Mission accomplished.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;For completeness, how does this look in code?&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DuplicateFinder&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-  
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;find_a_number_in_the_cycle&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;next_step&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;last&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;times&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;next_step&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;next_step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;next_step&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-  
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;length_of_cycle&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;stop_num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;find_a_number_in_the_cycle&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;next_num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stop_num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;next_num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stop_num&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;next_num&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;next_num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;steps&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-  
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;duplicate&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;stick&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;length_of_cycle&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;last&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;tail&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;last&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;stick&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;times&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;until&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tail&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;tail&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;# When head and tail point to the same number&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;# then on the next step, they'll be on the same node&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;# This current same number means head and tail both = the duplicate!&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;head&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;evaluation&quot;&gt;Evaluation&lt;/h2&gt;
-
-&lt;p&gt;So, how’d we do?&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Space&lt;/strong&gt;: We generally keep track of the next node to step to, and a few other variables, but I think we can safely say that our space usage is ~O(1).  We don’t ever save a copy of our array anywhere.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Time&lt;/strong&gt;: We loop through once to find the length of the cycle, and then we loop again to find the duplicate.  This gets us to ~O(n) since we always loop through the array the same number of times regardless of input length and it’s only a matter of how long the array is.&lt;/p&gt;
-
-&lt;p&gt;VICTORY.  This was a really tricky one.  If it didn’t make sense, it’s not your fault.  I had to read through it a few times, do the problem a few times, and even write this blog post before I fully understood how it worked.  Feel free to reach out with questions if I can help clarify anything for you.  And again, go check out &lt;a href=&quot;https://interviewcake.com&quot;&gt;Interview Cake&lt;/a&gt; for more practice on puzzles like these (although they’re not all quite as tricky as this one is).&lt;/p&gt;
-</description>
-        <pubDate>Tue, 14 Nov 2017 00:00:00 -0800</pubDate>
-        <link>https://assertnotmagic.com/2017/11/14/cake-and-duplicates/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/11/14/cake-and-duplicates/</guid>
-        
-        <category>algorithms</category>
-        
-        <category>ruby</category>
-        
-        <category>big-o</category>
-        
-        <category>linked-lists</category>
         
         
       </item>

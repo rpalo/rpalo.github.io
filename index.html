@@ -72,266 +72,114 @@
 
   <!-- Current Post -->
   
-    <h1 id="title">Lucky Numbers and Science</h1>
-    <small>Feb 15, 2018</small>
-    <p><p>Earlier this week, <a href="https://dev.to/heikodudzus">Heiko Dudzus</a> posted <a href="https://dev.to/heikodudzus/write-a-program-or-script-to-find-lucky-numbers--23me">this challenge post</a> on Dev.to.  The challenge was this:</p>
+    <h1 id="title">Getting Things Done - A Programmer Productivity Guide</h1>
+    <small>Feb 19, 2018</small>
+    <p><p><em>This article was originally posted on <a href="https://simpleprogrammer.com/getting-things-done-productivity-guide/">The Simple Programmer</a>.  Images and links are courtesy of their team.  I got to work with a team of really amazing editors and it was a great experience.  I think, overall, it helped the article come out way better than I originally imagined it.  I cannot recommend working with an editor enough.  You have to give up a bit of creative control on the article and put on a team mindset, but it’s definitely worth it.  You can write for Simple Programmer too.  Just <a href="https://simpleprogrammer.com/write-for-us/">submit an article draft or idea!</a></em></p>
 
-<blockquote>
-  <p>Write a program or script in your language of choice, that prints the lucky numbers between 1 and n.  Try to make it as fast as possible for sieving lucky numbers between 1 and a million. (Perhaps it is sensible to measure the time without printing the results.)</p>
-</blockquote>
+<hr />
 
-<p>A lucky number is defined as a number that survives the <a href="https://en.wikipedia.org/wiki/Lucky_number">Sieve of Josephus</a>.  I’m going to quote the original post here so you get the idea.</p>
+<p>Programming is hard. It’s fun, it’s rewarding, but it’s definitely not easy. In order to be successful and productive, being able to get into that deep focus state and stay there is key.</p>
 
-<blockquote>
-  <p>The 1 is lucky by definition.</p>
+<p>At the same time, it seems like the universe is trying its best to keep you out of that state by peppering you with other things that clamor for your attention at irregular and infuriatingly unpredictable intervals: email, meetings, phone calls, and more.</p>
 
-  <p>The successor of 1 is 2. So, every second number gets eliminated:
-1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, …</p>
+<p>Even if you manage to successfully get rid of all of the unnecessary <a href="https://simpleprogrammer.com/how-to-avoid-distractions/">distractions</a>, there is some minimum amount of outside world engagement that is required to be a successful and well-adjusted employee, co-worker, and human being. Depending on how much you’re storing “in memory” at any given time, even these small distractions can be enough for you to lose your focus and have to get back into “the zone.”</p>
 
-  <p>The next number is 3. Now, every third number gets eliminated:
-1, 3, 7, 9, 13, 15, 19, 21, …</p>
+<p>That being said, here’s the question: how do you keep track of your thoughts? How do you make sure that everything you need to do gets done?</p>
 
-  <p>Number 3 is lucky! It’s successor is 7. Now, every seventh number gets eliminated. And so on.</p>
-</blockquote>
+<p>Everybody has some sort of system—even not having a system and trying to remember everything is technically a system. I wanted to share mine because it seems to work pretty well.</p>
 
-<p>See the link above for more details.  I advise you to give the challenge a try if you haven’t yet before you read the rest of the post, since I’m about to tell you about my solutions.</p>
+<p>There’s a method that is fairly well-established called the “Getting Things Done” (GTD) approach for managing the things that you have to do. It was <a href="https://gettingthingsdone.com/meet-david/">created by David Allen</a> around 2002 and been discussed in <a href="https://www.wired.com/2005/07/gtd-a-new-cult-for-the-info-age/?currentPage=all">Wired</a> magazine and on <a href="https://www.hanselminutes.com/234/getting-things-done-with-lane-newsom">Hanselminutes</a> (Scott Hanselman’s podcast). I heard about it from Wes Bos and Scott Tolinski on their <a href="https://syntax.fm/show/011/our-favourite-productivity-hacks">Syntax podcast</a>. You can read more about the philosophy behind it on the <a href="https://gettingthingsdone.com/fivesteps/">Getting Things Done website</a>.</p>
 
-<p>I came up with two solutions, but the best solution ended up being an interesting combination of them both.  You’ll see what I mean.</p>
+<p>I’ll go over my own process step by step, which is loosely based on the GTD approach. I like to think about it in terms of a few catchy mantras that I came up with all by myself.</p>
 
-<h2 id="solution-1-naively-run-the-algorithm">Solution 1: Naively Run the Algorithm</h2>
+<h2 id="1-remember-nothing-record-everything">1. Remember Nothing; Record Everything.</h2>
 
-<p>I like the quote “Make it work, make it right, make it fast”, which, as far as I can tell, this is attributed to <a href="https://gist.github.com/OnesimusUnbound/3064220">Kent Beck</a>.  Therefore, my first solution focused on coding things exactly like the problem was provided, the easy way, whether or not this was the fastest way.</p>
+<p>Don’t remember anything. You’re not good at it. Find someplace to store all the things you need to think about and remember.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">lucky_numbers</span><span class="p">(</span><span class="n">max</span><span class="p">)</span>
-  <span class="n">possibles</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="n">max</span><span class="p">).</span><span class="nf">to_a</span>
-  <span class="mi">1</span><span class="p">.</span><span class="nf">step</span> <span class="k">do</span> <span class="o">|</span><span class="n">current_index</span><span class="o">|</span>
-    <span class="k">break</span> <span class="k">if</span> <span class="n">current_index</span> <span class="o">&gt;=</span> <span class="n">possibles</span><span class="p">.</span><span class="nf">size</span>
+<p>I use <a href="https://trello.com/">Trello</a> because it’s a tool that really fits with how my brain works. Trello is a web app that provides users with any number of boards, which are basically blank canvases that will eventually house all of your to-dos, ideas, projects, and everything else.</p>
 
-    <span class="n">step_size</span> <span class="o">=</span> <span class="n">possibles</span><span class="p">[</span><span class="n">current_index</span><span class="p">]</span>
-    <span class="n">possibles</span> <span class="o">=</span> <span class="n">reject_every_nth_item</span><span class="p">(</span><span class="n">possibles</span><span class="p">,</span> <span class="n">step_size</span><span class="p">)</span>
-    
-    <span class="c1"># If current_index is one of the items to get wiped out</span>
-    <span class="c1"># the same current index will actually point at the next</span>
-    <span class="c1"># number.  Reuse this index.</span>
-    <span class="k">redo</span> <span class="k">if</span> <span class="n">wiped_out?</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">step_size</span><span class="p">)</span>
-  <span class="k">end</span>
-  <span class="n">possibles</span>
-<span class="k">end</span>
+<p><img src="/img/gtd-trello1.png" alt="Blank Trello board" /></p>
 
-<span class="k">def</span> <span class="nf">reject_every_nth_item</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-  <span class="n">items</span><span class="p">.</span><span class="nf">reject</span><span class="p">.</span><span class="nf">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">_</span><span class="p">,</span> <span class="n">ind</span><span class="o">|</span>
-  	<span class="p">((</span><span class="n">ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span><span class="p">).</span><span class="nf">zero?</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+<p>On these <em>boards,</em> you can create <em>lists,</em> which are vertically aligned and ordered collections of <em>cards.</em></p>
 
-<span class="k">def</span> <span class="nf">wiped_out?</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">step_size</span><span class="p">)</span>
-  <span class="p">((</span><span class="n">ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">step_size</span><span class="p">).</span><span class="nf">zero?</span>
-<span class="k">end</span>
-</code></pre>
-</div>
+<p><img src="/img/gtd-trello2.png" alt="Board with cards" /></p>
 
-<p>I was all proud of myself as I ran it.  And then I ran it with <code class="highlighter-rouge">max = 1_000_000</code>.  And I sat.  And I sat…</p>
+<p>You can use these cards to store individual brain items. They can have images, comments, documents (like this article), checklists, and even due dates attached to them. I call this system my Other Brain.</p>
 
-<p><em>This is taking too long!</em>   I could to do better.</p>
+<p>The most important feature for me is that Trello allows you to drag and drop your lists and cards. You can create a task, keep all the information about that task (including conversations, history, and data) bundled along with the same card, and even use your lists as a form of workflow control.</p>
 
-<h2 id="solution-2-focus-on-the-keeps-not-the-rejects">Solution 2: Focus on the Keeps, not the Rejects</h2>
+<p>For example, you might have several stages to your programming workflow: tasks that are pending, currently-being-worked-on, ready for review, and those that are finished and ready to publish/push this week. You can create a card when you first get a task and just drag it from one list to the next as you work. This process gives you a nice, visual snapshot of your progress at any given point.</p>
 
-<p>As I was experimenting and testing things out, I noticed that, at the higher values of <code class="highlighter-rouge">step_size</code>, the naive algorithm was only rejecting a number every so often.  So I thought to myself, “What if we could take the step size out of the equation and make each step take roughly the same amount of time, regardless of how many elements there were in it?”  So, instead of checking each item to see if it was a reject, I calculated out the size of the chunk of <em>non-rejected</em> numbers and copied those into a <code class="highlighter-rouge">results</code> array, ignoring the rejects instead of explicitly rejecting them.</p>
+<p>If you’ve got a ton of items in the pending list and someone asks you if you have time to take on just one more quick task, there is a concrete record that you can look at, instead of trying to remember all of the things you have to do.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">lucky_numbers</span><span class="p">(</span><span class="n">max</span><span class="p">)</span>
-  <span class="n">possibles</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="n">max</span><span class="p">).</span><span class="nf">to_a</span>
-  <span class="mi">1</span><span class="p">.</span><span class="nf">step</span> <span class="k">do</span> <span class="o">|</span><span class="n">current_index</span><span class="o">|</span>
-    <span class="k">break</span> <span class="k">if</span> <span class="n">current_index</span> <span class="o">&gt;=</span> <span class="n">possibles</span><span class="p">.</span><span class="nf">size</span>
-    
-    <span class="n">step_size</span> <span class="o">=</span> <span class="n">possibles</span><span class="p">[</span><span class="n">current_index</span><span class="p">]</span>
-    <span class="n">possibles</span> <span class="o">=</span> <span class="n">grab_chunks_between_rejects</span><span class="p">(</span><span class="n">possibles</span><span class="p">,</span> <span class="n">step_size</span><span class="p">)</span>
-      
-    <span class="k">redo</span> <span class="k">if</span> <span class="n">wiped_out?</span><span class="p">(</span><span class="n">current_index</span><span class="p">,</span> <span class="n">step_size</span><span class="p">)</span>
-  <span class="k">end</span>
-  <span class="n">possibles</span>
-<span class="k">end</span>
+<p>Personally, I tend to make lists based on the category of the thing. Is it somebody else’s blog post I want to remember to read later? Is it a future idea for my own blog? Is it a programming project to complete? I’ve got a list for that.</p>
 
-<span class="k">def</span> <span class="nf">grab_chunks_between_rejects</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-  <span class="n">chunk_count</span> <span class="o">=</span> <span class="p">(</span><span class="n">items</span><span class="p">.</span><span class="nf">size</span> <span class="o">/</span> <span class="n">n</span><span class="p">).</span><span class="nf">floor</span>
-    
-  <span class="c1"># The new array will be the same size minus one reject item</span>
-  <span class="c1"># for every chunk possible</span>
-  <span class="n">result</span> <span class="o">=</span> <span class="no">Array</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">items</span><span class="p">.</span><span class="nf">size</span> <span class="o">-</span> <span class="n">chunk_count</span><span class="p">)</span>
-  <span class="n">chunk_target_index</span> <span class="o">=</span> <span class="mi">0</span>
-    
-  <span class="c1"># Some tricky indexing...</span>
-  <span class="c1"># 1) Select chunks of size n - 1 (so as to not include the reject endpoint)</span>
-  <span class="c1"># 2) Copy it into the results array</span>
-  <span class="c1"># 3) Continue, each chunk after the one in front of it.</span>
-  <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">items</span><span class="p">.</span><span class="nf">size</span><span class="p">).</span><span class="nf">step</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">chunk_start</span><span class="o">|</span>
-  	<span class="n">chunk</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">chunk_start</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">(</span><span class="n">chunk_start</span> <span class="o">+</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
-    <span class="n">result</span><span class="p">[</span><span class="n">chunk_target_index</span><span class="p">.</span><span class="nf">.</span><span class="o">.</span><span class="p">(</span><span class="n">chunk_target_index</span> <span class="o">+</span> <span class="n">chunk</span><span class="p">.</span><span class="nf">size</span><span class="p">)]</span> <span class="o">=</span> <span class="n">chunk</span>
-    <span class="n">chunk_target_index</span> <span class="o">+=</span> <span class="n">chunk</span><span class="p">.</span><span class="nf">size</span>
-  <span class="k">end</span>
-  <span class="n">result</span>
-<span class="k">end</span>
-  
-<span class="k">def</span> <span class="nf">wiped_out?</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">step_size</span><span class="p">)</span>
-  <span class="p">((</span><span class="n">ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">step_size</span><span class="p">).</span><span class="nf">zero?</span>
-<span class="k">end</span>
+<p>And as you list your tasks, try to sort your thoughts in order of urgency and/or ease of completion. I like to put the things that I need to (or can) finish first down at the bottom of my lists and work my way up.</p>
 
-</code></pre>
-</div>
+<p>Sorting your tasks allows you to quickly find the next thing you need to work on and get started in it, minimizing the brain space your task management system takes up.</p>
 
-<p>This one worked great!  Even on my little laptop, it ran relatively quickly (don’t worry, the benchmarks are coming).  But something felt weird.  My programmer senses were tingling.</p>
+<p>If Trello doesn’t fit your style, use a note-taking app, an actual paper notebook, or something else. The important thing is that you <strong>get everything out of your head!</strong></p>
 
-<p>I had no proof at this point, but it seemed like all of the setup and creation of a second array each “round” should cause this algorithm to perform poorly at small <code class="highlighter-rouge">step_size</code>s.  It was at this point that this ceased to be a code challenge and became a science experiment.</p>
+<p>Here’s why. You’ve only got so much brain. Granted, you’re reading articles on Simple Programmer, so you’ve probably got a lot of brains. But it’s a <em>finite amount.</em> If you’re carrying everything you have to do later around in your head, you’re not using that space for thinking about the thing you need to do now.</p>
 
-<h2 id="solution-3-a-combination-of-the-two">Solution 3: A Combination of the Two</h2>
+<p>For programmers especially, having that extra space can make a big impact. When you’re programming, you need to be able to simulate the code in your head, stepping through each line and understanding how that line affects the current values of each variable. This process necessarily means that you need to constantly be remembering what variable values are, what function inputs <em>could be,</em> and—depending on those values—which branches of program flow could be triggered.</p>
 
-<blockquote>
-  <p><strong>HYPOTHESIS: There is a performance trade-off between the low and high end for my two solutions.  Thus, there should be a combination of the two that is faster than either one as a stand-alone.</strong></p>
-</blockquote>
+<p>Having the space to accommodate all of these values in your “mental memory,” without bumping up against the space containing your dentist appointment at 3:30 or what you’re going to say to the customer tomorrow morning, can make your life significantly less error-prone and stressful.</p>
 
-<p>If there <em>was</em> a trade-off somewhere between the two solutions, I would be able to run a few tests and find the best possible combination.  I quickly updated my <code class="highlighter-rouge">lucky_numbers</code> method.</p>
+<p>In the same way that you feel better and more productive when you clear off your desk, clean up your room when it’s messy, or refactor your code, this step is all about <em>cleaning out your brain.</em></p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">lucky_numbers</span><span class="p">(</span><span class="n">max</span><span class="p">,</span> <span class="n">strategy_switch</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
-  <span class="n">possibles</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="n">max</span><span class="p">).</span><span class="nf">to_a</span>
-  <span class="mi">1</span><span class="p">.</span><span class="nf">step</span> <span class="k">do</span> <span class="o">|</span><span class="n">current_index</span><span class="o">|</span>
-    <span class="k">break</span> <span class="k">if</span> <span class="n">current_index</span> <span class="o">&gt;=</span> <span class="n">possibles</span><span class="p">.</span><span class="nf">size</span>
-    
-    <span class="n">step_size</span> <span class="o">=</span> <span class="n">possibles</span><span class="p">[</span><span class="n">current_index</span><span class="p">]</span>
+<p>Once you’ve picked how you want to store your information, you can begin the process. The very second you: 
+have a brilliant idea,
+remember something you have to do,
+finish a feature which causes you to have new problems,
+someone stops by your desk to ask you to take a look at something,
+get an email from a customer that needs a long answer,
+or get assigned something at a meeting,
+put it in your Other Brain.</p>
 
-    <span class="c1"># Calculate next round of numbers</span>
-    <span class="n">possibles</span> <span class="o">=</span> <span class="k">if</span> <span class="n">step_size</span> <span class="o">&lt;=</span> <span class="n">strategy_switch</span>
-                  <span class="n">reject_every_nth_item</span><span class="p">(</span><span class="n">possibles</span><span class="p">,</span> <span class="n">step_size</span><span class="p">)</span>
-                <span class="k">else</span>
-                  <span class="n">grab_chunks_between_rejects</span><span class="p">(</span><span class="n">possibles</span><span class="p">,</span> <span class="n">step_size</span><span class="p">)</span>
-                <span class="k">end</span>
-      
-    <span class="k">redo</span> <span class="k">if</span> <span class="n">wiped_out?</span><span class="p">(</span><span class="n">current_index</span><span class="p">,</span> <span class="n">step_size</span><span class="p">)</span>
-  <span class="k">end</span>
-  <span class="n">possibles</span>
-<span class="k">end</span>
-</code></pre>
-</div>
+<p>Feel free to make your Other Brain pretty, and create various sections for different parts of your brain. I’ve got one board for personal/programming stuff, one for work (I design plastic molds), and one for house chores and to-dos that I share with my wife.</p>
 
-<p>And now to collect some data!  For sanity’s sake, I wrapped each function in a module to differentiate them.</p>
+<p><img src="/img/gtd-trello3.png" alt="My personal board" /></p>
 
-<p><img src="/img/data-data-data.gif" alt="Data, data, data!  I cannot make bricks without clay." /></p>
+<h2 id="2-your-inbox-is-a-receiving-area-not-a-to-do-list">2. Your Inbox Is a Receiving Area, Not a To-Do List</h2>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="s2">"benchmark"</span>
+<p>After you get your Main Brain cleaned out and offloaded into your Other Brain, you need to stop all of the junk that’s pouring into your Main Brain from cluttering it up. The main place this junk pours in, especially in the professional setting, is your email inbox.</p>
 
-<span class="nb">require_relative</span> <span class="s2">"lucky_numbers3"</span>
+<p>For me, I do a lot of customer-facing work: generating quotes, formalizing requirements, and working through design issues with customers. For you, maybe it’s tons of QA tickets or new issues being filed. Maybe you’ve got several different projects and chat notifications coming in from different sources.</p>
 
-<span class="n">max_nums</span> <span class="o">=</span> <span class="mi">1_000_000</span>
-<span class="n">switch_levels</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="mi">2</span><span class="p">,</span>
-  <span class="mi">10</span><span class="p">,</span>
-  <span class="mi">100</span><span class="p">,</span>
-  <span class="mi">500</span><span class="p">,</span>
-  <span class="mi">1000</span><span class="p">,</span>
-  <span class="mi">5000</span><span class="p">,</span>
-  <span class="mi">10_000</span><span class="p">,</span>
-  <span class="mi">50_000</span><span class="p">,</span>
-  <span class="mi">100_000</span><span class="p">,</span>
-  <span class="mi">500_000</span><span class="p">,</span>
-<span class="p">]</span>
+<p>I used to keep things in my email inbox until I was done with them. Then I realized that having a full inbox stresses me out. It makes me feel like I have a billion things to do, and there’s no categorizing or organization. It’s just a big 💩-pile of things that make me feel bad and give me anxiety.</p>
 
-<span class="no">Benchmark</span><span class="p">.</span><span class="nf">bm</span> <span class="k">do</span> <span class="o">|</span><span class="n">bm</span><span class="o">|</span>
-  <span class="n">switch_levels</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">level</span><span class="o">|</span>
-    <span class="n">bm</span><span class="p">.</span><span class="nf">report</span><span class="p">(</span><span class="n">level</span><span class="p">.</span><span class="nf">to_i</span><span class="p">)</span> <span class="k">do</span>
-      <span class="no">Lucky3</span><span class="o">::</span><span class="n">lucky_numbers</span><span class="p">(</span><span class="n">max_nums</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+<p>Now, a couple of times a day, I open up my email. For each thing, if I can handle it quickly, I take care of it right away.</p>
 
-<span class="c1"># ▶ ruby optimize_lucky3.rb</span>
-<span class="c1">#        user     system      total        real</span>
-<span class="c1">#      2 17.550718  21.655086  39.205804 ( 39.535233)</span>
-<span class="c1">#     10 18.351711  23.234818  41.586529 ( 42.615220)</span>
-<span class="c1">#    100 18.443557  22.266405  40.709962 ( 41.178138)</span>
-<span class="c1">#    500 20.278373  23.325708  43.604081 ( 44.987643)</span>
-<span class="c1">#   1000 20.725864  22.510307  43.236171 ( 43.617160)</span>
-<span class="c1">#   5000 27.245503  21.725938  48.971441 ( 49.304915)</span>
-<span class="c1">#  10000 33.828295  22.476806  56.305101 ( 56.742865)</span>
-<span class="c1">#  50000 82.069851  37.399753 119.469604 (120.174670)</span>
-<span class="c1"># 100000 120.410101  23.425739 143.835840 (144.841090)</span>
-<span class="c1"># 500000 445.835956  31.520488 477.356444 (483.688845)</span>
-</code></pre>
-</div>
+<p>The question that goes through my head is, “Can I answer this in the next 30 seconds, without stopping and looking something up?” And depending on how overwhelmed I’m feeling by things that aren’t yet tracked in my Other Brain, that time limit gets shorter and shorter.</p>
 
-<p>And no science experiment is complete without plots!  Unfortunately, the data visualization story (outside of the web) is not as cushy in Ruby as it is in Python.  Fortunately, I found a wrapper for Python’s <code class="highlighter-rouge">matplotlib</code> so I could stay in Ruby land for now.  Note that I used a log-based scale on the X-axis to better display my results.</p>
+<p>If it’s going to take me a little while to track down the answer or information I need to respond, I enter it into my Other Brain and archive it in its corresponding email folder. When in doubt, put it in the Other Brain.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># plot_lucky3.rb</span>
+<p>One way or another, it’s out of my inbox quickly and painlessly. Generally, this lets me get to Inbox Zero in less than an hour. (Hopefully).</p>
 
-<span class="nb">require</span> <span class="s2">"matplotlib/pyplot"</span>
+<h2 id="3-get-things-done-one-bite-at-a-time">3. Get Things Done, One Bite at a Time</h2>
 
-<span class="n">plt</span> <span class="o">=</span> <span class="no">Matplotlib</span><span class="o">::</span><span class="no">Pyplot</span>
+<p>After you’ve stemmed the tide of ideas, emails, and people asking you to do things, open up your Other Brain and get to work. Don’t get freaked out by everything that’s on your list, because it will probably be a lot. It’s your whole Other Brain!</p>
 
-<span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">10_000</span><span class="p">,</span> <span class="mi">50_000</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">,</span> <span class="mi">500_000</span><span class="p">]</span>
-<span class="n">ys</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="mi">39</span><span class="o">.</span><span class="mi">54</span><span class="p">,</span>
-  <span class="mi">42</span><span class="o">.</span><span class="mi">62</span><span class="p">,</span>
-  <span class="mi">41</span><span class="o">.</span><span class="mi">18</span><span class="p">,</span>
-  <span class="mi">44</span><span class="o">.</span><span class="mi">99</span><span class="p">,</span>
-  <span class="mi">43</span><span class="o">.</span><span class="mi">62</span><span class="p">,</span>
-  <span class="mi">49</span><span class="o">.</span><span class="mi">30</span><span class="p">,</span>
-  <span class="mi">56</span><span class="o">.</span><span class="mi">74</span><span class="p">,</span>
-  <span class="mi">120</span><span class="o">.</span><span class="mi">17</span><span class="p">,</span>
-  <span class="mi">144</span><span class="o">.</span><span class="mi">84</span><span class="p">,</span>
-  <span class="mi">483</span><span class="o">.</span><span class="mi">69</span><span class="p">,</span>
-<span class="p">]</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">gca</span><span class="p">()</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">set_xscale</span><span class="p">(</span><span class="s1">'log'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
-</code></pre>
-</div>
+<p>But since you don’t have to spend valuable time remembering all the things you have to do, you’re going to be able to fully focus on your tasks. And since you’ve already pre-sorted your thoughts by order of importance, you should be able to look at your list and find the first thing that needs to be done.</p>
 
-<p><img src="/img/lucky3-results.png" alt="Lucky 3 results" /></p>
+<p><strong>Do it.</strong> Don’t think about any of the other things. Once you’re done, cross it off, archive it, or do whatever you have to do to close it out. And find the next thing. Do it again and again until you are tired, hungry, or your list is empty.</p>
 
-<p>This is the part that is confusing to me.  I’ve run the experiment multiple times and I always end up with a dip at around 1000.  We’ll talk about that in a moment.  Here are the benchmarks of each solution directly compared.</p>
+<p>The nice thing about this approach is that it matters less if you get interrupted or if somebody jams something in the front of your queue in a panic. It allows you to stay in that all-important deep-focus state, since the act of putting something in your Other Brain doesn’t take nearly as much focus as actually handling the item that threatens to disrupt your concentration. You just file the interruption into the Other Brain, and when they go away, you get right back into your tasks!</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="s2">"benchmark"</span>
+<h2 id="now-get-started-getting-things-done">Now, Get Started Getting Things Done</h2>
 
-<span class="nb">require_relative</span> <span class="s2">"lucky_numbers"</span>
-<span class="nb">require_relative</span> <span class="s2">"lucky_numbers2"</span>
-<span class="nb">require_relative</span> <span class="s2">"lucky_numbers3"</span>
+<p>That’s it. Remember nothing, get everything out of your brain <em>and</em> your inbox, record everything <em>somewhere,</em> and do the things you can, when you can focus, <a href="https://simpleprogrammer.com/taking-breaks-will-boost-productivity/">one bite at a time.</a></p>
 
-<span class="n">iterations</span> <span class="o">=</span> <span class="mi">1_000_000</span>
+<p>I no longer spend entire days trying to get all the way through my inbox. I forget which methods to write next way less frequently. My ideas for projects and posts like this one are no longer just shower thoughts that disappear after fifteen minutes.</p>
 
-<span class="no">Benchmark</span><span class="p">.</span><span class="nf">bm</span> <span class="k">do</span> <span class="o">|</span><span class="n">bm</span><span class="o">|</span>
-  <span class="n">bm</span><span class="p">.</span><span class="nf">report</span><span class="p">(</span><span class="s2">"Version 1"</span><span class="p">)</span> <span class="k">do</span>
-    <span class="no">Lucky1</span><span class="o">::</span><span class="n">lucky_numbers</span><span class="p">(</span><span class="n">iterations</span><span class="p">)</span>
-  <span class="k">end</span>
+<p>When you’re coding, in order to know what you’re program is doing, you have to be the computer—and that takes a lot of focus.</p>
 
-  <span class="n">bm</span><span class="p">.</span><span class="nf">report</span><span class="p">(</span><span class="s2">"Version 2"</span><span class="p">)</span> <span class="k">do</span>
-    <span class="no">Lucky2</span><span class="o">::</span><span class="n">lucky_numbers</span><span class="p">(</span><span class="n">iterations</span><span class="p">)</span>
-  <span class="k">end</span>
+<p>Like, “everything you’ve got” levels of focus.</p>
 
-  <span class="n">bm</span><span class="p">.</span><span class="nf">report</span><span class="p">(</span><span class="s2">"Version 3"</span><span class="p">)</span> <span class="k">do</span>
-    <span class="no">Lucky3</span><span class="o">::</span><span class="n">lucky_numbers</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+<p>Like, “if someone asks you a question in the middle of a session, you have to stare blearily at them for a second, figure out who they are and what’s happening, and probably end up saying ‘Um. What?’” levels of focus.</p>
 
-</code></pre>
-</div>
-
-<p>And the results:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>▶ ruby lucky_number_timer.rb
-          user        system    total      real
-Version 1 794.304851  28.946642 823.251493 (826.377494)
-Version 2  23.267372  33.858966  57.126338 ( 57.238392)
-Version 3  19.517162  20.816684  40.333846 ( 40.470201)
-</code></pre>
-</div>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<blockquote>
-  <p><strong>CONCLUSION: My hypothesis was supported.  A combination of the two solutions performs better than either one solution by itself.  However, the reason behind this is probably not the one that I initially thought.  Some further research is required to find out why this worked.</strong></p>
-</blockquote>
-
-<p>My wife teaches middle school science and I just got done helping her judge their science fair, so I’ve got experimentation on the brain.  Hopefully this little experiment makes her proud!</p>
-
-<p>I’m sure my solution wasn’t the best possible solution, but it gets the job done.  Ruby isn’t necessarily the language of choice for high-throughput calculations (<a href="https://blog.heroku.com/ruby-3-by-3">although it’s not necessarily a bad choice either</a>).  If anybody can come up with a convincing reason for why my data came out the way it did, including the dip at 1000, I’ll personally send you a shiny new trophy emoji. 🏆  Also, if you’ve got a solution that you like better than these, I want to see it.  Share it! (or share a link to your solution commented on <a href="https://dev.to/heikodudzus/write-a-program-or-script-to-find-lucky-numbers--23me">Heiko’s original post</a>).</p>
+<p>So, distracting yourself with anything else while you’re doing that is not only unproductive—it’s unnecessary. I mean, come on! We’re programmers. We’ve got tools for this. Automate it, delegate it, and get back to the fun stuff.</p>
 </p>
   
 
@@ -349,6 +197,11 @@ Version 3  19.517162  20.816684  40.333846 ( 40.470201)
         </li>
         
           <li>
+            <span class="post-meta">Feb 15, 2018</span><br/>
+            <a class="post-link" href="/2018/02/15/lucky-numbers-and-science/">Lucky Numbers and Science</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Feb 10, 2018</span><br/>
             <a class="post-link" href="/2018/02/10/closure-i-hardly-know-her/">Closure? I Hardly Know Her!</a>
           </li>
@@ -356,11 +209,6 @@ Version 3  19.517162  20.816684  40.333846 ( 40.470201)
           <li>
             <span class="post-meta">Feb 3, 2018</span><br/>
             <a class="post-link" href="/2018/02/03/checking-in/">Checking In</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Jan 4, 2018</span><br/>
-            <a class="post-link" href="/2018/01/04/cnc2018-pre-mission/">CNC 2018 Pre-Mission</a>
           </li>
         
       </ul>
@@ -495,7 +343,7 @@ Version 3  19.517162  20.816684  40.333846 ( 40.470201)
         
         <a href="/tags/focus/" style="font-size: 14px">focus | </a>
         
-        <a href="/tags/productivity/" style="font-size: 14px">productivity | </a>
+        <a href="/tags/productivity/" style="font-size: 16px">productivity | </a>
         
         <a href="/tags/codenewbie/" style="font-size: 14px">codenewbie | </a>
         
@@ -504,6 +352,8 @@ Version 3  19.517162  20.816684  40.333846 ( 40.470201)
         <a href="/tags/update/" style="font-size: 14px">update | </a>
         
         <a href="/tags/preview/" style="font-size: 14px">preview | </a>
+        
+        <a href="/tags/gtd/" style="font-size: 14px">gtd | </a>
         
       </p>
     </div>

@@ -1,6 +1,15 @@
 const posts = [
     
     {
+        title: "Getting Things Done - A Programmer Productivity Guide",
+        url: "/2018/02/19/getting-things-done/",
+        cover: "/img/getting-things-done.png",
+        tags: "productivity, gtd",
+        date: "February 19, 2018",
+        description: "Three principles to help developers free their brains of clutter and use them for getting important things done."
+    } ,
+    
+    {
         title: "Lucky Numbers and Science",
         url: "/2018/02/15/lucky-numbers-and-science/",
         cover: "/img/lucky.jpg",
