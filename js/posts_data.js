@@ -1,6 +1,15 @@
 const posts = [
     
     {
+        title: "Closures and Callbacks",
+        url: "/2018/03/01/closures-and-callbacks/",
+        cover: "/img/closure-callback.png",
+        tags: "javascript, functional, front-end",
+        date: "March 01, 2018",
+        description: "A neat little pattern I found for DRY-ing up your callbacks."
+    } ,
+    
+    {
         title: "Getting Things Done - A Programmer Productivity Guide",
         url: "/2018/02/19/getting-things-done/",
         cover: "/img/getting-things-done.png",

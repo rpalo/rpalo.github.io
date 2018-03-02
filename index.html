@@ -72,114 +72,138 @@
 
   <!-- Current Post -->
   
-    <h1 id="title">Getting Things Done - A Programmer Productivity Guide</h1>
-    <small>Feb 19, 2018</small>
-    <p><p><em>This article was originally posted on <a href="https://simpleprogrammer.com/getting-things-done-productivity-guide/">The Simple Programmer</a>.  Images and links are courtesy of their team.  I got to work with a team of really amazing editors and it was a great experience.  I think, overall, it helped the article come out way better than I originally imagined it.  I cannot recommend working with an editor enough.  You have to give up a bit of creative control on the article and put on a team mindset, but it’s definitely worth it.  You can write for Simple Programmer too.  Just <a href="https://simpleprogrammer.com/write-for-us/">submit an article draft or idea!</a></em></p>
+    <h1 id="title">Closures and Callbacks</h1>
+    <small>Mar 1, 2018</small>
+    <p><p>Earlier this week, I got an email telling me that the Odin Project had just upgraded their <a href="https://www.theodinproject.com/courses/javascript">JavaScript course</a>.  I checked it out.  If you’re like me and have been putting off learning more about JavaScript because of all of the build tooling, this course is definitely for you.  I learned the basics of webpack (and even submitted a <a href="https://github.com/webpack/webpack.js.org/pull/1855">pull request</a> to make a correction on the webpack tutorial!), and it was all at a super gentle and beginner-friendly pace.  As I was going through this course, during one of the assignments, I came across a pattern that I thought was neat.  Especially after my <a href="https://assertnotmagic.com/2018/02/10/closure-i-hardly-know-her/">post a couple of weeks ago about closures</a>, I knew I had to share it.  If at any point you’re reading through my code examples and you get furious at my code, please skip ahead to the <a href="#delirium-disclaimer">Delirium Disclaimer</a>.</p>
 
-<hr />
+<h2 id="the-project">The Project</h2>
 
-<p>Programming is hard. It’s fun, it’s rewarding, but it’s definitely not easy. In order to be successful and productive, being able to get into that deep focus state and stay there is key.</p>
+<p>The goal was to use as many different modules as possible in order to test out the bundling power of webpack.  I was supposed to <a href="https://www.theodinproject.com/courses/javascript/lessons/restaurant-page">create a generic landing page for a restaurant</a>, and it had to have a tab-based navigation system.  <a href="https://assertnotmagic.com/odin-restaurant/">Here’s the site I came up with.</a>  (and the related <a href="https://github.com/rpalo/odin-restaurant">GitHub repo</a>)</p>
 
-<p>At the same time, it seems like the universe is trying its best to keep you out of that state by peppering you with other things that clamor for your attention at irregular and infuriatingly unpredictable intervals: email, meetings, phone calls, and more.</p>
+<p><img src="/img/odin-restaurant.png" alt="My Odin Project Restaurant" /></p>
 
-<p>Even if you manage to successfully get rid of all of the unnecessary <a href="https://simpleprogrammer.com/how-to-avoid-distractions/">distractions</a>, there is some minimum amount of outside world engagement that is required to be a successful and well-adjusted employee, co-worker, and human being. Depending on how much you’re storing “in memory” at any given time, even these small distractions can be enough for you to lose your focus and have to get back into “the zone.”</p>
+<p>I didn’t do anything to make it look pretty on mobile, so if you’re reading on mobile, forgive me.</p>
 
-<p>That being said, here’s the question: how do you keep track of your thoughts? How do you make sure that everything you need to do gets done?</p>
+<h2 id="the-technique">The Technique</h2>
 
-<p>Everybody has some sort of system—even not having a system and trying to remember everything is technically a system. I wanted to share mine because it seems to work pretty well.</p>
+<p>The technique I want to share is the one I used for the nav button click callback: I created a closure!  Let me back up.  I’ve got three buttons.  The HTML ends up looking something like this:</p>
 
-<p>There’s a method that is fairly well-established called the “Getting Things Done” (GTD) approach for managing the things that you have to do. It was <a href="https://gettingthingsdone.com/meet-david/">created by David Allen</a> around 2002 and been discussed in <a href="https://www.wired.com/2005/07/gtd-a-new-cult-for-the-info-age/?currentPage=all">Wired</a> magazine and on <a href="https://www.hanselminutes.com/234/getting-things-done-with-lane-newsom">Hanselminutes</a> (Scott Hanselman’s podcast). I heard about it from Wes Bos and Scott Tolinski on their <a href="https://syntax.fm/show/011/our-favourite-productivity-hacks">Syntax podcast</a>. You can read more about the philosophy behind it on the <a href="https://gettingthingsdone.com/fivesteps/">Getting Things Done website</a>.</p>
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"tabs"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"tabs__link active"</span> <span class="na">data-target=</span><span class="s">"About"</span><span class="nt">&gt;</span>About<span class="nt">&lt;/button&gt;</span>
+  <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"tabs__link"</span> <span class="na">data-target=</span><span class="s">"Menu"</span><span class="nt">&gt;</span>Menu<span class="nt">&lt;/button&gt;</span>
+  <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"tabs__link"</span> <span class="na">data-target=</span><span class="s">"Contact"</span><span class="nt">&gt;</span>Contact<span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+</div>
 
-<p>I’ll go over my own process step by step, which is loosely based on the GTD approach. I like to think about it in terms of a few catchy mantras that I came up with all by myself.</p>
+<p>I then have a bunch of <code class="highlighter-rouge">&lt;div class="tabcontent"&gt;</code>’s that contain the content of the tabs.  Every one but the active one has <code class="highlighter-rouge">display: hidden</code>, so only the active one will show up.</p>
 
-<h2 id="1-remember-nothing-record-everything">1. Remember Nothing; Record Everything.</h2>
+<p>Of course, the assignment specifically asked me to generate these buttons in JavaScript, so it ends up looking more like this:</p>
 
-<p>Don’t remember anything. You’re not good at it. Find someplace to store all the things you need to think about and remember.</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// Don't worry about openTab now.</span>
+<span class="c1">// We'll talk about it in a minute.</span>
+<span class="kr">import</span> <span class="nx">openTab</span> <span class="nx">from</span> <span class="s1">'./openTab'</span><span class="p">;</span>
 
-<p>I use <a href="https://trello.com/">Trello</a> because it’s a tool that really fits with how my brain works. Trello is a web app that provides users with any number of boards, which are basically blank canvases that will eventually house all of your to-dos, ideas, projects, and everything else.</p>
+<span class="kr">const</span> <span class="nx">loadNav</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">tabHolder</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'.tabs'</span><span class="p">);</span>
+  <span class="kr">const</span> <span class="nx">tabs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'About'</span><span class="p">,</span> <span class="s1">'Menu'</span><span class="p">,</span> <span class="s1">'Contact'</span><span class="p">];</span>
+  <span class="nx">tabs</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">tabName</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">button</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">'button'</span><span class="p">);</span>
+    <span class="nx">button</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'tabs__link'</span><span class="p">);</span>
+    <span class="nx">button</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">target</span> <span class="o">=</span> <span class="nx">tabName</span><span class="p">;</span>
+    <span class="nx">button</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="nx">openTab</span><span class="p">(</span><span class="nx">tabName</span><span class="p">));</span>
+    <span class="nx">button</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">tabName</span><span class="p">;</span>
+    <span class="nx">tabHolder</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">button</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">};</span>
+</code></pre>
+</div>
 
-<p><img src="/img/gtd-trello1.png" alt="Blank Trello board" /></p>
+<p>But here’s where the magic happens.  I’ll show you the code for <code class="highlighter-rouge">openTab</code>, and then I’ll talk about what’s so special about it.</p>
 
-<p>On these <em>boards,</em> you can create <em>lists,</em> which are vertically aligned and ordered collections of <em>cards.</em></p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">openTab</span> <span class="o">=</span> <span class="nx">tabName</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">tabContent</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">'.tabcontent'</span><span class="p">);</span>
+    <span class="nx">tabContent</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">tab</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">tab</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">"none"</span><span class="p">;</span>
+    <span class="p">});</span>
+    
+    <span class="kr">const</span> <span class="nx">tabLinks</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">'.tabs__link'</span><span class="p">);</span>
+    <span class="nx">tabLinks</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">link</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">link</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">'active'</span><span class="p">);</span>
+    <span class="p">});</span>
+    
+    <span class="kr">const</span> <span class="nx">activeTab</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="err">`</span><span class="p">[</span><span class="nx">data</span><span class="o">-</span><span class="nx">page</span><span class="o">=</span><span class="s2">"${tabName}"</span><span class="p">]</span><span class="err">`</span><span class="p">);</span>
+    <span class="nx">activeTab</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">"block"</span><span class="p">;</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nx">currentTarget</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'active'</span><span class="p">);</span>
+  <span class="p">};</span>
+<span class="p">};</span>
 
-<p><img src="/img/gtd-trello2.png" alt="Board with cards" /></p>
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">openTab</span><span class="p">;</span>
+</code></pre>
+</div>
 
-<p>You can use these cards to store individual brain items. They can have images, comments, documents (like this article), checklists, and even due dates attached to them. I call this system my Other Brain.</p>
+<h3 id="so-whats-going-on-here">So What’s Going On Here?</h3>
 
-<p>The most important feature for me is that Trello allows you to drag and drop your lists and cards. You can create a task, keep all the information about that task (including conversations, history, and data) bundled along with the same card, and even use your lists as a form of workflow control.</p>
+<p>Usually, when you pass a callback function to an event listener, you do it without parenthesis, like this: <code class="highlighter-rouge">button.addEventListener('click', doTheThing)</code>.  This is because you’re not calling the function as you’re creating the event listener, you’re passing the function object to be called later.  However, have you ever wanted to pass additional information to a callback?  Usually when you have a callback function for event listeners, they only take the event as an argument:</p>
 
-<p>For example, you might have several stages to your programming workflow: tasks that are pending, currently-being-worked-on, ready for review, and those that are finished and ready to publish/push this week. You can create a card when you first get a task and just drag it from one list to the next as you work. This process gives you a nice, visual snapshot of your progress at any given point.</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">doTheThing</span> <span class="o">=</span> <span class="nx">e</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="c1">// stuff</span>
+<span class="p">};</span>
+</code></pre>
+</div>
 
-<p>If you’ve got a ton of items in the pending list and someone asks you if you have time to take on just one more quick task, there is a concrete record that you can look at, instead of trying to remember all of the things you have to do.</p>
+<p>However, what if you want it to have additional information?</p>
 
-<p>Personally, I tend to make lists based on the category of the thing. Is it somebody else’s blog post I want to remember to read later? Is it a future idea for my own blog? Is it a programming project to complete? I’ve got a list for that.</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">doTheThing</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">myColor</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myColor</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre>
+</div>
 
-<p>And as you list your tasks, try to sort your thoughts in order of urgency and/or ease of completion. I like to put the things that I need to (or can) finish first down at the bottom of my lists and work my way up.</p>
+<p>In my case, I wanted to write one callback function that would work for all three nav buttons, even though their functionality would each be a little different, based on which tab they were trying to act on.  So I needed something like this:</p>
 
-<p>Sorting your tasks allows you to quickly find the next thing you need to work on and get started in it, minimizing the brain space your task management system takes up.</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">openTab</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">tabName</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="c1">// The stuff</span>
+<span class="p">};</span>
+</code></pre>
+</div>
 
-<p>If Trello doesn’t fit your style, use a note-taking app, an actual paper notebook, or something else. The important thing is that you <strong>get everything out of your head!</strong></p>
+<p>BUT, if you try this, JavaScript gets grumpy.  So what can we do?  One solution is to create a closure at the time that you add the event listener.</p>
 
-<p>Here’s why. You’ve only got so much brain. Granted, you’re reading articles on Simple Programmer, so you’ve probably got a lot of brains. But it’s a <em>finite amount.</em> If you’re carrying everything you have to do later around in your head, you’re not using that space for thinking about the thing you need to do now.</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">openTab</span> <span class="o">=</span> <span class="nx">tabName</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">e</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="c1">// Things in here have access to tabName *and* e</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<p>For programmers especially, having that extra space can make a big impact. When you’re programming, you need to be able to simulate the code in your head, stepping through each line and understanding how that line affects the current values of each variable. This process necessarily means that you need to constantly be remembering what variable values are, what function inputs <em>could be,</em> and—depending on those values—which branches of program flow could be triggered.</p>
+<p>When you use it like this:</p>
 
-<p>Having the space to accommodate all of these values in your “mental memory,” without bumping up against the space containing your dentist appointment at 3:30 or what you’re going to say to the customer tomorrow morning, can make your life significantly less error-prone and stressful.</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">button</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="nx">openTab</span><span class="p">(</span><span class="nx">tabName</span><span class="p">));</span>
+</code></pre>
+</div>
 
-<p>In the same way that you feel better and more productive when you clear off your desk, clean up your room when it’s messy, or refactor your code, this step is all about <em>cleaning out your brain.</em></p>
+<p>the <code class="highlighter-rouge">openTab</code> function gets <em>immediately</em> evaluated, and the new, anonymous function is given as the callback.  It’s the same as writing:</p>
 
-<p>Once you’ve picked how you want to store your information, you can begin the process. The very second you: 
-have a brilliant idea,
-remember something you have to do,
-finish a feature which causes you to have new problems,
-someone stops by your desk to ask you to take a look at something,
-get an email from a customer that needs a long answer,
-or get assigned something at a meeting,
-put it in your Other Brain.</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">button</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="nx">e</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">tabName</span> <span class="o">+</span> <span class="s2">"Haha!"</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-<p>Feel free to make your Other Brain pretty, and create various sections for different parts of your brain. I’ve got one board for personal/programming stuff, one for work (I design plastic molds), and one for house chores and to-dos that I share with my wife.</p>
+<p>Thanks to our friend the closure, the anonymous function placed after the event listener retains access to the <code class="highlighter-rouge">tabName</code> variable, even though the function was called long before the event ever fires.  If you’re not exactly sure what a closure is, definitely take a look at <a href="https://assertnotmagic.com/2018/02/10/closure-i-hardly-know-her/">my post on closures</a>.  The benefit is that you can pull the <code class="highlighter-rouge">openTab</code> logic out into its own function and your <code class="highlighter-rouge">addEventListener</code> call ends up looking a lot cleaner.</p>
 
-<p><img src="/img/gtd-trello3.png" alt="My personal board" /></p>
+<p>So, the next time you want your callback functions to have more information than just the event passed in, consider using a closure to DRY things up.</p>
 
-<h2 id="2-your-inbox-is-a-receiving-area-not-a-to-do-list">2. Your Inbox Is a Receiving Area, Not a To-Do List</h2>
+<h2 id="delirium-disclaimer">Delirium Disclaimer</h2>
 
-<p>After you get your Main Brain cleaned out and offloaded into your Other Brain, you need to stop all of the junk that’s pouring into your Main Brain from cluttering it up. The main place this junk pours in, especially in the professional setting, is your email inbox.</p>
+<p>As I was writing this post, I noticed a lot of things I should change and fix in my original code (variable name consistencies, CSS class name consistencies, etc.).  I also noticed that I probably could have left out the <code class="highlighter-rouge">tabName</code> variable completely and gotten away with getting everything that I needed from the <code class="highlighter-rouge">event</code> that got passed into the function.  The whole closure thing may have been unnecessary.</p>
 
-<p>For me, I do a lot of customer-facing work: generating quotes, formalizing requirements, and working through design issues with customers. For you, maybe it’s tons of QA tickets or new issues being filed. Maybe you’ve got several different projects and chat notifications coming in from different sources.</p>
+<p>I’m going to go ahead and blame this on the fact that by the time I got to this part of the code, I was delirious from all of the things I was doing and new things I was learning.  Now that I’ve had some sleep, past-me’s code is making me cringe a little bit.  Sorry!</p>
 
-<p>I used to keep things in my email inbox until I was done with them. Then I realized that having a full inbox stresses me out. It makes me feel like I have a billion things to do, and there’s no categorizing or organization. It’s just a big 💩-pile of things that make me feel bad and give me anxiety.</p>
-
-<p>Now, a couple of times a day, I open up my email. For each thing, if I can handle it quickly, I take care of it right away.</p>
-
-<p>The question that goes through my head is, “Can I answer this in the next 30 seconds, without stopping and looking something up?” And depending on how overwhelmed I’m feeling by things that aren’t yet tracked in my Other Brain, that time limit gets shorter and shorter.</p>
-
-<p>If it’s going to take me a little while to track down the answer or information I need to respond, I enter it into my Other Brain and archive it in its corresponding email folder. When in doubt, put it in the Other Brain.</p>
-
-<p>One way or another, it’s out of my inbox quickly and painlessly. Generally, this lets me get to Inbox Zero in less than an hour. (Hopefully).</p>
-
-<h2 id="3-get-things-done-one-bite-at-a-time">3. Get Things Done, One Bite at a Time</h2>
-
-<p>After you’ve stemmed the tide of ideas, emails, and people asking you to do things, open up your Other Brain and get to work. Don’t get freaked out by everything that’s on your list, because it will probably be a lot. It’s your whole Other Brain!</p>
-
-<p>But since you don’t have to spend valuable time remembering all the things you have to do, you’re going to be able to fully focus on your tasks. And since you’ve already pre-sorted your thoughts by order of importance, you should be able to look at your list and find the first thing that needs to be done.</p>
-
-<p><strong>Do it.</strong> Don’t think about any of the other things. Once you’re done, cross it off, archive it, or do whatever you have to do to close it out. And find the next thing. Do it again and again until you are tired, hungry, or your list is empty.</p>
-
-<p>The nice thing about this approach is that it matters less if you get interrupted or if somebody jams something in the front of your queue in a panic. It allows you to stay in that all-important deep-focus state, since the act of putting something in your Other Brain doesn’t take nearly as much focus as actually handling the item that threatens to disrupt your concentration. You just file the interruption into the Other Brain, and when they go away, you get right back into your tasks!</p>
-
-<h2 id="now-get-started-getting-things-done">Now, Get Started Getting Things Done</h2>
-
-<p>That’s it. Remember nothing, get everything out of your brain <em>and</em> your inbox, record everything <em>somewhere,</em> and do the things you can, when you can focus, <a href="https://simpleprogrammer.com/taking-breaks-will-boost-productivity/">one bite at a time.</a></p>
-
-<p>I no longer spend entire days trying to get all the way through my inbox. I forget which methods to write next way less frequently. My ideas for projects and posts like this one are no longer just shower thoughts that disappear after fifteen minutes.</p>
-
-<p>When you’re coding, in order to know what you’re program is doing, you have to be the computer—and that takes a lot of focus.</p>
-
-<p>Like, “everything you’ve got” levels of focus.</p>
-
-<p>Like, “if someone asks you a question in the middle of a session, you have to stare blearily at them for a second, figure out who they are and what’s happening, and probably end up saying ‘Um. What?’” levels of focus.</p>
-
-<p>So, distracting yourself with anything else while you’re doing that is not only unproductive—it’s unnecessary. I mean, come on! We’re programmers. We’ve got tools for this. Automate it, delegate it, and get back to the fun stuff.</p>
+<p>That being said, this is one of my first real stabs at modern JavaScript.  So if you see ways that I could improve my code or do something more idiomatically, I’d love to get your feedback.  Definitely share your wisdom!</p>
 </p>
   
 
@@ -197,6 +221,11 @@ put it in your Other Brain.</p>
         </li>
         
           <li>
+            <span class="post-meta">Feb 19, 2018</span><br/>
+            <a class="post-link" href="/2018/02/19/getting-things-done/">Getting Things Done - A Programmer Productivity Guide</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Feb 15, 2018</span><br/>
             <a class="post-link" href="/2018/02/15/lucky-numbers-and-science/">Lucky Numbers and Science</a>
           </li>
@@ -204,11 +233,6 @@ put it in your Other Brain.</p>
           <li>
             <span class="post-meta">Feb 10, 2018</span><br/>
             <a class="post-link" href="/2018/02/10/closure-i-hardly-know-her/">Closure? I Hardly Know Her!</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Feb 3, 2018</span><br/>
-            <a class="post-link" href="/2018/02/03/checking-in/">Checking In</a>
           </li>
         
       </ul>
@@ -239,7 +263,7 @@ put it in your Other Brain.</p>
         
         <a href="/tags/tools/" style="font-size: 16px">tools | </a>
         
-        <a href="/tags/javascript/" style="font-size: 24px">javascript | </a>
+        <a href="/tags/javascript/" style="font-size: 26px">javascript | </a>
         
         <a href="/tags/not_magic/" style="font-size: 14px">not_magic | </a>
         
@@ -275,7 +299,7 @@ put it in your Other Brain.</p>
         
         <a href="/tags/pythonic/" style="font-size: 16px">pythonic | </a>
         
-        <a href="/tags/functional/" style="font-size: 18px">functional | </a>
+        <a href="/tags/functional/" style="font-size: 20px">functional | </a>
         
         <a href="/tags/vue/" style="font-size: 22px">vue | </a>
         
@@ -301,7 +325,7 @@ put it in your Other Brain.</p>
         
         <a href="/tags/css/" style="font-size: 14px">css | </a>
         
-        <a href="/tags/front-end/" style="font-size: 14px">front-end | </a>
+        <a href="/tags/front-end/" style="font-size: 16px">front-end | </a>
         
         <a href="/tags/animations/" style="font-size: 14px">animations | </a>
         
