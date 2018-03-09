@@ -72,138 +72,55 @@
 
   <!-- Current Post -->
   
-    <h1 id="title">Closures and Callbacks</h1>
-    <small>Mar 1, 2018</small>
-    <p><p>Earlier this week, I got an email telling me that the Odin Project had just upgraded their <a href="https://www.theodinproject.com/courses/javascript">JavaScript course</a>.  I checked it out.  If you’re like me and have been putting off learning more about JavaScript because of all of the build tooling, this course is definitely for you.  I learned the basics of webpack (and even submitted a <a href="https://github.com/webpack/webpack.js.org/pull/1855">pull request</a> to make a correction on the webpack tutorial!), and it was all at a super gentle and beginner-friendly pace.  As I was going through this course, during one of the assignments, I came across a pattern that I thought was neat.  Especially after my <a href="https://assertnotmagic.com/2018/02/10/closure-i-hardly-know-her/">post a couple of weeks ago about closures</a>, I knew I had to share it.  If at any point you’re reading through my code examples and you get furious at my code, please skip ahead to the <a href="#delirium-disclaimer">Delirium Disclaimer</a>.</p>
+    <h1 id="title">Publish Single Directories to Another Branch</h1>
+    <small>Mar 8, 2018</small>
+    <p><p>Quick Tip!</p>
 
-<h2 id="the-project">The Project</h2>
+<p>Let’s say that you’re just like me.  You’ve been working on a web project: HTML, CSS, and maybe some JavaScript.  You’re done and you’re ready to show the world your project, so you want to get it built, compiled, minified, and put it somewhere.  But how?  <code class="highlighter-rouge">git subtree</code>.  I’ll show you.  One command.</p>
 
-<p>The goal was to use as many different modules as possible in order to test out the bundling power of webpack.  I was supposed to <a href="https://www.theodinproject.com/courses/javascript/lessons/restaurant-page">create a generic landing page for a restaurant</a>, and it had to have a tab-based navigation system.  <a href="https://assertnotmagic.com/odin-restaurant/">Here’s the site I came up with.</a>  (and the related <a href="https://github.com/rpalo/odin-restaurant">GitHub repo</a>)</p>
+<p><em>Also, did you see the cover image?  Subtree?  HA!</em></p>
 
-<p><img src="/img/odin-restaurant.png" alt="My Odin Project Restaurant" /></p>
+<p>Let’s assume you’ve got a project laid out like this:</p>
 
-<p>I didn’t do anything to make it look pretty on mobile, so if you’re reading on mobile, forgive me.</p>
-
-<h2 id="the-technique">The Technique</h2>
-
-<p>The technique I want to share is the one I used for the nav button click callback: I created a closure!  Let me back up.  I’ve got three buttons.  The HTML ends up looking something like this:</p>
-
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"tabs"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"tabs__link active"</span> <span class="na">data-target=</span><span class="s">"About"</span><span class="nt">&gt;</span>About<span class="nt">&lt;/button&gt;</span>
-  <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"tabs__link"</span> <span class="na">data-target=</span><span class="s">"Menu"</span><span class="nt">&gt;</span>Menu<span class="nt">&lt;/button&gt;</span>
-  <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"tabs__link"</span> <span class="na">data-target=</span><span class="s">"Contact"</span><span class="nt">&gt;</span>Contact<span class="nt">&lt;/button&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>my-dope-project
+|- README.md
+|- src
+|   |- index.html
+|   |- css
+|       |- styles.sass
+|   |- js
+|       |- main.js
+|       |- helper.js
+|- dist
+|- webpack.config.js
+|- package.json
+|- .gitignore
+|- node_modules
+    |- OMG so much stuff
 </code></pre>
 </div>
 
-<p>I then have a bunch of <code class="highlighter-rouge">&lt;div class="tabcontent"&gt;</code>’s that contain the content of the tabs.  Every one but the active one has <code class="highlighter-rouge">display: hidden</code>, so only the active one will show up.</p>
+<p>Or something.  I don’t know your life.  So you build your site with a <code class="highlighter-rouge">npm run build</code>.  Now your <code class="highlighter-rouge">dist</code> directory is full of your beautiful bundled new site.  So how do you put it up somewhere?</p>
 
-<p>Of course, the assignment specifically asked me to generate these buttons in JavaScript, so it ends up looking more like this:</p>
+<h2 id="1-make-sure-the-dist-folder-is-actually-checked-into-your-repo">1. Make sure the dist folder is actually checked into your repo.</h2>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// Don't worry about openTab now.</span>
-<span class="c1">// We'll talk about it in a minute.</span>
-<span class="kr">import</span> <span class="nx">openTab</span> <span class="nx">from</span> <span class="s1">'./openTab'</span><span class="p">;</span>
+<p>Get it out of your <code class="highlighter-rouge">.gitignore</code> and <code class="highlighter-rouge">add/commit/push</code> it.</p>
 
-<span class="kr">const</span> <span class="nx">loadNav</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">tabHolder</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'.tabs'</span><span class="p">);</span>
-  <span class="kr">const</span> <span class="nx">tabs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'About'</span><span class="p">,</span> <span class="s1">'Menu'</span><span class="p">,</span> <span class="s1">'Contact'</span><span class="p">];</span>
-  <span class="nx">tabs</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">tabName</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="nx">button</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">'button'</span><span class="p">);</span>
-    <span class="nx">button</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'tabs__link'</span><span class="p">);</span>
-    <span class="nx">button</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">target</span> <span class="o">=</span> <span class="nx">tabName</span><span class="p">;</span>
-    <span class="nx">button</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="nx">openTab</span><span class="p">(</span><span class="nx">tabName</span><span class="p">));</span>
-    <span class="nx">button</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">tabName</span><span class="p">;</span>
-    <span class="nx">tabHolder</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">button</span><span class="p">);</span>
-  <span class="p">});</span>
-<span class="p">};</span>
+<h2 id="2-use-the-subtree-luke-andor-leia">2. Use the Subtree, Luke (and/or Leia).</h2>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git subtree push --prefix dist origin gh-pages
 </code></pre>
 </div>
 
-<p>But here’s where the magic happens.  I’ll show you the code for <code class="highlighter-rouge">openTab</code>, and then I’ll talk about what’s so special about it.</p>
+<p>Here, <code class="highlighter-rouge">dist</code> is the directory subtree you want to publish.  <code class="highlighter-rouge">origin</code> is the remote repo you’re pushing to.  <code class="highlighter-rouge">gh-pages</code> is the name of the remote branch you want to push to.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">openTab</span> <span class="o">=</span> <span class="nx">tabName</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="nx">tabContent</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">'.tabcontent'</span><span class="p">);</span>
-    <span class="nx">tabContent</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">tab</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="nx">tab</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">"none"</span><span class="p">;</span>
-    <span class="p">});</span>
-    
-    <span class="kr">const</span> <span class="nx">tabLinks</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">'.tabs__link'</span><span class="p">);</span>
-    <span class="nx">tabLinks</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">link</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="nx">link</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">'active'</span><span class="p">);</span>
-    <span class="p">});</span>
-    
-    <span class="kr">const</span> <span class="nx">activeTab</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="err">`</span><span class="p">[</span><span class="nx">data</span><span class="o">-</span><span class="nx">page</span><span class="o">=</span><span class="s2">"${tabName}"</span><span class="p">]</span><span class="err">`</span><span class="p">);</span>
-    <span class="nx">activeTab</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">"block"</span><span class="p">;</span>
-    <span class="nx">e</span><span class="p">.</span><span class="nx">currentTarget</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'active'</span><span class="p">);</span>
-  <span class="p">};</span>
-<span class="p">};</span>
+<p>Then go to your GitHub and into your repo settings.</p>
 
-<span class="kr">export</span> <span class="k">default</span> <span class="nx">openTab</span><span class="p">;</span>
-</code></pre>
-</div>
+<p><img src="/img/gh-pages-settings.png" alt="GitHub Pages Settings" /></p>
 
-<h3 id="so-whats-going-on-here">So What’s Going On Here?</h3>
+<p>Set the branch that you created to be the public branch.  And that’s it!  Head to <code class="highlighter-rouge">&lt;your-username&gt;.github.io/&lt;repo-name&gt;</code> and do your happy dance!</p>
 
-<p>Usually, when you pass a callback function to an event listener, you do it without parenthesis, like this: <code class="highlighter-rouge">button.addEventListener('click', doTheThing)</code>.  This is because you’re not calling the function as you’re creating the event listener, you’re passing the function object to be called later.  However, have you ever wanted to pass additional information to a callback?  Usually when you have a callback function for event listeners, they only take the event as an argument:</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">doTheThing</span> <span class="o">=</span> <span class="nx">e</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="c1">// stuff</span>
-<span class="p">};</span>
-</code></pre>
-</div>
-
-<p>However, what if you want it to have additional information?</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">doTheThing</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">myColor</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myColor</span><span class="p">);</span>
-<span class="p">};</span>
-</code></pre>
-</div>
-
-<p>In my case, I wanted to write one callback function that would work for all three nav buttons, even though their functionality would each be a little different, based on which tab they were trying to act on.  So I needed something like this:</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">openTab</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">tabName</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="c1">// The stuff</span>
-<span class="p">};</span>
-</code></pre>
-</div>
-
-<p>BUT, if you try this, JavaScript gets grumpy.  So what can we do?  One solution is to create a closure at the time that you add the event listener.</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">openTab</span> <span class="o">=</span> <span class="nx">tabName</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">e</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="c1">// Things in here have access to tabName *and* e</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre>
-</div>
-
-<p>When you use it like this:</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">button</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="nx">openTab</span><span class="p">(</span><span class="nx">tabName</span><span class="p">));</span>
-</code></pre>
-</div>
-
-<p>the <code class="highlighter-rouge">openTab</code> function gets <em>immediately</em> evaluated, and the new, anonymous function is given as the callback.  It’s the same as writing:</p>
-
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">button</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="nx">e</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">tabName</span> <span class="o">+</span> <span class="s2">"Haha!"</span><span class="p">);</span>
-<span class="p">});</span>
-</code></pre>
-</div>
-
-<p>Thanks to our friend the closure, the anonymous function placed after the event listener retains access to the <code class="highlighter-rouge">tabName</code> variable, even though the function was called long before the event ever fires.  If you’re not exactly sure what a closure is, definitely take a look at <a href="https://assertnotmagic.com/2018/02/10/closure-i-hardly-know-her/">my post on closures</a>.  The benefit is that you can pull the <code class="highlighter-rouge">openTab</code> logic out into its own function and your <code class="highlighter-rouge">addEventListener</code> call ends up looking a lot cleaner.</p>
-
-<p>So, the next time you want your callback functions to have more information than just the event passed in, consider using a closure to DRY things up.</p>
-
-<h2 id="delirium-disclaimer">Delirium Disclaimer</h2>
-
-<p>As I was writing this post, I noticed a lot of things I should change and fix in my original code (variable name consistencies, CSS class name consistencies, etc.).  I also noticed that I probably could have left out the <code class="highlighter-rouge">tabName</code> variable completely and gotten away with getting everything that I needed from the <code class="highlighter-rouge">event</code> that got passed into the function.  The whole closure thing may have been unnecessary.</p>
-
-<p>I’m going to go ahead and blame this on the fact that by the time I got to this part of the code, I was delirious from all of the things I was doing and new things I was learning.  Now that I’ve had some sleep, past-me’s code is making me cringe a little bit.  Sorry!</p>
-
-<p>That being said, this is one of my first real stabs at modern JavaScript.  So if you see ways that I could improve my code or do something more idiomatically, I’d love to get your feedback.  Definitely share your wisdom!</p>
+<p>I know that there’s about a thousand ways you could skin this particular cat and they all have their pro’s and con’s.  I just really wanted to share this particular approach because I thought it was neat.  Happy coding!</p>
 </p>
   
 
@@ -221,6 +138,11 @@
         </li>
         
           <li>
+            <span class="post-meta">Mar 1, 2018</span><br/>
+            <a class="post-link" href="/2018/03/01/closures-and-callbacks/">Closures and Callbacks</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Feb 19, 2018</span><br/>
             <a class="post-link" href="/2018/02/19/getting-things-done/">Getting Things Done - A Programmer Productivity Guide</a>
           </li>
@@ -228,11 +150,6 @@
           <li>
             <span class="post-meta">Feb 15, 2018</span><br/>
             <a class="post-link" href="/2018/02/15/lucky-numbers-and-science/">Lucky Numbers and Science</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Feb 10, 2018</span><br/>
-            <a class="post-link" href="/2018/02/10/closure-i-hardly-know-her/">Closure? I Hardly Know Her!</a>
           </li>
         
       </ul>
@@ -269,7 +186,7 @@
         
         <a href="/tags/soft-skills/" style="font-size: 22px">soft-skills | </a>
         
-        <a href="/tags/tricks/" style="font-size: 32px">tricks | </a>
+        <a href="/tags/tricks/" style="font-size: 34px">tricks | </a>
         
         <a href="/tags/vscode/" style="font-size: 14px">vscode | </a>
         
@@ -289,7 +206,7 @@
         
         <a href="/tags/jekyll/" style="font-size: 16px">jekyll | </a>
         
-        <a href="/tags/git/" style="font-size: 18px">git | </a>
+        <a href="/tags/git/" style="font-size: 20px">git | </a>
         
         <a href="/tags/physics/" style="font-size: 14px">physics | </a>
         

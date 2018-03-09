@@ -1,6 +1,15 @@
 const posts = [
     
     {
+        title: "Publish Single Directories to Another Branch",
+        url: "/2018/03/08/publish-directories-to-github-pages/",
+        cover: "/img/subtree.jpg",
+        tags: "git, tricks",
+        date: "March 08, 2018",
+        description: "I can&#39;t believe I didn&#39;t know about this command at all, but it helps me publish a javascript project&#39;s dist folder to GitHub Pages."
+    } ,
+    
+    {
         title: "Closures and Callbacks",
         url: "/2018/03/01/closures-and-callbacks/",
         cover: "/img/closure-callback.png",

@@ -6,9 +6,70 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 01 Mar 2018 18:04:04 -0800</pubDate>
-    <lastBuildDate>Thu, 01 Mar 2018 18:04:04 -0800</lastBuildDate>
+    <pubDate>Thu, 08 Mar 2018 19:54:32 -0800</pubDate>
+    <lastBuildDate>Thu, 08 Mar 2018 19:54:32 -0800</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Publish Single Directories to Another Branch</title>
+        <description>&lt;p&gt;Quick Tip!&lt;/p&gt;
+
+&lt;p&gt;Let’s say that you’re just like me.  You’ve been working on a web project: HTML, CSS, and maybe some JavaScript.  You’re done and you’re ready to show the world your project, so you want to get it built, compiled, minified, and put it somewhere.  But how?  &lt;code class=&quot;highlighter-rouge&quot;&gt;git subtree&lt;/code&gt;.  I’ll show you.  One command.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Also, did you see the cover image?  Subtree?  HA!&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s assume you’ve got a project laid out like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;my-dope-project
+|- README.md
+|- src
+|   |- index.html
+|   |- css
+|       |- styles.sass
+|   |- js
+|       |- main.js
+|       |- helper.js
+|- dist
+|- webpack.config.js
+|- package.json
+|- .gitignore
+|- node_modules
+    |- OMG so much stuff
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Or something.  I don’t know your life.  So you build your site with a &lt;code class=&quot;highlighter-rouge&quot;&gt;npm run build&lt;/code&gt;.  Now your &lt;code class=&quot;highlighter-rouge&quot;&gt;dist&lt;/code&gt; directory is full of your beautiful bundled new site.  So how do you put it up somewhere?&lt;/p&gt;
+
+&lt;h2 id=&quot;1-make-sure-the-dist-folder-is-actually-checked-into-your-repo&quot;&gt;1. Make sure the dist folder is actually checked into your repo.&lt;/h2&gt;
+
+&lt;p&gt;Get it out of your &lt;code class=&quot;highlighter-rouge&quot;&gt;.gitignore&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;add/commit/push&lt;/code&gt; it.&lt;/p&gt;
+
+&lt;h2 id=&quot;2-use-the-subtree-luke-andor-leia&quot;&gt;2. Use the Subtree, Luke (and/or Leia).&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git subtree push --prefix dist origin gh-pages
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Here, &lt;code class=&quot;highlighter-rouge&quot;&gt;dist&lt;/code&gt; is the directory subtree you want to publish.  &lt;code class=&quot;highlighter-rouge&quot;&gt;origin&lt;/code&gt; is the remote repo you’re pushing to.  &lt;code class=&quot;highlighter-rouge&quot;&gt;gh-pages&lt;/code&gt; is the name of the remote branch you want to push to.&lt;/p&gt;
+
+&lt;p&gt;Then go to your GitHub and into your repo settings.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/gh-pages-settings.png&quot; alt=&quot;GitHub Pages Settings&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Set the branch that you created to be the public branch.  And that’s it!  Head to &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;your-username&amp;gt;.github.io/&amp;lt;repo-name&amp;gt;&lt;/code&gt; and do your happy dance!&lt;/p&gt;
+
+&lt;p&gt;I know that there’s about a thousand ways you could skin this particular cat and they all have their pro’s and con’s.  I just really wanted to share this particular approach because I thought it was neat.  Happy coding!&lt;/p&gt;
+</description>
+        <pubDate>Thu, 08 Mar 2018 00:00:00 -0800</pubDate>
+        <link>https://assertnotmagic.com/2018/03/08/publish-directories-to-github-pages/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/03/08/publish-directories-to-github-pages/</guid>
+        
+        <category>git</category>
+        
+        <category>tricks</category>
+        
+        
+      </item>
     
       <item>
         <title>Closures and Callbacks</title>
@@ -1604,155 +1665,6 @@ for _ in range(1000):
         <category>focus</category>
         
         <category>productivity</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Search Your Site via the Omnibar (Even Static Sites)</title>
-        <description>&lt;p&gt;A little while ago, &lt;a href=&quot;https://dev.to/twhite&quot;&gt;Tiffany White&lt;/a&gt; posted an update on &lt;a href=&quot;https://dev.to&quot;&gt;Dev.to&lt;/a&gt;, documenting a new feature: Chrome Omnibar search.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/omnibar-in-action.gif&quot; alt=&quot;Searching with the omnibar&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;It’s one of those features that I take for granted on so many of the popular sites that I use, not considering the fact that I could actually have that feature on my own site!  So I looked into how to implement it, and I wanted to share what I found with everybody else.  Part of the point of this post is that I cobbled my suggestion together from a bunch of different search results I found, so if I missed something important, let me know and I’ll add it to the guide (and update how I did it on my blog).&lt;/p&gt;
-
-&lt;h2 id=&quot;part-1-opensearch&quot;&gt;Part 1: OpenSearch&lt;/h2&gt;
-
-&lt;p&gt;The first (and almost only) thing you’ll need is to add a &lt;code class=&quot;highlighter-rouge&quot;&gt;/opensearch.xml&lt;/code&gt; file (in the root of your website) with the contents below.  I’m using my blog in the links below.  You’ll probably want to change things to match your site, unless you really like me and want to forward your search traffic to me.&lt;/p&gt;
-
-&lt;div class=&quot;language-xml highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;OpenSearchDescription&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;xmlns=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://a9.com/-/spec/opensearch/1.1/&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;xmlns:moz=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://mozilla.org/2006/browser/search/&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span class=&quot;nt&quot;&gt;&amp;lt;ShortName&amp;gt;&lt;/span&gt;Assert_Not Magic&lt;span class=&quot;nt&quot;&gt;&amp;lt;/ShortName&amp;gt;&lt;/span&gt;
-  	&lt;span class=&quot;nt&quot;&gt;&amp;lt;Description&amp;gt;&lt;/span&gt;Search blog posts on assert_not magic&lt;span class=&quot;nt&quot;&gt;&amp;lt;/Description&amp;gt;&lt;/span&gt;
-  	&lt;span class=&quot;nt&quot;&gt;&amp;lt;InputEncoding&amp;gt;&lt;/span&gt;UTF-8&lt;span class=&quot;nt&quot;&gt;&amp;lt;/InputEncoding&amp;gt;&lt;/span&gt;
-  	&lt;span class=&quot;nt&quot;&gt;&amp;lt;Image&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;16&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;16&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image/png&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;https://assertnotmagic.com/favicon-16x16.png&lt;span class=&quot;nt&quot;&gt;&amp;lt;/Image&amp;gt;&lt;/span&gt;
-  	&lt;span class=&quot;nt&quot;&gt;&amp;lt;Url&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/html&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;method=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;get&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;template=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://assertnotmagic.com/posts/?q={searchTerms}&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-  	&lt;span class=&quot;nt&quot;&gt;&amp;lt;Url&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;application/opensearchdescription+xml&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;self&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;template=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://assertnotmagic.com/opensearch.xml&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
-  	&lt;span class=&quot;nt&quot;&gt;&amp;lt;SearchForm&amp;gt;&lt;/span&gt;https://assertnotmagic.com/posts/&lt;span class=&quot;nt&quot;&gt;&amp;lt;/SearchForm&amp;gt;&lt;/span&gt;
-  	&lt;span class=&quot;nt&quot;&gt;&amp;lt;moz:SearchForm&amp;gt;&lt;/span&gt;https://assertnotmagic.com/posts/&lt;span class=&quot;nt&quot;&gt;&amp;lt;/moz:SearchForm&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/OpenSearchDescription&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;A quick description of each item:&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;ShortName&lt;/strong&gt;: A short name for you (and the browser) to refer to your search engine by (&amp;lt; 16 characters).&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Description&lt;/strong&gt;: A longer description (&amp;lt; 1024 characters).&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;InputEncoding&lt;/strong&gt;: The encoding of characters to expect.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Image&lt;/strong&gt;: The absolute path to (or Base64 data representation of) an icon of your choosing to show up next to search bars in some clients (see the image below).  Make sure the &lt;code class=&quot;highlighter-rouge&quot;&gt;type&lt;/code&gt; matches the filetype of your image (whether it’s &lt;code class=&quot;highlighter-rouge&quot;&gt;.png, .jpg, or .ico&lt;/code&gt;).&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Url&lt;/strong&gt;: This is the URL that gets pinged when the user completes their search.  Note that it uses a “magical” {searchTerms}.  It will fill in the URL with whatever the user types.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Url (The second one)&lt;/strong&gt;: You can include this and some browsers will automatically update themselves &lt;del&gt;if&lt;/del&gt; WHEN you make changes to your &lt;code class=&quot;highlighter-rouge&quot;&gt;opensearch.xml&lt;/code&gt;.  More on that in a second.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;SearchForm/moz:SearchForm&lt;/strong&gt;: Tags that hold a link to your search page.  I believe this is so that if your user gets frustrated with the Omnibar, they can say “BAH.  Just take me to their search page and I’ll do it there.”&lt;/p&gt;
-
-&lt;p&gt;The &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/OpenSearch&quot;&gt;Firefox OpenSearch documentation&lt;/a&gt; has some solid guidance to these terms, what is involved, and what is required, if you’re not satisfied with my explanation.  They also have help for if you want to use the Omni-bar to ping a JSON endpoint.&lt;/p&gt;
-
-&lt;h3 id=&quot;possible-gotcha-updating-during-development&quot;&gt;Possible Gotcha: Updating During Development&lt;/h3&gt;
-
-&lt;p&gt;While you’re getting setup, it’s possible that you’ll make a typo or a mistake somewhere.  And then you’ll wonder how you clear the @!#$ing cache so your browser reloads the new configuration.  For Chrome, you can right-click the Omnibar and select “Edit Search Engines”.  Find your bar in that menu and delete it to allow your browser to pull in your most recent update.  In theory, the auto-update URL above should save you from this, but this can be your backup nuclear option.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/omnibar-cache.png&quot; alt=&quot;How to clear the OpenSearch cache&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;part-2-link-tag&quot;&gt;Part 2: Link Tag&lt;/h2&gt;
-
-&lt;p&gt;Next, all you need to do is throw a &lt;code class=&quot;highlighter-rouge&quot;&gt;link&lt;/code&gt; tag into your &lt;code class=&quot;highlighter-rouge&quot;&gt;head&lt;/code&gt; section.  I think it’s enough to just have it on your homepage.  Someone correct me if that’s not true.&lt;/p&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- index.html --&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE HTML&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;lang=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- ... All the rest of your head tags --&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;search&quot;&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;application/opensearchdescription+xml&quot;&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;title=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Search assert_not magic&quot;&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/opensearch.xml&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- ... the rest of your site --&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;And you should be good to go!  If you’ve got your own back-end, you can process the &lt;code class=&quot;highlighter-rouge&quot;&gt;q={searchTerms}&lt;/code&gt; from the XML document above in the &lt;code class=&quot;highlighter-rouge&quot;&gt;GET&lt;/code&gt; request to your Search Results page.  But what if you don’t &lt;em&gt;have&lt;/em&gt; a back end?&lt;/p&gt;
-
-&lt;h2 id=&quot;bonus-part-static-sites&quot;&gt;Bonus Part: Static Sites&lt;/h2&gt;
-
-&lt;p&gt;No back end?  No worries!  I’ll show you how to make it work with your dynamic JavaScript search form.  In &lt;a href=&quot;https://assertnotmagic.com/2017/11/11/static-site-search-with-vue/&quot;&gt;a previous post&lt;/a&gt;, I walked through how I added search functionality to my static-ly generated blog.  I’m going to use the code from the end of that post as a starting point.  For those that are too lazy to click the link:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;el&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'#app'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;post_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;posts&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;computed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;filteredPosts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toLowerCase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;includes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toLowerCase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The trick that we’re going to pull is that as we’re creating the Vue-powered search component, we’re going to check our URL for parameters.  Place this before the above code.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;URLSearchParams&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;location&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;URLSearchParams&lt;/code&gt; are a handy dandy way to parse parameters (everything after the &lt;code class=&quot;highlighter-rouge&quot;&gt;?&lt;/code&gt;) in a url.  While browser support isn’t quite 100%, I’m going to assume that a) you have transpilation figured out, b) you know &lt;a href=&quot;https://twitter.com/paytastic&quot;&gt;how to @ me&lt;/a&gt;, and I’ll help you out.&lt;/p&gt;
-
-&lt;p&gt;Now that we have our parameters (if they exist), let’s use them to have our search component pre-load the searched items.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;URLSearchParams&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;location&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Vue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;el&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'#app'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;has&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'q'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'q'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// &amp;lt;- This is the key part&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;post_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;posts&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;computed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;filteredPosts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toLowerCase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;includes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toLowerCase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;If our URL has a &lt;code class=&quot;highlighter-rouge&quot;&gt;q&lt;/code&gt; parameter (which it does if it’s coming from the Omni-bar search), we load that into the search box, which causes our search results to update.  Otherwise, we start with a blank search box and carry on as usual.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/omnibar-in-action.gif&quot; alt=&quot;Here's how it works on my site&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;And that’s it!  Like I said, if you know of any best practices for OpenSearch that I’m missing or ways that I can use it better/cooler, let me know and I’ll try to update the post.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Extra References:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://wynnnetherland.com/journal/enhance-your-site-search-with-opensearch/&quot;&gt;Enhance your site with opensearch - Wynn Netherland&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/OpenSearch&quot;&gt;Mozilla OpenSearch Docs&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.hanselman.com/blog/OnTheImportanceOfOpenSearch.aspx&quot;&gt;On the Importance of OpenSearch - Scott Hanselman&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Tue, 05 Dec 2017 00:00:00 -0800</pubDate>
-        <link>https://assertnotmagic.com/2017/12/05/search-your-site-via-omnibar-even-static-ones/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/12/05/search-your-site-via-omnibar-even-static-ones/</guid>
-        
-        <category>browser</category>
-        
-        <category>html</category>
-        
-        <category>javascript</category>
-        
-        <category>tutorial</category>
         
         
       </item>

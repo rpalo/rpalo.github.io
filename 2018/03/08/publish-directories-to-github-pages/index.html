@@ -7,18 +7,18 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="ROBOTS" content="INDEX,FOLLOW">
-        <meta name="description" content="Using Python with shell pipes for extra awesomeness">
-        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, python, tricks, bash">
+        <meta name="description" content="I can't believe I didn't know about this command at all, but it helps me publish a javascript project's dist folder to GitHub Pages.">
+        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, git, tricks">
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="assert_not magic? | Piping the Snek">
+        <meta name="twitter:title" content="assert_not magic? | Publish Single Directories to Another Branch">
         <meta name="twitter:site" content="@paytastic">
-        <meta name="twitter:description" content="Using Python with shell pipes for extra awesomeness">
-        <meta name="twitter:image" content="http://assertnotmagic.com/img/pipe-snek.webp">
+        <meta name="twitter:description" content="I can't believe I didn't know about this command at all, but it helps me publish a javascript project's dist folder to GitHub Pages.">
+        <meta name="twitter:image" content="http://assertnotmagic.com/img/subtree.jpg">
         <meta name="twitter:creator" content="@paytastic">
-        <meta name="og:url" content="http://assertnotmagic.com/2017/03/22/piping-the-snek/">
-        <meta name="og:title" content="assert_not magic? | Piping the Snek">
-        <meta name="og:description" content="Using Python with shell pipes for extra awesomeness">
-        <meta name="og:image" content="http://assertnotmagic.com/img/pipe-snek.webp">
+        <meta name="og:url" content="http://assertnotmagic.com/2018/03/08/publish-directories-to-github-pages/">
+        <meta name="og:title" content="assert_not magic? | Publish Single Directories to Another Branch">
+        <meta name="og:description" content="I can't believe I didn't know about this command at all, but it helps me publish a javascript project's dist folder to GitHub Pages.">
+        <meta name="og:image" content="http://assertnotmagic.com/img/subtree.jpg">
 
         <!-- Favicon settings -->
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -52,52 +52,64 @@
                 <article class="site-wrap">
     <div id="cover">
         
-        <img alt="Cover Image" class="cover-image" src="/img/pipe-snek.webp">
+        <img alt="Cover Image" class="cover-image" src="/img/subtree.jpg">
         
     </div>
-    <h1>Piping the Snek</h1>
-    <p>This is going to be just a quick one.  I discovered something the other day that I feel like I should have already known about, but it just made me so happy that I had to write it down.  Scenario: You are working in the command line.  You have a list of files you want to do some jimmy-jacking with.  A little string substitution here.  Adding/removing a file header.  It’s not too complicated, but it is just complicated enough that your standard bash commands start to fail you.  You (if you are like me) begin to slowly realize with dread that you will have to go get the big guns: awk, sed, and others.  Granted, it would probably make you a better person to have a confident control of those commands.  That being said, I do not.  I’m cool with <code class="highlighter-rouge">ls, cd, pwd</code>.  Me and <code class="highlighter-rouge">cat and echo</code> are buddies.  <code class="highlighter-rouge">Grep and find</code> come over for dinner once a month.  Beyond that, I need a couple (ten) tabs of documentation open to get much done.  Until now.</p>
+    <h1>Publish Single Directories to Another Branch</h1>
+    <p>Quick Tip!</p>
 
-<p>You probably know about piping if the previous paragraph made any sense to you.  A pipe looks like this: <code class="highlighter-rouge">|</code>.  A pipe is the way you can pass the output of one command to the input of another.  You can do useful things such as find all of the files in the current working directory with “cheese” in their name like this: <code class="highlighter-rouge">ls | grep cheese</code>.  Piping is the secret to really getting big things done.  And until a little while ago, piping and Python programs were seperate in my brain.  Then I found out <strong>you can pipe in and out of Python programs</strong>.  Consider the following:</p>
+<p>Let’s say that you’re just like me.  You’ve been working on a web project: HTML, CSS, and maybe some JavaScript.  You’re done and you’re ready to show the world your project, so you want to get it built, compiled, minified, and put it somewhere.  But how?  <code class="highlighter-rouge">git subtree</code>.  I’ll show you.  One command.</p>
 
-<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># flip.py</span>
+<p><em>Also, did you see the cover image?  Subtree?  HA!</em></p>
 
-<span class="kn">import</span> <span class="nn">sys</span>
+<p>Let’s assume you’ve got a project laid out like this:</p>
 
-<span class="k">def</span> <span class="nf">flip_word</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
-    <span class="s">"""Simply takes the input string and returns the reverse."""</span>
-    <span class="k">return</span> <span class="n">word</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>my-dope-project
+|- README.md
+|- src
+|   |- index.html
+|   |- css
+|       |- styles.sass
+|   |- js
+|       |- main.js
+|       |- helper.js
+|- dist
+|- webpack.config.js
+|- package.json
+|- .gitignore
+|- node_modules
+    |- OMG so much stuff
+</code></pre>
+</div>
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span> <span class="c"># sys provides stdin that is a readable file-like object</span>
-        <span class="n">word</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="c"># Each line from stdin comes with a hidden newline</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">flip_word</span><span class="p">(</span><span class="n">word</span><span class="p">)</span><span class="o">+</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span> <span class="c"># stdout does not add a newline like print does</span></code></pre></figure>
+<p>Or something.  I don’t know your life.  So you build your site with a <code class="highlighter-rouge">npm run build</code>.  Now your <code class="highlighter-rouge">dist</code> directory is full of your beautiful bundled new site.  So how do you put it up somewhere?</p>
 
-<p>Imagine for a moment that you have a file named foods.txt that contains:</p>
+<h2 id="1-make-sure-the-dist-folder-is-actually-checked-into-your-repo">1. Make sure the dist folder is actually checked into your repo.</h2>
 
-<figure class="highlight"><pre><code class="language-text" data-lang="text">cheese
-soup
-steak
-sushi
-meatballs
-more sushi</code></pre></figure>
+<p>Get it out of your <code class="highlighter-rouge">.gitignore</code> and <code class="highlighter-rouge">add/commit/push</code> it.</p>
 
-<p>You could then do the following:</p>
+<h2 id="2-use-the-subtree-luke-andor-leia">2. Use the Subtree, Luke (and/or Leia).</h2>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>cat foods.txt | python flip.py | grep ihsus
-ihsus
-ihsus erom</code></pre></figure>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git subtree push --prefix dist origin gh-pages
+</code></pre>
+</div>
 
-<p>And thus, if you get stuck in bash, just bang out a quick Python program and pipe to it.</p>
+<p>Here, <code class="highlighter-rouge">dist</code> is the directory subtree you want to publish.  <code class="highlighter-rouge">origin</code> is the remote repo you’re pushing to.  <code class="highlighter-rouge">gh-pages</code> is the name of the remote branch you want to push to.</p>
+
+<p>Then go to your GitHub and into your repo settings.</p>
+
+<p><img src="/img/gh-pages-settings.png" alt="GitHub Pages Settings" /></p>
+
+<p>Set the branch that you created to be the public branch.  And that’s it!  Head to <code class="highlighter-rouge">&lt;your-username&gt;.github.io/&lt;repo-name&gt;</code> and do your happy dance!</p>
+
+<p>I know that there’s about a thousand ways you could skin this particular cat and they all have their pro’s and con’s.  I just really wanted to share this particular approach because I thought it was neat.  Happy coding!</p>
 
     <small>
         Author: Ryan Palo | Tags: 
         
-        <a href="/tags/python/">python</a>
+        <a href="/tags/git/">git</a>
         
         <a href="/tags/tricks/">tricks</a>
-        
-        <a href="/tags/bash/">bash</a>
         
     </small>
 
