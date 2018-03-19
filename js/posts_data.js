@@ -1,6 +1,15 @@
 const posts = [
     
     {
+        title: "Vim Filters",
+        url: "/2018/03/18/vim-filters/",
+        cover: "/img/filter.jpg",
+        tags: "vim, tricks",
+        date: "March 18, 2018",
+        description: "A quick Vim tip to run an external command on a file."
+    } ,
+    
+    {
         title: "Publish Single Directories to Another Branch",
         url: "/2018/03/08/publish-directories-to-github-pages/",
         cover: "/img/subtree.jpg",
@@ -148,7 +157,7 @@ const posts = [
         title: "Accelerated Vim-Provement",
         url: "/2017/10/25/accelerated-vimprovement/",
         cover: "/img/hjkl.jpg",
-        tags: "vim, editor, encouragement",
+        tags: "vim, editors, encouragement",
         date: "October 25, 2017",
         description: "A quick tip to help pick up Vim faster by freeing yourself of crutches"
     } ,
@@ -490,7 +499,7 @@ const posts = [
         title: "Assert Not Magic",
         url: "/2017/01/18/assert-not-magic/",
         cover: "/img/logo.png",
-        tags: "not_magic, soft-skills",
+        tags: "not-magic, soft-skills",
         date: "January 18, 2017",
         description: "Programming isn&#39;t magic.  It&#39;s logical, learnable, and you can do it too."
     } ,

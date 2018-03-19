@@ -72,55 +72,79 @@
 
   <!-- Current Post -->
   
-    <h1 id="title">Publish Single Directories to Another Branch</h1>
-    <small>Mar 8, 2018</small>
-    <p><p>Quick Tip!</p>
+    <h1 id="title">Vim Filters</h1>
+    <small>Mar 18, 2018</small>
+    <p><p>Quick tip time!  Let’s talk about Vim filters.  This is a way to execute any external command and pipe the results into your current buffer.  This is a great way to get the power of your shell into vim without having to learn much VimScript.  Here are the basics:</p>
 
-<p>Let’s say that you’re just like me.  You’ve been working on a web project: HTML, CSS, and maybe some JavaScript.  You’re done and you’re ready to show the world your project, so you want to get it built, compiled, minified, and put it somewhere.  But how?  <code class="highlighter-rouge">git subtree</code>.  I’ll show you.  One command.</p>
+<h2 id="reading-command-input-into-the-current-buffer">Reading command input into the current buffer</h2>
 
-<p><em>Also, did you see the cover image?  Subtree?  HA!</em></p>
+<p>This is the simplest method:</p>
 
-<p>Let’s assume you’ve got a project laid out like this:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>my-dope-project
-|- README.md
-|- src
-|   |- index.html
-|   |- css
-|       |- styles.sass
-|   |- js
-|       |- main.js
-|       |- helper.js
-|- dist
-|- webpack.config.js
-|- package.json
-|- .gitignore
-|- node_modules
-    |- OMG so much stuff
+<div class="language-vimscript highlighter-rouge"><pre class="highlight"><code><span class="p">:</span><span class="k">r</span> <span class="p">!</span><span class="k">ls</span>
 </code></pre>
 </div>
 
-<p>Or something.  I don’t know your life.  So you build your site with a <code class="highlighter-rouge">npm run build</code>.  Now your <code class="highlighter-rouge">dist</code> directory is full of your beautiful bundled new site.  So how do you put it up somewhere?</p>
+<p>This command will read the results of <code class="highlighter-rouge">ls</code> into your buffer at your cursor location.  You can also specify the specific line to insert after.  The next command will read the results of the <code class="highlighter-rouge">ls</code> command into your current buffer after line 4.</p>
 
-<h2 id="1-make-sure-the-dist-folder-is-actually-checked-into-your-repo">1. Make sure the dist folder is actually checked into your repo.</h2>
-
-<p>Get it out of your <code class="highlighter-rouge">.gitignore</code> and <code class="highlighter-rouge">add/commit/push</code> it.</p>
-
-<h2 id="2-use-the-subtree-luke-andor-leia">2. Use the Subtree, Luke (and/or Leia).</h2>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git subtree push --prefix dist origin gh-pages
+<div class="language-vimscript highlighter-rouge"><pre class="highlight"><code><span class="p">:</span><span class="m">4</span><span class="k">r</span> <span class="p">!</span><span class="k">ls</span>
 </code></pre>
 </div>
 
-<p>Here, <code class="highlighter-rouge">dist</code> is the directory subtree you want to publish.  <code class="highlighter-rouge">origin</code> is the remote repo you’re pushing to.  <code class="highlighter-rouge">gh-pages</code> is the name of the remote branch you want to push to.</p>
+<h2 id="sending-buffer-contents-as-input-to-an-external-command">Sending buffer contents as input to an external command</h2>
 
-<p>Then go to your GitHub and into your repo settings.</p>
+<p>You can also send lines of your buffer out to be replaced with the results of the command.  A common thing to do is to operate on the whole buffer you’re working on.</p>
 
-<p><img src="/img/gh-pages-settings.png" alt="GitHub Pages Settings" /></p>
+<div class="language-vimscript highlighter-rouge"><pre class="highlight"><code><span class="p">:</span>%<span class="p">!</span><span class="k">sort</span>
+</code></pre>
+</div>
 
-<p>Set the branch that you created to be the public branch.  And that’s it!  Head to <code class="highlighter-rouge">&lt;your-username&gt;.github.io/&lt;repo-name&gt;</code> and do your happy dance!</p>
+<p>The <code class="highlighter-rouge">%</code> selects the whole buffer, and then the <code class="highlighter-rouge">!</code> sends the selected lines out to the external <code class="highlighter-rouge">sort</code> command.  The whole buffer contents will be replaced with the results of the command.</p>
 
-<p>I know that there’s about a thousand ways you could skin this particular cat and they all have their pro’s and con’s.  I just really wanted to share this particular approach because I thought it was neat.  Happy coding!</p>
+<p>For example.  Let’s say you’re working on a text file.</p>
+
+<div class="language-markdown highlighter-rouge"><pre class="highlight"><code><span class="gh"># Attention, Everyone!</span>
+
+This markdown file contains some <span class="gs">**pretty interesting**</span> stuff.
+
+I __mean__ it.
+</code></pre>
+</div>
+
+<p>But something’s just not quite there.  It needs some more zoom – some more whammy!  Try combining it with a <a href="https://assertnotmagic.com/2017/10/05/smooth-one-liners/">slick Ruby one liner!</a></p>
+
+<div class="language-vimscript highlighter-rouge"><pre class="highlight"><code><span class="p">:</span>%<span class="p">!</span><span class="k">ruby</span> <span class="p">-</span><span class="k">ne</span> <span class="s1">'puts $_.upcase'</span>
+</code></pre>
+</div>
+
+<p>And suddenly, the contents of your buffer is:</p>
+
+<div class="language-markdown highlighter-rouge"><pre class="highlight"><code><span class="gh"># ATTENTION, EVERYONE</span>
+
+THIS MARKDOWN FILE CONTAINS SOME <span class="gs">**PRETTY INTERESTING**</span> STUFF.
+
+I __MEAN__ IT.
+</code></pre>
+</div>
+
+<p>This will work with any command.  You can use shell commands, or you can run it through a Python or Node script.  It gives you the power to select the best (or your favorite) tool for the job, instead of locking you into Vim’s capabilities alone.  And you can use other motions if you just want to replace a portion of your buffer.</p>
+
+<div class="language-vimscript highlighter-rouge"><pre class="highlight"><code><span class="p">:!!</span><span class="k">ruby</span> <span class="p">-</span><span class="k">ne</span> <span class="s1">'puts $_.upcase'</span>
+</code></pre>
+</div>
+
+<p>Two exclamation points will operate on the current line.</p>
+
+<p>It also works on visually selected lines.  Select a couple lines in visual mode:</p>
+
+<div class="language-vimscript highlighter-rouge"><pre class="highlight"><code><span class="k">v</span>         " Visual <span class="k">mode</span> activated
+jj        " Select next two lines
+<span class="p">:!</span><span class="k">sort</span>    " Sorts the lines that were selected<span class="p">.</span>
+</code></pre>
+</div>
+
+<p><em>Protip: If you accidentally run a command and blow away your file somehow, don’t panic.  Simply press <code class="highlighter-rouge">u</code> in Normal mode to undo the operation.</em></p>
+
+<p>Hope this comes in handy!</p>
 </p>
   
 
@@ -138,6 +162,11 @@
         </li>
         
           <li>
+            <span class="post-meta">Mar 8, 2018</span><br/>
+            <a class="post-link" href="/2018/03/08/publish-directories-to-github-pages/">Publish Single Directories to Another Branch</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Mar 1, 2018</span><br/>
             <a class="post-link" href="/2018/03/01/closures-and-callbacks/">Closures and Callbacks</a>
           </li>
@@ -145,11 +174,6 @@
           <li>
             <span class="post-meta">Feb 19, 2018</span><br/>
             <a class="post-link" href="/2018/02/19/getting-things-done/">Getting Things Done - A Programmer Productivity Guide</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Feb 15, 2018</span><br/>
-            <a class="post-link" href="/2018/02/15/lucky-numbers-and-science/">Lucky Numbers and Science</a>
           </li>
         
       </ul>
@@ -170,7 +194,7 @@
         
         <a href="/tags/algorithms/" style="font-size: 22px">algorithms | </a>
         
-        <a href="/tags/editors/" style="font-size: 16px">editors | </a>
+        <a href="/tags/editors/" style="font-size: 18px">editors | </a>
         
         <a href="/tags/emacs/" style="font-size: 16px">emacs | </a>
         
@@ -182,15 +206,15 @@
         
         <a href="/tags/javascript/" style="font-size: 26px">javascript | </a>
         
-        <a href="/tags/not_magic/" style="font-size: 14px">not_magic | </a>
+        <a href="/tags/not-magic/" style="font-size: 16px">not-magic | </a>
         
         <a href="/tags/soft-skills/" style="font-size: 22px">soft-skills | </a>
         
-        <a href="/tags/tricks/" style="font-size: 34px">tricks | </a>
+        <a href="/tags/tricks/" style="font-size: 36px">tricks | </a>
         
         <a href="/tags/vscode/" style="font-size: 14px">vscode | </a>
         
-        <a href="/tags/vim/" style="font-size: 16px">vim | </a>
+        <a href="/tags/vim/" style="font-size: 18px">vim | </a>
         
         <a href="/tags/sublime/" style="font-size: 14px">sublime | </a>
         
@@ -252,8 +276,6 @@
         
         <a href="/tags/encouragement/" style="font-size: 18px">encouragement | </a>
         
-        <a href="/tags/not-magic/" style="font-size: 14px">not-magic | </a>
-        
         <a href="/tags/screencast/" style="font-size: 14px">screencast | </a>
         
         <a href="/tags/showdev/" style="font-size: 14px">showdev | </a>
@@ -261,8 +283,6 @@
         <a href="/tags/interview/" style="font-size: 14px">interview | </a>
         
         <a href="/tags/performance/" style="font-size: 16px">performance | </a>
-        
-        <a href="/tags/editor/" style="font-size: 14px">editor | </a>
         
         <a href="/tags/workflow/" style="font-size: 14px">workflow | </a>
         

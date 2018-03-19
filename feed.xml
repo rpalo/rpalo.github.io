@@ -6,9 +6,94 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 08 Mar 2018 19:54:32 -0800</pubDate>
-    <lastBuildDate>Thu, 08 Mar 2018 19:54:32 -0800</lastBuildDate>
+    <pubDate>Sun, 18 Mar 2018 19:28:03 -0700</pubDate>
+    <lastBuildDate>Sun, 18 Mar 2018 19:28:03 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Vim Filters</title>
+        <description>&lt;p&gt;Quick tip time!  Let’s talk about Vim filters.  This is a way to execute any external command and pipe the results into your current buffer.  This is a great way to get the power of your shell into vim without having to learn much VimScript.  Here are the basics:&lt;/p&gt;
+
+&lt;h2 id=&quot;reading-command-input-into-the-current-buffer&quot;&gt;Reading command input into the current buffer&lt;/h2&gt;
+
+&lt;p&gt;This is the simplest method:&lt;/p&gt;
+
+&lt;div class=&quot;language-vimscript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ls&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This command will read the results of &lt;code class=&quot;highlighter-rouge&quot;&gt;ls&lt;/code&gt; into your buffer at your cursor location.  You can also specify the specific line to insert after.  The next command will read the results of the &lt;code class=&quot;highlighter-rouge&quot;&gt;ls&lt;/code&gt; command into your current buffer after line 4.&lt;/p&gt;
+
+&lt;div class=&quot;language-vimscript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ls&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;sending-buffer-contents-as-input-to-an-external-command&quot;&gt;Sending buffer contents as input to an external command&lt;/h2&gt;
+
+&lt;p&gt;You can also send lines of your buffer out to be replaced with the results of the command.  A common thing to do is to operate on the whole buffer you’re working on.&lt;/p&gt;
+
+&lt;div class=&quot;language-vimscript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;%&lt;span class=&quot;p&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;sort&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;%&lt;/code&gt; selects the whole buffer, and then the &lt;code class=&quot;highlighter-rouge&quot;&gt;!&lt;/code&gt; sends the selected lines out to the external &lt;code class=&quot;highlighter-rouge&quot;&gt;sort&lt;/code&gt; command.  The whole buffer contents will be replaced with the results of the command.&lt;/p&gt;
+
+&lt;p&gt;For example.  Let’s say you’re working on a text file.&lt;/p&gt;
+
+&lt;div class=&quot;language-markdown highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gh&quot;&gt;# Attention, Everyone!&lt;/span&gt;
+
+This markdown file contains some &lt;span class=&quot;gs&quot;&gt;**pretty interesting**&lt;/span&gt; stuff.
+
+I __mean__ it.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;But something’s just not quite there.  It needs some more zoom – some more whammy!  Try combining it with a &lt;a href=&quot;https://assertnotmagic.com/2017/10/05/smooth-one-liners/&quot;&gt;slick Ruby one liner!&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-vimscript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;%&lt;span class=&quot;p&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ruby&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ne&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'puts $_.upcase'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;And suddenly, the contents of your buffer is:&lt;/p&gt;
+
+&lt;div class=&quot;language-markdown highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gh&quot;&gt;# ATTENTION, EVERYONE&lt;/span&gt;
+
+THIS MARKDOWN FILE CONTAINS SOME &lt;span class=&quot;gs&quot;&gt;**PRETTY INTERESTING**&lt;/span&gt; STUFF.
+
+I __MEAN__ IT.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This will work with any command.  You can use shell commands, or you can run it through a Python or Node script.  It gives you the power to select the best (or your favorite) tool for the job, instead of locking you into Vim’s capabilities alone.  And you can use other motions if you just want to replace a portion of your buffer.&lt;/p&gt;
+
+&lt;div class=&quot;language-vimscript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;:!!&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ruby&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;ne&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'puts $_.upcase'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Two exclamation points will operate on the current line.&lt;/p&gt;
+
+&lt;p&gt;It also works on visually selected lines.  Select a couple lines in visual mode:&lt;/p&gt;
+
+&lt;div class=&quot;language-vimscript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;v&lt;/span&gt;         &quot; Visual &lt;span class=&quot;k&quot;&gt;mode&lt;/span&gt; activated
+jj        &quot; Select next two lines
+&lt;span class=&quot;p&quot;&gt;:!&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;sort&lt;/span&gt;    &quot; Sorts the lines that were selected&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;Protip: If you accidentally run a command and blow away your file somehow, don’t panic.  Simply press &lt;code class=&quot;highlighter-rouge&quot;&gt;u&lt;/code&gt; in Normal mode to undo the operation.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Hope this comes in handy!&lt;/p&gt;
+</description>
+        <pubDate>Sun, 18 Mar 2018 00:00:00 -0700</pubDate>
+        <link>https://assertnotmagic.com/2018/03/18/vim-filters/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/03/18/vim-filters/</guid>
+        
+        <category>vim</category>
+        
+        <category>tricks</category>
+        
+        
+      </item>
     
       <item>
         <title>Publish Single Directories to Another Branch</title>
@@ -1581,90 +1666,6 @@ for _ in range(1000):
         <category>beginner</category>
         
         <category>tutorial</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Wishful Coding</title>
-        <description>&lt;p&gt;&lt;em&gt;Cover Image credit to &lt;a href=&quot;https://hatrabbits.com/author/rene/&quot;&gt;René de Ruijter&lt;/a&gt;, at least, as far as I can tell.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;I’ve been doing the &lt;a href=&quot;https://github.com/rpalo/advent-of-code-2017&quot;&gt;Advent of Code 2017&lt;/a&gt; challenge this Advent, and I noticed that as I’ve been working on some of the harder challenges (number spirals, amirite?) I’ve started doing something that seems to really help me stay locked in to the problem.  It’s definitely not something groundbreaking, but I figured that I’d share it, in case it helps somebody else.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-problem-short-attention-spans-and-&quot;&gt;The Problem: Short Attention Spans and –&lt;/h2&gt;
-
-&lt;p&gt;Stop me if this scenario seems like a personal attack:&lt;/p&gt;
-
-&lt;p&gt;You’ve just been handed a problem/assignment.  You know where you need to start, but as you begin to type the first outlines of your code, one of the things you need to do next pops into your head.  You quickly jump over and create a new file for that and try to get a brief sketch down so you won’t forget later.  As you’re doing that, you realize that the new thing that you’re adding will need a test case, so you hop over and “just real quick” jot down the test case for what you were working on.  You run your tests to make sure everything’s failing as expected, but you forgot to configure your tests and the output is all ugly and who could continue to work in that kind of environment?  You’re not a &lt;em&gt;barbarian&lt;/em&gt; after all!  And then two hours later… wait a minute, what was I originally working on?&lt;/p&gt;
-
-&lt;p&gt;Some of the solution is just self-discipline – forcing yourself to finish what you’re working on before you start the next thing.  However, one place I find these mental self-interruptions especially problematic is when I’m trying to solve a big problem and have to keep worrying about little parts of the solution.  This is where my tip can come in handy.&lt;/p&gt;
-
-&lt;h2 id=&quot;one-solution-use-methods-you-wish-you-had&quot;&gt;One Solution: Use Methods You &lt;em&gt;Wish&lt;/em&gt; You Had&lt;/h2&gt;
-
-&lt;p&gt;This is probably best described with an example.&lt;/p&gt;
-
-&lt;p&gt;Let’s say you’re writing a script that controls an automatic treat dispenser for your dog.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/wishful-willy.jpg&quot; alt=&quot;My dog Willy&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;This is Willy.  He’s a very good boy.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;On your first pass through the code, you might write something like this.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dogs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;dogs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Pause here&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Now you might think to yourself, &lt;em&gt;“Shoot!  Now I need to figure out when these dogs should get treats!”&lt;/em&gt;  And just like that, your train of thought for the rest of the high-level function is gone.&lt;/p&gt;
-
-&lt;p&gt;Here’s my solution.&lt;/p&gt;
-
-&lt;p&gt;I propose that you confidently carry on like nothing is wrong, and use the methods that you hope Future-You will write.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dogs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;dogs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;good_boy?&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;dog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;pat!&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;give_treat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;vi&quot;&gt;@treats&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;em&gt;“But Ryan!  We haven’t written methods like &lt;code class=&quot;highlighter-rouge&quot;&gt;good_boy?&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;pat!&lt;/code&gt;,  or &lt;code class=&quot;highlighter-rouge&quot;&gt;give_treat&lt;/code&gt; yet.”&lt;/em&gt;  EXACTLY.  That’s a problem for Future-Us.  The important thing now is to keep you in that flow state and make sure you get your whole thought on the screen before you forget what you’re supposed to be doing.  We’ll come back and fill in the cracks later.&lt;/p&gt;
-
-&lt;p&gt;(For those of you that are really concerned, here’s how &lt;code class=&quot;highlighter-rouge&quot;&gt;good_boy?&lt;/code&gt; is implemented):&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Dog&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;# ...&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;good_boy?&lt;/span&gt;
-    &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;😬&lt;/p&gt;
-
-&lt;h2 id=&quot;wrap-up&quot;&gt;Wrap Up&lt;/h2&gt;
-
-&lt;p&gt;So that’s the tip!  Write the code, and when you come to a section  that seems like it might bog you down &lt;strong&gt;even a little bit&lt;/strong&gt;, just pretend you already have a method for that.  A secondary benefit of this is that it helps you identify where good places to pull code into separate methods are.  You can always come back and clean things up after everything’s working a little better.&lt;/p&gt;
-
-&lt;p&gt;Got any other pro-tips for blocking out the distractions?  Let me know — I’d love to hear them!&lt;/p&gt;
-</description>
-        <pubDate>Wed, 13 Dec 2017 00:00:00 -0800</pubDate>
-        <link>https://assertnotmagic.com/2017/12/13/wishful-coding/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2017/12/13/wishful-coding/</guid>
-        
-        <category>tricks</category>
-        
-        <category>focus</category>
-        
-        <category>productivity</category>
         
         
       </item>
