@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -64,20 +65,19 @@
 
 <h2 id="part-1-opensearch">Part 1: OpenSearch</h2>
 
-<p>The first (and almost only) thing you’ll need is to add a <code class="highlighter-rouge">/opensearch.xml</code> file (in the root of your website) with the contents below.  I’m using my blog in the links below.  You’ll probably want to change things to match your site, unless you really like me and want to forward your search traffic to me.</p>
+<p>The first (and almost only) thing you’ll need is to add a <code>/opensearch.xml</code> file (in the root of your website) with the contents below.  I’m using my blog in the links below.  You’ll probably want to change things to match your site, unless you really like me and want to forward your search traffic to me.</p>
 
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;OpenSearchDescription</span> <span class="na">xmlns=</span><span class="s">"http://a9.com/-/spec/opensearch/1.1/"</span> <span class="na">xmlns:moz=</span><span class="s">"http://mozilla.org/2006/browser/search/"</span><span class="nt">&gt;</span>
-	<span class="nt">&lt;ShortName&gt;</span>Assert_Not Magic<span class="nt">&lt;/ShortName&gt;</span>
-  	<span class="nt">&lt;Description&gt;</span>Search blog posts on assert_not magic<span class="nt">&lt;/Description&gt;</span>
-  	<span class="nt">&lt;InputEncoding&gt;</span>UTF-8<span class="nt">&lt;/InputEncoding&gt;</span>
-  	<span class="nt">&lt;Image</span> <span class="na">width=</span><span class="s">"16"</span> <span class="na">height=</span><span class="s">"16"</span> <span class="na">type=</span><span class="s">"image/png"</span><span class="nt">&gt;</span>https://assertnotmagic.com/favicon-16x16.png<span class="nt">&lt;/Image&gt;</span>
-  	<span class="nt">&lt;Url</span> <span class="na">type=</span><span class="s">"text/html"</span> <span class="na">method=</span><span class="s">"get"</span> <span class="na">template=</span><span class="s">"https://assertnotmagic.com/posts/?q={searchTerms}"</span> <span class="nt">/&gt;</span>
-  	<span class="nt">&lt;Url</span> <span class="na">type=</span><span class="s">"application/opensearchdescription+xml"</span> <span class="na">rel=</span><span class="s">"self"</span> <span class="na">template=</span><span class="s">"https://assertnotmagic.com/opensearch.xml"</span> <span class="nt">/&gt;</span>
-  	<span class="nt">&lt;SearchForm&gt;</span>https://assertnotmagic.com/posts/<span class="nt">&lt;/SearchForm&gt;</span>
-  	<span class="nt">&lt;moz:SearchForm&gt;</span>https://assertnotmagic.com/posts/<span class="nt">&lt;/moz:SearchForm&gt;</span>
-<span class="nt">&lt;/OpenSearchDescription&gt;</span>
+<pre><code class="language-xml">&lt;OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://mozilla.org/2006/browser/search/"&gt;
+	&lt;ShortName&gt;Assert_Not Magic&lt;/ShortName&gt;
+  	&lt;Description&gt;Search blog posts on assert_not magic&lt;/Description&gt;
+  	&lt;InputEncoding&gt;UTF-8&lt;/InputEncoding&gt;
+  	&lt;Image width="16" height="16" type="image/png"&gt;https://assertnotmagic.com/favicon-16x16.png&lt;/Image&gt;
+  	&lt;Url type="text/html" method="get" template="https://assertnotmagic.com/posts/?q={searchTerms}" /&gt;
+  	&lt;Url type="application/opensearchdescription+xml" rel="self" template="https://assertnotmagic.com/opensearch.xml" /&gt;
+  	&lt;SearchForm&gt;https://assertnotmagic.com/posts/&lt;/SearchForm&gt;
+  	&lt;moz:SearchForm&gt;https://assertnotmagic.com/posts/&lt;/moz:SearchForm&gt;
+&lt;/OpenSearchDescription&gt;
 </code></pre>
-</div>
 
 <p>A quick description of each item:</p>
 
@@ -87,11 +87,11 @@
 
 <p><strong>InputEncoding</strong>: The encoding of characters to expect.</p>
 
-<p><strong>Image</strong>: The absolute path to (or Base64 data representation of) an icon of your choosing to show up next to search bars in some clients (see the image below).  Make sure the <code class="highlighter-rouge">type</code> matches the filetype of your image (whether it’s <code class="highlighter-rouge">.png, .jpg, or .ico</code>).</p>
+<p><strong>Image</strong>: The absolute path to (or Base64 data representation of) an icon of your choosing to show up next to search bars in some clients (see the image below).  Make sure the <code>type</code> matches the filetype of your image (whether it’s <code>.png, .jpg, or .ico</code>).</p>
 
 <p><strong>Url</strong>: This is the URL that gets pinged when the user completes their search.  Note that it uses a “magical” {searchTerms}.  It will fill in the URL with whatever the user types.</p>
 
-<p><strong>Url (The second one)</strong>: You can include this and some browsers will automatically update themselves <del>if</del> WHEN you make changes to your <code class="highlighter-rouge">opensearch.xml</code>.  More on that in a second.</p>
+<p><strong>Url (The second one)</strong>: You can include this and some browsers will automatically update themselves <del>if</del> WHEN you make changes to your <code>opensearch.xml</code>.  More on that in a second.</p>
 
 <p><strong>SearchForm/moz:SearchForm</strong>: Tags that hold a link to your search page.  I believe this is so that if your user gets frustrated with the Omnibar, they can say “BAH.  Just take me to their search page and I’ll do it there.”</p>
 
@@ -105,76 +105,72 @@
 
 <h2 id="part-2-link-tag">Part 2: Link Tag</h2>
 
-<p>Next, all you need to do is throw a <code class="highlighter-rouge">link</code> tag into your <code class="highlighter-rouge">head</code> section.  I think it’s enough to just have it on your homepage.  Someone correct me if that’s not true.</p>
+<p>Next, all you need to do is throw a <code>link</code> tag into your <code>head</code> section.  I think it’s enough to just have it on your homepage.  Someone correct me if that’s not true.</p>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="c">&lt;!-- index.html --&gt;</span>
-<span class="cp">&lt;!DOCTYPE HTML&gt;</span>
-<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;head&gt;</span>
-    <span class="c">&lt;!-- ... All the rest of your head tags --&gt;</span>
-    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"search"</span>
-          <span class="na">type=</span><span class="s">"application/opensearchdescription+xml"</span>
-          <span class="na">title=</span><span class="s">"Search assert_not magic"</span>
-          <span class="na">href=</span><span class="s">"/opensearch.xml"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;/head&gt;</span>
-  <span class="c">&lt;!-- ... the rest of your site --&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
+<pre><code class="language-html">&lt;!-- index.html --&gt;
+&lt;!DOCTYPE HTML&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;!-- ... All the rest of your head tags --&gt;
+    &lt;link rel="search"
+          type="application/opensearchdescription+xml"
+          title="Search assert_not magic"
+          href="/opensearch.xml"&gt;
+  &lt;/head&gt;
+  &lt;!-- ... the rest of your site --&gt;
+&lt;/html&gt;
 </code></pre>
-</div>
 
-<p>And you should be good to go!  If you’ve got your own back-end, you can process the <code class="highlighter-rouge">q={searchTerms}</code> from the XML document above in the <code class="highlighter-rouge">GET</code> request to your Search Results page.  But what if you don’t <em>have</em> a back end?</p>
+<p>And you should be good to go!  If you’ve got your own back-end, you can process the <code>q={searchTerms}</code> from the XML document above in the <code>GET</code> request to your Search Results page.  But what if you don’t <em>have</em> a back end?</p>
 
 <h2 id="bonus-part-static-sites">Bonus Part: Static Sites</h2>
 
 <p>No back end?  No worries!  I’ll show you how to make it work with your dynamic JavaScript search form.  In <a href="https://assertnotmagic.com/2017/11/11/static-site-search-with-vue/">a previous post</a>, I walked through how I added search functionality to my static-ly generated blog.  I’m going to use the code from the end of that post as a starting point.  For those that are too lazy to click the link:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
-  <span class="na">el</span><span class="p">:</span> <span class="s1">'#app'</span><span class="p">,</span>
-  <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">search</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span>
-    <span class="na">post_list</span><span class="p">:</span> <span class="nx">posts</span>
-  <span class="p">},</span>
-  <span class="na">computed</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nx">filteredPosts</span><span class="p">()</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">post_list</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span> <span class="nx">post</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">post</span><span class="p">.</span><span class="nx">tags</span><span class="p">}</span> <span class="nx">$</span><span class="p">{</span><span class="nx">post</span><span class="p">.</span><span class="nx">title</span><span class="p">}</span><span class="err">`</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">().</span><span class="nx">includes</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">search</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">());</span>
-      <span class="p">});</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">});</span>
+<pre><code class="language-javascript">const app = new Vue({
+  el: '#app',
+  data: {
+    search: '',
+    post_list: posts
+  },
+  computed: {
+    filteredPosts() {
+      return this.post_list.filter( post =&gt; {
+        return `${post.tags} ${post.title}`.toLowerCase().includes(this.search.toLowerCase());
+      });
+    }
+  }
+});
 </code></pre>
-</div>
 
 <p>The trick that we’re going to pull is that as we’re creating the Vue-powered search component, we’re going to check our URL for parameters.  Place this before the above code.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">params</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">URLSearchParams</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">search</span><span class="p">);</span>
+<pre><code class="language-javascript">const params = new URLSearchParams(location.search);
 </code></pre>
-</div>
 
-<p><code class="highlighter-rouge">URLSearchParams</code> are a handy dandy way to parse parameters (everything after the <code class="highlighter-rouge">?</code>) in a url.  While browser support isn’t quite 100%, I’m going to assume that a) you have transpilation figured out, b) you know <a href="https://twitter.com/paytastic">how to @ me</a>, and I’ll help you out.</p>
+<p><code>URLSearchParams</code> are a handy dandy way to parse parameters (everything after the <code>?</code>) in a url.  While browser support isn’t quite 100%, I’m going to assume that a) you have transpilation figured out, b) you know <a href="https://twitter.com/paytastic">how to @ me</a>, and I’ll help you out.</p>
 
 <p>Now that we have our parameters (if they exist), let’s use them to have our search component pre-load the searched items.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">params</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">URLSearchParams</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">search</span><span class="p">);</span>
+<pre><code class="language-javascript">const params = new URLSearchParams(location.search);
 
-<span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
-  <span class="na">el</span><span class="p">:</span> <span class="s1">'#app'</span><span class="p">,</span>
-  <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">search</span><span class="p">:</span> <span class="nx">params</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="s1">'q'</span><span class="p">)</span> <span class="p">?</span> <span class="nx">params</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'q'</span><span class="p">)</span> <span class="p">:</span> <span class="s1">''</span><span class="p">,</span>  <span class="c1">// &lt;- This is the key part</span>
-    <span class="na">post_list</span><span class="p">:</span> <span class="nx">posts</span>
-  <span class="p">},</span>
-  <span class="na">computed</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nx">filteredPosts</span><span class="p">()</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">post_list</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span> <span class="nx">post</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">post</span><span class="p">.</span><span class="nx">tags</span><span class="p">}</span> <span class="nx">$</span><span class="p">{</span><span class="nx">post</span><span class="p">.</span><span class="nx">title</span><span class="p">}</span><span class="err">`</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">().</span><span class="nx">includes</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">search</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">());</span>
-      <span class="p">});</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">});</span>
+const app = new Vue({
+  el: '#app',
+  data: {
+    search: params.has('q') ? params.get('q') : '',  // &lt;- This is the key part
+    post_list: posts
+  },
+  computed: {
+    filteredPosts() {
+      return this.post_list.filter( post =&gt; {
+        return `${post.tags} ${post.title}`.toLowerCase().includes(this.search.toLowerCase());
+      });
+    }
+  }
+});
 </code></pre>
-</div>
 
-<p>If our URL has a <code class="highlighter-rouge">q</code> parameter (which it does if it’s coming from the Omni-bar search), we load that into the search box, which causes our search results to update.  Otherwise, we start with a blank search box and carry on as usual.</p>
+<p>If our URL has a <code>q</code> parameter (which it does if it’s coming from the Omni-bar search), we load that into the search box, which causes our search results to update.  Otherwise, we start with a blank search box and carry on as usual.</p>
 
 <p><img src="/img/omnibar-in-action.gif" alt="Here's how it works on my site" /></p>
 
@@ -390,6 +386,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

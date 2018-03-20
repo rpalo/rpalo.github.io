@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -101,7 +102,7 @@
   <p>2520 is the smallest number that can be divided by all numbers between 1 and 10 (inclusive).  What is the smallest positive integer that can be evenly divided by all numbers between 1 and 20 (also inclusive)?</p>
 </blockquote>
 
-<p>OK.  What are your first thoughts?  Here are mine.  My first snap intuition is to just multiply all of the numbers together.  Ah, but 10 already works if a number is divisible by 2 and 5.  We’ve got some repeating that is driving our final product up.  I guess we need to see how many prime factors are <em>really</em> required.  One other thought worth mentioning is again the naive solution.  Start at 21 and continue searching upward (<code class="highlighter-rouge">if i % 2 == 0, if i % 3 == 0, if i % 4 == 0</code>) until we find the answer.  I’m going to see if I can do better though, because there’s no upper limit guarantee on that and I hate to leave a while loop to just run wild.  Here’s my solution, which I will then explain.</p>
+<p>OK.  What are your first thoughts?  Here are mine.  My first snap intuition is to just multiply all of the numbers together.  Ah, but 10 already works if a number is divisible by 2 and 5.  We’ve got some repeating that is driving our final product up.  I guess we need to see how many prime factors are <em>really</em> required.  One other thought worth mentioning is again the naive solution.  Start at 21 and continue searching upward (<code>if i % 2 == 0, if i % 3 == 0, if i % 4 == 0</code>) until we find the answer.  I’m going to see if I can do better though, because there’s no upper limit guarantee on that and I hate to leave a while loop to just run wild.  Here’s my solution, which I will then explain.</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># First I'm going to need some help from the standard library</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
@@ -366,6 +367,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

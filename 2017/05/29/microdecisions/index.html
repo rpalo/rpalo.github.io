@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -89,7 +90,7 @@
 <p>1) Pull the vowels out into an external constant to improve readability.
  2) Shrink the vowels tuple into a string, since it is easier to read and less spread out.
  3) Build the results as a list instead of a string.  This way you don’t have to recreate the result with every new letter.  This could help if the phrases end up being thousands of characters.
- 4) Change the variable <code class="highlighter-rouge">letter</code> to <code class="highlighter-rouge">character</code> which is more accurate considering it could be a space or punctuation.</p>
+ 4) Change the variable <code>letter</code> to <code>character</code> which is more accurate considering it could be a space or punctuation.</p>
 
 <p>Here’s yet one other option:</p>
 
@@ -314,6 +315,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

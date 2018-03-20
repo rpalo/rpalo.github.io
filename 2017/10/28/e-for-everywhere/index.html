@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -56,19 +57,19 @@
         
     </div>
     <h1>E for Everywhere</h1>
-    <p>I just learned something new and it prompted me to want to share it (and a whole bunch of other things).  Let’s talk about the letter <code class="highlighter-rouge">e</code>.  This post will have a little bit of math in it, but I’ll try to make those parts painless enough to keep you with me.</p>
+    <p>I just learned something new and it prompted me to want to share it (and a whole bunch of other things).  Let’s talk about the letter <code>e</code>.  This post will have a little bit of math in it, but I’ll try to make those parts painless enough to keep you with me.</p>
 
 <h2 id="e">e</h2>
 
-<p><code class="highlighter-rouge">e</code> is a mathmatical constant (like <code class="highlighter-rouge">pi</code>) that crops up a lot of places.</p>
+<p><code>e</code> is a mathmatical constant (like <code>pi</code>) that crops up a lot of places.</p>
 
 <script type="math/tex; mode=display">e = 2.71828182845904523536028747135266249775724709369995</script>
 
-<p>Like <code class="highlighter-rouge">pi</code>, it’s a number that is <em>irrational</em>, meaning that its decimal places never end and never repeat (go into an infinite loop).</p>
+<p>Like <code>pi</code>, it’s a number that is <em>irrational</em>, meaning that its decimal places never end and never repeat (go into an infinite loop).</p>
 
-<p>“Blah blah blah blah,” you say – eloquently, I might add.  “All I hear is blah blah math letters-that-are-really-numbers blah.  Why are you bothering me about this <code class="highlighter-rouge">e</code>?”</p>
+<p>“Blah blah blah blah,” you say – eloquently, I might add.  “All I hear is blah blah math letters-that-are-really-numbers blah.  Why are you bothering me about this <code>e</code>?”</p>
 
-<p>I want to tell you about it, because, even though it doesn’t get the kind of press that <code class="highlighter-rouge">pi</code> does (not to mention <code class="highlighter-rouge">phi</code> – the golden ratio), it shows up everywhere you look and helps us with all kinds of statistics, finance, and more!  I’m writing this post to show off a couple of the ways that <code class="highlighter-rouge">e</code> works behind the scenes.</p>
+<p>I want to tell you about it, because, even though it doesn’t get the kind of press that <code>pi</code> does (not to mention <code>phi</code> – the golden ratio), it shows up everywhere you look and helps us with all kinds of statistics, finance, and more!  I’m writing this post to show off a couple of the ways that <code>e</code> works behind the scenes.</p>
 
 <h2 id="something-interesting-and-practical">Something Interesting and Practical</h2>
 
@@ -78,7 +79,7 @@
 
 <p>Where:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>A is the future value of your money.
+<pre><code>A is the future value of your money.
 
 P is the present value of your money.
 
@@ -86,7 +87,6 @@ r is the interest rate over the time period you care about (usually a year, in p
 
 n is the number of times you compound your interest over the time period.
 </code></pre>
-</div>
 
 <p>For example, if you put $100 into a bank for a year, and the bank provided a 7% (or .07) interest rate over that time, <em>and</em> the bank only compounded your interest one time (which they sometimes do), after one year, you’d end up with:</p>
 
@@ -113,45 +113,42 @@ n is the number of times you compound your interest over the time period.
 
 <p>Now let’s see what our pattern looks like.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">r</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="n">p</span> <span class="o">=</span> <span class="mf">1.0</span>
+<pre><code class="language-python">r = 1.0
+p = 1.0
 
-<span class="k">def</span> <span class="nf">compound</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-    <span class="s">"""Calculates interest after one time period (e.g. a year).
+def compound(p, r, n):
+    """Calculates interest after one time period (e.g. a year).
     p: float - initial money amount
     r: float - interest rate over the time period
     n: int - number of times we compound
     returns float - amount of money after one time period
-    """</span>
-    <span class="k">return</span> <span class="n">p</span><span class="o">*</span><span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">r</span><span class="o">/</span><span class="n">n</span><span class="p">)</span><span class="o">**</span><span class="n">n</span><span class="p">)</span>
+    """
+    return p*((1 + r/n)**n)
 
-<span class="n">result_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">compound</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)]</span>
+result_data = [compound(p, r, n) for n in range(1, 100)]
 
 </code></pre>
-</div>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result_data</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<pre><code class="language-python">from matplotlib import pyplot as plt
+plt.plot(result_data)
+plt.show()
 </code></pre>
-</div>
 
 <p><img src="/img/e-interest.png" alt="Result of Interest experiment" /></p>
 
 <p>You can see that with 1 compound, we get 100% return, just like we planned.  Start with $1, end up with $2.  And as we compound more and more, we see it go up by quite a bit and then the gains start to level off.  But wait.  What number are the gains leveling off at?</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">e</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>  <span class="c"># Plot horizontal line at 2.71828...</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result_data</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<pre><code class="language-python">from math import e
+plt.plot((0, 100), (e, e))  # Plot horizontal line at 2.71828...
+plt.plot(result_data)
+plt.show()
 </code></pre>
-</div>
 
 <p><img src="/img/e-interest-with-line.png" alt="Result of Interest experiment with line at e" /></p>
 
 <p>OH SNAP, IT’S E.  As we approach higher and higher frequency of compounding, we approach a return amount of E.  This is where the concept of <strong>continuously compounding interest</strong> comes from.</p>
 
-<p>So we’ve found <code class="highlighter-rouge">e</code> once.  Let’s do another.</p>
+<p>So we’ve found <code>e</code> once.  Let’s do another.</p>
 
 <h2 id="factorials-and-e">Factorials and e</h2>
 
@@ -167,24 +164,22 @@ n is the number of times you compound your interest over the time period.
 
 <p>Where am I going with this?  Let’s add them up and see.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">factorial</span>
+<pre><code class="language-python">from math import factorial
 
-<span class="k">def</span> <span class="nf">sum_of_factorial_fractions</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="s">"""Calculates the sum of 1/0! + 1/1! + 1/2! ... 1/n!"""</span>
-    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">factorial</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+def sum_of_factorial_fractions(n):
+    """Calculates the sum of 1/0! + 1/1! + 1/2! ... 1/n!"""
+    return sum(1/factorial(x) for x in range(0, n + 1))
                
-<span class="n">results2</span> <span class="o">=</span> <span class="p">[</span><span class="n">sum_of_factorial_fractions</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results2</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"The last result:"</span><span class="p">,</span> <span class="n">results2</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+results2 = [sum_of_factorial_fractions(n) for n in range(10)]
+plt.plot(results2)
+plt.show()
+print("The last result:", results2[-1])
 </code></pre>
-</div>
 
 <p><img src="/img/e-factorials.png" alt="Result of Factorials experiment" /></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>The last result: 2.7182815255731922
+<pre><code>The last result: 2.7182815255731922
 </code></pre>
-</div>
 
 <p>A;LSDKJF;ALKJSDFJSDLKFJEIVLENNVOIEJ.</p>
 
@@ -198,69 +193,61 @@ n is the number of times you compound your interest over the time period.
 
 <p>This one comes courtesy of <a href="https://twitter.com/fermatslibrary">Fermat’s Library on Twitter</a>.  Pick a random number between 0 and 1.  Keep picking numbers and adding them until the sum is greater than 1.  For example:</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<pre><code class="language-python">from random import random
+x = random()
+print(x)
 </code></pre>
-</div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>0.185263666584764
+<pre><code>0.185263666584764
 </code></pre>
-</div>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">x</span> <span class="o">+=</span> <span class="n">random</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<pre><code class="language-python">x += random()
+print(x)
 </code></pre>
-</div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>0.5797470876977189
+<pre><code>0.5797470876977189
 </code></pre>
-</div>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">x</span> <span class="o">+=</span> <span class="n">random</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<pre><code class="language-python">x += random()
+print(x)
 </code></pre>
-</div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>1.2821236982804123
+<pre><code>1.2821236982804123
 </code></pre>
-</div>
 
 <p>Alright!  We’re now greater than 1, and it took us 3 rolls to get there.  Let’s do that a ton of times and see what the average number of rolls is.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">rolls_to_greater_than_n</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="s">"""Rolls a random number between 0 and 1 and adds them up
+<pre><code class="language-python">def rolls_to_greater_than_n(n):
+    """Rolls a random number between 0 and 1 and adds them up
     until the sum is greater than n.  Returns the number of rolls it took.
-    """</span>
-    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">rolls</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">while</span> <span class="n">total</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
-        <span class="n">total</span> <span class="o">+=</span> <span class="n">random</span><span class="p">()</span>
-        <span class="n">rolls</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">return</span> <span class="n">rolls</span>
+    """
+    total = 0
+    rolls = 0
+    while total &lt; n:
+        total += random()
+        rolls += 1
+    return rolls
 
-<span class="k">def</span> <span class="nf">roll_experiment_avg</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
-    <span class="s">"""Performs the rolls_to_greater_than_n 'times' times.
-    Returs the average number of rolls it took."""</span>
-    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">rolls_to_greater_than_n</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">times</span><span class="p">))</span><span class="o">/</span><span class="n">times</span>
+def roll_experiment_avg(n, times):
+    """Performs the rolls_to_greater_than_n 'times' times.
+    Returs the average number of rolls it took."""
+    return sum(rolls_to_greater_than_n(n) for _ in range(times))/times
 
-<span class="n">results3</span> <span class="o">=</span> <span class="p">[</span><span class="n">roll_experiment_avg</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)]</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results3</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span> <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>  <span class="c"># Line representing e for reference.</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"The last result was"</span><span class="p">,</span> <span class="n">results3</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+results3 = [roll_experiment_avg(1, x) for x in range(1, 10000)]
+plt.plot(results3)
+plt.plot((0, 10000), (e, e))  # Line representing e for reference.
+plt.show()
+print("The last result was", results3[-1])
 </code></pre>
-</div>
 
 <p><img src="/img/e-random.png" alt="Results of Random experiment" /></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>The last result was 2.712271227122712
+<pre><code>The last result was 2.712271227122712
 </code></pre>
-</div>
 
 <p>This one definitely is converging a lot slower, <a href="https://twitter.com/fermatslibrary/status/924263998589145090">but it does.  Math says so.</a></p>
 
-<p>Anyways, this was kind of a long post about nothing, but I though that the way that <code class="highlighter-rouge">e</code> seems to pop up all over the place, even amidst factorials and random numbers, was pretty cool.  Let me know if you can think of any other cool ways to come up with <code class="highlighter-rouge">e</code>!</p>
+<p>Anyways, this was kind of a long post about nothing, but I though that the way that <code>e</code> seems to pop up all over the place, even amidst factorials and random numbers, was pretty cool.  Let me know if you can think of any other cool ways to come up with <code>e</code>!</p>
 
     <small>
         Author: Ryan Palo | Tags: 
@@ -462,6 +449,7 @@ n is the number of times you compound your interest over the time period.
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -74,7 +75,7 @@
 
 <p>Go ahead and get those installed.</p>
 
-<p>One more neat thing before we start.  In Chrome, you can use this thing called a <strong>console</strong> to test out any of the code that we go over before adding it into a project.  There’s a lot of ways to open the console, but the fastest is <code class="highlighter-rouge">command + option + j</code> on Mac and <code class="highlighter-rouge">control + shift + j</code> on Windows/Linux.  You can also get it by right-clicking and selecting <code class="highlighter-rouge">inspect</code>, or by opening the developer tools from the Chrome dropdown menu.</p>
+<p>One more neat thing before we start.  In Chrome, you can use this thing called a <strong>console</strong> to test out any of the code that we go over before adding it into a project.  There’s a lot of ways to open the console, but the fastest is <code>command + option + j</code> on Mac and <code>control + shift + j</code> on Windows/Linux.  You can also get it by right-clicking and selecting <code>inspect</code>, or by opening the developer tools from the Chrome dropdown menu.</p>
 
 <p><img src="/img/console.png" alt="console" /></p>
 
@@ -82,115 +83,110 @@
 
 <h2 id="step-2-htmljs-flyby">Step 2: HTML/JS Flyby</h2>
 
-<p>Let’s talk a little about HTML.  We won’t need to know much right away.  Just a little bit.  The first thing to know is that all websites are made up of files that are just text.  In general, the layout of a web page is defined in a text file ending in <code class="highlighter-rouge">.html</code> that contains a special langage and format.  HTML is short for Hyper Text Markup Language, but all that really means is it’s text that written in such a way that a browser can read and parse it and convert it into a pretty, rendered format.  I’m going to talk more about the specifics now, but it’s super important that you don’t try to memorize HTML.  There are so many little rules and options to remember that trying to memorize everything in one go will definitely overwhelm anybody.  I would recommend just picking up the conceptual nuggets and letting the rest wash over you, picking things up organically as you go.  As you use it more and more, you’ll find yourself remembering more and having to Google less.  Leggo.</p>
+<p>Let’s talk a little about HTML.  We won’t need to know much right away.  Just a little bit.  The first thing to know is that all websites are made up of files that are just text.  In general, the layout of a web page is defined in a text file ending in <code>.html</code> that contains a special langage and format.  HTML is short for Hyper Text Markup Language, but all that really means is it’s text that written in such a way that a browser can read and parse it and convert it into a pretty, rendered format.  I’m going to talk more about the specifics now, but it’s super important that you don’t try to memorize HTML.  There are so many little rules and options to remember that trying to memorize everything in one go will definitely overwhelm anybody.  I would recommend just picking up the conceptual nuggets and letting the rest wash over you, picking things up organically as you go.  As you use it more and more, you’ll find yourself remembering more and having to Google less.  Leggo.</p>
 
 <h3 id="the-super-basics">The Super Basics</h3>
 
 <p>HTML is made up of building blocks called <strong>elements</strong> that look like this:</p>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;p&gt;</span>
+<pre><code class="language-html">&lt;p&gt;
   Hi there!  'p' stands for Paragraph!
-<span class="nt">&lt;/p&gt;</span>
+&lt;/p&gt;
 </code></pre>
-</div>
 
-<p>Each <strong>element</strong> is defined by its <strong>tags</strong> which are the things in angle brackets (&lt;&gt;).  Some <strong>elements</strong> have an opening and closing <strong>tag</strong>, like the one shown above.  This is so that these elements can wrap around the outside of other elements, creating this nested hierarchy that will come in handy much later.  Some elements are “self-closing”, so you don’t need a second one.  One example is the <code class="highlighter-rouge">&lt;hr&gt;</code> element, that makes a “horizontal rule” or line accross the page.  Since it’s really hard to put anything <em>inside</em> a line, it makes sense to have that as a self-closing tag.</p>
+<p>Each <strong>element</strong> is defined by its <strong>tags</strong> which are the things in angle brackets (&lt;&gt;).  Some <strong>elements</strong> have an opening and closing <strong>tag</strong>, like the one shown above.  This is so that these elements can wrap around the outside of other elements, creating this nested hierarchy that will come in handy much later.  Some elements are “self-closing”, so you don’t need a second one.  One example is the <code>&lt;hr&gt;</code> element, that makes a “horizontal rule” or line accross the page.  Since it’s really hard to put anything <em>inside</em> a line, it makes sense to have that as a self-closing tag.</p>
 
 <h3 id="structural-tags">Structural Tags</h3>
 
 <p>There are a few tags that make up the foundation of every page.  Every page should have at least this:</p>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;!doctype html&gt;</span>
-<span class="nt">&lt;html&gt;</span>
-  <span class="nt">&lt;head&gt;</span>
-    <span class="nt">&lt;title&gt;</span>Title in Page Tab<span class="nt">&lt;/title&gt;</span>
-    <span class="c">&lt;!-- This is how we comment in HTML.  Nobody sees this but us --&gt;</span>
-  <span class="nt">&lt;/head&gt;</span>
-  <span class="nt">&lt;body&gt;</span>
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Title in Page Tab&lt;/title&gt;
+    &lt;!-- This is how we comment in HTML.  Nobody sees this but us --&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
     Hi there!
-  <span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
+  &lt;/body&gt;
+&lt;/html&gt;
 </code></pre>
-</div>
 
 <ol>
-  <li><code class="highlighter-rouge">&lt;!doctype html&gt;</code>: This tells the browser it’s looking at an HTML file, and what version of HTML we’re using, based on the format.  This simplified format means we’re using the most recent version: HTML5.</li>
-  <li><code class="highlighter-rouge"><span class="nt">&lt;html&gt;</span></code>: These tags contain all the rest of our html.  Nowadays, you can even leave these off and the browser is smart enough to figure out what you mean, but it’s best to make sure you have this anyways.</li>
-  <li><code class="highlighter-rouge">&lt;head&gt;</code>: This section doesn’t show up on the page.  It is a header that contains many of the settings and information that the browser, search engines, devices, and other internet things need to interact with your web page.  Once we get there, we’ll put our links to <strong>stylesheets</strong> there, to make our pages look pretty.</li>
-  <li><code class="highlighter-rouge">&lt;body&gt;</code>: This is where the meat of your page goes.  Everything in the body will exist on your webpage.  If you were to save the above snippet as <code class="highlighter-rouge">basic.html</code> and double-click it to open it, you would see this:</li>
+  <li><code>&lt;!doctype html&gt;</code>: This tells the browser it’s looking at an HTML file, and what version of HTML we’re using, based on the format.  This simplified format means we’re using the most recent version: HTML5.</li>
+  <li><code>&lt;html&gt;</code>: These tags contain all the rest of our html.  Nowadays, you can even leave these off and the browser is smart enough to figure out what you mean, but it’s best to make sure you have this anyways.</li>
+  <li><code>&lt;head&gt;</code>: This section doesn’t show up on the page.  It is a header that contains many of the settings and information that the browser, search engines, devices, and other internet things need to interact with your web page.  Once we get there, we’ll put our links to <strong>stylesheets</strong> there, to make our pages look pretty.</li>
+  <li><code>&lt;body&gt;</code>: This is where the meat of your page goes.  Everything in the body will exist on your webpage.  If you were to save the above snippet as <code>basic.html</code> and double-click it to open it, you would see this:</li>
 </ol>
 
 <p><img src="/img/basic-html.png" alt="Basic HTML rendered" /></p>
 
-<p>One other thing to pay attention to is how we were able to nest the <code class="highlighter-rouge">head</code> and <code class="highlighter-rouge">body</code> tags inside the <code class="highlighter-rouge">html</code> tags, and we even nested the <code class="highlighter-rouge">title</code> tag inside the head!  Each webpage is a tree-like hierarchy like this that can sometimes get really, really nested.  Also note that it’s considered best practice to indent your tags to the same lines (each nesting indented 2 or 4 spaces) to make it easier to read.</p>
+<p>One other thing to pay attention to is how we were able to nest the <code>head</code> and <code>body</code> tags inside the <code>html</code> tags, and we even nested the <code>title</code> tag inside the head!  Each webpage is a tree-like hierarchy like this that can sometimes get really, really nested.  Also note that it’s considered best practice to indent your tags to the same lines (each nesting indented 2 or 4 spaces) to make it easier to read.</p>
 
 <h3 id="adding-in-scripts">Adding in Scripts</h3>
 
-<p>Now, we’ll add in the scripts that will allow us to use deeper programming concepts like <strong>variables</strong>, <strong>loops</strong>, and more!  There’s a special tag called a <code class="highlighter-rouge">script</code> tag that loads files such as <strong>JavaScript</strong> files.  <strong>JavaScript</strong> is the current internet standard for adding code functionality to your web page.</p>
+<p>Now, we’ll add in the scripts that will allow us to use deeper programming concepts like <strong>variables</strong>, <strong>loops</strong>, and more!  There’s a special tag called a <code>script</code> tag that loads files such as <strong>JavaScript</strong> files.  <strong>JavaScript</strong> is the current internet standard for adding code functionality to your web page.</p>
 
 <blockquote>
-  <p>Before we go any further, I just want to make a note.  This is directed at anyone with lots of programming experience that reads this.  Throughout the next few examples, we will cover some code that may not exactly be “best practice” or “industry standard”.  That’s not what I’m trying to do here.  I’m just trying to get some code that is easy to understand and works.  For instance, AirBnB’s JavaScript style guide recommends defining functions like this: <code class="highlighter-rouge">var foo = function bar() {};</code>.  They provide good reasons for why you should do it this way.  It makes a lot of sense.  BUT.  You have to have a good amount of background before it looks like anything other than gobbledygook.  For someone just starting out, it makes a lot more sense to do it the way we’ll do it below.  So all you smarty farties that want to correct: leave it alone for now.  There will be time for that later.</p>
+  <p>Before we go any further, I just want to make a note.  This is directed at anyone with lots of programming experience that reads this.  Throughout the next few examples, we will cover some code that may not exactly be “best practice” or “industry standard”.  That’s not what I’m trying to do here.  I’m just trying to get some code that is easy to understand and works.  For instance, AirBnB’s JavaScript style guide recommends defining functions like this: <code>var foo = function bar() {};</code>.  They provide good reasons for why you should do it this way.  It makes a lot of sense.  BUT.  You have to have a good amount of background before it looks like anything other than gobbledygook.  For someone just starting out, it makes a lot more sense to do it the way we’ll do it below.  So all you smarty farties that want to correct: leave it alone for now.  There will be time for that later.</p>
 </blockquote>
 
-<p>JavaScript works like this.  Imagine you have the <code class="highlighter-rouge">basic.html</code> file from above in your current directory.  Who knows, maybe you really do!  Next, create a file in the same directory called <code class="highlighter-rouge">annoying.js</code>.</p>
+<p>JavaScript works like this.  Imagine you have the <code>basic.html</code> file from above in your current directory.  Who knows, maybe you really do!  Next, create a file in the same directory called <code>annoying.js</code>.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// This is how we comment in JavaScript</span>
-<span class="c1">// Any line that starts with two forward slashes</span>
-<span class="c1">// doesn't affect the code.  It's for humans!</span>
-<span class="c1">// Why are comments different in every language?  Who knows.</span>
+<pre><code class="language-javascript">// This is how we comment in JavaScript
+// Any line that starts with two forward slashes
+// doesn't affect the code.  It's for humans!
+// Why are comments different in every language?  Who knows.
 
-<span class="kd">var</span> <span class="nx">message</span> <span class="o">=</span> <span class="s2">"Hello friend!"</span><span class="p">;</span>
-<span class="nx">alert</span><span class="p">(</span><span class="nx">message</span><span class="p">);</span>
+var message = "Hello friend!";
+alert(message);
 </code></pre>
-</div>
 
-<p>Be sure not to forget your semicolons at the end of each line.  JavaScript is slowly (hopefully) moving away from needing the semicolons, but for now, we’re stuck with them.  I’m sure we’ll talk more about the history and progress of JavaScript later.  For now, let’s add a line to our <code class="highlighter-rouge">basic.html</code>.</p>
+<p>Be sure not to forget your semicolons at the end of each line.  JavaScript is slowly (hopefully) moving away from needing the semicolons, but for now, we’re stuck with them.  I’m sure we’ll talk more about the history and progress of JavaScript later.  For now, let’s add a line to our <code>basic.html</code>.</p>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;!doctype html&gt;</span>
-<span class="nt">&lt;html&gt;</span>
-  <span class="nt">&lt;head&gt;</span>
-    <span class="nt">&lt;title&gt;</span>Title in Page Tab<span class="nt">&lt;/title&gt;</span>
-    <span class="c">&lt;!-- This is how we comment in HTML.  Nobody sees this but us --&gt;</span>
-  <span class="nt">&lt;/head&gt;</span>
-  <span class="nt">&lt;body&gt;</span>
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Title in Page Tab&lt;/title&gt;
+    &lt;!-- This is how we comment in HTML.  Nobody sees this but us --&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
     Hi there!
     
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"annoying.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-  <span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
+    &lt;script src="annoying.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
 </code></pre>
-</div>
 
 <p>Save the file and either re-open it in your browser, or, if you’ve already got it open, click refresh.</p>
 
 <p><img src="/img/alert.png" alt="Annoying alert" /></p>
 
-<p>Look at you!  You’ve now learned exactly as much as the annoying, good-for-nothing spam website creators know.  <code class="highlighter-rouge">alert("Your computer may have a virus!");</code>  Ha.  Ha.</p>
+<p>Look at you!  You’ve now learned exactly as much as the annoying, good-for-nothing spam website creators know.  <code>alert("Your computer may have a virus!");</code>  Ha.  Ha.</p>
 
-<p>Just to finish explaining, the <code class="highlighter-rouge">src=</code> portion of the <code class="highlighter-rouge">script</code> tag tells the browser where to look for the file to load.  If you wanted to, you could have omitted that <code class="highlighter-rouge">src=</code> portion and just put the code in between the <code class="highlighter-rouge">script</code> tags.  Anything you put in between those tags is assumed to be JavaScript.  I’m going to show you an example that is cool.  Don’t worry if it doesn’t make total sense yet.</p>
+<p>Just to finish explaining, the <code>src=</code> portion of the <code>script</code> tag tells the browser where to look for the file to load.  If you wanted to, you could have omitted that <code>src=</code> portion and just put the code in between the <code>script</code> tags.  Anything you put in between those tags is assumed to be JavaScript.  I’m going to show you an example that is cool.  Don’t worry if it doesn’t make total sense yet.</p>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;!doctype html&gt;</span>
-<span class="nt">&lt;html&gt;</span>
-  <span class="nt">&lt;head&gt;</span>
-    <span class="nt">&lt;title&gt;</span>Title in Page Tab<span class="nt">&lt;/title&gt;</span>
-    <span class="c">&lt;!-- This is how we comment.  Nobody sees this --&gt;</span>
-  <span class="nt">&lt;/head&gt;</span>
-  <span class="nt">&lt;body&gt;</span>
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Title in Page Tab&lt;/title&gt;
+    &lt;!-- This is how we comment.  Nobody sees this --&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
     Hi there!
 
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"annoying.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-    <span class="nt">&lt;script&gt;</span>
-      <span class="c1">// JavaScript *inside* HTML!</span>
-      <span class="kd">var</span> <span class="nx">bt</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">'p'</span><span class="p">);</span>
-      <span class="nx">bt</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s2">"bottom text"</span><span class="p">;</span>
-      <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">bt</span><span class="p">);</span>
-    <span class="nt">&lt;/script&gt;</span>
-  <span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
+    &lt;script src="annoying.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+      // JavaScript *inside* HTML!
+      var bt = document.createElement('p');
+      bt.innerHTML = "bottom text";
+      document.body.appendChild(bt);
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
 </code></pre>
-</div>
 
-<p>In a short explanation, I create a new “paragraph” element, like we saw above.  I set the text inside that <code class="highlighter-rouge">&lt;p&gt;</code> element to be <code class="highlighter-rouge">"bottom text"</code>, and then I attach it to the bottom of the <code class="highlighter-rouge">body</code> tag, modifying the original code after the browser has read it.  If you right-click the page and click <code class="highlighter-rouge">inspect</code>, you should see some HTML, but there’s a new <code class="highlighter-rouge">&lt;p&gt;</code> element sitting there at the bottom that we didn’t have in our <code class="highlighter-rouge">basic.html</code> file!</p>
+<p>In a short explanation, I create a new “paragraph” element, like we saw above.  I set the text inside that <code>&lt;p&gt;</code> element to be <code>"bottom text"</code>, and then I attach it to the bottom of the <code>body</code> tag, modifying the original code after the browser has read it.  If you right-click the page and click <code>inspect</code>, you should see some HTML, but there’s a new <code>&lt;p&gt;</code> element sitting there at the bottom that we didn’t have in our <code>basic.html</code> file!</p>
 
 <p><img src="/img/modified-html.png" alt="MAGIC PARAGRAPH ELEMENT" /></p>
 
@@ -198,42 +194,40 @@
 
 <h2 id="step-3-introducing-p5">Step 3: Introducing P5</h2>
 
-<p>With JavaScript (and pretty much any other programming language), you can load in and build on top of other people’s work.  This is great!  This is great because otherwise, everyone who wanted to make something would have to write all of the supporting/utility/framework-ey code as well.  There would be a billion people all writing libraries that helped capitalize words and take the square root of things.  One way you load in an external library is by including the relevant <code class="highlighter-rouge">script</code> tag before the <code class="highlighter-rouge">script</code> tags for your own code.  Since HTML files are read and processed from top to bottom, the <code class="highlighter-rouge">script</code> tags that come first get loaded first and become available for your code to reference.</p>
+<p>With JavaScript (and pretty much any other programming language), you can load in and build on top of other people’s work.  This is great!  This is great because otherwise, everyone who wanted to make something would have to write all of the supporting/utility/framework-ey code as well.  There would be a billion people all writing libraries that helped capitalize words and take the square root of things.  One way you load in an external library is by including the relevant <code>script</code> tag before the <code>script</code> tags for your own code.  Since HTML files are read and processed from top to bottom, the <code>script</code> tags that come first get loaded first and become available for your code to reference.</p>
 
-<p>One other thing to note.  Before, we showed that you can include your code in between the <code class="highlighter-rouge">script</code> tags, like this: <code class="highlighter-rouge">&lt;script&gt;alert("Woohoo!");&lt;/script&gt;</code>.  We also showed that you can load a local file like this: <code class="highlighter-rouge">&lt;script src="path/to/the/file.js"&gt;&lt;/script&gt;</code>.  What I didn’t include is that the <code class="highlighter-rouge">src</code> can also be a path to a website, so you can load the file from the web!  This is one easy way to load external libraries without having to download a bunch of files or keep track of them.</p>
+<p>One other thing to note.  Before, we showed that you can include your code in between the <code>script</code> tags, like this: <code>&lt;script&gt;alert("Woohoo!");&lt;/script&gt;</code>.  We also showed that you can load a local file like this: <code>&lt;script src="path/to/the/file.js"&gt;&lt;/script&gt;</code>.  What I didn’t include is that the <code>src</code> can also be a path to a website, so you can load the file from the web!  This is one easy way to load external libraries without having to download a bunch of files or keep track of them.</p>
 
-<p>Enter: P5.js.  P5 is an animation library, with a really easy interface that is based on an earlier project called <a href="https://processing.org/">Processing</a>.  You can go to the <a href="https://p5js.org/">P5.js homepage</a> for more info, examples, and documentation.  We’ll do more with that later.  I’ll show you the basics with a second example.  Create a new folder called <code class="highlighter-rouge">example2</code> and create a file called <code class="highlighter-rouge">index.html</code> inside it.  (More on why it’s called <code class="highlighter-rouge">index</code> later, because that’s important-ish).  Also create a file called <code class="highlighter-rouge">sketch.js</code>.  Here’s your <code class="highlighter-rouge">index.html</code>.</p>
+<p>Enter: P5.js.  P5 is an animation library, with a really easy interface that is based on an earlier project called <a href="https://processing.org/">Processing</a>.  You can go to the <a href="https://p5js.org/">P5.js homepage</a> for more info, examples, and documentation.  We’ll do more with that later.  I’ll show you the basics with a second example.  Create a new folder called <code>example2</code> and create a file called <code>index.html</code> inside it.  (More on why it’s called <code>index</code> later, because that’s important-ish).  Also create a file called <code>sketch.js</code>.  Here’s your <code>index.html</code>.</p>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;!doctype html&gt;</span>
-<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;head&gt;</span>
-    <span class="nt">&lt;title&gt;</span>My First P5.js Sketch!<span class="nt">&lt;/title&gt;</span>
-  <span class="nt">&lt;/head&gt;</span>
-  <span class="nt">&lt;body&gt;</span>
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;title&gt;My First P5.js Sketch!&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
     
-    <span class="c">&lt;!-- This is the external P5 library we're loading  --&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-    <span class="c">&lt;!-- Here's the link to our script --&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"sketch.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-  <span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
+    &lt;!-- This is the external P5 library we're loading  --&gt;
+    &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"&gt;&lt;/script&gt;
+    &lt;!-- Here's the link to our script --&gt;
+    &lt;script src="sketch.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
 </code></pre>
-</div>
 
-<p>That’s it!  This will actually be the starting point for pretty much all of your projects, so feel free to save this file somewhere you can copy it from later as a starting point.  Let’s take a look at your <code class="highlighter-rouge">sketch.js</code> file.</p>
+<p>That’s it!  This will actually be the starting point for pretty much all of your projects, so feel free to save this file somewhere you can copy it from later as a starting point.  Let’s take a look at your <code>sketch.js</code> file.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">400</span><span class="p">);</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">function setup() {
+  createCanvas(600, 400);
+}
 
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">stroke</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">rect</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
-<span class="p">}</span>
+function draw() {
+  background(255);
+  stroke(0);
+  fill(255);
+  rect(100, 100, 200, 200);
+}
 </code></pre>
-</div>
 
 <p>There’s a lot of new things there that we should talk about.</p>
 
@@ -245,77 +239,71 @@
 
 <p>When you push Quick Minute on your microwave, it turns the light on, starts the turntable, activates the microwave, puts 1:00 on the timer, and begins counting down.  Once it gets to 0:00, it turns the microwave off, turns the light off, stops the turn table, and beeps.  If it’s one of those horrible microwaves, it beeps every 15 seconds after that until someone opens the door.  Can you imagine having to push one or more buttons for each of those steps?  Isn’t it so much nicer to simply push Quick Minute?  If the manufacturer wanted to add a step that starts a disco ball inside the microwave, they could just add that line to the Quick Minute function instead of making you remember to add that in everytime you pushed the button sequence.  It might look something like this in JavaScript.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">quickMinute</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">lightOn</span><span class="p">();</span>
-  <span class="nx">turnTableOn</span><span class="p">();</span>
-  <span class="nx">microwaveOn</span><span class="p">();</span>
-  <span class="nx">cook</span><span class="p">(</span><span class="mf">1.0</span><span class="p">);</span>
-  <span class="nx">microwaveOff</span><span class="p">();</span>
-  <span class="nx">turnTableOff</span><span class="p">();</span>
-  <span class="nx">lightOff</span><span class="p">();</span>
-  <span class="nx">beep</span><span class="p">();</span>
-  <span class="c1">// beepUntilOpened();  Only if you're unlucky...</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">function quickMinute() {
+  lightOn();
+  turnTableOn();
+  microwaveOn();
+  cook(1.0);
+  microwaveOff();
+  turnTableOff();
+  lightOff();
+  beep();
+  // beepUntilOpened();  Only if you're unlucky...
+}
 </code></pre>
-</div>
 
-<p>Functions in JavaScript are defined by the word <code class="highlighter-rouge">function</code>, a name (in this case: <code class="highlighter-rouge">quickMinute</code>), any function inputs in parenthesis (in this case: there are none), and then the code in the function within the {} brackets.  You can then call this function whenever you want by simply typing the name of the function and a pair of parenthesis () like this:  <code class="highlighter-rouge">quickMinute()</code>.  In JavaScript, adding those parenthesis acts as a trigger, meaning “Call this function now please!”</p>
+<p>Functions in JavaScript are defined by the word <code>function</code>, a name (in this case: <code>quickMinute</code>), any function inputs in parenthesis (in this case: there are none), and then the code in the function within the {} brackets.  You can then call this function whenever you want by simply typing the name of the function and a pair of parenthesis () like this:  <code>quickMinute()</code>.  In JavaScript, adding those parenthesis acts as a trigger, meaning “Call this function now please!”</p>
 
 <h3 id="math-functions">Math Functions</h3>
 
-<p>Functions can take input and produce output as well!  Remember the parenthesis?  You can put names for the things that you expect inside them.  You can output a value with the word <code class="highlighter-rouge">return</code>.  Watch:</p>
+<p>Functions can take input and produce output as well!  Remember the parenthesis?  You can put names for the things that you expect inside them.  You can output a value with the word <code>return</code>.  Watch:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">multiply</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">a</span> <span class="o">*</span> <span class="nx">b</span><span class="p">;</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">function multiply(a, b) {
+  return a * b;
+}
 </code></pre>
-</div>
 
 <p>Then, if you <strong>call</strong> the function (call means run) with inputs, you’ll get outputs as expected.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">multiply</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
-<span class="c1">// =&gt; results in 12!</span>
+<pre><code class="language-javascript">multiply(3, 4);
+// =&gt; results in 12!
 </code></pre>
-</div>
 
 <p>But be careful!  It’s up to you to name things in a way that makes sense.  Take a look at this misleading function:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">misleadingMultiply</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="s2">"Butt"</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nx">misleadingMultiply</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
-<span class="c1">// =&gt; 'Butt'</span>
+<pre><code class="language-javascript">function misleadingMultiply(a, b) {
+  return "Butt";
+}
+misleadingMultiply(3, 4);
+// =&gt; 'Butt'
 </code></pre>
-</div>
 
-<p>This is one of the responsibilities of a good programmer!  Okay!  Back to the <code class="highlighter-rouge">sketch.js</code> code.</p>
+<p>This is one of the responsibilities of a good programmer!  Okay!  Back to the <code>sketch.js</code> code.</p>
 
 <h3 id="setup-and-draw">Setup and Draw</h3>
 
-<p>P5.js expects two main functions to be defined by you.  <code class="highlighter-rouge">setup</code> is run once, right at the beginning, by P5.  It’s a good place to set things up.  <code class="highlighter-rouge">draw</code> is run repeatedly, over and over, after that.  Currently we’re not making use of that, but we’ll do it in the final project in this lesson.  Let’s look at the <code class="highlighter-rouge">setup</code> and <code class="highlighter-rouge">draw</code> that we defined above.</p>
+<p>P5.js expects two main functions to be defined by you.  <code>setup</code> is run once, right at the beginning, by P5.  It’s a good place to set things up.  <code>draw</code> is run repeatedly, over and over, after that.  Currently we’re not making use of that, but we’ll do it in the final project in this lesson.  Let’s look at the <code>setup</code> and <code>draw</code> that we defined above.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">400</span><span class="p">);</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">function setup() {
+  createCanvas(600, 400);
+}
 </code></pre>
-</div>
 
-<p>P5 animations (also called <strong>sketches</strong>) occur on a canvas (which is a special HTML element that you can draw shapes on).  The easiest way to do that is via  function provided by P5, called <code class="highlighter-rouge">createCanvas</code>.  You just have to tell it a width and a height (in pixels).  In our example, we made it 600 wide and 400 tall.  That’s all the setup we did for this one!</p>
+<p>P5 animations (also called <strong>sketches</strong>) occur on a canvas (which is a special HTML element that you can draw shapes on).  The easiest way to do that is via  function provided by P5, called <code>createCanvas</code>.  You just have to tell it a width and a height (in pixels).  In our example, we made it 600 wide and 400 tall.  That’s all the setup we did for this one!</p>
 
-<p>Next is <code class="highlighter-rouge">draw</code>.</p>
+<p>Next is <code>draw</code>.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">stroke</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">rect</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">function draw() {
+  background(255);
+  stroke(0);
+  fill(255);
+  rect(100, 100, 200, 200);
+}
 </code></pre>
-</div>
 
-<p>Every loop, we redraw the background with the <code class="highlighter-rouge">background</code> function.  There are several ways to call this function, but this way is with a number between 0 and 255 (I’ll explain the significance of that number later).  0 is full black, and 255 is full white.  That means that we’re drawing a white background.  Next, we set the stroke or pen color for the edges of our shapes.  You can see that we’re setting it to be black.  After that, we set the fill color for our shapes to white.  Lastly we actually draw a rectangle.  When you draw a rectangle, you call it with <code class="highlighter-rouge">(x-position, y-position, width, height)</code>.  How do I know what numbers are needed in parenthesis?  I’m magic and know everything.  Also, it’s on their website.  Check out their <a href="https://p5js.org/reference/#/p5/rect">documentation for the <code class="highlighter-rouge">rect</code> function</a>.  Any time you have a question, start with the documentation.  There is a lot of good stuff there.  In fact, all four of these are functions provided by P5: <a href="https://p5js.org/reference/#/p5/background">background</a>, <a href="https://p5js.org/reference/#/p5/stroke">stroke</a>, and <a href="https://p5js.org/reference/#/p5/fill">fill</a> all have their own documentation as well!</p>
+<p>Every loop, we redraw the background with the <code>background</code> function.  There are several ways to call this function, but this way is with a number between 0 and 255 (I’ll explain the significance of that number later).  0 is full black, and 255 is full white.  That means that we’re drawing a white background.  Next, we set the stroke or pen color for the edges of our shapes.  You can see that we’re setting it to be black.  After that, we set the fill color for our shapes to white.  Lastly we actually draw a rectangle.  When you draw a rectangle, you call it with <code>(x-position, y-position, width, height)</code>.  How do I know what numbers are needed in parenthesis?  I’m magic and know everything.  Also, it’s on their website.  Check out their <a href="https://p5js.org/reference/#/p5/rect">documentation for the <code>rect</code> function</a>.  Any time you have a question, start with the documentation.  There is a lot of good stuff there.  In fact, all four of these are functions provided by P5: <a href="https://p5js.org/reference/#/p5/background">background</a>, <a href="https://p5js.org/reference/#/p5/stroke">stroke</a>, and <a href="https://p5js.org/reference/#/p5/fill">fill</a> all have their own documentation as well!</p>
 
-<p>Okay!  That about covers it!  Save your files and open up <code class="highlighter-rouge">index.html</code> in your browser!</p>
+<p>Okay!  That about covers it!  Save your files and open up <code>index.html</code> in your browser!</p>
 
 <p><img src="/img/a-rectangle.png" alt="Our first sketch" /></p>
 
@@ -330,174 +318,161 @@
   <li>true and false</li>
   <li>comparing numbers</li>
   <li>doing math</li>
-  <li>branching (i.e. if statements: if <code class="highlighter-rouge">something is true</code>, do one thing.  Otherwise do another)</li>
+  <li>branching (i.e. if statements: if <code>something is true</code>, do one thing.  Otherwise do another)</li>
   <li>pixels and why things are upside-down</li>
 </ul>
 
-<p>And that’s it!  Stay tuned.  To get setup, create a folder called <code class="highlighter-rouge">project1</code> and inside that, copy your baseline <code class="highlighter-rouge">index.html</code> and create a new file called <code class="highlighter-rouge">sketch.js</code>.  I’m going to lay out the entire project code up front so you can see where we are going, and then I’ll explain the parts one after another, much like I did in the last section.  Here’s the code for your <code class="highlighter-rouge">sketch.js</code>.</p>
+<p>And that’s it!  Stay tuned.  To get setup, create a folder called <code>project1</code> and inside that, copy your baseline <code>index.html</code> and create a new file called <code>sketch.js</code>.  I’m going to lay out the entire project code up front so you can see where we are going, and then I’ll explain the parts one after another, much like I did in the last section.  Here’s the code for your <code>sketch.js</code>.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">rand</span><span class="p">;</span>
+<pre><code class="language-javascript">var x, y, rand;
 
-<span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">400</span><span class="p">);</span>
-  <span class="nx">x</span> <span class="o">=</span> <span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
-  <span class="nx">y</span> <span class="o">=</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
-  <span class="nx">stroke</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
+function setup() {
+  createCanvas(600, 400);
+  x = width/2;
+  y = height/2;
+  stroke(0);
+}
 
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">rand</span> <span class="o">=</span> <span class="nx">floor</span><span class="p">(</span><span class="nx">random</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">rand</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">x</span><span class="o">++</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">rand</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">x</span><span class="o">--</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">rand</span> <span class="o">===</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">y</span><span class="o">++</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="nx">y</span><span class="o">--</span><span class="p">;</span>
-  <span class="p">}</span>
+function draw() {
+  rand = floor(random(4));
+  if (rand === 0) {
+    x++;
+  } else if (rand === 1) {
+    x--;
+  } else if (rand === 2) {
+    y++;
+  } else {
+    y--;
+  }
 
-  <span class="nx">point</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span>
-<span class="p">}</span>
+  point(x, y);
+}
 </code></pre>
-</div>
 
 <p>Alrighty.  There’s a lot here.  If you’re a super genius, you can kind of get a sense of what’s going on, but I’ll explain it for the normal humans like me.</p>
 
 <h3 id="variables">Variables</h3>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">rand</span><span class="p">;</span>
+<pre><code class="language-javascript">var x, y, rand;
 </code></pre>
-</div>
 
-<p>We’re declaring our variables up front.  A lot of times, this isn’t the best practice, and we should avoid it if we can.  For our initial sketches, though, it’ll probably be ok.  A variable is like an address or mailbox slot that could hold a value.  You use the word <code class="highlighter-rouge">var</code> to tell JavaScript you want to create new ones.  If you’re anything like me, you’ll forget to write <code class="highlighter-rouge">var</code> all the time.  If you just write <code class="highlighter-rouge">var x</code> and not <code class="highlighter-rouge">var x = 3</code> or something, then then the value of <code class="highlighter-rouge">x</code> (at least until you assign something to it i.e. put a value in that particular PO box called <code class="highlighter-rouge">x</code>) will be the JavaScript concept <code class="highlighter-rouge">undefined</code>.  More on that later.  Hopefully right now you can see that we’re saying right at the beginning, “Hey!  I’m going to have three values that I care about and want to get access to later: x, y, and rand.”  Don’t forget the semicolon at the end of the line!</p>
+<p>We’re declaring our variables up front.  A lot of times, this isn’t the best practice, and we should avoid it if we can.  For our initial sketches, though, it’ll probably be ok.  A variable is like an address or mailbox slot that could hold a value.  You use the word <code>var</code> to tell JavaScript you want to create new ones.  If you’re anything like me, you’ll forget to write <code>var</code> all the time.  If you just write <code>var x</code> and not <code>var x = 3</code> or something, then then the value of <code>x</code> (at least until you assign something to it i.e. put a value in that particular PO box called <code>x</code>) will be the JavaScript concept <code>undefined</code>.  More on that later.  Hopefully right now you can see that we’re saying right at the beginning, “Hey!  I’m going to have three values that I care about and want to get access to later: x, y, and rand.”  Don’t forget the semicolon at the end of the line!</p>
 
 <h3 id="the-setup-function">The Setup Function</h3>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">400</span><span class="p">);</span>
-  <span class="nx">x</span> <span class="o">=</span> <span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
-  <span class="nx">y</span> <span class="o">=</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
-  <span class="nx">stroke</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">function setup() {
+  createCanvas(600, 400);
+  x = width/2;
+  y = height/2;
+  stroke(0);
+}
 </code></pre>
-</div>
 
-<p>There’s not actually that much that is new here.  Hopefully you’ll recognize <code class="highlighter-rouge">stroke</code> and <code class="highlighter-rouge">createCanvas</code> from the last example.  There’s only two new things here:</p>
+<p>There’s not actually that much that is new here.  Hopefully you’ll recognize <code>stroke</code> and <code>createCanvas</code> from the last example.  There’s only two new things here:</p>
 
-<p>One is that we are finally assigning our first values to <code class="highlighter-rouge">x</code> and <code class="highlighter-rouge">y</code>, using the single equals sign (=).  You can think of the single equals sign as an arrow that points to the left, saying, “Take whatever value you end up with on the right side of the equals and put it in the PO box named <code class="highlighter-rouge">x</code>.”  P5 provides us with some handy variables <code class="highlighter-rouge">width</code> and <code class="highlighter-rouge">height</code> that contain the width and height of the canvas that we’re working in.  Since we know we created it to be 600px wide and 400px tall, hopefully you can see that after this function gets run, the value of <code class="highlighter-rouge">x</code> is 300 and the value of <code class="highlighter-rouge">y</code> is 200.  I wanted to start exactly in the middle of the canvas.</p>
+<p>One is that we are finally assigning our first values to <code>x</code> and <code>y</code>, using the single equals sign (=).  You can think of the single equals sign as an arrow that points to the left, saying, “Take whatever value you end up with on the right side of the equals and put it in the PO box named <code>x</code>.”  P5 provides us with some handy variables <code>width</code> and <code>height</code> that contain the width and height of the canvas that we’re working in.  Since we know we created it to be 600px wide and 400px tall, hopefully you can see that after this function gets run, the value of <code>x</code> is 300 and the value of <code>y</code> is 200.  I wanted to start exactly in the middle of the canvas.</p>
 
 <h3 id="the-draw-function">The Draw Function</h3>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">rand</span> <span class="o">=</span> <span class="nx">floor</span><span class="p">(</span><span class="nx">random</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">rand</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">x</span><span class="o">++</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">rand</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">x</span><span class="o">--</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">rand</span> <span class="o">===</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">y</span><span class="o">++</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="nx">y</span><span class="o">--</span><span class="p">;</span>
-  <span class="p">}</span>
+<pre><code class="language-javascript">function draw() {
+  rand = floor(random(4));
+  if (rand === 0) {
+    x++;
+  } else if (rand === 1) {
+    x--;
+  } else if (rand === 2) {
+    y++;
+  } else {
+    y--;
+  }
 
-  <span class="nx">point</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span>
-<span class="p">}</span>
+  point(x, y);
+}
 </code></pre>
-</div>
 
-<p>There’s a <em>lot</em> of new stuff in this function.  You can see we finally assign a value to <code class="highlighter-rouge">rand</code>, but what is it?  P5 provides two useful functions for us: <a href="https://p5js.org/reference/#/p5/floor"><code class="highlighter-rouge">floor</code></a>, and <a href="https://p5js.org/reference/#/p5/random"><code class="highlighter-rouge">random</code></a>.  The way that we’re using <code class="highlighter-rouge">random</code>, it takes in an optional maximum value, and it returns a random value between zero and that maximum, noninclusive (i.e. [0, max), i.e. between 0 and 3.99999).  <code class="highlighter-rouge">floor</code> takes any number in and returns that number rounded down to the nearest integer (e.g. 3.4 becomes 3 and 2.9 becomes 2).  All together, you are assigning a random choice of (0, 1, 2, 3) to <code class="highlighter-rouge">rand</code>.</p>
+<p>There’s a <em>lot</em> of new stuff in this function.  You can see we finally assign a value to <code>rand</code>, but what is it?  P5 provides two useful functions for us: <a href="https://p5js.org/reference/#/p5/floor"><code>floor</code></a>, and <a href="https://p5js.org/reference/#/p5/random"><code>random</code></a>.  The way that we’re using <code>random</code>, it takes in an optional maximum value, and it returns a random value between zero and that maximum, noninclusive (i.e. [0, max), i.e. between 0 and 3.99999).  <code>floor</code> takes any number in and returns that number rounded down to the nearest integer (e.g. 3.4 becomes 3 and 2.9 becomes 2).  All together, you are assigning a random choice of (0, 1, 2, 3) to <code>rand</code>.</p>
 
 <h4 id="comparing-things">Comparing Things</h4>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="p">(</span><span class="nx">rand</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span>
+<pre><code class="language-javascript">(rand === 0)
 </code></pre>
-</div>
 
-<p>There’s a large section in this function that has 4 of these equations in parenthesis.  In JavaScript, the triple equals compares two things.  If the thing on the left is the same as the thing on the right, it evaluates to the JavaScript value <code class="highlighter-rouge">true</code>.  Otherwise it evaluates to false.</p>
+<p>There’s a large section in this function that has 4 of these equations in parenthesis.  In JavaScript, the triple equals compares two things.  If the thing on the left is the same as the thing on the right, it evaluates to the JavaScript value <code>true</code>.  Otherwise it evaluates to false.</p>
 
 <h4 id="branching-with-if-else-if-else-statements">Branching with IF, ELSE IF, ELSE Statements</h4>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code>  <span class="k">if</span> <span class="p">(</span><span class="nx">rand</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">x</span><span class="o">++</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">rand</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">x</span><span class="o">--</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">rand</span> <span class="o">===</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">y</span><span class="o">++</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="nx">y</span><span class="o">--</span><span class="p">;</span>
-  <span class="p">}</span>
+<pre><code class="language-javascript">  if (rand === 0) {
+    x++;
+  } else if (rand === 1) {
+    x--;
+  } else if (rand === 2) {
+    y++;
+  } else {
+    y--;
+  }
 </code></pre>
-</div>
 
-<p>This is what is known as an <strong>if statement</strong>.  The way it works is by starting at the top.  <strong>If</strong> the first test in parenthesis evaluates to <code class="highlighter-rouge">true</code>, then the code within the brackets {} is run and nothing else is.  Otherwise, the code moves on to the next <strong>if</strong>.  If none of the <strong>if</strong> statements ends up being true, and there is an <strong>else</strong> statement present, that runs instead.  You can mix and match your <strong>ifs</strong> with <strong>else ifs</strong> and <strong>elses</strong> as you see fit:</p>
+<p>This is what is known as an <strong>if statement</strong>.  The way it works is by starting at the top.  <strong>If</strong> the first test in parenthesis evaluates to <code>true</code>, then the code within the brackets {} is run and nothing else is.  Otherwise, the code moves on to the next <strong>if</strong>.  If none of the <strong>if</strong> statements ends up being true, and there is an <strong>else</strong> statement present, that runs instead.  You can mix and match your <strong>ifs</strong> with <strong>else ifs</strong> and <strong>elses</strong> as you see fit:</p>
 
 <p>You can omit the <strong>else if</strong> statements:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">name</span> <span class="o">===</span> <span class="s2">"Jim"</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">alert</span><span class="p">(</span><span class="s2">"Hi Jim!"</span><span class="p">);</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-  <span class="nx">alert</span><span class="p">(</span><span class="s2">"Hi stranger!"</span><span class="p">);</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">if (name === "Jim") {
+  alert("Hi Jim!");
+} else {
+  alert("Hi stranger!");
+}
 </code></pre>
-</div>
 
 <p>You can even omit the <strong>else</strong> statement:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">age</span> <span class="o">&gt;</span> <span class="mi">65</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">alert</span><span class="p">(</span><span class="s2">"Here's your senior discount!"</span><span class="p">);</span>
-<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">age</span> <span class="o">&lt;</span> <span class="mi">12</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">alert</span><span class="p">(</span><span class="s2">"Here's your child's discount!"</span><span class="p">);</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">if (age &gt; 65) {
+  alert("Here's your senior discount!");
+} else if (age &lt; 12) {
+  alert("Here's your child's discount!");
+}
 </code></pre>
-</div>
 
-<p>If there’s no else and, for example, <code class="highlighter-rouge">age</code> was 29, nothing would happen in the block of code above.</p>
+<p>If there’s no else and, for example, <code>age</code> was 29, nothing would happen in the block of code above.</p>
 
-<p>So, to bring us back to the code in our <code class="highlighter-rouge">draw</code> function, what we’re doing is checking each possible value of <code class="highlighter-rouge">rand</code>.  If <code class="highlighter-rouge">rand</code> is 0, do this.  If <code class="highlighter-rouge">rand</code> is 1, do this.  If <code class="highlighter-rouge">rand</code> is 2, do this.  Otherwise (we know <code class="highlighter-rouge">rand</code> is 3), do this other thing.  In theory, only one branch will be run, depending on <code class="highlighter-rouge">rand</code>’s value.</p>
+<p>So, to bring us back to the code in our <code>draw</code> function, what we’re doing is checking each possible value of <code>rand</code>.  If <code>rand</code> is 0, do this.  If <code>rand</code> is 1, do this.  If <code>rand</code> is 2, do this.  Otherwise (we know <code>rand</code> is 3), do this other thing.  In theory, only one branch will be run, depending on <code>rand</code>’s value.</p>
 
 <h4 id="modifying-variables-in-place">Modifying Variables In-Place</h4>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">x</span><span class="o">++</span><span class="p">;</span>
+<pre><code class="language-javascript">x++;
 </code></pre>
-</div>
 
 <p>This is a short cut.  There’s a couple of ways to modify variables in JavaScript.  You can do it the long-form way that you’ve seen before:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">x</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">7</span><span class="p">;</span>
+<pre><code class="language-javascript">x = 3 * 7;
 </code></pre>
-</div>
 
 <p>You can even use the variable in both sides of the equation!</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">x</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
-<span class="nx">x</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">3</span><span class="p">;</span>
-<span class="c1">// The right side evaluates to 15, so then</span>
-<span class="c1">// x gets set to 15</span>
+<pre><code class="language-javascript">x = 12;
+x = x + 3;
+// The right side evaluates to 15, so then
+// x gets set to 15
 </code></pre>
-</div>
 
 <p>There’s a shorthand to the method above:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">x</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
-<span class="nx">x</span> <span class="o">+=</span> <span class="mi">3</span><span class="p">;</span>
-<span class="c1">// += is short for add the following</span>
-<span class="c1">// to the current value of x</span>
-<span class="c1">// Thus, x === 15 now.</span>
+<pre><code class="language-javascript">x = 12;
+x += 3;
+// += is short for add the following
+// to the current value of x
+// Thus, x === 15 now.
 </code></pre>
-</div>
 
 <p>There’s even a shorter shorthand if you want to just add 1 to the variable (i.e. increment it).  That’s what you see above:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">x</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
-<span class="nx">x</span><span class="o">++</span><span class="p">;</span>
-<span class="c1">// x === 13</span>
+<pre><code class="language-javascript">x = 12;
+x++;
+// x === 13
 </code></pre>
-</div>
 
 <h4 id="drawing-points">Drawing Points</h4>
 
-<p>Lastly, there is a function provided by P5 called <a href="https://p5js.org/reference/#/p5/point"><code class="highlighter-rouge">point</code></a> that places a 1px dot at the provided <code class="highlighter-rouge">(x, y)</code> coordinates.  Speaking of which:</p>
+<p>Lastly, there is a function provided by P5 called <a href="https://p5js.org/reference/#/p5/point"><code>point</code></a> that places a 1px dot at the provided <code>(x, y)</code> coordinates.  Speaking of which:</p>
 
 <h4 id="canvas-x-and-y">Canvas X and Y</h4>
 
@@ -505,37 +480,36 @@
 
 <p><img src="/img/coordinate-system.jpg" alt="Canvas coordinates" /></p>
 
-<p>Thus, in our code above, if <code class="highlighter-rouge">rand</code> is 0, we add 1 to <code class="highlighter-rouge">x</code>, causing the <code class="highlighter-rouge">point</code> to move right one.  If <code class="highlighter-rouge">rand</code> is 1, we subtract 1 from <code class="highlighter-rouge">x</code>, causing the <code class="highlighter-rouge">point</code> to move left one.  If <code class="highlighter-rouge">rand</code> is 2, we add 1 to <code class="highlighter-rouge">y</code>, thus causing the <code class="highlighter-rouge">point</code> to move down one.  And if <code class="highlighter-rouge">rand</code> is 3, we subtract 1 from <code class="highlighter-rouge">y</code>, causing the <code class="highlighter-rouge">point</code> to move up one.  Overall, this code causes the point to randomly choose a direction and take one step that way.</p>
+<p>Thus, in our code above, if <code>rand</code> is 0, we add 1 to <code>x</code>, causing the <code>point</code> to move right one.  If <code>rand</code> is 1, we subtract 1 from <code>x</code>, causing the <code>point</code> to move left one.  If <code>rand</code> is 2, we add 1 to <code>y</code>, thus causing the <code>point</code> to move down one.  And if <code>rand</code> is 3, we subtract 1 from <code>y</code>, causing the <code>point</code> to move up one.  Overall, this code causes the point to randomly choose a direction and take one step that way.</p>
 
 <h3 id="wrapping-up">Wrapping Up</h3>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">rand</span><span class="p">;</span>
+<pre><code class="language-javascript">var x, y, rand;
 
-<span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">400</span><span class="p">);</span>
-  <span class="nx">x</span> <span class="o">=</span> <span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
-  <span class="nx">y</span> <span class="o">=</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
-  <span class="nx">stroke</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
+function setup() {
+  createCanvas(600, 400);
+  x = width/2;
+  y = height/2;
+  stroke(0);
+}
 
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">rand</span> <span class="o">=</span> <span class="nx">floor</span><span class="p">(</span><span class="nx">random</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">rand</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">x</span><span class="o">++</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">rand</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">x</span><span class="o">--</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">rand</span> <span class="o">===</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">y</span><span class="o">++</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="nx">y</span><span class="o">--</span><span class="p">;</span>
-  <span class="p">}</span>
+function draw() {
+  rand = floor(random(4));
+  if (rand === 0) {
+    x++;
+  } else if (rand === 1) {
+    x--;
+  } else if (rand === 2) {
+    y++;
+  } else {
+    y--;
+  }
 
-  <span class="nx">point</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span>
-<span class="p">}</span>
+  point(x, y);
+}
 </code></pre>
-</div>
 
-<p>Putting it all together, remembering that <code class="highlighter-rouge">setup</code> gets run once and <code class="highlighter-rouge">draw</code> gets run over and over after that, our code starts with a <code class="highlighter-rouge">point</code> in the middle of the screen.  Every time we run through <code class="highlighter-rouge">draw</code> (known as one <strong>animation frame</strong> or <strong>frame</strong> for short), the <code class="highlighter-rouge">point</code> moves randomly in one of the four cardinal directions, and we re-draw the point.  Save your code and open up <code class="highlighter-rouge">index.html</code> in your browser!  If everything is right, you should see our little buddy noodling his way around the middle of the canvas.</p>
+<p>Putting it all together, remembering that <code>setup</code> gets run once and <code>draw</code> gets run over and over after that, our code starts with a <code>point</code> in the middle of the screen.  Every time we run through <code>draw</code> (known as one <strong>animation frame</strong> or <strong>frame</strong> for short), the <code>point</code> moves randomly in one of the four cardinal directions, and we re-draw the point.  Save your code and open up <code>index.html</code> in your browser!  If everything is right, you should see our little buddy noodling his way around the middle of the canvas.</p>
 
 <p><img src="/img/walker.gif" alt="Our random walker!" /></p>
 
@@ -550,7 +524,7 @@
   <li>Make our random walker’s step size vary randomly by some amount.</li>
   <li>Make it so that if our walker reaches the edge of the canvas, he/she gets teleported to the other side of the canvas.  (Hint: use a very small canvas to save time in testing).</li>
   <li>Currently the walker’s steps are preserved.  This is because we aren’t redrawing the background every time.  Make it so that you can’t see the walker’s previous steps.  Now make it so you can’t se the steps and the walker is moving around in a rave (i.e. random background color!).</li>
-  <li>Using the P5 documentation: instead of drawing a <code class="highlighter-rouge">point</code>, draw a circle.  Do something creative with the circle’s fill color.</li>
+  <li>Using the P5 documentation: instead of drawing a <code>point</code>, draw a circle.  Do something creative with the circle’s fill color.</li>
 </ol>
 
 <p>Let me know if you get stuck or have any questions!  Let me know if I explained anything confusingly or could do better.</p>
@@ -757,6 +731,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

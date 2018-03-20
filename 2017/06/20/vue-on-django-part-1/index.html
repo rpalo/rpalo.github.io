@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -64,7 +65,7 @@
 
 <h2 id="2-getting-set-up">2. Getting Set Up</h2>
 
-<p>The way that we’re going to be doing this, we’ll be using Webpack to handle module bundling and more.  Since Webpack is still essentially hoodoo sorcery to me, I’ll explain enough to get the job done.  The first thing we’ll need is the <code class="highlighter-rouge">vue-cli</code> tool.  This will make our lives nice by mostly setting up Webpack for us among other things.  You will need Node and NPM though.</p>
+<p>The way that we’re going to be doing this, we’ll be using Webpack to handle module bundling and more.  Since Webpack is still essentially hoodoo sorcery to me, I’ll explain enough to get the job done.  The first thing we’ll need is the <code>vue-cli</code> tool.  This will make our lives nice by mostly setting up Webpack for us among other things.  You will need Node and NPM though.</p>
 
 <blockquote>
   <p>For those of you more used to Python and Django, NPM is kind of like pip, if pip had some of the abilities of the standard Django manage.py.</p>
@@ -80,11 +81,11 @@
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span><span class="nb">cd </span>todoapp
 <span class="gp">$ </span>npm install</code></pre></figure>
 
-<p>At this point, feel free to begin your git repository as well.  I’ll leave that to you.  Some important things now.  <code class="highlighter-rouge">main.js</code> is the file where your app is actually instantiated.  Vue apps are made up of components composed together to simplify complicated things.  We are not about to do complicated things, so no worries.  All we want to have is a todo list that you can enter items into and clear entirely.  Two actions.  The main component is already created and can be found in <code class="highlighter-rouge">src/App.vue</code>.  We’ll be changing that shortly.  First create a directory called <code class="highlighter-rouge">components</code>, if it doesn’t already exist, within the <code class="highlighter-rouge">src</code> directory.  If it already exists, there may be a <code class="highlighter-rouge">Hello.vue</code> file.  You can delete that.</p>
+<p>At this point, feel free to begin your git repository as well.  I’ll leave that to you.  Some important things now.  <code>main.js</code> is the file where your app is actually instantiated.  Vue apps are made up of components composed together to simplify complicated things.  We are not about to do complicated things, so no worries.  All we want to have is a todo list that you can enter items into and clear entirely.  Two actions.  The main component is already created and can be found in <code>src/App.vue</code>.  We’ll be changing that shortly.  First create a directory called <code>components</code>, if it doesn’t already exist, within the <code>src</code> directory.  If it already exists, there may be a <code>Hello.vue</code> file.  You can delete that.</p>
 
 <h2 id="3-the-components">3. The Components</h2>
 
-<p>Our app will be three primary components.  1) The TodoList, which displays each todo.  2) The Todo, which will be the basic unit displayed.  3) The UserInput, which contains the input box and the clear button.  Does it need to be that complicated?  No.  But it will help show some of the functionalities available within Vue.  Let’s create our first one.  Create <code class="highlighter-rouge">src/components/Todo.vue</code>.</p>
+<p>Our app will be three primary components.  1) The TodoList, which displays each todo.  2) The Todo, which will be the basic unit displayed.  3) The UserInput, which contains the input box and the clear button.  Does it need to be that complicated?  No.  But it will help show some of the functionalities available within Vue.  Let’s create our first one.  Create <code>src/components/Todo.vue</code>.</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// src/components/Todo.vue</span>
 
@@ -100,7 +101,7 @@
 <span class="p">}</span>
 <span class="o">&lt;</span><span class="sr">/script&gt;</span></code></pre></figure>
 
-<p>That’s it.  There are two main ways to do Vue components: in one file, and with single-component modules.  We’re doing this via modules.  Each component will contain a template that lays out the HTML structure of the component, a script tag that contains the brains of the component, and optionally, a style tag that contains custom styles local to the component.  These components are laid out in a hierarchy, which you’ll see, and parent components can pass data to their children in the form of <em>props</em>, which you have to declare for the component to be able to use them.  You can see that in the script tag above.  Don’t get too hung up on the <code class="highlighter-rouge">export default</code> nonsense.  That’s the way that Webpack is handling modules and imports.  When the Todo.vue module is imported, the object that it exports will be what is passed (essentially the “soul” of the component).  That will hopefully become more clear as we move on.  Let’s do the TodoList component so you can see how <code class="highlighter-rouge">props</code> are passed.</p>
+<p>That’s it.  There are two main ways to do Vue components: in one file, and with single-component modules.  We’re doing this via modules.  Each component will contain a template that lays out the HTML structure of the component, a script tag that contains the brains of the component, and optionally, a style tag that contains custom styles local to the component.  These components are laid out in a hierarchy, which you’ll see, and parent components can pass data to their children in the form of <em>props</em>, which you have to declare for the component to be able to use them.  You can see that in the script tag above.  Don’t get too hung up on the <code>export default</code> nonsense.  That’s the way that Webpack is handling modules and imports.  When the Todo.vue module is imported, the object that it exports will be what is passed (essentially the “soul” of the component).  That will hopefully become more clear as we move on.  Let’s do the TodoList component so you can see how <code>props</code> are passed.</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// src/components/TodoList.vue</span>
 
@@ -133,10 +134,10 @@
 <span class="p">}</span>
 <span class="o">&lt;</span><span class="sr">/script&gt;</span></code></pre></figure>
 
-<p>Some things of note here.  You can see the <code class="highlighter-rouge">v-for</code> option used in the <code class="highlighter-rouge">li</code> element.  That tells Vue to loop through every item in the todos variable and create an li element from it.  You can see us creating our first custom element: <code class="highlighter-rouge">todo</code>.  <code class="highlighter-rouge">v-bind</code> allows us to send data into the child component as a prop.  When you are making a list of items, Vue makes you provide an id for each item so it can keep the list straight and make speedy changes.  You can see this component claims the Todo as its child component in the <code class="highlighter-rouge">script</code> section by including the <code class="highlighter-rouge">components</code> key.  Lastly, the <code class="highlighter-rouge">data</code> key provides the initialization of the variable todos.  Once we get into the data model we can initialize this from actual data as opposed to hard-coding values.</p>
+<p>Some things of note here.  You can see the <code>v-for</code> option used in the <code>li</code> element.  That tells Vue to loop through every item in the todos variable and create an li element from it.  You can see us creating our first custom element: <code>todo</code>.  <code>v-bind</code> allows us to send data into the child component as a prop.  When you are making a list of items, Vue makes you provide an id for each item so it can keep the list straight and make speedy changes.  You can see this component claims the Todo as its child component in the <code>script</code> section by including the <code>components</code> key.  Lastly, the <code>data</code> key provides the initialization of the variable todos.  Once we get into the data model we can initialize this from actual data as opposed to hard-coding values.</p>
 
 <blockquote>
-  <p>We’re also seeing more of the “module” syntax in the <code class="highlighter-rouge">import Todo from './Todo.vue</code> line.  By writing this, the variable Todo is filled with the object that was exported from the Todo.vue file.  Similar, but a slightly more controlled import than Python imports, although you can achieve a similar effect by explicitly setting the <code class="highlighter-rouge">__all__</code> variable… but I’m getting off-track.</p>
+  <p>We’re also seeing more of the “module” syntax in the <code>import Todo from './Todo.vue</code> line.  By writing this, the variable Todo is filled with the object that was exported from the Todo.vue file.  Similar, but a slightly more controlled import than Python imports, although you can achieve a similar effect by explicitly setting the <code>__all__</code> variable… but I’m getting off-track.</p>
 </blockquote>
 
 <p>Here’s the UserInput component.</p>
@@ -168,9 +169,9 @@
 <span class="p">}</span>
 <span class="o">&lt;</span><span class="sr">/script&gt;</span></code></pre></figure>
 
-<p>What’s new here?  You can see our first event handlers!  The input responds to a <code class="highlighter-rouge">keyup.enter</code> event which does what is predictable.  You can see the <code class="highlighter-rouge">createTodo</code> method declared within the <code class="highlighter-rouge">script</code> tag’s method section.  Notice again we define a variable in the <code class="highlighter-rouge">data</code> section, but this time we’re using <code class="highlighter-rouge">v-model</code>, which is syntactic sugar for a two-way bind.  Anytime you change the input text, <code class="highlighter-rouge">newTodoText</code> gets updated, and anytime you change <code class="highlighter-rouge">newTodoText</code> programatically, the text in the input box gets changed.</p>
+<p>What’s new here?  You can see our first event handlers!  The input responds to a <code>keyup.enter</code> event which does what is predictable.  You can see the <code>createTodo</code> method declared within the <code>script</code> tag’s method section.  Notice again we define a variable in the <code>data</code> section, but this time we’re using <code>v-model</code>, which is syntactic sugar for a two-way bind.  Anytime you change the input text, <code>newTodoText</code> gets updated, and anytime you change <code>newTodoText</code> programatically, the text in the input box gets changed.</p>
 
-<p>Almost done.  Go ahead and modify the existing <code class="highlighter-rouge">App.vue</code>.</p>
+<p>Almost done.  Go ahead and modify the existing <code>App.vue</code>.</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// src/App.vue</span>
 
@@ -193,7 +194,7 @@
 <span class="p">}</span>
 <span class="o">&lt;</span><span class="sr">/script&gt;</span></code></pre></figure>
 
-<p>Nothing new to see here.  One thing I should note: see how the modules and objects in the <code class="highlighter-rouge">script</code> tag are CamelCase?  See how the template custom elements are kabob-case?  Vue manages that translation automatically since HTML is case-insensitive.</p>
+<p>Nothing new to see here.  One thing I should note: see how the modules and objects in the <code>script</code> tag are CamelCase?  See how the template custom elements are kabob-case?  Vue manages that translation automatically since HTML is case-insensitive.</p>
 
 <h2 id="4-take-a-look">4. Take a Look</h2>
 
@@ -201,13 +202,13 @@
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>npm run dev <span class="c"># This will run the webpack build and development server</span></code></pre></figure>
 
-<p>Head on over to <code class="highlighter-rouge">localhost:8080</code> and see your handiwork.  You should see the following masterpiece of software design:</p>
+<p>Head on over to <code>localhost:8080</code> and see your handiwork.  You should see the following masterpiece of software design:</p>
 
 <p><img src="/img/todo-part1-final.png" alt="Our Todo List in the browser" /></p>
 
-<p>Some possibilities for error: if you see <code class="highlighter-rouge">COULD NOT GET /</code>, you should check your terminal.  You probably angered the ESLint gods.  I had about 7 billion style fails the first time.  Fix those and refresh the page.  If you see any warning about npm failing, it’s possible you forgot to install the node_modules.  Run <code class="highlighter-rouge">npm install</code> and try again.</p>
+<p>Some possibilities for error: if you see <code>COULD NOT GET /</code>, you should check your terminal.  You probably angered the ESLint gods.  I had about 7 billion style fails the first time.  Fix those and refresh the page.  If you see any warning about npm failing, it’s possible you forgot to install the node_modules.  Run <code>npm install</code> and try again.</p>
 
-<p>Once you get it working, pull up your browser’s devtools and type in the input and hit enter.  You should see it log as your <code class="highlighter-rouge">createTodo</code> function commands it to.  Click the clear button.  You should see a second appropriate log.  So ends the first whirlwind part of the tutorial.  Next time we’ll get the data store (think Flux/Redux – we’ll be using Vue’s version: Vuex) setup.</p>
+<p>Once you get it working, pull up your browser’s devtools and type in the input and hit enter.  You should see it log as your <code>createTodo</code> function commands it to.  Click the clear button.  You should see a second appropriate log.  So ends the first whirlwind part of the tutorial.  Next time we’ll get the data store (think Flux/Redux – we’ll be using Vue’s version: Vuex) setup.</p>
 
 <p>As a note, this is my first time really using ES6-type syntax for the front-end, my first time using Vue, Webpack, ESLint, and my first time really using npm scripts and node_modules.  If you see any ways that I’m Doing It Wrong™, let me know (gently, please 😁).</p>
 
@@ -413,6 +414,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

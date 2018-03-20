@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -56,120 +57,113 @@
         
     </div>
     <h1>Thunder-Struct</h1>
-    <p>I just found out about this super handy built-in class in Ruby called a <code class="highlighter-rouge">Struct</code>, and I wanted to share.</p>
+    <p>I just found out about this super handy built-in class in Ruby called a <code>Struct</code>, and I wanted to share.</p>
 
 <h2 id="what-is-a-struct">What is a Struct</h2>
 
-<p>Very simply put, a <code class="highlighter-rouge">Struct</code> is a data object that is simulates a quick way to declare a class.  A common need in a program is to glue a bunch of related data together.  You can think of our options for that as a sort of continuum.</p>
+<p>Very simply put, a <code>Struct</code> is a data object that is simulates a quick way to declare a class.  A common need in a program is to glue a bunch of related data together.  You can think of our options for that as a sort of continuum.</p>
 
 <p><img src="/img/struct-continuum.png" alt="Different data types and how flexible vs. how structured they are" /></p>
 
 <p>Let’s say, for example, that you have a student grade that you want to keep track of.  You could define a class to explicitly lay out your data structure.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Grade</span>
-  <span class="kp">attr_reader</span> <span class="ss">:assignment</span><span class="p">,</span> <span class="ss">:number_grade</span><span class="p">,</span> <span class="ss">:letter_grade</span>
+<pre><code class="language-ruby">class Grade
+  attr_reader :assignment, :number_grade, :letter_grade
   
-  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">assignment</span><span class="p">,</span> <span class="n">number_grade</span><span class="p">,</span> <span class="n">letter_grade</span><span class="p">)</span>
-    <span class="vi">@assignment</span> <span class="o">=</span> <span class="n">assignment</span>
-    <span class="vi">@number_grade</span> <span class="o">=</span> <span class="n">number_grade</span>
-    <span class="vi">@letter_grade</span> <span class="o">=</span> <span class="n">letter_grade</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+  def initialize(assignment, number_grade, letter_grade)
+    @assignment = assignment
+    @number_grade = number_grade
+    @letter_grade = letter_grade
+  end
+end
 
-<span class="n">jerrys_grade</span> <span class="o">=</span> <span class="no">Grade</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Physics Quiz #3"</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="s2">"B"</span><span class="p">)</span>
+jerrys_grade = Grade.new("Physics Quiz #3", 85, "B")
 </code></pre>
-</div>
 
 <p>Or, seeing all of the typing, you could violently overreact and go in the opposite direction.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">jerrys_grade</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Physics Quiz #3"</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="s2">"B"</span><span class="p">]</span>
+<pre><code class="language-ruby">jerrys_grade = ["Physics Quiz #3", 85, "B"]
 </code></pre>
-</div>
 
 <p>For a simple data object like this where there aren’t really methods to define yet, I think a lot of people’s first thought is to try to be more in the middle of the spectrum.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">jerrys_grade</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="ss">assignment: </span><span class="s2">"Physics Quiz #3"</span><span class="p">,</span>
-  <span class="ss">number_grade: </span><span class="mi">85</span><span class="p">,</span>
-  <span class="ss">letter_grade: </span><span class="s2">"B"</span>
-<span class="p">}</span>
+<pre><code class="language-ruby">jerrys_grade = {
+  assignment: "Physics Quiz #3",
+  number_grade: 85,
+  letter_grade: "B"
+}
 </code></pre>
-</div>
 
-<p>But there’s another, even awesomer (yeah, I said it) way: the <code class="highlighter-rouge">Struct</code>.</p>
+<p>But there’s another, even awesomer (yeah, I said it) way: the <code>Struct</code>.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="no">Grade</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:assignment</span><span class="p">,</span> <span class="ss">:number_grade</span><span class="p">,</span> <span class="ss">:letter_grade</span><span class="p">)</span>
+<pre><code class="language-ruby">Grade = Struct.new(:assignment, :number_grade, :letter_grade)
 
-<span class="n">jerrys_grade</span> <span class="o">=</span> <span class="no">Grade</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Physics Quiz #3"</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="s2">"B"</span><span class="p">)</span>
+jerrys_grade = Grade.new("Physics Quiz #3", 85, "B")
 </code></pre>
-</div>
 
 <h2 id="what-do-i-do-with-it">What Do I Do With It?</h2>
 
-<p><code class="highlighter-rouge">Structs</code> are cool because they give you a lot of flexibility in how you access and use the data without giving up any explicit-ness.</p>
+<p><code>Structs</code> are cool because they give you a lot of flexibility in how you access and use the data without giving up any explicit-ness.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">jerrys_grade</span><span class="p">.</span><span class="nf">assignment</span>
-<span class="c1"># =&gt; "Physics Quiz #3"</span>
-<span class="n">jerrys_grade</span><span class="p">[</span><span class="s2">"number_grade"</span><span class="p">]</span>
-<span class="c1"># =&gt; 85</span>
-<span class="n">jerrys_grade</span><span class="p">[</span><span class="ss">:letter_grade</span><span class="p">]</span>
-<span class="c1"># =&gt; "B"</span>
+<pre><code class="language-ruby">jerrys_grade.assignment
+# =&gt; "Physics Quiz #3"
+jerrys_grade["number_grade"]
+# =&gt; 85
+jerrys_grade[:letter_grade]
+# =&gt; "B"
 
-<span class="c1"># Jerry must have done some extra credit</span>
-<span class="n">jerrys_grade</span><span class="p">.</span><span class="nf">number_grade</span> <span class="o">+=</span> <span class="mi">10</span>
-<span class="n">jerrys_grade</span><span class="p">[</span><span class="s2">"letter_grade"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"A"</span>
+# Jerry must have done some extra credit
+jerrys_grade.number_grade += 10
+jerrys_grade["letter_grade"] = "A"
 </code></pre>
-</div>
 
-<p>They also come pre-built with some of the features that you’d have to build yourself if you used an actual <code class="highlighter-rouge">class</code> definition.</p>
+<p>They also come pre-built with some of the features that you’d have to build yourself if you used an actual <code>class</code> definition.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># Equality</span>
-<span class="n">doras_grade</span> <span class="o">=</span> <span class="no">Grade</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Physics Quiz #3"</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="s2">"A"</span><span class="p">)</span>
-<span class="n">doras_grade</span> <span class="o">==</span> <span class="n">jerrys_grade</span>
-<span class="c1"># =&gt; true</span>
+<pre><code class="language-ruby"># Equality
+doras_grade = Grade.new("Physics Quiz #3", 95, "A")
+doras_grade == jerrys_grade
+# =&gt; true
 
-<span class="c1"># Can be enumerated</span>
-<span class="n">jerrys_grade</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">datapoint</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">datapoint</span> <span class="p">}</span>
-<span class="c1"># =&gt; Physics Quiz #3</span>
-<span class="c1"># =&gt; 95</span>
-<span class="c1"># =&gt; A</span>
+# Can be enumerated
+jerrys_grade.each { |datapoint| puts datapoint }
+# =&gt; Physics Quiz #3
+# =&gt; 95
+# =&gt; A
 
-<span class="c1"># Or enumerated like a hash with key and value</span>
-<span class="n">doras_grade</span><span class="p">.</span><span class="nf">each_pair</span> <span class="p">{</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
-<span class="c1"># =&gt; assignment: Physics Quiz #3</span>
-<span class="c1"># =&gt; number_grade: 95</span>
-<span class="c1"># =&gt; letter_grade: A</span>
+# Or enumerated like a hash with key and value
+doras_grade.each_pair { |key, value| puts "#{key}: #{value}" }
+# =&gt; assignment: Physics Quiz #3
+# =&gt; number_grade: 95
+# =&gt; letter_grade: A
 
-<span class="c1"># Can be converted to an array or hash</span>
-<span class="n">jerrys_grade</span><span class="p">.</span><span class="nf">to_a</span>
-<span class="c1"># =&gt; ["Physics Quiz #3", 95, "A"]</span>
-<span class="n">doras_grade</span><span class="p">.</span><span class="nf">to_h</span>
-<span class="c1"># =&gt; {assignment: "Physics Quiz #3", number_grade: 95, letter_grade: "A"}</span>
+# Can be converted to an array or hash
+jerrys_grade.to_a
+# =&gt; ["Physics Quiz #3", 95, "A"]
+doras_grade.to_h
+# =&gt; {assignment: "Physics Quiz #3", number_grade: 95, letter_grade: "A"}
 </code></pre>
-</div>
 
 <p>And if you need your own methods, you can add them via a block when creating them.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="no">Grade</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:assignment</span><span class="p">,</span> <span class="ss">:number_grade</span><span class="p">)</span> <span class="k">do</span>
-  <span class="k">def</span> <span class="nf">letter_grade</span>
-    <span class="k">case</span> <span class="n">number_grade</span>
-    <span class="k">when</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="nf">.</span><span class="mi">64</span><span class="p">)</span>
-      <span class="s2">"F"</span>
-    <span class="k">when</span> <span class="p">(</span><span class="mi">65</span><span class="p">.</span><span class="nf">.</span><span class="mi">69</span><span class="p">)</span>
-      <span class="s2">"D"</span>
-    <span class="k">when</span> <span class="p">(</span><span class="mi">70</span><span class="p">.</span><span class="nf">.</span><span class="mi">79</span><span class="p">)</span>
-      <span class="s2">"C"</span>
-    <span class="k">when</span> <span class="p">(</span><span class="mi">80</span><span class="p">.</span><span class="nf">.</span><span class="mi">89</span><span class="p">)</span>
-      <span class="s2">"B"</span>
-    <span class="k">when</span> <span class="p">(</span><span class="mi">90</span><span class="p">.</span><span class="nf">.</span><span class="mi">100</span><span class="p">)</span>
-      <span class="s2">"A"</span>
-    <span class="k">else</span>
-      <span class="s2">"WTF"</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+<pre><code class="language-ruby">Grade = Struct.new(:assignment, :number_grade) do
+  def letter_grade
+    case number_grade
+    when (0..64)
+      "F"
+    when (65..69)
+      "D"
+    when (70..79)
+      "C"
+    when (80..89)
+      "B"
+    when (90..100)
+      "A"
+    else
+      "WTF"
+    end
+  end
+end
 </code></pre>
-</div>
 
 <p>Neat, right?  I bet right now, you’re feeling… inde-<strong>struct</strong>-ible?</p>
 
@@ -179,138 +173,132 @@
 
 <h2 id="whats-the-benefit">What’s the Benefit?</h2>
 
-<p>Why would I want to use a <code class="highlighter-rouge">Struct</code> instead of a <code class="highlighter-rouge">Class</code> or a <code class="highlighter-rouge">Hash</code>?  When is one better than the other?  It’s all a matter of what you’re trying to do.</p>
+<p>Why would I want to use a <code>Struct</code> instead of a <code>Class</code> or a <code>Hash</code>?  When is one better than the other?  It’s all a matter of what you’re trying to do.</p>
 
 <h3 id="static-vs-dynamic-attributes">Static vs. Dynamic Attributes</h3>
 
-<p>You can’t easily add attributes to a <code class="highlighter-rouge">Struct</code>, so in applications where your keys/attributes need to be dynamic or you don’t know what they’ll be ahead of time (think “word-counter”), you might be better suited with a <code class="highlighter-rouge">Hash</code>.  On the other hand, if you know exactly what keys you’ll need, the object-based “dot access” looks nice, and having a constructor can save you a lot of time typing.  It can be a good, clean way of signaling your design intent.  A good example of having well-defined attributes is if you work with an Address.</p>
+<p>You can’t easily add attributes to a <code>Struct</code>, so in applications where your keys/attributes need to be dynamic or you don’t know what they’ll be ahead of time (think “word-counter”), you might be better suited with a <code>Hash</code>.  On the other hand, if you know exactly what keys you’ll need, the object-based “dot access” looks nice, and having a constructor can save you a lot of time typing.  It can be a good, clean way of signaling your design intent.  A good example of having well-defined attributes is if you work with an Address.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># This is nice and clear, and you don't have to retype the keys</span>
-<span class="c1"># for every new address</span>
-<span class="no">Address</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:street</span><span class="p">,</span> <span class="ss">:city</span><span class="p">,</span> <span class="ss">:postal_code</span><span class="p">,</span> <span class="ss">:country</span><span class="p">)</span>
+<pre><code class="language-ruby"># This is nice and clear, and you don't have to retype the keys
+# for every new address
+Address = Struct.new(:street, :city, :postal_code, :country)
 
-<span class="n">the_worlds_greatest_place</span> <span class="o">=</span> <span class="no">Address</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
-  <span class="s2">"211 Main St."</span><span class="p">,</span>
-  <span class="s2">"Savanna, IL"</span><span class="p">,</span>
-  <span class="mi">61074</span><span class="p">,</span>
-  <span class="s2">"USA"</span>
-<span class="p">)</span>
+the_worlds_greatest_place = Address.new(
+  "211 Main St.",
+  "Savanna, IL",
+  61074,
+  "USA"
+)
 
-<span class="c1"># This is ok, but more typing, harder to discern intent,</span>
-<span class="c1"># and more prone to typos and misinterpretation</span>
-<span class="n">more_typing</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="ss">street: </span><span class="s2">"211 Main St."</span><span class="p">,</span>
-  <span class="ss">city: </span><span class="s2">"Savanna, IL"</span><span class="p">,</span>
-  <span class="ss">postal_code: </span><span class="mi">61074</span><span class="p">,</span>
-  <span class="ss">country: </span><span class="s2">"USA"</span>
-<span class="p">}</span>
+# This is ok, but more typing, harder to discern intent,
+# and more prone to typos and misinterpretation
+more_typing = {
+  street: "211 Main St.",
+  city: "Savanna, IL",
+  postal_code: 61074,
+  country: "USA"
+}
 </code></pre>
-</div>
 
 <h3 id="less-error-prone">Less Error Prone</h3>
 
-<p><code class="highlighter-rouge">Structs</code> tend to be more rigid, which can help protect from errors and uncaught typos.</p>
+<p><code>Structs</code> tend to be more rigid, which can help protect from errors and uncaught typos.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">whoops_i_made_a_typo</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="ss">stroot: </span><span class="s2">"211 Main St."</span><span class="p">,</span>
-  <span class="c1"># Forgot that I commented out this one: city: "Savanna, IL",</span>
-  <span class="ss">postal_code: </span><span class="mi">61074</span><span class="p">,</span>
-  <span class="ss">country: </span><span class="s2">"USA"</span>
-<span class="p">}</span>
-<span class="c1"># And no errors get thrown</span>
-<span class="n">whoops_i_made_a_typo</span><span class="p">[</span><span class="s2">"street"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"309 Main St."</span>
+<pre><code class="language-ruby">whoops_i_made_a_typo = {
+  stroot: "211 Main St.",
+  # Forgot that I commented out this one: city: "Savanna, IL",
+  postal_code: 61074,
+  country: "USA"
+}
+# And no errors get thrown
+whoops_i_made_a_typo["street"] = "309 Main St."
 
-<span class="c1"># And if I access a key that doesn't exist</span>
-<span class="n">whoops_i_made_a_typo</span><span class="p">[</span><span class="s2">"city"</span><span class="p">]</span>
-<span class="c1"># =&gt; nil</span>
+# And if I access a key that doesn't exist
+whoops_i_made_a_typo["city"]
+# =&gt; nil
 
-<span class="c1"># But if we construct an Address with too many keys:</span>
-<span class="n">big_ole_error</span> <span class="o">=</span> <span class="no">Address</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
-  <span class="s2">"123 Fake St."</span><span class="p">,</span>
-  <span class="s2">"Fake, FK"</span><span class="p">,</span>
-  <span class="mi">12345</span><span class="p">,</span>
-  <span class="s2">"USA"</span><span class="p">,</span>
-  <span class="s2">"BLARGLFLURB"</span>
-<span class="p">)</span>
-<span class="c1"># =&gt; ArgumentError: Struct size differs</span>
+# But if we construct an Address with too many keys:
+big_ole_error = Address.new(
+  "123 Fake St.",
+  "Fake, FK",
+  12345,
+  "USA",
+  "BLARGLFLURB"
+)
+# =&gt; ArgumentError: Struct size differs
 
-<span class="c1"># And if we try to access a key that doesn't exist?</span>
-<span class="n">the_worlds_greatest_place</span><span class="p">[</span><span class="s2">"potato"</span><span class="p">]</span>
-<span class="c1"># =&gt; NoMethodError: undefined method 'potato'</span>
+# And if we try to access a key that doesn't exist?
+the_worlds_greatest_place["potato"]
+# =&gt; NoMethodError: undefined method 'potato'
 </code></pre>
-</div>
 
 <h3 id="theyre-fast">They’re Fast</h3>
 
-<p><code class="highlighter-rouge">Structs</code> can also be much faster to create than hashes.</p>
+<p><code>Structs</code> can also be much faster to create than hashes.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'benchmark'</span>
+<pre><code class="language-ruby">require 'benchmark'
 
-<span class="no">Benchmark</span><span class="p">.</span><span class="nf">bm</span> <span class="mi">10</span> <span class="k">do</span> <span class="o">|</span><span class="n">bench</span><span class="o">|</span>
-  <span class="n">bench</span><span class="p">.</span><span class="nf">report</span> <span class="s2">"Hash"</span> <span class="k">do</span>
-    <span class="mi">1_000_000</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span> <span class="p">{</span> <span class="ss">name: </span><span class="s2">"Ryan"</span><span class="p">,</span> <span class="ss">coolness: </span><span class="mi">27</span> <span class="p">}</span> <span class="k">end</span>
-  <span class="k">end</span>
+Benchmark.bm 10 do |bench|
+  bench.report "Hash" do
+    1_000_000.times do { name: "Ryan", coolness: 27 } end
+  end
   
-  <span class="n">bench</span><span class="p">.</span><span class="nf">report</span> <span class="s2">"Struct"</span> <span class="k">do</span>
-    <span class="no">Dev</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:coolness</span><span class="p">)</span>
-    <span class="mi">1_000_000</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span> <span class="no">Dev</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Ryan"</span><span class="p">,</span> <span class="mi">27</span><span class="p">)</span> <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+  bench.report "Struct" do
+    Dev = Struct.new(:name, :coolness)
+    1_000_000.times do Dev.new("Ryan", 27) end
+  end
+end
 
-<span class="c1">#                  user     system      total        real</span>
-<span class="c1"># Hash         0.750000   0.010000   0.760000 (  0.762069)</span>
-<span class="c1"># Struct       0.270000   0.000000   0.270000 (  0.272200)</span>
+#                  user     system      total        real
+# Hash         0.750000   0.010000   0.760000 (  0.762069)
+# Struct       0.270000   0.000000   0.270000 (  0.272200)
 </code></pre>
-</div>
 
 <h3 id="theyre-compact">They’re Compact</h3>
 
-<p><em>And</em>, because they don’t have all of the methods that come with <code class="highlighter-rouge">Hashes</code>, they end up using less memory.  This isn’t a huge savings, but maybe it counts if you’re working in a constrained environment or with a bazillion data points.</p>
+<p><em>And</em>, because they don’t have all of the methods that come with <code>Hashes</code>, they end up using less memory.  This isn’t a huge savings, but maybe it counts if you’re working in a constrained environment or with a bazillion data points.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'objspace'</span>
+<pre><code class="language-ruby">require 'objspace'
 
-<span class="no">Dev</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:age</span><span class="p">)</span>
-<span class="nb">p</span> <span class="o">=</span> <span class="no">Dev</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Ryan"</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
-<span class="n">q</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">name: </span><span class="s2">"Ryan"</span><span class="p">,</span> <span class="ss">age: </span><span class="mi">25</span> <span class="p">}</span>
+Dev = Struct.new(:name, :age)
+p = Dev.new("Ryan", 25)
+q = { name: "Ryan", age: 25 }
 
-<span class="nb">puts</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">memsize_of</span><span class="p">(</span><span class="nb">p</span><span class="p">)</span>
-<span class="c1"># =&gt; 40</span>
-<span class="nb">puts</span> <span class="no">ObjectSpace</span><span class="p">.</span><span class="nf">memsize_of</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
-<span class="c1"># =&gt; 232</span>
+puts ObjectSpace.memsize_of(p)
+# =&gt; 40
+puts ObjectSpace.memsize_of(q)
+# =&gt; 232
 </code></pre>
-</div>
 
-<p>However, if you need some of those methods, maybe you’re better off with a <code class="highlighter-rouge">Hash</code>.</p>
+<p>However, if you need some of those methods, maybe you’re better off with a <code>Hash</code>.</p>
 
 <h2 id="but-dont-go-crazy">But Don’t Go Crazy</h2>
 
-<p>If you have a lot of methods and custom functionality, or if the object is a larger part of your application, it’s probably better to stick with our good old friend, the Class.  While the upside of <code class="highlighter-rouge">Structs</code> is that they are quick and easy to create on the fly, that’s also their downfall.  Having too many <code class="highlighter-rouge">structs</code>, or ones that are too large, can be hard to read and might miss out on the benefits of defining a Class the normal, idiomatic way.  Just like most things in programming, it all comes down to trade-offs.</p>
+<p>If you have a lot of methods and custom functionality, or if the object is a larger part of your application, it’s probably better to stick with our good old friend, the Class.  While the upside of <code>Structs</code> is that they are quick and easy to create on the fly, that’s also their downfall.  Having too many <code>structs</code>, or ones that are too large, can be hard to read and might miss out on the benefits of defining a Class the normal, idiomatic way.  Just like most things in programming, it all comes down to trade-offs.</p>
 
 <h2 id="one-last-thing-openstructs">One Last Thing: OpenStructs</h2>
 
-<p>I thought I should add this in because, when I initially started researching, I thought <code class="highlighter-rouge">OpenStructs</code> were the same as regular <code class="highlighter-rouge">structs</code>.  Some StackOverflow answers can be misleading.  <code class="highlighter-rouge">OpenStructs</code> get created in a similar manner to regular ones, except for the fact that they’re essentially anonymous.</p>
+<p>I thought I should add this in because, when I initially started researching, I thought <code>OpenStructs</code> were the same as regular <code>structs</code>.  Some StackOverflow answers can be misleading.  <code>OpenStructs</code> get created in a similar manner to regular ones, except for the fact that they’re essentially anonymous.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'ostruct'</span>
+<pre><code class="language-ruby">require 'ostruct'
 
-<span class="n">me</span> <span class="o">=</span> <span class="no">OpenStruct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">name: </span><span class="s2">"Ryan"</span><span class="p">,</span> <span class="ss">blog: </span><span class="s2">"assert_not magic?"</span><span class="p">)</span>
+me = OpenStruct.new(name: "Ryan", blog: "assert_not magic?")
 </code></pre>
-</div>
 
 <p>The main difference is that you can dynamically add attributes to this kind.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">me</span><span class="p">.</span><span class="nf">favorite_food</span> <span class="o">=</span> <span class="s2">"chorizo breakfast burrito"</span>
+<pre><code class="language-ruby">me.favorite_food = "chorizo breakfast burrito"
 </code></pre>
-</div>
 
 <p><img src="/img/struct-chorizo.jpg" alt="Breakfast burritos…mmmm…" /></p>
 
-<p>If you tried that with a regular <code class="highlighter-rouge">struct</code>, you’d get a <code class="highlighter-rouge">NoMethodError</code>.</p>
+<p>If you tried that with a regular <code>struct</code>, you’d get a <code>NoMethodError</code>.</p>
 
 <p>What’s the trade-off here?  You don’t get to name it.  Also, OpenStructs are <strong>outrageously slow and memory intensive</strong> .  Check out <a href="https://stackoverflow.com/a/5440064/4100442">these benchmarks</a>.</p>
 
 <h2 id="wrap-up">Wrap-Up</h2>
 
-<p>So that’s it.  I thought it was a super handy tool — kind of like a <code class="highlighter-rouge">NamedTuple</code> in Python, but with even nicer syntax!  Now we’re one trick closer to Ruby mastery!</p>
+<p>So that’s it.  I thought it was a super handy tool — kind of like a <code>NamedTuple</code> in Python, but with even nicer syntax!  Now we’re one trick closer to Ruby mastery!</p>
 
 <p><strong>More Resources</strong>:</p>
 
@@ -524,6 +512,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

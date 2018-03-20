@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -64,59 +65,56 @@
 
 <p>A closure (also called a <em>function closure</em> or a <em>lexical closure</em>) is when you find a way of wrapping up a function with the state in which it was defined into one connected and persistent bundle.  I’ll show you a bunch of examples if that doesn’t make sense.  There’s a number of ways to create a closure, but the canonical one is to define and return a function from within another function.  Here’s what I mean.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">build_zoo</span><span class="p">():</span>
-    <span class="n">animals</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">def</span> <span class="nf">add_animal</span><span class="p">(</span><span class="n">animal</span><span class="p">):</span>
-        <span class="n">animals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">animal</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">animals</span>
-    <span class="k">return</span> <span class="n">add_animal</span>
+<pre><code class="language-python">def build_zoo():
+    animals = []
+    def add_animal(animal):
+        animals.append(animal)
+        return animals
+    return add_animal
 
-<span class="n">zoo_a</span> <span class="o">=</span> <span class="n">build_zoo</span><span class="p">()</span>
-<span class="n">zoo_b</span> <span class="o">=</span> <span class="n">build_zoo</span><span class="p">()</span>
+zoo_a = build_zoo()
+zoo_b = build_zoo()
 
-<span class="n">zoo_a</span><span class="p">(</span><span class="s">"zebra"</span><span class="p">)</span>
-<span class="c"># =&gt; ["zebra"]</span>
-<span class="n">zoo_a</span><span class="p">(</span><span class="s">"monkey"</span><span class="p">)</span>
-<span class="c"># =&gt; ["zebra", "monkey"]</span>
-<span class="n">zoo_b</span><span class="p">(</span><span class="s">"snek"</span><span class="p">)</span>
-<span class="c"># =&gt; ["snek"]</span>
-<span class="n">zoo_a</span><span class="p">(</span><span class="s">"panda"</span><span class="p">)</span>
-<span class="c"># =&gt; ["zebra", "monkey", "panda"]</span>
+zoo_a("zebra")
+# =&gt; ["zebra"]
+zoo_a("monkey")
+# =&gt; ["zebra", "monkey"]
+zoo_b("snek")
+# =&gt; ["snek"]
+zoo_a("panda")
+# =&gt; ["zebra", "monkey", "panda"]
 </code></pre>
-</div>
 
-<p><em>Thanks to <a href="https://twitter.com/Doshirae">@Doshirae</a> and <a href="https://dev.to/nixlend">Nicholas Lee</a> for pointing out a typo in the <code class="highlighter-rouge">return</code> statement!</em></p>
+<p><em>Thanks to <a href="https://twitter.com/Doshirae">@Doshirae</a> and <a href="https://dev.to/nixlend">Nicholas Lee</a> for pointing out a typo in the <code>return</code> statement!</em></p>
 
-<p>The <code class="highlighter-rouge">build_zoo</code> function is a kind of “factory” that creates a <em>scope</em> and defines a function within that scope.  Then it gives the function <em>that still has access to that scope (and the variables therein)</em> to you.  After the <code class="highlighter-rouge">build_zoo</code> function ends, it keeps the stack frame and variables defined (like <code class="highlighter-rouge">animals</code>) available to the returned <code class="highlighter-rouge">add_animal</code> function, for later reference.  And every time you call this <code class="highlighter-rouge">build_zoo</code> function, it creates a brand new scope, unconnected to any of the other scopes.  That’s why <code class="highlighter-rouge">zoo_a</code> and <code class="highlighter-rouge">zoo_b</code> were not able to affect each other when they were called!</p>
+<p>The <code>build_zoo</code> function is a kind of “factory” that creates a <em>scope</em> and defines a function within that scope.  Then it gives the function <em>that still has access to that scope (and the variables therein)</em> to you.  After the <code>build_zoo</code> function ends, it keeps the stack frame and variables defined (like <code>animals</code>) available to the returned <code>add_animal</code> function, for later reference.  And every time you call this <code>build_zoo</code> function, it creates a brand new scope, unconnected to any of the other scopes.  That’s why <code>zoo_a</code> and <code>zoo_b</code> were not able to affect each other when they were called!</p>
 
 <h3 id="side-note-python-and-scopes">Side Note: Python and Scopes</h3>
 
 <p>In Python, you are unable to modify variables outside your scope without extra work.  So, if you tried something like this:</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">build_incrementer</span><span class="p">():</span>
-    <span class="n">current_value</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">def</span> <span class="nf">increment</span><span class="p">():</span>
-        <span class="n">current_value</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="n">current_value</span>
-    <span class="k">return</span> <span class="n">increment</span>
+<pre><code class="language-python">def build_incrementer():
+    current_value = 0
+    def increment():
+        current_value += 1
+        return current_value
+    return increment
 
-<span class="n">incrementer</span> <span class="o">=</span> <span class="n">build_incrementer</span><span class="p">()</span>
-<span class="n">incrementer</span><span class="p">()</span>
-<span class="c"># =&gt; UnboundLocalError: local variable 'current_value' referenced before assignment</span>
+incrementer = build_incrementer()
+incrementer()
+# =&gt; UnboundLocalError: local variable 'current_value' referenced before assignment
 </code></pre>
-</div>
 
 <p>You get an error!  This is not so in many languages.  In many languages, it’s ok to access variables in parent scopes.  In Python, you’ll have to do this:</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">build_incrementer</span><span class="p">():</span>
-    <span class="n">current_value</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">def</span> <span class="nf">increment</span><span class="p">():</span>
-        <span class="n">nonlocal</span> <span class="n">current_value</span> <span class="c"># &lt;==</span>
-        <span class="n">current_value</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="n">current_value</span>
-    <span class="k">return</span> <span class="n">increment</span>
+<pre><code class="language-python">def build_incrementer():
+    current_value = 0
+    def increment():
+        nonlocal current_value # &lt;==
+        current_value += 1
+        return current_value
+    return increment
 </code></pre>
-</div>
 
 <p>This lets you reach out and modify this value.  You could also use global, but we’re not animals, so we won’t.</p>
 
@@ -126,72 +124,69 @@
 
 <h3 id="generator-functions">Generator Functions</h3>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">build_incrementer</span><span class="p">():</span>
-    <span class="n">current_value</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-        <span class="n">current_value</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">yield</span> <span class="n">current_value</span>
+<pre><code class="language-python">def build_incrementer():
+    current_value = 0
+    while True:
+        current_value += 1
+        yield current_value
 
-<span class="n">inc_a</span> <span class="o">=</span> <span class="n">build_incrementer</span><span class="p">()</span>
-<span class="n">inc_b</span> <span class="o">=</span> <span class="n">build_incrementer</span><span class="p">()</span>
+inc_a = build_incrementer()
+inc_b = build_incrementer()
 
-<span class="nb">next</span><span class="p">(</span><span class="n">inc_a</span><span class="p">)</span>
-<span class="c"># =&gt; 1</span>
-<span class="nb">next</span><span class="p">(</span><span class="n">inc_a</span><span class="p">)</span>
-<span class="c"># =&gt; 2</span>
-<span class="nb">next</span><span class="p">(</span><span class="n">inc_a</span><span class="p">)</span>
-<span class="c"># =&gt; 3</span>
-<span class="nb">next</span><span class="p">(</span><span class="n">inc_b</span><span class="p">)</span>
-<span class="c"># =&gt; 1</span>
+next(inc_a)
+# =&gt; 1
+next(inc_a)
+# =&gt; 2
+next(inc_a)
+# =&gt; 3
+next(inc_b)
+# =&gt; 1
 </code></pre>
-</div>
 
 <p>This method is very “Pythonic”.  It has no inner functions (that you know of), has a reasonably easy-to-discern flow-path, and (provided you understand generators), and gets the job done.</p>
 
 <h3 id="build-an-object">Build an Object</h3>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Incrementer</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="mi">0</span>
+<pre><code class="language-python">class Incrementer:
+    def __init__(self):
+        self.value = 0
     
-    <span class="k">def</span> <span class="nf">increment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+    def increment(self):
+        self.value += 1
+        return self.value
     
-    <span class="c"># Or, just so we can match the section above:</span>
-    <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">increment</span><span class="p">()</span>
+    # Or, just so we can match the section above:
+    def __next__(self):
+        return self.increment()
     
-<span class="n">inc_a</span> <span class="o">=</span> <span class="n">Incrementer</span><span class="p">()</span>
-<span class="n">inc_b</span> <span class="o">=</span> <span class="n">Incrementer</span><span class="p">()</span>
+inc_a = Incrementer()
+inc_b = Incrementer()
 
-<span class="nb">next</span><span class="p">(</span><span class="n">inc_a</span><span class="p">)</span>
-<span class="c"># =&gt; 1</span>
-<span class="nb">next</span><span class="p">(</span><span class="n">inc_a</span><span class="p">)</span>
-<span class="c"># =&gt; 2</span>
-<span class="nb">next</span><span class="p">(</span><span class="n">inc_b</span><span class="p">)</span>
-<span class="c"># =&gt; 1</span>
+next(inc_a)
+# =&gt; 1
+next(inc_a)
+# =&gt; 2
+next(inc_b)
+# =&gt; 1
 </code></pre>
-</div>
 
 <p>This is another good option, and one that also makes a lot of sense to me coming, having done a good amount of Ruby as well as Python.</p>
 
 <h3 id="global-variables">Global Variables</h3>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">current_value</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">def</span> <span class="nf">increment</span><span class="p">():</span>
-    <span class="k">global</span> <span class="n">current_value</span>
-    <span class="n">current_value</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">return</span> <span class="n">current_value</span>
+<pre><code class="language-python">current_value = 0
+def increment():
+    global current_value
+    current_value += 1
+    return current_value
 
-<span class="n">increment</span><span class="p">()</span>
-<span class="c"># =&gt; 1</span>
-<span class="n">increment</span><span class="p">()</span>
-<span class="c"># =&gt; 2</span>
-<span class="n">increment</span><span class="p">()</span>
-<span class="c"># =&gt; 3</span>
+increment()
+# =&gt; 1
+increment()
+# =&gt; 2
+increment()
+# =&gt; 3
 </code></pre>
-</div>
 
 <p>No.</p>
 
@@ -217,69 +212,68 @@
 
 <p>Let’s look at the rough memory usage of each method (except global variables) above:</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<pre><code class="language-python">import sys
 
-<span class="k">def</span> <span class="nf">build_function_incrementer</span><span class="p">():</span>
-    <span class="c"># ...</span>
+def build_function_incrementer():
+    # ...
 
-<span class="n">funky</span> <span class="o">=</span> <span class="n">build_function_incrementer</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">build_generator_incrementer</span><span class="p">():</span>
-	<span class="c"># ...</span>
-<span class="n">jenny</span> <span class="o">=</span> <span class="n">build_generator_incrementer</span><span class="p">()</span>
-<span class="k">class</span> <span class="nc">Incrementer</span><span class="p">:</span>
-    <span class="c"># ...</span>
-<span class="n">classy</span> <span class="o">=</span> <span class="n">Incrementer</span><span class="p">()</span>
+funky = build_function_incrementer()
+def build_generator_incrementer():
+	# ...
+jenny = build_generator_incrementer()
+class Incrementer:
+    # ...
+classy = Incrementer()
 
-<span class="c">### Functional Closure</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">build_function_incrementer</span><span class="p">)</span> <span class="c"># The factory</span>
-<span class="c"># =&gt; 136</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">funky</span><span class="p">)</span> <span class="c"># The individual closure</span>
-<span class="c"># =&gt; 136</span>
+### Functional Closure
+sys.getsizeof(build_function_incrementer) # The factory
+# =&gt; 136
+sys.getsizeof(funky) # The individual closure
+# =&gt; 136
 
-<span class="c">### Generator Function</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">build_generator_incrementer</span><span class="p">)</span> <span class="c"># The factory</span>
-<span class="c"># =&gt; 136</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">jenny</span><span class="p">)</span> <span class="c"># The individual generator</span>
-<span class="c"># =&gt; 88</span>
+### Generator Function
+sys.getsizeof(build_generator_incrementer) # The factory
+# =&gt; 136
+sys.getsizeof(jenny) # The individual generator
+# =&gt; 88
 
-<span class="c">### Class</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">Incrementer</span><span class="p">)</span> <span class="c"># The factory (class)</span>
-<span class="c"># =&gt; 1056</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">classy</span><span class="p">)</span> <span class="c"># The instance</span>
-<span class="c"># =&gt; 56</span>
+### Class
+sys.getsizeof(Incrementer) # The factory (class)
+# =&gt; 1056
+sys.getsizeof(classy) # The instance
+# =&gt; 56
 </code></pre>
-</div>
 
 <p>Surprisingly, the generator function’s output actually ends up being the smallest.  But both the generator function, and the traditional closure are much smaller than creating a class.</p>
 
 <h3 id="theyre-fast">They’re Fast</h3>
 
-<p>Let’s see how they stack up, time-wise.  Keep in mind, I’m going to use <code class="highlighter-rouge">timeit</code> because it’s easy, but it won’t be perfect.  Also, I’m doing this from my slowish little laptop.</p>
+<p>Let’s see how they stack up, time-wise.  Keep in mind, I’m going to use <code>timeit</code> because it’s easy, but it won’t be perfect.  Also, I’m doing this from my slowish little laptop.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">timeit</span>
+<pre><code class="language-python">import timeit
 
-<span class="c">### Functional Closure</span>
-<span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s">"""
+### Functional Closure
+timeit.timeit("""
 def build_function_incrementer():
 	# ...
 funky = build_function_incrementer()
 for _ in range(1000):
 	funky()
-"""</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="c"># =&gt; 0.0003780449624173343</span>
+""", number=1)
+# =&gt; 0.0003780449624173343
 
-<span class="c">### Generator Function</span>
-<span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s">"""
+### Generator Function
+timeit.timeit("""
 def build_generator_incrementer():
 	# ...
 jenny = build_generator_incrementer()
 for _ in range(1000):
 	next(jenny)
-"""</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="c"># =&gt; 0.0004897500039078295</span>
+""", number=1)
+# =&gt; 0.0004897500039078295
 
-<span class="c">### Class</span>
-<span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s">"""
+### Class
+timeit.timeit("""
 class Incrementer:
     def __init__(self):
         self.value = 0
@@ -294,10 +288,9 @@ class Incrementer:
 classy = Incrementer()
 for _ in range(1000):
     next(classy)
-"""</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="c"># =&gt; 0.001482799998484552</span>
+""", number=1)
+# =&gt; 0.001482799998484552
 </code></pre>
-</div>
 
 <p>Once again, the class method comes in at the bottom, but this time we see a marginal speed bump with the functional closure.  However, keep in mind, the final argument for closures is the strongest one.</p>
 
@@ -511,6 +504,7 @@ for _ in range(1000):
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

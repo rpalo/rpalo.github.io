@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -66,16 +67,15 @@
 
 <p>First let’s cover some things that help search engines, devices, and other robits work well with your site.  I’m just learning about this, but it seems like these should probably exist on every page that you ever make.  Someone correct me if I’m wrong.</p>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">"X-UA-Compatible"</span> <span class="na">content=</span><span class="s">"IE=edge"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"viewport"</span> <span class="na">content=</span><span class="s">"width=device-width, initial-scale=1"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"ROBOTS"</span> <span class="na">content=</span><span class="s">"INDEX, FOLLOW"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"description"</span> <span class="na">content=</span><span class="s">"Ryan's site that extols the values of cheese."</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"keywords"</span> <span class="na">content=</span><span class="s">"cheese, virtues, poetry, spoken word, slam poems about cheese"</span><span class="nt">&gt;</span>
-<span class="nt">&lt;/head&gt;</span>
+<pre><code class="language-html">&lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+    &lt;meta name="ROBOTS" content="INDEX, FOLLOW"&gt;
+    &lt;meta name="description" content="Ryan's site that extols the values of cheese."&gt;
+    &lt;meta name="keywords" content="cheese, virtues, poetry, spoken word, slam poems about cheese"&gt;
+&lt;/head&gt;
 </code></pre>
-</div>
 
 <p>Some explanation:</p>
 
@@ -102,21 +102,20 @@
 
 <p>Let’s take a look at the HTML.</p>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code>    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:card"</span> <span class="na">content=</span><span class="s">"summary_large_image"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:title"</span> <span class="na">content=</span><span class="s">"assert_not magic? | Gouda?  You mean great!"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:site"</span> <span class="na">content=</span><span class="s">"@paytastic"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:description"</span> <span class="na">content=</span><span class="s">"A point-by-point comparison of Gouda and other cheeses."</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:image"</span> <span class="na">content=</span><span class="s">"http://assertnotmagic.com/gouda.png"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:image:alt"</span> <span class="na">content=</span><span class="s">"Delicious Gouda"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:creator"</span> <span class="na">content=</span><span class="s">"@paytastic"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"og:url"</span> <span class="na">content=</span><span class="s">"http://assertnotmagic.com/gouda/"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"og:title"</span> <span class="na">content=</span><span class="s">"assert_not magic? | Gouda?  You mean great!"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"og:description"</span> <span class="na">content=</span><span class="s">"A point-by-point comparison of Gouda and other cheeses."</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"og:image"</span> <span class="na">content=</span><span class="s">"http://assertnotmagic.com/gouda.png"</span><span class="nt">&gt;</span>
+<pre><code class="language-html">    &lt;meta name="twitter:card" content="summary_large_image"&gt;
+    &lt;meta name="twitter:title" content="assert_not magic? | Gouda?  You mean great!"&gt;
+    &lt;meta name="twitter:site" content="@paytastic"&gt;
+    &lt;meta name="twitter:description" content="A point-by-point comparison of Gouda and other cheeses."&gt;
+    &lt;meta name="twitter:image" content="http://assertnotmagic.com/gouda.png"&gt;
+    &lt;meta name="twitter:image:alt" content="Delicious Gouda"&gt;
+    &lt;meta name="twitter:creator" content="@paytastic"&gt;
+    &lt;meta name="og:url" content="http://assertnotmagic.com/gouda/"&gt;
+    &lt;meta name="og:title" content="assert_not magic? | Gouda?  You mean great!"&gt;
+    &lt;meta name="og:description" content="A point-by-point comparison of Gouda and other cheeses."&gt;
+    &lt;meta name="og:image" content="http://assertnotmagic.com/gouda.png"&gt;
 </code></pre>
-</div>
 
-<p>There’s actually a lot more you could do.  It’s hopefully clear that the lines beginning with ‘twitter’ are for the Twitter API, and it’s probably not clear that the ‘og’ ones are for Facebook for some reason.  There’s also Google+ and others.  These are just the two that I’m using now.  Note the ever-important <code class="highlighter-rouge">twitter:image:alt</code> for screen-readers.</p>
+<p>There’s actually a lot more you could do.  It’s hopefully clear that the lines beginning with ‘twitter’ are for the Twitter API, and it’s probably not clear that the ‘og’ ones are for Facebook for some reason.  There’s also Google+ and others.  These are just the two that I’m using now.  Note the ever-important <code>twitter:image:alt</code> for screen-readers.</p>
 
 <p>Anyways, once you’ve got this in place (or, at least the Twitter ones), head on over to <a href="https://dev.twitter.com/cards/overview">the Twitter Card API documentation</a> and take a peek.  Finally, head to the <a href="https://cards-dev.twitter.com/validator">Twitter Card Validator</a> to make sure you did it right and check to ensure everything is working as planned.  It may take a bit for Twitter and the other sites to crawl and whitelist your site (or blacklist you if you’re a moral delinquent), but then, sharing your site on social media will be super duper shnazzy!</p>
 
@@ -328,6 +327,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

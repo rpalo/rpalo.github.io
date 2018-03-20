@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -68,10 +69,10 @@
 
 <h2 id="take-the-training-wheels-off">Take the Training Wheels Off</h2>
 
-<p>One of the first things you learn when learning Vim is how to move around using <code class="highlighter-rouge">h, j, k, l</code> keys instead of the arrow keys.  In theory, it’s more efficient and keeps your hands in an ideal typing position.  I don’t think that using the arrow keys makes you a bad person, but there is one additional benefit to using these keys instead of the arrow keys:</p>
+<p>One of the first things you learn when learning Vim is how to move around using <code>h, j, k, l</code> keys instead of the arrow keys.  In theory, it’s more efficient and keeps your hands in an ideal typing position.  I don’t think that using the arrow keys makes you a bad person, but there is one additional benefit to using these keys instead of the arrow keys:</p>
 
 <blockquote>
-  <p>You have exactly as much practice using <code class="highlighter-rouge">h, j, k, and l</code> to move around as you have with any of the other motion/command keys in Vim.</p>
+  <p>You have exactly as much practice using <code>h, j, k, and l</code> to move around as you have with any of the other motion/command keys in Vim.</p>
 </blockquote>
 
 <p>The arrow keys are sort of a crutch, because, if you want, you can ignore all of the commands and keys that make Vim extra useful and stick to just using the arrow keys and staying in Insert mode all the time.  If this is how you’re using Vim, you’re essentially just using an obnoxious version of <a href="https://www.nano-editor.org/">Nano</a>.</p>
@@ -82,20 +83,19 @@
 
 <p>If that’s the way you like it, I have no problem with that.  You do you.  If you’re trying to break that habit and convert your brain to the Vim way of doing things (via Vimception, maybe?), then I’ve found it is super helpful to actually <strong>throw away the crutch entirely</strong> and turn off your arrow keys.</p>
 
-<p>Add these lines to your  <code class="highlighter-rouge">.vimrc</code> file.</p>
+<p>Add these lines to your  <code>.vimrc</code> file.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>nnoremap &lt;Up&gt; &lt;Nop&gt;
+<pre><code>nnoremap &lt;Up&gt; &lt;Nop&gt;
 nnoremap &lt;Down&gt; &lt;Nop&gt;
 nnoremap &lt;Left&gt; &lt;Nop&gt;
 nnoremap &lt;Rigth&gt; &lt;Nop&gt;
 </code></pre>
-</div>
 
-<p>Mapping a key to <code class="highlighter-rouge">&lt;Nop&gt;</code> (or no-op, or no-operation) causes it to do nothing.</p>
+<p>Mapping a key to <code>&lt;Nop&gt;</code> (or no-op, or no-operation) causes it to do nothing.</p>
 
 <h2 id="but-why">But Why?</h2>
 
-<p>This is actually pretty common advice, but most articles will tell you only that it’s to help get you more comfortable with <code class="highlighter-rouge">h, j, k, l</code>.  This seemed dumb to me because… why would I want to learn a new set of keys that just do the same thing if I’m already efficient with arrow keys?  I would say the benefit is not that I got more comfortable with <code class="highlighter-rouge">h, j, k, l</code>, but that I <em>quickly got tired</em> of pushing these keys.  Without the arrow keys to fall back on, but with a desire to be more efficient, I’ve had a much larger incentive to learn keys like <code class="highlighter-rouge">w, e, $, 0, G, gg</code> and others!</p>
+<p>This is actually pretty common advice, but most articles will tell you only that it’s to help get you more comfortable with <code>h, j, k, l</code>.  This seemed dumb to me because… why would I want to learn a new set of keys that just do the same thing if I’m already efficient with arrow keys?  I would say the benefit is not that I got more comfortable with <code>h, j, k, l</code>, but that I <em>quickly got tired</em> of pushing these keys.  Without the arrow keys to fall back on, but with a desire to be more efficient, I’ve had a much larger incentive to learn keys like <code>w, e, $, 0, G, gg</code> and others!</p>
 
 <blockquote>
   <p>You don’t take the training wheels off of a bike so that you can say you’re not using training wheels – while continuing to ride slowly.  You take the training wheels off of a bike so that you can quickly learn that it’s actually much easier when you go faster.</p>
@@ -103,14 +103,13 @@ nnoremap &lt;Rigth&gt; &lt;Nop&gt;
 
 <h2 id="hard-mode-enabled">Hard Mode Enabled</h2>
 
-<p>This works well, but there’s still the temptation to just drop into Insert mode and use the arrow keys there, which defeats the entire purpose.  To circumvent this, You can also disable the arrows in Insert mode as well by adding the following to your <code class="highlighter-rouge">.vimrc</code>:</p>
+<p>This works well, but there’s still the temptation to just drop into Insert mode and use the arrow keys there, which defeats the entire purpose.  To circumvent this, You can also disable the arrows in Insert mode as well by adding the following to your <code>.vimrc</code>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>inoremap &lt;Up&gt; &lt;Nop&gt;
+<pre><code>inoremap &lt;Up&gt; &lt;Nop&gt;
 inoremap &lt;Down&gt; &lt;Nop&gt;
 inoremap &lt;Left&gt; &lt;Nop&gt;
 inoremap &lt;Right&gt; &lt;Nop&gt;
 </code></pre>
-</div>
 
 <p>This will make your life frustrating at times.  “But I just want to move over two characters!  I don’t want to have to drop out of Insert mode, move over and go back in!”</p>
 
@@ -122,11 +121,10 @@ inoremap &lt;Right&gt; &lt;Nop&gt;
 
 <h2 id="bonus">Bonus</h2>
 
-<p>For extra encouragement, replace all of the <code class="highlighter-rouge">&lt;Nop&gt;</code>’s above with this:</p>
+<p>For extra encouragement, replace all of the <code>&lt;Nop&gt;</code>’s above with this:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>:echo 'STAHP.'&lt;CR&gt;
+<pre><code>:echo 'STAHP.'&lt;CR&gt;
 </code></pre>
-</div>
 
 <h2 id="wrap-up">Wrap Up</h2>
 
@@ -332,6 +330,7 @@ inoremap &lt;Right&gt; &lt;Nop&gt;
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

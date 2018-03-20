@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -56,7 +57,7 @@
         
     </div>
     <h1>Git Wrecked — Keeping Your Branches Synced Without Breaking Things</h1>
-    <p>Last month, I took part in Digital Ocean’s <a href="https://hacktoberfest.digitalocean.com/">Hacktoberfest</a> event, and it was awesome.  It helped give me the kick in the pants that I needed to get up the courage to contribute to Open Source Software.  It was definitely a great experience (and I got a t-shirt out of it 😬).  With this really being my first time interacting with the <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow">Forking Git Workflow</a>, I wasn’t exactly sure what to do.  I had seen snippets here and there about how you’re supposed to do it, but I wasn’t familiar enough with that <em>or</em> git commands other than the basic <code class="highlighter-rouge">push, pull, add, commit</code> commands needed for local/personal Git.  So I thought I’d share a story and what I learned.</p>
+    <p>Last month, I took part in Digital Ocean’s <a href="https://hacktoberfest.digitalocean.com/">Hacktoberfest</a> event, and it was awesome.  It helped give me the kick in the pants that I needed to get up the courage to contribute to Open Source Software.  It was definitely a great experience (and I got a t-shirt out of it 😬).  With this really being my first time interacting with the <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow">Forking Git Workflow</a>, I wasn’t exactly sure what to do.  I had seen snippets here and there about how you’re supposed to do it, but I wasn’t familiar enough with that <em>or</em> git commands other than the basic <code>push, pull, add, commit</code> commands needed for local/personal Git.  So I thought I’d share a story and what I learned.</p>
 
 <h2 id="forking-gui">Forking GUI</h2>
 
@@ -64,9 +65,9 @@
 
 <p><img src="/img/git-plan.gif" alt="I love it when a plan comes together" /></p>
 
-<p>A couple days later, the maintainer got back to me with some thoughts and possible revisions.  Great!  This was real collaboration!  So exhilarating!  I headed back to my local repo, but I noticed that the original upstream repo had had some changes made to it.  Having heard that it was a good idea to keep your local repo and branches up to date, I decided to attempt to refresh everything… but I didn’t really know how.  I looked around, but I got intimidated by the official git documentation.  That’s when I remembered that I had my handy-dandy git GUI application, <a href="https://www.gitkraken.com/">GitKraken</a>.  I opened it up, and in a couple of clicks, I had updated my <code class="highlighter-rouge">origin</code> and local branches, made the quick edits I was trying to make, and pushed everything up to GitHub.  Or so I thought.</p>
+<p>A couple days later, the maintainer got back to me with some thoughts and possible revisions.  Great!  This was real collaboration!  So exhilarating!  I headed back to my local repo, but I noticed that the original upstream repo had had some changes made to it.  Having heard that it was a good idea to keep your local repo and branches up to date, I decided to attempt to refresh everything… but I didn’t really know how.  I looked around, but I got intimidated by the official git documentation.  That’s when I remembered that I had my handy-dandy git GUI application, <a href="https://www.gitkraken.com/">GitKraken</a>.  I opened it up, and in a couple of clicks, I had updated my <code>origin</code> and local branches, made the quick edits I was trying to make, and pushed everything up to GitHub.  Or so I thought.</p>
 
-<p>That night I got a message from the maintainer, asking what these extra files were that I had added to my Pull Request.  To my horror, as I looked at the commit history of my GitHub repo, it was all jumbled up, and I had even included someone else’s commit from <code class="highlighter-rouge">upstream/master</code> in my pull request branch changes somehow.  I was very confused — and mortified.  Not only had I bungled “doing the git”, but someone else (and possibly many someones) had seen me do it.</p>
+<p>That night I got a message from the maintainer, asking what these extra files were that I had added to my Pull Request.  To my horror, as I looked at the commit history of my GitHub repo, it was all jumbled up, and I had even included someone else’s commit from <code>upstream/master</code> in my pull request branch changes somehow.  I was very confused — and mortified.  Not only had I bungled “doing the git”, but someone else (and possibly many someones) had seen me do it.</p>
 
 <p><img src="/img/git-oh-no.png" alt="Oh no." /></p>
 
@@ -78,71 +79,69 @@
 
 <p>The goal of this section is to lay out each step of the Forking Git Workflow, with the associated commands, in the correct manner (or, at least, one of the correct manners) so that future me can come back and read this when I inevitably forget.  I’m going to lay this out, but if you see anything that I’ve done wrong or could do better, be sure to let me know and I’ll try to keep this updated with the best practices you share.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># This is assuming you've already forked the Upstream Repo</span>
-<span class="c"># on GitHub/BitBucket/GitLab/etc.</span>
+<pre><code class="language-bash"># This is assuming you've already forked the Upstream Repo
+# on GitHub/BitBucket/GitLab/etc.
 
-<span class="c"># Clone to get an initial local copy.</span>
+# Clone to get an initial local copy.
 git clone &lt;url-to-your-fork&gt;
 
-<span class="c"># Add a remote link to the upstream repo</span>
+# Add a remote link to the upstream repo
 git remote add upstream &lt;url-to-upstream-repo&gt;
 
-<span class="c"># Create a new branch for the feature/fix that you're doing</span>
+# Create a new branch for the feature/fix that you're doing
 git checkout -b &lt;new-branch-name&gt;
 
-<span class="c"># Do some work, edit some files</span>
+# Do some work, edit some files
 git add &lt;files&gt;
 git commit -m &lt;your-commit-message&gt;
 </code></pre>
-</div>
 
-<p>Oh no!  The <code class="highlighter-rouge">upstream</code> and/or your <code class="highlighter-rouge">origin/master</code> and/or your <code class="highlighter-rouge">origin/&lt;branch-name&gt;</code> had changes made to it that aren’t on your local machine.</p>
+<p>Oh no!  The <code>upstream</code> and/or your <code>origin/master</code> and/or your <code>origin/&lt;branch-name&gt;</code> had changes made to it that aren’t on your local machine.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># Inspect the changes made to origin</span>
+<pre><code class="language-bash"># Inspect the changes made to origin
 git fetch origin
 
-<span class="c"># Update your branch</span>
+# Update your branch
 git merge origin/&lt;branch-name&gt;
 
-<span class="c"># Update your master</span>
+# Update your master
 git checkout master
 git merge origin/master
 
-<span class="c"># Inspect the changes made to upstream</span>
+# Inspect the changes made to upstream
 git fetch upstream
 
-<span class="c"># If you don't have any commits on master ahead of upstream,</span>
-<span class="c"># you can just pull the upstream changes in</span>
+# If you don't have any commits on master ahead of upstream,
+# you can just pull the upstream changes in
 git checkout master
 git merge upstream/master
 
-<span class="c"># If your master branch is ahead of upstream, you may want to rebase</span>
-<span class="c"># In order to "work on top of" everyone else's changes, instead of merging</span>
+# If your master branch is ahead of upstream, you may want to rebase
+# In order to "work on top of" everyone else's changes, instead of merging
 git rebase upstream/master
 
-<span class="c"># Now that your master branch is up to date, you can decide whether</span>
-<span class="c"># or not you want to rebase your feature branch onto the new</span>
-<span class="c"># tip of your master branch.  Generally a good idea.</span>
+# Now that your master branch is up to date, you can decide whether
+# or not you want to rebase your feature branch onto the new
+# tip of your master branch.  Generally a good idea.
 git checkout &lt;your-feature-branch&gt;
 git rebase master
 
-<span class="c"># OR, if you're about to submit a pull request and you  want to</span>
-<span class="c"># clean up your commit history, do an interactive rebase and</span>
-<span class="c"># squash and otherwise clean your commits/messages</span>
+# OR, if you're about to submit a pull request and you  want to
+# clean up your commit history, do an interactive rebase and
+# squash and otherwise clean your commits/messages
 git rebase --interactive master
 
-<span class="c"># Finally, push your updated branch</span>
+# Finally, push your updated branch
 git push -u origin &lt;your-feature-branch&gt;
 
-<span class="c"># Sometimes, rebasing rewrites history, and pushing won't work.</span>
-<span class="c"># Try --force-with-lease, which is the safe way to force the push</span>
-<span class="c"># through.  More on that later</span>
+# Sometimes, rebasing rewrites history, and pushing won't work.
+# Try --force-with-lease, which is the safe way to force the push
+# through.  More on that later
 git push origin &lt;your-feature-branch&gt; --force-with-lease
 
-<span class="c"># Optionally, push everything to update your origin/master too</span>
+# Optionally, push everything to update your origin/master too
 git push origin --all
 </code></pre>
-</div>
 
 <h2 id="what-is-git-rebase">What is Git Rebase</h2>
 
@@ -154,7 +153,7 @@ git push origin --all
   <li>During this process, you can reword commit messages, re-order commits, delete commits, and squash commits together.</li>
   <li>In general, you should never rebase something that is already pushed to a public place, <em>especially</em> if there’s a possibility that somebody else already began working on the things that your rebasing.  Try to rebase <em>only on your local system</em>.</li>
   <li>During the pull request progress, once you’ve submitted the initial request, you’ll be asked to update/modify your original pull-requested code, which will add mulitple commits to the pull request history.  You’ll be tempted to squash these to keep the pull request looking pretty and concise.  <strong>Resist this urge.</strong>  After doing research, it seems like a) doing so would violate #4, and b) a pull request is supposed to be a forum/record of the discussion, and if you go rewriting things to hide all of the intermediate changes, nothing will make sense and you’ll miss out on that history.</li>
-  <li>Remote repositories don’t necessarily like this rewriting history.  Often, a simple <code class="highlighter-rouge">git push</code> will be rejected.  Doing a <code class="highlighter-rouge">git push --force</code> will force the remote repo to accept the push, but you probably shouldn’t be using <code class="highlighter-rouge">--force</code>.  The safe way is to use <code class="highlighter-rouge">--force-with-lease</code>, which only allows a force if it won’t mess anybody up.   Well, most of the time.  Read <a href="https://developer.atlassian.com/blog/2015/04/force-with-lease/">this post about —force-with-lease</a> and the dangers of fetching and pushing without first merging.</li>
+  <li>Remote repositories don’t necessarily like this rewriting history.  Often, a simple <code>git push</code> will be rejected.  Doing a <code>git push --force</code> will force the remote repo to accept the push, but you probably shouldn’t be using <code>--force</code>.  The safe way is to use <code>--force-with-lease</code>, which only allows a force if it won’t mess anybody up.   Well, most of the time.  Read <a href="https://developer.atlassian.com/blog/2015/04/force-with-lease/">this post about —force-with-lease</a> and the dangers of fetching and pushing without first merging.</li>
 </ol>
 
 <h2 id="wrap-up">Wrap Up</h2>
@@ -363,6 +362,7 @@ git push origin --all
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -86,7 +87,7 @@
 
     <span class="k">return</span> <span class="n">modified_function</span></code></pre></figure>
 
-<p>Okay.  That about covers it.  Let’s get to the good stuff!  I’m going to cover passing arguments to decorators (a la Flask’s <code class="highlighter-rouge">@app.route('/')</code>), stacking decorators, and Class-Based decorators.</p>
+<p>Okay.  That about covers it.  Let’s get to the good stuff!  I’m going to cover passing arguments to decorators (a la Flask’s <code>@app.route('/')</code>), stacking decorators, and Class-Based decorators.</p>
 
 <h1 id="decorator-arguments">Decorator Arguments</h1>
 
@@ -116,7 +117,7 @@
 <span class="p">(</span><span class="n">wait</span> <span class="mi">5</span> <span class="n">seconds</span><span class="p">)</span>
 <span class="s">"Achoo! Achoo! Achoo!"</span></code></pre></figure>
 
-<p>Again, it may look confusing at first.  You can think about it this way: The outermost function, <code class="highlighter-rouge">delay</code> in this case, behaves like it is being called right when you add the decorator.  As soon as the interpreter reads <code class="highlighter-rouge">@delay(5)</code>, it runs the delay function and replaces the <code class="highlighter-rouge">@delay</code> decorator with the modified returned decorator.  At run-time, when we call <code class="highlighter-rouge">sneeze</code>, it looks like <code class="highlighter-rouge">sneeze</code> is wrapped in <code class="highlighter-rouge">delay_decorator</code> with <code class="highlighter-rouge">seconds = 5</code>.  Thus, the actual function that gets called is <code class="highlighter-rouge">inner</code>, which is <code class="highlighter-rouge">sneeze</code> wrapped in a 5 second sleeping function.  Still confused?  Me too, a bit.  Maybe just sleep on it and come back.</p>
+<p>Again, it may look confusing at first.  You can think about it this way: The outermost function, <code>delay</code> in this case, behaves like it is being called right when you add the decorator.  As soon as the interpreter reads <code>@delay(5)</code>, it runs the delay function and replaces the <code>@delay</code> decorator with the modified returned decorator.  At run-time, when we call <code>sneeze</code>, it looks like <code>sneeze</code> is wrapped in <code>delay_decorator</code> with <code>seconds = 5</code>.  Thus, the actual function that gets called is <code>inner</code>, which is <code>sneeze</code> wrapped in a 5 second sleeping function.  Still confused?  Me too, a bit.  Maybe just sleep on it and come back.</p>
 
 <h1 id="stacking-decorators">Stacking Decorators</h1>
 
@@ -150,13 +151,13 @@
 <span class="n">Drop</span> <span class="n">it</span>
 <span class="s">"This example is obnoxious, isn't "</span></code></pre></figure>
 
-<p>As you can see, you can wrap a function that is already wrapped.  In math (and, actually, in programming), <em>they</em> would call this <strong>Function Composition</strong>.  Just as <code class="highlighter-rouge">f o g(x) == f(g(x))</code>, stacking <code class="highlighter-rouge">@pop</code> on <code class="highlighter-rouge">@lock</code> on <code class="highlighter-rouge">drop</code> produces pop(lock(drop(it))).  Huey would be so proud.</p>
+<p>As you can see, you can wrap a function that is already wrapped.  In math (and, actually, in programming), <em>they</em> would call this <strong>Function Composition</strong>.  Just as <code>f o g(x) == f(g(x))</code>, stacking <code>@pop</code> on <code>@lock</code> on <code>drop</code> produces pop(lock(drop(it))).  Huey would be so proud.</p>
 
 <h1 id="class-based-decorators">Class-Based Decorators…</h1>
 
 <h2 id="with-no-arguments">…With No Arguments</h2>
 
-<p>A decorator can actually be created out of anything that is callable, i.e. anything that provides the <code class="highlighter-rouge">__call__</code> magic method.  Usually, I try to come up with my own examples, but the one that I found <a href="http://python-3-patterns-idioms-test.readthedocs.io/en/latest/PythonDecorators.html">here</a> illustrated what was happening so darn well, I’m going to poach it with minimal modification.</p>
+<p>A decorator can actually be created out of anything that is callable, i.e. anything that provides the <code>__call__</code> magic method.  Usually, I try to come up with my own examples, but the one that I found <a href="http://python-3-patterns-idioms-test.readthedocs.io/en/latest/PythonDecorators.html">here</a> illustrated what was happening so darn well, I’m going to poach it with minimal modification.</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">MySuperCoolDecorator</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
@@ -188,9 +189,9 @@
 <p>Class-based decorators make decorator arguments much easier, but they behave differently from above.  I’m not sure why.  Someone who is smarter than me should explain it.  Anyways, when arguments are provided to the decorator, three things happen.</p>
 
 <ol>
-  <li>The decorator arguments are passed to the <code class="highlighter-rouge">__init__</code> function.</li>
-  <li>The function itself is passed to the <code class="highlighter-rouge">__call__</code> function.</li>
-  <li>The <code class="highlighter-rouge">__call__</code> function is only called once, and it is called immediately, similar to how function-based decorators work.</li>
+  <li>The decorator arguments are passed to the <code>__init__</code> function.</li>
+  <li>The function itself is passed to the <code>__call__</code> function.</li>
+  <li>The <code>__call__</code> function is only called once, and it is called immediately, similar to how function-based decorators work.</li>
 </ol>
 
 <p>Here’s an example I promised to sneak in.</p>
@@ -230,7 +231,7 @@
 
 <h1 id="bonus">Bonus!</h1>
 
-<p>A bonus is that in Python, since functions are objects, you can add attributes to them.  Thus, if you modify the <code class="highlighter-rouge">__call__</code> method above to add the following:</p>
+<p>A bonus is that in Python, since functions are objects, you can add attributes to them.  Thus, if you modify the <code>__call__</code> method above to add the following:</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
         <span class="c"># ... Everything except the last line</span>
@@ -450,6 +451,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

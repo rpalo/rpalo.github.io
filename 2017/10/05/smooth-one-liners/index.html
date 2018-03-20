@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -56,23 +57,21 @@
         
     </div>
     <h1>Smooth Ruby One-Liners</h1>
-    <p>When I first started learning Ruby, the first book I read had a chapter at the front about all of the command line options and flags for the <code class="highlighter-rouge">ruby</code> command.  Missing the point as usual, I flipped quickly through that section without reading much.  “Yeah, yeah, yeah,” I said to myself as I pulled open my editor.  “Whatever.  Just get to the good stuff.  Show me those <em>objects</em>!  Those <em>classes!</em>”  Well, I’m here to say: I Missed Out.  A chapter on a different book I’m now reading (<a href="http://www.apress.com/us/book/9781590598214">Practical Ruby for System Administration</a> by Andre Ben-Hamou) also had a section about this, and this time I paid attention.  Now I want to share the highlights with everybody else!</p>
+    <p>When I first started learning Ruby, the first book I read had a chapter at the front about all of the command line options and flags for the <code>ruby</code> command.  Missing the point as usual, I flipped quickly through that section without reading much.  “Yeah, yeah, yeah,” I said to myself as I pulled open my editor.  “Whatever.  Just get to the good stuff.  Show me those <em>objects</em>!  Those <em>classes!</em>”  Well, I’m here to say: I Missed Out.  A chapter on a different book I’m now reading (<a href="http://www.apress.com/us/book/9781590598214">Practical Ruby for System Administration</a> by Andre Ben-Hamou) also had a section about this, and this time I paid attention.  Now I want to share the highlights with everybody else!</p>
 
 <h2 id="the-good-stuff">The Good Stuff</h2>
 
 <h3 id="simple-execution">Simple Execution</h3>
 
-<p>Let’s start simple.  The <code class="highlighter-rouge">-e</code> flag will have the Ruby interpreter execute a command string inline and output the result to <code class="highlighter-rouge">stdout</code>.  Useful if you can’t remember that darn Bash command for doing floating point math (<em>hint: it’s <code class="highlighter-rouge">bc</code></em>)!</p>
+<p>Let’s start simple.  The <code>-e</code> flag will have the Ruby interpreter execute a command string inline and output the result to <code>stdout</code>.  Useful if you can’t remember that darn Bash command for doing floating point math (<em>hint: it’s <code>bc</code></em>)!</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ruby -e <span class="s1">'puts (Math.sqrt(32**2/57.2))'</span> &gt; calc.txt
+<pre><code class="language-bash">$ ruby -e 'puts (Math.sqrt(32**2/57.2))' &gt; calc.txt
 </code></pre>
-</div>
 
-<p>A note about quotation marks.  Many of the useful Ruby one-liners contain special variables like <code class="highlighter-rouge">$_, $&lt;, and $.</code>.  This is all fine and dandy until you add Bash string interpolation into the mix.  Since you interpolate variables like this in Bash:</p>
+<p>A note about quotation marks.  Many of the useful Ruby one-liners contain special variables like <code>$_, $&lt;, and $.</code>.  This is all fine and dandy until you add Bash string interpolation into the mix.  Since you interpolate variables like this in Bash:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">echo</span> <span class="s2">"That's no </span><span class="nv">$silly_thing</span><span class="s2">, that's my wife!"</span>
+<pre><code class="language-bash">echo "That's no $silly_thing, that's my wife!"
 </code></pre>
-</div>
 
 <p>If you surround your Ruby command with double quotes, your special variables will have unpredictable results.  It’s best to stick to single quotes around the command at all times.</p>
 
@@ -80,99 +79,87 @@
 
 <h3 id="line-by-line-processing">Line-by-Line Processing</h3>
 
-<p>The <code class="highlighter-rouge">-n</code> flag wraps your executed one-liner in an implicit <code class="highlighter-rouge">while gets ... end</code> block.  When you combine this with the usage of Ruby’s special global variable <code class="highlighter-rouge">$_</code>, which stores the result of the most recent <code class="highlighter-rouge">Kernel.gets</code> command, you can do some nice (<strong>and readable</strong>) file processing!</p>
+<p>The <code>-n</code> flag wraps your executed one-liner in an implicit <code>while gets ... end</code> block.  When you combine this with the usage of Ruby’s special global variable <code>$_</code>, which stores the result of the most recent <code>Kernel.gets</code> command, you can do some nice (<strong>and readable</strong>) file processing!</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ruby -ne <span class="s1">'puts $_.strip if $_ =~ /soup/'</span> /home/rpalo/recipes
+<pre><code class="language-bash">$ ruby -ne 'puts $_.strip if $_ =~ /soup/' /home/rpalo/recipes
 </code></pre>
-</div>
 
 <p>Which will strip out excess whitespace and print me every line that contains the word ‘soup’.  I don’t know about you, but a script like that would be critical to my infrastructure.</p>
 
-<p>If you get tired of typing <code class="highlighter-rouge">puts $_.something.something</code> after a while, don’t worry.  The <code class="highlighter-rouge">-p</code> flag drops an implicit <code class="highlighter-rouge">print $_</code> at the end of your command, so you can just modify the variable.  We can clean up the previous example like this:</p>
+<p>If you get tired of typing <code>puts $_.something.something</code> after a while, don’t worry.  The <code>-p</code> flag drops an implicit <code>print $_</code> at the end of your command, so you can just modify the variable.  We can clean up the previous example like this:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ruby -pe <span class="s1">'$_strip! if $_ =~ /soup/'</span> /home/rpalo/recipes
+<pre><code class="language-bash">$ ruby -pe '$_strip! if $_ =~ /soup/' /home/rpalo/recipes
 </code></pre>
-</div>
 
 <p>You’re saving at least 4 whole characters there.  Don’t spend it all in one place.</p>
 
 <h3 id="in-place-file-editing">In-Place File Editing</h3>
 
-<p>“I feel like I’m not a real developer because I haven’t taken the time to learn to use the <code class="highlighter-rouge">sed</code> or <code class="highlighter-rouge">awk</code> command!”  Firstly, that’s silly.  You should disregard anyone who begins any sentence with the phrase, “You’re not a real developer if…”.  Additionally, you can make them feel sad when you edit files in place (like <code class="highlighter-rouge">sed -i</code> does)!  Here’s four ways to do this, in order of increasing levels of shwoopiness.  Let’s say you wanted to remove the default comments from a configuration file (not recommended unless you promise to add your own back in).</p>
+<p>“I feel like I’m not a real developer because I haven’t taken the time to learn to use the <code>sed</code> or <code>awk</code> command!”  Firstly, that’s silly.  You should disregard anyone who begins any sentence with the phrase, “You’re not a real developer if…”.  Additionally, you can make them feel sad when you edit files in place (like <code>sed -i</code> does)!  Here’s four ways to do this, in order of increasing levels of shwoopiness.  Let’s say you wanted to remove the default comments from a configuration file (not recommended unless you promise to add your own back in).</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ruby -pe <span class="s1">'$_.gsub!(/#.*$/, "")'</span> .myconfig &gt; .myconfig
+<pre><code class="language-bash">$ ruby -pe '$_.gsub!(/#.*$/, "")' .myconfig &gt; .myconfig
 </code></pre>
-</div>
 
-<p>Redirect the modified lines to overwrite the file instead of printing to <code class="highlighter-rouge">STDOUT</code>.  You can leave that off if you use the <code class="highlighter-rouge">-i</code> flag.</p>
+<p>Redirect the modified lines to overwrite the file instead of printing to <code>STDOUT</code>.  You can leave that off if you use the <code>-i</code> flag.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ruby -i -pe <span class="s1">'$_.gsub!(/#.*$/, "")'</span> .myconfig
+<pre><code class="language-bash">$ ruby -i -pe '$_.gsub!(/#.*$/, "")' .myconfig
 </code></pre>
-</div>
 
 <p>This works great when you want to run this command against multiple files.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ruby -i -pe <span class="s1">'$_.gsub!(/#.*$/, "")'</span> <span class="k">*</span>.conf
+<pre><code class="language-bash">$ ruby -i -pe '$_.gsub!(/#.*$/, "")' *.conf
 </code></pre>
-</div>
 
 <p>The glob match will run through each of the files ending in .conf and overwrite them.</p>
 
-<p>Lastly, if you’re paranoid and risk averse (i.e. you’ve been using the terminal long enough to know the pain of overwriting a file with an error in your script and losing everything – #GodBlessGit), you can add a file extension to your <code class="highlighter-rouge">-i</code> flag like this: <code class="highlighter-rouge">-i.bak</code> and it will save the old version with that file extension before writing; <code class="highlighter-rouge">.myconfig</code> won’t have comments, but there will be a new <code class="highlighter-rouge">.myconfig.bak</code> that still does.</p>
+<p>Lastly, if you’re paranoid and risk averse (i.e. you’ve been using the terminal long enough to know the pain of overwriting a file with an error in your script and losing everything – #GodBlessGit), you can add a file extension to your <code>-i</code> flag like this: <code>-i.bak</code> and it will save the old version with that file extension before writing; <code>.myconfig</code> won’t have comments, but there will be a new <code>.myconfig.bak</code> that still does.</p>
 
 <blockquote>
-  <p>There MUST be NO space between the <code class="highlighter-rouge">-i</code> and the backup file extension or it won’t work.  You have been warned.</p>
+  <p>There MUST be NO space between the <code>-i</code> and the backup file extension or it won’t work.  You have been warned.</p>
 </blockquote>
 
 <h3 id="farming-the-rows-and-fields">Farming the Rows and Fields</h3>
 
-<p>I want to talk about two more special global variables: <code class="highlighter-rouge">$&lt; and $.</code>.  The first one refers to the file that was input.  The second one refers to the current line number.  (Note that this means that <code class="highlighter-rouge">$. and $&lt;.lineno</code> are synonymous).  You can implement a rough version of <code class="highlighter-rouge">head</code> like this:</p>
+<p>I want to talk about two more special global variables: <code>$&lt; and $.</code>.  The first one refers to the file that was input.  The second one refers to the current line number.  (Note that this means that <code>$. and $&lt;.lineno</code> are synonymous).  You can implement a rough version of <code>head</code> like this:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ruby -ne <span class="s1">'puts $_ if $. &lt;= 10'</span> test.txt
+<pre><code class="language-bash">$ ruby -ne 'puts $_ if $. &lt;= 10' test.txt
 </code></pre>
-</div>
 
-<p>To use fields in files that might be delimited, such as csv’s or system files like <code class="highlighter-rouge">/etc/passwd</code>, you might first try doing this:</p>
+<p>To use fields in files that might be delimited, such as csv’s or system files like <code>/etc/passwd</code>, you might first try doing this:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ruby -ne <span class="s1">'puts $_.split.first + $_.split.last'</span> test.txt
+<pre><code class="language-bash">$ ruby -ne 'puts $_.split.first + $_.split.last' test.txt
 </code></pre>
-</div>
 
-<p>That works, but you can have the heavy lifting done for you with <code class="highlighter-rouge">-a</code>, which stands for “autosplit”.  It drops the pre-split fields into a special variable called <code class="highlighter-rouge">$F</code>.</p>
+<p>That works, but you can have the heavy lifting done for you with <code>-a</code>, which stands for “autosplit”.  It drops the pre-split fields into a special variable called <code>$F</code>.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ruby -a -ne <span class="s1">'puts $F.first + $F.last'</span> test.txt
+<pre><code class="language-bash">$ ruby -a -ne 'puts $F.first + $F.last' test.txt
 </code></pre>
-</div>
 
-<p>The above example only works with spaces as delimiters, though!  you can specify <em>that</em> with <code class="highlighter-rouge">-F</code>.</p>
+<p>The above example only works with spaces as delimiters, though!  you can specify <em>that</em> with <code>-F</code>.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ruby -a -F: -ne <span class="s1">'puts $F.first'</span> /etc/passwd
+<pre><code class="language-bash">$ ruby -a -F: -ne 'puts $F.first' /etc/passwd
 </code></pre>
-</div>
 
 <h3 id="setup-and-teardown">Setup and Teardown</h3>
 
-<p>If you <em>have</em> used <code class="highlighter-rouge">awk</code>, then this next part may be familiar.  You can do some initializing before you run through the input file and teardown/final output after, using <code class="highlighter-rouge">BEGIN</code> and <code class="highlighter-rouge">END</code> blocks.  Useful for things like counting the total number of lines that match a pattern.</p>
+<p>If you <em>have</em> used <code>awk</code>, then this next part may be familiar.  You can do some initializing before you run through the input file and teardown/final output after, using <code>BEGIN</code> and <code>END</code> blocks.  Useful for things like counting the total number of lines that match a pattern.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ruby -ne <span class="s1">'BEGIN { ducks = 0 }; ducks += 1 if $_ =~ /ducks/; END { puts ducks }'</span> duckfile.txt
+<pre><code class="language-bash">$ ruby -ne 'BEGIN { ducks = 0 }; ducks += 1 if $_ =~ /ducks/; END { puts ducks }' duckfile.txt
 </code></pre>
-</div>
 
 <p>Using this setup and teardown, your one-liners get quite a bit more powerful.</p>
 
 <h3 id="requiring-modules">Requiring Modules</h3>
 
-<p>You’ve probably actually used this in other ways, but you can require gems and modules from the standard library with the <code class="highlighter-rouge">-r</code> command.  For instance, to list out your machine’s IP addresses, you could do this:</p>
+<p>You’ve probably actually used this in other ways, but you can require gems and modules from the standard library with the <code>-r</code> command.  For instance, to list out your machine’s IP addresses, you could do this:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ruby -rsocket -e <span class="s1">'puts Socket.ip_address_list.map(&amp;:inspect)'</span>
+<pre><code class="language-bash">$ ruby -rsocket -e 'puts Socket.ip_address_list.map(&amp;:inspect)'
 </code></pre>
-</div>
 
 <p>Play with primes!</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ruby -rprime -e <span class="s1">'puts Prime.first(20)'</span>
+<pre><code class="language-bash">$ ruby -rprime -e 'puts Prime.first(20)'
 </code></pre>
-</div>
 
 <h2 id="wrapping-up">Wrapping Up</h2>
 
@@ -180,14 +167,13 @@
 
 <h2 id="submitted-by-awesome-people">Submitted by Awesome People</h2>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># First two submitted by me to avoid a sad empty list here</span>
-<span class="c"># Delete trailing whitespace</span>
-<span class="gp">$ </span>ruby -pe <span class="s1">'gsub(/\s+$/, "\n")'</span>
+<pre><code class="language-bash"># First two submitted by me to avoid a sad empty list here
+# Delete trailing whitespace
+$ ruby -pe 'gsub(/\s+$/, "\n")'
 
-<span class="c"># Prints too long lines</span>
-<span class="gp">$ </span>ruby -ne <span class="s1">'puts $_ if $_.length &gt; 80'</span>
+# Prints too long lines
+$ ruby -ne 'puts $_ if $_.length &gt; 80'
 </code></pre>
-</div>
 
 
     <small>
@@ -390,6 +376,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

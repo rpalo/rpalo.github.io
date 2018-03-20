@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -70,118 +71,109 @@
 
 <p>The technique I want to share is the one I used for the nav button click callback: I created a closure!  Let me back up.  I’ve got three buttons.  The HTML ends up looking something like this:</p>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"tabs"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"tabs__link active"</span> <span class="na">data-target=</span><span class="s">"About"</span><span class="nt">&gt;</span>About<span class="nt">&lt;/button&gt;</span>
-  <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"tabs__link"</span> <span class="na">data-target=</span><span class="s">"Menu"</span><span class="nt">&gt;</span>Menu<span class="nt">&lt;/button&gt;</span>
-  <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"tabs__link"</span> <span class="na">data-target=</span><span class="s">"Contact"</span><span class="nt">&gt;</span>Contact<span class="nt">&lt;/button&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
+<pre><code class="language-html">&lt;div class="tabs"&gt;
+  &lt;button class="tabs__link active" data-target="About"&gt;About&lt;/button&gt;
+  &lt;button class="tabs__link" data-target="Menu"&gt;Menu&lt;/button&gt;
+  &lt;button class="tabs__link" data-target="Contact"&gt;Contact&lt;/button&gt;
+&lt;/div&gt;
 </code></pre>
-</div>
 
-<p>I then have a bunch of <code class="highlighter-rouge">&lt;div class="tabcontent"&gt;</code>’s that contain the content of the tabs.  Every one but the active one has <code class="highlighter-rouge">display: hidden</code>, so only the active one will show up.</p>
+<p>I then have a bunch of <code>&lt;div class="tabcontent"&gt;</code>’s that contain the content of the tabs.  Every one but the active one has <code>display: hidden</code>, so only the active one will show up.</p>
 
 <p>Of course, the assignment specifically asked me to generate these buttons in JavaScript, so it ends up looking more like this:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// Don't worry about openTab now.</span>
-<span class="c1">// We'll talk about it in a minute.</span>
-<span class="kr">import</span> <span class="nx">openTab</span> <span class="nx">from</span> <span class="s1">'./openTab'</span><span class="p">;</span>
+<pre><code class="language-javascript">// Don't worry about openTab now.
+// We'll talk about it in a minute.
+import openTab from './openTab';
 
-<span class="kr">const</span> <span class="nx">loadNav</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">tabHolder</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'.tabs'</span><span class="p">);</span>
-  <span class="kr">const</span> <span class="nx">tabs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'About'</span><span class="p">,</span> <span class="s1">'Menu'</span><span class="p">,</span> <span class="s1">'Contact'</span><span class="p">];</span>
-  <span class="nx">tabs</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">tabName</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="nx">button</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">'button'</span><span class="p">);</span>
-    <span class="nx">button</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'tabs__link'</span><span class="p">);</span>
-    <span class="nx">button</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">target</span> <span class="o">=</span> <span class="nx">tabName</span><span class="p">;</span>
-    <span class="nx">button</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="nx">openTab</span><span class="p">(</span><span class="nx">tabName</span><span class="p">));</span>
-    <span class="nx">button</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">tabName</span><span class="p">;</span>
-    <span class="nx">tabHolder</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">button</span><span class="p">);</span>
-  <span class="p">});</span>
-<span class="p">};</span>
+const loadNav = () =&gt; {
+  const tabHolder = document.querySelector('.tabs');
+  const tabs = ['About', 'Menu', 'Contact'];
+  tabs.forEach(tabName =&gt; {
+    const button = document.createElement('button');
+    button.classList.add('tabs__link');
+    button.dataset.target = tabName;
+    button.addEventListener('click', openTab(tabName));
+    button.innerHTML = tabName;
+    tabHolder.appendChild(button);
+  });
+};
 </code></pre>
-</div>
 
-<p>But here’s where the magic happens.  I’ll show you the code for <code class="highlighter-rouge">openTab</code>, and then I’ll talk about what’s so special about it.</p>
+<p>But here’s where the magic happens.  I’ll show you the code for <code>openTab</code>, and then I’ll talk about what’s so special about it.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">openTab</span> <span class="o">=</span> <span class="nx">tabName</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="nx">tabContent</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">'.tabcontent'</span><span class="p">);</span>
-    <span class="nx">tabContent</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">tab</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="nx">tab</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">"none"</span><span class="p">;</span>
-    <span class="p">});</span>
+<pre><code class="language-javascript">const openTab = tabName =&gt; {
+  return (e) =&gt; {
+    const tabContent = document.querySelectorAll('.tabcontent');
+    tabContent.forEach(tab =&gt; {
+      tab.style.display = "none";
+    });
     
-    <span class="kr">const</span> <span class="nx">tabLinks</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">'.tabs__link'</span><span class="p">);</span>
-    <span class="nx">tabLinks</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">link</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="nx">link</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">'active'</span><span class="p">);</span>
-    <span class="p">});</span>
+    const tabLinks = document.querySelectorAll('.tabs__link');
+    tabLinks.forEach(link =&gt; {
+      link.classList.remove('active');
+    });
     
-    <span class="kr">const</span> <span class="nx">activeTab</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="err">`</span><span class="p">[</span><span class="nx">data</span><span class="o">-</span><span class="nx">page</span><span class="o">=</span><span class="s2">"${tabName}"</span><span class="p">]</span><span class="err">`</span><span class="p">);</span>
-    <span class="nx">activeTab</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">"block"</span><span class="p">;</span>
-    <span class="nx">e</span><span class="p">.</span><span class="nx">currentTarget</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">'active'</span><span class="p">);</span>
-  <span class="p">};</span>
-<span class="p">};</span>
+    const activeTab = document.querySelector(`[data-page="${tabName}"]`);
+    activeTab.style.display = "block";
+    e.currentTarget.classList.add('active');
+  };
+};
 
-<span class="kr">export</span> <span class="k">default</span> <span class="nx">openTab</span><span class="p">;</span>
+export default openTab;
 </code></pre>
-</div>
 
 <h3 id="so-whats-going-on-here">So What’s Going On Here?</h3>
 
-<p>Usually, when you pass a callback function to an event listener, you do it without parenthesis, like this: <code class="highlighter-rouge">button.addEventListener('click', doTheThing)</code>.  This is because you’re not calling the function as you’re creating the event listener, you’re passing the function object to be called later.  However, have you ever wanted to pass additional information to a callback?  Usually when you have a callback function for event listeners, they only take the event as an argument:</p>
+<p>Usually, when you pass a callback function to an event listener, you do it without parenthesis, like this: <code>button.addEventListener('click', doTheThing)</code>.  This is because you’re not calling the function as you’re creating the event listener, you’re passing the function object to be called later.  However, have you ever wanted to pass additional information to a callback?  Usually when you have a callback function for event listeners, they only take the event as an argument:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">doTheThing</span> <span class="o">=</span> <span class="nx">e</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="c1">// stuff</span>
-<span class="p">};</span>
+<pre><code class="language-javascript">const doTheThing = e =&gt; {
+  // stuff
+};
 </code></pre>
-</div>
 
 <p>However, what if you want it to have additional information?</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">doTheThing</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">myColor</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myColor</span><span class="p">);</span>
-<span class="p">};</span>
+<pre><code class="language-javascript">const doTheThing = (e, myColor) =&gt; {
+  console.log(myColor);
+};
 </code></pre>
-</div>
 
 <p>In my case, I wanted to write one callback function that would work for all three nav buttons, even though their functionality would each be a little different, based on which tab they were trying to act on.  So I needed something like this:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">openTab</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">tabName</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="c1">// The stuff</span>
-<span class="p">};</span>
+<pre><code class="language-javascript">const openTab = (e, tabName) =&gt; {
+  // The stuff
+};
 </code></pre>
-</div>
 
 <p>BUT, if you try this, JavaScript gets grumpy.  So what can we do?  One solution is to create a closure at the time that you add the event listener.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">openTab</span> <span class="o">=</span> <span class="nx">tabName</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">e</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="c1">// Things in here have access to tabName *and* e</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">const openTab = tabName =&gt; {
+  return e =&gt; {
+    // Things in here have access to tabName *and* e
+  }
+}
 </code></pre>
-</div>
 
 <p>When you use it like this:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">button</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="nx">openTab</span><span class="p">(</span><span class="nx">tabName</span><span class="p">));</span>
+<pre><code class="language-javascript">button.addEventListener('click', openTab(tabName));
 </code></pre>
-</div>
 
-<p>the <code class="highlighter-rouge">openTab</code> function gets <em>immediately</em> evaluated, and the new, anonymous function is given as the callback.  It’s the same as writing:</p>
+<p>the <code>openTab</code> function gets <em>immediately</em> evaluated, and the new, anonymous function is given as the callback.  It’s the same as writing:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">button</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="nx">e</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">tabName</span> <span class="o">+</span> <span class="s2">"Haha!"</span><span class="p">);</span>
-<span class="p">});</span>
+<pre><code class="language-javascript">button.addEventListener('click', e =&gt; {
+  console.log(tabName + "Haha!");
+});
 </code></pre>
-</div>
 
-<p>Thanks to our friend the closure, the anonymous function placed after the event listener retains access to the <code class="highlighter-rouge">tabName</code> variable, even though the function was called long before the event ever fires.  If you’re not exactly sure what a closure is, definitely take a look at <a href="https://assertnotmagic.com/2018/02/10/closure-i-hardly-know-her/">my post on closures</a>.  The benefit is that you can pull the <code class="highlighter-rouge">openTab</code> logic out into its own function and your <code class="highlighter-rouge">addEventListener</code> call ends up looking a lot cleaner.</p>
+<p>Thanks to our friend the closure, the anonymous function placed after the event listener retains access to the <code>tabName</code> variable, even though the function was called long before the event ever fires.  If you’re not exactly sure what a closure is, definitely take a look at <a href="https://assertnotmagic.com/2018/02/10/closure-i-hardly-know-her/">my post on closures</a>.  The benefit is that you can pull the <code>openTab</code> logic out into its own function and your <code>addEventListener</code> call ends up looking a lot cleaner.</p>
 
 <p>So, the next time you want your callback functions to have more information than just the event passed in, consider using a closure to DRY things up.</p>
 
 <h2 id="delirium-disclaimer">Delirium Disclaimer</h2>
 
-<p>As I was writing this post, I noticed a lot of things I should change and fix in my original code (variable name consistencies, CSS class name consistencies, etc.).  I also noticed that I probably could have left out the <code class="highlighter-rouge">tabName</code> variable completely and gotten away with getting everything that I needed from the <code class="highlighter-rouge">event</code> that got passed into the function.  The whole closure thing may have been unnecessary.</p>
+<p>As I was writing this post, I noticed a lot of things I should change and fix in my original code (variable name consistencies, CSS class name consistencies, etc.).  I also noticed that I probably could have left out the <code>tabName</code> variable completely and gotten away with getting everything that I needed from the <code>event</code> that got passed into the function.  The whole closure thing may have been unnecessary.</p>
 
 <p>I’m going to go ahead and blame this on the fact that by the time I got to this part of the code, I was delirious from all of the things I was doing and new things I was learning.  Now that I’ve had some sleep, past-me’s code is making me cringe a little bit.  Sorry!</p>
 
@@ -387,6 +379,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

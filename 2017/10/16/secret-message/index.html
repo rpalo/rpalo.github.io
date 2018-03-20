@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -64,7 +65,7 @@
 
 <blockquote>
   <p>Sort the characters in the following string:
-<code class="highlighter-rouge">abcdefghijklmnopqrstuvwxyz_</code></p>
+<code>abcdefghijklmnopqrstuvwxyz_</code></p>
 
   <p>by the number of times the character appears in the following text (descending):</p>
 
@@ -83,49 +84,47 @@
 
 <p>I decided to use Ruby because Ruby is fun and great.  Initially, I just wanted to knock out the first solution I could think of – regardless of how inefficient or slow it was – and come back to clean it up after.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># I stored the huge string in a separate file called</span>
-<span class="c1"># `blob.txt` so as to not clutter my main script</span>
+<pre><code class="language-ruby"># I stored the huge string in a separate file called
+# `blob.txt` so as to not clutter my main script
 
-<span class="n">blob</span> <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s1">'blob.txt'</span><span class="p">)</span>
-<span class="n">letters</span> <span class="o">=</span> <span class="s1">'abcdefghijklmnopqrstuvwxyz_'</span><span class="p">.</span><span class="nf">chars</span>
+blob = File.read('blob.txt')
+letters = 'abcdefghijklmnopqrstuvwxyz_'.chars
 
-<span class="k">def</span> <span class="nf">naive_message</span><span class="p">(</span><span class="n">letters</span><span class="p">,</span> <span class="n">blob</span><span class="p">)</span>
-  <span class="n">letters</span>
-    <span class="p">.</span><span class="nf">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">letter</span><span class="o">|</span> <span class="n">blob</span><span class="p">.</span><span class="nf">count</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span> <span class="p">}</span>
-    <span class="p">.</span><span class="nf">reverse</span>  <span class="c1"># to get desc. order</span>
-    <span class="p">.</span><span class="nf">join</span>
-    <span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s1">'_'</span><span class="p">)</span>
-    <span class="p">.</span><span class="nf">first</span>
-<span class="k">end</span>
+def naive_message(letters, blob)
+  letters
+    .sort_by { |letter| blob.count(letter) }
+    .reverse  # to get desc. order
+    .join
+    .split('_')
+    .first
+end
 
-<span class="nb">puts</span> <span class="n">naive_message</span><span class="p">(</span><span class="n">letters</span><span class="p">,</span> <span class="n">blob</span><span class="p">)</span>
+puts naive_message(letters, blob)
 </code></pre>
-</div>
 
 <p>I won’t spoil the answer, but let’s just say that I “pray, plead, beseech, urge” you to try it on your own.  Possibly in the past tense.  I think the markdown format of the initial text blob may have skewed the number of “_” characters, causing my answer to have slightly more characters on the end than should actually be there.  UPDATE: That’s totally what happened.  <a href="https://repl.it/MivX">Accurate text blob here</a>.</p>
 
 <h2 id="my-solution-part-2">My Solution (Part 2)</h2>
 
-<p>Anyways, I looked back at my solution and thought to myself, “Ryan, that doesn’t look very performant.  I have to imagine that running <code class="highlighter-rouge">blob.count(letter)</code> for each letter is the worst case performance for this scenario (27 ‘letters’ * n chars in the blob, looping through the whole blob for each letter).  It seems like it should be more efficient to do it the way Ben did it, which is by looping through the blob once and counting each letter along the way.  So I tried that.</p>
+<p>Anyways, I looked back at my solution and thought to myself, “Ryan, that doesn’t look very performant.  I have to imagine that running <code>blob.count(letter)</code> for each letter is the worst case performance for this scenario (27 ‘letters’ * n chars in the blob, looping through the whole blob for each letter).  It seems like it should be more efficient to do it the way Ben did it, which is by looping through the blob once and counting each letter along the way.  So I tried that.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">efficient_message</span><span class="p">(</span><span class="n">letters</span><span class="p">,</span> <span class="n">blob</span><span class="p">)</span>
-  <span class="c1"># counter = {a: 0, b: 0, c: 0...}</span>
-  <span class="n">counter</span> <span class="o">=</span> <span class="n">letters</span><span class="p">.</span><span class="nf">product</span><span class="p">([</span><span class="mi">0</span><span class="p">]).</span><span class="nf">to_h</span>
+<pre><code class="language-ruby">def efficient_message(letters, blob)
+  # counter = {a: 0, b: 0, c: 0...}
+  counter = letters.product([0]).to_h
 
-  <span class="c1"># run through blob once only</span>
-  <span class="n">blob</span><span class="p">.</span><span class="nf">each_char</span> <span class="p">{</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="n">counter</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span> <span class="p">}</span>
+  # run through blob once only
+  blob.each_char { |c| counter[c] += 1 }
 
-  <span class="c1"># sort and trim off everything after _</span>
-  <span class="n">counter</span>
-    <span class="p">.</span><span class="nf">sort_by</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:last</span><span class="p">)</span>	<span class="c1"># sort by the count</span>
-    <span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:first</span><span class="p">)</span>		<span class="c1"># grab just the letter key into an array</span>
-    <span class="p">.</span><span class="nf">reverse</span>
-    <span class="p">.</span><span class="nf">join</span>
-    <span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s1">'_'</span><span class="p">)</span>
-    <span class="p">.</span><span class="nf">first</span>
-<span class="k">end</span>
+  # sort and trim off everything after _
+  counter
+    .sort_by(&amp;:last)	# sort by the count
+    .map(&amp;:first)		# grab just the letter key into an array
+    .reverse
+    .join
+    .split('_')
+    .first
+end
 </code></pre>
-</div>
 
 <p>Not as pretty, in my opinion, but hopefully faster.  Ruby, being interpreted, is slower than most compiled langauges, so this should help.  (So I thought…)</p>
 
@@ -133,20 +132,19 @@
 
 <p>Was this optimization worth it?  I needed to find out.  Luckily Ruby comes with an awesome Benchmarking library built-in.  (Oh Ruby, what is there that you can’t do?)</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'benchmark'</span>
+<pre><code class="language-ruby">require 'benchmark'
 
-<span class="c1"># ... My code above</span>
+# ... My code above
 
-<span class="no">Benchmark</span><span class="p">.</span><span class="nf">bmbm</span> <span class="k">do</span> <span class="o">|</span><span class="n">bm</span><span class="o">|</span>
-  <span class="n">bm</span><span class="p">.</span><span class="nf">report</span><span class="p">(</span><span class="s2">"Naive: "</span><span class="p">)</span> <span class="p">{</span> <span class="mi">1000</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span> <span class="n">naive_message</span><span class="p">(</span><span class="n">letters</span><span class="p">,</span> <span class="n">contents</span><span class="p">)</span> <span class="p">}</span> <span class="p">}</span>
-  <span class="n">bm</span><span class="p">.</span><span class="nf">report</span><span class="p">(</span><span class="s2">"Efficient: "</span><span class="p">)</span> <span class="p">{</span> <span class="mi">1000</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span> <span class="n">efficient_message</span><span class="p">(</span><span class="n">letters</span><span class="p">,</span> <span class="n">contents</span><span class="p">)</span> <span class="p">}</span> <span class="p">}</span>
-<span class="k">end</span>
+Benchmark.bmbm do |bm|
+  bm.report("Naive: ") { 1000.times { naive_message(letters, contents) } }
+  bm.report("Efficient: ") { 1000.times { efficient_message(letters, contents) } }
+end
 </code></pre>
-</div>
 
-<p><code class="highlighter-rouge">Benchmark</code> has a method called <code class="highlighter-rouge">bmbm</code> that runs one trial run and then a second real run.  This helps shake out any overhead performance drains from the garbage collector.  And to my horror:</p>
+<p><code>Benchmark</code> has a method called <code>bmbm</code> that runs one trial run and then a second real run.  This helps shake out any overhead performance drains from the garbage collector.  And to my horror:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>~\desktop&gt; ruby .\secret_word.rb
+<pre><code>~\desktop&gt; ruby .\secret_word.rb
 Rehearsal -----------------------------------------------
 Naive:        0.047000   0.000000   0.047000 (  0.039974)
 Efficient:    0.484000   0.000000   0.484000 (  0.481631)
@@ -156,35 +154,33 @@ Efficient:    0.484000   0.000000   0.484000 (  0.481631)
 Naive:        0.031000   0.000000   0.031000 (  0.038011)
 Efficient:    0.483000   0.000000   0.483000 (  0.478715)
 </code></pre>
-</div>
 
 <p><strong>The “Efficient” version is ~10x slower than the “Naive” version!</strong>  Noooo!  “But, why?” you ask.  “How can this be?”  I had the same questions.</p>
 
 <h2 id="algorithmic-profiling">Algorithmic Profiling</h2>
 
-<p>Ruby has a built-in profiler, but a short Google search told me that there was a better option: <code class="highlighter-rouge">ruby-prof</code>.  After a quick <code class="highlighter-rouge">gem install ruby-prof</code>, I was back at it again with the white vans.  (Check out the <a href="https://github.com/ruby-prof/ruby-prof">Ruby-Prof Documentation</a> to learn more).</p>
+<p>Ruby has a built-in profiler, but a short Google search told me that there was a better option: <code>ruby-prof</code>.  After a quick <code>gem install ruby-prof</code>, I was back at it again with the white vans.  (Check out the <a href="https://github.com/ruby-prof/ruby-prof">Ruby-Prof Documentation</a> to learn more).</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'ruby-prof'</span>
+<pre><code class="language-ruby">require 'ruby-prof'
 
-<span class="c1"># ... The previous code</span>
+# ... The previous code
 
-<span class="no">RubyProf</span><span class="p">.</span><span class="nf">start</span>
-<span class="mi">1000</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span> <span class="n">naive_message</span><span class="p">(</span><span class="n">letters</span><span class="p">,</span> <span class="n">contents</span><span class="p">)</span> <span class="p">}</span>
-<span class="n">result</span> <span class="o">=</span> <span class="no">RubyProf</span><span class="p">.</span><span class="nf">stop</span>
+RubyProf.start
+1000.times { naive_message(letters, contents) }
+result = RubyProf.stop
 
-<span class="no">RubyProf</span><span class="o">::</span><span class="no">FlatPrinter</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">result</span><span class="p">).</span><span class="nf">print</span><span class="p">(</span><span class="no">STDOUT</span><span class="p">)</span>
+RubyProf::FlatPrinter.new(result).print(STDOUT)
 
-<span class="no">RubyProf</span><span class="p">.</span><span class="nf">start</span>
-<span class="mi">1000</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span> <span class="n">efficient_message</span><span class="p">(</span><span class="n">letters</span><span class="p">,</span> <span class="n">contents</span><span class="p">)</span> <span class="p">}</span>
-<span class="n">result</span> <span class="o">=</span> <span class="no">RubyProf</span><span class="p">.</span><span class="nf">stop</span>
+RubyProf.start
+1000.times { efficient_message(letters, contents) }
+result = RubyProf.stop
 
-<span class="no">RubyProf</span><span class="o">::</span><span class="no">FlatPrinter</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">result</span><span class="p">).</span><span class="nf">print</span><span class="p">(</span><span class="no">STDOUT</span><span class="p">)</span>
+RubyProf::FlatPrinter.new(result).print(STDOUT)
 </code></pre>
-</div>
 
 <p>I added titles below for clarity.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Naive:
+<pre><code>Naive:
 ===================
 Measure Mode: wall_time
 Thread ID: 3259000
@@ -234,9 +230,8 @@ Sort by: self_time
 
 * indicates recursively called methods
 </code></pre>
-</div>
 
-<p>From what I can tell, the <code class="highlighter-rouge">String#count</code> method is super-optimized, and <code class="highlighter-rouge">String#each_char</code> is a relatively expensive operation (it has to create an array the length of the blob!).  So, in the long run, looping through the blob string a bunch of times using the faster <code class="highlighter-rouge">String#count</code> ends up being more performant.  So much for going through the trouble to generate an <em>efficient</em> solution.</p>
+<p>From what I can tell, the <code>String#count</code> method is super-optimized, and <code>String#each_char</code> is a relatively expensive operation (it has to create an array the length of the blob!).  So, in the long run, looping through the blob string a bunch of times using the faster <code>String#count</code> ends up being more performant.  So much for going through the trouble to generate an <em>efficient</em> solution.</p>
 
 <h2 id="wrap-up">Wrap Up</h2>
 
@@ -447,6 +442,7 @@ Sort by: self_time
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

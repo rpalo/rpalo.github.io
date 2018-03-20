@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -72,24 +73,23 @@
 
 <h2 id="step-1-a-falling-ball">Step 1. A Falling Ball</h2>
 
-<p>For this first step, let’s ignore the stopping at the edge of the screen and the switching direction.  All we want is for the ball to fall.  I am going to phase out reviewing the stuff from the first couple of lessons, so if you missed those, I recommend you go back and check them out.  Grab your trusty <code class="highlighter-rouge">index.html</code> and start up a new <code class="highlighter-rouge">sketch.js</code>.</p>
+<p>For this first step, let’s ignore the stopping at the edge of the screen and the switching direction.  All we want is for the ball to fall.  I am going to phase out reviewing the stuff from the first couple of lessons, so if you missed those, I recommend you go back and check them out.  Grab your trusty <code>index.html</code> and start up a new <code>sketch.js</code>.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">stroke</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<pre><code class="language-javascript">function setup() {
+  createCanvas(600, 600);
+  background(255);
+  stroke(0);
+  fill(0);
   
-  <span class="c1">// Stuff to setup our ball will go here</span>
-<span class="p">}</span>
+  // Stuff to setup our ball will go here
+}
 
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>  <span class="c1">// Clear the page before redrawing</span>
+function draw() {
+  background(255);  // Clear the page before redrawing
   
-  <span class="c1">// Stuff to animate our ball will go here</span>
-<span class="p">}</span>
+  // Stuff to animate our ball will go here
+}
 </code></pre>
-</div>
 
 <p>All of this should look very overwhelmingly familiar by this point.  Let’s get to the good stuff.  We know that we’re going to need a ball, but first, let me introduce the Vector, which will lead us to the software version, the <a href="https://p5js.org/reference/#/p5.Vector">P5 Vector</a>, for which I’ve given you a link to the documentation.  Check it out if you’re the over-achiever kind.  This next section goes a little more in-depth about vectors.  It’s mostly for background, but it’s also because I love vectors and can’t help myself.  If you’re like my wife and don’t give a rat’s patootie about the math behind things, the TLDR is that vectors are a slick way of keeping track of an X and a Y value (and sometime even a Z value) in one place, with some nice helper functions along the way.  Feel free to skip the next section if your heart is not currently burning with the fire of curiosity.</p>
 
@@ -99,7 +99,7 @@
 
 <p><img src="/img/vector-simple.png" alt="Some vector terminology" /></p>
 
-<p>A vector is really just an arrow.  It knows how long it is and which way it’s pointing.  There are a lot of ways to write vectors.  One way is simply <code class="highlighter-rouge">&lt;magnitude&gt; &lt;angle&gt;</code>.  As in, a location: you are 5 feet from me, 15 degrees North from East.  But before we get too bogged down in that mess, there’s an easier way.  Let’s talk about math.</p>
+<p>A vector is really just an arrow.  It knows how long it is and which way it’s pointing.  There are a lot of ways to write vectors.  One way is simply <code>&lt;magnitude&gt; &lt;angle&gt;</code>.  As in, a location: you are 5 feet from me, 15 degrees North from East.  But before we get too bogged down in that mess, there’s an easier way.  Let’s talk about math.</p>
 
 <h4 id="vector-math">Vector Math</h4>
 
@@ -139,77 +139,74 @@
 
 <p>Clear as mud?  Here are some equations that might help.  They’ll definitely help in our code.</p>
 
-<p><code class="highlighter-rouge">final_velocity = initial_velocity + acceleration*time</code></p>
+<p><code>final_velocity = initial_velocity + acceleration*time</code></p>
 
-<p><code class="highlighter-rouge">final_position = initial_position + velocity*time</code>.</p>
+<p><code>final_position = initial_position + velocity*time</code>.</p>
 
 <p>If you use the combination of <strong>position, velocity, and acceleration</strong> in your animations/simulations, they will come out looking very realistic, because the math that they’re based on is how the world actually works!</p>
 
 <h3 id="boring--more-code-please">BORING!  More Code Please!</h3>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code>
-<span class="kd">var</span> <span class="nx">ball</span><span class="p">;</span>
+<pre><code class="language-javascript">
+var ball;
 
-<span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">stroke</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+function setup() {
+  createCanvas(600, 600);
+  background(255);
+  stroke(0);
+  fill(0);
 
-  <span class="nx">ball</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="na">pos</span><span class="p">:</span> <span class="nx">createVector</span><span class="p">(</span><span class="nx">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
-    <span class="na">vel</span><span class="p">:</span> <span class="nx">createVector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-    <span class="na">accel</span><span class="p">:</span> <span class="nx">createVector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-  <span class="p">};</span>
+  ball = {
+    pos: createVector(width / 2, height / 2),
+    vel: createVector(0, 0),
+    accel: createVector(0, 0)
+  };
 
-<span class="p">}</span>
+}
 </code></pre>
-</div>
 
-<p>We’ve set up a new object called <code class="highlighter-rouge">ball</code>.  This ball has a position (the middle of the canvas), velocity (zero), and acceleration (zero), just like we went over above.  We used P5’s built-in <code class="highlighter-rouge">createVector</code> function, putting in our X and Y components.  You’ll see how handy this comes in later.  Let’s draw our ball in the draw function.</p>
+<p>We’ve set up a new object called <code>ball</code>.  This ball has a position (the middle of the canvas), velocity (zero), and acceleration (zero), just like we went over above.  We used P5’s built-in <code>createVector</code> function, putting in our X and Y components.  You’ll see how handy this comes in later.  Let’s draw our ball in the draw function.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code>
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">ellipse</span><span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">
+function draw() {
+  background(255);
+  ellipse(ball.pos.x, ball.pos.y, 10, 10);
+}
 </code></pre>
-</div>
 
-<p>See how we can get the <code class="highlighter-rouge">.x</code> and <code class="highlighter-rouge">.y</code> components of our vectors?  Here’s the new animation.</p>
+<p>See how we can get the <code>.x</code> and <code>.y</code> components of our vectors?  Here’s the new animation.</p>
 
 <p><img src="/img/ball-not-falling.png" alt="Ball not falling" /></p>
 
 <p>Hooray!  But why isn’t it moving?  Well, we’re not updating our position, velocity, and acceleration like we said we would!  Let’s do that now.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">ball</span><span class="p">;</span>
+<pre><code class="language-javascript">var ball;
 
-<span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">stroke</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+function setup() {
+  createCanvas(600, 600);
+  background(255);
+  stroke(0);
+  fill(0);
 
-  <span class="nx">ball</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="na">pos</span><span class="p">:</span> <span class="nx">createVector</span><span class="p">(</span><span class="nx">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
-    <span class="na">vel</span><span class="p">:</span> <span class="nx">createVector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-    <span class="na">accel</span><span class="p">:</span> <span class="nx">createVector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">.</span><span class="mi">1</span><span class="p">)</span>  <span class="c1">// &lt;&lt; Let's add some acceleration.</span>
-    							<span class="c1">// Remember in the canvas that positive</span>
-    							<span class="c1">// is down!</span>
-  <span class="p">};</span>
+  ball = {
+    pos: createVector(width / 2, height / 2),
+    vel: createVector(0, 0),
+    accel: createVector(0, .1)  // &lt;&lt; Let's add some acceleration.
+    							// Remember in the canvas that positive
+    							// is down!
+  };
 
-<span class="p">}</span>
+}
 
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="c1">// Remember our physics equations?</span>
-  <span class="nx">ball</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">accel</span><span class="p">);</span>
-  <span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">vel</span><span class="p">);</span>
-  <span class="c1">// They're so beautiful!</span>
-  <span class="nx">ellipse</span><span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-<span class="p">}</span>
+function draw() {
+  background(255);
+  // Remember our physics equations?
+  ball.vel.add(ball.accel);
+  ball.pos.add(ball.vel);
+  // They're so beautiful!
+  ellipse(ball.pos.x, ball.pos.y, 10, 10);
+}
 </code></pre>
-</div>
 
 <p>Every draw loop, we’re updating our velocity by adding the acceleration to it.  We then update our position by adding velocity!  Run your simulation and you’ll see that all of this math has been worth it.</p>
 
@@ -217,32 +214,31 @@
 
 <p>Let’s do one more cleanup to make our code really make sense.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">ball</span><span class="p">,</span> <span class="nx">gravity</span><span class="p">;</span>  <span class="c1">// &lt;&lt; We're going to replace our hard-coded value!</span>
+<pre><code class="language-javascript">var ball, gravity;  // &lt;&lt; We're going to replace our hard-coded value!
 
-<span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">stroke</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+function setup() {
+  createCanvas(600, 600);
+  background(255);
+  stroke(0);
+  fill(0);
 
-  <span class="nx">gravity</span> <span class="o">=</span> <span class="p">.</span><span class="mi">1</span><span class="p">;</span>
+  gravity = .1;
 
-  <span class="nx">ball</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="na">pos</span><span class="p">:</span> <span class="nx">createVector</span><span class="p">(</span><span class="nx">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
-    <span class="na">vel</span><span class="p">:</span> <span class="nx">createVector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-    <span class="na">accel</span><span class="p">:</span> <span class="nx">createVector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">gravity</span><span class="p">)</span>  <span class="c1">// &lt;&lt; acceleration is gravity!</span>
-  <span class="p">};</span>
+  ball = {
+    pos: createVector(width / 2, height / 2),
+    vel: createVector(0, 0),
+    accel: createVector(0, gravity)  // &lt;&lt; acceleration is gravity!
+  };
 
-<span class="p">}</span>
+}
 
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">ball</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">accel</span><span class="p">);</span>
-  <span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">vel</span><span class="p">);</span>
-  <span class="nx">ellipse</span><span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-<span class="p">}</span>
+function draw() {
+  background(255);
+  ball.vel.add(ball.accel);
+  ball.pos.add(ball.vel);
+  ellipse(ball.pos.x, ball.pos.y, 10, 10);
+}
 </code></pre>
-</div>
 
 <p>OK.  That was a lot of new math/physics-y concepts, and not much new JavaScript.  Take a deep breath.  Get a snack.  The rest of this project should seem more familiar.</p>
 
@@ -250,39 +246,38 @@
 
 <p>Let’s get onto our next requirement.  The ball should stop when it gets near the edge of the canvas.  I think you could actually handle this one yourself.  Give it a try now before reading on.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">ball</span><span class="p">,</span> <span class="nx">gravity</span><span class="p">;</span>
+<pre><code class="language-javascript">var ball, gravity;
 
-<span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">stroke</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+function setup() {
+  createCanvas(600, 600);
+  background(255);
+  stroke(0);
+  fill(0);
 
-  <span class="nx">gravity</span> <span class="o">=</span> <span class="p">.</span><span class="mi">1</span><span class="p">;</span>
+  gravity = .1;
 
-  <span class="nx">ball</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="na">pos</span><span class="p">:</span> <span class="nx">createVector</span><span class="p">(</span><span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
-    <span class="na">vel</span><span class="p">:</span> <span class="nx">createVector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-    <span class="na">accel</span><span class="p">:</span> <span class="nx">createVector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">gravity</span><span class="p">),</span>
-  <span class="p">};</span>
+  ball = {
+    pos: createVector(width/2, height/2),
+    vel: createVector(0, 0),
+    accel: createVector(0, gravity),
+  };
 
-<span class="p">}</span>
+}
 
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">ball</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">accel</span><span class="p">);</span>
-  <span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">vel</span><span class="p">);</span>
+function draw() {
+  background(255);
+  ball.vel.add(ball.accel);
+  ball.pos.add(ball.vel);
 
-  <span class="c1">// Here's the stopping magic.</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span> <span class="o">&gt;</span> <span class="nx">height</span> <span class="o">-</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">height</span> <span class="o">-</span> <span class="mi">10</span><span class="p">;</span>
-    <span class="nx">ball</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="p">}</span>
+  // Here's the stopping magic.
+  if (ball.pos.y &gt; height - 10) {
+    ball.pos.y = height - 10;
+    ball.vel.set(0, 0);
+  }
 
-  <span class="nx">ellipse</span><span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-<span class="p">}</span>
+  ellipse(ball.pos.x, ball.pos.y, 10, 10);
+}
 </code></pre>
-</div>
 
 <p>If the ball’s Y position is about to go off the canvas, we stop the ball and make sure it stays put.  High five to you if you were able to get it done without looking at the answer!  High five even if you had to peek, because you’re programming and that makes you cool!</p>
 
@@ -290,163 +285,157 @@
 
 <p>The third step on our journey is to switch the direction of gravity when we click the mouse.  I think you may be able to do this one on your own as well!</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">mouseClicked</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">gravity</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-  <span class="nx">ball</span><span class="p">.</span><span class="nx">accel</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">gravity</span><span class="p">;</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">function mouseClicked() {
+  gravity *= -1;
+  ball.accel.y = gravity;
+}
 </code></pre>
-</div>
 
 <p><img src="/img/switch-directions-1.gif" alt="Switching directions" /></p>
 
 <p>Oh no!  Our ball goes zooming into space!  Want to see something amusing?  Click again and wait.  Our ball will come crashing back to earth.  Looks like we need to update our stopping code to include the upper boundary of the canvas too.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code>  <span class="k">if</span> <span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span> <span class="o">&gt;</span> <span class="nx">height</span> <span class="o">-</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">height</span> <span class="o">-</span> <span class="mi">10</span><span class="p">;</span>
-    <span class="nx">ball</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-    <span class="nx">ball</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="p">}</span>
+<pre><code class="language-javascript">  if (ball.pos.y &gt; height - 10) {
+    ball.pos.y = height - 10;
+    ball.vel.set(0, 0);
+  }
+  if (ball.pos.y &lt; 10) {
+    ball.pos.y = 10;
+    ball.vel.set(0, 0);
+  }
 </code></pre>
-</div>
 
 <p>And with that, we have success!  Here’s our final code.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">ball</span><span class="p">,</span> <span class="nx">gravity</span><span class="p">;</span>
+<pre><code class="language-javascript">var ball, gravity;
 
-<span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">stroke</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+function setup() {
+  createCanvas(600, 600);
+  background(255);
+  stroke(0);
+  fill(0);
 
-  <span class="nx">gravity</span> <span class="o">=</span> <span class="p">.</span><span class="mi">1</span><span class="p">;</span>
+  gravity = .1;
 
-  <span class="nx">ball</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="na">pos</span><span class="p">:</span> <span class="nx">createVector</span><span class="p">(</span><span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
-    <span class="na">vel</span><span class="p">:</span> <span class="nx">createVector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-    <span class="na">accel</span><span class="p">:</span> <span class="nx">createVector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">gravity</span><span class="p">),</span>
-  <span class="p">};</span>
+  ball = {
+    pos: createVector(width/2, height/2),
+    vel: createVector(0, 0),
+    accel: createVector(0, gravity),
+  };
 
-<span class="p">}</span>
+}
 
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">ball</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">accel</span><span class="p">);</span>
-  <span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">vel</span><span class="p">);</span>
+function draw() {
+  background(255);
+  ball.vel.add(ball.accel);
+  ball.pos.add(ball.vel);
 
-  <span class="c1">// Here's the stopping magic.</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span> <span class="o">&gt;</span> <span class="nx">height</span> <span class="o">-</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">height</span> <span class="o">-</span> <span class="mi">10</span><span class="p">;</span>
-    <span class="nx">ball</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-    <span class="nx">ball</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="p">}</span>
+  // Here's the stopping magic.
+  if (ball.pos.y &gt; height - 10) {
+    ball.pos.y = height - 10;
+    ball.vel.set(0, 0);
+  }
+  if (ball.pos.y &lt; 10) {
+    ball.pos.y = 10;
+    ball.vel.set(0, 0);
+  }
 
-  <span class="nx">ellipse</span><span class="p">(</span><span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">ball</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-<span class="p">}</span>
+  ellipse(ball.pos.x, ball.pos.y, 10, 10);
+}
 
-<span class="kd">function</span> <span class="nx">mouseClicked</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">gravity</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-  <span class="nx">ball</span><span class="p">.</span><span class="nx">accel</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">gravity</span><span class="p">;</span>
-<span class="p">}</span>
+function mouseClicked() {
+  gravity *= -1;
+  ball.accel.y = gravity;
+}
 </code></pre>
-</div>
 
 <h2 id="bonus-step-cleaning-up-with-object-methods">Bonus Step: Cleaning up with Object Methods</h2>
 
 <p>I wanted to show you one more thing that will help us clean up our code a bit and make it easier to read: <strong>object methods</strong>.</p>
 
-<p>In the code above, we defined our <code class="highlighter-rouge">ball</code> object with <code class="highlighter-rouge">pos, vel, accel</code>.  These are <strong>attributes</strong>, or values that you can possibly set and read using the <code class="highlighter-rouge">.</code> (dot) operator.  Just essentially variables.  But!  You can also do the same thing with functions!  Here’s an example.</p>
+<p>In the code above, we defined our <code>ball</code> object with <code>pos, vel, accel</code>.  These are <strong>attributes</strong>, or values that you can possibly set and read using the <code>.</code> (dot) operator.  Just essentially variables.  But!  You can also do the same thing with functions!  Here’s an example.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">banana</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">color</span><span class="p">:</span> <span class="s2">"Yellow"</span><span class="p">,</span>
-  <span class="na">length</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-  <span class="na">greet</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"HI!  I'M A BANANA!"</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">};</span>
+<pre><code class="language-javascript">var banana = {
+  color: "Yellow",
+  length: 6,
+  greet: function() {
+    console.log("HI!  I'M A BANANA!");
+  }
+};
 
-<span class="nx">banana</span><span class="p">.</span><span class="nx">greet</span><span class="p">();</span>
-<span class="c1">// HI!  I'M A BANANA!</span>
+banana.greet();
+// HI!  I'M A BANANA!
 </code></pre>
-</div>
 
-<p>You can access other functions and attributes of the same object with the keyword <code class="highlighter-rouge">this</code>.  <code class="highlighter-rouge">this</code> is a tricky rabbithole topic all of its own.  <a href="https://dev.to/yaphi1/understanding-this-in-javascript">This article on Dev.to</a> is a pretty good cut at explaining more.  If you’re still confused, try searching for “JavaScript this”.  It’s a topic that gives a lot of people issues, so there are lots of good attempts to explain it out there.</p>
+<p>You can access other functions and attributes of the same object with the keyword <code>this</code>.  <code>this</code> is a tricky rabbithole topic all of its own.  <a href="https://dev.to/yaphi1/understanding-this-in-javascript">This article on Dev.to</a> is a pretty good cut at explaining more.  If you’re still confused, try searching for “JavaScript this”.  It’s a topic that gives a lot of people issues, so there are lots of good attempts to explain it out there.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">banana</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">color</span><span class="p">:</span> <span class="s2">"Yellow"</span><span class="p">,</span>
-  <span class="na">length</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-  <span class="na">greet</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"HI!  I'M A BANANA!"</span><span class="p">);</span>
-  <span class="p">},</span>
-  <span class="na">chomp</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">amount</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">length</span> <span class="o">-=</span> <span class="nx">amount</span><span class="p">;</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">greet</span><span class="p">();</span>
-  <span class="p">}</span>
-<span class="p">};</span>
+<pre><code class="language-javascript">var banana = {
+  color: "Yellow",
+  length: 6,
+  greet: function() {
+    console.log("HI!  I'M A BANANA!");
+  },
+  chomp: function(amount) {
+    this.length -= amount;
+    this.greet();
+  }
+};
 
-<span class="nx">banana</span><span class="p">.</span><span class="nx">chomp</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
-<span class="c1">// HI!  I'M A BANANA!</span>
-<span class="nx">banana</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
-<span class="c1">// 2</span>
+banana.chomp(4);
+// HI!  I'M A BANANA!
+banana.length;
+// 2
 </code></pre>
-</div>
 
-<p>Let’s apply this to our <code class="highlighter-rouge">ball</code> code.</p>
+<p>Let’s apply this to our <code>ball</code> code.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">ball</span><span class="p">,</span> <span class="nx">gravity</span><span class="p">;</span>
+<pre><code class="language-javascript">var ball, gravity;
 
-<span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">stroke</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+function setup() {
+  createCanvas(600, 600);
+  background(255);
+  stroke(0);
+  fill(0);
 
-  <span class="nx">gravity</span> <span class="o">=</span> <span class="p">.</span><span class="mi">1</span><span class="p">;</span>
+  gravity = .1;
 
-  <span class="nx">ball</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="na">pos</span><span class="p">:</span> <span class="nx">createVector</span><span class="p">(</span><span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span>
-    <span class="na">vel</span><span class="p">:</span> <span class="nx">createVector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-    <span class="na">accel</span><span class="p">:</span> <span class="nx">createVector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">gravity</span><span class="p">),</span>
-    <span class="c1">// Here's our new functions</span>
-    <span class="na">update</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">vel</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">accel</span><span class="p">);</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">vel</span><span class="p">);</span>
+  ball = {
+    pos: createVector(width/2, height/2),
+    vel: createVector(0, 0),
+    accel: createVector(0, gravity),
+    // Here's our new functions
+    update: function() {
+      this.vel.add(this.accel);
+      this.pos.add(this.vel);
 
-      <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span> <span class="o">&gt;</span> <span class="nx">height</span> <span class="o">-</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">height</span> <span class="o">-</span> <span class="mi">10</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-      <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="na">display</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-      <span class="nx">ellipse</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">pos</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">};</span>
+      if (this.pos.y &gt; height - 10) {
+        this.pos.y = height - 10;
+      }
+      if (this.pos.y &lt; 10) {
+        this.pos.y = 10;
+      }
+    },
+    display: function() {
+      ellipse(this.pos.x, this.pos.y, 10, 10);
+    }
+  };
 
-<span class="p">}</span>
+}
 
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// See how clean our draw function becomes?</span>
-  <span class="c1">// Most of the logic that is internal to how a ball works</span>
-  <span class="c1">// is inside the ball object now!</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">ball</span><span class="p">.</span><span class="nx">update</span><span class="p">();</span>
-  <span class="nx">ball</span><span class="p">.</span><span class="nx">display</span><span class="p">();</span>
-<span class="p">}</span>
+function draw() {
+  // See how clean our draw function becomes?
+  // Most of the logic that is internal to how a ball works
+  // is inside the ball object now!
+  background(255);
+  ball.update();
+  ball.display();
+}
 
-<span class="kd">function</span> <span class="nx">mouseClicked</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">gravity</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-  <span class="nx">ball</span><span class="p">.</span><span class="nx">accel</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">gravity</span><span class="p">;</span>
-<span class="p">}</span>
+function mouseClicked() {
+  gravity *= -1;
+  ball.accel.y = gravity;
+}
 </code></pre>
-</div>
 
 <h2 id="wrapping-up">Wrapping Up</h2>
 
@@ -656,6 +645,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

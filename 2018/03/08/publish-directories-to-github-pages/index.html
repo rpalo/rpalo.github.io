@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -58,13 +59,13 @@
     <h1>Publish Single Directories to Another Branch</h1>
     <p>Quick Tip!</p>
 
-<p>Let’s say that you’re just like me.  You’ve been working on a web project: HTML, CSS, and maybe some JavaScript.  You’re done and you’re ready to show the world your project, so you want to get it built, compiled, minified, and put it somewhere.  But how?  <code class="highlighter-rouge">git subtree</code>.  I’ll show you.  One command.</p>
+<p>Let’s say that you’re just like me.  You’ve been working on a web project: HTML, CSS, and maybe some JavaScript.  You’re done and you’re ready to show the world your project, so you want to get it built, compiled, minified, and put it somewhere.  But how?  <code>git subtree</code>.  I’ll show you.  One command.</p>
 
 <p><em>Also, did you see the cover image?  Subtree?  HA!</em></p>
 
 <p>Let’s assume you’ve got a project laid out like this:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>my-dope-project
+<pre><code class="language-text">my-dope-project
 |- README.md
 |- src
 |   |- index.html
@@ -80,27 +81,25 @@
 |- node_modules
     |- OMG so much stuff
 </code></pre>
-</div>
 
-<p>Or something.  I don’t know your life.  So you build your site with a <code class="highlighter-rouge">npm run build</code>.  Now your <code class="highlighter-rouge">dist</code> directory is full of your beautiful bundled new site.  So how do you put it up somewhere?</p>
+<p>Or something.  I don’t know your life.  So you build your site with a <code>npm run build</code>.  Now your <code>dist</code> directory is full of your beautiful bundled new site.  So how do you put it up somewhere?</p>
 
 <h2 id="1-make-sure-the-dist-folder-is-actually-checked-into-your-repo">1. Make sure the dist folder is actually checked into your repo.</h2>
 
-<p>Get it out of your <code class="highlighter-rouge">.gitignore</code> and <code class="highlighter-rouge">add/commit/push</code> it.</p>
+<p>Get it out of your <code>.gitignore</code> and <code>add/commit/push</code> it.</p>
 
 <h2 id="2-use-the-subtree-luke-andor-leia">2. Use the Subtree, Luke (and/or Leia).</h2>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git subtree push --prefix dist origin gh-pages
+<pre><code class="language-bash">$ git subtree push --prefix dist origin gh-pages
 </code></pre>
-</div>
 
-<p>Here, <code class="highlighter-rouge">dist</code> is the directory subtree you want to publish.  <code class="highlighter-rouge">origin</code> is the remote repo you’re pushing to.  <code class="highlighter-rouge">gh-pages</code> is the name of the remote branch you want to push to.</p>
+<p>Here, <code>dist</code> is the directory subtree you want to publish.  <code>origin</code> is the remote repo you’re pushing to.  <code>gh-pages</code> is the name of the remote branch you want to push to.</p>
 
 <p>Then go to your GitHub and into your repo settings.</p>
 
 <p><img src="/img/gh-pages-settings.png" alt="GitHub Pages Settings" /></p>
 
-<p>Set the branch that you created to be the public branch.  And that’s it!  Head to <code class="highlighter-rouge">&lt;your-username&gt;.github.io/&lt;repo-name&gt;</code> and do your happy dance!</p>
+<p>Set the branch that you created to be the public branch.  And that’s it!  Head to <code>&lt;your-username&gt;.github.io/&lt;repo-name&gt;</code> and do your happy dance!</p>
 
 <p>I know that there’s about a thousand ways you could skin this particular cat and they all have their pro’s and con’s.  I just really wanted to share this particular approach because I thought it was neat.  Happy coding!</p>
 
@@ -302,6 +301,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

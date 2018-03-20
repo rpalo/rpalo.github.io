@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -62,148 +63,139 @@
 
 <p>Ok, I’m going to make a few assumptions about things.  First, I’m going to assume that you’ve been following along with the series.  Go back and run through <a href="/2017/06/20/vue-on-django-part-1">Part 1</a> and <a href="/2017/06/24/vue-on-django-part-2">Part 2</a> if you haven’t.  That wil get you setup with with the project file structure we’re working with.  I’m also going to assume you’re using Python 3 (or are comfortable making the transitions between the two – there shouldn’t be much of a difference).  First, we are going to need a virtual environment to keep our lives sane.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>python3 -m venv .venv
-<span class="c"># Create a virtual environment in the .venv/ directory</span>
-<span class="gp">$ </span><span class="nb">source</span> .venv/bin/activate <span class="c"># Mac or Linux</span>
-<span class="gp">$ </span>.venv/Scripts/activate <span class="c"># Windows</span>
+<pre><code class="language-bash">$ python3 -m venv .venv
+# Create a virtual environment in the .venv/ directory
+$ source .venv/bin/activate # Mac or Linux
+$ .venv/Scripts/activate # Windows
 </code></pre>
-</div>
 
-<p>Don’t forget to add the <code class="highlighter-rouge">.venv</code> directory to your <code class="highlighter-rouge">.gitignore</code> file if you’re into that kind of thing.  If you accidentally commit your virtual environment, you’ll hate life.  If <code class="highlighter-rouge">which pip</code> points you to <code class="highlighter-rouge">/path/to/your/todoapp/.venv/pip.exe</code>, you’re doing it right.  OK, let’s install the required packages.</p>
+<p>Don’t forget to add the <code>.venv</code> directory to your <code>.gitignore</code> file if you’re into that kind of thing.  If you accidentally commit your virtual environment, you’ll hate life.  If <code>which pip</code> points you to <code>/path/to/your/todoapp/.venv/pip.exe</code>, you’re doing it right.  OK, let’s install the required packages.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>pip install django djangorestframework
+<pre><code class="language-bash">$ pip install django djangorestframework
 ...
-<span class="gp">$ </span>pip freeze | tee requirements.txt <span class="c"># Just so we can see them.</span>
-<span class="nv">Django</span><span class="o">==</span>1.11.2
-<span class="nv">djangorestframework</span><span class="o">==</span>3.6.3
-<span class="nv">pytz</span><span class="o">==</span>2017.2
+$ pip freeze | tee requirements.txt # Just so we can see them.
+Django==1.11.2
+djangorestframework==3.6.3
+pytz==2017.2
 </code></pre>
-</div>
 
 <h2 id="1-setting-up-django">1. Setting Up Django</h2>
 
-<p>We’re going to have to tweedle a few things.  There’s a few things that we don’t need or are broken in the project template.  One of these days I’ll open a pull request, but for now, just edit the following lines in your <code class="highlighter-rouge">vuedj/settings.py</code> file.</p>
+<p>We’re going to have to tweedle a few things.  There’s a few things that we don’t need or are broken in the project template.  One of these days I’ll open a pull request, but for now, just edit the following lines in your <code>vuedj/settings.py</code> file.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="o">...</span>
-<span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="o">...</span>
-    <span class="s">'rest_framework'</span><span class="p">,</span>
-    <span class="s">'app'</span><span class="p">,</span>
-    <span class="c"># Remove django_nose, we won't use a testing framework now.</span>
-<span class="p">]</span>
+<pre><code class="language-python">...
+INSTALLED_APPS = [
+    ...
+    'rest_framework',
+    'app',
+    # Remove django_nose, we won't use a testing framework now.
+]
 </code></pre>
-</div>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>python manage.py migrate
+<pre><code class="language-bash">$ python manage.py migrate
 ...
-<span class="gp">$ </span>python manage.py createsuperuser
-<span class="c"># Fill in the relevant info so you can login to the</span>
-<span class="c"># backend in case of emergency</span>
+$ python manage.py createsuperuser
+# Fill in the relevant info so you can login to the
+# backend in case of emergency
 </code></pre>
-</div>
 <h2 id="2-the-good-stuff">2. The Good Stuff</h2>
 
 <h3 id="the-model">The Model</h3>
 
-<p>Cool.  Now we should be able to get to work.  Let’s create our model.  Open up <code class="highlighter-rouge">app/models.py</code>.</p>
+<p>Cool.  Now we should be able to get to work.  Let’s create our model.  Open up <code>app/models.py</code>.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+<pre><code class="language-python">from django.db import models
 
-<span class="k">class</span> <span class="nc">Todo</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+class Todo(models.Model):
 
-    <span class="n">text</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    text = models.CharField(max_length=200)
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">"Todo: "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
+    def __str__(self):
+        return "Todo: " + self.text
 
 </code></pre>
-</div>
 
 <p>Luckily, we have chosen a very simple object to model.  Not exciting if you’re coming from a Django background though.  Let’s get to the good stuff.</p>
 
 <h3 id="the-serializer">The Serializer</h3>
 
-<p>Create <code class="highlighter-rouge">app/serializers.py</code>.</p>
+<p>Create <code>app/serializers.py</code>.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Todo</span>
-<span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">serializers</span>
+<pre><code class="language-python">from .models import Todo
+from rest_framework import serializers
 
-<span class="k">class</span> <span class="nc">TodoSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
-    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">Todo</span>
-        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s">'text'</span><span class="p">,)</span>
+class TodoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Todo
+        fields = ('text',)
 </code></pre>
-</div>
 
 <p>If you’re familiar with <a href="https://docs.djangoproject.com/en/1.11/topics/class-based-views/">Class Based Views</a> this should look similar.  Most of the heavy lifting is already in the base class provided by the Django Rest Framework (henceforth referred to as DRF because I’m lazy).  A serializer is the workhorse of the app, outputting the JSON needed by any good JSON-based REST framework.  How does it get used though?</p>
 
 <h3 id="the-views">The Views</h3>
 
-<p>Let’s take a look at <code class="highlighter-rouge">app/views.py</code>.</p>
+<p>Let’s take a look at <code>app/views.py</code>.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span>
-<span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+<pre><code class="language-python">from django.shortcuts import render
+from django.http import HttpResponse
 
-<span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">viewsets</span>
-<span class="kn">from</span> <span class="nn">rest_framework.decorators</span> <span class="kn">import</span> <span class="n">list_route</span>
+from rest_framework import viewsets
+from rest_framework.decorators import list_route
 
-<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Todo</span>
-<span class="kn">from</span> <span class="nn">.serializers</span> <span class="kn">import</span> <span class="n">TodoSerializer</span>
+from .models import Todo
+from .serializers import TodoSerializer
 
-<span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">'index.html'</span><span class="p">)</span>
+def index(request):
+    return render(request, 'index.html')
 
-<span class="k">class</span> <span class="nc">TodoViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ModelViewSet</span><span class="p">):</span>
-    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Todo</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="nb">all</span><span class="p">()</span>
-    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">TodoSerializer</span>
+class TodoViewSet(viewsets.ModelViewSet):
+    queryset = Todo.objects.all()
+    serializer_class = TodoSerializer
 
-    <span class="nd">@list_route</span><span class="p">(</span><span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">'delete'</span><span class="p">])</span>
-    <span class="k">def</span> <span class="nf">clear_todos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
-        <span class="n">todos</span> <span class="o">=</span> <span class="n">Todo</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="nb">all</span><span class="p">()</span>
-        <span class="n">todos</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-        <span class="c"># It may be a good idea here to return [].  Not sure.</span>
+    @list_route(methods=['delete'])
+    def clear_todos(self, request):
+        todos = Todo.objects.all()
+        todos.delete()
+        return HttpResponse(status=200)
+        # It may be a good idea here to return [].  Not sure.
 </code></pre>
-</div>
 
-<p>The <code class="highlighter-rouge">index</code> view, we’ll use later to display our Vue awesomeness.  The DRF ModelViewSet provides the standard REST list, create, retrieve, update, and destroy functionality and ties it to the model.  It uses the Serializer we created in <code class="highlighter-rouge">serializers.py</code> to create the output.  You’ll notice that we had to create an additional action since <code class="highlighter-rouge">delete many</code> is not usually a standard REST call.  <code class="highlighter-rouge">rest_framework</code> provides two decorators for adding additional methods to a viewset: the <code class="highlighter-rouge">@detail_route</code> and the <code class="highlighter-rouge">@list_route</code> depending on whether you want to operate on one or many items.  As you can see, we simply delete all Todos in a splendidly Django-esque fashion.  The name of this method (<code class="highlighter-rouge">clear_todos</code>) will come into play later in our URLs.  Speaking of which:</p>
+<p>The <code>index</code> view, we’ll use later to display our Vue awesomeness.  The DRF ModelViewSet provides the standard REST list, create, retrieve, update, and destroy functionality and ties it to the model.  It uses the Serializer we created in <code>serializers.py</code> to create the output.  You’ll notice that we had to create an additional action since <code>delete many</code> is not usually a standard REST call.  <code>rest_framework</code> provides two decorators for adding additional methods to a viewset: the <code>@detail_route</code> and the <code>@list_route</code> depending on whether you want to operate on one or many items.  As you can see, we simply delete all Todos in a splendidly Django-esque fashion.  The name of this method (<code>clear_todos</code>) will come into play later in our URLs.  Speaking of which:</p>
 
 <h3 id="the-urls">The URLs</h3>
 
-<p>Open up <code class="highlighter-rouge">vuedj/urls.py</code>.  I know usually we create specific urls for our app, but we’re skipping that for simplicity.</p>
+<p>Open up <code>vuedj/urls.py</code>.  I know usually we create specific urls for our app, but we’re skipping that for simplicity.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">url</span><span class="p">,</span> <span class="n">include</span>
+<pre><code class="language-python">from django.conf.urls import url, include
 
-<span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">routers</span>
+from rest_framework import routers
 
-<span class="kn">from</span> <span class="nn">app</span> <span class="kn">import</span> <span class="n">views</span>
+from app import views
 
-<span class="n">router</span> <span class="o">=</span> <span class="n">routers</span><span class="o">.</span><span class="n">SimpleRouter</span><span class="p">()</span>
-<span class="n">router</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s">r'todos'</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">TodoViewSet</span><span class="p">)</span>
+router = routers.SimpleRouter()
+router.register(r'todos', views.TodoViewSet)
 
-<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">url</span><span class="p">(</span><span class="s">r'^$'</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'home'</span><span class="p">),</span>
-    <span class="n">url</span><span class="p">(</span><span class="s">r'^'</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="n">router</span><span class="o">.</span><span class="n">urls</span><span class="p">)),</span>
-<span class="p">]</span>
+urlpatterns = [
+    url(r'^$', views.index, name='home'),
+    url(r'^', include(router.urls)),
+]
 
 </code></pre>
-</div>
 
-<p>Similar to <code class="highlighter-rouge">views.py</code>, we create a route to our <code class="highlighter-rouge">index</code> view, and we use the <code class="highlighter-rouge">SimpleRouter</code> to create all of the REST url routes we need.  Note that we register our viewset with a <code class="highlighter-rouge">basename</code> of <code class="highlighter-rouge">todos</code>.  This affects all of the urls, which you can see in the beautiful table in the <a href="http://www.django-rest-framework.org/api-guide/routers/#simplerouter">DRF docs</a>.  Note that our extra view <code class="highlighter-rouge">clear_todos</code> gets the route <code class="highlighter-rouge">todos/clear_todos</code>.  We’re actually almost done!</p>
+<p>Similar to <code>views.py</code>, we create a route to our <code>index</code> view, and we use the <code>SimpleRouter</code> to create all of the REST url routes we need.  Note that we register our viewset with a <code>basename</code> of <code>todos</code>.  This affects all of the urls, which you can see in the beautiful table in the <a href="http://www.django-rest-framework.org/api-guide/routers/#simplerouter">DRF docs</a>.  Note that our extra view <code>clear_todos</code> gets the route <code>todos/clear_todos</code>.  We’re actually almost done!</p>
 
 <h2 id="3-testing-it-out">3. Testing It Out</h2>
 
 <p>Head to the terminal.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>python manage.py makemigrations app
+<pre><code class="language-bash">python manage.py makemigrations app
 ...
-python manage.py migrate <span class="c"># To update the DB with the Todos table</span>
+python manage.py migrate # To update the DB with the Todos table
 ...
 python manage.py runserver
 </code></pre>
-</div>
 
-<p>Head on over to <code class="highlighter-rouge">localhost:8000</code>.  Blammo!  Template error.  That’s fine, because we know that our Vue app is going to be served via our <code class="highlighter-rouge">index</code> view, and we haven’t quite tied that up yet.  Head to <code class="highlighter-rouge">localhost:8000/todos/</code>.</p>
+<p>Head on over to <code>localhost:8000</code>.  Blammo!  Template error.  That’s fine, because we know that our Vue app is going to be served via our <code>index</code> view, and we haven’t quite tied that up yet.  Head to <code>localhost:8000/todos/</code>.</p>
 
 <p><img src="/img/behold.gif" alt="BEHOLD" /></p>
 
@@ -211,15 +203,14 @@ python manage.py runserver
 
 <p><img src="/img/vue-django-todo-api.png" alt="Successful API" /></p>
 
-<p>If you don’t see multiple todos, try clicking in the url bar and hitting enter (to revisit without resubmitting any POST requests).  You should see your todos!  To test our <code class="highlighter-rouge">clear_todos</code> route, it will be a little tougher because we made it expect a DELETE request only, which is difficult to do in a browser (as far as I know).  Open up a separate terminal.</p>
+<p>If you don’t see multiple todos, try clicking in the url bar and hitting enter (to revisit without resubmitting any POST requests).  You should see your todos!  To test our <code>clear_todos</code> route, it will be a little tougher because we made it expect a DELETE request only, which is difficult to do in a browser (as far as I know).  Open up a separate terminal.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="err">$</span> <span class="n">python3</span>
+<pre><code class="language-python">$ python3
 
-<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">requests</span> <span class="c"># pip3 install requests if you haven't yet</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s">'http://localhost:8000/todos/clear_todos/'</span><span class="p">)</span>
-<span class="o">&lt;</span><span class="n">Response</span> <span class="p">[</span><span class="mi">200</span><span class="p">]</span><span class="o">&gt;</span> <span class="c"># Success!</span>
+&gt;&gt;&gt; import requests # pip3 install requests if you haven't yet
+&gt;&gt;&gt; requests.delete('http://localhost:8000/todos/clear_todos/')
+&lt;Response [200]&gt; # Success!
 </code></pre>
-</div>
 
 <p>Head back and refresh your API page and your Todos are gone!  Huzzah!  You now have a working API that we’ll hit with our front-end in the next and final post.  Go team!</p>
 
@@ -431,6 +422,7 @@ python manage.py runserver
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

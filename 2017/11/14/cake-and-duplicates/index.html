@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -86,11 +87,10 @@
 
 <p>Ready with your solution?  Here’s mine, for reference.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">find_duplicate</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
-  <span class="n">nums</span><span class="p">.</span><span class="nf">select</span> <span class="p">{</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span> <span class="n">nums</span><span class="p">.</span><span class="nf">count</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="p">}.</span><span class="nf">first</span>
-<span class="k">end</span>
+<pre><code class="language-ruby">def find_duplicate(nums)
+  nums.select { |num| nums.count(num) &gt; 1 }.first
+end
 </code></pre>
-</div>
 
 <p>Alright, that’s it.  That’s the whole thing, article over.  Just kidding.  I forgot to mention:</p>
 
@@ -109,9 +109,9 @@
 
 <h3 id="big-o-notation">Big-O Notation</h3>
 
-<p><em>“Big-O Notation”</em> has to do with how efficient an algorithm or program is, as a function of the number of items used as inputs.  Let me put it this way:  Let’s say you’re given <em>n</em> numbers in your input list.  If your solution requires you to loop through the whole list once (in the worst case, like if the number you’re looking for is at the end of the list), then your solution is considered O(n).  O(n) is also known as <em>linear efficiency</em>.  This is because, if we double the size of the input to <code class="highlighter-rouge">2*n</code>, your algorithm will have to process twice as many steps and most likely will be twice as slow.  If we increase the size to <code class="highlighter-rouge">100*n</code>, your algorithm will similarly do <code class="highlighter-rouge">100*n</code> steps.</p>
+<p><em>“Big-O Notation”</em> has to do with how efficient an algorithm or program is, as a function of the number of items used as inputs.  Let me put it this way:  Let’s say you’re given <em>n</em> numbers in your input list.  If your solution requires you to loop through the whole list once (in the worst case, like if the number you’re looking for is at the end of the list), then your solution is considered O(n).  O(n) is also known as <em>linear efficiency</em>.  This is because, if we double the size of the input to <code>2*n</code>, your algorithm will have to process twice as many steps and most likely will be twice as slow.  If we increase the size to <code>100*n</code>, your algorithm will similarly do <code>100*n</code> steps.</p>
 
-<p>Now, what if you had a function that was O(n^2)?  That would mean that your function looped through each of the <code class="highlighter-rouge">n</code> inputs <code class="highlighter-rouge">n</code> times (e.g. in a double for-loop).  Thus, if, instead of <code class="highlighter-rouge">n</code> inputs, you had <code class="highlighter-rouge">2*n</code> inputs, your program would actually have to do <code class="highlighter-rouge">(2*n)^2</code> or <code class="highlighter-rouge">4*n</code> steps!  If your program had <code class="highlighter-rouge">100*n</code> inputs, it would have to do <code class="highlighter-rouge">(100*n)^2</code> steps — <code class="highlighter-rouge">10000*n</code>!  Hopefully you can see that O(n) is quite a bit more efficient than O(n^2).</p>
+<p>Now, what if you had a function that was O(n^2)?  That would mean that your function looped through each of the <code>n</code> inputs <code>n</code> times (e.g. in a double for-loop).  Thus, if, instead of <code>n</code> inputs, you had <code>2*n</code> inputs, your program would actually have to do <code>(2*n)^2</code> or <code>4*n</code> steps!  If your program had <code>100*n</code> inputs, it would have to do <code>(100*n)^2</code> steps — <code>10000*n</code>!  Hopefully you can see that O(n) is quite a bit more efficient than O(n^2).</p>
 
 <p>So what does O(1) mean?  The 1 is a little misleading, because it simply stands for <em>constant time</em>, meaning that no matter how many inputs you have, your program will always take the same amount of steps, and thus, roughly the same amount of time.  This is the Holy Grail of algorithms.  This is the reason why it’s so much faster to look up items from a Hash (or dict, or object, or whatever your language of choice calls it) than it is from a List or Array.</p>
 
@@ -141,40 +141,38 @@
 
 <p>You could loop through just once, keeping track of the numbers you’ve already seen in a set.  Once you see a number that’s already in your set, you know that’s the duplicate!</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'set'</span>
+<pre><code class="language-ruby">require 'set'
 
-<span class="k">def</span> <span class="nf">find_dupes</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
-  <span class="n">history</span> <span class="o">=</span> <span class="no">Set</span><span class="p">.</span><span class="nf">new</span>
-  <span class="n">nums</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span>
-    <span class="k">return</span> <span class="n">num</span> <span class="k">if</span> <span class="n">history</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+def find_dupes(nums)
+  history = Set.new
+  nums.each do |num|
+    return num if history.include?(num)
 
-    <span class="n">history</span> <span class="o">&lt;&lt;</span> <span class="n">num</span>
-  <span class="k">end</span>
+    history &lt;&lt; num
+  end
 
-  <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>  <span class="c1"># We should never reach this stage</span>
-<span class="k">end</span>
+  return -1  # We should never reach this stage
+end
 </code></pre>
-</div>
 
-<p>How’d we do?  Well, we only ever loop through the whole list once at most, bringing us to O(n) Time Complexity.  Right on!  But we create the <code class="highlighter-rouge">history</code> set that could contain (in the worst case) almost all <code class="highlighter-rouge">n</code> of our input values.  This looks like O(n) in Space as well, which means that we fail the second requirement.  💩!</p>
+<p>How’d we do?  Well, we only ever loop through the whole list once at most, bringing us to O(n) Time Complexity.  Right on!  But we create the <code>history</code> set that could contain (in the worst case) almost all <code>n</code> of our input values.  This looks like O(n) in Space as well, which means that we fail the second requirement.  💩!</p>
 
 <h4 id="possibility-3-the-sorting-solution-aka-the-slightly-tricky-solution">Possibility 3: The Sorting Solution (a.k.a. The Slightly Tricky Solution)</h4>
 
 <p>What about doing a <strong>sort</strong>?  Since sorting <a href="https://en.wikipedia.org/wiki/Merge_sort">can be done in O(nlogn) time</a>, which is better than O(n^2), we might have a chance.  We could sort our numbers, and then loop through them once while only keeping track of the last number that we saw.  If we see the same number twice, it’s a duplicate.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">find_dupes</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
-  <span class="n">nums</span><span class="p">.</span><span class="nf">sort!</span>
-  <span class="n">previous</span> <span class="o">=</span> <span class="mi">0</span>
-  <span class="n">nums</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span>
-    <span class="k">return</span> <span class="n">num</span> <span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="n">previous</span>
+<pre><code class="language-ruby">def find_dupes(nums)
+  nums.sort!
+  previous = 0
+  nums.each do |num|
+    return num if num == previous
 
-    <span class="n">previous</span> <span class="o">=</span> <span class="n">num</span>
-  <span class="k">end</span>
+    previous = num
+  end
 
-  <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
-<span class="k">end</span>
+  return -1
+end
 </code></pre>
-</div>
 
 <p>This gets us O(1) in Space and O(nlogn) (ish) in Time.  One problem with this.  If we don’t create a new array to put our sorted numbers in, we’re destroying/modifying the order of the list that gets passed into us, which isn’t good.  If we create a new array to put our sorted numbers in, we jump up to O(n) in Space, which is a fail.  Hmmm…  There’s a better way — trust me.</p>
 
@@ -199,7 +197,7 @@
 <p>Here’s some things to note:</p>
 
 <ol>
-  <li>The last node never has any arrows pointing at it.  That’s because it’s at position <code class="highlighter-rouge">n+1</code>, and the maximum value in the list is <code class="highlighter-rouge">n</code>.  If we’re thinking of our array like a kind of linked list, the last node would be a good candidate for the <strong>head</strong>.</li>
+  <li>The last node never has any arrows pointing at it.  That’s because it’s at position <code>n+1</code>, and the maximum value in the list is <code>n</code>.  If we’re thinking of our array like a kind of linked list, the last node would be a good candidate for the <strong>head</strong>.</li>
   <li>Because there is always a duplicate, there is <strong>always a loop somewhere in the list</strong>.  At some point, every diagram becomes cyclic.</li>
   <li>Because there is always a cycle, there is always a node that has <strong>two arrows pointing at it</strong>.</li>
   <li>This node with two arrows pointing at it is always <strong>the first node in the cycle</strong>.</li>
@@ -212,54 +210,52 @@
 
 <h3 id="finding-the-length-of-the-cycle">Finding the Length of the Cycle</h3>
 
-<p>To find the start of the cycle, we’ll need its length.  Trust me on this, and it’ll make sense in a little bit.  That is actually not as hard as you might think.  In order to get the cycle’s length, we need a sure-fire way to get into the cycle.  Well, we only have a certain number of nodes, right?  So, if we just start stepping, we might end up in the cycle at some point, but after <code class="highlighter-rouge">n+1</code> steps, we’re <strong>guaranteed</strong> to be somewhere within the cycle.  Because, even if the cycle is the size of the entire list like this:</p>
+<p>To find the start of the cycle, we’ll need its length.  Trust me on this, and it’ll make sense in a little bit.  That is actually not as hard as you might think.  In order to get the cycle’s length, we need a sure-fire way to get into the cycle.  Well, we only have a certain number of nodes, right?  So, if we just start stepping, we might end up in the cycle at some point, but after <code>n+1</code> steps, we’re <strong>guaranteed</strong> to be somewhere within the cycle.  Because, even if the cycle is the size of the entire list like this:</p>
 
 <p><img src="/img/cake-cycle-length.png" alt="Max steps to cycle" /></p>
 
 <p>You still can only go to each of the nodes once before you create a cycle.  I’ll try to show my solution being built as we go.  If you’re somebody who has to see things written out in code, hopefully this will help you.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DuplicateFinder</span>
-  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
-    <span class="vi">@nums</span> <span class="o">=</span> <span class="n">nums</span>
-  <span class="k">end</span>
+<pre><code class="language-ruby">class DuplicateFinder
+  def initialize(nums)
+    @nums = nums
+  end
   
-  <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
-    <span class="c1"># Convenience method to move to next node</span>
-    <span class="vi">@nums</span><span class="p">[</span><span class="n">current</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># -1 because of 1-based counting</span>
-  <span class="k">end</span>
+  def step(current)
+    # Convenience method to move to next node
+    @nums[current - 1]  # -1 because of 1-based counting
+  end
   
-  <span class="k">def</span> <span class="nf">find_a_number_in_the_cycle</span>
-    <span class="n">next_step</span> <span class="o">=</span> <span class="vi">@nums</span><span class="p">.</span><span class="nf">last</span>
-    <span class="vi">@nums</span><span class="p">.</span><span class="nf">length</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
-      <span class="n">next_step</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">next_step</span><span class="p">)</span>
-    <span class="k">end</span>
-    <span class="n">next_step</span>  <span class="c1"># Returns the number at the index we're on</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+  def find_a_number_in_the_cycle
+    next_step = @nums.last
+    @nums.length.times do
+      next_step = step(next_step)
+    end
+    next_step  # Returns the number at the index we're on
+  end
+end
 </code></pre>
-</div>
 
 <p>OK.  So now we’re in the cycle, so what do we do?  Well, within the cycle, the numbers are all unique!  So all we have to do is remember the node we’re at initially, and start stepping and counting.  Once we see the same number again, we’ll know that we’ve travelled the loop exactly one time and we’ll know how long the loop is!</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DuplicateFinder</span>
-  <span class="c1"># ...</span>
+<pre><code class="language-ruby">class DuplicateFinder
+  # ...
   
-  <span class="k">def</span> <span class="nf">length_of_cycle</span>
-    <span class="n">stop_num</span> <span class="o">=</span> <span class="n">find_a_number_in_the_cycle</span>
-    <span class="n">next_num</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">stop_num</span><span class="p">)</span>
-    <span class="n">steps</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">until</span> <span class="n">next_num</span> <span class="o">==</span> <span class="n">stop_num</span>
-      <span class="n">next_num</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">next_num</span><span class="p">)</span>
-      <span class="n">steps</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">end</span>
-    <span class="n">steps</span>
-  <span class="k">end</span>
+  def length_of_cycle
+    stop_num = find_a_number_in_the_cycle
+    next_num = step(stop_num)
+    steps = 1
+    until next_num == stop_num
+      next_num = step(next_num)
+      steps += 1
+    end
+    steps
+  end
 </code></pre>
-</div>
 
 <h3 id="the-yardstick-method">The Yardstick Method</h3>
 
-<p>Now we’re at the real amazing part.  It has to do with something that could be called the Yardstick Method (or, I suppose, the Meterstick Method, if you must 😉).  Let’s go back to the head of the list and start over.  For example.  Let’s say we have the list <code class="highlighter-rouge">[4, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code>.  If you draw it out, the cycle is 4 nodes long.  So, what we need to do is imagine we have a stick that is 4 nodes long, just like the cycle.  We can translate this into code by using two <em>pointers</em>: one at the head of the stick and one at the tail.</p>
+<p>Now we’re at the real amazing part.  It has to do with something that could be called the Yardstick Method (or, I suppose, the Meterstick Method, if you must 😉).  Let’s go back to the head of the list and start over.  For example.  Let’s say we have the list <code>[4, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code>.  If you draw it out, the cycle is 4 nodes long.  So, what we need to do is imagine we have a stick that is 4 nodes long, just like the cycle.  We can translate this into code by using two <em>pointers</em>: one at the head of the stick and one at the tail.</p>
 
 <p><img src="/img/yardstick3.png" alt="Diagram of the yardstick" /></p>
 
@@ -277,51 +273,50 @@
 
 <p>For completeness, how does this look in code?</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DuplicateFinder</span>
-  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
-    <span class="vi">@nums</span> <span class="o">=</span> <span class="n">nums</span>
-  <span class="k">end</span>
+<pre><code class="language-ruby">class DuplicateFinder
+  def initialize(nums)
+    @nums = nums
+  end
 
-  <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
-    <span class="vi">@nums</span><span class="p">[</span><span class="n">current</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
-  <span class="k">end</span>
+  def step(current)
+    @nums[current - 1]
+  end
   
-  <span class="k">def</span> <span class="nf">find_a_number_in_the_cycle</span>
-    <span class="n">next_step</span> <span class="o">=</span> <span class="vi">@nums</span><span class="p">.</span><span class="nf">last</span>
-    <span class="vi">@nums</span><span class="p">.</span><span class="nf">length</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
-      <span class="n">next_step</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">next_step</span><span class="p">)</span>
-    <span class="k">end</span>
-    <span class="n">next_step</span>
-  <span class="k">end</span>
+  def find_a_number_in_the_cycle
+    next_step = @nums.last
+    @nums.length.times do
+      next_step = step(next_step)
+    end
+    next_step
+  end
   
-  <span class="k">def</span> <span class="nf">length_of_cycle</span>
-    <span class="n">stop_num</span> <span class="o">=</span> <span class="n">find_a_number_in_the_cycle</span>
-    <span class="n">next_num</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">stop_num</span><span class="p">)</span>
-    <span class="n">steps</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">until</span> <span class="n">next_num</span> <span class="o">==</span> <span class="n">stop_num</span>
-      <span class="n">next_num</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">next_num</span><span class="p">)</span>
-      <span class="n">steps</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">end</span>
-    <span class="n">steps</span>
-  <span class="k">end</span>
+  def length_of_cycle
+    stop_num = find_a_number_in_the_cycle
+    next_num = step(stop_num)
+    steps = 1
+    until next_num == stop_num
+      next_num = step(next_num)
+      steps += 1
+    end
+    steps
+  end
   
-  <span class="k">def</span> <span class="nf">duplicate</span>
-    <span class="n">stick</span> <span class="o">=</span> <span class="n">length_of_cycle</span>
-    <span class="n">head</span> <span class="o">=</span> <span class="vi">@nums</span><span class="p">.</span><span class="nf">last</span>
-    <span class="n">tail</span> <span class="o">=</span> <span class="vi">@nums</span><span class="p">.</span><span class="nf">last</span>
-    <span class="n">stick</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span> <span class="n">head</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">head</span><span class="p">)</span> <span class="p">}</span>
-    <span class="k">until</span> <span class="n">head</span> <span class="o">==</span> <span class="n">tail</span>
-      <span class="n">head</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">head</span><span class="p">)</span>
-      <span class="n">tail</span> <span class="o">=</span> <span class="n">step</span><span class="p">(</span><span class="n">tail</span><span class="p">)</span>
-    <span class="k">end</span>
-    <span class="c1"># When head and tail point to the same number</span>
-    <span class="c1"># then on the next step, they'll be on the same node</span>
-    <span class="c1"># This current same number means head and tail both = the duplicate!</span>
-    <span class="n">head</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+  def duplicate
+    stick = length_of_cycle
+    head = @nums.last
+    tail = @nums.last
+    stick.times { head = step(head) }
+    until head == tail
+      head = step(head)
+      tail = step(tail)
+    end
+    # When head and tail point to the same number
+    # then on the next step, they'll be on the same node
+    # This current same number means head and tail both = the duplicate!
+    head
+  end
+end
 </code></pre>
-</div>
 
 <h2 id="evaluation">Evaluation</h2>
 
@@ -535,6 +530,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

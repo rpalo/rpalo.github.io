@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -70,7 +71,7 @@
 
 <p>We’re going to make it so that when you click on the canvas, a randomly sized target gets drawn, with a random number of rings.  These rings should go from black on the outside to white in the center, and get darker linearly.</p>
 
-<h2 id="step-1-loops-and-noloops">Step 1: Loops (and <code class="highlighter-rouge">noLoops</code>)</h2>
+<h2 id="step-1-loops-and-noloops">Step 1: Loops (and <code>noLoops</code>)</h2>
 
 <p>Let’s get the hard stuff out of the way up front so you have longer to get familiar with it.  Here’s our goal for Step 1:</p>
 
@@ -90,56 +91,53 @@
 
 <p>Ok, let’s get started with the easy stuff: the setup.  We need a canvas, a grayish background, we don’t need our drawing looping, and none of the circles really have outlines.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">125</span><span class="p">);</span>
-  <span class="nx">noStroke</span><span class="p">();</span>
-  <span class="nx">noLoop</span><span class="p">();</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">function setup() {
+  createCanvas(600, 600);
+  background(125);
+  noStroke();
+  noLoop();
+}
 </code></pre>
-</div>
 
-<p>The first two lines should look familiar.  We wanted a medium gray background, and remember that our grayscale goes from 0 to 255 by default.  125 falls relatively into the middle of that range.  The last two functions need only a little introduction.  <code class="highlighter-rouge">noStroke</code> turns off the borders, and <code class="highlighter-rouge">noLoop</code> makes it so our draw loop doesn’t update.  If none of our shapes are moving, we can save some CPU cycles if we tell the canvas not to run draw over and over.  You’re welcome, CPU!  We love you!</p>
+<p>The first two lines should look familiar.  We wanted a medium gray background, and remember that our grayscale goes from 0 to 255 by default.  125 falls relatively into the middle of that range.  The last two functions need only a little introduction.  <code>noStroke</code> turns off the borders, and <code>noLoop</code> makes it so our draw loop doesn’t update.  If none of our shapes are moving, we can save some CPU cycles if we tell the canvas not to run draw over and over.  You’re welcome, CPU!  We love you!</p>
 
 <p>Cool!  So canvas: check.  Gray background: check.  Static, non-moving drawing: check.  What’s next?  The requirements of the circles.  Let’s declare some variables to make our lives easier.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">maxSize</span> <span class="o">=</span> <span class="mi">400</span><span class="p">;</span>  <span class="c1">// pixels</span>
-  <span class="kd">var</span> <span class="nx">steps</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">sizeStep</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>  <span class="c1">// We'll use this to define our ring sizes</span>
-  <span class="kd">var</span> <span class="nx">colorStep</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">centerX</span> <span class="o">=</span> <span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels </span>
-  <span class="kd">var</span> <span class="nx">centerY</span> <span class="o">=</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">function draw() {
+  var maxSize = 400;  // pixels
+  var steps = 10;
+  var sizeStep = maxSize / steps;  // We'll use this to define our ring sizes
+  var colorStep = 255 / steps;
+  var centerX = width/2;  // pixels 
+  var centerY = height/2;  // pixels
+}
 </code></pre>
-</div>
 
-<p>We covered all of the above in Lesson 1, so no worries there.  You might ask, “Ryan, if we’re not using the <code class="highlighter-rouge">draw</code> function to loop (because of <code class="highlighter-rouge">noLoop</code>), how come we don’t just do everything in the setup function and forget the draw function altogether?”  You’re right!  You totally could.  From what I can tell, the two are functionally equivalent.  I chose to do things this way because it makes more sense in my head to only do “setup-ish” things in <code class="highlighter-rouge">setup</code> and “drawing” things in <code class="highlighter-rouge">draw</code>.  Whatever floats your boat.  You’re the artist here!</p>
+<p>We covered all of the above in Lesson 1, so no worries there.  You might ask, “Ryan, if we’re not using the <code>draw</code> function to loop (because of <code>noLoop</code>), how come we don’t just do everything in the setup function and forget the draw function altogether?”  You’re right!  You totally could.  From what I can tell, the two are functionally equivalent.  I chose to do things this way because it makes more sense in my head to only do “setup-ish” things in <code>setup</code> and “drawing” things in <code>draw</code>.  Whatever floats your boat.  You’re the artist here!</p>
 
-<p>OK, it’s finally time to create our circles.  Luckily, P5 provides us with the <a href="https://p5js.org/reference/#/p5/ellipse"><code class="highlighter-rouge">ellipse</code> function</a>, which takes an <code class="highlighter-rouge">x, y, x width and y height</code>.  Since we are geometry geniuses, we know that if we draw an ellipse whose width and height are the same, it’s the same as drawing a circle.</p>
+<p>OK, it’s finally time to create our circles.  Luckily, P5 provides us with the <a href="https://p5js.org/reference/#/p5/ellipse"><code>ellipse</code> function</a>, which takes an <code>x, y, x width and y height</code>.  Since we are geometry geniuses, we know that if we draw an ellipse whose width and height are the same, it’s the same as drawing a circle.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">maxSize</span> <span class="o">=</span> <span class="mi">400</span><span class="p">;</span>  <span class="c1">// pixels</span>
-  <span class="kd">var</span> <span class="nx">steps</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">sizeStep</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>  <span class="c1">// We'll use this to define our ring sizes</span>
-  <span class="kd">var</span> <span class="nx">colorStep</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">centerX</span> <span class="o">=</span> <span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels </span>
-  <span class="kd">var</span> <span class="nx">centerY</span> <span class="o">=</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels</span>
+<pre><code class="language-javascript">function draw() {
+  var maxSize = 400;  // pixels
+  var steps = 10;
+  var sizeStep = maxSize / steps;  // We'll use this to define our ring sizes
+  var colorStep = 255 / steps;
+  var centerX = width/2;  // pixels 
+  var centerY = height/2;  // pixels
   
-  <span class="c1">// Draw the circles, start with the biggest, black one on bottom</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-  <span class="nx">ellipse</span><span class="p">(</span><span class="nx">centerX</span><span class="p">,</span> <span class="nx">centerY</span><span class="p">,</span> <span class="nx">maxSize</span><span class="p">,</span> <span class="nx">maxSize</span><span class="p">);</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="nx">colorStep</span><span class="p">);</span>
-  <span class="nx">ellipse</span><span class="p">(</span><span class="nx">centerX</span><span class="p">,</span> <span class="nx">centerY</span><span class="p">,</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="mi">1</span><span class="o">*</span><span class="nx">sizeStep</span><span class="p">,</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="mi">1</span><span class="o">*</span><span class="nx">sizeStep</span><span class="p">);</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nx">colorStep</span><span class="p">);</span>
-  <span class="nx">ellipse</span><span class="p">(</span><span class="nx">centerX</span><span class="p">,</span> <span class="nx">centerY</span><span class="p">,</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="nx">sizeStep</span><span class="p">,</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="nx">sizeStep</span><span class="p">);</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="nx">colorStep</span><span class="p">);</span>
-  <span class="nx">ellipse</span><span class="p">(</span><span class="nx">centerX</span><span class="p">,</span> <span class="nx">centerY</span><span class="p">,</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="nx">sizeStep</span><span class="p">,</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="nx">sizeStep</span><span class="p">);</span>
-  <span class="c1">// oy vey...  Getting tired of typing yet?</span>
-  <span class="c1">// ...</span>
-<span class="p">}</span>
+  // Draw the circles, start with the biggest, black one on bottom
+  fill(0);
+  ellipse(centerX, centerY, maxSize, maxSize);
+  fill(1 * colorStep);
+  ellipse(centerX, centerY, maxSize - 1*sizeStep, maxSize - 1*sizeStep);
+  fill(2 * colorStep);
+  ellipse(centerX, centerY, maxSize - 2*sizeStep, maxSize - 2*sizeStep);
+  fill(3 * colorStep);
+  ellipse(centerX, centerY, maxSize - 3*sizeStep, maxSize - 3*sizeStep);
+  // oy vey...  Getting tired of typing yet?
+  // ...
+}
 </code></pre>
-</div>
 
 <p>Nope.  I refuse to let you copy paste all that code.  We’re learning about the <strong>for loop</strong>.</p>
 
@@ -147,12 +145,11 @@
 
 <p>Try this in your console:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Yeeeeeeaaaaaahhhhh boooyyyyyyyy'</span><span class="p">);</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">for (var i=0; i &lt; 10; i++) {
+  console.log(i);
+  console.log('Yeeeeeeaaaaaahhhhh boooyyyyyyyy');
+}
 </code></pre>
-</div>
 
 <p><img src="/img/first-loop.png" alt="Yeah boy loop output" /></p>
 
@@ -160,65 +157,60 @@
 
 <p>The <strong>initialization step</strong> is the first section you come to:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<pre><code class="language-javascript">var i=0;
 </code></pre>
-</div>
 
 <p>Everything here gets run once at the start of the loop.  Generally you’re just setting the initial looping variable value, but you can do whatever you want here.</p>
 
 <p>Next is the <strong>test step</strong>.  This runs before every loop.  If the test step is true, the loop continues on.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span>
+<pre><code class="language-javascript">i &lt; 10;
 </code></pre>
-</div>
 
-<p>The first time the computer reads the code, we will have just set <code class="highlighter-rouge">i = 0</code>, so — 0 being less than 10 — the loop activates, running everything inside.</p>
+<p>The first time the computer reads the code, we will have just set <code>i = 0</code>, so — 0 being less than 10 — the loop activates, running everything inside.</p>
 
 <p>After that happens comes the <strong>incrementing step</strong>.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">i</span><span class="o">++</span>
+<pre><code class="language-javascript">i++
 </code></pre>
-</div>
 
-<p>We saw this in Lesson 1 when we were stepping our walker over one pixel.  This simply increases <code class="highlighter-rouge">i</code> by 1.  Then, we loop back to the <strong>test step</strong>.  Now, <code class="highlighter-rouge">i</code> is equal to 1, which is still less than 10, so the loop happens again.  And again and again until after <code class="highlighter-rouge">i</code> equals 9.  After that last loop, <code class="highlighter-rouge">i</code> is 10, which is not <em>less than</em> 10.  Satisfied, the loop exits and we can continue on with our program.  Are you beginning to see how we can use this in our program?</p>
+<p>We saw this in Lesson 1 when we were stepping our walker over one pixel.  This simply increases <code>i</code> by 1.  Then, we loop back to the <strong>test step</strong>.  Now, <code>i</code> is equal to 1, which is still less than 10, so the loop happens again.  And again and again until after <code>i</code> equals 9.  After that last loop, <code>i</code> is 10, which is not <em>less than</em> 10.  Satisfied, the loop exits and we can continue on with our program.  Are you beginning to see how we can use this in our program?</p>
 
 <h3 id="our-second-try">Our Second Try</h3>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">125</span><span class="p">);</span>
-  <span class="nx">noStroke</span><span class="p">();</span>
-  <span class="nx">noLoop</span><span class="p">();</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">function setup() {
+  createCanvas(600, 600);
+  background(125);
+  noStroke();
+  noLoop();
+}
 
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">maxSize</span> <span class="o">=</span> <span class="mi">400</span><span class="p">;</span>  <span class="c1">// pixels</span>
-  <span class="kd">var</span> <span class="nx">steps</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">sizeStep</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>  <span class="c1">// We'll use this to define our ring sizes</span>
-  <span class="kd">var</span> <span class="nx">colorStep</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels </span>
-  <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels</span>
+function draw() {
+  var maxSize = 400;  // pixels
+  var steps = 10;
+  var sizeStep = maxSize / steps;  // We'll use this to define our ring sizes
+  var colorStep = 255 / steps;
+  var x = width/2;  // pixels 
+  var y = height/2;  // pixels
   
-  <span class="c1">// The new stuff!</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">steps</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">fill</span><span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">colorStep</span><span class="p">);</span>  <span class="c1">// 0, 25.5, 50.0, 75.5 ...</span>
-    <span class="kd">var</span> <span class="nx">thisSize</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">sizeStep</span><span class="p">);</span>  <span class="c1">// 400, 360, 320 ...</span>
-    <span class="nx">ellipse</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+  // The new stuff!
+  for (var i=0; i&lt;steps; i++) {
+    fill(i * colorStep);  // 0, 25.5, 50.0, 75.5 ...
+    var thisSize = maxSize - (i * sizeStep);  // 400, 360, 320 ...
+    ellipse(x, y, thisSize, thisSize);
+  }
+}
 </code></pre>
-</div>
 
-<p>Make sense?  First the loop goes through with <code class="highlighter-rouge">i === 0</code>.  Thus, we call <code class="highlighter-rouge">fill(0)</code> and our fill is black.  <code class="highlighter-rouge">thisSize</code> gets set to <code class="highlighter-rouge">400 - 0 * 40</code>, and our largest circle is 400.  And we draw a circle.  The next time through, <code class="highlighter-rouge">i === 1</code>, so we call <code class="highlighter-rouge">fill(25.5)</code> and <code class="highlighter-rouge">thisSize === 400 - 1 * 40 === 360</code>, and so forth!</p>
+<p>Make sense?  First the loop goes through with <code>i === 0</code>.  Thus, we call <code>fill(0)</code> and our fill is black.  <code>thisSize</code> gets set to <code>400 - 0 * 40</code>, and our largest circle is 400.  And we draw a circle.  The next time through, <code>i === 1</code>, so we call <code>fill(25.5)</code> and <code>thisSize === 400 - 1 * 40 === 360</code>, and so forth!</p>
 
-<p>Only one problem, a problem that has plagued programmers since the dawn of programs.  The <strong>off-by-one</strong> error.  Note that in the last iteration of the loop, <code class="highlighter-rouge">i</code> will be equal to 9.  Thus, the fill color will be <code class="highlighter-rouge">9 * 25.5</code> which is only <code class="highlighter-rouge">229.5!</code>  Not <code class="highlighter-rouge">255</code> like we want.  Our center dot is <em>off-white</em>!  The humanity!  The problem stems from the fact that we have 10 rings, but the first one starts at zero.  We’re only really stepping <em>nine times</em>.  Thus, we need to fix our <code class="highlighter-rouge">colorStep</code>.</p>
+<p>Only one problem, a problem that has plagued programmers since the dawn of programs.  The <strong>off-by-one</strong> error.  Note that in the last iteration of the loop, <code>i</code> will be equal to 9.  Thus, the fill color will be <code>9 * 25.5</code> which is only <code>229.5!</code>  Not <code>255</code> like we want.  Our center dot is <em>off-white</em>!  The humanity!  The problem stems from the fact that we have 10 rings, but the first one starts at zero.  We’re only really stepping <em>nine times</em>.  Thus, we need to fix our <code>colorStep</code>.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">colorStep</span> <span class="o">=</span> <span class="mi">255</span><span class="o">/</span><span class="p">(</span><span class="nx">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
-<span class="c1">// now our fill will be 0, 28.33, 56.66, 85 ... 255</span>
+<pre><code class="language-javascript">var colorStep = 255/(steps - 1);
+// now our fill will be 0, 28.33, 56.66, 85 ... 255
 </code></pre>
-</div>
 
-<p>The same issue affects our <code class="highlighter-rouge">sizeStep</code>, but in that case, we want that to happen.  We want our last circle to have a diameter of 40px, not 0px.  If we did want 0px to be our stopping point, we would have to make the last adjustment there as well.</p>
+<p>The same issue affects our <code>sizeStep</code>, but in that case, we want that to happen.  We want our last circle to have a diameter of 40px, not 0px.  If we did want 0px to be our stopping point, we would have to make the last adjustment there as well.</p>
 
 <p>Off-by-one errors are super confusing to get your head around and one of the most common causes of errors, so don’t worry if this was a bit dense and confusing.  If you have any questions, hit me up and I’ll see what I can do to clarify.  But for now, we’re moving on!  ONWARDS!</p>
 
@@ -228,39 +220,38 @@
 
 <h3 id="the-mouse-functionsvariables">The Mouse Functions/Variables</h3>
 
-<p>P5 provides us with a function called <code class="highlighter-rouge">mouseClicked</code> function.  This function gets called whenever your mouse clicks the canvas.  P5 also provides us with two built-in variables <code class="highlighter-rouge">mouseY</code> and <code class="highlighter-rouge">mouseX</code>.  You get three guesses for what these contain.  Let’s take our previous sketch and tweak it a little to see what we’re talking about.</p>
+<p>P5 provides us with a function called <code>mouseClicked</code> function.  This function gets called whenever your mouse clicks the canvas.  P5 also provides us with two built-in variables <code>mouseY</code> and <code>mouseX</code>.  You get three guesses for what these contain.  Let’s take our previous sketch and tweak it a little to see what we’re talking about.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// This stuff is all the same as before</span>
+<pre><code class="language-javascript">// This stuff is all the same as before
 
-<span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">125</span><span class="p">);</span>
-  <span class="nx">noStroke</span><span class="p">();</span>
-  <span class="nx">noLoop</span><span class="p">();</span>
-<span class="p">}</span>
+function setup() {
+  createCanvas(600, 600);
+  background(125);
+  noStroke();
+  noLoop();
+}
 
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">maxSize</span> <span class="o">=</span> <span class="mi">400</span><span class="p">;</span>  <span class="c1">// pixels</span>
-  <span class="kd">var</span> <span class="nx">steps</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">sizeStep</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>  <span class="c1">// We'll use this to define our ring sizes</span>
-  <span class="kd">var</span> <span class="nx">colorStep</span> <span class="o">=</span> <span class="mi">255</span><span class="o">/</span><span class="p">(</span><span class="nx">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
-  <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels </span>
-  <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">steps</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">fill</span><span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">colorStep</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">thisSize</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">sizeStep</span><span class="p">);</span>
-    <span class="nx">ellipse</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+function draw() {
+  var maxSize = 400;  // pixels
+  var steps = 10;
+  var sizeStep = maxSize / steps;  // We'll use this to define our ring sizes
+  var colorStep = 255/(steps - 1);
+  var x = width/2;  // pixels 
+  var y = height/2;  // pixels
+  for (var i=0; i&lt;steps; i++) {
+    fill(i * colorStep);
+    var thisSize = maxSize - (i * sizeStep);
+    ellipse(x, y, thisSize, thisSize);
+  }
+}
 
-<span class="c1">// Here is the new hotness</span>
+// Here is the new hotness
 
-<span class="kd">function</span> <span class="nx">mouseClicked</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">ellipse</span><span class="p">(</span><span class="nx">mouseX</span><span class="p">,</span> <span class="nx">mouseY</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
-<span class="p">}</span>
+function mouseClicked() {
+  fill(255);
+  ellipse(mouseX, mouseY, 50, 50);
+}
 </code></pre>
-</div>
 
 <p>Try it out!</p>
 
@@ -270,127 +261,120 @@
 
 <h3 id="review-of-functions">Review of Functions</h3>
 
-<p>But first, I’m going to do a little cleanup (also known as a <strong>refactor</strong>) that will make our life marginally easier and, more importantly, help us to review <strong>functions</strong>.  Let’s pull our target drawing out of the draw loop and put it in a function called <code class="highlighter-rouge">createTarget</code>.</p>
+<p>But first, I’m going to do a little cleanup (also known as a <strong>refactor</strong>) that will make our life marginally easier and, more importantly, help us to review <strong>functions</strong>.  Let’s pull our target drawing out of the draw loop and put it in a function called <code>createTarget</code>.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// ...</span>
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createTarget</span><span class="p">();</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">// ...
+function draw() {
+  createTarget();
+}
 
-<span class="kd">function</span> <span class="nx">createTarget</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">maxSize</span> <span class="o">=</span> <span class="mi">400</span><span class="p">;</span>  <span class="c1">// pixels</span>
-  <span class="kd">var</span> <span class="nx">steps</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">sizeStep</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>  <span class="c1">// We'll use this to define our ring sizes</span>
-  <span class="kd">var</span> <span class="nx">colorStep</span> <span class="o">=</span> <span class="mi">255</span><span class="o">/</span><span class="p">(</span><span class="nx">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
-  <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels </span>
-  <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>  <span class="c1">// pixels</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">steps</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">fill</span><span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">colorStep</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">thisSize</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">sizeStep</span><span class="p">);</span>
-    <span class="nx">ellipse</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+function createTarget() {
+  var maxSize = 400;  // pixels
+  var steps = 10;
+  var sizeStep = maxSize / steps;  // We'll use this to define our ring sizes
+  var colorStep = 255/(steps - 1);
+  var x = width/2;  // pixels 
+  var y = height/2;  // pixels
+  for (var i=0; i&lt;steps; i++) {
+    fill(i * colorStep);
+    var thisSize = maxSize - (i * sizeStep);
+    ellipse(x, y, thisSize, thisSize);
+  }
+}
 </code></pre>
-</div>
 
 <p>See?  Nothing too much different.  But let’s do one better.  Let’s make the target customizable via <strong>parameters</strong>.  Remember them?  Those are the function inputs that you put inside the parenthesis.  Luckily, we have our inputs all stacked at the top of the function so they are easy to spot.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// ...</span>
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createTarget</span><span class="p">(</span><span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">// ...
+function draw() {
+  createTarget(width/2, height/2, 400, 10);
+}
 
-<span class="kd">function</span> <span class="nx">createTarget</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">maxSize</span><span class="p">,</span> <span class="nx">steps</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// calculate what we need from our inputs</span>
-  <span class="kd">var</span> <span class="nx">sizeStep</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">colorStep</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">/</span> <span class="p">(</span><span class="nx">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+function createTarget(x, y, maxSize, steps) {
+  // calculate what we need from our inputs
+  var sizeStep = maxSize / steps;
+  var colorStep = 255 / (steps - 1);
   
-  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">steps</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">fill</span><span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">colorStep</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">thisSize</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">sizeStep</span><span class="p">);</span>
-    <span class="nx">ellipse</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+  for (var i=0; i&lt;steps; i++) {
+    fill(i * colorStep);
+    var thisSize = maxSize - (i * sizeStep);
+    ellipse(x, y, thisSize, thisSize);
+  }
+}
 </code></pre>
-</div>
 
 <p>Refresh the page, and nothing changes!  Great!  That’s when you know you’ve had a successful <strong>refactor</strong>.  So why did we do this?  Because it makes it really easy to do this:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createTarget</span><span class="p">(</span><span class="nx">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="nx">height</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-  <span class="nx">createTarget</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
-  <span class="nx">createTarget</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">function draw() {
+  createTarget(width/2, height/2, 400, 10);
+  createTarget(100, 400, 200, 5);
+  createTarget(400, 400, 300, 6);
+}
 </code></pre>
-</div>
 
 <p><img src="/img/functions.png" alt="the effects of using functions" /></p>
 
 <p>Or even:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">createTarget</span><span class="p">(</span><span class="mi">40</span> <span class="o">+</span> <span class="nx">i</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">50</span> <span class="o">+</span> <span class="nx">i</span><span class="o">*</span><span class="mi">125</span><span class="p">,</span> <span class="mi">100</span> <span class="o">+</span> <span class="nx">i</span><span class="o">*</span><span class="mi">50</span><span class="p">,</span> <span class="mi">5</span> <span class="o">+</span> <span class="nx">i</span><span class="p">);</span>
-    <span class="c1">// Get it?</span>
-    <span class="c1">// x = 40, 140, 240, 340, 440</span>
-    <span class="c1">// y = 50, 175, 300, 425, 550</span>
-    <span class="c1">// maxSize = 100, 150, 200, 250, 300</span>
-    <span class="c1">// steps = 5, 6, 7, 8, 9</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">function draw() {
+  for (var i=0; i &lt; 5; i++) {
+    createTarget(40 + i*100, 50 + i*125, 100 + i*50, 5 + i);
+    // Get it?
+    // x = 40, 140, 240, 340, 440
+    // y = 50, 175, 300, 425, 550
+    // maxSize = 100, 150, 200, 250, 300
+    // steps = 5, 6, 7, 8, 9
+  }
+}
 </code></pre>
-</div>
 
 <p><img src="/img/functions-and-loops.png" alt="a loop inside a function!" /></p>
 
 <p>To try to clarify what’s happening in a function, I’ll try to explain it another way, that helped me.  When you first define a function, the things you put into parenthesis are like a recipe.  You’re saying what you expect.  Similar to a recipe book saying: get some kind of meat and some kind of vegetable.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">iAmTheBest</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">r</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// ...</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">function iAmTheBest(x, y, r) {
+    // ...
+}
 </code></pre>
-</div>
 
 <p>Then, when you actually <strong>call</strong> the function, it’s like you’re actually making the recipe.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">iAmTheBest</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">function draw() {
+  iAmTheBest(25, 30, 50);
+}
 </code></pre>
-</div>
 
-<p>The function looks at the things you’ve passed in and goes, “OK.  I’m going to do this with <code class="highlighter-rouge">x = 25, y = 30, and r = 50</code>.”  To carry on with the strained recipe metaphor, it’s like you read the recipe and you start cooking with beef and broccoli, but following the steps in the recipe with those options.  If you use beef and broccoli, it’ll be similar to but not exactly the same as if you were to use chicken and carrots.  Have I beat this metaphor to death successfully?</p>
+<p>The function looks at the things you’ve passed in and goes, “OK.  I’m going to do this with <code>x = 25, y = 30, and r = 50</code>.”  To carry on with the strained recipe metaphor, it’s like you read the recipe and you start cooking with beef and broccoli, but following the steps in the recipe with those options.  If you use beef and broccoli, it’ll be similar to but not exactly the same as if you were to use chicken and carrots.  Have I beat this metaphor to death successfully?</p>
 
 <h3 id="finishing-up-step-2">Finishing Up Step 2</h3>
 
 <p>Great.  Let’s wrap up this Step by completing our objectives.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">125</span><span class="p">);</span>
-  <span class="nx">noStroke</span><span class="p">();</span>
-  <span class="nx">noLoop</span><span class="p">();</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">function setup() {
+  createCanvas(600, 600);
+  background(125);
+  noStroke();
+  noLoop();
+}
 
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// nothing in here anymore!</span>
-<span class="p">}</span>
+function draw() {
+  // nothing in here anymore!
+}
 
-<span class="kd">function</span> <span class="nx">mouseClicked</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createTarget</span><span class="p">(</span><span class="nx">mouseX</span><span class="p">,</span> <span class="nx">mouseY</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-<span class="p">}</span>
+function mouseClicked() {
+  createTarget(mouseX, mouseY, 400, 10);
+}
 
-<span class="kd">function</span> <span class="nx">createTarget</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">maxSize</span><span class="p">,</span> <span class="nx">steps</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">sizeStep</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">colorStep</span> <span class="o">=</span> <span class="mi">255</span><span class="o">/</span><span class="p">(</span><span class="nx">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">steps</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">fill</span><span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">colorStep</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">thisSize</span> <span class="o">=</span> <span class="nx">maxSize</span> <span class="o">-</span> <span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="nx">sizeStep</span><span class="p">);</span>
-    <span class="nx">ellipse</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">,</span> <span class="nx">thisSize</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+function createTarget(x, y, maxSize, steps) {
+  var sizeStep = maxSize / steps;
+  var colorStep = 255/(steps - 1);
+  for (var i=0; i&lt;steps; i++) {
+    fill(i * colorStep);
+    var thisSize = maxSize - (i * sizeStep);
+    ellipse(x, y, thisSize, thisSize);
+  }
+}
 </code></pre>
-</div>
 
 <p><img src="/img/complete-step-2.gif" alt="step two is complete" /></p>
 
@@ -402,23 +386,21 @@
   <p>We’re going to make it so that when you click on the canvas, a randomly sized target gets drawn, with a random number of rings.  These rings should go from black on the outside to white in the center, and get darker linearly.</p>
 </blockquote>
 
-<p>You’ll notice that we’re pretty much all the way there!  We just need to add randomness.  Let’s make a new function to handle this extra complexity.  Thanks to our <code class="highlighter-rouge">createTarget</code> function, this new function should be relatively straightforward.</p>
+<p>You’ll notice that we’re pretty much all the way there!  We just need to add randomness.  Let’s make a new function to handle this extra complexity.  Thanks to our <code>createTarget</code> function, this new function should be relatively straightforward.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">createRandomTarget</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">maxSize</span> <span class="o">=</span> <span class="nx">random</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">350</span><span class="p">);</span>
-  <span class="kd">var</span> <span class="nx">steps</span> <span class="o">=</span> <span class="nx">random</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-  <span class="nx">createTarget</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">maxSize</span><span class="p">,</span> <span class="nx">steps</span><span class="p">);</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">function createRandomTarget(x, y) {
+  var maxSize = random(25, 350);
+  var steps = random(1, 10);
+  createTarget(x, y, maxSize, steps);
+}
 </code></pre>
-</div>
 
-<p>Finally, let’s use that in our <code class="highlighter-rouge">mouseClicked</code> function instead.</p>
+<p>Finally, let’s use that in our <code>mouseClicked</code> function instead.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">mouseClicked</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createRandomTarget</span><span class="p">(</span><span class="nx">mouseX</span><span class="p">,</span> <span class="nx">mouseY</span><span class="p">);</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">function mouseClicked() {
+  createRandomTarget(mouseX, mouseY);
+}
 </code></pre>
-</div>
 
 <p>SHABLAM!  CIRCLES GALORE.</p>
 
@@ -431,7 +413,7 @@
 <ol>
   <li>Go back to your Random Walker.  Make it so that when you click on the screen, it clears the screen and he resets in the center of the canvas.</li>
   <li>Do #1, but make it so he starts wherever you click the mouse.</li>
-  <li>Make a random walker that is not a <code class="highlighter-rouge">point</code>, but a target!</li>
+  <li>Make a random walker that is not a <code>point</code>, but a target!</li>
   <li>Update your target function to use colors.  BONUS: make it a rainbow.</li>
   <li>Figure out how to make your target rectangular/square instead of a circle.</li>
 </ol>
@@ -640,6 +622,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

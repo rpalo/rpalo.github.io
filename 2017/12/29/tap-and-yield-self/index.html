@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -56,118 +57,110 @@
         
     </div>
     <h1>Ruby 2.5 - Tap and Yield Self</h1>
-    <p>I was reading through <a href="https://www.ruby-lang.org/en/news/2017/12/25/ruby-2-5-0-released/">the Ruby 2.5.0 release blurb</a>, referred from <a href="https://dev.to/ben/ruby-ruby-250-was-released-b98">Ben Halpern’s article here</a>, and I saw that one of the new features is the <code class="highlighter-rouge">#yield_self</code> method.</p>
+    <p>I was reading through <a href="https://www.ruby-lang.org/en/news/2017/12/25/ruby-2-5-0-released/">the Ruby 2.5.0 release blurb</a>, referred from <a href="https://dev.to/ben/ruby-ruby-250-was-released-b98">Ben Halpern’s article here</a>, and I saw that one of the new features is the <code>#yield_self</code> method.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># This is roughly what it is</span>
-<span class="k">class</span> <span class="nc">Object</span>
-  <span class="k">def</span> <span class="nf">yield_self</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
-    <span class="k">yield</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+<pre><code class="language-ruby"># This is roughly what it is
+class Object
+  def yield_self(*args)
+    yield(self, *args)
+  end
+end
 </code></pre>
-</div>
 
-<p>When I went to do more research, some people mentioned that it was very similar to <code class="highlighter-rouge">#tap</code>.  “Super!” I thought, “… what is <code class="highlighter-rouge">#tap</code>?”  After doing a bunch of reading and searching for the different definitions, use cases, pros, and cons, I ended up with a blog post’s worth of research, so I thought I should share my thoughts and see if anybody else had anything to add.</p>
+<p>When I went to do more research, some people mentioned that it was very similar to <code>#tap</code>.  “Super!” I thought, “… what is <code>#tap</code>?”  After doing a bunch of reading and searching for the different definitions, use cases, pros, and cons, I ended up with a blog post’s worth of research, so I thought I should share my thoughts and see if anybody else had anything to add.</p>
 
 <p>To get you in the right mindset, both of these methods find their use cases in the area that I like to call “method pipelining”.</p>
 
 <h2 id="method-pipelining">Method Pipelining</h2>
 
-<p>One of my favorite things about Ruby (and one of the things that I wish Python did as nicely as Ruby) is that, since everything is an object, <em>and</em> most functions are methods, <em>and</em> the <code class="highlighter-rouge">.</code> (dot) operator works on method return values, you can chain methods out in one “sentence” to your heart’s content.  This is especially useful for data manipulation like transforming, reducing, mapping, etc.  Code like this is possible:</p>
+<p>One of my favorite things about Ruby (and one of the things that I wish Python did as nicely as Ruby) is that, since everything is an object, <em>and</em> most functions are methods, <em>and</em> the <code>.</code> (dot) operator works on method return values, you can chain methods out in one “sentence” to your heart’s content.  This is especially useful for data manipulation like transforming, reducing, mapping, etc.  Code like this is possible:</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="p">(</span><span class="s2">"a"</span><span class="p">.</span><span class="nf">.</span><span class="s2">"z"</span><span class="p">)</span>
-  <span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:upcase</span><span class="p">)</span>
-  <span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:ord</span><span class="p">)</span>
-  <span class="p">.</span><span class="nf">select</span> <span class="p">{</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span> <span class="p">(</span><span class="n">num</span> <span class="o">%</span> <span class="mi">3</span><span class="p">).</span><span class="nf">zero?</span> <span class="o">&amp;&amp;</span> <span class="n">num</span><span class="p">.</span><span class="nf">even?</span> <span class="p">}</span>
-  <span class="p">.</span><span class="nf">sum</span>
-<span class="c1"># =&gt; 390</span>
+<pre><code class="language-ruby">("a".."z")
+  .map(&amp;:upcase)
+  .map(&amp;:ord)
+  .select { |num| (num % 3).zero? &amp;&amp; num.even? }
+  .sum
+# =&gt; 390
 </code></pre>
-</div>
 
-<p>Each step passes its output to the next step in the data pipeline, allowing us to go from the range <code class="highlighter-rouge">"a".."z"</code> to the number <code class="highlighter-rouge">390</code>  in a few lines of code.  For some reason, this way of working really clicks in my head and I’ve noticed this style creeping into my code all the time.  Both <code class="highlighter-rouge">#tap</code> and <code class="highlighter-rouge">#yield_self</code> have their own places in this ecosystem as well.</p>
+<p>Each step passes its output to the next step in the data pipeline, allowing us to go from the range <code>"a".."z"</code> to the number <code>390</code>  in a few lines of code.  For some reason, this way of working really clicks in my head and I’ve noticed this style creeping into my code all the time.  Both <code>#tap</code> and <code>#yield_self</code> have their own places in this ecosystem as well.</p>
 
 <h2 id="tap-unixs-tee-for-ruby">Tap: Unix’s Tee for Ruby</h2>
 
-<p>At first I was very confused by the name of <code class="highlighter-rouge">#tap</code>.  Unlike <code class="highlighter-rouge">#select, #map, or #reduce</code>, the name <code class="highlighter-rouge">#tap</code> didn’t initially provide me any clues to what it does.  After some digging, the name actually makes quite a bit more sense.  <code class="highlighter-rouge">#tap</code> is a way of <em>“tapping”</em> into the method pipeline without disturbing the flow.  You call <code class="highlighter-rouge">#tap</code> on an object, it runs whatever code you want, and it returns the original object.  Since it returns the original object, you can insert it anywhere in the pipeline without causing any errors (mostly).  Let’s work with the example above.  Say you needed to do some debugging.</p>
+<p>At first I was very confused by the name of <code>#tap</code>.  Unlike <code>#select, #map, or #reduce</code>, the name <code>#tap</code> didn’t initially provide me any clues to what it does.  After some digging, the name actually makes quite a bit more sense.  <code>#tap</code> is a way of <em>“tapping”</em> into the method pipeline without disturbing the flow.  You call <code>#tap</code> on an object, it runs whatever code you want, and it returns the original object.  Since it returns the original object, you can insert it anywhere in the pipeline without causing any errors (mostly).  Let’s work with the example above.  Say you needed to do some debugging.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="p">(</span><span class="s2">"a..z"</span><span class="p">)</span>
-  <span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:upcase</span><span class="p">).</span><span class="nf">tap</span> <span class="p">{</span> <span class="o">|</span><span class="n">letters</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">"Uppercase: </span><span class="si">#{</span><span class="n">letters</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
-  <span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:ord</span><span class="p">).</span><span class="nf">tap</span> <span class="p">{</span> <span class="o">|</span><span class="n">nums</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">"Ascii: </span><span class="si">#{</span><span class="n">nums</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
-  <span class="p">.</span><span class="nf">select</span> <span class="p">{</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span> <span class="p">(</span><span class="n">num</span> <span class="o">%</span> <span class="mi">3</span><span class="p">).</span><span class="nf">zero?</span> <span class="o">&amp;&amp;</span> <span class="n">num</span><span class="p">.</span><span class="nf">even?</span> <span class="p">}.</span><span class="nf">tap</span> <span class="p">{</span> <span class="o">|</span><span class="n">nums</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">"Filtered: </span><span class="si">#{</span><span class="n">nums</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
-  <span class="p">.</span><span class="nf">sum</span>
+<pre><code class="language-ruby">("a..z")
+  .map(&amp;:upcase).tap { |letters| puts "Uppercase: #{letters}"}
+  .map(&amp;:ord).tap { |nums| puts "Ascii: #{nums}" }
+  .select { |num| (num % 3).zero? &amp;&amp; num.even? }.tap { |nums| puts "Filtered: #{nums}" }
+  .sum
 
-<span class="c1"># Uppercase: Uppercase: ["A", "B", "C", ... "Y", "Z"]</span>
-<span class="c1"># Ascii: [65, 66, 67, ... 89, 90]</span>
-<span class="c1"># Filtered: [66, 72, 78, 84, 90]</span>
-<span class="c1"># =&gt; 390</span>
+# Uppercase: Uppercase: ["A", "B", "C", ... "Y", "Z"]
+# Ascii: [65, 66, 67, ... 89, 90]
+# Filtered: [66, 72, 78, 84, 90]
+# =&gt; 390
 </code></pre>
-</div>
 
-<p>As you can see, adding in the <code class="highlighter-rouge">#tap</code> didn’t affect the steps in the pipeline, and it allowed us to do some good ole <code class="highlighter-rouge">puts</code> debugging on each step.</p>
+<p>As you can see, adding in the <code>#tap</code> didn’t affect the steps in the pipeline, and it allowed us to do some good ole <code>puts</code> debugging on each step.</p>
 
 <p>Another use case is to modify the object as it goes through the pipeline — although, I will admit that I had a harder time coming up with a realistic reason that you would want to do this.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="p">(</span><span class="s2">"a"</span><span class="p">.</span><span class="nf">.</span><span class="s2">"z"</span><span class="p">)</span>
-  <span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:upcase</span><span class="p">)</span>
-  <span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:ord</span><span class="p">)</span>
-  <span class="p">.</span><span class="nf">tap</span> <span class="p">{</span> <span class="o">|</span><span class="n">nums</span><span class="o">|</span> <span class="n">nums</span> <span class="o">&lt;&lt;</span> <span class="mi">6666666</span> <span class="p">}</span>  <span class="c1"># Modifying the array of ASCII ORD numbers in place!</span>
-  <span class="p">.</span><span class="nf">select</span> <span class="p">{</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span> <span class="p">(</span><span class="n">num</span> <span class="o">%</span> <span class="mi">3</span><span class="p">).</span><span class="nf">zero?</span> <span class="o">&amp;&amp;</span> <span class="n">num</span><span class="p">.</span><span class="nf">even?</span> <span class="p">}</span>
-  <span class="p">.</span><span class="nf">sum</span>
+<pre><code class="language-ruby">("a".."z")
+  .map(&amp;:upcase)
+  .map(&amp;:ord)
+  .tap { |nums| nums &lt;&lt; 6666666 }  # Modifying the array of ASCII ORD numbers in place!
+  .select { |num| (num % 3).zero? &amp;&amp; num.even? }
+  .sum
 
-<span class="c1"># =&gt; 667056</span>
+# =&gt; 667056
 </code></pre>
-</div>
 
-<p>In either case, the main point is that <code class="highlighter-rouge">#tap</code> returns the object that it received (whether or not it gets modified).</p>
+<p>In either case, the main point is that <code>#tap</code> returns the object that it received (whether or not it gets modified).</p>
 
 <h2 id="yield-self-expanding-your-pipelines">Yield Self: Expanding Your Pipelines</h2>
 
-<p><code class="highlighter-rouge">#yield_self</code> is a little bit different, because it returns <em>the result of the block</em> instead.  Here is an example that shows what it does but is a little pointless.</p>
+<p><code>#yield_self</code> is a little bit different, because it returns <em>the result of the block</em> instead.  Here is an example that shows what it does but is a little pointless.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="mi">2</span><span class="p">.</span><span class="nf">yield_self</span> <span class="p">{</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span> <span class="n">num</span> <span class="o">*</span> <span class="mi">2</span> <span class="p">}</span>
-<span class="c1"># =&gt; 4</span>
+<pre><code class="language-ruby">2.yield_self { |num| num * 2 }
+# =&gt; 4
 </code></pre>
-</div>
 
-<p>When I saw this example, my first thought was, “What is the point?  Why not just do <code class="highlighter-rouge">2 * 2</code>?”  Where <code class="highlighter-rouge">#yield_self</code> really shines is when you’re dealing with functions that are “un-pipeline-able”.  You can find these functions in two main places: Procs and Class Methods.</p>
+<p>When I saw this example, my first thought was, “What is the point?  Why not just do <code>2 * 2</code>?”  Where <code>#yield_self</code> really shines is when you’re dealing with functions that are “un-pipeline-able”.  You can find these functions in two main places: Procs and Class Methods.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># Procs/Lambdas must be called in front of their arguments</span>
-<span class="n">shout</span> <span class="o">=</span> <span class="o">-&gt;</span><span class="p">(</span><span class="n">phrase</span><span class="p">)</span> <span class="p">{</span> <span class="nb">puts</span> <span class="n">phrase</span><span class="p">.</span><span class="nf">upcase</span> <span class="p">}</span>
-<span class="nb">puts</span> <span class="n">shout</span>
-<span class="c1"># =&gt; #&lt;Proc:0x00007fcfac82bf80@(irb):1 (lambda)&gt;</span>
-<span class="c1"># Shout must be used via .call, .(), [], or .===</span>
-<span class="n">shout</span><span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="s2">"hello, dear friends"</span><span class="p">)</span>
-<span class="c1"># =&gt; "HELLO, DEAR FRIENDS"</span>
+<pre><code class="language-ruby"># Procs/Lambdas must be called in front of their arguments
+shout = -&gt;(phrase) { puts phrase.upcase }
+puts shout
+# =&gt; #&lt;Proc:0x00007fcfac82bf80@(irb):1 (lambda)&gt;
+# Shout must be used via .call, .(), [], or .===
+shout.call("hello, dear friends")
+# =&gt; "HELLO, DEAR FRIENDS"
 
-<span class="c1"># Same with class methods</span>
-<span class="n">contents</span> <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"test.txt"</span><span class="p">)</span>
-<span class="c1"># =&gt; "Test contents\n"</span>
+# Same with class methods
+contents = File.read("test.txt")
+# =&gt; "Test contents\n"
 </code></pre>
-</div>
 
-<p>What if you want to incorporate these into a pipeline somewhere?  Here comes <code class="highlighter-rouge">#yield_self</code> to the rescue!</p>
+<p>What if you want to incorporate these into a pipeline somewhere?  Here comes <code>#yield_self</code> to the rescue!</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="s2">"TXT.TSET"</span>
-  <span class="p">.</span><span class="nf">downcase</span>
-  <span class="p">.</span><span class="nf">reverse</span>
-  <span class="p">.</span><span class="nf">yield_self</span> <span class="p">{</span> <span class="o">|</span><span class="n">filename</span><span class="o">|</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="p">}</span>
-  <span class="p">.</span><span class="nf">yield_self</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:shout</span><span class="p">)</span>
-<span class="c1"># =&gt; "TEST CONTENTS\n"</span>
+<pre><code class="language-ruby">"TXT.TSET"
+  .downcase
+  .reverse
+  .yield_self { |filename| File.read(filename) }
+  .yield_self(&amp;:shout)
+# =&gt; "TEST CONTENTS\n"
 </code></pre>
-</div>
 
 <p>This saves you from having to do two steps.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">contents</span> <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"TXT.TSET"</span><span class="p">.</span><span class="nf">downcase</span><span class="p">.</span><span class="nf">reverse</span><span class="p">)</span>
-<span class="n">shouty_results</span> <span class="o">=</span> <span class="n">shout</span><span class="o">.</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
+<pre><code class="language-ruby">contents = File.read("TXT.TSET".downcase.reverse)
+shouty_results = shout.(contents)
 </code></pre>
-</div>
 
 <p>It also keeps your code looking vertical and pipeline-y instead of horizontally nested.  Also, imagine if you had several class methods or procs you wanted to use!  Nested functions very quickly become hard to read.</p>
 
 <h2 id="wrap-up">Wrap Up</h2>
 
-<p>That’s what I got from my research.  <code class="highlighter-rouge">#yield_self</code> is brand new, so I’m sure that as we work with it more, we’ll come up with the “right” and “wrong” ways of using it.  While doing research I had to slog through a billion comments like “yield_self is dumb” and “I hate the name” and “F# is better”, so I very specifically am not looking for any more of that, but if you’ve got some other use cases or ideas for <code class="highlighter-rouge">#tap</code> or <code class="highlighter-rouge">#yield_self</code>, I’d love to hear about them.</p>
+<p>That’s what I got from my research.  <code>#yield_self</code> is brand new, so I’m sure that as we work with it more, we’ll come up with the “right” and “wrong” ways of using it.  While doing research I had to slog through a billion comments like “yield_self is dumb” and “I hate the name” and “F# is better”, so I very specifically am not looking for any more of that, but if you’ve got some other use cases or ideas for <code>#tap</code> or <code>#yield_self</code>, I’d love to hear about them.</p>
 
 <h2 id="other-resources">Other Resources</h2>
 
@@ -375,6 +368,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

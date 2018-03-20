@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -62,157 +63,152 @@
 
 <p>We should only need one other thing installed for this part: Vue Resource, which helps us to make HTTP requests.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>npm install -s vue-resource
+<pre><code class="language-bash">$ npm install -s vue-resource
 </code></pre>
-</div>
 
 <p>That’s it!  Let’s get into the changes, shall we?</p>
 
 <h2 id="1-the-client-side-api-utility">1. The Client-Side API Utility</h2>
 
-<p>Add a file called <code class="highlighter-rouge">api.js</code> to your <code class="highlighter-rouge">src/store</code> folder.  Here we go:</p>
+<p>Add a file called <code>api.js</code> to your <code>src/store</code> folder.  Here we go:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// src/store/api.js</span>
+<pre><code class="language-javascript">// src/store/api.js
 
-<span class="kr">import</span> <span class="nx">Vue</span> <span class="nx">from</span> <span class="s1">'vue'</span>
-<span class="kr">import</span> <span class="nx">VueResource</span> <span class="nx">from</span> <span class="s1">'vue-resource'</span>
+import Vue from 'vue'
+import VueResource from 'vue-resource'
 
-<span class="nx">Vue</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">VueResource</span><span class="p">)</span>
+Vue.use(VueResource)
 
-<span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
-  <span class="nx">get</span> <span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">Vue</span><span class="p">.</span><span class="nx">http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">request</span><span class="p">)</span>
-      <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">response</span><span class="p">))</span>
-      <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">))</span>
-  <span class="p">},</span>
-  <span class="nx">post</span> <span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">Vue</span><span class="p">.</span><span class="nx">http</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">request</span><span class="p">)</span>
-      <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">response</span><span class="p">))</span>
-      <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">))</span>
-  <span class="p">},</span>
-  <span class="nx">patch</span> <span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">Vue</span><span class="p">.</span><span class="nx">http</span><span class="p">.</span><span class="nx">patch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">request</span><span class="p">)</span>
-      <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">response</span><span class="p">))</span>
-      <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">))</span>
-  <span class="p">},</span>
-  <span class="k">delete</span> <span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">Vue</span><span class="p">.</span><span class="nx">http</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">request</span><span class="p">)</span>
-      <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">response</span><span class="p">))</span>
-      <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">))</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+export default {
+  get (url, request) {
+    return Vue.http.get(url, request)
+      .then((response) =&gt; Promise.resolve(response))
+      .catch((error) =&gt; Promise.reject(error))
+  },
+  post (url, request) {
+    return Vue.http.post(url, request)
+      .then((response) =&gt; Promise.resolve(response))
+      .catch((error) =&gt; Promise.reject(error))
+  },
+  patch (url, request) {
+    return Vue.http.patch(url, request)
+      .then((response) =&gt; Promise.resolve(response))
+      .catch((error) =&gt; Promise.reject(error))
+  },
+  delete (url, request) {
+    return Vue.http.delete(url, request)
+      .then((response) =&gt; Promise.resolve(response))
+      .catch((error) =&gt; Promise.reject(error))
+  }
+}
 </code></pre>
-</div>
 
-<p>This file just exports an object with the HTTP methods we’ll be using.  This way, you can call it via <code class="highlighter-rouge">api.post(stuff)</code>.  You’ll see an example of this.  Keep in mind, that this section uses a lot of what I think is JavaScript promises, and I’m a little foggy on the inner workings of these so far.  It’s on the list to read more in-depth about.</p>
+<p>This file just exports an object with the HTTP methods we’ll be using.  This way, you can call it via <code>api.post(stuff)</code>.  You’ll see an example of this.  Keep in mind, that this section uses a lot of what I think is JavaScript promises, and I’m a little foggy on the inner workings of these so far.  It’s on the list to read more in-depth about.</p>
 
-<p>We’re also going to update our <code class="highlighter-rouge">store.js</code> file to use these new methods in our actions.  Remember, actions are allowed to be asynchronus, but mutations must be synchronus.  This is why we do our API calls from within the actions, and it’s a big part of why actions exist at all!</p>
+<p>We’re also going to update our <code>store.js</code> file to use these new methods in our actions.  Remember, actions are allowed to be asynchronus, but mutations must be synchronus.  This is why we do our API calls from within the actions, and it’s a big part of why actions exist at all!</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// src/store/store.js</span>
+<pre><code class="language-javascript">// src/store/store.js
 
-<span class="kr">import</span> <span class="nx">Vue</span> <span class="nx">from</span> <span class="s1">'vue'</span>
-<span class="kr">import</span> <span class="nx">Vuex</span> <span class="nx">from</span> <span class="s1">'vuex'</span>
-<span class="kr">import</span> <span class="nx">api</span> <span class="nx">from</span> <span class="s1">'./api.js'</span>
+import Vue from 'vue'
+import Vuex from 'vuex'
+import api from './api.js'
 
-<span class="nx">Vue</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">Vuex</span><span class="p">)</span>
-<span class="kr">const</span> <span class="nx">apiRoot</span> <span class="o">=</span> <span class="s1">'http://localhost:8000'</span>  <span class="c1">// This will change if you deploy later</span>
+Vue.use(Vuex)
+const apiRoot = 'http://localhost:8000'  // This will change if you deploy later
 
-<span class="kr">const</span> <span class="nx">store</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vuex</span><span class="p">.</span><span class="nx">Store</span><span class="p">({</span>
-  <span class="na">state</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">todos</span><span class="p">:</span> <span class="p">[]</span>
-  <span class="p">},</span>
-  <span class="na">mutations</span><span class="p">:</span> <span class="p">{</span>
-    <span class="c1">// Keep in mind that response is an HTTP response</span>
-    <span class="c1">// returned by the Promise.</span>
-    <span class="c1">// The mutations are in charge of updating the client state.</span>
-    <span class="s1">'GET_TODOS'</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">state</span><span class="p">.</span><span class="nx">todos</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">body</span>
-    <span class="p">},</span>
-    <span class="s1">'ADD_TODO'</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">state</span><span class="p">.</span><span class="nx">todos</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">)</span>
-    <span class="p">},</span>
-    <span class="s1">'CLEAR_TODOS'</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kr">const</span> <span class="nx">todos</span> <span class="o">=</span> <span class="nx">state</span><span class="p">.</span><span class="nx">todos</span>
-      <span class="nx">todos</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">todos</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span>
-    <span class="p">},</span>
-    <span class="c1">// Note that we added one more for logging out errors.</span>
-    <span class="s1">'API_FAIL'</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
-    <span class="p">}</span>
-  <span class="p">},</span>
-  <span class="na">actions</span><span class="p">:</span> <span class="p">{</span>
-    <span class="c1">// We added a getTodos action for the initial load from the server</span>
-    <span class="c1">// These URLs come straight from the Django URL router we did in Part 3</span>
-    <span class="nx">getTodos</span> <span class="p">(</span><span class="nx">store</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nx">api</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">apiRoot</span> <span class="o">+</span> <span class="s1">'/todos/'</span><span class="p">)</span>
-        <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">store</span><span class="p">.</span><span class="nx">commit</span><span class="p">(</span><span class="s1">'GET_TODOS'</span><span class="p">,</span> <span class="nx">response</span><span class="p">))</span>
-        <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">store</span><span class="p">.</span><span class="nx">commit</span><span class="p">(</span><span class="s1">'API_FAIL'</span><span class="p">,</span> <span class="nx">error</span><span class="p">))</span>
-    <span class="p">},</span>
-    <span class="nx">addTodo</span> <span class="p">(</span><span class="nx">store</span><span class="p">,</span> <span class="nx">todo</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nx">api</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">apiRoot</span> <span class="o">+</span> <span class="s1">'/todos/'</span><span class="p">,</span> <span class="nx">todo</span><span class="p">)</span>
-        <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">store</span><span class="p">.</span><span class="nx">commit</span><span class="p">(</span><span class="s1">'ADD_TODO'</span><span class="p">,</span> <span class="nx">response</span><span class="p">))</span>
-        <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">store</span><span class="p">.</span><span class="nx">commit</span><span class="p">(</span><span class="s1">'API_FAIL'</span><span class="p">,</span> <span class="nx">error</span><span class="p">))</span>
-    <span class="p">},</span>
-    <span class="nx">clearTodos</span> <span class="p">(</span><span class="nx">store</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nx">api</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="nx">apiRoot</span> <span class="o">+</span> <span class="s1">'/todos/clear_todos/'</span><span class="p">)</span>
-        <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">store</span><span class="p">.</span><span class="nx">commit</span><span class="p">(</span><span class="s1">'CLEAR_TODOS'</span><span class="p">))</span>
-        <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">store</span><span class="p">.</span><span class="nx">commit</span><span class="p">(</span><span class="s1">'API_FAIL'</span><span class="p">,</span> <span class="nx">error</span><span class="p">))</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">})</span>
+const store = new Vuex.Store({
+  state: {
+    todos: []
+  },
+  mutations: {
+    // Keep in mind that response is an HTTP response
+    // returned by the Promise.
+    // The mutations are in charge of updating the client state.
+    'GET_TODOS': function (state, response) {
+      state.todos = response.body
+    },
+    'ADD_TODO': function (state, response) {
+      state.todos.push(response.body)
+    },
+    'CLEAR_TODOS': function (state) {
+      const todos = state.todos
+      todos.splice(0, todos.length)
+    },
+    // Note that we added one more for logging out errors.
+    'API_FAIL': function (state, error) {
+      console.error(error)
+    }
+  },
+  actions: {
+    // We added a getTodos action for the initial load from the server
+    // These URLs come straight from the Django URL router we did in Part 3
+    getTodos (store) {
+      return api.get(apiRoot + '/todos/')
+        .then((response) =&gt; store.commit('GET_TODOS', response))
+        .catch((error) =&gt; store.commit('API_FAIL', error))
+    },
+    addTodo (store, todo) {
+      return api.post(apiRoot + '/todos/', todo)
+        .then((response) =&gt; store.commit('ADD_TODO', response))
+        .catch((error) =&gt; store.commit('API_FAIL', error))
+    },
+    clearTodos (store) {
+      return api.delete(apiRoot + '/todos/clear_todos/')
+        .then((response) =&gt; store.commit('CLEAR_TODOS'))
+        .catch((error) =&gt; store.commit('API_FAIL', error))
+    }
+  }
+})
 
-<span class="kr">export</span> <span class="k">default</span> <span class="nx">store</span>
+export default store
 </code></pre>
-</div>
 
 <p>There is a lot of change in this file, but this is really the meat of it.  Everything else from here on out is really just book-keeping.  Keep in mind that because of the way we set everything up, we are able to hook our app up to a back-end database and we aren’t even going to touch the Components at all!  That is the neatest part I think.</p>
 
-<p>We’re also going to add one line to our <code class="highlighter-rouge">main.js</code> file, right at the bottom.  When our app loads up, the last thing we want it to do before the client sees it is load up the todos array with the saved todos.</p>
+<p>We’re also going to add one line to our <code>main.js</code> file, right at the bottom.  When our app loads up, the last thing we want it to do before the client sees it is load up the todos array with the saved todos.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// src/main.js</span>
+<pre><code class="language-javascript">// src/main.js
 
-<span class="kr">import</span> <span class="nx">Vue</span> <span class="nx">from</span> <span class="s1">'vue'</span>
-<span class="kr">import</span> <span class="nx">App</span> <span class="nx">from</span> <span class="s1">'./App'</span>
+import Vue from 'vue'
+import App from './App'
 
-<span class="kr">import</span> <span class="nx">store</span> <span class="nx">from</span> <span class="s1">'./store/store.js'</span>
+import store from './store/store.js'
 
-<span class="cm">/* eslint-disable no-new */</span>
-<span class="kr">const</span> <span class="nx">v</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
-  <span class="na">el</span><span class="p">:</span> <span class="s1">'body'</span><span class="p">,</span>
-  <span class="na">store</span><span class="p">:</span> <span class="nx">store</span><span class="p">,</span>
-  <span class="na">components</span><span class="p">:</span> <span class="p">{</span> <span class="nx">App</span> <span class="p">}</span>
-<span class="p">})</span>
+/* eslint-disable no-new */
+const v = new Vue({
+  el: 'body',
+  store: store,
+  components: { App }
+})
 
-<span class="c1">// This should be the only new line ***</span>
-<span class="nx">v</span><span class="p">.</span><span class="nx">$store</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s1">'getTodos'</span><span class="p">)</span>
-
-</code></pre>
-</div>
-
-<p>There’s just one more thing that we should do to make our lives easier.  Open up the file <code class="highlighter-rouge">format_index_html.py</code>.  There’s a few typos here from the vue project template that will make our life hard.  Here’s the fixed version.  It’s pretty much the same with some quotation marks added.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">fileinput</span>
-
-<span class="nb">file</span> <span class="o">=</span> <span class="s">'templates/index.html'</span>
-
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="s">"r+"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"{</span><span class="si">% </span><span class="s">load staticfiles </span><span class="si">%</span><span class="s">}</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fileinput</span><span class="o">.</span><span class="nb">input</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="mi">1</span><span class="p">)):</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'href=//'</span><span class="p">,</span> <span class="s">"href=</span><span class="se">\"</span><span class="s">{</span><span class="si">% </span><span class="s">static '"</span><span class="p">))</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fileinput</span><span class="o">.</span><span class="nb">input</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="mi">1</span><span class="p">)):</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'css'</span><span class="p">,</span> <span class="s">"css' </span><span class="si">%</span><span class="s">}"</span><span class="p">))</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fileinput</span><span class="o">.</span><span class="nb">input</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="mi">1</span><span class="p">)):</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'src=//'</span><span class="p">,</span> <span class="s">"src=</span><span class="se">\"</span><span class="s">{</span><span class="si">% </span><span class="s">static '"</span><span class="p">))</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fileinput</span><span class="o">.</span><span class="nb">input</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="mi">1</span><span class="p">)):</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'js'</span><span class="p">,</span> <span class="s">"js' </span><span class="si">%</span><span class="s">}</span><span class="se">\"</span><span class="s">"</span><span class="p">))</span>
+// This should be the only new line ***
+v.$store.dispatch('getTodos')
 
 </code></pre>
-</div>
+
+<p>There’s just one more thing that we should do to make our lives easier.  Open up the file <code>format_index_html.py</code>.  There’s a few typos here from the vue project template that will make our life hard.  Here’s the fixed version.  It’s pretty much the same with some quotation marks added.</p>
+
+<pre><code class="language-python">
+import sys
+import fileinput
+
+file = 'templates/index.html'
+
+with open(file, "r+") as f:
+    s = f.read()
+    f.seek(0)
+    f.write("{% load staticfiles %}\n" + s)
+
+for i, line in enumerate(fileinput.input(file, inplace=1)):
+    sys.stdout.write(line.replace('href=//', "href=\"{% static '"))
+for i, line in enumerate(fileinput.input(file, inplace=1)):
+    sys.stdout.write(line.replace('css', "css' %}"))
+for i, line in enumerate(fileinput.input(file, inplace=1)):
+    sys.stdout.write(line.replace('src=//', "src=\"{% static '"))
+for i, line in enumerate(fileinput.input(file, inplace=1)):
+    sys.stdout.write(line.replace('js', "js' %}\""))
+
+</code></pre>
 
 <p>Again, this code came with the vue template, and it’s pretty ok (maybe not my favorite).  But it’s already written for us, so we’re going with it.</p>
 
@@ -224,14 +220,13 @@
   <li>Make sure your virtual environment is active.</li>
 </ol>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nb">source</span> .venv/bin/activate
-<span class="c"># Windows: .venv\Scripts\activate</span>
+<pre><code class="language-bash">$ source .venv/bin/activate
+# Windows: .venv\Scripts\activate
 </code></pre>
-</div>
 
 <ol>
   <li>
-    <p>Run <code class="highlighter-rouge">./deploy.sh</code>.  If it complains about permissions, either <code class="highlighter-rouge">chmod</code> the permissions or just run <code class="highlighter-rouge">bash deploy.sh</code>.  On windows, you should be able to run all of the steps in the deploy script manually.  The only one you should change is running <code class="highlighter-rouge">python manage.py runserver 8000</code> instead of doing it in two steps.</p>
+    <p>Run <code>./deploy.sh</code>.  If it complains about permissions, either <code>chmod</code> the permissions or just run <code>bash deploy.sh</code>.  On windows, you should be able to run all of the steps in the deploy script manually.  The only one you should change is running <code>python manage.py runserver 8000</code> instead of doing it in two steps.</p>
   </li>
   <li>
     <p>Watch all of the output closely.  If there are any errors, you’ll see them in this deluge of output.</p>
@@ -243,7 +238,7 @@
 
 <h2 id="25-debugging">2.5 Debugging</h2>
 
-<p>If it doesn’t work, don’t panic.  Check your browser console.  Errors there?  Errors of a 500 nature are most likely server side.  You’re going to want to work on your django-rest app.  If the errors are on your javascript side, kill any running dev servers and run <code class="highlighter-rouge">npm run dev</code> to run the vue server standalone.  This won’t have access to any server functions, but it will be easier to find the real error message.</p>
+<p>If it doesn’t work, don’t panic.  Check your browser console.  Errors there?  Errors of a 500 nature are most likely server side.  You’re going to want to work on your django-rest app.  If the errors are on your javascript side, kill any running dev servers and run <code>npm run dev</code> to run the vue server standalone.  This won’t have access to any server functions, but it will be easier to find the real error message.</p>
 
 <h2 id="3-wrap-up">3. Wrap Up</h2>
 
@@ -451,6 +446,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

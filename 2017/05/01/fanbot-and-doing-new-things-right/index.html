@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -64,11 +65,11 @@
 
 <h2 id="the-structure">The Structure</h2>
 
-<p>In terms of “doing things right,” I made sure to setup the project from the beginning as a git repository.  It’s got a LICENCE file, a .gitignore file, requirements.txt (for those who don’t Python, this is similar to a Gemfile in Ruby or a package.json in JavaScript), a tests directory, and a project directory.  There is also a sample main user file, <code class="highlighter-rouge">main.py</code>.  I made sure my README has short but effective sections including Features, Installation and Use Instructions, Contribution suggestions, and a Code of Conduct.  I’m not sure how much I’ll need to use the last two, but if I’m going to <strong>do things right</strong>, I’m going to <strong>do things right</strong>.</p>
+<p>In terms of “doing things right,” I made sure to setup the project from the beginning as a git repository.  It’s got a LICENCE file, a .gitignore file, requirements.txt (for those who don’t Python, this is similar to a Gemfile in Ruby or a package.json in JavaScript), a tests directory, and a project directory.  There is also a sample main user file, <code>main.py</code>.  I made sure my README has short but effective sections including Features, Installation and Use Instructions, Contribution suggestions, and a Code of Conduct.  I’m not sure how much I’ll need to use the last two, but if I’m going to <strong>do things right</strong>, I’m going to <strong>do things right</strong>.</p>
 
 <h2 id="the-tests">The Tests</h2>
 
-<p>It took me a bit to get the tests all hooked up right since this is one of the first projects I was determined to do via a relaxed version of Test-Driven Development.  I went with Pytest.  Within my tests directory is an <code class="highlighter-rouge">__init__.py</code> file (blank) and a <code class="highlighter-rouge">test_fanbot.py</code> file.  As I add more functionality, I may have to break that into multiple test modules.  The nice thing about using Pytest is that I don’t have to pull any shenanigans with the python path.</p>
+<p>It took me a bit to get the tests all hooked up right since this is one of the first projects I was determined to do via a relaxed version of Test-Driven Development.  I went with Pytest.  Within my tests directory is an <code>__init__.py</code> file (blank) and a <code>test_fanbot.py</code> file.  As I add more functionality, I may have to break that into multiple test modules.  The nice thing about using Pytest is that I don’t have to pull any shenanigans with the python path.</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">fanbot</span> <span class="kn">import</span> <span class="n">fanbot</span> <span class="c"># i.e. from .. (top level) import fanbot</span>
 
@@ -102,7 +103,7 @@
 
 <h2 id="schedule">Schedule</h2>
 
-<p>OK.  Last thing, I promise.  I made strong use of the <code class="highlighter-rouge">schedule</code> package.  It was easy to just <code class="highlighter-rouge">pip3 install schedule</code>.  They make it amazingly easy to write human-readable task scheduling.  Check it.</p>
+<p>OK.  Last thing, I promise.  I made strong use of the <code>schedule</code> package.  It was easy to just <code>pip3 install schedule</code>.  They make it amazingly easy to write human-readable task scheduling.  Check it.</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">schedule</span>
 
@@ -320,6 +321,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

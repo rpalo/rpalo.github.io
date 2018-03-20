@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -62,69 +63,61 @@
 
 <p>This is the simplest method:</p>
 
-<div class="language-vimscript highlighter-rouge"><pre class="highlight"><code><span class="p">:</span><span class="k">r</span> <span class="p">!</span><span class="k">ls</span>
+<pre><code class="language-vim">:r !ls
 </code></pre>
-</div>
 
-<p>This command will read the results of <code class="highlighter-rouge">ls</code> into your buffer at your cursor location.  You can also specify the specific line to insert after.  The next command will read the results of the <code class="highlighter-rouge">ls</code> command into your current buffer after line 4.</p>
+<p>This command will read the results of <code>ls</code> into your buffer at your cursor location.  You can also specify the specific line to insert after.  The next command will read the results of the <code>ls</code> command into your current buffer after line 4.</p>
 
-<div class="language-vimscript highlighter-rouge"><pre class="highlight"><code><span class="p">:</span><span class="m">4</span><span class="k">r</span> <span class="p">!</span><span class="k">ls</span>
+<pre><code class="language-vim">:4r !ls
 </code></pre>
-</div>
 
 <h2 id="sending-buffer-contents-as-input-to-an-external-command">Sending buffer contents as input to an external command</h2>
 
 <p>You can also send lines of your buffer out to be replaced with the results of the command.  A common thing to do is to operate on the whole buffer you’re working on.</p>
 
-<div class="language-vimscript highlighter-rouge"><pre class="highlight"><code><span class="p">:</span>%<span class="p">!</span><span class="k">sort</span>
+<pre><code class="language-vim">:%!sort
 </code></pre>
-</div>
 
-<p>The <code class="highlighter-rouge">%</code> selects the whole buffer, and then the <code class="highlighter-rouge">!</code> sends the selected lines out to the external <code class="highlighter-rouge">sort</code> command.  The whole buffer contents will be replaced with the results of the command.</p>
+<p>The <code>%</code> selects the whole buffer, and then the <code>!</code> sends the selected lines out to the external <code>sort</code> command.  The whole buffer contents will be replaced with the results of the command.</p>
 
 <p>For example.  Let’s say you’re working on a text file.</p>
 
-<div class="language-markdown highlighter-rouge"><pre class="highlight"><code><span class="gh"># Attention, Everyone!</span>
+<pre><code class="language-markdown"># Attention, Everyone!
 
-This markdown file contains some <span class="gs">**pretty interesting**</span> stuff.
+This markdown file contains some **pretty interesting** stuff.
 
 I __mean__ it.
 </code></pre>
-</div>
 
 <p>But something’s just not quite there.  It needs some more zoom – some more whammy!  Try combining it with a <a href="https://assertnotmagic.com/2017/10/05/smooth-one-liners/">slick Ruby one liner!</a></p>
 
-<div class="language-vimscript highlighter-rouge"><pre class="highlight"><code><span class="p">:</span>%<span class="p">!</span><span class="k">ruby</span> <span class="p">-</span><span class="k">ne</span> <span class="s1">'puts $_.upcase'</span>
+<pre><code class="language-vim">:%!ruby -ne 'puts $_.upcase'
 </code></pre>
-</div>
 
 <p>And suddenly, the contents of your buffer is:</p>
 
-<div class="language-markdown highlighter-rouge"><pre class="highlight"><code><span class="gh"># ATTENTION, EVERYONE</span>
+<pre><code class="language-markdown"># ATTENTION, EVERYONE
 
-THIS MARKDOWN FILE CONTAINS SOME <span class="gs">**PRETTY INTERESTING**</span> STUFF.
+THIS MARKDOWN FILE CONTAINS SOME **PRETTY INTERESTING** STUFF.
 
 I __MEAN__ IT.
 </code></pre>
-</div>
 
 <p>This will work with any command.  You can use shell commands, or you can run it through a Python or Node script.  It gives you the power to select the best (or your favorite) tool for the job, instead of locking you into Vim’s capabilities alone.  And you can use other motions if you just want to replace a portion of your buffer.</p>
 
-<div class="language-vimscript highlighter-rouge"><pre class="highlight"><code><span class="p">:!!</span><span class="k">ruby</span> <span class="p">-</span><span class="k">ne</span> <span class="s1">'puts $_.upcase'</span>
+<pre><code class="language-vim">:!!ruby -ne 'puts $_.upcase'
 </code></pre>
-</div>
 
 <p>Two exclamation points will operate on the current line.</p>
 
 <p>It also works on visually selected lines.  Select a couple lines in visual mode:</p>
 
-<div class="language-vimscript highlighter-rouge"><pre class="highlight"><code><span class="k">v</span>         " Visual <span class="k">mode</span> activated
+<pre><code class="language-vim">v         " Visual mode activated
 jj        " Select next two lines
-<span class="p">:!</span><span class="k">sort</span>    " Sorts the lines that were selected<span class="p">.</span>
+:!sort    " Sorts the lines that were selected.
 </code></pre>
-</div>
 
-<p><em>Protip: If you accidentally run a command and blow away your file somehow, don’t panic.  Simply press <code class="highlighter-rouge">u</code> in Normal mode to undo the operation.</em></p>
+<p><em>Protip: If you accidentally run a command and blow away your file somehow, don’t panic.  Simply press <code>u</code> in Normal mode to undo the operation.</em></p>
 
 <p>Hope this comes in handy!</p>
 
@@ -326,6 +319,7 @@ jj        " Select next two lines
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -62,130 +63,125 @@
 
 <p>Metaprogramming is a neat thing that some (all?  not sure) dynamic languages can do.  Essentially, it’s a bunch of different ways of writing code that will, at runtime, write your code for you.  Let’s take a look to see what I mean.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">Dude</span><span class="p">:</span>
-<span class="o">...</span>     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="o">...</span>         <span class="k">pass</span>
-<span class="o">...</span>
-<span class="o">...</span>     <span class="k">def</span> <span class="nf">sup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="o">...</span>         <span class="k">return</span> <span class="s">"Sup, brah!"</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">d</span> <span class="o">=</span> <span class="n">Dude</span><span class="p">()</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="nb">dir</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-<span class="p">[</span> <span class="o">...</span><span class="p">(</span><span class="n">lots</span> <span class="n">of</span> <span class="n">built</span><span class="o">-</span><span class="ow">in</span> <span class="n">methods</span><span class="p">,</span> <span class="n">etc</span><span class="o">.</span><span class="p">),</span> <span class="s">'sup'</span><span class="p">]</span>
+<pre><code class="language-python">&gt;&gt;&gt; class Dude:
+...     def __init__(self):
+...         pass
+...
+...     def sup(self):
+...         return "Sup, brah!"
+&gt;&gt;&gt; d = Dude()
+&gt;&gt;&gt; dir(d)
+[ ...(lots of built-in methods, etc.), 'sup']
 </code></pre>
-</div>
 
 <p>See that?  At runtime, we just peeked into an object and could see its methods!  Keep going.</p>
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="k">if</span> <span class="s">'sup'</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
-<span class="o">...</span>     <span class="n">d</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"Brad"</span>
-<span class="o">...</span> <span class="k">else</span><span class="p">:</span>
-<span class="o">...</span>     <span class="n">d</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"Chad"</span>
-<span class="o">...</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">name</span>
-<span class="s">'Brad'</span>
+<pre><code class="language-python">&gt;&gt;&gt; if 'sup' in dir(d):
+...     d.name = "Brad"
+... else:
+...     d.name = "Chad"
+...
+&gt;&gt;&gt; d.name
+'Brad'
 </code></pre>
-</div>
 
 <p>Now, we have modified our objects based on the methods and attributes of those same objects.  Our code has caused code to be written (a little bit).  FEEL THE POWER.</p>
 
 <h2 id="the-technique-method-missing">The Technique: Method Missing</h2>
 
-<p>If you’re familiar with Ruby, you might know that Ruby objects have a built-in method called <code class="highlighter-rouge">method_missing</code> that gets called – predictably – if you call a method that doesn’t exist inside that particular object.  You can do all sorts of things with this.  One is to dynamically generate methods at run-time based on things out of your control.  It saves on boilerplate code and constant refactoring.  We need an example to make things more clear though.</p>
+<p>If you’re familiar with Ruby, you might know that Ruby objects have a built-in method called <code>method_missing</code> that gets called – predictably – if you call a method that doesn’t exist inside that particular object.  You can do all sorts of things with this.  One is to dynamically generate methods at run-time based on things out of your control.  It saves on boilerplate code and constant refactoring.  We need an example to make things more clear though.</p>
 
 <h3 id="scenario-crazy-api-designer">Scenario: Crazy API Designer!</h3>
 
-<p>Let’s say you’re working with a teammate that drinks way too much coffee.  They manage the API that your program consumes, but they keep adding and changing the endpoint names.  The layout is always the same though, so that’s predictable at least.  For instance, last Monday, the main resource was <code class="highlighter-rouge">beets</code>, and so you implemented a <code class="highlighter-rouge">get_beets()</code> method on your <code class="highlighter-rouge">Supermarket</code> class.  This method fetches the current <code class="highlighter-rouge">beet</code> objects in inventory…</p>
+<p>Let’s say you’re working with a teammate that drinks way too much coffee.  They manage the API that your program consumes, but they keep adding and changing the endpoint names.  The layout is always the same though, so that’s predictable at least.  For instance, last Monday, the main resource was <code>beets</code>, and so you implemented a <code>get_beets()</code> method on your <code>Supermarket</code> class.  This method fetches the current <code>beet</code> objects in inventory…</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Supermarket</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_root</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_root</span> <span class="o">=</span> <span class="n">api_root</span>
+<pre><code class="language-python">class Supermarket:
+    def __init__(self, api_root):
+        self.api_root = api_root
     
-    <span class="k">def</span> <span class="nf">get_beets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s">'{self.api_root}/beets/'</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    def get_beets(self, *args, **kwargs):
+        url = f'{self.api_root}/beets/'
+        return self.api_get(url, *args, **kwargs)
 
-    <span class="k">def</span> <span class="nf">api_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="o">...</span>
-        <span class="c"># Imagine this method hits the api with the provided arguments</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">'{url} called with args: {args}'</span><span class="p">)</span>  <span class="c"># for this example</span>
+    def api_get(self, url, *args, **kwargs):
+        ...
+        # Imagine this method hits the api with the provided arguments
+        print(f'{url} called with args: {args}')  # for this example
 </code></pre>
-</div>
 
-<p>At least… it did until that yahoo decided to use the slightly more descriptive object name: <code class="highlighter-rouge">beetroot</code>.  And so, you go back to your code and update the method name and API call.  Then, they add <code class="highlighter-rouge">rootabegas</code> on the fly, even though most of your code is the same.  But!  You are sneaky, you are smart, and you know about <strong>Metaprogramming</strong>!  And so you reach for your <code class="highlighter-rouge">Supermarket</code>’s <code class="highlighter-rouge">__getattr__</code> method.</p>
+<p>At least… it did until that yahoo decided to use the slightly more descriptive object name: <code>beetroot</code>.  And so, you go back to your code and update the method name and API call.  Then, they add <code>rootabegas</code> on the fly, even though most of your code is the same.  But!  You are sneaky, you are smart, and you know about <strong>Metaprogramming</strong>!  And so you reach for your <code>Supermarket</code>’s <code>__getattr__</code> method.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">re</span>
+<pre><code class="language-python">import re
 
-<span class="k">class</span> <span class="nc">Supermarket</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_root</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_root</span> <span class="o">=</span> <span class="n">api_root</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">r'get_([a-z]+)'</span><span class="p">)</span>  <span class="c"># matches any get_[something] call</span>
+class Supermarket:
+    def __init__(self, api_root):
+        self.api_root = api_root
+        self.pattern = re.compile(r'get_([a-z]+)')  # matches any get_[something] call
 
-    <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method_name</span><span class="p">):</span>
-        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="p">,</span> <span class="n">method_name</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
-            <span class="k">def</span> <span class="nf">temp_method</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-                <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s">'{self.api_root}/{match.group(1)}/'</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">temp_method</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="nb">AttributeError</span><span class="p">(</span><span class="n">f</span><span class="s">'No such attribute: {method_name}'</span><span class="p">)</span>
+    def __getattr__(self, method_name):
+        match = re.match(self.pattern, method_name)
+        if match:
+            def temp_method(*args, **kwargs):
+                url = f'{self.api_root}/{match.group(1)}/'
+                return self.api_get(url, *args, **kwargs)
+            return temp_method
+        else:
+            raise AttributeError(f'No such attribute: {method_name}')
 
-<span class="c"># Let's test it!</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Supermarket</span><span class="p">(</span><span class="s">'example.com'</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">get_beetroots</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="s">'example.com/beetroots Called with args: (3)'</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">this_should_error</span><span class="p">()</span>
-<span class="o">...</span>
-<span class="nb">AttributeError</span><span class="p">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">attribute</span><span class="p">:</span> <span class="n">this_should_error</span>
+# Let's test it!
+&gt;&gt;&gt; s = Supermarket('example.com')
+&gt;&gt;&gt; s.get_beetroots(3)
+'example.com/beetroots Called with args: (3)'
+&gt;&gt;&gt; s.this_should_error()
+...
+AttributeError: No such attribute: this_should_error
 </code></pre>
-</div>
 
 <p>What just happened?  Let’s hit the key points:</p>
 
 <ol>
-  <li><code class="highlighter-rouge">__getattr__</code> is a builtin method in Python objects that gets called if Python can’t find the method or attribute you’re looking for.  We’ll talk about this a little more in a minute.  But Python expects that this method will either return a function to be called or raise an AttributeError like normal.  As you can hopefully see, that’s what we’ve done above.</li>
+  <li><code>__getattr__</code> is a builtin method in Python objects that gets called if Python can’t find the method or attribute you’re looking for.  We’ll talk about this a little more in a minute.  But Python expects that this method will either return a function to be called or raise an AttributeError like normal.  As you can hopefully see, that’s what we’ve done above.</li>
   <li>We defined a <a href="http://www.rexegg.com/regex-quickstart.html">regular expression</a> to match the API call method pattern that we expect.  We don’t know what the object/endpoint will be, but we do know that it will start with “get_” and end with the object’s name.</li>
-  <li><code class="highlighter-rouge">__getattr__</code> gets passed the name of the method that gets called.  If the method name matches our regex, we move to step 4.  Otherwise we carry on with raising an AttributeError.  That gets shown in the last REPL call for <code class="highlighter-rouge">this_should_error</code>.</li>
-  <li>If the method call matches our regex, we want to build and return a function to call.  It doesn’t necessarily matter what you call this inner function.  It might if we decided to permanently add it to our class, but we’re not doing that now.  This function lays out the boilerplate we are looking to avoid.  It should take the parameters we expected functions like <code class="highlighter-rouge">get_beets</code> to accept.</li>
-  <li><code class="highlighter-rouge">match.group(1)</code> returns the item in the first (and only) group of parenthesis in our regex, which happens to be the name of the objects we care about.</li>
+  <li><code>__getattr__</code> gets passed the name of the method that gets called.  If the method name matches our regex, we move to step 4.  Otherwise we carry on with raising an AttributeError.  That gets shown in the last REPL call for <code>this_should_error</code>.</li>
+  <li>If the method call matches our regex, we want to build and return a function to call.  It doesn’t necessarily matter what you call this inner function.  It might if we decided to permanently add it to our class, but we’re not doing that now.  This function lays out the boilerplate we are looking to avoid.  It should take the parameters we expected functions like <code>get_beets</code> to accept.</li>
+  <li><code>match.group(1)</code> returns the item in the first (and only) group of parenthesis in our regex, which happens to be the name of the objects we care about.</li>
   <li>Finally, we return the function, which immediately gets called with the arguments that the user initially specified.</li>
 </ol>
 
-<p>In a perfect world, we should probably have the <code class="highlighter-rouge">Supermarket</code> fetch a list of available endpoints so we can alert the user if they make API calls for something that isn’t an available endpoint.  This might also help with security some.  I’ll leave that as an exercise for the reader.</p>
+<p>In a perfect world, we should probably have the <code>Supermarket</code> fetch a list of available endpoints so we can alert the user if they make API calls for something that isn’t an available endpoint.  This might also help with security some.  I’ll leave that as an exercise for the reader.</p>
 
-<h2 id="overriding-__getattr__s-methods">Overriding <code class="highlighter-rouge">__getattr__</code>’s Methods</h2>
+<h2 id="overriding-__getattr__s-methods">Overriding <code>__getattr__</code>’s Methods</h2>
 
 <p>I have two more possible scenarios for you.  Both have the same solution.</p>
 
 <h3 id="scenario-example-method-or-overriding">Scenario: Example Method or Overriding</h3>
 
-<p>What if you want to lay out an example method, so people who are reading your code can see an example of what one of the dynamically generated methods will look like?  OR.  What if you want to override a method, defining your own behavior.  Both are possible, since <code class="highlighter-rouge">__getattr__</code> only gets called after Python searches the object for the desired attribute.  Take a look.</p>
+<p>What if you want to lay out an example method, so people who are reading your code can see an example of what one of the dynamically generated methods will look like?  OR.  What if you want to override a method, defining your own behavior.  Both are possible, since <code>__getattr__</code> only gets called after Python searches the object for the desired attribute.  Take a look.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Supermarket</span><span class="p">:</span>
-    <span class="o">...</span>
-    <span class="k">def</span> <span class="nf">get_squash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">"NO.  NO SQUASH.  It is the devil's gourd."</span>
+<pre><code class="language-python">class Supermarket:
+    ...
+    def get_squash(self, *args, **kwargs):
+        return "NO.  NO SQUASH.  It is the devil's gourd."
 
-    <span class="k">def</span> <span class="nf">get_peanuts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="s">"""
+    def get_peanuts(self, *args, **kwargs):
+        """
         Example of a dynamically generated API call method
         created by __getattr__
-        """</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s">'{self.api_root}/peanuts/'</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        """
+        url = f'{self.api_root}/peanuts/'
+        return self.api_get(url, *args, **kwargs)
 
-<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Supermarket</span><span class="p">(</span><span class="s">'localhost'</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">get_squash</span><span class="p">()</span>
-<span class="s">"NO.  NO SQUASH.  It is the devil's gourd."</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">get_peanuts</span><span class="p">()</span>
-<span class="s">'localhost/peanuts called with args: []'</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">get_bananas</span><span class="p">(</span><span class="s">'big ones'</span><span class="p">)</span>
-<span class="s">'localhost/bananas called with args: ["big ones"]'</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">soup</span><span class="p">()</span>
-<span class="o">...</span>
-<span class="k">raise</span> <span class="nb">AttributeError</span><span class="p">(</span><span class="n">f</span><span class="s">'No such attribute: {method_name}'</span><span class="p">)</span>
+&gt;&gt;&gt; s = Supermarket('localhost')
+&gt;&gt;&gt; s.get_squash()
+"NO.  NO SQUASH.  It is the devil's gourd."
+&gt;&gt;&gt; s.get_peanuts()
+'localhost/peanuts called with args: []'
+&gt;&gt;&gt; s.get_bananas('big ones')
+'localhost/bananas called with args: ["big ones"]'
+&gt;&gt;&gt; s.soup()
+...
+raise AttributeError(f'No such attribute: {method_name}')
 
 </code></pre>
-</div>
 
 <p>It all works as planned!</p>
 
@@ -199,7 +195,7 @@
 
 <p>P.S. - I really recommend checking out the <em>Metaprogramming Ruby</em> book I mentioned at the beginning of this article.</p>
 
-<p>P.P.S. - If you found yourself going “What the F are these F-strings (e.g. <code class="highlighter-rouge">f'WHAT IS THIS'</code>)”, fear not.  They’re Python’s newest string interpolation/formatting syntax.  I’ve got plans to write a post gushing about them in the near future.  They’re similar to JavaScript’s new <code class="highlighter-rouge">#{syntax}</code>.</p>
+<p>P.P.S. - If you found yourself going “What the F are these F-strings (e.g. <code>f'WHAT IS THIS'</code>)”, fear not.  They’re Python’s newest string interpolation/formatting syntax.  I’ve got plans to write a post gushing about them in the near future.  They’re similar to JavaScript’s new <code>#{syntax}</code>.</p>
 
     <small>
         Author: Ryan Palo | Tags: 
@@ -401,6 +397,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -100,7 +101,7 @@
 
 <p>You can even define functions within other functions!  This can be <em>super</em> powerful.  Which leads to one of my favorite coding puzzles of all time: make the following test pass.</p>
 
-<p><code class="highlighter-rouge">assert five(plus(three())) == 8</code></p>
+<p><code>assert five(plus(three())) == 8</code></p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">three</span><span class="p">(</span><span class="n">operator</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">operator</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -143,14 +144,14 @@
 <span class="k">def</span> <span class="nf">hello</span><span class="p">():</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"Hello!"</span><span class="p">)</span></code></pre></figure>
 
-<p>In order to wrap <code class="highlighter-rouge">hello</code> in the woofing functionality, we’d have to do this:</p>
+<p>In order to wrap <code>hello</code> in the woofing functionality, we’d have to do this:</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">hello</span> <span class="o">=</span> <span class="n">pre_bark</span><span class="p">(</span><span class="n">hello</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">hello</span><span class="p">()</span>
 <span class="s">"Woof!"</span>
 <span class="s">"Hello!"</span></code></pre></figure>
 
-<p>Do you see what happens?  We replace <code class="highlighter-rouge">hello</code> with <code class="highlighter-rouge">inner</code>, which prints “Woof!” before calling the original <code class="highlighter-rouge">hello</code> function.  Not beautiful.  Not beautiful because you have to wrap <code class="highlighter-rouge">hello</code> after it is defined.  Someone could possibly glance at the function definition before calling it, blithely expecting <code class="highlighter-rouge">Hello!</code> but getting an unexpected <code class="highlighter-rouge">Woof!</code>.  The path of least surprise is usually the best one.  What if it looked more like this:</p>
+<p>Do you see what happens?  We replace <code>hello</code> with <code>inner</code>, which prints “Woof!” before calling the original <code>hello</code> function.  Not beautiful.  Not beautiful because you have to wrap <code>hello</code> after it is defined.  Someone could possibly glance at the function definition before calling it, blithely expecting <code>Hello!</code> but getting an unexpected <code>Woof!</code>.  The path of least surprise is usually the best one.  What if it looked more like this:</p>
 
 <h2 id="the-pretty-way">The Pretty Way</h2>
 
@@ -158,7 +159,7 @@
 <span class="k">def</span> <span class="nf">hello</span><span class="p">():</span>
     <span class="k">print</span><span class="p">(</span><span class="s">"Hello!"</span><span class="p">)</span></code></pre></figure>
 
-<p>You would be able to quickly see what the function did and that it was slightly modified by something called <code class="highlighter-rouge">pre_bark</code>.  Now we’re talking.  And then there was evening, and there was morning – your first decorator.  And it was good.</p>
+<p>You would be able to quickly see what the function did and that it was slightly modified by something called <code>pre_bark</code>.  Now we’re talking.  And then there was evening, and there was morning – your first decorator.  And it was good.</p>
 
 <h2 id="but-what-about-my-arguments">But What About My Arguments?</h2>
 
@@ -385,6 +386,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

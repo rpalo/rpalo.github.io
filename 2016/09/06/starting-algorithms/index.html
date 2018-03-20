@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -196,7 +197,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">root_a</span><span class="p">]</span> <span class="o">=</span> <span class="n">root_b</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="n">root_b</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span></code></pre></figure>
 
-<p>Through some math, it turns out that this gets us from <code class="highlighter-rouge">N^2</code> time to setup and union things to <code class="highlighter-rouge">M*lg(N)</code> time, which is an awesome improvement.  I know this was kind of heavy, but I think it was good for me to do it out and explain it some.  More in the next post.</p>
+<p>Through some math, it turns out that this gets us from <code>N^2</code> time to setup and union things to <code>M*lg(N)</code> time, which is an awesome improvement.  I know this was kind of heavy, but I think it was good for me to do it out and explain it some.  More in the next post.</p>
 
     <small>
         Author: Ryan Palo | Tags: 
@@ -396,6 +397,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

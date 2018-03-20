@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -62,107 +63,100 @@
 
 <ol>
   <li>
-    <p>Never log out of the server.  Run <code class="highlighter-rouge">python main.py</code> and leave the shell open.  Pros: very easy to do, and I already knew how to do it.  Cons: probably won’t work for long.  I assume ssh connections time out eventually.  Also, logging becomes an extra step of <code class="highlighter-rouge">python main.py | tee fanbot.log</code> or something of that nature.  All in all, feels hacky.</p>
+    <p>Never log out of the server.  Run <code>python main.py</code> and leave the shell open.  Pros: very easy to do, and I already knew how to do it.  Cons: probably won’t work for long.  I assume ssh connections time out eventually.  Also, logging becomes an extra step of <code>python main.py | tee fanbot.log</code> or something of that nature.  All in all, feels hacky.</p>
   </li>
   <li>
-    <p><code class="highlighter-rouge">nohup</code>.  A HUP (hangup) signal is sent to any job if its controlling terminal is closed.  One example of this is logging out of an SSH session or closing an open terminal window.  This causes it to wrap up and shut down.  <code class="highlighter-rouge">nohup</code> is a command that tells a job to ignore the HUP signal.  I would be able to do <code class="highlighter-rouge">nohup python main.py &amp;</code>.  The &amp; pushes the job to the background.  The job then runs in the background and appends all output to <code class="highlighter-rouge">nohup.out</code>.  You can get a custom logfile thusly: <code class="highlighter-rouge">nohup python main.py &gt; custom.log &amp;</code>.  Pros: I can log out, I get logfiles where I want them, fairly simple command.  Cons: Dies if the server resets.  I’m also not sure how cleanly it could be killed.  It would at least be a couple commands to get it done properly.</p>
+    <p><code>nohup</code>.  A HUP (hangup) signal is sent to any job if its controlling terminal is closed.  One example of this is logging out of an SSH session or closing an open terminal window.  This causes it to wrap up and shut down.  <code>nohup</code> is a command that tells a job to ignore the HUP signal.  I would be able to do <code>nohup python main.py &amp;</code>.  The &amp; pushes the job to the background.  The job then runs in the background and appends all output to <code>nohup.out</code>.  You can get a custom logfile thusly: <code>nohup python main.py &gt; custom.log &amp;</code>.  Pros: I can log out, I get logfiles where I want them, fairly simple command.  Cons: Dies if the server resets.  I’m also not sure how cleanly it could be killed.  It would at least be a couple commands to get it done properly.</p>
   </li>
   <li>
-    <p>Use a terminal multiplexer.  I could use something like <code class="highlighter-rouge">tmux</code> to run in.  For those of you that don’t know what <code class="highlighter-rouge">tmux</code> is, it’s a neat way of saving and reusing terminal window, pane, and histories.  You can attach and detach from a tmux session whenever you want, but the programs running in the session stay running.  I’ll have to add a <code class="highlighter-rouge">tmux</code> overview to my list of things to write.  It would go like this.  Pros: Easy to use.  Works basically just like running things in the terminal.  Cons: Also dies if the server resets.  <code class="highlighter-rouge">tmux</code> feels like a little bit of overkill just to manage this one single job.  If you’re interested, here’s how that would go down:</p>
+    <p>Use a terminal multiplexer.  I could use something like <code>tmux</code> to run in.  For those of you that don’t know what <code>tmux</code> is, it’s a neat way of saving and reusing terminal window, pane, and histories.  You can attach and detach from a tmux session whenever you want, but the programs running in the session stay running.  I’ll have to add a <code>tmux</code> overview to my list of things to write.  It would go like this.  Pros: Easy to use.  Works basically just like running things in the terminal.  Cons: Also dies if the server resets.  <code>tmux</code> feels like a little bit of overkill just to manage this one single job.  If you’re interested, here’s how that would go down:</p>
   </li>
 </ol>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>tmux new -s fanbot_session
-<span class="gp">$ </span>python main.py | tee fanbot.log
-<span class="gp">$ </span>&lt;ctrl-b&gt;d <span class="c"># To detach from tmux</span>
+<pre><code class="language-bash">$ tmux new -s fanbot_session
+$ python main.py | tee fanbot.log
+$ &lt;ctrl-b&gt;d # To detach from tmux
 
-<span class="c"># Later, to check on things:</span>
-<span class="gp">$ </span>tmux attach -t fanbot_session
+# Later, to check on things:
+$ tmux attach -t fanbot_session
 </code></pre>
-</div>
 
 <h2 id="we-pride-ourselves-on-service">We Pride Ourselves on Service</h2>
 
 <p>Finally I gave in.  I had been putting off doing it as a service because it sounded hard and scary, even if it sounded like maybe it was the “right” way of doing things.  Turns out, it’s not that bad.  But, I hear what you are thinking: less talk, more examples!  Let us say that we have the script below.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># /home/ryan/bigben.py</span>
-<span class="kn">import</span> <span class="nn">time</span>
+<pre><code class="language-python"># /home/ryan/bigben.py
+import time
 
-<span class="k">def</span> <span class="nf">bong</span><span class="p">():</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"BONG!  It is now {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">ctime</span><span class="p">()))</span>
+def bong():
+    print("BONG!  It is now {}".format(time.ctime()))
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-        <span class="n">bong</span><span class="p">()</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3600</span><span class="p">)</span> <span class="c"># Tell the time once an hour</span>
+if __name__ == "__main__":
+    while True:
+        bong()
+        time.sleep(3600) # Tell the time once an hour
 </code></pre>
-</div>
 
-<p>Kind of silly, but it is the type of script that you’d like to run for a long time, possibly be auto-restarted, and see the logs later.  OK.  So we’ll only need one other file: the service’s Unit File!  Create a file called <code class="highlighter-rouge">bong.service</code>.  The .service is not really needed, but I think it’s nice to have.</p>
+<p>Kind of silly, but it is the type of script that you’d like to run for a long time, possibly be auto-restarted, and see the logs later.  OK.  So we’ll only need one other file: the service’s Unit File!  Create a file called <code>bong.service</code>.  The .service is not really needed, but I think it’s nice to have.</p>
 
-<div class="language-ini highlighter-rouge"><pre class="highlight"><code><span class="c">; /home/ryan/bong.service
-</span>
-<span class="nn">[Unit]</span>
-<span class="py">Description</span><span class="p">=</span><span class="s">Bong time telling service</span>
-<span class="py">After</span><span class="p">=</span><span class="s">multi-user.target</span>
+<pre><code class="language-ini">; /home/ryan/bong.service
 
-<span class="nn">[Service]</span>
-<span class="py">Type</span><span class="p">=</span><span class="s">idle</span>
-<span class="py">ExecStart</span><span class="p">=</span><span class="s">/usr/local/bin/python /home/ryan/bigben.py</span>
+[Unit]
+Description=Bong time telling service
+After=multi-user.target
 
-<span class="nn">[Install]</span>
-<span class="py">WantedBy</span><span class="p">=</span><span class="s">multi-user.target</span>
+[Service]
+Type=idle
+ExecStart=/usr/local/bin/python /home/ryan/bigben.py
+
+[Install]
+WantedBy=multi-user.target
 </code></pre>
-</div>
 
-<p>Some explanation.  The <code class="highlighter-rouge">Unit</code> section describes what this service is and how it should be run.  The <code class="highlighter-rouge">After</code> variable tells this service when is allowed to run.  <code class="highlighter-rouge">After=multi-user.target</code> essentially just means that this service will be ok to run once the server is ready for logging in.  The <code class="highlighter-rouge">Service</code> section desribes what <code class="highlighter-rouge">systemd</code> (the service controller) will do and how.  <code class="highlighter-rouge">Type=idle</code> tells it to only run our service once there are no more jobs to run.  The <code class="highlighter-rouge">ExecStart</code> variable is the command we would want it to run.  Note that absolute paths are required.  Lastly, the <code class="highlighter-rouge">Install</code> section allows us to have our service auto-run at boot.  The <code class="highlighter-rouge">WantedBy</code> variable tells it which already auto-run service our service should get started after.</p>
+<p>Some explanation.  The <code>Unit</code> section describes what this service is and how it should be run.  The <code>After</code> variable tells this service when is allowed to run.  <code>After=multi-user.target</code> essentially just means that this service will be ok to run once the server is ready for logging in.  The <code>Service</code> section desribes what <code>systemd</code> (the service controller) will do and how.  <code>Type=idle</code> tells it to only run our service once there are no more jobs to run.  The <code>ExecStart</code> variable is the command we would want it to run.  Note that absolute paths are required.  Lastly, the <code>Install</code> section allows us to have our service auto-run at boot.  The <code>WantedBy</code> variable tells it which already auto-run service our service should get started after.</p>
 
 <p>Copy our service file into the systemd service library, setup permissions, load it up, and let er rip!</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>sudo cp bong.service /lib/systemd/system/bong.service
-<span class="gp">$ </span>sudo chmod 644 /lib/systemd/system/bong.service
-<span class="gp">$ </span>sudo systemctl daemon-reload  <span class="c"># Refresh the available service list</span>
-<span class="gp">$ </span>sudo systemctl <span class="nb">enable </span>bong.service
+<pre><code class="language-bash">$ sudo cp bong.service /lib/systemd/system/bong.service
+$ sudo chmod 644 /lib/systemd/system/bong.service
+$ sudo systemctl daemon-reload  # Refresh the available service list
+$ sudo systemctl enable bong.service
 
-<span class="c"># Now watch your service auto run at bootup</span>
-<span class="gp">$ </span>sudo reboot
+# Now watch your service auto run at bootup
+$ sudo reboot
 ...
-<span class="gp">$ </span>sudo systemctl status bong.service
-<span class="c"># Blah blah blah you should see something happy and green</span>
-<span class="c"># Want to check your logs?</span>
-<span class="gp">$ </span>sudo journalctl -e -u bong.service
-<span class="c"># -e scrolls to the end of the logs</span>
-<span class="c"># -u bong.service filters by the service that we care about</span>
-<span class="c"># OR: sudo journalctl -f -u bong.service to follow, similar to tail -f</span>
+$ sudo systemctl status bong.service
+# Blah blah blah you should see something happy and green
+# Want to check your logs?
+$ sudo journalctl -e -u bong.service
+# -e scrolls to the end of the logs
+# -u bong.service filters by the service that we care about
+# OR: sudo journalctl -f -u bong.service to follow, similar to tail -f
 </code></pre>
-</div>
 
-<p>So that’s really it!  Create a service file, pop it in the right directory, and tell <code class="highlighter-rouge">systemd</code> about it.  Not as hard as I thought!  And you get auto-restarting, sane log files, easy status checks.  As you can see, this applies not just to Python, but to any language, script, program, etc. that you can run from the command line.  It should work with Ruby, Bash, Node, and more!</p>
+<p>So that’s really it!  Create a service file, pop it in the right directory, and tell <code>systemd</code> about it.  Not as hard as I thought!  And you get auto-restarting, sane log files, easy status checks.  As you can see, this applies not just to Python, but to any language, script, program, etc. that you can run from the command line.  It should work with Ruby, Bash, Node, and more!</p>
 
 <h2 id="bonus-virtual-environments">Bonus: Virtual Environments</h2>
 
 <p>If you’re one of the cool kids, you’re programming Python in a virtual environment.  You may usually do something like the following to run your script by hand:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>python -m venv .venv  <span class="c"># Creating a virtual environment in .venv/</span>
-<span class="gp">$ </span><span class="nb">source</span> .venv/bin/activate
-<span class="o">(</span>.venv<span class="o">)</span> <span class="nv">$ </span>which python
+<pre><code class="language-bash">$ python -m venv .venv  # Creating a virtual environment in .venv/
+$ source .venv/bin/activate
+(.venv) $ which python
 /home/ryan/.venv/bin/python
-<span class="o">(</span>.venv<span class="o">)</span> <span class="nv">$ </span>python bigben.py
+(.venv) $ python bigben.py
 ...
 </code></pre>
-</div>
 
-<p>How, you ask me excitedly, do you get the service to run from within your virtual environment?  It’s simpler than you might think!  Remember this line in our <code class="highlighter-rouge">bong.service</code> file?</p>
+<p>How, you ask me excitedly, do you get the service to run from within your virtual environment?  It’s simpler than you might think!  Remember this line in our <code>bong.service</code> file?</p>
 
-<div class="language-ini highlighter-rouge"><pre class="highlight"><code><span class="py">ExecStart</span><span class="p">=</span><span class="s">/usr/local/bin/python /home/ryan/bigben.py</span>
+<pre><code class="language-ini">ExecStart=/usr/local/bin/python /home/ryan/bigben.py
 </code></pre>
-</div>
 
 <p>Simply point the python path to your virtual environment.  It will automatically pick up the installed packages from there as well.</p>
 
-<div class="language-ini highlighter-rouge"><pre class="highlight"><code><span class="py">ExecStart</span><span class="p">=</span><span class="s">/home/ryan/.venv/bin/python /home/ryan/bigben.py</span>
+<pre><code class="language-ini">ExecStart=/home/ryan/.venv/bin/python /home/ryan/bigben.py
 </code></pre>
-</div>
 
 <p>Hopefully this post provides you a useful <em>service</em>!  (Womp womp womp)</p>
 
@@ -366,6 +360,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -60,89 +61,85 @@
 
 <h2 id="code">Code</h2>
 
-<p>As unhelpful as that sounds, it’s true.  Python has a module in the standard library called <code class="highlighter-rouge">Code</code>.  You can check out the <a href="https://docs.python.org/3/library/code.html">code module documentation</a> if you don’t believe me.  The documentation is maybe a little tough to understand on first pass-through, so I thought I’d create a few examples to show it off.  There are a few objects in the <code class="highlighter-rouge">code</code> module, but only one that I’m going to talk about this time: <code class="highlighter-rouge">interact</code>.</p>
+<p>As unhelpful as that sounds, it’s true.  Python has a module in the standard library called <code>Code</code>.  You can check out the <a href="https://docs.python.org/3/library/code.html">code module documentation</a> if you don’t believe me.  The documentation is maybe a little tough to understand on first pass-through, so I thought I’d create a few examples to show it off.  There are a few objects in the <code>code</code> module, but only one that I’m going to talk about this time: <code>interact</code>.</p>
 
 <h2 id="interact">Interact</h2>
 
-<p>Let’s dive in.  I’ll show you.  Let’s create a new file in our directory called <code class="highlighter-rouge">shell.py</code>.</p>
+<p>Let’s dive in.  I’ll show you.  Let’s create a new file in our directory called <code>shell.py</code>.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c">#!/usr/bin/env python</span>
-<span class="c"># I'll be using Python 3, for reference.</span>
+<pre><code class="language-python">#!/usr/bin/env python
+# I'll be using Python 3, for reference.
 
-<span class="kn">import</span> <span class="nn">code</span>  <span class="c"># seems silly, but works great</span>
+import code  # seems silly, but works great
 
-<span class="k">def</span> <span class="nf">custom_repl</span><span class="p">():</span>
-    <span class="n">pie</span> <span class="o">=</span> <span class="s">"delicious"</span>
-    <span class="n">pi</span> <span class="o">=</span> <span class="mf">3.14159</span>
-    <span class="n">homonyms</span> <span class="o">=</span> <span class="p">(</span><span class="n">pie</span> <span class="o">!=</span> <span class="n">pi</span><span class="p">)</span>
-    <span class="n">code</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span>
-        <span class="n">banner</span><span class="o">=</span><span class="s">"Hello!  My name is Jeeves!  I am fancy.  🎩"</span><span class="p">,</span>
-        <span class="n">local</span><span class="o">=</span><span class="nb">locals</span><span class="p">(),</span>
-        <span class="n">exitmsg</span><span class="o">=</span><span class="s">"Ta-ta!"</span>
-    <span class="p">)</span>
+def custom_repl():
+    pie = "delicious"
+    pi = 3.14159
+    homonyms = (pie != pi)
+    code.interact(
+        banner="Hello!  My name is Jeeves!  I am fancy.  🎩",
+        local=locals(),
+        exitmsg="Ta-ta!"
+    )
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">custom_repl</span><span class="p">()</span>
+if __name__ == "__main__":
+    custom_repl()
 </code></pre>
-</div>
 
 <p>Try running it and watch the magic work.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="err">$</span> <span class="n">python3</span> <span class="n">shell</span><span class="o">.</span><span class="n">py</span>
-<span class="n">Hello</span><span class="err">!</span>  <span class="n">My</span> <span class="n">name</span> <span class="ow">is</span> <span class="n">Jeeves</span><span class="err">!</span>  <span class="n">I</span> <span class="n">am</span> <span class="n">fancy</span><span class="o">.</span>  <span class="err">🎩</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">pi</span>
-<span class="mf">3.1415</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">pie</span>
-<span class="s">'delicious'</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">homonyms</span>
-<span class="bp">True</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">3</span>
-<span class="mi">7</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">math</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span>
-<span class="mf">1.7724531023414978</span>
-<span class="o">&lt;</span><span class="n">Ctrl</span><span class="o">-</span><span class="n">D</span><span class="o">&gt;</span>
-<span class="n">Ta</span><span class="o">-</span><span class="n">ta</span><span class="err">!</span>
+<pre><code class="language-python">$ python3 shell.py
+Hello!  My name is Jeeves!  I am fancy.  🎩
+&gt;&gt;&gt; pi
+3.1415
+&gt;&gt;&gt; pie
+'delicious'
+&gt;&gt;&gt; homonyms
+True
+&gt;&gt;&gt; 4 + 3
+7
+&gt;&gt;&gt; import math
+&gt;&gt;&gt; math.sqrt(pi)
+1.7724531023414978
+&lt;Ctrl-D&gt;
+Ta-ta!
 </code></pre>
-</div>
 
-<p>As you can see, the banner message we specified shows, the exit message we specified shows (although it didn’t work for me if I used the built-in <code class="highlighter-rouge">exit()</code> or <code class="highlighter-rouge">quit()</code> commands), and we had access to the local variables when <code class="highlighter-rouge">interact</code> was called.  And we can use anything to act as our local state!  Go back in and create <code class="highlighter-rouge">shell2.py</code>.</p>
+<p>As you can see, the banner message we specified shows, the exit message we specified shows (although it didn’t work for me if I used the built-in <code>exit()</code> or <code>quit()</code> commands), and we had access to the local variables when <code>interact</code> was called.  And we can use anything to act as our local state!  Go back in and create <code>shell2.py</code>.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c">#!/usr/bin/env python</span>
-<span class="c"># shell2.py</span>
+<pre><code class="language-python">#!/usr/bin/env python
+# shell2.py
 
-<span class="kn">import</span> <span class="nn">code</span>
+import code
 
-<span class="k">class</span> <span class="nc">Car</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">mileage</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mileage</span> <span class="o">=</span> <span class="n">mileage</span>
+class Car:
+    def __init__(self, color, mileage):
+        self.color = color
+        self.mileage = mileage
 
-    <span class="k">def</span> <span class="nf">honk</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">"Beep!"</span>
+    def honk(self):
+        return "Beep!"
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">"&lt;Car - color: {}, mileage: {}&gt;"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mileage</span><span class="p">)</span>
+    def __repr__(self):
+        return "&lt;Car - color: {}, mileage: {}&gt;".format(self.color, self.mileage)
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">Car</span><span class="p">(</span><span class="s">"red"</span><span class="p">,</span> <span class="mi">20000</span><span class="p">)</span>
-    <span class="n">code</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span>
-        <span class="n">banner</span><span class="o">=</span><span class="s">"Now interactively inspecting {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">),</span>
-        <span class="n">local</span><span class="o">=</span><span class="p">{</span><span class="s">"car"</span><span class="p">:</span> <span class="n">c</span><span class="p">},</span>
-    <span class="p">)</span>
+if __name__ == "__main__":
+    c = Car("red", 20000)
+    code.interact(
+        banner="Now interactively inspecting {}".format(c),
+        local={"car": c},
+    )
 </code></pre>
-</div>
-<p>Back in the shell… <code class="highlighter-rouge">python3 shell2.py</code></p>
+<p>Back in the shell… <code>python3 shell2.py</code></p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">Now</span> <span class="n">interactively</span> <span class="n">inspecting</span> <span class="o">&lt;</span><span class="n">Car</span> <span class="o">-</span> <span class="n">color</span><span class="p">:</span> <span class="n">red</span><span class="p">,</span> <span class="n">mileage</span><span class="p">:</span> <span class="mi">20000</span><span class="o">&gt;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">car</span>
-<span class="o">&lt;</span><span class="n">Car</span> <span class="o">-</span> <span class="n">color</span><span class="p">:</span> <span class="n">red</span><span class="p">,</span> <span class="n">mileage</span><span class="p">:</span> <span class="mi">20000</span><span class="o">&gt;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">car</span><span class="o">.</span><span class="n">honk</span><span class="p">()</span>
-<span class="s">'Beep!'</span>
+<pre><code class="language-python">Now interactively inspecting &lt;Car - color: red, mileage: 20000&gt;
+&gt;&gt;&gt; car
+&lt;Car - color: red, mileage: 20000&gt;
+&gt;&gt;&gt; car.honk()
+'Beep!'
 </code></pre>
-</div>
 
-<p>Keep in mind that the <code class="highlighter-rouge">local</code> parameter to <code class="highlighter-rouge">interact</code> has to be a Dict – such as the one returned by <code class="highlighter-rouge">local()</code> and <code class="highlighter-rouge">global()</code>.</p>
+<p>Keep in mind that the <code>local</code> parameter to <code>interact</code> has to be a Dict – such as the one returned by <code>local()</code> and <code>global()</code>.</p>
 
 <h2 id="wrap-up">Wrap Up</h2>
 
@@ -346,6 +343,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

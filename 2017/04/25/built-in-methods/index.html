@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -61,12 +62,12 @@
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="n">line</span><span class="p">.</span><span class="nf">contains?</span> <span class="s2">"tags: "</span>
     <span class="c1"># Do stuff</span></code></pre></figure>
 
-<p>Wham.  <code class="highlighter-rouge">undefined method contains? for String.</code>  Darnit!  I had just gotten done programming in Python and I hadn’t programmed in Ruby for a little while, so I rewrote it.</p>
+<p>Wham.  <code>undefined method contains? for String.</code>  Darnit!  I had just gotten done programming in Python and I hadn’t programmed in Ruby for a little while, so I rewrote it.</p>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="s2">"tags: "</span> <span class="k">in</span> <span class="n">line</span>
     <span class="c1"># Do stuff</span></code></pre></figure>
 
-<p>NOPE.  <code class="highlighter-rouge">Unexpected keyword_in</code>.  Bah!  I knew there was a method here, but I couldn’t for the life of me remember what it was.  My first instinct was to immediately Google the Ruby String documentation, but – remember – no internet.  Out of hope and despiration, with a quick prayer to the coding gods, I entered the following into the terminal:</p>
+<p>NOPE.  <code>Unexpected keyword_in</code>.  Bah!  I knew there was a method here, but I couldn’t for the life of me remember what it was.  My first instinct was to immediately Google the Ruby String documentation, but – remember – no internet.  Out of hope and despiration, with a quick prayer to the coding gods, I entered the following into the terminal:</p>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="err">$</span> <span class="n">irb</span>
 <span class="c1"># Typical IRB headers</span>
@@ -80,7 +81,7 @@
 <span class="k">end</span></code></pre></figure>
 
 <blockquote>
-  <p>In case you’re interested, you can do the same thing in Python via <code class="highlighter-rouge">dir("potato")</code>.</p>
+  <p>In case you’re interested, you can do the same thing in Python via <code>dir("potato")</code>.</p>
 </blockquote>
 
     <small>
@@ -281,6 +282,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

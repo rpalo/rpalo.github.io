@@ -34,6 +34,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
         
+        <link rel="stylesheet" href="/css/prism.css">
         <title>assert_not magic?</title>
     </head>
     <body>
@@ -60,11 +61,10 @@
 
 <p>Back for Lesson 3?  Awesome!  Hopefully the gif above is enough motivation to get you through this lesson.  This time, we’ll build on what we have used before, and expand with two new concepts.  In the last lesson we learned about <strong>for-loops</strong>.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Programming is dope!"</span><span class="p">);</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">for (var i=0; i &lt; 10; i++) {
+  console.log("Programming is dope!");
+}
 </code></pre>
-</div>
 
 <p>For-loops are pretty powerful, but when you combine them with the new stuff that we’re going to learn this time — <strong>arrays</strong> and <strong>objects</strong> — you can really accomplish some big things.  And the basic <strong>objects</strong> that we’ll learn about are stepping stones to creating your own, more powerful objects!  So let’s get started with our list of requirements for the completed project.</p>
 
@@ -80,115 +80,109 @@
 
 <p><img src="/img/rainbow-example1.gif" alt="One randomly colored circle" /></p>
 
-<p>Be sure to copy your standard <code class="highlighter-rouge">index.html</code> from <a href="https://assertnotmagic.com/2017/09/16/p5-part-2-looping-targets/">last time</a> into your new project folder and create a new <code class="highlighter-rouge">sketch.js</code> file there.  Let’s fill in just the stuff that you’ve seen before, first.</p>
+<p>Be sure to copy your standard <code>index.html</code> from <a href="https://assertnotmagic.com/2017/09/16/p5-part-2-looping-targets/">last time</a> into your new project folder and create a new <code>sketch.js</code> file there.  Let’s fill in just the stuff that you’ve seen before, first.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">stroke</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">function setup() {
+  createCanvas(600, 600);
+  background(255);
+  stroke(0);
+}
 
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="s1">'blue'</span><span class="p">);</span>
-  <span class="nx">ellipse</span><span class="p">(</span><span class="nx">mouseX</span><span class="p">,</span> <span class="nx">mouseY</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">);</span>
-<span class="p">}</span>
+function draw() {
+  background(255);
+  fill('blue');
+  ellipse(mouseX, mouseY, 15, 15);
+}
 </code></pre>
-</div>
 
-<p>None of this should be surprising or new, but, just in case, let’s step through the code.  First, we do our <code class="highlighter-rouge">setup</code>.  We create a new canvas, paint the background white, and set the pen stroke color to black (remember that in P5, the grayscale goes from 0 to 255).  Then we do our <code class="highlighter-rouge">draw</code> function, which gets repeated over and over.  Every frame, we’re re-painting the background white to effectively erase everything from the previous frame.  Then we select a fill color for our circles.  I picked blue with absolutely no pre-planning, so it’s guaranteed to be a <a href="https://xkcd.com/221/">random choice</a>.  Ha.  Ha.  And then we draw a circle with x position of <code class="highlighter-rouge">mouseX</code>, y position of <code class="highlighter-rouge">mouseY</code>, and radius of 15.  Remember that P5 provides us with the <code class="highlighter-rouge">mouseX</code> and <code class="highlighter-rouge">mouseY</code> variables automatically, so we don’t have to do any extra work there.</p>
+<p>None of this should be surprising or new, but, just in case, let’s step through the code.  First, we do our <code>setup</code>.  We create a new canvas, paint the background white, and set the pen stroke color to black (remember that in P5, the grayscale goes from 0 to 255).  Then we do our <code>draw</code> function, which gets repeated over and over.  Every frame, we’re re-painting the background white to effectively erase everything from the previous frame.  Then we select a fill color for our circles.  I picked blue with absolutely no pre-planning, so it’s guaranteed to be a <a href="https://xkcd.com/221/">random choice</a>.  Ha.  Ha.  And then we draw a circle with x position of <code>mouseX</code>, y position of <code>mouseY</code>, and radius of 15.  Remember that P5 provides us with the <code>mouseX</code> and <code>mouseY</code> variables automatically, so we don’t have to do any extra work there.</p>
 
-<p>Open up <code class="highlighter-rouge">index.html</code> in the browser, and you should see a blue circle following your mouse!  Which is not <em>quite</em> what we want, but it’s close.  Ideally, we want our circle color to be an actual random value.  There’s a couple of ways to do this, but I’m going to use this as an excuse to introduce <strong>arrays</strong>.</p>
+<p>Open up <code>index.html</code> in the browser, and you should see a blue circle following your mouse!  Which is not <em>quite</em> what we want, but it’s close.  Ideally, we want our circle color to be an actual random value.  There’s a couple of ways to do this, but I’m going to use this as an excuse to introduce <strong>arrays</strong>.</p>
 
 <h3 id="arrays">Arrays</h3>
 
 <p>An array is just a collection of values, like a bunch of slots to hold variables.  They look like this:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">collection</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'bibble'</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">,</span> <span class="s1">'glorb'</span><span class="p">];</span>
+<pre><code class="language-javascript">var collection = ['bibble', 4, 3.2, 'glorb'];
 </code></pre>
-</div>
 
 <p>You can declare arrays with square brackets: [].  They can hold whatever you want, and the members — or values inside — get separated by commas.  You can also store other variables inside.  You can even declare them on multiple lines if there’s too many items.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">my_favorite</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">my_brothers_nickname</span> <span class="o">=</span> <span class="s1">'potato'</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">my_stuff</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="nx">my_favorite</span><span class="p">,</span>
-  <span class="nx">my_brothers_nickname</span><span class="p">,</span>
-  <span class="mf">1.4</span><span class="p">,</span>
-  <span class="mi">57</span><span class="p">,</span>
-  <span class="s1">'soup'</span>
-<span class="p">]</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">my_stuff</span><span class="p">);</span>
-<span class="c1">// [4, 'potato', 1.4, 57, 'soup']</span>
+<pre><code class="language-javascript">var my_favorite = 4;
+var my_brothers_nickname = 'potato';
+var my_stuff = [
+  my_favorite,
+  my_brothers_nickname,
+  1.4,
+  57,
+  'soup'
+]
+console.log(my_stuff);
+// [4, 'potato', 1.4, 57, 'soup']
 </code></pre>
-</div>
 
-<p>Notice how, even though we stored the variables in the array, it doesn’t say <code class="highlighter-rouge">[my_favorite, ...]</code>.  Similarly, if we then type:</p>
+<p>Notice how, even though we stored the variables in the array, it doesn’t say <code>[my_favorite, ...]</code>.  Similarly, if we then type:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">my_favorite</span> <span class="o">=</span> <span class="mi">28</span><span class="p">;</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">my_stuff</span><span class="p">);</span>
-<span class="c1">// [4, 'potato', 1.4, 57, 'soup']</span>
+<pre><code class="language-javascript">my_favorite = 28;
+console.log(my_stuff);
+// [4, 'potato', 1.4, 57, 'soup']
 </code></pre>
-</div>
 
 <p>Modifying the variables doesn’t affect the array (at least, for more basic things like numbers or strings (things in quotes).  If you need to access and/or modify specific values inside the array, you can use <strong>indexing</strong>.  It works like this.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">];</span>
-<span class="c1">//   Index: 0  1  2  3  4</span>
-<span class="c1">// Each item in the array has an *index*</span>
-<span class="c1">// or place in line.  They start counting at 0!</span>
-<span class="nx">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>  <span class="c1">// Use square brackets after the array name to access.</span>
-<span class="c1">// 1</span>
-<span class="nx">nums</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
-<span class="c1">// 4</span>
-<span class="nx">nums</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
-<span class="c1">// 3</span>
-<span class="c1">// You can even assign values that way.</span>
-<span class="nx">nums</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'BANANA'</span><span class="p">;</span>
-<span class="nx">nums</span>
-<span class="c1">// [1, 2, 3, 'BANANA', 5]</span>
+<pre><code class="language-javascript">var nums = [1, 2, 3, 4, 5];
+//   Index: 0  1  2  3  4
+// Each item in the array has an *index*
+// or place in line.  They start counting at 0!
+nums[0];  // Use square brackets after the array name to access.
+// 1
+nums[3];
+// 4
+nums[2];
+// 3
+// You can even assign values that way.
+nums[3] = 'BANANA';
+nums
+// [1, 2, 3, 'BANANA', 5]
 
-<span class="c1">// Try assigning to indexes that don't exist!</span>
-<span class="nx">nums</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'TWO BANANA!'</span>
-<span class="nx">nums</span>
-<span class="c1">// [1, 2, 3, 'BANANA', 5, undefined, undefined, 'TWO BANANA!']</span>
-<span class="c1">// Javascript automatically creates blank entries</span>
-<span class="c1">// to fill in the slack.</span>
+// Try assigning to indexes that don't exist!
+nums[7] = 'TWO BANANA!'
+nums
+// [1, 2, 3, 'BANANA', 5, undefined, undefined, 'TWO BANANA!']
+// Javascript automatically creates blank entries
+// to fill in the slack.
 </code></pre>
-</div>
 
 <p>Get it?  Got it?  Good.  If you’re still confused about how indices work or why they start from zero, check out <a href="https://assertnotmagic.com/2017/04/12/indexing-teaching-better/">my blog post on indexing</a>.  Anyways, we’ll do more with those in a minute.  Let’s get back to it.</p>
 
 <h3 id="back-to-it">Back to It</h3>
 
-<p>One benefit of <strong>arrays</strong> is that P5’s <code class="highlighter-rouge">random</code> function can be used with them!  When you pass an array to <code class="highlighter-rouge">random</code>, it will randomly choose one of the values.  We’ll use that to our advantage.  Here’s our new and improved <code class="highlighter-rouge">sketch.js</code>.</p>
+<p>One benefit of <strong>arrays</strong> is that P5’s <code>random</code> function can be used with them!  When you pass an array to <code>random</code>, it will randomly choose one of the values.  We’ll use that to our advantage.  Here’s our new and improved <code>sketch.js</code>.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">colors</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="s1">'#1B998B'</span><span class="p">,</span>
-  <span class="s1">'#ED217C'</span><span class="p">,</span>
-  <span class="s1">'#2D3047'</span><span class="p">,</span>
-  <span class="s1">'#FFFD82'</span><span class="p">,</span>
-  <span class="s1">'#FF9B71'</span>
-<span class="p">];</span>
+<pre><code class="language-javascript">var colors = [
+  '#1B998B',
+  '#ED217C',
+  '#2D3047',
+  '#FFFD82',
+  '#FF9B71'
+];
 
-<span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">stroke</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
+function setup() {
+  createCanvas(600, 600);
+  background(255);
+  stroke(0);
+}
 
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">fill</span><span class="p">(</span><span class="nx">random</span><span class="p">(</span><span class="nx">colors</span><span class="p">));</span>
-  <span class="nx">ellipse</span><span class="p">(</span><span class="nx">mouseX</span><span class="p">,</span> <span class="nx">mouseY</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">);</span>
-<span class="p">}</span>
+function draw() {
+  background(255);
+  fill(random(colors));
+  ellipse(mouseX, mouseY, 15, 15);
+}
 </code></pre>
-</div>
 
-<p>We create an array of colors (more on that in a second) at the top.  Then, when we go to pick a fill color, we pass colors to P5’s <code class="highlighter-rouge">random</code> function and we get a random one of those five colors selected!  Mission accomplished!</p>
+<p>We create an array of colors (more on that in a second) at the top.  Then, when we go to pick a fill color, we pass colors to P5’s <code>random</code> function and we get a random one of those five colors selected!  Mission accomplished!</p>
 
-<p>One thing that you may not have seen before is the code inside the <code class="highlighter-rouge">colors</code> array.  These are <strong>hexidecimal</strong> values, which are often used to refer to colors in a concise manner in web programming.  For a primer on what hexidecimal values are, I recommend <a href="https://medium.com/basecs/hexs-and-other-magical-numbers-9785bc26b7ee">this post by Vaidehi Joshi</a>, and also that entire series of posts.  For now, just remember two important things.</p>
+<p>One thing that you may not have seen before is the code inside the <code>colors</code> array.  These are <strong>hexidecimal</strong> values, which are often used to refer to colors in a concise manner in web programming.  For a primer on what hexidecimal values are, I recommend <a href="https://medium.com/basecs/hexs-and-other-magical-numbers-9785bc26b7ee">this post by Vaidehi Joshi</a>, and also that entire series of posts.  For now, just remember two important things.</p>
 
 <ol>
   <li>Colors can be represented by a hash (pound, hashtag, octothorpe, …) symbol followed by 6 characters that are either between 0 and 9 or A and F.  16 possible values, ergo, <strong>hexi (6) decimal (10)</strong>.</li>
@@ -203,107 +197,101 @@
 
 <p>Now we just need to keep track of our recent mouse positions to create our trail.  I’m going to do it <em>just</em> with arrays first, and then I’ll show you the last new thing to show you how much cleaner it makes things.  First, what do we need to keep track of?  A mouse X value, a mouse Y value, and possibly a color (so each circle can keep its color as long as it’s on screen).  Let’s store that data.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">colors</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="s1">'#1B998B'</span><span class="p">,</span>
-  <span class="s1">'#ED217C'</span><span class="p">,</span>
-  <span class="s1">'#2D3047'</span><span class="p">,</span>
-  <span class="s1">'#FFFD82'</span><span class="p">,</span>
-  <span class="s1">'#FF9B71'</span>
-<span class="p">];</span>
+<pre><code class="language-javascript">var colors = [
+  '#1B998B',
+  '#ED217C',
+  '#2D3047',
+  '#FFFD82',
+  '#FF9B71'
+];
 
-<span class="kd">var</span> <span class="nx">xValues</span> <span class="o">=</span> <span class="p">[];</span>
-<span class="kd">var</span> <span class="nx">yValues</span> <span class="o">=</span> <span class="p">[];</span>
-<span class="kd">var</span> <span class="nx">dotColors</span> <span class="o">=</span> <span class="p">[];</span>
+var xValues = [];
+var yValues = [];
+var dotColors = [];
 </code></pre>
-</div>
 
-<p>Now, each <code class="highlighter-rouge">draw</code> loop, we need to add a new circle to the mix — and possibly remove one if we have too many.  If I asked you to shift all of the values in an array down one index, effectively deleting the last one, your first thought might be something like this:</p>
+<p>Now, each <code>draw</code> loop, we need to add a new circle to the mix — and possibly remove one if we have too many.  If I asked you to shift all of the values in an array down one index, effectively deleting the last one, your first thought might be something like this:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">];</span>
-<span class="nx">nums</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="nx">nums</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
-<span class="nx">nums</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="nx">nums</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
-<span class="nx">nums</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="nx">nums</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-<span class="nx">nums</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nx">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-<span class="nx">nums</span><span class="p">;</span>
-<span class="c1">// [1, 1, 2, 3, 4]</span>
+<pre><code class="language-javascript">var nums = [1, 2, 3, 4, 5];
+nums[4] = nums[3];
+nums[3] = nums[2];
+nums[2] = nums[1];
+nums[1] = nums[0];
+nums;
+// [1, 1, 2, 3, 4]
 </code></pre>
-</div>
 
 <p>Your second thought (possibly) would be to notice a repetitive pattern and try a <strong>for-loop</strong>.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="nx">i</span><span class="o">=</span><span class="mi">4</span><span class="p">;</span> <span class="nx">i</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
-<span class="p">}</span>
+<pre><code class="language-javascript">for (i=4; i&gt;0; i--) {
+    nums[i] = nums[i - 1];
+}
 </code></pre>
-</div>
 
-<p>Both are valid, but arrays come with some nice built in <strong>methods</strong> (another word for a function that is tied to an object — more on that later).  These methods are useful utility functions that exist so we don’t have to always reinvent the wheel.  To add an item to the start of an array, use the <code class="highlighter-rouge">unshift</code> command.</p>
+<p>Both are valid, but arrays come with some nice built in <strong>methods</strong> (another word for a function that is tied to an object — more on that later).  These methods are useful utility functions that exist so we don’t have to always reinvent the wheel.  To add an item to the start of an array, use the <code>unshift</code> command.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">];</span>
-<span class="nx">nums</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="s1">'BANANA'</span><span class="p">);</span>
-<span class="c1">// ['BANANA', 1, 2, 3, 4, 5]</span>
+<pre><code class="language-javascript">var nums = [1, 2, 3, 4, 5];
+nums.unshift('BANANA');
+// ['BANANA', 1, 2, 3, 4, 5]
 </code></pre>
-</div>
 
-<p>To remove the last item of an array, use <code class="highlighter-rouge">pop</code>.</p>
+<p>To remove the last item of an array, use <code>pop</code>.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">nums</span><span class="p">;</span>
-<span class="c1">// ['BANANA', 1, 2, 3, 4, 5]</span>
-<span class="nx">nums</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span>
-<span class="c1">// ['BANANA', 1, 2, 3, 4]</span>
+<pre><code class="language-javascript">nums;
+// ['BANANA', 1, 2, 3, 4, 5]
+nums.pop();
+// ['BANANA', 1, 2, 3, 4]
 </code></pre>
-</div>
 
 <p>Maybe you start to see where I’m going with this?</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">colors</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="s1">'#1B998B'</span><span class="p">,</span>
-  <span class="s1">'#ED217C'</span><span class="p">,</span>
-  <span class="s1">'#2D3047'</span><span class="p">,</span>
-  <span class="s1">'#FFFD82'</span><span class="p">,</span>
-  <span class="s1">'#FF9B71'</span>
-<span class="p">];</span>
-<span class="kd">var</span> <span class="nx">xValues</span> <span class="o">=</span> <span class="p">[];</span>
-<span class="kd">var</span> <span class="nx">yValues</span> <span class="o">=</span> <span class="p">[];</span>
-<span class="kd">var</span> <span class="nx">dotColors</span> <span class="o">=</span> <span class="p">[];</span>
+<pre><code class="language-javascript">var colors = [
+  '#1B998B',
+  '#ED217C',
+  '#2D3047',
+  '#FFFD82',
+  '#FF9B71'
+];
+var xValues = [];
+var yValues = [];
+var dotColors = [];
 
-<span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">stroke</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
+function setup() {
+  createCanvas(600, 600);
+  background(255);
+  stroke(0);
+}
 
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// Place current x, y, and new color value at front of array</span>
-  <span class="nx">xValues</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="nx">mouseX</span><span class="p">);</span>
-  <span class="nx">yValues</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="nx">mouseY</span><span class="p">);</span>
-  <span class="nx">dotColors</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="nx">random</span><span class="p">(</span><span class="nx">colors</span><span class="p">));</span>
+function draw() {
+  // Place current x, y, and new color value at front of array
+  xValues.unshift(mouseX);
+  yValues.unshift(mouseY);
+  dotColors.unshift(random(colors));
 
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
+  background(255);
   
-  <span class="c1">// Draw all dots</span>
-  <span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="nx">xValues</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>    <span class="c1">// The .length command returns how many</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">count</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">fill</span><span class="p">(</span><span class="nx">dotColors</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
-    <span class="nx">ellipse</span><span class="p">(</span><span class="nx">xValues</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">yValues</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">);</span>
+  // Draw all dots
+  var count = xValues.length;    // The .length command returns how many
+  for (var i=0; i&lt;count; i++) {
+    fill(dotColors[i]);
+    ellipse(xValues[i], yValues[i], 15, 15);
     
-    <span class="c1">// We step through the xValues, yValues, and dotColors simultaneously!</span>
-    <span class="c1">// index:  0  1  2  3  4  5  6  7  8  9  10</span>
-    <span class="c1">//     x: 75 70 65 64 63 40 34 40 46 45  50</span>
-    <span class="c1">//     y: 20 23 24 22 21 18 08 12 14 15  17</span>
-    <span class="c1">// color:  0  2  1  4  3  2  1  0  2  1   4</span>
-  <span class="p">}</span>
+    // We step through the xValues, yValues, and dotColors simultaneously!
+    // index:  0  1  2  3  4  5  6  7  8  9  10
+    //     x: 75 70 65 64 63 40 34 40 46 45  50
+    //     y: 20 23 24 22 21 18 08 12 14 15  17
+    // color:  0  2  1  4  3  2  1  0  2  1   4
+  }
 
-  <span class="c1">// If there are more than 10 dots, remove the last one</span>
-  <span class="c1">// to keep the lists always at 10 values or less.</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">count</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">xValues</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span>
-    <span class="nx">yValues</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span>
-    <span class="nx">dotColors</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+  // If there are more than 10 dots, remove the last one
+  // to keep the lists always at 10 values or less.
+  if (count &gt; 10) {
+    xValues.pop();
+    yValues.pop();
+    dotColors.pop();
+  }
+}
 </code></pre>
-</div>
 
 <p>And we’re actually done!  We’ve met all the requirements we set out for ourselves at the beginning.  However, I want to introduce one more new thing that will be slightly less error prone and easier to read.</p>
 
@@ -315,77 +303,73 @@
 
 <p><strong>Objects</strong> are JavaScript’s way of keeping related data (and later, functions) all wrapped up in one package.  Right now, we’ve got three distinct pieces of data: an x value, a y value, and a color.  But, each index or data point is all clearly related.  That is to say that our program wouldn’t work if we shuffled our x array and tried to re-run the program.  Each data point has one specific x, one specific y, and one specific color.  Let’s take a look at how <strong>objects</strong> might help with this.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">datapoint</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"x"</span><span class="p">:</span> <span class="mi">125</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">:</span> <span class="mi">340</span><span class="p">,</span> <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"#2D3047"</span><span class="p">};</span>
+<pre><code class="language-javascript">var datapoint = { "x": 125, "y": 340, "color": "#2D3047"};
 </code></pre>
-</div>
 
-<p>You can create an object with squiggly brackets.  Objects are made up of <strong>keys</strong> and <strong>values</strong>.  Each pair is in the pattern <code class="highlighter-rouge"><span class="p">{</span><span class="err">key:</span><span class="w"> </span><span class="err">value</span><span class="p">}</span></code>, and key/value pairs are separated by commas like items in an array.  Another name for a basic object like this is an <strong>associative array</strong>, called such because each <strong>key</strong> in the array has an <em>associated</em> value that goes along with it.  You can think of the keys like labels that replace the indices of an array.  Similarly to an array, you can access and modify values in the object with square brackets.</p>
+<p>You can create an object with squiggly brackets.  Objects are made up of <strong>keys</strong> and <strong>values</strong>.  Each pair is in the pattern <code>{key: value}</code>, and key/value pairs are separated by commas like items in an array.  Another name for a basic object like this is an <strong>associative array</strong>, called such because each <strong>key</strong> in the array has an <em>associated</em> value that goes along with it.  You can think of the keys like labels that replace the indices of an array.  Similarly to an array, you can access and modify values in the object with square brackets.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">datapoint</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
-<span class="nx">datapoint</span><span class="p">;</span>
-<span class="c1">// {x: 42, y: 34, color: "#2D3047"}</span>
-<span class="nx">datapoint</span><span class="p">[</span><span class="s2">"y"</span><span class="p">];</span>
-<span class="c1">// 34</span>
+<pre><code class="language-javascript">datapoint["x"] = 42;
+datapoint;
+// {x: 42, y: 34, color: "#2D3047"}
+datapoint["y"];
+// 34
 </code></pre>
-</div>
 
 <p>As an extra bonus, though, there is a second way to access values in an object: the <strong>dot</strong>.</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">datapoint</span><span class="p">.</span><span class="nx">color</span><span class="p">;</span>
-<span class="c1">// "#2D3047"</span>
-<span class="nx">datapoint</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="s2">"FISHES"</span><span class="p">;</span>
-<span class="nx">datapoint</span><span class="p">;</span>
-<span class="c1">// {x: 42, y: "FISHES", color: "#2D3047"}</span>
+<pre><code class="language-javascript">datapoint.color;
+// "#2D3047"
+datapoint.y = "FISHES";
+datapoint;
+// {x: 42, y: "FISHES", color: "#2D3047"}
 </code></pre>
-</div>
 
 <p>Let’s redo our sketch using an <strong>array of objects</strong> instead of multiple arrays.</p>
 
 <h3 id="finishing-up">Finishing Up</h3>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">tail</span> <span class="o">=</span> <span class="p">[];</span>
-<span class="kd">var</span> <span class="nx">colors</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="s1">'#1B998B'</span><span class="p">,</span>
-  <span class="s1">'#ED217C'</span><span class="p">,</span>
-  <span class="s1">'#2D3047'</span><span class="p">,</span>
-  <span class="s1">'#FFFD82'</span><span class="p">,</span>
-  <span class="s1">'#FF9B71'</span>
-<span class="p">]</span>
+<pre><code class="language-javascript">var tail = [];
+var colors = [
+  '#1B998B',
+  '#ED217C',
+  '#2D3047',
+  '#FFFD82',
+  '#FF9B71'
+]
 
-<span class="kd">function</span> <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">createCanvas</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">);</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="nx">stroke</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
+function setup() {
+  createCanvas(600, 600);
+  background(255);
+  stroke(0);
+}
 
-<span class="kd">function</span> <span class="nx">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">background</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
-  <span class="c1">// Add one tail dot object to the array</span>
-  <span class="nx">tail</span><span class="p">.</span><span class="nx">unshift</span><span class="p">({</span>
-    <span class="s2">"x"</span><span class="p">:</span> <span class="nx">mouseX</span><span class="p">,</span>
-    <span class="s2">"y"</span><span class="p">:</span> <span class="nx">mouseY</span><span class="p">,</span>
-    <span class="s2">"color"</span><span class="p">:</span> <span class="nx">random</span><span class="p">(</span><span class="nx">colors</span><span class="p">)</span>
-  <span class="p">});</span>
+function draw() {
+  background(255);
+  // Add one tail dot object to the array
+  tail.unshift({
+    "x": mouseX,
+    "y": mouseY,
+    "color": random(colors)
+  });
 
-  <span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="nx">tail</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">current</span><span class="p">;</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">count</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// Get a reference to the current object</span>
-    <span class="c1">// so we don't have to type [i] each time.</span>
-    <span class="nx">current</span> <span class="o">=</span> <span class="nx">tail</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+  var count = tail.length;
+  var current;
+  for (var i=0;i&lt;count;i++) {
+    // Get a reference to the current object
+    // so we don't have to type [i] each time.
+    current = tail[i];
     
-    <span class="nx">fill</span><span class="p">(</span><span class="nx">current</span><span class="p">.</span><span class="nx">color</span><span class="p">);</span>
-    <span class="nx">ellipse</span><span class="p">(</span><span class="nx">current</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">current</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">);</span>
-  <span class="p">}</span>
+    fill(current.color);
+    ellipse(current.x, current.y, 15, 15);
+  }
 
-  <span class="k">if</span> <span class="p">(</span><span class="nx">count</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">tail</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+  if (count &gt; 10) {
+    tail.pop();
+  }
+}
 </code></pre>
-</div>
 
-<p>We didn’t change very much, but now we only have one array to keep track of, and instead of mucking around with multiple ones.  I’d like to think that using the <strong>dot</strong> method to access the values in the object is more explicit and easier to read than the previous method using indices.  Creating an ellipse with <code class="highlighter-rouge">current.x, current.y</code> looks a lot prettier in my opinion.</p>
+<p>We didn’t change very much, but now we only have one array to keep track of, and instead of mucking around with multiple ones.  I’d like to think that using the <strong>dot</strong> method to access the values in the object is more explicit and easier to read than the previous method using indices.  Creating an ellipse with <code>current.x, current.y</code> looks a lot prettier in my opinion.</p>
 
 <p>Et voila!</p>
 
@@ -395,7 +379,7 @@
 
 <ol>
   <li>Research and input some more color hexes to put in our color array.</li>
-  <li>Get rid of the <code class="highlighter-rouge">colors</code> array and modify the program to select a color via multiple calls to <code class="highlighter-rouge">random</code> for a random RGB color value (similar to a homework in Lesson 1).</li>
+  <li>Get rid of the <code>colors</code> array and modify the program to select a color via multiple calls to <code>random</code> for a random RGB color value (similar to a homework in Lesson 1).</li>
   <li>Double the size of the tail.</li>
   <li>Make it so that when you click the mouse the tail disappears.</li>
   <li>Vary the size of the circles randomly and store that in the object as well.</li>
@@ -609,6 +593,7 @@
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
