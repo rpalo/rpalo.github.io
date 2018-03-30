@@ -73,150 +73,485 @@
 
   <!-- Current Post -->
   
-    <h1 id="title">Get on the Bullet Journaling Train</h1>
-    <small>Mar 25, 2018</small>
-    <p><p>In early February, I learned about <a href="http://bulletjournal.com/get-started/">bullet journaling</a>.  After trying it for a couple of months and loving it, I wanted to share an introduction and my own personal modifications and tips.</p>
+    <h1 id="title">Data Science Cardio 1 - Weather</h1>
+    <small>Mar 28, 2018</small>
+    <p><p>I’m going to shamelessly borrow the idea of programming cardio from <a href="https://javascript30.com/">Wes Bos’s JavaScript30 course</a>.  I thought you folks might like it if I present a short data science example problem and then work through it with you.  I’ve got a student learning Python that I’m tutoring right now (my first one!  Yay!), and this was one of her problems.  It seemed like an example that covered a lot of bases.  This example will be in Python (3).  I’ll try to link to the appropriate libraries and docs when they come up so you can explore further instead of taking my word for things.</p>
 
-<h2 id="bullet-journaling-what-is-it">Bullet Journaling: What is It?</h2>
+<p>So, without further ado, let’s.  Get.  PUMPED!</p>
 
-<p>Fundamentally, Bullet Journaling is just a structured way to keep track of your thoughts efficiently, without putting an extra unnecessary load on your life to do it.  The bullet journal understands that you are busy, and you don’t always have time to sit down and pour out your deepest thoughts and feelings.  “Dear diary…”  Instead, you condense your thoughts down into small, bite-sized chunks and phrases, the most fundamental of which is the “bullet.”</p>
+<h2 id="0-the-problem">0. The Problem</h2>
 
-<p><img src="/img/bullet-dot.jpg" width="100" height="100" alt="A dot" /></p>
+<p>We have been asked to investigate how various weather phenomena vary based on latitude.  Specifically, we need to collect at least 500 samples of weather data, randomly distributed across the globe.  Once we have this data, we should create plots and comment on any patterns we see in Temperature, Humidity, Cloudiness, and Wind Speed.  I’m going to convert to the US customary system of units.  You do whatever makes you happy.</p>
 
-<p>This humble dot signifies a task or something with an action item.  We’ll discuss more about the specifics in a minute.  I want to finish up my high-level overview first.</p>
+<p>A note: there are a bunch of different ways you could go about solving this problem.  I’m going to show you one way.  Feel free to explore your own solution method and see if the results turn out similar.</p>
 
-<p>There are a few main strategies that we’ll cover.</p>
+<p>A second note: I use a few libraries that aren’t a part of the standard library, but are available in the Python Package Index (PyPI).  If you come up against a <code>No module named 'whatever'</code> error, you’ll need to open up a terminal window and type <code>pip install &lt;packagename&gt;</code>, where <code>&lt;packagename&gt;</code> is the name of the package you’re missing, and hit Enter.  Optionally, if you’re using Jupyter Notebooks, you can also type <code>! pip install &lt;packagename&gt;</code> in a cell and run it.  The bang (<code>!</code>) lets the notebook run a one-line system call.</p>
+
+<p>I initially completed this analysis using a <a href="http://jupyter.org/install">Jupyter Notebook</a>.  I highly recommend that.  You can find the <a href="https://github.com/rpalo/tutoring-weather-example">source code repo here</a> if you get antsy and want to peek ahead.</p>
+
+<h2 id="1-500-random-coordinates">1. 500 Random Coordinates</h2>
+
+<p>The first thing we need is 500 random coordinates.  We’ll need these numbers to span across the whole <a href="https://en.wikipedia.org/wiki/Latitude#The_graticule_on_the_sphere">range of possible latitudes</a> (-90 degrees to 90 degrees), as well as the whole <a href="https://en.wikipedia.org/wiki/Longitude">range of possible longitudes</a> (-180 degrees to 180 degrees).  Note that negative latitude indicates South, and negative longitude indicates West.</p>
+
+<pre><code class="language-python">import numpy as np
+import pandas as pd
+
+np.random.seed(125)  # So that other scientists can duplicate our work!
+lats = np.random.randint(-90, 90, size=500)
+longs = np.random.randint(-180, 180, size=500)
+coords = pd.DataFrame({
+    "latitude": lats,
+    "longitude": longs
+})
+
+# Let's take a look at how our coordinates look
+coords.head()
+</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>latitude</th>
+      <th>longitude</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>67</td>
+      <td>-117</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>-3</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>-23</td>
+      <td>-146</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>20</td>
+      <td>-19</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>-47</td>
+      <td>6</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For sanity’s sake, let’s ensure our coordinates are reasonably random.</p>
+
+<pre><code class="language-python">from matplotlib import pyplot as plt
+# And, we're going to give our plots a bit of pizazz.
+# Feel free to skip these two lines
+import seaborn
+
+seaborn.set()
+
+plt.hist(coords['latitude'])
+plt.show()
+</code></pre>
+
+<p><img src="/img/lat-hist.png" alt="Latitude histogram" /></p>
+
+<pre><code class="language-python">plt.hist(coords['longitude'])
+plt.show()
+</code></pre>
+
+<p><img src="/img/long-hist.png" alt="Longitude histogram" /></p>
+
+<p>There are some spikes, but overall, it seems reasonable for what we’re doing.  If you’re unhappy with the random-osity of your data, go ahead and change the random seed and re-run the cells above.</p>
+
+<h2 id="2-setting-up-the-weather-api">2. Setting Up the Weather API</h2>
+
+<p>This part is going to be more administrative and less fun programming.  But that’s OK!  In order to get this weather data, we’ll need to hit a web API and ask it for the data.  Specifically, we’re going to be using the <a href="https://openweathermap.org/">OpenWeatherData API</a>.  You’ll need to create an account (it’s free!) and you’ll be provided with an API key, which you can find on the “API Keys” tab of your account page.</p>
+
+<p><img src="/img/api-page.png" alt="The API tab on the account page" /></p>
+
+<p>Keep this key a secret (I’ll give you some pointers on how to do this well).  You wouldn’t want some nefarious person hammering the weather API and everybody thinking it was you.  Think about your reputation as a good weather API citizen!  Think of the children!</p>
+
+<p>As the page says, it may take a little while before your key is working.  Luckily, we’ve got some setup to do before we’re ready to make use of it.  For now, let’s take a look at the endpoint we’ll be using.  Check out <a href="https://openweathermap.org/current#geo">the coordinate weather endpoint docs</a>.</p>
+
+<p>We could ask for the data we need in a few different ways, but since we’ve already created a bunch of beautiful (latitude, longitude) pairs, I think that’s probably the easiest way to go.</p>
+
+<pre><code class="language-txt">http://api.openweathermap.org/data/2.5/weather?lat={lat}&amp;lon={lon}&amp;APPID={api_key}
+</code></pre>
+
+<p>You’ll notice that, even though the online documentation doesn’t discuss it right there, we’ll need to add the <code>APPID</code> parameter with our API key.  If you’re feeling really cool, you can also add <code>units=imperial</code> to get Fahrenheit temperature and Miles/Hour wind speed.  You can also stick to the defaults and convert later.  I’ll show you that process as well.  Now, enough administrative stuff!  Let’s get back to the code!</p>
+
+<h2 id="3-setting-up-to-get-the-data">3. Setting Up to Get the Data</h2>
+
+<p>Before we open up our analysis code, I recommend you open a new file in the same directory called <code>secrets.py</code>.</p>
+
+<pre><code class="language-python"># secrets.py
+API_KEY = "copy your api key here"
+</code></pre>
+
+<p>If you’re keeping track of this project with a git repository, add this file to your <code>.gitignore</code> file.</p>
+
+<pre><code class="language-txt">__pycache__/
+.ipynb_checkpoints
+secrets.py
+haters
+</code></pre>
+
+<p>Now we’re ready to dive back into the notebook.</p>
+
+<pre><code class="language-python">from secrets import API_KEY
+import requests
+import time
+
+def get_weather_data(coords, time_between=1):
+    """Queries the OpenWeatherAPI for data.
+    
+    Args:
+    	coords: A Pandas DataFrame with rows containing 'latitude'
+    		and 'longitude' columns.
+    	time_between: An integer specifying the sleep time in seconds
+    		between each API ping.  Defaults to the OpenWeatherAPI's
+    		recommended limit of 1 request per second.
+    
+    Returns:
+    	A list of nested dicts (loaded JSON results).
+    """
+    results = []
+    for ind, row in coords.iterrows():
+        lat, lon = row['latitude'], row['longitude']
+        query = f"http://api.openweathermap.org/data/2.5/weather?lat={lat}&amp;lon={lon}&amp;APPID={API_KEY}"
+        response = requests.get(query)
+        results.append(response.json())
+        time.sleep(time_between)
+    return results
+</code></pre>
+
+<p>There are two key features to this code.  The first is the “f-string”, which is Python 3’s shwoopy syntax for string interpolation.  The nice thing is that these “f-strings” are <a href="https://cito.github.io/blog/f-strings/#performance-considerations">super fast!</a>  Relatively speaking, at least.  But we are able to insert our latitude and longitude values directly from the DataFrame row, as well as our API key.</p>
+
+<p>The other key feature is that we’re using <a href="http://docs.python-requests.org/en/master/"><code>requests</code></a> to <a href="http://docs.python-requests.org/en/master/user/quickstart/#make-a-request">make a <code>get</code> request</a>, and then <a href="http://docs.python-requests.org/en/master/user/quickstart/#json-response-content">using the <code>json</code> function</a> to immediately process the response into a Python dict we can work with.  If you weren’t sure how we were going to get the data from the API, you might actually be disappointed that it’s not more complicated than this.  As long as you know the right URL, <code>requests</code> makes our job pretty darn pleasant.</p>
+
+<h2 id="3a-logging-our-requests">3a. Logging our Requests</h2>
+
+<p>I’m going to go on two quick asides for some extra practice.  If you want to skip right to step four, don’t worry.  You won’t hurt my feelings.</p>
+
+<p>The first aside I’m going to go on is to set up some logging to a file.  Up towards the top of your notebook, add the following code.</p>
+
+<pre><code class="language-python">import logging
+
+logger = logging.getLogger('weather')
+logger.setLevel(logging.INFO)
+fh = logging.FileHandler('api_calls.log')
+formatter = logging.Formatter('%(asctime)s - %(message)')
+fh.setFormatter(formatter)
+logger.addHandler(fh)
+</code></pre>
+
+<p>And then inside your <code>get_weather_data</code> function:</p>
+
+<pre><code class="language-python">def get_weather_data(coords, time_between=1):
+    # ...
+    results = []
+    for ind, row in coords.iterrows():
+        lat, long = row['latitude'], row['longitude']
+        query = f"http://api.openweathermap.org/data/2.5/weather?lat={lat}&amp;lon={lon}&amp;APPID={API_KEY}"
+
+        # Here's the new stuff
+        clean_url = query.rpartition("&amp;")[0]  # Don't log your api key!
+        logger.info(f"Call {ind}: ({lat}, {lon}) - {clean_url}")
+
+        response = requests.get(query)
+        results.append(response.json())
+        time.sleep(time_between)
+    return results
+</code></pre>
+
+<p>Now we get to save a log of all the URL’s we hit!</p>
+
+<h2 id="3b-getting-the-closest-city-name">3b. Getting the Closest City Name</h2>
+
+<p>You know what would be nice?  Logging out the name of the closest city with our logs.  There’s a neat little library called <a href="https://github.com/wingchen/citipy"><code>citipy</code></a> that does just that!  Let’s update our <code>get_weather_data</code> function one more time.</p>
+
+<pre><code class="language-python">from secrets import API_KEY
+from citipy import citipy  # Make sure to import it once you've installed it
+
+def get_weather_data(coords, time_between=1):
+    # ...
+    results = []
+    for ind, row in coords.iterrows():
+        lat, lon = row['latitude'], row['longitude']
+        query = f"http://api.openweathermap.org/data/2.5/weather?lat={lat}&amp;lon={lon}&amp;APPID={API_KEY}"
+        clean_url = query.rpartition("&amp;")[0]
+        
+        # Here's the new stuff
+        city = citipy.nearest_city(lat, lon)
+        logger.info(f"Call {ind}: {city.city_name} {clean_url})")
+        
+        result = requests.get(query)
+        results.append(result.json())
+        time.sleep(time_between)
+    return results
+</code></pre>
+
+<p>This will be great!  Back to the problem at hand.</p>
+
+<h2 id="4-actually-getting-our-data">4. Actually Getting Our Data</h2>
+
+<p>Let’s test our function with a test call, first.</p>
+
+<pre><code class="language-python">test_coords = pd.DataFrame({"latitude": [37], "longitude": [-122]})
+test_results = get_weather_data(test_coords)
+test_results
+</code></pre>
+
+<pre><code class="language-json">[{'base': 'stations',
+  'clouds': {'all': 1},
+  'cod': 200,
+  'coord': {'lat': 37, 'lon': -122},
+  'dt': 1522341300,
+  'id': 5381421,
+  'main': {'humidity': 76,
+   'pressure': 1021,
+   'temp': 287.78,
+   'temp_max': 289.15,
+   'temp_min': 286.15},
+  'name': 'Pasatiempo',
+  'sys': {'country': 'US',
+   'id': 399,
+   'message': 0.004,
+   'sunrise': 1522331815,
+   'sunset': 1522376913,
+   'type': 1},
+  'visibility': 16093,
+  'weather': [{'description': 'clear sky',
+    'icon': '01d',
+    'id': 800,
+    'main': 'Clear'}],
+  'wind': {'deg': 331.003, 'speed': 1.32}}]
+</code></pre>
+
+<p>If yours comes out just like mine, then it looks like we’re good to run the full data collection.</p>
+
+<pre><code class="language-python">full_results = get_weather_data(coords)
+full_results[:3]  # Let's peek at the first 3 datapoints
+</code></pre>
+
+<p>This will run for about 8 and a half minutes (the cost of being a good citizen).  Go get a coffee or a snack to reward yourself for all your hard work.</p>
+
+<h2 id="5-saving-the-data">5. Saving the Data</h2>
+
+<p>First thing’s first.  Let’s save our data out so we’ll have it just in case something gets exploded.</p>
+
+<pre><code class="language-python">import json
+
+with open("weather.json", "w") as outfile:
+    json.dump(full_results, outfile)
+</code></pre>
+
+<p>This will create a new file <code>weather.json</code> in your project directory.  Time for another optional side-step: unit conversion.</p>
+
+<h2 id="5a-unit-conversion">5a. Unit Conversion</h2>
+
+<p>If you didn’t use the <code>units=imperial</code> parameter in your API call and you want US customary units, you’ll need some helper functions.</p>
+
+<pre><code class="language-python">def k_to_f(temp):
+    """Converts a Kelvin temperature to Fahrenheit"""
+    return temp * 9/5 - 459.67
+
+def mps_to_mph(speed):
+    """Converts a meters/s speed to miles/hour"""
+    return speed * 2.23694
+</code></pre>
+
+<h2 id="6-munging-the-data">6. Munging the Data</h2>
+
+<p>Yes, it’s a word.  <a href="https://en.wikipedia.org/wiki/Mung_(computer_term)">Look it up.</a>  Whatever.  We’re going to need to build a data structure that we can turn into a DataFrame, and we want to narrow things down to just the data we care about.  Take another look at your example output above and dig into the JSON data.</p>
+
+<pre><code class="language-python">important_json_data = []
+for point in full_results:
+    lat = point['coord']['lat']
+    lon = point['coord']['lon']
+    temp = k_to_f(point['main']['temp'])
+    humidity = point['main']['humidity']
+    cloudiness = point['clouds']['all']
+    wind = mps_to_mph(point['wind']['speed'])
+
+    row = [lat, lon, temp, humidity, cloudiness, wind]
+    important_json_data.append(row)
+
+weather_df = pd.DataFrame(important_json_data)
+weather_df.columns = [
+    "latitude",
+    "longitude",
+    "temperature",
+    "humidity",
+    "clouds",
+    "wind",
+]
+weather_df.head()
+</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>temperature</th>
+      <th>humidity</th>
+      <th>clouds</th>
+      <th>wind</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>67</td>
+      <td>-117</td>
+      <td>-16.15</td>
+      <td>69</td>
+      <td>8</td>
+      <td>4.29</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>-3</td>
+      <td>11</td>
+      <td>74.93</td>
+      <td>96</td>
+      <td>68</td>
+      <td>2.17</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>-23</td>
+      <td>-146</td>
+      <td>80.96</td>
+      <td>100</td>
+      <td>88</td>
+      <td>12.91</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>20</td>
+      <td>-19</td>
+      <td>67.37</td>
+      <td>100</td>
+      <td>8</td>
+      <td>9.78</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>-47</td>
+      <td>6</td>
+      <td>44.78</td>
+      <td>97</td>
+      <td>8</td>
+      <td>13.35</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Again, let’s save our data out just in case.</p>
+
+<pre><code class="language-python">weather_df.to_csv("weather.csv")
+</code></pre>
+
+<p>Congratulations!  The heavy lifting is done.  Let’s take a look at our data and see what conclusions we can draw.</p>
+
+<h2 id="7-plotting-the-data">7. Plotting the Data</h2>
+
+<p>Remember our goals?</p>
 
 <ol>
-  <li>What You Need</li>
-  <li>The Index</li>
-  <li>The Long View</li>
-  <li>The Month View</li>
-  <li>The Daily Log</li>
-  <li>The List/Notes Page</li>
-  <li>Threading</li>
-  <li>Different Types of Bullets</li>
-  <li>Migrating and Scheduling</li>
+  <li>Compare temperature and latitude.</li>
+  <li>Compare humidity and latitude.</li>
+  <li>Compare cloudiness and latitude.</li>
+  <li>Compare wind speed and latitude.</li>
+  <li>Draw some conclusions.</li>
 </ol>
 
-<p>Following these topics, I’ll finish up with some mindset tips and things I’ve learned.</p>
+<p>I’m going to put the latitude on the Y-axis, because I feel like the plots will feel more intuitive.  We generally think about latitudes going North to South and thus top to bottom.  If you want to insist on plotting the independent variable (latitude) on the X-axis and the dependent variable (temperature) on the Y-axis, then do whatever makes you happy.</p>
 
-<h2 id="bullet-journaling-how-to-do-it">Bullet Journaling: How to Do It</h2>
+<h3 id="temperature">Temperature</h3>
 
-<h3 id="1-what-you-need">1. What You Need</h3>
+<pre><code class="language-python">plt.scatter(weather_df.temperature, weather_df.latitude)
+plt.xlabel("Temperature (F)")
+plt.ylabel("Latitude (degrees)")
+plt.title("Temperature vs. Latitude")
+plt.show()
+</code></pre>
 
-<p>You can really use any medium that you can record information on, paper or digital.  However, I prefer using a nice, hard-bound notebook with at least one attached bookmark.  I also like to use pretty thick paper with graph lines or a dot matrix on it.  If it has a slightly yellow tint, even better.  I bought <a target="_blank" href="https://www.amazon.com/gp/product/1441323716/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1441323716&amp;linkCode=as2&amp;tag=ryanpalo-20&amp;linkId=2afec5d8eff5ce5ca3b20158fead9db4">this one</a><img src="//ir-na.amazon-adsystem.com/e/ir?t=ryanpalo-20&amp;l=am2&amp;o=1&amp;a=1441323716" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />and I love it.  I also highly recommend you get a really nice pen.  Like, at least a five dollar pen.  I find that it adds to the meditative effect of bullet journaling if my tools make me feel like a <em>scholar</em>.  😀 Since my notebook has a little pocket flap in the back, I like to keep a small ruler in there in case I want to make any <em>really</em> straight lines.</p>
+<p><img src="/img/temp-lat-plot.png" alt="Temperature Latitude plot" /></p>
 
-<p>Now that you have your tools, let’s get started.</p>
+<p>Woohoo!  That’s some strong trending right there!  As you might have expected, the temperature climbs as you approach the equator and drops off as you near the poles.  Go science!</p>
 
-<h3 id="2-the-index">2. The Index</h3>
+<h3 id="humidity">Humidity</h3>
 
-<p>The Index is what keeps your whole journal tied together and allows you to take notes whenever you need without stressing out about how many pages to give yourself.  Open up your notebook to the first full blank spread.  Label these two pages and the next two with the word “Index.”</p>
+<pre><code class="language-python">plt.scatter(weather_df.humidity, weather_df.latitude)
+plt.xlabel("Humidity (%)")
+plt.ylabel("Latitude (degrees)")
+plt.title("Humidity vs. Latitude")
+plt.show()
+</code></pre>
 
-<p><img src="/img/bullet-index-blank.jpg" alt="The blank Index section" /></p>
+<p><img src="/img/humidity-lat-plot.png" alt="Humidity vs. Latitude plot" /></p>
 
-<p>Also, in the bottom outside corner of each of these four pages, number the pages (1, 2, 3, and 4).  This index will tell you where in your journal different sections start and end.  Since there is nothing in our journal yet, our index is blank.  We’ll fill it in some as we add some of the next sections.  The main thing is to know that as we add sections, they’ll end up looking like this:</p>
+<p>These are some strange results.  It looks like, except for a few drop offs, an abundance of the data points had 100% humidity.  I find this hard to believe.  I found a few Google results that make me wonder if there’s not something weird with the way that they’re measuring humidity.  If anybody has any other thoughts, I’d be interested to hear them.  Let me know what you think.</p>
 
-<p><img src="/img/bullet-index-item.jpg" alt="An index item" /></p>
+<h3 id="cloudiness">Cloudiness</h3>
 
-<p>Since our journal is flexible, it lets us interrupt sections with other sections.  We keep track of these jumps with comma-separated page regions.</p>
+<pre><code class="language-python">plt.scatter(weather_df.clouds, weather_df.lat)
+plt.xlabel("Cloudiness (%)")
+plt.ylabel("Latitude (degrees)")
+plt.title("Cloudiness vs. Latitude")
+plt.show()
+</code></pre>
 
-<h3 id="3-the-long-view">3. The Long View</h3>
+<p><img src="/img/clouds-lat-plot.png" alt="Cloudiness vs. Latitude plot" /></p>
 
-<p>The long view is a two-page glance at the next six months.  Open up your notebook to the first blank spread after your Index pages.  If you have a ruler, now’s the time to use it.  Draw two horizontal lines on each page, separating these two pages into six equal regions.  Label each of these sections in the upper left with the next six months.</p>
+<p>I can’t really see much of a trend here, either.  The striation of the data (neat rows) makes me feel like there’s some kind of a pattern, though.  Let’s see if maybe there’s a longitude relationship.</p>
 
-<p><img src="/img/bullet-long-blank.jpg" alt="The blank Long View section" /></p>
+<pre><code class="language-python">plt.scatter(weather_df.long, weather_df.clouds)
+plt.xlabel("Longitude (degrees)")
+plt.ylabel("Cloudiness (%)")
+plt.title("Longitude vs. Cloudiness")
+plt.show()
+</code></pre>
 
-<p>This section is for keeping tasks and information that is either a long-term goal or not immediately actionable.  If someone invited you to a wedding in three months, this would be the perfect section for it.  Add some goals to this section using a bullet point.  When you complete these tasks, you can put a little X over the bullet point.  We’ll talk more about different bullet styles for different items later.</p>
+<p><img src="/img/clouds-long-plot.png" alt="Longitude Cloudiness plot" /></p>
 
-<p>You’ll use this section. to remind you of things when you fill in the more short-term sections in the next few months.  And, since we’ve added a new section to our journal, don’t forget to add page numbers to the bottom of each page and add this section to your Index.</p>
+<p>Hmm… I’m still not seeing much of a relationship.  Once again, if anybody has any thoughts, let me know!</p>
 
-<p><img src="/img/bullet-index-long-view.jpg" alt="Adding the Long View to the Index" /></p>
+<h3 id="wind-speed">Wind Speed</h3>
 
-<p>Bullet Journaling is a constant process of keeping track of the immediate and short-term stuff while frequently zooming out to take in the big picture as well.  You’ll see that as we continue the next few sections, gradually zooming in on your life.</p>
+<pre><code class="language-python">plt.scatter(weather_df.wind, weather_df.lat)
+plt.xlabel("Wind Speed (mph (abs))")
+plt.ylabel("Latitude (degrees)")
+plt.title("Wind Speed vs. Latitude")
+plt.show()
+</code></pre>
 
-<h3 id="4-the-month-view">4. The Month View</h3>
+<p><img src="/img/wind-lat-plot.png" alt="Wind Latitude plot" /></p>
 
-<p>Great!  Now that we’re in command of our six-month goals, the next main page type is the month overview page.  Open your journal to the next blank spread after the Long View.  Title both pages with the name of the current month (which should be the first month on your Long View).  The left page will be your calendar page.  Fill in a vertical column with every number day in the month.  For March, that would be 1 to 31, each on its own row.  Just beside these numbers, put a letter or two to signify which day of the week this date will be.  I also like to put a horizontal line between each week to help me visually see where I’m at more easily.</p>
+<p>This is an interesting plot.  We see kind of a mish-mash, but with some clear spikes at about -50 degrees and 50 degrees.  It seems to drop off toward zero around the poles and the equator.  At first, I was confused, but then I remembered my 8th grade science class.</p>
 
-<p><img src="/img/bullet-month-calendar.jpg" alt="Calendar month view" /></p>
+<p><img src="/img/global-wind-currents.png" alt="Global wind current patterns" /></p>
 
-<p>The right page of this spread will be the bullet page.  Put down any to-do’s, tasks, goals, or notes that you can think of that will come up this month.  I like to write any important dates/holidays/birthdays on the left side next to the numbers and letters.  Be sure to turn back to your Long View to see if there’s anything there that you can import into your first month section.  This will be an often-used technique.</p>
+<p>There are a group of winds called the “<a href="https://en.wikipedia.org/wiki/Prevailing_winds#Westerlies_and_their_impact">Westerlies</a>” that blow between 40 and 50 degrees North and South latitude.  These are sometimes called the “<a href="https://en.wikipedia.org/wiki/Roaring_Forties">Roaring Forties</a>” and, due to the expanses of open ocean in the southern hemisphere especially (no land or trees to impede the winds), they are used to speed up sailing times.  They tend to shift towards the equator in that hemisphere’s summer and towards the pole in the winter.</p>
 
-<p><img src="/img/bullet-month-task.jpg" alt="Task Month View" /></p>
+<p>Conversely, the area around the equator is known as the “<a href="https://en.wikipedia.org/wiki/Intertropical_Convergence_Zone">Intertropical Convergence Zone,</a>” also called the “<a href="https://en.wikipedia.org/wiki/Doldrums">doldrums.</a>”  This area is a combination of dead wind and thunderstorms, depending on season.</p>
 
-<p>Once you’re done, don’t forget to add some page numbers and add this section to your Index.</p>
+<p>I feel reasonably comfortable saying our data seems to support this trend.  And so, once again, hooray for science!</p>
 
-<h3 id="5-the-daily-log">5. The Daily Log</h3>
+<h2 id="wrap-up">Wrap Up</h2>
 
-<p>This entry type will be the majority of what you do in the bullet journal.  Once again, open up your journal to the first available blank spread after your first Month View and label it with “(Name of Month) Daily Log”.  Then, place a section header on the page with today’s date.  Put any tasks or to-do items that you want to get done today.  Just like before, don’t forget to flip back to the Month View and even the Long View to see if there are any items that need to be imported into today’s tasks.</p>
+<p>That’s it!  Hopefully you enjoyed the practice.  If you come up with any other neat findings from our data, be sure to share them with me.</p>
 
-<p>Try to be realistic, but don’t be afraid to put some stretch goals down as well.  If you don’t get something done today that you planned on, don’t stress out.  Just work on one day at a time.  At the end of the day, I like to put some notes about other things I did that day or what else happened.  I find that, over time, this helps me actually remember the days and weeks that pass better, helping me treat each day as more special.  I tend to get to the end of the week and can remember the things I accomplished, keeping things from getting monotonous.</p>
-
-<p><img src="/img/bullet-daily-log.jpg" alt="Filled-in Daily Log" /></p>
-
-<p>Add some page numbers and add your Daily Log section to your index.  Since you’re not sure how many pages this will take up, just put a starting page number and a dash.  If something else comes up and interrupts your Daily Log, you can put the ending page number and a comma, and put the next section of the Daily Log into the index when you start it back up again.  We’ll talk more about this in the Threading section.</p>
-
-<h3 id="6-the-listnotes-page">6. The List/Notes Page</h3>
-
-<p>It might happen that you’re going through your daily logs and you decide to watch a how-to video or take on online course — something where you want to take notes.  I do this a lot while reading programming books and tutorials, and I’ve found it really helps me remember things a lot better, and gives me a little better information source than having to constantly Google the same things.  Simply put a header at the top of the page, give yourself a few blank pages to take notes in, and start jotting down your notes.  Add page numbers as you get to each page, and add this section to your Index so you can find it again later.</p>
-
-<p><img src="/img/bullet-list-page.jpg" alt="List Page" /></p>
-
-<h3 id="7-threading">7. Threading</h3>
-
-<p>This is one of the key techiques of bullet journaling and the thing that makes it so flexible.  It’s how you can safely interrupt your daily logs with a grocery list or page of notes without worrying about leaving a bunch of blank pages in between.  Your notes sections can interrupt each other and stop and start as many times as you like.  It just makes your Index look like this:</p>
-
-<p><img src="/img/bullet-index-item.jpg" alt="A skipping Index entry" /></p>
-
-<p>I’ve also found it useful to put a little note to myself about where the next section starts or ends above the page number in the section itself, so I don’t have to turn back to the Index all the time if I don’t need to.</p>
-
-<p><img src="/img/bullet-threading-note.jpg" alt="Threading note above a page number" /></p>
-
-<h3 id="8-different-types-of-bullets">8. Different Types of Bullets</h3>
-
-<p>As we’ve discussed, the basic task unit of bullet journaling is a dot.</p>
-
-<p><img src="/img/bullet-dot.jpg" width="100" height="100" alt="A dot" /></p>
-
-<p>When you complete this task, you should put a little X over it, like this.</p>
-
-<p><img src="/img/bullet-types.jpg" alt="Different bullet types" /></p>
-
-<p>One of the main goals of bullet journaling is helping you weed out the things that aren’t worth your time.  If you decide a task just isn’t going to get completed or you don’t want to do it, just put a single line through it.</p>
-
-<p>If you have something that you want to note down, but it isn’t really a task to complete, use a dash.</p>
-
-<p>If you’ve got a task that is important or that you want to draw extra attention to, put a little asterisk next to it.</p>
-
-<p>If you’ve got something exciting or neat (usually paired with an information/note dash), put a little exclamation mark next to it.</p>
-
-<p>If something needs a little more looking into, put a little eye next to it (or something that vaguely resembles an eye).</p>
-
-<h3 id="9-migrating-and-scheduling">9. Migrating and Scheduling</h3>
-
-<p>At the end of each month, you should go through the previous Month Log and the previous month’s Daily Logs.  Find all of the tasks that weren’t completed.  Now is a good time to put a line through anything that ended up not mattering or not getting done.  If there’s something that still ought to get done, you have a couple of options.  You can put a forward-facing arrow and push in into your next month’s Month Log or a Collection/List page that you’ve created.  This is called “Migrating” a task.</p>
-
-<p><img src="/img/bullet-migration.jpg" alt="A migrated task" /></p>
-
-<p>Or, you can send it back to the Long View to get completed sometime in the future.  Do this by putting a backwards-facing arrow in front of it.  Then be sure to write it in the Long View in the appropriate place.  This is called “Scheduling” a task.  (I like to call it creating a problem for Future-Me).</p>
-
-<p><img src="/img/bullet-scheduling.jpg" alt="A scheduled task" /></p>
-
-<h2 id="locked-and-loaded">Locked and Loaded</h2>
-
-<p>If you’ve made it this far, you’re well on your way to being a bullet journaling master.  Here are the main things to take away.  Bullets should be fast, so they’re not a burden on your schedule, but they don’t have to be.  If you’ve got some extra time to sit down and take more detailed notes, good on you.</p>
-
-<p>This method is designed to be low-stress.  Don’t freak out if you forget to do a daily log.  Just catch up the next day and do some info dashes to remind you of what you did that day.  If you make it a stressful thing, then when you miss a day, you’ll feel bad that you have to do two days worth of stressful things and you’ll want to skip it that much more.  The best way to stay consistent is to make your bullet journal a happy place and not beat yourself up about doing it wrong.  Cut yourself some slack.</p>
-
-<p>Final Pro-Tip: Make sure to put your name and contact info at the very front of your bullet journal.  You wouldn’t want to lose it with no chance of anyone contacting you when they find it, would you?</p>
-
-<p>For more information, go to the official <a href="http://bulletjournal.com/">Bullet Journal website</a>.  They’ve got a lot of great resources, and you can even buy actual “Bullet Journals” from them.</p>
-
-<p>Everybody does their journals a little differently.  My mom likes to get really artsy and color in her Monthly Logs.  I rarely draw in my journal.  I like bullets and straight lines and consistent formatting (hence my journal’s built-in ruler pouch).  It soothes me.  I want to hear from you.  If you’ve got another type of page that you like to include in your journal that I didn’t mention, show me in the comments or <a href="https://twitter.com/paytastic">tweet me a picture</a> and I’ll share it with my army of followers (double-digits, baby, awww yeah!).</p>
-
-<p>Thanks again for reading!</p>
-
+<p>Happy munging!</p>
 </p>
   
 
@@ -234,6 +569,11 @@
         </li>
         
           <li>
+            <span class="post-meta">Mar 25, 2018</span><br/>
+            <a class="post-link" href="/2018/03/25/bullet-journal/">Get on the Bullet Journaling Train</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Mar 18, 2018</span><br/>
             <a class="post-link" href="/2018/03/18/vim-filters/">Vim Filters</a>
           </li>
@@ -241,11 +581,6 @@
           <li>
             <span class="post-meta">Mar 8, 2018</span><br/>
             <a class="post-link" href="/2018/03/08/publish-directories-to-github-pages/">Publish Single Directories to Another Branch</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Mar 1, 2018</span><br/>
-            <a class="post-link" href="/2018/03/01/closures-and-callbacks/">Closures and Callbacks</a>
           </li>
         
       </ul>
@@ -258,7 +593,7 @@
       <h2>Tags</h2>
       <p>
         
-        <a href="/tags/python/" style="font-size: 56px">python | </a>
+        <a href="/tags/python/" style="font-size: 58px">python | </a>
         
         <a href="/tags/django/" style="font-size: 22px">django | </a>
         
@@ -308,7 +643,7 @@
         
         <a href="/tags/fun/" style="font-size: 18px">fun | </a>
         
-        <a href="/tags/scientific/" style="font-size: 14px">scientific | </a>
+        <a href="/tags/scientific/" style="font-size: 16px">scientific | </a>
         
         <a href="/tags/pythonic/" style="font-size: 16px">pythonic | </a>
         
@@ -318,7 +653,7 @@
         
         <a href="/tags/es6/" style="font-size: 20px">es6 | </a>
         
-        <a href="/tags/tutorial/" style="font-size: 32px">tutorial | </a>
+        <a href="/tags/tutorial/" style="font-size: 34px">tutorial | </a>
         
         <a href="/tags/exercise/" style="font-size: 14px">exercise | </a>
         
@@ -389,6 +724,8 @@
         <a href="/tags/gtd/" style="font-size: 14px">gtd | </a>
         
         <a href="/tags/bullet-journal/" style="font-size: 14px">bullet-journal | </a>
+        
+        <a href="/tags/data-science/" style="font-size: 14px">data-science | </a>
         
       </p>
     </div>
