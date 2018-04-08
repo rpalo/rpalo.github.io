@@ -95,7 +95,7 @@ zeros = defaultdict(int)
 zeros["a"] = 1
 zeros["b"] = zeros["definitely not in there"] + 4
 print(zeros)
-# =&gt; defaultdict(&lt;int&gt;, {"a": 1, "b": 4})
+# =&gt; defaultdict(&lt;int&gt;, {"a": 1, "b": 4, "definitely not in there": 0})
 </code></pre>
 
 <p>Since the <code>zeros</code> dict can’t find the <code>"definitely not in there"</code> key, it calls its default-maker function, <code>int</code>.  Go ahead and open up your Python REPL and try just calling the <code>int</code> function with no arguments.</p>
@@ -155,7 +155,7 @@ FORGIVING_SCORES["@"]
 
 <p>Hooray!</p>
 
-<p>Granted, this isn’t a perfect solution, because the <code>FORGIVING_SCORES</code> defaultdict stores each of the invalid asks.  It’s probably OK if you’re not expecting a huge number of invalid lookups.  If you <em>are</em> worried about staying space-efficient, though, it’s probably better do do this:</p>
+<p>Granted, this isn’t a perfect solution, because the <code>FORGIVING_SCORES</code> defaultdict stores each of the invalid asks.  It’s probably OK if you’re not expecting a huge number of invalid look-ups.  If you <em>are</em> worried about staying space-efficient, though, it’s probably better to do this:</p>
 
 <pre><code class="language-python">score = LETTER_SCORES.get("@") or 0
 </code></pre>

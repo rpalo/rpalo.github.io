@@ -6,8 +6,8 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 08 Apr 2018 12:15:50 -0700</pubDate>
-    <lastBuildDate>Sun, 08 Apr 2018 12:15:50 -0700</lastBuildDate>
+    <pubDate>Sun, 08 Apr 2018 12:23:33 -0700</pubDate>
+    <lastBuildDate>Sun, 08 Apr 2018 12:23:33 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
     
       <item>
@@ -50,7 +50,7 @@ zeros = defaultdict(int)
 zeros[&quot;a&quot;] = 1
 zeros[&quot;b&quot;] = zeros[&quot;definitely not in there&quot;] + 4
 print(zeros)
-# =&amp;gt; defaultdict(&amp;lt;int&amp;gt;, {&quot;a&quot;: 1, &quot;b&quot;: 4})
+# =&amp;gt; defaultdict(&amp;lt;int&amp;gt;, {&quot;a&quot;: 1, &quot;b&quot;: 4, &quot;definitely not in there&quot;: 0})
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Since the &lt;code&gt;zeros&lt;/code&gt; dict can’t find the &lt;code&gt;&quot;definitely not in there&quot;&lt;/code&gt; key, it calls its default-maker function, &lt;code&gt;int&lt;/code&gt;.  Go ahead and open up your Python REPL and try just calling the &lt;code&gt;int&lt;/code&gt; function with no arguments.&lt;/p&gt;
@@ -110,7 +110,7 @@ FORGIVING_SCORES[&quot;@&quot;]
 
 &lt;p&gt;Hooray!&lt;/p&gt;
 
-&lt;p&gt;Granted, this isn’t a perfect solution, because the &lt;code&gt;FORGIVING_SCORES&lt;/code&gt; defaultdict stores each of the invalid asks.  It’s probably OK if you’re not expecting a huge number of invalid lookups.  If you &lt;em&gt;are&lt;/em&gt; worried about staying space-efficient, though, it’s probably better do do this:&lt;/p&gt;
+&lt;p&gt;Granted, this isn’t a perfect solution, because the &lt;code&gt;FORGIVING_SCORES&lt;/code&gt; defaultdict stores each of the invalid asks.  It’s probably OK if you’re not expecting a huge number of invalid look-ups.  If you &lt;em&gt;are&lt;/em&gt; worried about staying space-efficient, though, it’s probably better to do this:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;score = LETTER_SCORES.get(&quot;@&quot;) or 0
 &lt;/code&gt;&lt;/pre&gt;
