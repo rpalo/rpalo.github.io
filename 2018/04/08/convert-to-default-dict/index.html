@@ -7,18 +7,18 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="ROBOTS" content="INDEX,FOLLOW">
-        <meta name="description" content="Math is neat and e pops up in weird places.">
-        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, math, fun, python">
+        <meta name="description" content="A quick tip on how to change a dictionary in Python into a defaultdict in a slick way.">
+        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, python, tricks">
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="assert_not magic? | E for Everywhere">
+        <meta name="twitter:title" content="assert_not magic? | Dict Moves in Python">
         <meta name="twitter:site" content="@paytastic">
-        <meta name="twitter:description" content="Math is neat and e pops up in weird places.">
-        <meta name="twitter:image" content="http://assertnotmagic.com/img/treble-e.png">
+        <meta name="twitter:description" content="A quick tip on how to change a dictionary in Python into a defaultdict in a slick way.">
+        <meta name="twitter:image" content="http://assertnotmagic.com/img/default-dict.jpg">
         <meta name="twitter:creator" content="@paytastic">
-        <meta name="og:url" content="http://assertnotmagic.com/2017/10/28/e-for-everywhere/">
-        <meta name="og:title" content="assert_not magic? | E for Everywhere">
-        <meta name="og:description" content="Math is neat and e pops up in weird places.">
-        <meta name="og:image" content="http://assertnotmagic.com/img/treble-e.png">
+        <meta name="og:url" content="http://assertnotmagic.com/2018/04/08/convert-to-default-dict/">
+        <meta name="og:title" content="assert_not magic? | Dict Moves in Python">
+        <meta name="og:description" content="A quick tip on how to change a dictionary in Python into a defaultdict in a slick way.">
+        <meta name="og:image" content="http://assertnotmagic.com/img/default-dict.jpg">
 
         <!-- Favicon settings -->
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -53,210 +53,122 @@
                 <article class="site-wrap">
     <div id="cover">
         
-        <img alt="Cover Image" class="cover-image" src="/img/treble-e.png">
+        <img alt="Cover Image" class="cover-image" src="/img/default-dict.jpg">
         
     </div>
-    <h1>E for Everywhere</h1>
-    <p>I just learned something new and it prompted me to want to share it (and a whole bunch of other things).  Let’s talk about the letter <code>e</code>.  This post will have a little bit of math in it, but I’ll try to make those parts painless enough to keep you with me.</p>
+    <h1>Dict Moves in Python</h1>
+    <p>Quick tip time!</p>
 
-<h2 id="e">e</h2>
+<p>Today, I started the #100DaysOfCode challenge again (for the millionth time).  I’m determined to actually succeed at this challenge, and I refuse to give up.  This time, I’m using the <a href="https://codechalleng.es/">Python Bytes Code Challenges website</a> and their 100 days project suggestions.  During today’s challenge, I learned a neat little trick for working with dictionaries that I wanted to share.</p>
 
-<p><code>e</code> is a mathmatical constant (like <code>pi</code>) that crops up a lot of places.</p>
+<h2 id="the-challenge">The Challenge</h2>
 
-<script type="math/tex; mode=display">e = 2.71828182845904523536028747135266249775724709369995</script>
+<p>The challenge is this: go through a <a href="https://raw.githubusercontent.com/rpalo/100DaysOfCode/master/001/dictionary.txt">dictionary of words</a>, which is really just a copy of <code>/usr/share/dict/words</code>.  Find the word that scores the highest in Scrabble, using these letter scores:</p>
 
-<p>Like <code>pi</code>, it’s a number that is <em>irrational</em>, meaning that its decimal places never end and never repeat (go into an infinite loop).</p>
-
-<p>“Blah blah blah blah,” you say – eloquently, I might add.  “All I hear is blah blah math letters-that-are-really-numbers blah.  Why are you bothering me about this <code>e</code>?”</p>
-
-<p>I want to tell you about it, because, even though it doesn’t get the kind of press that <code>pi</code> does (not to mention <code>phi</code> – the golden ratio), it shows up everywhere you look and helps us with all kinds of statistics, finance, and more!  I’m writing this post to show off a couple of the ways that <code>e</code> works behind the scenes.</p>
-
-<h2 id="something-interesting-and-practical">Something Interesting and Practical</h2>
-
-<p>Let’s talk about <strong>interest</strong>.  Like bank interest!  Like investment stocks interest.  You ever wonder how that was calculated?  Here’s the interest equation:</p>
-
-<script type="math/tex; mode=display">A = P(1 + \frac{r}{n})^n</script>
-
-<p>Where:</p>
-
-<pre><code>A is the future value of your money.
-
-P is the present value of your money.
-
-r is the interest rate over the time period you care about (usually a year, in practice).
-
-n is the number of times you compound your interest over the time period.
+<pre><code class="language-python">SCRABBLE_SCORES = [
+  (1, "E A O I N R T L S U"),
+  (2, "D G"),
+  (3, "B C M P"),
+  (4, "F H V W Y"), 
+  (5, "K"), 
+  (8, "J X"), 
+  (10, "Q Z"),
+]
+LETTER_SCORES = {
+    letter: score for score, letters in scrabble_scores
+    for letter in letters.split()
+}
+# {"A": 1, "B": 3, "C": 3, "D": 2, ...}
 </code></pre>
 
-<p>For example, if you put $100 into a bank for a year, and the bank provided a 7% (or .07) interest rate over that time, <em>and</em> the bank only compounded your interest one time (which they sometimes do), after one year, you’d end up with:</p>
+<h2 id="the-issue">The Issue</h2>
 
-<script type="math/tex; mode=display">100(1 + \frac{.07}{1})^{1} = 107</script>
+<p>The issue is that I don’t want to worry about whether or not there are any invalid characters in the input (for now at least).  So if I look up the word “snoot!43@@@ “, right now, I’d prefer to see the score for SNOOT and then 0 points for the rest of the characters.  I know there are a bunch of ways to do this, but the first way that popped into my head was to use a <em>default</em> of 0 (i.e. if you try to look up a character that’s not in <code>LETTER_SCORES</code>, it returns zero instead of raising a <code>KeyError</code>.)</p>
 
-<p>This is as expected, because we already said you’re getting 7% yearly interest (also known as APR), and 7% of 100 is 7, so getting $107 at the end of the year should hopefully seem reasonable.</p>
+<h2 id="enter-defaultdict">Enter DefaultDict</h2>
 
-<p>But some banks compound your interest every month!  Check your bank statement – yours probably does!  What does that look like?</p>
+<p>Luckily for us, Python comes with exactly the thing we need: a <code>defaultdict</code>, courtesy of the standard library’s <code>collections</code> module.  Its usage is reasonably straightforward: you supply the <code>defaultdict</code> with a class or function that constructs the default if the input isn’t found.  Let me show you.</p>
 
-<script type="math/tex; mode=display">100(1 + \frac{.07}{12})^{12} = 107.23</script>
+<pre><code class="language-python">from collections import defaultdict
 
-<p>WHAAAAAAT?  You just got an extra $0.25, simply by doing some math 12 times a year instead of once at the end.  You squint at me skeptically, and ask, “Does that pattern continue like that?”  Let’s try it!  Let’s compound once a day.</p>
-
-<script type="math/tex; mode=display">100(1 + \frac{.07}{365})^{365} = 107.25</script>
-
-<p>Yep!  Kind of.  Definitely not as much increase, and we’re compounding waaaay more.  Let’s really amp up the compounding and see what happens.</p>
-
-<p>Actually, let’s simplify our life a little bit first to make the math easy:</p>
-
-<ol>
-  <li>Let’s assume we’re starting with just $1.</li>
-  <li>Let’s assume our interest rate is 100% (i.e. 1).  Thus compounding yearly, we would double our money.</li>
-</ol>
-
-<p>Now let’s see what our pattern looks like.</p>
-
-<pre><code class="language-python">r = 1.0
-p = 1.0
-
-def compound(p, r, n):
-    """Calculates interest after one time period (e.g. a year).
-    p: float - initial money amount
-    r: float - interest rate over the time period
-    n: int - number of times we compound
-    returns float - amount of money after one time period
-    """
-    return p*((1 + r/n)**n)
-
-result_data = [compound(p, r, n) for n in range(1, 100)]
-
+zeros = defaultdict(int)
+zeros["a"] = 1
+zeros["b"] = zeros["definitely not in there"] + 4
+print(zeros)
+# =&gt; defaultdict(&lt;int&gt;, {"a": 1, "b": 4})
 </code></pre>
 
-<pre><code class="language-python">from matplotlib import pyplot as plt
-plt.plot(result_data)
-plt.show()
+<p>Since the <code>zeros</code> dict can’t find the <code>"definitely not in there"</code> key, it calls its default-maker function, <code>int</code>.  Go ahead and open up your Python REPL and try just calling the <code>int</code> function with no arguments.</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; int()
+0
 </code></pre>
 
-<p><img src="/img/e-interest.png" alt="Result of Interest experiment" /></p>
+<p>The <code>int</code> function, called with no arguments, returns 0 every time.</p>
 
-<p>You can see that with 1 compound, we get 100% return, just like we planned.  Start with $1, end up with $2.  And as we compound more and more, we see it go up by quite a bit and then the gains start to level off.  But wait.  What number are the gains leveling off at?</p>
+<p>You can even create your own default-maker functions (and classes will work too)!</p>
 
-<pre><code class="language-python">from math import e
-plt.plot((0, 100), (e, e))  # Plot horizontal line at 2.71828...
-plt.plot(result_data)
-plt.show()
+<pre><code class="language-python">from random import choice
+
+def confusing_default():
+    possibles = ["1", 1, True, "banana"]
+    return choice(possibles)
+
+tricky_dict = defaultdict(confusing_default)
+tricky_dict["Ryan"]
+# =&gt; "banana"
+tricky_dict["Python"]
+# =&gt; True
+tricky_dict["Why would you do this?"]
+# =&gt; 1
+tricky_dict
+# =&gt; defaultdict(&lt;confusing_default&gt;, {"Ryan": "banana", "Python": True, "Why would you do this?": 1})
 </code></pre>
 
-<p><img src="/img/e-interest-with-line.png" alt="Result of Interest experiment with line at e" /></p>
+<p>Often times, you can do things a little quicker with <code>lambdas</code>.</p>
 
-<p>OH SNAP, IT’S E.  As we approach higher and higher frequency of compounding, we approach a return amount of E.  This is where the concept of <strong>continuously compounding interest</strong> comes from.</p>
+<pre><code class="language-python">from random import randint
 
-<p>So we’ve found <code>e</code> once.  Let’s do another.</p>
-
-<h2 id="factorials-and-e">Factorials and e</h2>
-
-<p>If you’ve read any of my other blog posts, you’re probably sick and tired of factorials.  Well, that’s too bad.  Let’s combine them with fractions and see what we can come up with.</p>
-
-<script type="math/tex; mode=display">\frac{1}{0!} = \frac{1}{1} = 1</script>
-
-<script type="math/tex; mode=display">\frac{1}{1!} = \frac{1}{1} = 1</script>
-
-<script type="math/tex; mode=display">\frac{1}{2!} = \frac{1}{2 * 1} = .5</script>
-
-<script type="math/tex; mode=display">\frac{1}{3!} = \frac{1}{3 * 2 * 1} = 0.16666</script>
-
-<p>Where am I going with this?  Let’s add them up and see.</p>
-
-<pre><code class="language-python">from math import factorial
-
-def sum_of_factorial_fractions(n):
-    """Calculates the sum of 1/0! + 1/1! + 1/2! ... 1/n!"""
-    return sum(1/factorial(x) for x in range(0, n + 1))
-               
-results2 = [sum_of_factorial_fractions(n) for n in range(10)]
-plt.plot(results2)
-plt.show()
-print("The last result:", results2[-1])
+SCREAMING = defaultdict(lambda: "A")
+for i in range(20):
+    key = randint(0, 3)
+    SCREAMING[key] += "A"
+SCREAMING
+# =&gt; defaultdict(&lt;function &lt;lambda&gt; at 0x108707f28&gt;, {0: 'AAAAAAAA', 1: 'AAAAAAA', 3: 'AAAAA', 2: 'AAAA'})
 </code></pre>
 
-<p><img src="/img/e-factorials.png" alt="Result of Factorials experiment" /></p>
+<p>In fact, I actually think that using <code>defaultdict(lambda: 0)</code> is more explicit and less confusing than using <code>defaultdict(int)</code>, as long as you’re not creating huge numbers of these <code>defaultdicts</code> this way.</p>
 
-<pre><code>The last result: 2.7182815255731922
+<h2 id="upgrading-to-a-defaultdict">Upgrading to a DefaultDict</h2>
+
+<p>Now, finally, we’re ready for the quick tip.  Up above, I defined <code>LETTER_SCORES</code> as a plain, old Python <code>dict</code>.  How do I get the default behaviors I want, quickly?  One way is using the built-in <code>dict.update()</code> function, which merges two dictionaries.</p>
+
+<pre><code class="language-python">FORGIVING_SCORES = defaultdict(lambda: 0)
+FORGIVING_SCORES.update(LETTER_SCORES)
+
+FORGIVING_SCORES["Q"]
+# =&gt; 10
+
+FORGIVING_SCORES["@"]
+# =&gt; 0
 </code></pre>
 
-<p>A;LSDKJF;ALKJSDFJSDLKFJEIVLENNVOIEJ.</p>
+<p>Hooray!</p>
 
-<h3 id="e-1">E</h3>
+<p>Granted, this isn’t a perfect solution, because the <code>FORGIVING_SCORES</code> defaultdict stores each of the invalid asks.  It’s probably OK if you’re not expecting a huge number of invalid lookups.  If you <em>are</em> worried about staying space-efficient, though, it’s probably better do do this:</p>
 
-<p>(approximately).</p>
-
-<p>Let’s do one more: my favorite one.</p>
-
-<h2 id="random-e">Random E</h2>
-
-<p>This one comes courtesy of <a href="https://twitter.com/fermatslibrary">Fermat’s Library on Twitter</a>.  Pick a random number between 0 and 1.  Keep picking numbers and adding them until the sum is greater than 1.  For example:</p>
-
-<pre><code class="language-python">from random import random
-x = random()
-print(x)
+<pre><code class="language-python">score = LETTER_SCORES.get("@") or 0
 </code></pre>
 
-<pre><code>0.185263666584764
-</code></pre>
+<p>The <code>get</code> function returns <code>None</code> if a <code>KeyError</code> occurs, and the <code>or</code> allows us to provide a sane default if the lookup goes bad.  And everybody’s happy!</p>
 
-<pre><code class="language-python">x += random()
-print(x)
-</code></pre>
-
-<pre><code>0.5797470876977189
-</code></pre>
-
-<pre><code class="language-python">x += random()
-print(x)
-</code></pre>
-
-<pre><code>1.2821236982804123
-</code></pre>
-
-<p>Alright!  We’re now greater than 1, and it took us 3 rolls to get there.  Let’s do that a ton of times and see what the average number of rolls is.</p>
-
-<pre><code class="language-python">def rolls_to_greater_than_n(n):
-    """Rolls a random number between 0 and 1 and adds them up
-    until the sum is greater than n.  Returns the number of rolls it took.
-    """
-    total = 0
-    rolls = 0
-    while total &lt; n:
-        total += random()
-        rolls += 1
-    return rolls
-
-def roll_experiment_avg(n, times):
-    """Performs the rolls_to_greater_than_n 'times' times.
-    Returs the average number of rolls it took."""
-    return sum(rolls_to_greater_than_n(n) for _ in range(times))/times
-
-results3 = [roll_experiment_avg(1, x) for x in range(1, 10000)]
-plt.plot(results3)
-plt.plot((0, 10000), (e, e))  # Line representing e for reference.
-plt.show()
-print("The last result was", results3[-1])
-</code></pre>
-
-<p><img src="/img/e-random.png" alt="Results of Random experiment" /></p>
-
-<pre><code>The last result was 2.712271227122712
-</code></pre>
-
-<p>This one definitely is converging a lot slower, <a href="https://twitter.com/fermatslibrary/status/924263998589145090">but it does.  Math says so.</a></p>
-
-<p>Anyways, this was kind of a long post about nothing, but I though that the way that <code>e</code> seems to pop up all over the place, even amidst factorials and random numbers, was pretty cool.  Let me know if you can think of any other cool ways to come up with <code>e</code>!</p>
 
     <small>
         Author: Ryan Palo | Tags: 
         
-        <a href="/tags/math/">math</a>
-        
-        <a href="/tags/fun/">fun</a>
-        
         <a href="/tags/python/">python</a>
+        
+        <a href="/tags/tricks/">tricks</a>
         
     </small>
 
