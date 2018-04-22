@@ -73,113 +73,430 @@
 
   <!-- Current Post -->
   
-    <h1 id="title">Dict Moves in Python</h1>
-    <small>Apr 8, 2018</small>
-    <p><p>Quick tip time!</p>
+    <h1 id="title">Ruby Concepts - Singleton Classes</h1>
+    <small>Apr 22, 2018</small>
+    <p><p><em>Cover Image credit: <a href="https://www.sitepoint.com/author/ssaeed/">Samier Saeed</a> and <a href="https://www.sitepoint.com/javascript-design-patterns-singleton/">SitePoint</a>.</em></p>
 
-<p>Today, I started the #100DaysOfCode challenge again (for the millionth time).  I’m determined to actually succeed at this challenge, and I refuse to give up.  This time, I’m using the <a href="https://codechalleng.es/">Python Bytes Code Challenges website</a> and their 100 days project suggestions.  During today’s challenge, I learned a neat little trick for working with dictionaries that I wanted to share.</p>
+<p>Have you ever wondered what a “singleton class” is?  Have you ever been talking to someone or reading a blog post and “singleton class” or “singleton method” got used, and you just smile and nod, making a mental note to look it up later?  Now is your time.  Now is your moment.  I’m hoping to explain this concept in more intuitive language and show you how handy it can be.</p>
 
-<h2 id="the-challenge">The Challenge</h2>
+<p>Side note: a lot of this information came from reading <a href="https://amzn.to/2K7hneD">The Well-Grounded Rubyist</a> by <a href="http://www.davidablack.net/">David A. Black</a>.  This book has a ton of great information and is currently one of my favorite books on Ruby.</p>
 
-<p>The challenge is this: go through a <a href="https://raw.githubusercontent.com/rpalo/100DaysOfCode/master/001/dictionary.txt">dictionary of words</a>, which is really just a copy of <code>/usr/share/dict/words</code>.  Find the word that scores the highest in Scrabble, using these letter scores:</p>
+<h2 id="the-code">The Code</h2>
 
-<pre><code class="language-python">SCRABBLE_SCORES = [
-  (1, "E A O I N R T L S U"),
-  (2, "D G"),
-  (3, "B C M P"),
-  (4, "F H V W Y"), 
-  (5, "K"), 
-  (8, "J X"), 
-  (10, "Q Z"),
-]
-LETTER_SCORES = {
-    letter: score for score, letters in scrabble_scores
-    for letter in letters.split()
-}
-# {"A": 1, "B": 3, "C": 3, "D": 2, ...}
+<p>If you’ve written much Ruby, you’ve used these “singleton classes” already without knowing it!  First, I’ll show you the code that you’ve probably already written, so you have some context.</p>
+
+<pre><code class="language-ruby">class Config
+  def self.from_file(filename)
+    Config.new(YAML.load_file(filename))
+  end
+end
+
+dev_config = Config.from_file("config.dev.yaml")
+# =&gt; Config object with dev settings
 </code></pre>
 
-<h2 id="the-issue">The Issue</h2>
+<p>You may have also seen it like this:</p>
 
-<p>The issue is that I don’t want to worry about whether or not there are any invalid characters in the input (for now at least).  So if I look up the word “snoot!43@@@ “, right now, I’d prefer to see the score for SNOOT and then 0 points for the rest of the characters.  I know there are a bunch of ways to do this, but the first way that popped into my head was to use a <em>default</em> of 0 (i.e. if you try to look up a character that’s not in <code>LETTER_SCORES</code>, it returns zero instead of raising a <code>KeyError</code>.)</p>
+<pre><code class="language-ruby">module Geometry
+  class &lt;&lt; self
+    def rect_area(length, width)
+      length * width
+    end
+  end
+end
 
-<h2 id="enter-defaultdict">Enter DefaultDict</h2>
-
-<p>Luckily for us, Python comes with exactly the thing we need: a <code>defaultdict</code>, courtesy of the standard library’s <code>collections</code> module.  Its usage is reasonably straightforward: you supply the <code>defaultdict</code> with a class or function that constructs the default if the input isn’t found.  Let me show you.</p>
-
-<pre><code class="language-python">from collections import defaultdict
-
-zeros = defaultdict(int)
-zeros["a"] = 1
-zeros["b"] = zeros["definitely not in there"] + 4
-print(zeros)
-# =&gt; defaultdict(&lt;int&gt;, {"a": 1, "b": 4, "definitely not in there": 0})
+Geometry.rect_area(4, 5)
+# =&gt; 20
 </code></pre>
 
-<p>Since the <code>zeros</code> dict can’t find the <code>"definitely not in there"</code> key, it calls its default-maker function, <code>int</code>.  Go ahead and open up your Python REPL and try just calling the <code>int</code> function with no arguments.</p>
+<p>Up until now, you’ve probably referred to these as “class methods.”  You are mostly right.  But why do they work?  What’s happening here?</p>
 
-<pre><code class="language-python">&gt;&gt;&gt; int()
-0
+<h2 id="individualization">Individualization</h2>
+
+<p>This is a concept that is central to what makes Ruby so awesome.  Individual objects, even of the same class, are different from each other, and they can have different methods defined on them.  I’m going to shamelessly use our pets to aid in this example.</p>
+
+<pre><code class="language-ruby">class Pet
+  def smolder
+    "Generic cute pet smolder"
+  end
+end
+
+succulent = Pet.new
+momo = Pet.new
+willy = Pet.new
+
+def momo.smolder
+  "sassy cat smolder"
+end
+
+def willy.smolder
+  "well-meaning dingus smolder"
+end
 </code></pre>
 
-<p>The <code>int</code> function, called with no arguments, returns 0 every time.</p>
+<p>Now, when we call <code>smolder</code> on <code>succulent</code>, which we haven’t changed, things go as planned.</p>
 
-<p>You can even create your own default-maker functions (and classes will work too)!</p>
-
-<pre><code class="language-python">from random import choice
-
-def confusing_default():
-    possibles = ["1", 1, True, "banana"]
-    return choice(possibles)
-
-tricky_dict = defaultdict(confusing_default)
-tricky_dict["Ryan"]
-# =&gt; "banana"
-tricky_dict["Python"]
-# =&gt; True
-tricky_dict["Why would you do this?"]
-# =&gt; 1
-tricky_dict
-# =&gt; defaultdict(&lt;confusing_default&gt;, {"Ryan": "banana", "Python": True, "Why would you do this?": 1})
+<pre><code class="language-ruby">succulent.smolder
+# =&gt; Generic cute pet smolder"
 </code></pre>
 
-<p>Often times, you can do things a little quicker with <code>lambdas</code>.</p>
+<p><img src="/img/singleton-succulent.jpg" alt="Our succulent" /></p>
 
-<pre><code class="language-python">from random import randint
+<p>But when we call <code>smolder</code> on <code>willy</code> or <code>momo</code>, something different happens!</p>
 
-SCREAMING = defaultdict(lambda: "A")
-for i in range(20):
-    key = randint(0, 3)
-    SCREAMING[key] += "A"
-SCREAMING
-# =&gt; defaultdict(&lt;function &lt;lambda&gt; at 0x108707f28&gt;, {0: 'AAAAAAAA', 1: 'AAAAAAA', 3: 'AAAAA', 2: 'AAAA'})
+<pre><code class="language-ruby">momo.smolder
+# =&gt; "sassy cat smolder"
 </code></pre>
 
-<p>In fact, I actually think that using <code>defaultdict(lambda: 0)</code> is more explicit and less confusing than using <code>defaultdict(int)</code>, as long as you’re not creating huge numbers of these <code>defaultdicts</code> this way.</p>
+<p><img src="/img/singleton-momo.jpg" alt="Momo is our cat" /></p>
 
-<h2 id="upgrading-to-a-defaultdict">Upgrading to a DefaultDict</h2>
-
-<p>Now, finally, we’re ready for the quick tip.  Up above, I defined <code>LETTER_SCORES</code> as a plain, old Python <code>dict</code>.  How do I get the default behaviors I want, quickly?  One way is using the built-in <code>dict.update()</code> function, which merges two dictionaries.</p>
-
-<pre><code class="language-python">FORGIVING_SCORES = defaultdict(lambda: 0)
-FORGIVING_SCORES.update(LETTER_SCORES)
-
-FORGIVING_SCORES["Q"]
-# =&gt; 10
-
-FORGIVING_SCORES["@"]
-# =&gt; 0
+<pre><code class="language-ruby">willy.smolder
+# =&gt; "well-meaning dingus smolder"
 </code></pre>
 
-<p>Hooray!</p>
+<p><img src="/img/singleton-willy.jpg" alt="Willy is our dog" /></p>
 
-<p>Granted, this isn’t a perfect solution, because the <code>FORGIVING_SCORES</code> defaultdict stores each of the invalid asks.  It’s probably OK if you’re not expecting a huge number of invalid look-ups.  If you <em>are</em> worried about staying space-efficient, though, it’s probably better to do this:</p>
+<p>So, how does this work?  Did we re-define <code>smolder</code> for each pet?  Do me a favor and check out the output of the following:</p>
 
-<pre><code class="language-python">score = LETTER_SCORES.get("@") or 0
+<pre><code class="language-ruby">succulent.singleton_methods
+# =&gt; []
+momo.singleton_methods
+# =&gt; [:smolder]
+willy.singleton_methods
+# =&gt; [:smolder]
 </code></pre>
 
-<p>The <code>get</code> function returns <code>None</code> if a <code>KeyError</code> occurs, and the <code>or</code> allows us to provide a sane default if the lookup goes bad.  And everybody’s happy!</p>
+<p>That’s right!  You’re using a <strong>singleton method</strong>!  Now, I think, we’re ready to talk about what a <strong>singleton class</strong> is.</p>
 
+<h2 id="what-is-a-singleton-class">What is a Singleton Class?</h2>
+
+<p>First, a more general programming, less Ruby-specific question: what is a singleton?  While there are various definitions that might be more specific for different cases, at its core, a <strong>singleton</strong> is just something that there is only one of.  It is the only one of its kind.</p>
+
+<p>What does that mean in the context of Ruby?  Here it is: when you instantiate an object from a class in Ruby, it knows about the methods that its class gives it.  It also knows how to look up all of the ancestors to its class.  That’s why inheritance works.</p>
+
+<blockquote>
+  <p>“Oh, my class doesn’t have that method?  Let’s check its parent class.  And that class’s parent class.  Etc.”</p>
+</blockquote>
+
+<p>One of the cool things about Ruby is that the ancestry chain is very unambiguous by design.  There is a specific set of rules by which objects search their ancestors, such that there is never any doubt which method gets called.</p>
+
+<p>In addition to knowing about its class, each object is created with a <strong>singleton class</strong> that it knows about.  All the singleton class is is a kind of “ghost class” or, more simply, a bag to hold any methods that are defined <em>only for this particular object</em>.  Try this out:</p>
+
+<pre><code class="language-ruby">momo.singleton_class
+# =&gt; #&lt;Class:#&lt;Pet:0x00007fea40060220&gt;&gt;
+</code></pre>
+
+<p>In the inheritance hierarchy, it sits invisibly, just before the objects actual class.  However, you can’t see it by looking at the object’s ancestors.</p>
+
+<pre><code class="language-ruby">momo.class.ancestors
+# =&gt; [Pet, Object, Kernel, BasicObject]
+</code></pre>
+
+<p>But if we look at the ancestry tree for the <em>singleton class itself</em>:</p>
+
+<pre><code class="language-ruby">momo.singleton_class.ancestors
+# =&gt; [#&lt;Class:#&lt;Pet:0x00007fea40060220&gt;&gt;, Pet, Object, Kernel, BasicObject]
+</code></pre>
+
+<p>You can see that it comes in right at the beginning.  Thus, when <code>momo</code> goes to look for the <code>smolder</code> method, it looks <em>first</em> in its singleton class.  Since there is a <code>smolder</code> method there, it calls that one, instead of looking further up the tree to the one defined in the <code>Pet</code> class.</p>
+
+<h2 id="what-does-this-have-to-do-with-class-methods">What Does This Have to Do with Class Methods?</h2>
+
+<p>Now is when we start to see the power of the singleton class.  Don’t forget that every class is just an object of the class <code>Class</code>.  If that sentence made you start to hyperventilate, don’t worry.  I’ll explain.</p>
+
+<pre><code class="language-ruby">Pet.class
+# =&gt; Class
+</code></pre>
+
+<p>And <code>Class</code> is just a class that provides some methods to every instance of it (classes) you create, just like any other class.</p>
+
+<pre><code class="language-ruby">Class.instance_methods(false)
+# =&gt; [:new, :allocate, :superclass]
+</code></pre>
+
+<p>So, really, when you’re defining “class methods” that you plan to call directly on the class, what you’re actually doing is defining methods on that particular Class object — in its singleton class!</p>
+
+<pre><code class="language-ruby">class Pet
+  def self.random
+    %w{cat dog bird fish banana}.sample
+  end
+end
+
+Pet.singleton_methods
+# =&gt; [:random]
+</code></pre>
+
+<p><em>And…</em> if the singleton class exists, it becomes the parent class to singleton_classes of classes that inherit from the main class.  An example should help.</p>
+
+<pre><code class="language-ruby">class Pet
+  def self.random
+    %w{cat dog bird fish banana}.sample
+  end
+end
+
+class Reptile &lt; Pet
+  def self.types
+    %w{lizard snake other}
+  end
+end
+
+Reptile.singleton_methods
+# =&gt; [:types, :random]
+Reptile.singleton_class.ancestors
+# =&gt; [#&lt;Class:Reptile&gt;, #&lt;Class:Pet&gt;, #&lt;Class:Object&gt;, #&lt;Class:BasicObject&gt;, Class, Module, Object, Kernel, BasicObject]
+</code></pre>
+
+<p>See how <code>Reptile</code>’s singleton class inherits from <code>Pet</code>’s singleton class, and thus the “class methods” available to <code>Pet</code> are also available to <code>Reptile</code>?</p>
+
+<h2 id="other-tidbits">Other Tidbits</h2>
+
+<p>I think so far, we’ve pretty much covered all of the important bits.  There are, however, a couple more interesting details that I thought were cool that are sort of tangentially related: the somewhat hard to decipher <code>class &lt;&lt; self</code> syntax, the different ways of creating class methods, and the use of <code>extend</code>.  Feel free to read on if you’re interested.</p>
+
+<h3 id="class--self"><code>Class &lt;&lt; self</code></h3>
+
+<p>There are actually two ways to use the <code>class</code> keyword: directly followed by a constant (a la <code>class Gelato</code>), or followed by the “shovel operator” and an object (a la <code>class &lt;&lt; momo</code>).  You already know about the first one — it’s the way you usually declare a class!  Let’s focus on the second one, which is the syntax to directly open up an object’s singleton class.  You can think about it as essentially the same as defining methods like we were doing above.</p>
+
+<p>What I mean is this:</p>
+
+<pre><code class="language-ruby"># This:
+def momo.snug
+  "*snug*"
+end
+
+# is the same (pretty much) as this:
+class &lt;&lt; momo
+  def snug
+    "*snug*"
+  end
+end
+</code></pre>
+
+<p>You do this all the time when you re-open regular classes to add more functionality.</p>
+
+<pre><code class="language-ruby">class Gelato
+  attr_reader :solidity
+
+  def initialize
+    @solidity = 100
+  end
+
+  def melt
+    @solidity -= 10
+  end
+end
+
+# And re-open it to add one more method
+
+class Gelato
+  def refreeze
+    @solidity = 100
+  end
+end
+
+dessert = Gelato.new
+5.times { dessert.melt }
+dessert.solidity
+# =&gt; 50
+dessert.refreeze
+# =&gt; 100
+</code></pre>
+
+<p>The syntax <code>class &lt;&lt; object; end</code> is just another way of re-opening the object’s singleton class.  The benefit here is that you can define constants and multiple methods all at once instead of one at a time.</p>
+
+<pre><code class="language-ruby"># Instead of:
+def momo.pounce
+  "pounce!"
+end
+
+def momo.hiss
+  "HISS"
+end
+
+def momo.lives
+  9
+end
+
+# We can do
+class &lt;&lt; momo
+  def pounce
+    "pounce!"
+  end
+
+  def hiss
+    "HISS"
+  end
+
+  def lives
+    9
+  end
+end
+
+momo.singleton_methods
+# =&gt; [:pounce, :hiss, :lives, :smolder]
+</code></pre>
+
+<p>It’s a common pattern when adding multiple class methods to a class to see the following:</p>
+
+<pre><code class="language-ruby">class Pet
+  class &lt;&lt; self
+    def random
+      %w{cat dog bird fish banana}.sample
+    end
+  end
+end
+
+# Which, since "self" is inside of the class
+# declaration, means that 'self == Pet', so you could
+# also do this:
+
+class Pet
+  class &lt;&lt; Pet
+    def random
+      # ...
+    end
+  end
+end
+</code></pre>
+
+<p>Maybe you’ve seen this pattern and not known what it is, or maybe you knew it adds class methods but didn’t know what why.  Now you know!  It’s all thanks to the singleton class!</p>
+
+<h2 id="class--self-vs-def-selfmethod-vs-def-petmethod"><code>class &lt;&lt; self</code> vs <code>def self.method</code> vs <code>def Pet.method</code></h2>
+
+<p>There are a few different ways to declare class methods.</p>
+
+<pre><code class="language-ruby"># 1. In global scope
+def Pet.random
+  %w{cat dog bird fish banana}.sample
+end
+
+# 2. Inside the class definition, using 'self'
+class Pet
+  def self.random
+    %w{cat dog bird fish banana}.sample
+  end
+end
+
+# 3. Inside the class definition, using the shovel
+class Pet
+  class &lt;&lt; self
+    def random
+      %w{cat dog bird fish banana}.sample
+    end
+  end
+end
+
+# 4. Outside the class definition, using the shovel
+class &lt;&lt; Pet
+  def random
+    %w{cat dog bird fish banana}.sample
+  end
+end
+</code></pre>
+
+<p>So what’s the difference??  When do you use one or the other?</p>
+
+<p>The good news is that they’re all basically the same.  You can use whichever one makes you the happiest and matches the style of your codebase.  The only difference is with #3, and how it deals with constants and scope.</p>
+
+<pre><code class="language-ruby">MAX_PETS = 3
+
+def Pet.outer_max_pets
+  MAX_PETS
+end
+
+class Pet
+  MAX_PETS = 1000
+
+  class &lt;&lt; self
+    def inner_max_pets
+      MAX_PETS
+    end
+  end
+end
+
+Pet.outer_max_pets
+# =&gt; 3
+Pet.inner_max_pets
+# =&gt; 1000
+</code></pre>
+
+<p>See that the <code>inner_max_pets</code> function has access to the scope inside the <code>Pet</code> class and the constants there?  That’s really the only difference.  Feel free to carry on using your favorite syntax with confidence.</p>
+
+<h2 id="using-extend-to-safely-modify-built-in-classes">Using Extend to Safely Modify Built-In Classes</h2>
+
+<p>Hopefully, at some point, you’ve read a blog post or had someone warn you about the dangers of re-opening built-in Ruby classes.  Doing something like the following should be done veeeery carefully.</p>
+
+<pre><code class="language-ruby">class String
+  def verbify
+    self + "ify"
+  end
+end
+
+"banana".verbify
+# =&gt; "bananaify"
+</code></pre>
+
+<p>The dangers include accidentally overwriting built-in methods, having methods clash with other libraries in the same project, and generally making things not behave as expected.  The <code>extend</code> keyword can help with all of that!</p>
+
+<h3 id="what-is-extend">What is Extend?</h3>
+
+<p>The <code>extend</code> keyword is a lot like <code>include</code> in that it allows you to load functionality into your class/module from other classes/modules.  The difference, however, is that <code>extend</code> puts these methods onto the target object’s singleton class.</p>
+
+<pre><code class="language-ruby">module Wigglable
+  def wiggle
+    "*shimmy*"
+  end
+end
+
+willy.extend(Wiggleable)
+willy.singleton_methods
+# =&gt; [:wiggle, :smolder]
+</code></pre>
+
+<p>Thus, if you use <code>extend</code> inside a class definition instead of <code>include</code>, the methods will get added to the class’s singleton class as class methods instead of being added to the class itself as instance methods.</p>
+
+<pre><code class="language-ruby">module Hissy
+  def hiss
+    "HISS"
+  end
+end
+
+class Reptile
+  extend Hissy
+end
+
+snek = Reptile.new
+snek.hiss
+# =&gt; Error!  Undefined method hiss for 'snek'
+Reptile.hiss
+# =&gt; "HISS"
+</code></pre>
+
+<h3 id="how-does-that-help-us">How Does That Help Us?</h3>
+
+<p>So, let’s say that we really needed to have that <code>verbify</code> method on the strings we were using.  While you could create and use a subclass of <code>String</code>, another option would be to extend individual strings!</p>
+
+<pre><code class="language-ruby">module Verby
+  def verbify
+    self + "ify"
+  end
+end
+
+noun = "pup"
+noun.extend(Verby)
+noun.verbify
+# =&gt; "pupify"
+</code></pre>
+
+<h2 id="cheesy-wrap-up">Cheesy Wrap Up</h2>
+
+<p>So remember, singletons aren’t just an intimidating-sounding but not-super-complicated Ruby topic.  <em>You</em> are the <em>real</em> <strong>singleton</strong> — yes, you’re a human, but there’s nobody else quite like you.  You’ve got <strong>class</strong> and your own <strong>methods</strong> of doing things, and that’s valuable.  And now we’ve just added a little more functionality to you.</p>
+
+<pre><code class="language-ruby">class &lt;&lt; you
+  def use_singletons_for_fun_and_profit
+    # ...
+  end
+end
+</code></pre>
 </p>
   
 
@@ -197,6 +514,11 @@ FORGIVING_SCORES["@"]
         </li>
         
           <li>
+            <span class="post-meta">Apr 8, 2018</span><br/>
+            <a class="post-link" href="/2018/04/08/convert-to-default-dict/">Dict Moves in Python</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Mar 28, 2018</span><br/>
             <a class="post-link" href="/2018/03/28/data-science-cardio-weather/">Data Science Cardio 1 - Weather</a>
           </li>
@@ -204,11 +526,6 @@ FORGIVING_SCORES["@"]
           <li>
             <span class="post-meta">Mar 25, 2018</span><br/>
             <a class="post-link" href="/2018/03/25/bullet-journal/">Get on the Bullet Journaling Train</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Mar 18, 2018</span><br/>
-            <a class="post-link" href="/2018/03/18/vim-filters/">Vim Filters</a>
           </li>
         
       </ul>
@@ -261,7 +578,7 @@ FORGIVING_SCORES["@"]
         
         <a href="/tags/teaching/" style="font-size: 16px">teaching | </a>
         
-        <a href="/tags/ruby/" style="font-size: 30px">ruby | </a>
+        <a href="/tags/ruby/" style="font-size: 32px">ruby | </a>
         
         <a href="/tags/jekyll/" style="font-size: 16px">jekyll | </a>
         
@@ -354,6 +671,10 @@ FORGIVING_SCORES["@"]
         <a href="/tags/bullet-journal/" style="font-size: 14px">bullet-journal | </a>
         
         <a href="/tags/data-science/" style="font-size: 14px">data-science | </a>
+        
+        <a href="/tags/singleton/" style="font-size: 14px">singleton | </a>
+        
+        <a href="/tags/basics/" style="font-size: 14px">basics | </a>
         
       </p>
     </div>

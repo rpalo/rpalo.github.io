@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <!-- Bootstrap Setup -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="ROBOTS" content="INDEX,FOLLOW">
+        <meta name="description" content="An indepth user's guide to Ruby Singleton Classes for newbies.">
+        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, ruby, singleton, basics">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="assert_not magic? | Ruby Concepts - Singleton Classes">
+        <meta name="twitter:site" content="@paytastic">
+        <meta name="twitter:description" content="An indepth user's guide to Ruby Singleton Classes for newbies.">
+        <meta name="twitter:image" content="http://assertnotmagic.com/img/singleton.jpg">
+        <meta name="twitter:creator" content="@paytastic">
+        <meta name="og:url" content="http://assertnotmagic.com/2018/04/22/ruby-singleton-classes/">
+        <meta name="og:title" content="assert_not magic? | Ruby Concepts - Singleton Classes">
+        <meta name="og:description" content="An indepth user's guide to Ruby Singleton Classes for newbies.">
+        <meta name="og:image" content="http://assertnotmagic.com/img/singleton.jpg">
+
+        <!-- Favicon settings -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/manifest.json">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#222222">
+        <meta name="theme-color" content="#ffffff">
+
+        <!-- Omnisearch -->
+        <link rel="search" type="application/opensearchdescription+xml" title="search assert_not magic" href="/opensearch.xml">
+        
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+        
+        <link rel="stylesheet" href="/css/prism.css">
+        <title>assert_not magic?</title>
+    </head>
+    <body>
+        
+<nav id="main-nav">
+    <a href="/" class="mobile-home">assert_not magic?</a>
+    <ul>
+        <li class="logo"><a href="/">assert_not magic?</a></li>
+        <li><a href="/posts/">All Posts</a></li>
+        <li><a href="/about/">About Ryan</a></li>
+        <li><a href="/sketches/">Sketches</a></li>
+        <li><a href="/uses/">Uses</a></li>
+    </ul>
+</nav>
+        <div class="container main">
+                <article class="site-wrap">
+    <div id="cover">
+        
+        <img alt="Cover Image" class="cover-image" src="/img/singleton.jpg">
+        
+    </div>
+    <h1>Ruby Concepts - Singleton Classes</h1>
+    <p><em>Cover Image credit: <a href="https://www.sitepoint.com/author/ssaeed/">Samier Saeed</a> and <a href="https://www.sitepoint.com/javascript-design-patterns-singleton/">SitePoint</a>.</em></p>
+
+<p>Have you ever wondered what a “singleton class” is?  Have you ever been talking to someone or reading a blog post and “singleton class” or “singleton method” got used, and you just smile and nod, making a mental note to look it up later?  Now is your time.  Now is your moment.  I’m hoping to explain this concept in more intuitive language and show you how handy it can be.</p>
+
+<p>Side note: a lot of this information came from reading <a href="https://amzn.to/2K7hneD">The Well-Grounded Rubyist</a> by <a href="http://www.davidablack.net/">David A. Black</a>.  This book has a ton of great information and is currently one of my favorite books on Ruby.</p>
+
+<h2 id="the-code">The Code</h2>
+
+<p>If you’ve written much Ruby, you’ve used these “singleton classes” already without knowing it!  First, I’ll show you the code that you’ve probably already written, so you have some context.</p>
+
+<pre><code class="language-ruby">class Config
+  def self.from_file(filename)
+    Config.new(YAML.load_file(filename))
+  end
+end
+
+dev_config = Config.from_file("config.dev.yaml")
+# =&gt; Config object with dev settings
+</code></pre>
+
+<p>You may have also seen it like this:</p>
+
+<pre><code class="language-ruby">module Geometry
+  class &lt;&lt; self
+    def rect_area(length, width)
+      length * width
+    end
+  end
+end
+
+Geometry.rect_area(4, 5)
+# =&gt; 20
+</code></pre>
+
+<p>Up until now, you’ve probably referred to these as “class methods.”  You are mostly right.  But why do they work?  What’s happening here?</p>
+
+<h2 id="individualization">Individualization</h2>
+
+<p>This is a concept that is central to what makes Ruby so awesome.  Individual objects, even of the same class, are different from each other, and they can have different methods defined on them.  I’m going to shamelessly use our pets to aid in this example.</p>
+
+<pre><code class="language-ruby">class Pet
+  def smolder
+    "Generic cute pet smolder"
+  end
+end
+
+succulent = Pet.new
+momo = Pet.new
+willy = Pet.new
+
+def momo.smolder
+  "sassy cat smolder"
+end
+
+def willy.smolder
+  "well-meaning dingus smolder"
+end
+</code></pre>
+
+<p>Now, when we call <code>smolder</code> on <code>succulent</code>, which we haven’t changed, things go as planned.</p>
+
+<pre><code class="language-ruby">succulent.smolder
+# =&gt; Generic cute pet smolder"
+</code></pre>
+
+<p><img src="/img/singleton-succulent.jpg" alt="Our succulent" /></p>
+
+<p>But when we call <code>smolder</code> on <code>willy</code> or <code>momo</code>, something different happens!</p>
+
+<pre><code class="language-ruby">momo.smolder
+# =&gt; "sassy cat smolder"
+</code></pre>
+
+<p><img src="/img/singleton-momo.jpg" alt="Momo is our cat" /></p>
+
+<pre><code class="language-ruby">willy.smolder
+# =&gt; "well-meaning dingus smolder"
+</code></pre>
+
+<p><img src="/img/singleton-willy.jpg" alt="Willy is our dog" /></p>
+
+<p>So, how does this work?  Did we re-define <code>smolder</code> for each pet?  Do me a favor and check out the output of the following:</p>
+
+<pre><code class="language-ruby">succulent.singleton_methods
+# =&gt; []
+momo.singleton_methods
+# =&gt; [:smolder]
+willy.singleton_methods
+# =&gt; [:smolder]
+</code></pre>
+
+<p>That’s right!  You’re using a <strong>singleton method</strong>!  Now, I think, we’re ready to talk about what a <strong>singleton class</strong> is.</p>
+
+<h2 id="what-is-a-singleton-class">What is a Singleton Class?</h2>
+
+<p>First, a more general programming, less Ruby-specific question: what is a singleton?  While there are various definitions that might be more specific for different cases, at its core, a <strong>singleton</strong> is just something that there is only one of.  It is the only one of its kind.</p>
+
+<p>What does that mean in the context of Ruby?  Here it is: when you instantiate an object from a class in Ruby, it knows about the methods that its class gives it.  It also knows how to look up all of the ancestors to its class.  That’s why inheritance works.</p>
+
+<blockquote>
+  <p>“Oh, my class doesn’t have that method?  Let’s check its parent class.  And that class’s parent class.  Etc.”</p>
+</blockquote>
+
+<p>One of the cool things about Ruby is that the ancestry chain is very unambiguous by design.  There is a specific set of rules by which objects search their ancestors, such that there is never any doubt which method gets called.</p>
+
+<p>In addition to knowing about its class, each object is created with a <strong>singleton class</strong> that it knows about.  All the singleton class is is a kind of “ghost class” or, more simply, a bag to hold any methods that are defined <em>only for this particular object</em>.  Try this out:</p>
+
+<pre><code class="language-ruby">momo.singleton_class
+# =&gt; #&lt;Class:#&lt;Pet:0x00007fea40060220&gt;&gt;
+</code></pre>
+
+<p>In the inheritance hierarchy, it sits invisibly, just before the objects actual class.  However, you can’t see it by looking at the object’s ancestors.</p>
+
+<pre><code class="language-ruby">momo.class.ancestors
+# =&gt; [Pet, Object, Kernel, BasicObject]
+</code></pre>
+
+<p>But if we look at the ancestry tree for the <em>singleton class itself</em>:</p>
+
+<pre><code class="language-ruby">momo.singleton_class.ancestors
+# =&gt; [#&lt;Class:#&lt;Pet:0x00007fea40060220&gt;&gt;, Pet, Object, Kernel, BasicObject]
+</code></pre>
+
+<p>You can see that it comes in right at the beginning.  Thus, when <code>momo</code> goes to look for the <code>smolder</code> method, it looks <em>first</em> in its singleton class.  Since there is a <code>smolder</code> method there, it calls that one, instead of looking further up the tree to the one defined in the <code>Pet</code> class.</p>
+
+<h2 id="what-does-this-have-to-do-with-class-methods">What Does This Have to Do with Class Methods?</h2>
+
+<p>Now is when we start to see the power of the singleton class.  Don’t forget that every class is just an object of the class <code>Class</code>.  If that sentence made you start to hyperventilate, don’t worry.  I’ll explain.</p>
+
+<pre><code class="language-ruby">Pet.class
+# =&gt; Class
+</code></pre>
+
+<p>And <code>Class</code> is just a class that provides some methods to every instance of it (classes) you create, just like any other class.</p>
+
+<pre><code class="language-ruby">Class.instance_methods(false)
+# =&gt; [:new, :allocate, :superclass]
+</code></pre>
+
+<p>So, really, when you’re defining “class methods” that you plan to call directly on the class, what you’re actually doing is defining methods on that particular Class object — in its singleton class!</p>
+
+<pre><code class="language-ruby">class Pet
+  def self.random
+    %w{cat dog bird fish banana}.sample
+  end
+end
+
+Pet.singleton_methods
+# =&gt; [:random]
+</code></pre>
+
+<p><em>And…</em> if the singleton class exists, it becomes the parent class to singleton_classes of classes that inherit from the main class.  An example should help.</p>
+
+<pre><code class="language-ruby">class Pet
+  def self.random
+    %w{cat dog bird fish banana}.sample
+  end
+end
+
+class Reptile &lt; Pet
+  def self.types
+    %w{lizard snake other}
+  end
+end
+
+Reptile.singleton_methods
+# =&gt; [:types, :random]
+Reptile.singleton_class.ancestors
+# =&gt; [#&lt;Class:Reptile&gt;, #&lt;Class:Pet&gt;, #&lt;Class:Object&gt;, #&lt;Class:BasicObject&gt;, Class, Module, Object, Kernel, BasicObject]
+</code></pre>
+
+<p>See how <code>Reptile</code>’s singleton class inherits from <code>Pet</code>’s singleton class, and thus the “class methods” available to <code>Pet</code> are also available to <code>Reptile</code>?</p>
+
+<h2 id="other-tidbits">Other Tidbits</h2>
+
+<p>I think so far, we’ve pretty much covered all of the important bits.  There are, however, a couple more interesting details that I thought were cool that are sort of tangentially related: the somewhat hard to decipher <code>class &lt;&lt; self</code> syntax, the different ways of creating class methods, and the use of <code>extend</code>.  Feel free to read on if you’re interested.</p>
+
+<h3 id="class--self"><code>Class &lt;&lt; self</code></h3>
+
+<p>There are actually two ways to use the <code>class</code> keyword: directly followed by a constant (a la <code>class Gelato</code>), or followed by the “shovel operator” and an object (a la <code>class &lt;&lt; momo</code>).  You already know about the first one — it’s the way you usually declare a class!  Let’s focus on the second one, which is the syntax to directly open up an object’s singleton class.  You can think about it as essentially the same as defining methods like we were doing above.</p>
+
+<p>What I mean is this:</p>
+
+<pre><code class="language-ruby"># This:
+def momo.snug
+  "*snug*"
+end
+
+# is the same (pretty much) as this:
+class &lt;&lt; momo
+  def snug
+    "*snug*"
+  end
+end
+</code></pre>
+
+<p>You do this all the time when you re-open regular classes to add more functionality.</p>
+
+<pre><code class="language-ruby">class Gelato
+  attr_reader :solidity
+
+  def initialize
+    @solidity = 100
+  end
+
+  def melt
+    @solidity -= 10
+  end
+end
+
+# And re-open it to add one more method
+
+class Gelato
+  def refreeze
+    @solidity = 100
+  end
+end
+
+dessert = Gelato.new
+5.times { dessert.melt }
+dessert.solidity
+# =&gt; 50
+dessert.refreeze
+# =&gt; 100
+</code></pre>
+
+<p>The syntax <code>class &lt;&lt; object; end</code> is just another way of re-opening the object’s singleton class.  The benefit here is that you can define constants and multiple methods all at once instead of one at a time.</p>
+
+<pre><code class="language-ruby"># Instead of:
+def momo.pounce
+  "pounce!"
+end
+
+def momo.hiss
+  "HISS"
+end
+
+def momo.lives
+  9
+end
+
+# We can do
+class &lt;&lt; momo
+  def pounce
+    "pounce!"
+  end
+
+  def hiss
+    "HISS"
+  end
+
+  def lives
+    9
+  end
+end
+
+momo.singleton_methods
+# =&gt; [:pounce, :hiss, :lives, :smolder]
+</code></pre>
+
+<p>It’s a common pattern when adding multiple class methods to a class to see the following:</p>
+
+<pre><code class="language-ruby">class Pet
+  class &lt;&lt; self
+    def random
+      %w{cat dog bird fish banana}.sample
+    end
+  end
+end
+
+# Which, since "self" is inside of the class
+# declaration, means that 'self == Pet', so you could
+# also do this:
+
+class Pet
+  class &lt;&lt; Pet
+    def random
+      # ...
+    end
+  end
+end
+</code></pre>
+
+<p>Maybe you’ve seen this pattern and not known what it is, or maybe you knew it adds class methods but didn’t know what why.  Now you know!  It’s all thanks to the singleton class!</p>
+
+<h2 id="class--self-vs-def-selfmethod-vs-def-petmethod"><code>class &lt;&lt; self</code> vs <code>def self.method</code> vs <code>def Pet.method</code></h2>
+
+<p>There are a few different ways to declare class methods.</p>
+
+<pre><code class="language-ruby"># 1. In global scope
+def Pet.random
+  %w{cat dog bird fish banana}.sample
+end
+
+# 2. Inside the class definition, using 'self'
+class Pet
+  def self.random
+    %w{cat dog bird fish banana}.sample
+  end
+end
+
+# 3. Inside the class definition, using the shovel
+class Pet
+  class &lt;&lt; self
+    def random
+      %w{cat dog bird fish banana}.sample
+    end
+  end
+end
+
+# 4. Outside the class definition, using the shovel
+class &lt;&lt; Pet
+  def random
+    %w{cat dog bird fish banana}.sample
+  end
+end
+</code></pre>
+
+<p>So what’s the difference??  When do you use one or the other?</p>
+
+<p>The good news is that they’re all basically the same.  You can use whichever one makes you the happiest and matches the style of your codebase.  The only difference is with #3, and how it deals with constants and scope.</p>
+
+<pre><code class="language-ruby">MAX_PETS = 3
+
+def Pet.outer_max_pets
+  MAX_PETS
+end
+
+class Pet
+  MAX_PETS = 1000
+
+  class &lt;&lt; self
+    def inner_max_pets
+      MAX_PETS
+    end
+  end
+end
+
+Pet.outer_max_pets
+# =&gt; 3
+Pet.inner_max_pets
+# =&gt; 1000
+</code></pre>
+
+<p>See that the <code>inner_max_pets</code> function has access to the scope inside the <code>Pet</code> class and the constants there?  That’s really the only difference.  Feel free to carry on using your favorite syntax with confidence.</p>
+
+<h2 id="using-extend-to-safely-modify-built-in-classes">Using Extend to Safely Modify Built-In Classes</h2>
+
+<p>Hopefully, at some point, you’ve read a blog post or had someone warn you about the dangers of re-opening built-in Ruby classes.  Doing something like the following should be done veeeery carefully.</p>
+
+<pre><code class="language-ruby">class String
+  def verbify
+    self + "ify"
+  end
+end
+
+"banana".verbify
+# =&gt; "bananaify"
+</code></pre>
+
+<p>The dangers include accidentally overwriting built-in methods, having methods clash with other libraries in the same project, and generally making things not behave as expected.  The <code>extend</code> keyword can help with all of that!</p>
+
+<h3 id="what-is-extend">What is Extend?</h3>
+
+<p>The <code>extend</code> keyword is a lot like <code>include</code> in that it allows you to load functionality into your class/module from other classes/modules.  The difference, however, is that <code>extend</code> puts these methods onto the target object’s singleton class.</p>
+
+<pre><code class="language-ruby">module Wigglable
+  def wiggle
+    "*shimmy*"
+  end
+end
+
+willy.extend(Wiggleable)
+willy.singleton_methods
+# =&gt; [:wiggle, :smolder]
+</code></pre>
+
+<p>Thus, if you use <code>extend</code> inside a class definition instead of <code>include</code>, the methods will get added to the class’s singleton class as class methods instead of being added to the class itself as instance methods.</p>
+
+<pre><code class="language-ruby">module Hissy
+  def hiss
+    "HISS"
+  end
+end
+
+class Reptile
+  extend Hissy
+end
+
+snek = Reptile.new
+snek.hiss
+# =&gt; Error!  Undefined method hiss for 'snek'
+Reptile.hiss
+# =&gt; "HISS"
+</code></pre>
+
+<h3 id="how-does-that-help-us">How Does That Help Us?</h3>
+
+<p>So, let’s say that we really needed to have that <code>verbify</code> method on the strings we were using.  While you could create and use a subclass of <code>String</code>, another option would be to extend individual strings!</p>
+
+<pre><code class="language-ruby">module Verby
+  def verbify
+    self + "ify"
+  end
+end
+
+noun = "pup"
+noun.extend(Verby)
+noun.verbify
+# =&gt; "pupify"
+</code></pre>
+
+<h2 id="cheesy-wrap-up">Cheesy Wrap Up</h2>
+
+<p>So remember, singletons aren’t just an intimidating-sounding but not-super-complicated Ruby topic.  <em>You</em> are the <em>real</em> <strong>singleton</strong> — yes, you’re a human, but there’s nobody else quite like you.  You’ve got <strong>class</strong> and your own <strong>methods</strong> of doing things, and that’s valuable.  And now we’ve just added a little more functionality to you.</p>
+
+<pre><code class="language-ruby">class &lt;&lt; you
+  def use_singletons_for_fun_and_profit
+    # ...
+  end
+end
+</code></pre>
+
+    <small>
+        Author: Ryan Palo | Tags: 
+        
+        <a href="/tags/ruby/">ruby</a>
+        
+        <a href="/tags/singleton/">singleton</a>
+        
+        <a href="/tags/basics/">basics</a>
+        
+    </small>
+
+    <hr>
+
+<!-- Footer for Homepage -->
+  <div id="home-footer">
+    <div id="left-home-footer">
+      <!-- Featured Posts List -->
+      <h2>Featured Posts</h2>
+      <ul class="post-list">
+        <li>
+          <span class="post-meta">Jan 18, 2017</span><br />
+          <a class="post-link" href="/2017/01/18/assert-not-magic/">Assert Not Magic</a>
+        </li>
+        
+          <li>
+            <span class="post-meta">Apr 8, 2018</span><br/>
+            <a class="post-link" href="/2018/04/08/convert-to-default-dict/">Dict Moves in Python</a>
+          </li>
+        
+          <li>
+            <span class="post-meta">Mar 28, 2018</span><br/>
+            <a class="post-link" href="/2018/03/28/data-science-cardio-weather/">Data Science Cardio 1 - Weather</a>
+          </li>
+        
+          <li>
+            <span class="post-meta">Mar 25, 2018</span><br/>
+            <a class="post-link" href="/2018/03/25/bullet-journal/">Get on the Bullet Journaling Train</a>
+          </li>
+        
+      </ul>
+    </div>
+    <div id="center-home-footer">
+      <!-- Spacer -->
+    </div>
+    <div id="right-home-footer">
+      <!-- Tags List -->
+      <h2>Tags</h2>
+      <p>
+        
+        <a href="/tags/python/" style="font-size: 60px">python | </a>
+        
+        <a href="/tags/django/" style="font-size: 22px">django | </a>
+        
+        <a href="/tags/rails/" style="font-size: 14px">rails | </a>
+        
+        <a href="/tags/algorithms/" style="font-size: 22px">algorithms | </a>
+        
+        <a href="/tags/editors/" style="font-size: 18px">editors | </a>
+        
+        <a href="/tags/emacs/" style="font-size: 16px">emacs | </a>
+        
+        <a href="/tags/ai/" style="font-size: 14px">ai | </a>
+        
+        <a href="/tags/r/" style="font-size: 14px">r | </a>
+        
+        <a href="/tags/tools/" style="font-size: 16px">tools | </a>
+        
+        <a href="/tags/javascript/" style="font-size: 26px">javascript | </a>
+        
+        <a href="/tags/not-magic/" style="font-size: 16px">not-magic | </a>
+        
+        <a href="/tags/soft-skills/" style="font-size: 22px">soft-skills | </a>
+        
+        <a href="/tags/tricks/" style="font-size: 38px">tricks | </a>
+        
+        <a href="/tags/vscode/" style="font-size: 14px">vscode | </a>
+        
+        <a href="/tags/vim/" style="font-size: 18px">vim | </a>
+        
+        <a href="/tags/sublime/" style="font-size: 14px">sublime | </a>
+        
+        <a href="/tags/puzzle/" style="font-size: 20px">puzzle | </a>
+        
+        <a href="/tags/bash/" style="font-size: 16px">bash | </a>
+        
+        <a href="/tags/math/" style="font-size: 16px">math | </a>
+        
+        <a href="/tags/teaching/" style="font-size: 16px">teaching | </a>
+        
+        <a href="/tags/ruby/" style="font-size: 32px">ruby | </a>
+        
+        <a href="/tags/jekyll/" style="font-size: 16px">jekyll | </a>
+        
+        <a href="/tags/git/" style="font-size: 20px">git | </a>
+        
+        <a href="/tags/physics/" style="font-size: 14px">physics | </a>
+        
+        <a href="/tags/fun/" style="font-size: 18px">fun | </a>
+        
+        <a href="/tags/scientific/" style="font-size: 16px">scientific | </a>
+        
+        <a href="/tags/pythonic/" style="font-size: 16px">pythonic | </a>
+        
+        <a href="/tags/functional/" style="font-size: 20px">functional | </a>
+        
+        <a href="/tags/vue/" style="font-size: 22px">vue | </a>
+        
+        <a href="/tags/es6/" style="font-size: 20px">es6 | </a>
+        
+        <a href="/tags/tutorial/" style="font-size: 34px">tutorial | </a>
+        
+        <a href="/tags/exercise/" style="font-size: 14px">exercise | </a>
+        
+        <a href="/tags/fitness/" style="font-size: 14px">fitness | </a>
+        
+        <a href="/tags/sysadmin/" style="font-size: 16px">sysadmin | </a>
+        
+        <a href="/tags/linux/" style="font-size: 14px">linux | </a>
+        
+        <a href="/tags/html/" style="font-size: 18px">html | </a>
+        
+        <a href="/tags/seo/" style="font-size: 14px">seo | </a>
+        
+        <a href="/tags/social/" style="font-size: 14px">social | </a>
+        
+        <a href="/tags/metaprogramming/" style="font-size: 14px">metaprogramming | </a>
+        
+        <a href="/tags/css/" style="font-size: 14px">css | </a>
+        
+        <a href="/tags/front-end/" style="font-size: 16px">front-end | </a>
+        
+        <a href="/tags/animations/" style="font-size: 14px">animations | </a>
+        
+        <a href="/tags/p5/" style="font-size: 20px">p5 | </a>
+        
+        <a href="/tags/beginner/" style="font-size: 20px">beginner | </a>
+        
+        <a href="/tags/encouragement/" style="font-size: 18px">encouragement | </a>
+        
+        <a href="/tags/screencast/" style="font-size: 14px">screencast | </a>
+        
+        <a href="/tags/showdev/" style="font-size: 14px">showdev | </a>
+        
+        <a href="/tags/interview/" style="font-size: 14px">interview | </a>
+        
+        <a href="/tags/performance/" style="font-size: 16px">performance | </a>
+        
+        <a href="/tags/workflow/" style="font-size: 14px">workflow | </a>
+        
+        <a href="/tags/best-practice/" style="font-size: 14px">best-practice | </a>
+        
+        <a href="/tags/oss/" style="font-size: 14px">oss | </a>
+        
+        <a href="/tags/static-site/" style="font-size: 14px">static-site | </a>
+        
+        <a href="/tags/big-o/" style="font-size: 14px">big-o | </a>
+        
+        <a href="/tags/linked-lists/" style="font-size: 14px">linked-lists | </a>
+        
+        <a href="/tags/design-intent/" style="font-size: 14px">design-intent | </a>
+        
+        <a href="/tags/struct/" style="font-size: 14px">struct | </a>
+        
+        <a href="/tags/browser/" style="font-size: 14px">browser | </a>
+        
+        <a href="/tags/focus/" style="font-size: 14px">focus | </a>
+        
+        <a href="/tags/productivity/" style="font-size: 18px">productivity | </a>
+        
+        <a href="/tags/codenewbie/" style="font-size: 14px">codenewbie | </a>
+        
+        <a href="/tags/reflection/" style="font-size: 14px">reflection | </a>
+        
+        <a href="/tags/update/" style="font-size: 14px">update | </a>
+        
+        <a href="/tags/preview/" style="font-size: 14px">preview | </a>
+        
+        <a href="/tags/gtd/" style="font-size: 14px">gtd | </a>
+        
+        <a href="/tags/bullet-journal/" style="font-size: 14px">bullet-journal | </a>
+        
+        <a href="/tags/data-science/" style="font-size: 14px">data-science | </a>
+        
+        <a href="/tags/singleton/" style="font-size: 14px">singleton | </a>
+        
+        <a href="/tags/basics/" style="font-size: 14px">basics | </a>
+        
+      </p>
+    </div>
+  </div>
+  <hr>
+  
+
+  <p class="rss-subscribe contact">Like my stuff?  Have questions or feedback for me?  Want to mentor me or get my help with something?  <a href="/about/">Get in touch!</a>  To stay updated, subscribe <a href="/feed.xml">via RSS</a></p>
+
+
+
+</article>
+        </div>
+
+        <footer id="main-footer">
+    <div class="container">
+        <p class="text-muted">&copy; Ryan Palo 2018 | All things.  Phil. 4:13</p>
+    </div>
+</footer>
+        <!-- Scripts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+        <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-91889165-1', 'auto');
+            ga('send', 'pageview');
+
+        </script>
+        
+    </body>
+</html>

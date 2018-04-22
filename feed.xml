@@ -6,9 +6,447 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 08 Apr 2018 12:23:33 -0700</pubDate>
-    <lastBuildDate>Sun, 08 Apr 2018 12:23:33 -0700</lastBuildDate>
+    <pubDate>Sun, 22 Apr 2018 14:59:47 -0700</pubDate>
+    <lastBuildDate>Sun, 22 Apr 2018 14:59:47 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Ruby Concepts - Singleton Classes</title>
+        <description>&lt;p&gt;&lt;em&gt;Cover Image credit: &lt;a href=&quot;https://www.sitepoint.com/author/ssaeed/&quot;&gt;Samier Saeed&lt;/a&gt; and &lt;a href=&quot;https://www.sitepoint.com/javascript-design-patterns-singleton/&quot;&gt;SitePoint&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Have you ever wondered what a “singleton class” is?  Have you ever been talking to someone or reading a blog post and “singleton class” or “singleton method” got used, and you just smile and nod, making a mental note to look it up later?  Now is your time.  Now is your moment.  I’m hoping to explain this concept in more intuitive language and show you how handy it can be.&lt;/p&gt;
+
+&lt;p&gt;Side note: a lot of this information came from reading &lt;a href=&quot;https://amzn.to/2K7hneD&quot;&gt;The Well-Grounded Rubyist&lt;/a&gt; by &lt;a href=&quot;http://www.davidablack.net/&quot;&gt;David A. Black&lt;/a&gt;.  This book has a ton of great information and is currently one of my favorite books on Ruby.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-code&quot;&gt;The Code&lt;/h2&gt;
+
+&lt;p&gt;If you’ve written much Ruby, you’ve used these “singleton classes” already without knowing it!  First, I’ll show you the code that you’ve probably already written, so you have some context.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;class Config
+  def self.from_file(filename)
+    Config.new(YAML.load_file(filename))
+  end
+end
+
+dev_config = Config.from_file(&quot;config.dev.yaml&quot;)
+# =&amp;gt; Config object with dev settings
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You may have also seen it like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;module Geometry
+  class &amp;lt;&amp;lt; self
+    def rect_area(length, width)
+      length * width
+    end
+  end
+end
+
+Geometry.rect_area(4, 5)
+# =&amp;gt; 20
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Up until now, you’ve probably referred to these as “class methods.”  You are mostly right.  But why do they work?  What’s happening here?&lt;/p&gt;
+
+&lt;h2 id=&quot;individualization&quot;&gt;Individualization&lt;/h2&gt;
+
+&lt;p&gt;This is a concept that is central to what makes Ruby so awesome.  Individual objects, even of the same class, are different from each other, and they can have different methods defined on them.  I’m going to shamelessly use our pets to aid in this example.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;class Pet
+  def smolder
+    &quot;Generic cute pet smolder&quot;
+  end
+end
+
+succulent = Pet.new
+momo = Pet.new
+willy = Pet.new
+
+def momo.smolder
+  &quot;sassy cat smolder&quot;
+end
+
+def willy.smolder
+  &quot;well-meaning dingus smolder&quot;
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, when we call &lt;code&gt;smolder&lt;/code&gt; on &lt;code&gt;succulent&lt;/code&gt;, which we haven’t changed, things go as planned.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;succulent.smolder
+# =&amp;gt; Generic cute pet smolder&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/singleton-succulent.jpg&quot; alt=&quot;Our succulent&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;But when we call &lt;code&gt;smolder&lt;/code&gt; on &lt;code&gt;willy&lt;/code&gt; or &lt;code&gt;momo&lt;/code&gt;, something different happens!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;momo.smolder
+# =&amp;gt; &quot;sassy cat smolder&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/singleton-momo.jpg&quot; alt=&quot;Momo is our cat&quot; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;willy.smolder
+# =&amp;gt; &quot;well-meaning dingus smolder&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/singleton-willy.jpg&quot; alt=&quot;Willy is our dog&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;So, how does this work?  Did we re-define &lt;code&gt;smolder&lt;/code&gt; for each pet?  Do me a favor and check out the output of the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;succulent.singleton_methods
+# =&amp;gt; []
+momo.singleton_methods
+# =&amp;gt; [:smolder]
+willy.singleton_methods
+# =&amp;gt; [:smolder]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That’s right!  You’re using a &lt;strong&gt;singleton method&lt;/strong&gt;!  Now, I think, we’re ready to talk about what a &lt;strong&gt;singleton class&lt;/strong&gt; is.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-a-singleton-class&quot;&gt;What is a Singleton Class?&lt;/h2&gt;
+
+&lt;p&gt;First, a more general programming, less Ruby-specific question: what is a singleton?  While there are various definitions that might be more specific for different cases, at its core, a &lt;strong&gt;singleton&lt;/strong&gt; is just something that there is only one of.  It is the only one of its kind.&lt;/p&gt;
+
+&lt;p&gt;What does that mean in the context of Ruby?  Here it is: when you instantiate an object from a class in Ruby, it knows about the methods that its class gives it.  It also knows how to look up all of the ancestors to its class.  That’s why inheritance works.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;“Oh, my class doesn’t have that method?  Let’s check its parent class.  And that class’s parent class.  Etc.”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;One of the cool things about Ruby is that the ancestry chain is very unambiguous by design.  There is a specific set of rules by which objects search their ancestors, such that there is never any doubt which method gets called.&lt;/p&gt;
+
+&lt;p&gt;In addition to knowing about its class, each object is created with a &lt;strong&gt;singleton class&lt;/strong&gt; that it knows about.  All the singleton class is is a kind of “ghost class” or, more simply, a bag to hold any methods that are defined &lt;em&gt;only for this particular object&lt;/em&gt;.  Try this out:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;momo.singleton_class
+# =&amp;gt; #&amp;lt;Class:#&amp;lt;Pet:0x00007fea40060220&amp;gt;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the inheritance hierarchy, it sits invisibly, just before the objects actual class.  However, you can’t see it by looking at the object’s ancestors.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;momo.class.ancestors
+# =&amp;gt; [Pet, Object, Kernel, BasicObject]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But if we look at the ancestry tree for the &lt;em&gt;singleton class itself&lt;/em&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;momo.singleton_class.ancestors
+# =&amp;gt; [#&amp;lt;Class:#&amp;lt;Pet:0x00007fea40060220&amp;gt;&amp;gt;, Pet, Object, Kernel, BasicObject]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can see that it comes in right at the beginning.  Thus, when &lt;code&gt;momo&lt;/code&gt; goes to look for the &lt;code&gt;smolder&lt;/code&gt; method, it looks &lt;em&gt;first&lt;/em&gt; in its singleton class.  Since there is a &lt;code&gt;smolder&lt;/code&gt; method there, it calls that one, instead of looking further up the tree to the one defined in the &lt;code&gt;Pet&lt;/code&gt; class.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-does-this-have-to-do-with-class-methods&quot;&gt;What Does This Have to Do with Class Methods?&lt;/h2&gt;
+
+&lt;p&gt;Now is when we start to see the power of the singleton class.  Don’t forget that every class is just an object of the class &lt;code&gt;Class&lt;/code&gt;.  If that sentence made you start to hyperventilate, don’t worry.  I’ll explain.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;Pet.class
+# =&amp;gt; Class
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And &lt;code&gt;Class&lt;/code&gt; is just a class that provides some methods to every instance of it (classes) you create, just like any other class.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;Class.instance_methods(false)
+# =&amp;gt; [:new, :allocate, :superclass]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So, really, when you’re defining “class methods” that you plan to call directly on the class, what you’re actually doing is defining methods on that particular Class object — in its singleton class!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;class Pet
+  def self.random
+    %w{cat dog bird fish banana}.sample
+  end
+end
+
+Pet.singleton_methods
+# =&amp;gt; [:random]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;And…&lt;/em&gt; if the singleton class exists, it becomes the parent class to singleton_classes of classes that inherit from the main class.  An example should help.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;class Pet
+  def self.random
+    %w{cat dog bird fish banana}.sample
+  end
+end
+
+class Reptile &amp;lt; Pet
+  def self.types
+    %w{lizard snake other}
+  end
+end
+
+Reptile.singleton_methods
+# =&amp;gt; [:types, :random]
+Reptile.singleton_class.ancestors
+# =&amp;gt; [#&amp;lt;Class:Reptile&amp;gt;, #&amp;lt;Class:Pet&amp;gt;, #&amp;lt;Class:Object&amp;gt;, #&amp;lt;Class:BasicObject&amp;gt;, Class, Module, Object, Kernel, BasicObject]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;See how &lt;code&gt;Reptile&lt;/code&gt;’s singleton class inherits from &lt;code&gt;Pet&lt;/code&gt;’s singleton class, and thus the “class methods” available to &lt;code&gt;Pet&lt;/code&gt; are also available to &lt;code&gt;Reptile&lt;/code&gt;?&lt;/p&gt;
+
+&lt;h2 id=&quot;other-tidbits&quot;&gt;Other Tidbits&lt;/h2&gt;
+
+&lt;p&gt;I think so far, we’ve pretty much covered all of the important bits.  There are, however, a couple more interesting details that I thought were cool that are sort of tangentially related: the somewhat hard to decipher &lt;code&gt;class &amp;lt;&amp;lt; self&lt;/code&gt; syntax, the different ways of creating class methods, and the use of &lt;code&gt;extend&lt;/code&gt;.  Feel free to read on if you’re interested.&lt;/p&gt;
+
+&lt;h3 id=&quot;class--self&quot;&gt;&lt;code&gt;Class &amp;lt;&amp;lt; self&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;There are actually two ways to use the &lt;code&gt;class&lt;/code&gt; keyword: directly followed by a constant (a la &lt;code&gt;class Gelato&lt;/code&gt;), or followed by the “shovel operator” and an object (a la &lt;code&gt;class &amp;lt;&amp;lt; momo&lt;/code&gt;).  You already know about the first one — it’s the way you usually declare a class!  Let’s focus on the second one, which is the syntax to directly open up an object’s singleton class.  You can think about it as essentially the same as defining methods like we were doing above.&lt;/p&gt;
+
+&lt;p&gt;What I mean is this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;# This:
+def momo.snug
+  &quot;*snug*&quot;
+end
+
+# is the same (pretty much) as this:
+class &amp;lt;&amp;lt; momo
+  def snug
+    &quot;*snug*&quot;
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You do this all the time when you re-open regular classes to add more functionality.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;class Gelato
+  attr_reader :solidity
+
+  def initialize
+    @solidity = 100
+  end
+
+  def melt
+    @solidity -= 10
+  end
+end
+
+# And re-open it to add one more method
+
+class Gelato
+  def refreeze
+    @solidity = 100
+  end
+end
+
+dessert = Gelato.new
+5.times { dessert.melt }
+dessert.solidity
+# =&amp;gt; 50
+dessert.refreeze
+# =&amp;gt; 100
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The syntax &lt;code&gt;class &amp;lt;&amp;lt; object; end&lt;/code&gt; is just another way of re-opening the object’s singleton class.  The benefit here is that you can define constants and multiple methods all at once instead of one at a time.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;# Instead of:
+def momo.pounce
+  &quot;pounce!&quot;
+end
+
+def momo.hiss
+  &quot;HISS&quot;
+end
+
+def momo.lives
+  9
+end
+
+# We can do
+class &amp;lt;&amp;lt; momo
+  def pounce
+    &quot;pounce!&quot;
+  end
+
+  def hiss
+    &quot;HISS&quot;
+  end
+
+  def lives
+    9
+  end
+end
+
+momo.singleton_methods
+# =&amp;gt; [:pounce, :hiss, :lives, :smolder]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It’s a common pattern when adding multiple class methods to a class to see the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;class Pet
+  class &amp;lt;&amp;lt; self
+    def random
+      %w{cat dog bird fish banana}.sample
+    end
+  end
+end
+
+# Which, since &quot;self&quot; is inside of the class
+# declaration, means that 'self == Pet', so you could
+# also do this:
+
+class Pet
+  class &amp;lt;&amp;lt; Pet
+    def random
+      # ...
+    end
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Maybe you’ve seen this pattern and not known what it is, or maybe you knew it adds class methods but didn’t know what why.  Now you know!  It’s all thanks to the singleton class!&lt;/p&gt;
+
+&lt;h2 id=&quot;class--self-vs-def-selfmethod-vs-def-petmethod&quot;&gt;&lt;code&gt;class &amp;lt;&amp;lt; self&lt;/code&gt; vs &lt;code&gt;def self.method&lt;/code&gt; vs &lt;code&gt;def Pet.method&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;There are a few different ways to declare class methods.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;# 1. In global scope
+def Pet.random
+  %w{cat dog bird fish banana}.sample
+end
+
+# 2. Inside the class definition, using 'self'
+class Pet
+  def self.random
+    %w{cat dog bird fish banana}.sample
+  end
+end
+
+# 3. Inside the class definition, using the shovel
+class Pet
+  class &amp;lt;&amp;lt; self
+    def random
+      %w{cat dog bird fish banana}.sample
+    end
+  end
+end
+
+# 4. Outside the class definition, using the shovel
+class &amp;lt;&amp;lt; Pet
+  def random
+    %w{cat dog bird fish banana}.sample
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So what’s the difference??  When do you use one or the other?&lt;/p&gt;
+
+&lt;p&gt;The good news is that they’re all basically the same.  You can use whichever one makes you the happiest and matches the style of your codebase.  The only difference is with #3, and how it deals with constants and scope.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;MAX_PETS = 3
+
+def Pet.outer_max_pets
+  MAX_PETS
+end
+
+class Pet
+  MAX_PETS = 1000
+
+  class &amp;lt;&amp;lt; self
+    def inner_max_pets
+      MAX_PETS
+    end
+  end
+end
+
+Pet.outer_max_pets
+# =&amp;gt; 3
+Pet.inner_max_pets
+# =&amp;gt; 1000
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;See that the &lt;code&gt;inner_max_pets&lt;/code&gt; function has access to the scope inside the &lt;code&gt;Pet&lt;/code&gt; class and the constants there?  That’s really the only difference.  Feel free to carry on using your favorite syntax with confidence.&lt;/p&gt;
+
+&lt;h2 id=&quot;using-extend-to-safely-modify-built-in-classes&quot;&gt;Using Extend to Safely Modify Built-In Classes&lt;/h2&gt;
+
+&lt;p&gt;Hopefully, at some point, you’ve read a blog post or had someone warn you about the dangers of re-opening built-in Ruby classes.  Doing something like the following should be done veeeery carefully.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;class String
+  def verbify
+    self + &quot;ify&quot;
+  end
+end
+
+&quot;banana&quot;.verbify
+# =&amp;gt; &quot;bananaify&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The dangers include accidentally overwriting built-in methods, having methods clash with other libraries in the same project, and generally making things not behave as expected.  The &lt;code&gt;extend&lt;/code&gt; keyword can help with all of that!&lt;/p&gt;
+
+&lt;h3 id=&quot;what-is-extend&quot;&gt;What is Extend?&lt;/h3&gt;
+
+&lt;p&gt;The &lt;code&gt;extend&lt;/code&gt; keyword is a lot like &lt;code&gt;include&lt;/code&gt; in that it allows you to load functionality into your class/module from other classes/modules.  The difference, however, is that &lt;code&gt;extend&lt;/code&gt; puts these methods onto the target object’s singleton class.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;module Wigglable
+  def wiggle
+    &quot;*shimmy*&quot;
+  end
+end
+
+willy.extend(Wiggleable)
+willy.singleton_methods
+# =&amp;gt; [:wiggle, :smolder]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Thus, if you use &lt;code&gt;extend&lt;/code&gt; inside a class definition instead of &lt;code&gt;include&lt;/code&gt;, the methods will get added to the class’s singleton class as class methods instead of being added to the class itself as instance methods.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;module Hissy
+  def hiss
+    &quot;HISS&quot;
+  end
+end
+
+class Reptile
+  extend Hissy
+end
+
+snek = Reptile.new
+snek.hiss
+# =&amp;gt; Error!  Undefined method hiss for 'snek'
+Reptile.hiss
+# =&amp;gt; &quot;HISS&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;how-does-that-help-us&quot;&gt;How Does That Help Us?&lt;/h3&gt;
+
+&lt;p&gt;So, let’s say that we really needed to have that &lt;code&gt;verbify&lt;/code&gt; method on the strings we were using.  While you could create and use a subclass of &lt;code&gt;String&lt;/code&gt;, another option would be to extend individual strings!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;module Verby
+  def verbify
+    self + &quot;ify&quot;
+  end
+end
+
+noun = &quot;pup&quot;
+noun.extend(Verby)
+noun.verbify
+# =&amp;gt; &quot;pupify&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;cheesy-wrap-up&quot;&gt;Cheesy Wrap Up&lt;/h2&gt;
+
+&lt;p&gt;So remember, singletons aren’t just an intimidating-sounding but not-super-complicated Ruby topic.  &lt;em&gt;You&lt;/em&gt; are the &lt;em&gt;real&lt;/em&gt; &lt;strong&gt;singleton&lt;/strong&gt; — yes, you’re a human, but there’s nobody else quite like you.  You’ve got &lt;strong&gt;class&lt;/strong&gt; and your own &lt;strong&gt;methods&lt;/strong&gt; of doing things, and that’s valuable.  And now we’ve just added a little more functionality to you.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;class &amp;lt;&amp;lt; you
+  def use_singletons_for_fun_and_profit
+    # ...
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>Sun, 22 Apr 2018 00:00:00 -0700</pubDate>
+        <link>https://assertnotmagic.com/2018/04/22/ruby-singleton-classes/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/04/22/ruby-singleton-classes/</guid>
+        
+        <category>ruby</category>
+        
+        <category>singleton</category>
+        
+        <category>basics</category>
+        
+        
+      </item>
     
       <item>
         <title>Dict Moves in Python</title>
@@ -1698,60 +2136,6 @@ for _ in range(1000):
         <category>python</category>
         
         <category>functional</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Checking In</title>
-        <description>&lt;p&gt;Hi!  It’s been almost four weeks since my last blog post, so I need to write &lt;em&gt;something&lt;/em&gt; to keep things flowing.  This will just be an update for what’s been going on and what’s coming up.&lt;/p&gt;
-
-&lt;h2 id=&quot;so-far-this-year&quot;&gt;So Far This Year&lt;/h2&gt;
-
-&lt;p&gt;This year, my wife and I have tried to set some concrete goals for ourselves and stick to them.  It’s working out well so far, but it’s definitely making it harder to juggle everything at once.  We’ve joined a gym &lt;em&gt;and&lt;/em&gt; an East Bay community basketball league, trying to be more active.  As it turns out, when you burn a lot of energy exercising, it leaves you with less motivation to do things like write blog posts and code after work.  Hence the situation I now find myself in.  But, I find that as I get more used to doing less Netflix and video games, I’m getting more used to being productive by default.&lt;/p&gt;
-
-&lt;p&gt;I’ve joined the &lt;a href=&quot;https://2018.codenewbie.org/&quot;&gt;CodeNewbie Challenge 2018&lt;/a&gt;, which is a guided, community-based process of meeting coding goals in 2018.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/cnc2018.jpg&quot; alt=&quot;CNC 2018, because this year will be different&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;There are four tracks: Start Coding, Code More, Blog More, and Get a Job.  I’m working on the Code More goal, and trying to schedule out some milestones and tasks in order to make progress and actually finish some side-projects.  Already, working on my projects has really helped me learn more and dig deeper into Ruby, and it’s starting to rain blog post ideas.&lt;/p&gt;
-
-&lt;p&gt;Also, I submitted a talk proposal to &lt;a href=&quot;https://www.deconstructconf.com/&quot;&gt;Deconstruct Conference&lt;/a&gt;, so… fingers crossed!&lt;/p&gt;
-
-&lt;h2 id=&quot;coming-up&quot;&gt;Coming Up&lt;/h2&gt;
-
-&lt;p&gt;Another reason that I haven’t had a post come out recently is that I’ve been working on &lt;strong&gt;something pretty big&lt;/strong&gt; that should come out in the next couple of days.  I’ll be sure to share a link to it when it does.&lt;/p&gt;
-
-&lt;p&gt;Lastly, I wanted to share some of the blog post ideas that I’ve got now that I want to work on.&lt;/p&gt;
-
-&lt;ul class=&quot;dotted&quot;&gt;
-
-&lt;li&gt;Closures - why they are more useful and interesting than you think&lt;/li&gt;
-
-&lt;li&gt;My Compiler Can Beat Me Up&lt;/li&gt;
-
-&lt;li&gt;Teaching the Art of Stepping Through Code&lt;/li&gt;
-
-&lt;li&gt;I Discovered Bullet Journaling and It's Neat&lt;/li&gt;
-
-&lt;li&gt;Powershell is Awesome Once You Get the Basics&lt;/li&gt;
-
-&lt;li&gt;Building a CLI with &lt;a href=&quot;https://github.com/mdub/clamp&quot;&gt;Clamp&lt;/a&gt;&lt;/li&gt;
-
-&lt;li&gt;Demystifying Building a Gem with Bundler: Load Paths, Require Statements, and Running Scripts&lt;/li&gt;
-
-&lt;/ul&gt;
-
-&lt;p&gt;Let me know if any of these topics are more interesting to you than any of the others and I’ll know which ones to prioritize.  Good things are coming!&lt;/p&gt;
-
-</description>
-        <pubDate>Sat, 03 Feb 2018 00:00:00 -0800</pubDate>
-        <link>https://assertnotmagic.com/2018/02/03/checking-in/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2018/02/03/checking-in/</guid>
-        
-        <category>update</category>
-        
-        <category>preview</category>
         
         
       </item>
