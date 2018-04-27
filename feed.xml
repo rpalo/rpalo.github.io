@@ -6,9 +6,67 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 22 Apr 2018 14:59:47 -0700</pubDate>
-    <lastBuildDate>Sun, 22 Apr 2018 14:59:47 -0700</lastBuildDate>
+    <pubDate>Thu, 26 Apr 2018 18:51:04 -0700</pubDate>
+    <lastBuildDate>Thu, 26 Apr 2018 18:51:04 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Keep VS Code from Becoming an IDE</title>
+        <description>&lt;p&gt;Some people like a big, heavy, comfy IDE.  Some people like a light, zippy, relatively simple text editor and a terminal window.  And some people like Emacs.  We don’t talk about them.  (I’m joking, I’m sorry, I couldn’t resist.)  I’m part of the zippy editor/terminal group.  This is a tip to help keep the VS Code editor lightweight, like you’ve come to know and love.&lt;/p&gt;
+
+&lt;p&gt;I was using &lt;a href=&quot;https://code.visualstudio.com/&quot;&gt;VS Code&lt;/a&gt; last week, and it was starting to feel really sluggish.  It seemed like it was eating a lot of memory up (relatively) and I wasn’t sure what was happening.&lt;/p&gt;
+
+&lt;p&gt;And then it hit me:&lt;/p&gt;
+
+&lt;h2 id=&quot;i-had-too-many-extensions-running&quot;&gt;I Had Too Many Extensions Running&lt;/h2&gt;
+
+&lt;p&gt;I love tools.  Especially new shiny ones.  I don’t think I’m alone on this.  Because of this, I frequently install new extensions just to try them out and kick the tires a little bit.  I then promptly forget about them, and leave them not only installed but also activated.&lt;/p&gt;
+
+&lt;p&gt;Each one of these extensions takes up memory, and uses battery, and slows you down.  They can add time to startup speed, too.  Keep in mind, my laptop isn’t all that burly, and a new computer or more memory isn’t in the cards for a little while, so every little bit of memory I can conserve is worth it.&lt;/p&gt;
+
+&lt;h2 id=&quot;heres-the-fix&quot;&gt;Here’s the Fix&lt;/h2&gt;
+
+&lt;p&gt;Turn them all off.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;You heard me.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Ok, maybe not all of them.  But you don’t need the entire Go-lang support system when you’re working on a Ruby project do you?  You probably don’t need all the Python support either.  Or the C# snippets.&lt;/p&gt;
+
+&lt;p&gt;Go through each of your extensions in the extensions bar and disable them.  You don’t have to reload until you’ve done them all.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/extensions-disable.gif&quot; alt=&quot;Disabling an extension&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now you are fast.  You are sleek.  &lt;em&gt;You.  Are.  Speed.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/extensions-installed.gif&quot; alt=&quot;Look at all those disabled extensions&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;ok-ok-not-all-of-them&quot;&gt;OK, OK, Not All of Them&lt;/h2&gt;
+
+&lt;p&gt;In my opinion, there are two kinds of extensions.  The first are language support extensions.  As I pick up a new language, I discover there’s an extension that makes writing it better.  Python, Go, Ruby, language-specific linting, prettifying, snippets, and intellisense.  These are the ones that you want to disable.  The other kind are the general developer happiness extensions.  Things like &lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=pajoma.vscode-journal&quot;&gt;journaling support&lt;/a&gt;, &lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=2gua.rainbow-brackets&quot;&gt;colored bracket matchers&lt;/a&gt;, &lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=dustinsanders.an-old-hope-theme-vscode&quot;&gt;Star Wars-based themes&lt;/a&gt;, and, of course, &lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=Perkovec.emoji&quot;&gt;emoji support&lt;/a&gt;.  Feel free to leave these enabled all the time.  You deserve to be happy.&lt;/p&gt;
+
+&lt;h2 id=&quot;but-what-if-i-want-my-extensions&quot;&gt;But What if I Want My Extensions?&lt;/h2&gt;
+
+&lt;p&gt;Don’t panic.  If you go to work on a project that needs those language-specific ones, you can enable them &lt;em&gt;just in your workspace&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/extensions-enable-workspace.gif&quot; alt=&quot;Enabling within a workspace&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now you get the full power of your development environment, and your computer loves you.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Do you have some favorite extensions?  Any that are a little obscure or don’t get a lot of love?  Let me know about them.  I’m always looking for another extension to add to my list.  I might even leave it enabled.&lt;/p&gt;
+
+</description>
+        <pubDate>Thu, 26 Apr 2018 00:00:00 -0700</pubDate>
+        <link>https://assertnotmagic.com/2018/04/26/keep-vs-code-light/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/04/26/keep-vs-code-light/</guid>
+        
+        <category>editors</category>
+        
+        <category>vscode</category>
+        
+        
+      </item>
     
       <item>
         <title>Ruby Concepts - Singleton Classes</title>
@@ -1874,268 +1932,6 @@ Version 3  19.517162  20.816684  40.333846 ( 40.470201)
         <category>puzzle</category>
         
         <category>performance</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Closure? I Hardly Know Her!</title>
-        <description>&lt;p&gt;&lt;em&gt;Cover image credit: &lt;a href=&quot;https://stackoverflow.com/a/29558498/4100442&quot;&gt;this amazing StackOverflow answer&lt;/a&gt;&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;I’ve learned about closures a few different times, and each time, I’ve come away feeling like I get it, but I don’t necessarily understand why people make such a big deal out of them.  Yeah, hooray, you get functions that can persist their data!  I’ve seen people post things like, “If you’re not using closures, you’re really missing out.”  I think I’ve finally figured out why people are so excited, and why I was confused.  This post will explain what closures are, when you might want to use them, and why it took me so long to get why they’re special.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-are-closures&quot;&gt;What are Closures&lt;/h2&gt;
-
-&lt;p&gt;A closure (also called a &lt;em&gt;function closure&lt;/em&gt; or a &lt;em&gt;lexical closure&lt;/em&gt;) is when you find a way of wrapping up a function with the state in which it was defined into one connected and persistent bundle.  I’ll show you a bunch of examples if that doesn’t make sense.  There’s a number of ways to create a closure, but the canonical one is to define and return a function from within another function.  Here’s what I mean.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def build_zoo():
-    animals = []
-    def add_animal(animal):
-        animals.append(animal)
-        return animals
-    return add_animal
-
-zoo_a = build_zoo()
-zoo_b = build_zoo()
-
-zoo_a(&quot;zebra&quot;)
-# =&amp;gt; [&quot;zebra&quot;]
-zoo_a(&quot;monkey&quot;)
-# =&amp;gt; [&quot;zebra&quot;, &quot;monkey&quot;]
-zoo_b(&quot;snek&quot;)
-# =&amp;gt; [&quot;snek&quot;]
-zoo_a(&quot;panda&quot;)
-# =&amp;gt; [&quot;zebra&quot;, &quot;monkey&quot;, &quot;panda&quot;]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;em&gt;Thanks to &lt;a href=&quot;https://twitter.com/Doshirae&quot;&gt;@Doshirae&lt;/a&gt; and &lt;a href=&quot;https://dev.to/nixlend&quot;&gt;Nicholas Lee&lt;/a&gt; for pointing out a typo in the &lt;code&gt;return&lt;/code&gt; statement!&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;The &lt;code&gt;build_zoo&lt;/code&gt; function is a kind of “factory” that creates a &lt;em&gt;scope&lt;/em&gt; and defines a function within that scope.  Then it gives the function &lt;em&gt;that still has access to that scope (and the variables therein)&lt;/em&gt; to you.  After the &lt;code&gt;build_zoo&lt;/code&gt; function ends, it keeps the stack frame and variables defined (like &lt;code&gt;animals&lt;/code&gt;) available to the returned &lt;code&gt;add_animal&lt;/code&gt; function, for later reference.  And every time you call this &lt;code&gt;build_zoo&lt;/code&gt; function, it creates a brand new scope, unconnected to any of the other scopes.  That’s why &lt;code&gt;zoo_a&lt;/code&gt; and &lt;code&gt;zoo_b&lt;/code&gt; were not able to affect each other when they were called!&lt;/p&gt;
-
-&lt;h3 id=&quot;side-note-python-and-scopes&quot;&gt;Side Note: Python and Scopes&lt;/h3&gt;
-
-&lt;p&gt;In Python, you are unable to modify variables outside your scope without extra work.  So, if you tried something like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def build_incrementer():
-    current_value = 0
-    def increment():
-        current_value += 1
-        return current_value
-    return increment
-
-incrementer = build_incrementer()
-incrementer()
-# =&amp;gt; UnboundLocalError: local variable 'current_value' referenced before assignment
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You get an error!  This is not so in many languages.  In many languages, it’s ok to access variables in parent scopes.  In Python, you’ll have to do this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def build_incrementer():
-    current_value = 0
-    def increment():
-        nonlocal current_value # &amp;lt;==
-        current_value += 1
-        return current_value
-    return increment
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This lets you reach out and modify this value.  You could also use global, but we’re not animals, so we won’t.&lt;/p&gt;
-
-&lt;h2 id=&quot;ok-but-so-what&quot;&gt;OK, but So What?&lt;/h2&gt;
-
-&lt;p&gt;“You can keep track of state like a billion different ways!” you say exaggeratingly.  “What’s so special about closures?  They seem unnecessarily complicated.”  And that’s a little bit true.  Generally, if I wanted to keep track of my state with a function, I would do it in one of a few different ways.&lt;/p&gt;
-
-&lt;h3 id=&quot;generator-functions&quot;&gt;Generator Functions&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def build_incrementer():
-    current_value = 0
-    while True:
-        current_value += 1
-        yield current_value
-
-inc_a = build_incrementer()
-inc_b = build_incrementer()
-
-next(inc_a)
-# =&amp;gt; 1
-next(inc_a)
-# =&amp;gt; 2
-next(inc_a)
-# =&amp;gt; 3
-next(inc_b)
-# =&amp;gt; 1
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This method is very “Pythonic”.  It has no inner functions (that you know of), has a reasonably easy-to-discern flow-path, and (provided you understand generators), and gets the job done.&lt;/p&gt;
-
-&lt;h3 id=&quot;build-an-object&quot;&gt;Build an Object&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;class Incrementer:
-    def __init__(self):
-        self.value = 0
-    
-    def increment(self):
-        self.value += 1
-        return self.value
-    
-    # Or, just so we can match the section above:
-    def __next__(self):
-        return self.increment()
-    
-inc_a = Incrementer()
-inc_b = Incrementer()
-
-next(inc_a)
-# =&amp;gt; 1
-next(inc_a)
-# =&amp;gt; 2
-next(inc_b)
-# =&amp;gt; 1
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This is another good option, and one that also makes a lot of sense to me coming, having done a good amount of Ruby as well as Python.&lt;/p&gt;
-
-&lt;h3 id=&quot;global-variables&quot;&gt;Global Variables&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;current_value = 0
-def increment():
-    global current_value
-    current_value += 1
-    return current_value
-
-increment()
-# =&amp;gt; 1
-increment()
-# =&amp;gt; 2
-increment()
-# =&amp;gt; 3
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;No.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;But, I–&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;No.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Wait!  Just let me–&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Nope.  Don’t do it.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/closure-bugs.jpg&quot; alt=&quot;Do you want bugs?  Because that's how you get bugs.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Global variables will work in very simple situations, but it’s an really quick and easy way to shoot yourself in the foot when things get more complicated.  You’ll have seventeen different unconnected functions that all affect this one variable.  And, if that variable isn’t incredibly well named, it quickly becomes confusion and nonsense.  And, if you made one, you probably made twenty, and now no-one but you knows what your code does.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/closure-obfuscating.jpg&quot; alt=&quot;Well, at least it doesn't need obfuscating.&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;why-closures-are-cool&quot;&gt;Why Closures are Cool&lt;/h2&gt;
-
-&lt;p&gt;Closures are exciting for three reasons: they’re pretty small, they’re pretty fast, and they’re pretty available.&lt;/p&gt;
-
-&lt;h3 id=&quot;theyre-small&quot;&gt;They’re Small&lt;/h3&gt;
-
-&lt;p&gt;Let’s look at the rough memory usage of each method (except global variables) above:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;import sys
-
-def build_function_incrementer():
-    # ...
-
-funky = build_function_incrementer()
-def build_generator_incrementer():
-	# ...
-jenny = build_generator_incrementer()
-class Incrementer:
-    # ...
-classy = Incrementer()
-
-### Functional Closure
-sys.getsizeof(build_function_incrementer) # The factory
-# =&amp;gt; 136
-sys.getsizeof(funky) # The individual closure
-# =&amp;gt; 136
-
-### Generator Function
-sys.getsizeof(build_generator_incrementer) # The factory
-# =&amp;gt; 136
-sys.getsizeof(jenny) # The individual generator
-# =&amp;gt; 88
-
-### Class
-sys.getsizeof(Incrementer) # The factory (class)
-# =&amp;gt; 1056
-sys.getsizeof(classy) # The instance
-# =&amp;gt; 56
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Surprisingly, the generator function’s output actually ends up being the smallest.  But both the generator function, and the traditional closure are much smaller than creating a class.&lt;/p&gt;
-
-&lt;h3 id=&quot;theyre-fast&quot;&gt;They’re Fast&lt;/h3&gt;
-
-&lt;p&gt;Let’s see how they stack up, time-wise.  Keep in mind, I’m going to use &lt;code&gt;timeit&lt;/code&gt; because it’s easy, but it won’t be perfect.  Also, I’m doing this from my slowish little laptop.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;import timeit
-
-### Functional Closure
-timeit.timeit(&quot;&quot;&quot;
-def build_function_incrementer():
-	# ...
-funky = build_function_incrementer()
-for _ in range(1000):
-	funky()
-&quot;&quot;&quot;, number=1)
-# =&amp;gt; 0.0003780449624173343
-
-### Generator Function
-timeit.timeit(&quot;&quot;&quot;
-def build_generator_incrementer():
-	# ...
-jenny = build_generator_incrementer()
-for _ in range(1000):
-	next(jenny)
-&quot;&quot;&quot;, number=1)
-# =&amp;gt; 0.0004897500039078295
-
-### Class
-timeit.timeit(&quot;&quot;&quot;
-class Incrementer:
-    def __init__(self):
-        self.value = 0
-
-    def increment(self):
-        self.value += 1
-        return self.value
-
-    def __next__(self):
-        return self.increment()
-
-classy = Incrementer()
-for _ in range(1000):
-    next(classy)
-&quot;&quot;&quot;, number=1)
-# =&amp;gt; 0.001482799998484552
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Once again, the class method comes in at the bottom, but this time we see a marginal speed bump with the functional closure.  However, keep in mind, the final argument for closures is the strongest one.&lt;/p&gt;
-
-&lt;h3 id=&quot;theyre-available&quot;&gt;They’re Available&lt;/h3&gt;
-
-&lt;p&gt;This is the one that took me the longest to find out.  &lt;em&gt;Not all languages are as lucky as Python.&lt;/em&gt;  (Excuse me while I prepare my inbox for a deluge of hate mail.)  In Python, we are lucky enough to have Generators as well as a number of ways to create them, like Generator functions.  Honestly, if I had to choose from the above methods, and I was writing Python, I’d actually recommend the Generator Function method, since it’s easier to read and reason about.&lt;/p&gt;
-
-&lt;p&gt;However, there are a lot of languages that aren’t as “batteries included.”  This can actually be a benefit if you want a small application size, or if you’re constrained somehow.  In these cases, as long as your language supports creating functions, you should be able to get all the benefits of Generators (lazy evaluation, memoization, the ability to iterate through a possibly infinite series…) without any fancy features.&lt;/p&gt;
-
-&lt;p&gt;In JavaScript, you can now use &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators&quot;&gt;a version of generators&lt;/a&gt;, but that’s ES6 functionality that hasn’t always been there.  As far as I can tell, this isn’t a built-in functionality in Go either (although some research shows that it might be more idiomatic to &lt;a href=&quot;https://stackoverflow.com/questions/11385556/python-style-generators-in-go&quot;&gt;use channels instead&lt;/a&gt;).  I’m sure there are many other lower-level languages as well where a simple function closure is easier than trying to write your own Generator.&lt;/p&gt;
-
-&lt;h2 id=&quot;share-your-wisdom&quot;&gt;Share Your Wisdom!&lt;/h2&gt;
-
-&lt;p&gt;Since I don’t have a whole lot of experience with low-level languages, the pros and cons of closures are new to me.  If you have some better explanations or any examples of when a closure is the perfect tool for the job, please &lt;a href=&quot;https://twitter.com/paytastic&quot;&gt;let me know about it&lt;/a&gt; and I’ll do my best to broadcast your wisdom.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 10 Feb 2018 00:00:00 -0800</pubDate>
-        <link>https://assertnotmagic.com/2018/02/10/closure-i-hardly-know-her/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2018/02/10/closure-i-hardly-know-her/</guid>
-        
-        <category>python</category>
-        
-        <category>functional</category>
         
         
       </item>

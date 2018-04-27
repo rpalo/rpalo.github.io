@@ -244,6 +244,7 @@ for i, line in enumerate(fileinput.input(file, inplace=1)):
 
 <p>This has been a long one, and hopefully I didn’t miss anything.  Since I spaced the posts out (which I regret), I had to play some games with reminding myself what changed from Part to Part.  So, if something doesn’t work or is broken, let me know and I’ll see if I can find where I went wrong.  I added my final project folder <a href="https://github.com/rpalo/vue-django-example">on GitHub</a> so you can search for discrepancies to aid in debugging.  Thanks for sticking with me!</p>
 
+    
     <small>
         Author: Ryan Palo | Tags: 
         
@@ -256,7 +257,23 @@ for i, line in enumerate(fileinput.input(file, inplace=1)):
         <a href="/tags/tutorial/">tutorial</a>
         
     </small>
+    
+    <div class="email-background">
+    <form class="email-signup" action="https://tinyletter.com/rpalo" method="post" target="popupwindow"
+    onsubmit="window.open('https://tinyletter.com/rpalo', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+      <p>
+        <label class="email-text" for="tlemail">Want to stay connected and get my newsletter?</label>
+      </p>
+      <p>
+        <input class="email-input" type="text" name="email" id="tlemail" />
+        <input type="hidden" value="1" name="embed" />
+        <input class="email-button" type="submit" value="Subscribe" />
+      </p>
 
+        <a class="email-powered" href="https://tinyletter.com" target="_blank">powered by TinyLetter</a>
+      </p>
+    </form>
+</div>
     <hr>
 
 <!-- Footer for Homepage -->
@@ -271,6 +288,11 @@ for i, line in enumerate(fileinput.input(file, inplace=1)):
         </li>
         
           <li>
+            <span class="post-meta">Apr 22, 2018</span><br/>
+            <a class="post-link" href="/2018/04/22/ruby-singleton-classes/">Ruby Concepts - Singleton Classes</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Apr 8, 2018</span><br/>
             <a class="post-link" href="/2018/04/08/convert-to-default-dict/">Dict Moves in Python</a>
           </li>
@@ -278,11 +300,6 @@ for i, line in enumerate(fileinput.input(file, inplace=1)):
           <li>
             <span class="post-meta">Mar 28, 2018</span><br/>
             <a class="post-link" href="/2018/03/28/data-science-cardio-weather/">Data Science Cardio 1 - Weather</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Mar 25, 2018</span><br/>
-            <a class="post-link" href="/2018/03/25/bullet-journal/">Get on the Bullet Journaling Train</a>
           </li>
         
       </ul>
@@ -303,7 +320,7 @@ for i, line in enumerate(fileinput.input(file, inplace=1)):
         
         <a href="/tags/algorithms/" style="font-size: 22px">algorithms | </a>
         
-        <a href="/tags/editors/" style="font-size: 18px">editors | </a>
+        <a href="/tags/editors/" style="font-size: 20px">editors | </a>
         
         <a href="/tags/emacs/" style="font-size: 16px">emacs | </a>
         
@@ -321,7 +338,7 @@ for i, line in enumerate(fileinput.input(file, inplace=1)):
         
         <a href="/tags/tricks/" style="font-size: 38px">tricks | </a>
         
-        <a href="/tags/vscode/" style="font-size: 14px">vscode | </a>
+        <a href="/tags/vscode/" style="font-size: 16px">vscode | </a>
         
         <a href="/tags/vim/" style="font-size: 18px">vim | </a>
         
