@@ -6,9 +6,460 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 28 Apr 2018 09:24:14 -0700</pubDate>
-    <lastBuildDate>Sat, 28 Apr 2018 09:24:14 -0700</lastBuildDate>
+    <pubDate>Sat, 28 Apr 2018 17:50:34 -0700</pubDate>
+    <lastBuildDate>Sat, 28 Apr 2018 17:50:34 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>PowerShell Tutorial (Especially for People Who Hate PowerShell)</title>
+        <description>&lt;h2 id=&quot;preface&quot;&gt;Preface&lt;/h2&gt;
+
+&lt;p&gt;This is a long article.  I’m putting a table of contents up here for the impatient, so you can find the specific section you’re looking for.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;#getting-started-with-powershell&quot;&gt;Getting Started with PowerShell&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#some-useful-commands-to-get-started&quot;&gt;Some Useful Commands to Get Started&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#just-tell-me-how-to-do-the-thing&quot;&gt;Just Tell Me How to Do the Thing!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#learning-to-love-powershell&quot;&gt;Learning to Love PowerShell&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;My relationship with the terminal – especially Windows PowerShell – has been a bit of a roller coaster.&lt;/p&gt;
+
+&lt;p&gt;I first discovered the terminal when I heard about Python and didn’t know anything about anything.  Like the average person who uses computers for games and applications like Excel and PowerPoint, I went to the &lt;a href=&quot;https://www.python.org/&quot;&gt;Python Site&lt;/a&gt;, downloaded the installer, installed it, and clicked the icon.  Imagine my horror when something like this popped up:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/python-repl.png&quot; alt=&quot;The Python REPL&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Where are the buttons?  What’s with the old-timey font?  What do I do with my mouse?&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;After beginning to program more and more and learning about the terminal, I began to love Bash.  Is it archaic?  Yes.  Are the commands nonintuitive and difficult to remember? Heck, yes.  For some reason, this just made me love it more.&lt;/p&gt;
+
+&lt;p&gt;I had to work hard at it, and typing a bunch of what appears to be gobbledygook that had powerful results made me feel like a wizard.  For instance, typing &lt;code&gt;du -sk * | sort -n | tail&lt;/code&gt; (See?  Gobbledygook!) is a really fast way to see the top largest directories in your current directory.&lt;/p&gt;
+
+&lt;p&gt;As I learned more, I was able to customize how it looked and get fonts, colors, and promts that made the terminal that much more inviting.&lt;/p&gt;
+
+&lt;p&gt;So I decided to take my newfound programming powers to work.  Except that I work as a mechanical engineer, and that typically means SolidWorks and Windows.  So I opened up the recommended terminal, PowerShell.  And again, to my horror:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/powershell-1.png&quot; alt=&quot;The PowerShell terminal&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;No problem,&lt;/em&gt; I thought.  I’ll just go to the preferences screen.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/powershell-customize.png&quot; alt=&quot;PowerShell preferences&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Oh, no.  We’re not in Kansas anymore.  Not exactly what I was used to.  So I went into PowerShell and tried to do some simple things.  Some things worked fine!  &lt;code&gt;ls&lt;/code&gt;, &lt;code&gt;cd&lt;/code&gt;, and &lt;code&gt;mkdir&lt;/code&gt; all worked like I was used to.  But I couldn’t figure out why setting the &lt;code&gt;$PATH&lt;/code&gt; was so hard.  Adn what was with all of these backslashes?  How come I couldn’t &lt;code&gt;sudo&lt;/code&gt;?&lt;/p&gt;
+
+&lt;p&gt;More and more little irritations that kept reminding me I &lt;em&gt;wasn’t using Bash&lt;/em&gt; kept cropping up.  I gave up and installed &lt;a href=&quot;https://www.cygwin.com/&quot;&gt;Cygwin&lt;/a&gt;, which allowed me to have a Bash experience on my Windows 7 computer.  Except not quote.  Everything I tried to do to get Bash on my Windows machine was just … not quite right.&lt;/p&gt;
+
+&lt;p&gt;Finally, I tried another approach and began working on learning PowerShell the right way, from the beginning, as another language.  As I learned, I found myself buying into the whole PowerShell philosophy and noticing things that were a little nicer than when I was using Bash.  Keep in mind, like everything, PowerShell is just another tool in the toolbox, and whether or not it’s the best tool really depends on the situation.&lt;/p&gt;
+
+&lt;p&gt;I’m not going to give you a complete lesson on the basics of the PowerShell language.  I’m also not going to spend a lot of time telling you how to install it.  &lt;a href=&quot;https://github.com/PowerShell/PowerShell/tree/master/docs/learning-powershell&quot;&gt;This set of docs&lt;/a&gt; is fairly comprehensive, and it’s also a good cheat sheet for reference later.&lt;/p&gt;
+
+&lt;p&gt;My goal here is to show you how things translate from other shells and get you started on your own PowerShell journey, so I’ll assume that you have at least a little bit of experience with a shell language like Bash.&lt;/p&gt;
+
+&lt;h2 id=&quot;getting-started-with-powershell&quot;&gt;Getting Started with PowerShell&lt;/h2&gt;
+
+&lt;p&gt;There are mental shifts away from how Bash-like shells do things that you need to make when you’re starting to learn PowerShell.  If you can get past your initial gut reaction of disgust when you see these differences, you might start to see that they actually make you more productive.&lt;/p&gt;
+
+&lt;h3 id=&quot;everything-is-an-object&quot;&gt;Everything is an Object&lt;/h3&gt;
+
+&lt;p&gt;This is probably the biggest difference that you have to get through your head.  In Unix shells, everything is plain text.  This makes things nice because you can expect text input into all your scripts and you know that if you output text, everything will probably be OK.&lt;/p&gt;
+
+&lt;p&gt;However, the downside is that this makes inspecting specific data a nightmare of text parsing, and it makes working with anything other than text (floating point numbers, anyone?) a real pain.&lt;/p&gt;
+
+&lt;p&gt;In PowerShell, which is actually built on top of &lt;a href=&quot;https://en.wikipedia.org/wiki/.NET_Framework&quot;&gt;.NET&lt;/a&gt;, everything is an object.  This will feel very comforting if you’re coming from Python, Ruby, JavaScript, or a similar language background.  Let’s see some examples and get our hands dirty.  Open up your PowerShell interpreter.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Side note: I put a PowerShell prompt (&lt;code&gt;PS&amp;gt;&lt;/code&gt;) in front of each command so you can tell what is output.  Every line that starts with &lt;code&gt;PS&amp;gt;&lt;/code&gt; is something for you to type.  Everything else is output.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; Get-Process
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You should see a pretty long string of text.  We don’t have to stand for that!  We are terminal folk.  Code flows through our veins!  Try this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; Get-Process | Sort-Object CPU -descending | Select-Object -first 10
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now you should see a shorter list, reverse sorted by CPU time.  If you’re already getting itchy because all of these commands and options are so long, I address that in a couple sections.  Stay with me.&lt;/p&gt;
+
+&lt;p&gt;The important thing to pay attention to here is the headers at the top of each column.  Each row of this table is actually a &lt;code&gt;System.Diagnostics.Process&lt;/code&gt; &lt;em&gt;object&lt;/em&gt;, not just a row of a table.  Don’t believe me?  Just check!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; (Get-Process)[0] | Get-TypeData
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;See there?  The &lt;code&gt;Get-Process&lt;/code&gt; command returned a list of &lt;code&gt;Process&lt;/code&gt; objects, and we were able to select the first one through indexing (without splitting the output by \n!) and shuffle that through the &lt;code&gt;Get-TypeData&lt;/code&gt; command.  These items being objects gives us some power.  What if we only wanted their &lt;code&gt;ProcessName&lt;/code&gt;?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; Get-Process | Sort-Object CPU -descending | Select Object ProcessName -first 10
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;See how easy it was to access that?  We didn’t have to cut the fields delimited by tabs or colons and count which field we wanted (1…2…3…4…5!).  We just told it that we wanted the &lt;code&gt;ProcessName&lt;/code&gt; attribute.  No more parsing, splitting, joining, formatting output, etc.&lt;/p&gt;
+
+&lt;h3 id=&quot;objects-have-types&quot;&gt;Objects Have Types&lt;/h3&gt;
+
+&lt;p&gt;Another side effect of being on top of .NET and having everything be an object is that everything must have a type.  This may be confusing coming from a Bash shell that only has strings and strings that might get interpreted as commands.  Here’s what it does for us.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; 2 + 2
+4
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Ah!  Are you amazed?  That would take way more work in Bash!  And don’t even get me started on:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; 4.2 / 3
+1.4
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;PowerShell usually does a pretty good job of trying to figure out the types that you mean so you can feel as dynamic as with other shells and scripting languages and not have to strictly have types on everything.  But, if you really want to enforce a type, you can do so by prepending the object with its type in square brackets.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; &quot;2&quot; + 2
+22  # A string
+PS&amp;gt; [Int]&quot;2&quot; + 2
+4  # An integer.  The conversion only applies to the &quot;2&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;predictable-command-structure&quot;&gt;Predictable Command Structure&lt;/h3&gt;
+
+&lt;p&gt;This was one of the first things I noticed when I started using PowerShell.  I was looking at example commands on StackOverflow and I kept getting mad at how long the PowerShell commands were in comparison to the Bash commands.  For example, to list the contents of your current directory in Bash:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ ls -l
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In Powershell:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; Get-ChildItem
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It’s so long!  And capital letters?  Come on.  The good news is that you don’t have to type the whole thing out if you don’t want to.  But, before I get to that, let me explain the rationale behind it.&lt;/p&gt;
+
+&lt;h3 id=&quot;why-so-long&quot;&gt;Why So Long?&lt;/h3&gt;
+
+&lt;p&gt;The creators of PowerShell wanted the commands to be extremely intuitive, such that you could almost guess the command that you needed.  This would be basically impossible with Bash.  There’s no way that you could guess that &lt;code&gt;cat&lt;/code&gt; is the common command to read a file to the terminal.  Once you learn it, it makes sense that it’s short for “concatenate,” but it’s not intuitive by itself.&lt;/p&gt;
+
+&lt;p&gt;PowerShell commands were designed after a simple pattern: “Verb-Noun.”  The creators of PowerShell tried to keep the number of verbs to a minimum.  Common ones you’ll see are &lt;code&gt;Get, New, Add, Clear, Export, Remove, Set, Update, and Write&lt;/code&gt;.  The nouns are also usually pretty intuitive: &lt;code&gt;Process, Item, Object, Date, Job, and Command&lt;/code&gt; are a few.&lt;/p&gt;
+
+&lt;p&gt;This consistent pattern allows someone to look at a script that has commands in it that they’ve never used and still have some idea about what the script is doing.&lt;/p&gt;
+
+&lt;p&gt;The other benefit of keeping a consistent pattern is that PowerShell can detect the “verb” and “noun” sections of commands.  For example, do you want to see all of the commands with the verb “New?”&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; Get-Command -verb New
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In fact, if you know what you want to do, but you can’t remember the command for it, Get-Command is one of a few commands that will be your friend.  What if you wanted to see what kinds of things you could do to “Job” objects?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; Get-Command -noun Job
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Yes, the commands are longer to type than their equivalent, typically terse Bash commands, but with this additional verbosity comes ease of use, less memorizing of commands, and helpful tooling to keep you productive.&lt;/p&gt;
+
+&lt;h4 id=&quot;aliases-make-your-life-easy&quot;&gt;Aliases Make Your Life Easy&lt;/h4&gt;
+
+&lt;p&gt;Even though the commands are long and verbose, PowerShell knows that people using the terminal are lazy (in a good way!), and it doesn’t want to get in your way.  It has a ton of built-in aliases to make your life easier and make you feel more comfortable, and it can actually do some aliasing on the fly.&lt;/p&gt;
+
+&lt;p&gt;Remember that command we ran earlier to see all of the files in our directory?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; Get-ChildItem
+
+# You can also do:
+PS&amp;gt; gci
+PS&amp;gt; dir
+
+# And just to make you feel a little bit more at home...
+PS&amp;gt; ls
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Want to see all of the available aliases?  By this point, you shouldn’t be surprised that the command is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; Get-Alias
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Using these aliases during shell sessions can keep you productive and save your fingers from wearing out without giving up the functionality and readability of the longer commands they stand for.&lt;/p&gt;
+
+&lt;h4 id=&quot;best-practice-for-scripting&quot;&gt;Best Practice for Scripting&lt;/h4&gt;
+
+&lt;p&gt;Just a word on best practice: when you’re doing command-line work by yourself, feel free to use as many aliases as you want.  Alias it up.  Get your productivity on.&lt;/p&gt;
+
+&lt;p&gt;However, if you’re writing a script or sharing code with someone, it’s probably best to type the whole command and whole flag names out.  Trust me, your future self and coworkers will thank you.&lt;/p&gt;
+
+&lt;h2 id=&quot;some-useful-commands-to-get-started&quot;&gt;Some Useful Commands to Get Started&lt;/h2&gt;
+
+&lt;p&gt;While the best way to learn PowerShell is to dive in and practice, I’m going to share some commands with you here that are really helpful when you’re a little stuck.&lt;/p&gt;
+
+&lt;h3 id=&quot;when-youre-not-sure-which-command-to-use&quot;&gt;When You’re Not Sure Which Command to Use&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; Get-Command
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This command will provide you with more information about available commands.  You can zero in on what you want by specifying -verb or -noun parameters.  In order to get more information about one or two particular commands, pipe the output into &lt;code&gt;Format-List&lt;/code&gt;.  This will give you the options, location, and some other useful features.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; Get-Command Get-Alias | Format-List
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;when-youre-not-sure-what-a-command-does&quot;&gt;When You’re Not Sure What a Command Does&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; Get-Help command
+
+# You can also get help by adding the ? parameter
+PS&amp;gt; command -?
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;Get-Help&lt;/code&gt; is roughly the &lt;code&gt;man&lt;/code&gt; of the PowerShell world.  Are you starting to see the benefits of intuitive commands yet?  Actually, &lt;code&gt;Get-Help&lt;/code&gt; has quite a few useful flags as well.  It’s probably a good idea to take a look at them using the method we discussed above:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; Get-Command Get-Help | Format-List
+
+# Or, if you're feeling cheeky:
+
+PS&amp;gt; Get-Help Get-Help
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;My favorite is that you can ask it specifically for example usage only.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; Get-Help Get-Alias -examples
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;when-youre-not-sure-what-properties-your-object-has&quot;&gt;When You’re Not Sure What Properties Your Object Has&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; Get-Process | Get-Member
+
+# Another similar command:
+
+PS&amp;gt; (Get-Process)[0] | Format-List
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you know what data you want, but you just don’t know what it’s called, &lt;em&gt;or&lt;/em&gt; if you aren’t even sure what data is available to you, these commands will help you “see” your objects a little better.&lt;/p&gt;
+
+&lt;h3 id=&quot;when-you-want-to-get-a-portion-of-the-data&quot;&gt;When You Want to Get a Portion of the Data&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; Get-Process | Select-Object Id, ProcessName -last 20
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;Select-Object&lt;/code&gt; is your general purpose stuff-whittler.  You can specify particular attributes you want and how many you want.&lt;/p&gt;
+
+&lt;h3 id=&quot;when-you-want-to-filter-your-data&quot;&gt;When You Want to Filter Your Data&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; Get-Process | Where-Object WS -gt 150MB
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are a few ways to use the &lt;code&gt;Where-Object&lt;/code&gt; command, but this is the simplest one.  In the example above, I selected only the processes whose working set (memory usage) was greater than 150MB.  (Also, can we gush a little about how PowerShell can do KB/MB/GB math?)&lt;/p&gt;
+
+&lt;h2 id=&quot;just-tell-me-how-to-do-the-thing&quot;&gt;Just Tell Me How to Do the Thing!&lt;/h2&gt;
+
+&lt;p&gt;This last section will be just a few snippets for the impatient among you.  If you’re just trying to get one darn thing done in PowerShell and you can’t make it work, these tips should hopefully help.&lt;/p&gt;
+
+&lt;h3 id=&quot;basic-unix-commands-translated&quot;&gt;Basic Unix Commands Translated&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;# pwd
+PS&amp;gt; Get-Location  # or gl or pwd
+
+# ls
+PS&amp;gt; Get-ChildItem  # or gci or dir or ls
+
+# cd
+PS&amp;gt; Set-Location  # or sl or chdir or cd
+
+# cp
+PS&amp;gt; Copy-Item  # or copy or cpi or cp
+
+# mv
+PS&amp;gt; Move-Item  # or move or mi or mv
+
+# cat
+PS&amp;gt; Get-Content  # or gc or type
+
+# mkdir
+PS&amp;gt; New-Item -ItemType Directory  # or ni -ItemType Directory or mkdir
+
+# touch
+PS&amp;gt; New-Item -ItemType File  # or ni
+
+# rm
+PS&amp;gt; Remove-Item  # or del or erase or ri or rm
+
+# rm -rf
+PS&amp;gt; Remove-Item -Recurse -Force  # or rm -recurse -force
+
+# head or tail
+PS&amp;gt; Select-Object -first # or -last
+# usage: Get-Process | Select-Object -first 10
+
+# find
+PS&amp;gt; Get-ChildItem -filter *.rb -recurse .
+# but, for a slightly easier to read version:
+PS&amp;gt; Get-ChildItem -filter *.rb -recurse . | Select-Object FullName
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;access-the-path-and-other-environment-variables&quot;&gt;Access the Path (and Other Environment Variables)&lt;/h3&gt;
+
+&lt;p&gt;In PowerShell, a lot of things get treated like file locations – and environment variables are no exception.  These special groups of file-like variables are called PSDrives.  In the same way you can ask the C: drive what file is at “\Users\ryan\desktop” with a &lt;code&gt;Get-ChildItem C:\Users\ryan\Desktop&lt;/code&gt;, you can do the same thing with &lt;code&gt;env:&lt;/code&gt;, the environment PSDrive.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; Get-ChildItem env:
+
+# and to get a specific one
+PS&amp;gt; Get-Content env:PATH
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;One super neat thing about these PSDrives is that you can actually read a file location like it’s a variable.  So you can also get to an environment variable this way:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; $env:PATH
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This second way is probably the most popular way to get the PATH variable.&lt;/p&gt;
+
+&lt;h3 id=&quot;customize-your-profile&quot;&gt;Customize Your Profile&lt;/h3&gt;
+
+&lt;p&gt;If you’re into command lines and you’re anything like me, you’re probably wondering how to customize them.  The answer lies in &lt;code&gt;$profile&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;finding-the-profile&quot;&gt;Finding the Profile&lt;/h4&gt;
+
+&lt;p&gt;There are actually several profiles, depending on which “Host” you’re using to interface with PowerShell.  For instance, if you’re just using the regular PowerShell command line, the name of your profile will be Microsoft.PowerShell_profile.ps1.  However, if you are working in the PowerShell Integrated Scripting Environment (ISE), your profile will be Microsoft.PowerShellISE_profile.ps1.  You can mostly ignore this, because if you ever want to know, just ask:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; $profile
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;However, there are additional options.  If you want to create a profile that will work for the ISE or the regular command line, you’ll want &lt;code&gt;$profile.CurrentUserAllHosts&lt;/code&gt;.  Or, if you want to configure a profile for all users on your computer, you’ll want &lt;code&gt;$profile.AllUsersCurrentHost&lt;/code&gt;.  There are a few options, and you can see them all with:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; $profile | Get-Member -type NoteProperty
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&quot;creating-customizations&quot;&gt;Creating Customizations&lt;/h4&gt;
+
+&lt;p&gt;Your profile works just like &lt;code&gt;.bash_profile&lt;/code&gt; does in Bash.  It’s just a script that gets run before you start working in PowerShell.  You can add aliases (although see the note below), functions, variables, and set custom settings.  The simplest way to check if you already have a profile is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;PS&amp;gt; Test-Path $profile
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And to start creating your profile:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;# Use whichever editor you love best
+PS&amp;gt; code $profile
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here are a couple of useful settings you might like:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;# Microsoft.PowerShell_profile.ps1
+
+# You can customize the window itself by accessing $Host.UI.RawUI
+$window = $Host.UI.RawUI
+$window.WindowTitle = &quot;Pa-pa-pa-pa-pa-pa-POWERSHELL&quot;
+$window.BackgroundColor = &quot;Black&quot;
+$window.ForegroundColor = &quot;Gray&quot;
+
+# You can define functions (remember to follow the Verb-Noun convention!)
+function Count-History {
+  (Get-History | Measure-Object).count
+}
+
+function beep {
+  echo `a
+}
+
+function Edit-Profile {
+  [CmdletBinding()]
+  [Alias(&quot;ep&quot;)]
+  PARAM()
+
+  vim $profile
+}
+
+# You can set aliases.
+# NOTE: In PowerShell, you can only alias simple commands.
+# Unlike Bash, you can't alias commands with arguments flags.
+# If you want to do that, you should define a function instead.
+Set-Alias touch New-Item  # old habits die hard, amirite?
+
+# You can customize your prompt!
+function prompt {
+  # ... see the next section for details
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;customize-your-prompt&quot;&gt;Customize Your Prompt&lt;/h3&gt;
+
+&lt;p&gt;There are two ways to do this: the simple way and the complicated way.&lt;/p&gt;
+
+&lt;h4 id=&quot;the-simple-prompt&quot;&gt;The Simple Prompt&lt;/h4&gt;
+
+&lt;p&gt;The simplest way to customize your prompt is by defining the &lt;code&gt;prompt&lt;/code&gt; function, either manually or in your profile.  For example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;function prompt {
+  $histCount = (Get-History | Measure-Object).count
+  return &quot;POWERSHELL LEVEL OVER $histCount THOUSAND! &amp;gt;&quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is an amusing way to print the number of inputs that you’ve already typed inside your prompt.  Whatever string you return is what gets set as the prompt.&lt;/p&gt;
+
+&lt;h4 id=&quot;the-complicated-prompt&quot;&gt;The Complicated Prompt&lt;/h4&gt;
+
+&lt;p&gt;Basically, you can do whatever you want in your prompt function, as long as it returns a string at the end.  For example, here’s a more complicated prompt.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;function prompt {
+  $loc = (Get-Location).Path.Replace(&quot;$HOME&quot;, &quot;~&quot;)
+  $gitBranch = git branch | Select-String &quot;\*&quot;
+  if (!$gitBranch) {
+    $gitBranch = &quot;&quot;
+  } else {
+    $gitBranch = $gitBranch.ToString().Replace(&quot;`* &quot;, &quot;&quot;)
+  }
+  $hisCount = (Get-History | Measure-Object).count
+  WriteHost -ForegroundColor yellow &quot;`n $loc&quot;
+  WriteHost -NoNewLine &quot;PS [$histCount] $gitBranch -&amp;gt;&quot;
+  return &quot; &quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can see that I achieve a multi-line prompt by using &lt;code&gt;Write-Host&lt;/code&gt; a number of times.  Lastly, I simply return a space.  My prompt ends up coming out like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;~/Documents/blog
+PS [102] master -&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;get-it-to-not-look-ugly&quot;&gt;Get It to Not Look Ugly&lt;/h3&gt;
+
+&lt;p&gt;This is a tough one.  Like I mentioned above, on Windows, PowerShell runs in a window with not very many customization options.  Especially for someone who is used to being able to tweedle every knob of their text editor to their liking, it’s almost painful.  There are two pretty good alternatives, though.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://cmder.net/&quot;&gt;Cmder&lt;/a&gt;: This one is built on top of ConEmu, which is a pretty popular terminal emulator for Windows.  If you like Notepad++, I think you’ll really like this, because it feels similar.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://hyper.is/&quot;&gt;Hyper&lt;/a&gt;: This one is nice for those of you that don’t have a vendetta against Electron applications and are more front-end-edly minded.  The customization and settings are all done in JavaScript and CSS, which makes searching for help really nice.  As might be expected from the JavaScript crowd, there are about a gazillion plugins, some of which are stable and quite good.  There’s a lot of work being done on Hyper right now, so you may have some stability issues, but over the last few months, it’s really gotten quite a bit faster and hiccup-less.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;find-more-resources&quot;&gt;Find More Resources&lt;/h3&gt;
+
+&lt;p&gt;The best place to go is definitely the &lt;a href=&quot;https://docs.microsoft.com/en-us/powershell/&quot;&gt;official docs&lt;/a&gt;.  There’s so much content there that they should have the answers you need.  Since PowerShell is now open-source, you can also check out their &lt;a href=&quot;https://github.com/PowerShell&quot;&gt;GitHub repositories&lt;/a&gt;.  There are some great docs and getting started guides there as well.&lt;/p&gt;
+
+&lt;p&gt;For those who like to learn from books, I would recommend the &lt;a href=&quot;https://amzn.to/2r72pxp&quot;&gt;Windows PowerShell Cookbook&lt;/a&gt; by Lee Holmes, as well as &lt;a href=&quot;https://amzn.to/2r5V7Jm&quot;&gt;Windows PowerShell in Action&lt;/a&gt; by Bruce Payette and Richard Siddaway.  There is a &lt;em&gt;lot&lt;/em&gt; of knowledge in those two books.&lt;/p&gt;
+
+&lt;h2 id=&quot;learning-to-love-powershell&quot;&gt;Learning to Love PowerShell&lt;/h2&gt;
+
+&lt;p&gt;The goal of this article is to show that just because PowerShell is different from what you are used to, it’s not necessarily bad.&lt;/p&gt;
+
+&lt;p&gt;If you take the time to really dig into the differences and learn the reasoning and design decisions behind them, you’ll start to see their strengths and value.  You might actually miss dealing with typed objects in your command line when you go back to other shells.&lt;/p&gt;
+
+&lt;p&gt;Having to parse text streams might start to feel archaic.  You might find yourself using longer, more consistent function names everywhere as you realize how nice it is to be able to read and understand your scripts six months after you write them.&lt;/p&gt;
+
+&lt;p&gt;Or, you might simply stop telling people how much you hate PowerShell whenever they mention it.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Originally posted on &lt;a href=&quot;https://simpleprogrammer.com/powershell-tutorial/&quot;&gt;Simple Programmer&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sat, 28 Apr 2018 00:00:00 -0700</pubDate>
+        <link>https://assertnotmagic.com/2018/04/28/powershell-tutorial/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/04/28/powershell-tutorial/</guid>
+        
+        <category>powershell</category>
+        
+        <category>tutorial</category>
+        
+        <category>bash</category>
+        
+        <category>terminal</category>
+        
+        
+      </item>
     
       <item>
         <title>Keep VS Code from Becoming an IDE</title>
@@ -1672,273 +2123,6 @@ put it in your Other Brain.&lt;/p&gt;
         <category>productivity</category>
         
         <category>gtd</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Lucky Numbers and Science</title>
-        <description>&lt;p&gt;Earlier this week, &lt;a href=&quot;https://dev.to/heikodudzus&quot;&gt;Heiko Dudzus&lt;/a&gt; posted &lt;a href=&quot;https://dev.to/heikodudzus/write-a-program-or-script-to-find-lucky-numbers--23me&quot;&gt;this challenge post&lt;/a&gt; on Dev.to.  The challenge was this:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Write a program or script in your language of choice, that prints the lucky numbers between 1 and n.  Try to make it as fast as possible for sieving lucky numbers between 1 and a million. (Perhaps it is sensible to measure the time without printing the results.)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;A lucky number is defined as a number that survives the &lt;a href=&quot;https://en.wikipedia.org/wiki/Lucky_number&quot;&gt;Sieve of Josephus&lt;/a&gt;.  I’m going to quote the original post here so you get the idea.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;The 1 is lucky by definition.&lt;/p&gt;
-
-  &lt;p&gt;The successor of 1 is 2. So, every second number gets eliminated:
-1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, …&lt;/p&gt;
-
-  &lt;p&gt;The next number is 3. Now, every third number gets eliminated:
-1, 3, 7, 9, 13, 15, 19, 21, …&lt;/p&gt;
-
-  &lt;p&gt;Number 3 is lucky! It’s successor is 7. Now, every seventh number gets eliminated. And so on.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;See the link above for more details.  I advise you to give the challenge a try if you haven’t yet before you read the rest of the post, since I’m about to tell you about my solutions.&lt;/p&gt;
-
-&lt;p&gt;I came up with two solutions, but the best solution ended up being an interesting combination of them both.  You’ll see what I mean.&lt;/p&gt;
-
-&lt;h2 id=&quot;solution-1-naively-run-the-algorithm&quot;&gt;Solution 1: Naively Run the Algorithm&lt;/h2&gt;
-
-&lt;p&gt;I like the quote “Make it work, make it right, make it fast”, which, as far as I can tell, this is attributed to &lt;a href=&quot;https://gist.github.com/OnesimusUnbound/3064220&quot;&gt;Kent Beck&lt;/a&gt;.  Therefore, my first solution focused on coding things exactly like the problem was provided, the easy way, whether or not this was the fastest way.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;def lucky_numbers(max)
-  possibles = (1..max).to_a
-  1.step do |current_index|
-    break if current_index &amp;gt;= possibles.size
-
-    step_size = possibles[current_index]
-    possibles = reject_every_nth_item(possibles, step_size)
-    
-    # If current_index is one of the items to get wiped out
-    # the same current index will actually point at the next
-    # number.  Reuse this index.
-    redo if wiped_out?(ind, step_size)
-  end
-  possibles
-end
-
-def reject_every_nth_item(items, n)
-  items.reject.each_with_index do |_, ind|
-  	((ind + 1) % n).zero?
-  end
-end
-
-def wiped_out?(ind, step_size)
-  ((ind + 1) % step_size).zero?
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I was all proud of myself as I ran it.  And then I ran it with &lt;code&gt;max = 1_000_000&lt;/code&gt;.  And I sat.  And I sat…&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;This is taking too long!&lt;/em&gt;   I could to do better.&lt;/p&gt;
-
-&lt;h2 id=&quot;solution-2-focus-on-the-keeps-not-the-rejects&quot;&gt;Solution 2: Focus on the Keeps, not the Rejects&lt;/h2&gt;
-
-&lt;p&gt;As I was experimenting and testing things out, I noticed that, at the higher values of &lt;code&gt;step_size&lt;/code&gt;, the naive algorithm was only rejecting a number every so often.  So I thought to myself, “What if we could take the step size out of the equation and make each step take roughly the same amount of time, regardless of how many elements there were in it?”  So, instead of checking each item to see if it was a reject, I calculated out the size of the chunk of &lt;em&gt;non-rejected&lt;/em&gt; numbers and copied those into a &lt;code&gt;results&lt;/code&gt; array, ignoring the rejects instead of explicitly rejecting them.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;def lucky_numbers(max)
-  possibles = (1..max).to_a
-  1.step do |current_index|
-    break if current_index &amp;gt;= possibles.size
-    
-    step_size = possibles[current_index]
-    possibles = grab_chunks_between_rejects(possibles, step_size)
-      
-    redo if wiped_out?(current_index, step_size)
-  end
-  possibles
-end
-
-def grab_chunks_between_rejects(items, n)
-  chunk_count = (items.size / n).floor
-    
-  # The new array will be the same size minus one reject item
-  # for every chunk possible
-  result = Array.new(items.size - chunk_count)
-  chunk_target_index = 0
-    
-  # Some tricky indexing...
-  # 1) Select chunks of size n - 1 (so as to not include the reject endpoint)
-  # 2) Copy it into the results array
-  # 3) Continue, each chunk after the one in front of it.
-  (0...items.size).step(n) do |chunk_start|
-  	chunk = items[chunk_start...(chunk_start + n - 1)]
-    result[chunk_target_index...(chunk_target_index + chunk.size)] = chunk
-    chunk_target_index += chunk.size
-  end
-  result
-end
-  
-def wiped_out?(ind, step_size)
-  ((ind + 1) % step_size).zero?
-end
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This one worked great!  Even on my little laptop, it ran relatively quickly (don’t worry, the benchmarks are coming).  But something felt weird.  My programmer senses were tingling.&lt;/p&gt;
-
-&lt;p&gt;I had no proof at this point, but it seemed like all of the setup and creation of a second array each “round” should cause this algorithm to perform poorly at small &lt;code&gt;step_size&lt;/code&gt;s.  It was at this point that this ceased to be a code challenge and became a science experiment.&lt;/p&gt;
-
-&lt;h2 id=&quot;solution-3-a-combination-of-the-two&quot;&gt;Solution 3: A Combination of the Two&lt;/h2&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;HYPOTHESIS: There is a performance trade-off between the low and high end for my two solutions.  Thus, there should be a combination of the two that is faster than either one as a stand-alone.&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;If there &lt;em&gt;was&lt;/em&gt; a trade-off somewhere between the two solutions, I would be able to run a few tests and find the best possible combination.  I quickly updated my &lt;code&gt;lucky_numbers&lt;/code&gt; method.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;def lucky_numbers(max, strategy_switch = 10)
-  possibles = (1..max).to_a
-  1.step do |current_index|
-    break if current_index &amp;gt;= possibles.size
-    
-    step_size = possibles[current_index]
-
-    # Calculate next round of numbers
-    possibles = if step_size &amp;lt;= strategy_switch
-                  reject_every_nth_item(possibles, step_size)
-                else
-                  grab_chunks_between_rejects(possibles, step_size)
-                end
-      
-    redo if wiped_out?(current_index, step_size)
-  end
-  possibles
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And now to collect some data!  For sanity’s sake, I wrapped each function in a module to differentiate them.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/data-data-data.gif&quot; alt=&quot;Data, data, data!  I cannot make bricks without clay.&quot; /&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;require &quot;benchmark&quot;
-
-require_relative &quot;lucky_numbers3&quot;
-
-max_nums = 1_000_000
-switch_levels = [
-  2,
-  10,
-  100,
-  500,
-  1000,
-  5000,
-  10_000,
-  50_000,
-  100_000,
-  500_000,
-]
-
-Benchmark.bm do |bm|
-  switch_levels.each do |level|
-    bm.report(level.to_i) do
-      Lucky3::lucky_numbers(max_nums, level)
-    end
-  end
-end
-
-# ▶ ruby optimize_lucky3.rb
-#        user     system      total        real
-#      2 17.550718  21.655086  39.205804 ( 39.535233)
-#     10 18.351711  23.234818  41.586529 ( 42.615220)
-#    100 18.443557  22.266405  40.709962 ( 41.178138)
-#    500 20.278373  23.325708  43.604081 ( 44.987643)
-#   1000 20.725864  22.510307  43.236171 ( 43.617160)
-#   5000 27.245503  21.725938  48.971441 ( 49.304915)
-#  10000 33.828295  22.476806  56.305101 ( 56.742865)
-#  50000 82.069851  37.399753 119.469604 (120.174670)
-# 100000 120.410101  23.425739 143.835840 (144.841090)
-# 500000 445.835956  31.520488 477.356444 (483.688845)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And no science experiment is complete without plots!  Unfortunately, the data visualization story (outside of the web) is not as cushy in Ruby as it is in Python.  Fortunately, I found a wrapper for Python’s &lt;code&gt;matplotlib&lt;/code&gt; so I could stay in Ruby land for now.  Note that I used a log-based scale on the X-axis to better display my results.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;# plot_lucky3.rb
-
-require &quot;matplotlib/pyplot&quot;
-
-plt = Matplotlib::Pyplot
-
-xs = [2, 10, 100, 500, 1000, 5000, 10_000, 50_000, 100_000, 500_000]
-ys = [
-  39.54,
-  42.62,
-  41.18,
-  44.99,
-  43.62,
-  49.30,
-  56.74,
-  120.17,
-  144.84,
-  483.69,
-]
-ax = plt.gca()
-ax.scatter(xs, ys)
-ax.set_xscale('log')
-plt.show()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/lucky3-results.png&quot; alt=&quot;Lucky 3 results&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This is the part that is confusing to me.  I’ve run the experiment multiple times and I always end up with a dip at around 1000.  We’ll talk about that in a moment.  Here are the benchmarks of each solution directly compared.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;require &quot;benchmark&quot;
-
-require_relative &quot;lucky_numbers&quot;
-require_relative &quot;lucky_numbers2&quot;
-require_relative &quot;lucky_numbers3&quot;
-
-iterations = 1_000_000
-
-Benchmark.bm do |bm|
-  bm.report(&quot;Version 1&quot;) do
-    Lucky1::lucky_numbers(iterations)
-  end
-
-  bm.report(&quot;Version 2&quot;) do
-    Lucky2::lucky_numbers(iterations)
-  end
-
-  bm.report(&quot;Version 3&quot;) do
-    Lucky3::lucky_numbers(iterations, 1000)
-  end
-end
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And the results:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;▶ ruby lucky_number_timer.rb
-          user        system    total      real
-Version 1 794.304851  28.946642 823.251493 (826.377494)
-Version 2  23.267372  33.858966  57.126338 ( 57.238392)
-Version 3  19.517162  20.816684  40.333846 ( 40.470201)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;CONCLUSION: My hypothesis was supported.  A combination of the two solutions performs better than either one solution by itself.  However, the reason behind this is probably not the one that I initially thought.  Some further research is required to find out why this worked.&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;My wife teaches middle school science and I just got done helping her judge their science fair, so I’ve got experimentation on the brain.  Hopefully this little experiment makes her proud!&lt;/p&gt;
-
-&lt;p&gt;I’m sure my solution wasn’t the best possible solution, but it gets the job done.  Ruby isn’t necessarily the language of choice for high-throughput calculations (&lt;a href=&quot;https://blog.heroku.com/ruby-3-by-3&quot;&gt;although it’s not necessarily a bad choice either&lt;/a&gt;).  If anybody can come up with a convincing reason for why my data came out the way it did, including the dip at 1000, I’ll personally send you a shiny new trophy emoji. 🏆  Also, if you’ve got a solution that you like better than these, I want to see it.  Share it! (or share a link to your solution commented on &lt;a href=&quot;https://dev.to/heikodudzus/write-a-program-or-script-to-find-lucky-numbers--23me&quot;&gt;Heiko’s original post&lt;/a&gt;).&lt;/p&gt;
-</description>
-        <pubDate>Thu, 15 Feb 2018 00:00:00 -0800</pubDate>
-        <link>https://assertnotmagic.com/2018/02/15/lucky-numbers-and-science/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2018/02/15/lucky-numbers-and-science/</guid>
-        
-        <category>ruby</category>
-        
-        <category>puzzle</category>
-        
-        <category>performance</category>
         
         
       </item>
