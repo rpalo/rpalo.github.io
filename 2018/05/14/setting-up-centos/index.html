@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <!-- Bootstrap Setup -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="ROBOTS" content="INDEX,FOLLOW">
+        <meta name="description" content="A walkthrough of the ins and outs of good security practices and some neat tricks to make your new server feel like home sweet home.">
+        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, linux, sysadmin, security">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="assert_not magic? | Setting Up a CentOS Server">
+        <meta name="twitter:site" content="@paytastic">
+        <meta name="twitter:description" content="A walkthrough of the ins and outs of good security practices and some neat tricks to make your new server feel like home sweet home.">
+        <meta name="twitter:image" content="http://assertnotmagic.com/img/centos-logo.png">
+        <meta name="twitter:creator" content="@paytastic">
+        <meta name="og:url" content="http://assertnotmagic.com/2018/05/14/setting-up-centos/">
+        <meta name="og:title" content="assert_not magic? | Setting Up a CentOS Server">
+        <meta name="og:description" content="A walkthrough of the ins and outs of good security practices and some neat tricks to make your new server feel like home sweet home.">
+        <meta name="og:image" content="http://assertnotmagic.com/img/centos-logo.png">
+
+        <!-- Favicon settings -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/manifest.json">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#222222">
+        <meta name="theme-color" content="#ffffff">
+
+        <!-- Omnisearch -->
+        <link rel="search" type="application/opensearchdescription+xml" title="search assert_not magic" href="/opensearch.xml">
+        
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+        
+        <link rel="stylesheet" href="/css/prism.css">
+        <title>assert_not magic?</title>
+    </head>
+    <body>
+        
+<nav id="main-nav">
+    <a href="/" class="mobile-home">assert_not magic?</a>
+    <ul>
+        <li class="logo"><a href="/">assert_not magic?</a></li>
+        <li><a href="/posts/">All Posts</a></li>
+        <li><a href="/about/">About Ryan</a></li>
+        <li><a href="/sketches/">Sketches</a></li>
+        <li><a href="/uses/">Uses</a></li>
+    </ul>
+</nav>
+        <div class="container main">
+                <article class="site-wrap">
+    <div id="cover">
+        
+        <img alt="Cover Image" class="cover-image" src="/img/centos-logo.png">
+        
+    </div>
+    <h1>Setting Up a CentOS Server</h1>
+    <p>I’m slowly discovering that I <em>love</em> systems stuff.  I’ve always used Ubuntu as the flavor of Linux on my servers, but I was curious about the differences between Ubuntu and CentOS, so I looked up a few guides and tutorials and spun up a new <a href="https://m.do.co/c/2e87eb578ad9">Digital Ocean droplet</a> with a fresh install of CentOS.  I wanted to share what I learned, and all of the things to think about when first getting things set up.  I’m also writing this for when future me forgets a step and can’t remember the commands.</p>
+
+<p>I’m going to assume that you have working knowledge of the command line for now: changing directories, editing files, and setting file permissions.  I’ll try to explain anything more exotic than that.  If you’re not quite there, but you still want to learn, please <a href="https://assertnotmagic.com/about/">get in touch</a>, and I’d be happy to walk you through it (and/or write another post for that).  This is also a guide for CentOS because that’s what I was doing.  For that reason, all of the commands are Centos (and probably RHEL) specific.  The process and theory should be much the same for other flavors of Linux, though.</p>
+
+<h2 id="first-contact">First Contact</h2>
+
+<p>I’m not sure how other providers do it, but once you create a droplet on Digital Ocean and your new server is all turned on, they send you an email with the <code>root</code> password.  You’ll be able to <code>ssh</code> into your server using these credentials.  If you’re on a Mac, you already have <code>ssh</code> installed and accessible via your terminal app of choice.  If you’re on Windows, you should look into an <code>ssh</code> client.  I use <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/">PuTTY</a> when I need to.  Your hosting provider will provide you with an IP address as well.</p>
+
+<pre><code class="language-bash">ssh root@&lt;your_server_ip&gt;
+</code></pre>
+
+<p>From now on, if you see something in angle brackets like that, just assume that I mean, “Fill in the placeholder in angle brackets with your own preferred value.”  It will ask you for your password.  Paste it in and hit Enter, and you should be ready to rock!</p>
+
+<h2 id="check-your-privilege">Check Your Privilege</h2>
+
+<p>Right now you’re logged in as <code>root</code>.  This is great!  It is also bad.  When you are logged in as root, typos and little mistakes can cause big problems.  It’s generally better to sign in and go about your life in a less privileged account, only invoking <code>sudo</code> to do privilege-y things when you need to.  That way, if you accidently try to delete yourself out of existence, you’ll have to work a little harder before you succeed.  So, we’ll need to create this everyday user.</p>
+
+<pre><code class="language-bash">adduser &lt;username&gt; &amp;&amp; passwd &lt;username&gt;
+</code></pre>
+
+<p>This will ask you for a new password for your new user.  Make it a good one.</p>
+
+<p>Next, let’s make sure that your new user can actually <code>sudo</code>.</p>
+
+<pre><code class="language-bash">usermod -aG wheel &lt;username&gt;
+</code></pre>
+
+<p>We’re adding our new user to the <code>wheel</code> group, which (as long as you’re on CentOS 7 or better) means that we’ll be able to <code>sudo</code> without trouble.</p>
+
+<p>Lastly, sometimes there’s a default user created: <code>centos</code>.  I don’t think we need this user for anything.  Remove it with:</p>
+
+<pre><code class="language-bash">deluser centos
+</code></pre>
+
+<h2 id="transferring-keys">Transferring Keys</h2>
+
+<p>Next, we’re going to strengthen security by setting up private/public key authentication.  A side benefit of this is that you won’t need to remember a password if you don’t want to anymore.  Temporarily switch users so that you’re operating as your new user.</p>
+
+<pre><code class="language-bash">su &lt;username&gt;
+</code></pre>
+
+<p>In order to authenticate with keys, you’ll need a spot to put your public key.  Let’s create the <code>.ssh</code> directory.</p>
+
+<pre><code class="language-bash">mkdir ~/.ssh
+</code></pre>
+
+<p>We also don’t want anyone but us to be able to fiddle around in this directory.</p>
+
+<pre><code class="language-bash">sudo chmod 700 ~/.ssh/
+</code></pre>
+
+<p>Great!  Let’s transfer a key.  Exit <code>ssh</code> or open up a new terminal on your local machine.  If you don’t yet have a private/public key pair, generate one now.</p>
+
+<pre><code class="language-bash">ssh-keygen
+
+# Generating public/private rsa key pair.
+# Enter file in which to save the key (/Users/localuser/.ssh/id_rsa):
+</code></pre>
+
+<p>Just hit Enter to accept the default file location for your keys.  This will create two files.  <code>id_rsa</code> is your private key.  This is <em>Very Secret</em>™.  Never share this with anyone unless you trust them with your life.  Or, at least, your servers.  I’d go so far as to say don’t put this out on a cloud service or flash drive where it might get hacked, stolen, lost, or blown up.  <code>id_rsa.pub</code> is your public key, and this is the one you can share with people to prove you are who you say you are.  This is the file that we want to share with our new server’s new user.  There are a couple ways to do this:</p>
+
+<pre><code class="language-bash"># Via ssh-copy-id
+ssh-copy-id &lt;username&gt;@&lt;server-ip&gt;
+
+# Via scp
+scp ~/.ssh/id_rsa.pub &lt;username&gt;@&lt;server-ip&gt;:~/.ssh/authorized_keys
+
+# Manually via good ole' fashioned copy/paste
+cat ~/.ssh/id_rsa.pub
+
+# You'll see something like:
+# ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAmLmwkzQDjEOW1Rj3TP5NldVDqUODVH9xuYrkeaSkxtdP
+
+# Copy the whole thing.  Then ssh back into your server like normal and create a new file at ~/.ssh/authorized_keys and paste in in.
+nano ~/.ssh/authorized_keys
+
+# Or use emacs or vim or whatever editor you like best.  Whatever.  Shut up.
+</code></pre>
+
+<p>Now, the next time you log in as your user, it shouldn’t ask you for a password.</p>
+
+<p>And once again, make sure the permissions are as restrictive as possible for this file.</p>
+
+<pre><code class="language-bash"># Once again logged into your server
+sudo chmod 600 ~/.ssh/authorized_keys
+</code></pre>
+
+<h2 id="but-we-can-go-even-more-secure">But We Can Go Even More Secure</h2>
+
+<p><em>“But wait, shouldn’t we do a public key for our <code>root</code> user as well, so we don’t have to type that password either?”</em> you ask.  The answer is no.  Actually, the most secure way is if your <code>root</code> user can’t even log in from the outside at all!  We’re now going to edit the configuration for our <code>ssh</code> daemon (or, <code>sshd</code> for short) that controls how our server accepts <code>ssh</code> connections.  Most configuration lives in the <code>/etc</code> directory, and this is no exception.</p>
+
+<pre><code class="language-bash">sudo nano /etc/ssh/sshd_config
+</code></pre>
+
+<p>Look for the line that says:</p>
+
+<pre><code class="language-ini">#PermitRootLogin yes
+</code></pre>
+
+<p>You’ll want to uncomment it and set that to “no.”</p>
+
+<pre><code class="language-ini">PermitRootLogin no
+</code></pre>
+
+<p><em>Side note: I always think it’s funny to add an additional line.</em></p>
+
+<pre><code class="language-ini"># PermitKennyLogin DANGER ZONE!
+</code></pre>
+
+<p><em>My wife, a teacher and not an avid sshd configurer, disagrees.</em></p>
+
+<p>As extra steps, also change the following lines:</p>
+
+<pre><code class="language-ini">PasswordAuthentication no
+
+# If you connect via IPv4:
+AddressFamily inet
+# If you connect via IPv6:
+AddressFamily inet6
+</code></pre>
+
+<p>The first line turns off all password logins.  Without this, your user account is still open to password login, which somebody can do even without your private key.  The other lines shrink the amount of shenanigans you have to deal with by refusing to serve people who aren’t connecting like you.  If you’re not going to ever connect via IPv6, why leave that open for some botnet to sniff around?</p>
+
+<p>Lastly, once we’ve reconfigured a service, we need to reload it.</p>
+
+<pre><code class="language-bash">sudo systemctl reload sshd
+</code></pre>
+
+<p>And we should be good to go!</p>
+
+<h2 id="moving-in-and-settling-down">Moving In and Settling Down</h2>
+
+<p>We’re pretty much done with the security stuff.  By now, you should be pretty much secure and feeling safe.  Now we’re going to focus on turning this server into a pleasant place to work.</p>
+
+<pre><code class="language-bash">yum update &amp;&amp; sudo yum upgrade
+</code></pre>
+
+<p>Watch as your server brings itself up to current.</p>
+
+<h3 id="protip-yum-errors">ProTip: Yum Errors</h3>
+
+<p>If you get interrupted or, hypothetically, your dog jumps into your lap while this is happening and just manages to mash the correct keys to abort the upgrade without cleaning up, and you start seeing errors like “yum lock” or “sqlite3 database lock”, don’t panic.</p>
+
+<p>Check to see if there’s still a <code>yum</code> process active.</p>
+
+<pre><code class="language-bash">ps aux | grep yum
+</code></pre>
+
+<p>If you see one that shouldn’t be active, try to kill it (take note of the process ID (PID) in the second column of the output from the above command).</p>
+
+<pre><code class="language-bash">kill &lt;pid&gt;
+# Or, if you're feeling feisty and it's not working:
+kill -9 &lt;pid&gt;
+</code></pre>
+
+<p>Willy is sorry he caused 90 minutes of frantically Googling error messages.</p>
+
+<p><img src="/img/sad-willy.jpg" alt="Sad Willy" /></p>
+
+<h3 id="back-to-it">Back To It</h3>
+
+<p>Now is a good time to install any packages you couldn’t be without: Zsh, oh-my-zsh, Ruby, Vim, and git are the first ones that come to mind.  I’m going to show you just the first one, because there is one hiccup you might encounter.  If you prefer Fish or some other shell, it should most likely be similar.</p>
+
+<h2 id="installing-zsh">Installing Zsh</h2>
+
+<p>The first part should make sense.</p>
+
+<pre><code class="language-bash">sudo yum install zsh
+</code></pre>
+
+<p>Check to see where your executable lives.</p>
+
+<pre><code class="language-bash">where zsh
+# /usr/bin/zsh
+</code></pre>
+
+<p>The important thing here is to make sure that this location is in your <code>/etc/shells</code> file, which is a list of the approved shells.</p>
+
+<pre><code class="language-bash">sudo nano /etc/shells
+</code></pre>
+
+<pre><code class="language-ini"># List of acceptable shells for chpass(1).
+# Ftpd will not allow users to connect who are not using
+# one of these shells.
+
+/bin/bash
+/bin/csh
+/bin/ksh
+/bin/sh
+/bin/tcsh
+/bin/zsh
+/usr/local/bin/pwsh
+/usr/bin/zsh # &lt;&lt; Here's the one we're adding.
+</code></pre>
+
+<p>Once the zsh executable is approved, you can set your own default shell to zsh.</p>
+
+<pre><code class="language-bash">chsh -s $(where zsh)
+</code></pre>
+
+<h2 id="bonus-bringing-in-dot-files">Bonus: Bringing in Dot Files</h2>
+
+<p>If you’re like me, you’re probably reasonably proud of your slowly growing collection of “dot files.”  But how do you get them from your computer onto the server, quickly, sanely, and repeatably?  With Git.  I found <a href="https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/">this article by Nicola Paolucci</a> that I think is brilliant.  We’re going to use a modified bare Git repository in our local home directory!</p>
+
+<h3 id="setting-up">Setting Up</h3>
+
+<p>On your local machine:</p>
+
+<pre><code class="language-bash">git init --bare $HOME/.dotfiles
+alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+dot config --local status.showUntrackedFiles no
+echo alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME' &gt;&gt; ~/.bashrc
+</code></pre>
+
+<p>We create a bare repo in our home directory to track our dot files, we create the <code>dot</code> command (or whatever you want to call it) which will function just like the <code>git</code> command, but just for our dotfiles.  We configure it to only show us if our tracked files change, and then we save the <code>dot</code> command for later.</p>
+
+<p>Now, all we have to do is start tracking some dot files!</p>
+
+<pre><code class="language-bash">dot status
+dot add .zshrc
+dot commit -m "Add zshrc"
+dot remote add origin https://github.com/&lt;you&gt;/dotfiles.git
+dot push -u origin master
+</code></pre>
+
+<p>You get all the benefits of Git!  You can branch, edit, roll back, diff changes, and more.</p>
+
+<h3 id="installing-onto-our-server">Installing Onto Our Server</h3>
+
+<p>On the server, add your same <code>dot</code> command to your <code>.zshrc</code> file.</p>
+
+<pre><code class="language-bash">echo alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME' &gt;&gt; ~/.zshrc
+. ~/.zshrc
+</code></pre>
+
+<p>If there are any stock files that might conflict with the dotfiles you’re about to pull in, either delete them or (better), copy them to a backup directory.</p>
+
+<pre><code class="language-bash">mkdir .dotfile-backup
+mv .bashrc .dotfile-backup
+mv .zshrc .dotfile-backup
+</code></pre>
+
+<p>Now we’re ready:</p>
+
+<pre><code class="language-bash">git clone --bare &lt;dotfile repo url&gt; $HOME/.dotfiles
+echo ".dotfiles/" &gt;&gt; .gitignore
+dot checkout
+# Just in case:
+dot config status.showUntrackedFiles no
+</code></pre>
+
+<p>And now your server should be on its way to being comfy, cozy, and functional!</p>
+
+<h2 id="bonus-bonus-message-of-the-day">Bonus Bonus: Message of the Day</h2>
+
+<p>I don’t know about you, but I believe that 98% of the reasons why I learned how to program were to make computers print out funny messages.  To that end, I set up my Message of the Day accordingly.</p>
+
+<pre><code class="language-bash">sudo vim /etc/motd
+</code></pre>
+
+<pre><code class="language-text">==================================
+You are a gentleman and a scholar.
+==================================
+</code></pre>
+
+<p>If you can’t think of any one-liner affirmations to put in your MOTD, check out this <a href="https://github.com/rpalo/fanbot/blob/master/fanbot/compliments.py">list of compliments I curated for a twitter bot to pepper my brother with</a>.</p>
+
+<p>Now, whenever you log in, your server will greet you with an uplifting message!  😁</p>
+
+<h2 id="wrap-up">Wrap Up</h2>
+
+<p>I know there’s a lot more for me to learn in the system administration realm.  I’m starting to stock up on books to read and videos to watch.  Did I miss anything important?  Do you have any extra protips?  Any great resources for learning?  Let me know about them!  Thanks for reading!</p>
+
+    
+    <small>
+        Author: Ryan Palo | Tags: 
+        
+        <a href="/tags/linux/">linux</a>
+        
+        <a href="/tags/sysadmin/">sysadmin</a>
+        
+        <a href="/tags/security/">security</a>
+        
+    </small>
+    
+    <div class="email-background">
+    <form class="email-signup" action="https://tinyletter.com/rpalo" method="post" target="popupwindow"
+    onsubmit="window.open('https://tinyletter.com/rpalo', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+      <p>
+        <label class="email-text" for="tlemail">Want to stay connected and get my newsletter?</label>
+      </p>
+      <p>
+        <input class="email-input" type="text" name="email" id="tlemail" />
+        <input type="hidden" value="1" name="embed" />
+        <input class="email-button" type="submit" value="Subscribe" />
+      </p>
+
+        <a class="email-powered" href="https://tinyletter.com" target="_blank">powered by TinyLetter</a>
+      </p>
+    </form>
+</div>
+    <hr>
+
+<!-- Footer for Homepage -->
+  <div id="home-footer">
+    <div id="left-home-footer">
+      <!-- Featured Posts List -->
+      <h2>Featured Posts</h2>
+      <ul class="post-list">
+        <li>
+          <span class="post-meta">Jan 18, 2017</span><br />
+          <a class="post-link" href="/2017/01/18/assert-not-magic/">Assert Not Magic</a>
+        </li>
+        
+          <li>
+            <span class="post-meta">Apr 28, 2018</span><br/>
+            <a class="post-link" href="/2018/04/28/powershell-tutorial/">PowerShell Tutorial (Especially for People Who Hate PowerShell)</a>
+          </li>
+        
+          <li>
+            <span class="post-meta">Apr 26, 2018</span><br/>
+            <a class="post-link" href="/2018/04/26/keep-vs-code-light/">Keep VS Code from Becoming an IDE</a>
+          </li>
+        
+          <li>
+            <span class="post-meta">Apr 22, 2018</span><br/>
+            <a class="post-link" href="/2018/04/22/ruby-singleton-classes/">Ruby Concepts - Singleton Classes</a>
+          </li>
+        
+      </ul>
+    </div>
+    <div id="center-home-footer">
+      <!-- Spacer -->
+    </div>
+    <div id="right-home-footer">
+      <!-- Tags List -->
+      <h2>Tags</h2>
+      <p>
+        
+        <a href="/tags/python/" style="font-size: 60px">python | </a>
+        
+        <a href="/tags/django/" style="font-size: 22px">django | </a>
+        
+        <a href="/tags/rails/" style="font-size: 14px">rails | </a>
+        
+        <a href="/tags/algorithms/" style="font-size: 22px">algorithms | </a>
+        
+        <a href="/tags/editors/" style="font-size: 20px">editors | </a>
+        
+        <a href="/tags/emacs/" style="font-size: 16px">emacs | </a>
+        
+        <a href="/tags/ai/" style="font-size: 14px">ai | </a>
+        
+        <a href="/tags/r/" style="font-size: 14px">r | </a>
+        
+        <a href="/tags/tools/" style="font-size: 16px">tools | </a>
+        
+        <a href="/tags/javascript/" style="font-size: 26px">javascript | </a>
+        
+        <a href="/tags/not-magic/" style="font-size: 16px">not-magic | </a>
+        
+        <a href="/tags/soft-skills/" style="font-size: 22px">soft-skills | </a>
+        
+        <a href="/tags/tricks/" style="font-size: 38px">tricks | </a>
+        
+        <a href="/tags/vscode/" style="font-size: 16px">vscode | </a>
+        
+        <a href="/tags/vim/" style="font-size: 18px">vim | </a>
+        
+        <a href="/tags/sublime/" style="font-size: 14px">sublime | </a>
+        
+        <a href="/tags/puzzle/" style="font-size: 20px">puzzle | </a>
+        
+        <a href="/tags/bash/" style="font-size: 18px">bash | </a>
+        
+        <a href="/tags/math/" style="font-size: 16px">math | </a>
+        
+        <a href="/tags/teaching/" style="font-size: 16px">teaching | </a>
+        
+        <a href="/tags/ruby/" style="font-size: 32px">ruby | </a>
+        
+        <a href="/tags/jekyll/" style="font-size: 16px">jekyll | </a>
+        
+        <a href="/tags/git/" style="font-size: 20px">git | </a>
+        
+        <a href="/tags/physics/" style="font-size: 14px">physics | </a>
+        
+        <a href="/tags/fun/" style="font-size: 18px">fun | </a>
+        
+        <a href="/tags/scientific/" style="font-size: 16px">scientific | </a>
+        
+        <a href="/tags/pythonic/" style="font-size: 16px">pythonic | </a>
+        
+        <a href="/tags/functional/" style="font-size: 20px">functional | </a>
+        
+        <a href="/tags/vue/" style="font-size: 22px">vue | </a>
+        
+        <a href="/tags/es6/" style="font-size: 20px">es6 | </a>
+        
+        <a href="/tags/tutorial/" style="font-size: 36px">tutorial | </a>
+        
+        <a href="/tags/exercise/" style="font-size: 14px">exercise | </a>
+        
+        <a href="/tags/fitness/" style="font-size: 14px">fitness | </a>
+        
+        <a href="/tags/sysadmin/" style="font-size: 18px">sysadmin | </a>
+        
+        <a href="/tags/linux/" style="font-size: 16px">linux | </a>
+        
+        <a href="/tags/html/" style="font-size: 18px">html | </a>
+        
+        <a href="/tags/seo/" style="font-size: 14px">seo | </a>
+        
+        <a href="/tags/social/" style="font-size: 14px">social | </a>
+        
+        <a href="/tags/metaprogramming/" style="font-size: 14px">metaprogramming | </a>
+        
+        <a href="/tags/css/" style="font-size: 14px">css | </a>
+        
+        <a href="/tags/front-end/" style="font-size: 16px">front-end | </a>
+        
+        <a href="/tags/animations/" style="font-size: 14px">animations | </a>
+        
+        <a href="/tags/p5/" style="font-size: 20px">p5 | </a>
+        
+        <a href="/tags/beginner/" style="font-size: 20px">beginner | </a>
+        
+        <a href="/tags/encouragement/" style="font-size: 18px">encouragement | </a>
+        
+        <a href="/tags/screencast/" style="font-size: 14px">screencast | </a>
+        
+        <a href="/tags/showdev/" style="font-size: 14px">showdev | </a>
+        
+        <a href="/tags/interview/" style="font-size: 14px">interview | </a>
+        
+        <a href="/tags/performance/" style="font-size: 16px">performance | </a>
+        
+        <a href="/tags/workflow/" style="font-size: 14px">workflow | </a>
+        
+        <a href="/tags/best-practice/" style="font-size: 14px">best-practice | </a>
+        
+        <a href="/tags/oss/" style="font-size: 14px">oss | </a>
+        
+        <a href="/tags/static-site/" style="font-size: 14px">static-site | </a>
+        
+        <a href="/tags/big-o/" style="font-size: 14px">big-o | </a>
+        
+        <a href="/tags/linked-lists/" style="font-size: 14px">linked-lists | </a>
+        
+        <a href="/tags/design-intent/" style="font-size: 14px">design-intent | </a>
+        
+        <a href="/tags/struct/" style="font-size: 14px">struct | </a>
+        
+        <a href="/tags/browser/" style="font-size: 14px">browser | </a>
+        
+        <a href="/tags/focus/" style="font-size: 14px">focus | </a>
+        
+        <a href="/tags/productivity/" style="font-size: 18px">productivity | </a>
+        
+        <a href="/tags/codenewbie/" style="font-size: 14px">codenewbie | </a>
+        
+        <a href="/tags/reflection/" style="font-size: 14px">reflection | </a>
+        
+        <a href="/tags/update/" style="font-size: 14px">update | </a>
+        
+        <a href="/tags/preview/" style="font-size: 14px">preview | </a>
+        
+        <a href="/tags/gtd/" style="font-size: 14px">gtd | </a>
+        
+        <a href="/tags/bullet-journal/" style="font-size: 14px">bullet-journal | </a>
+        
+        <a href="/tags/data-science/" style="font-size: 14px">data-science | </a>
+        
+        <a href="/tags/singleton/" style="font-size: 14px">singleton | </a>
+        
+        <a href="/tags/basics/" style="font-size: 14px">basics | </a>
+        
+        <a href="/tags/powershell/" style="font-size: 14px">powershell | </a>
+        
+        <a href="/tags/terminal/" style="font-size: 14px">terminal | </a>
+        
+        <a href="/tags/security/" style="font-size: 14px">security | </a>
+        
+      </p>
+    </div>
+  </div>
+  <hr>
+  
+
+  <p class="rss-subscribe contact">Like my stuff?  Have questions or feedback for me?  Want to mentor me or get my help with something?  <a href="/about/">Get in touch!</a>  To stay updated, subscribe <a href="/feed.xml">via RSS</a></p>
+
+
+
+</article>
+        </div>
+
+        <footer id="main-footer">
+    <div class="container">
+        <p class="text-muted">&copy; Ryan Palo 2018 | All things.  Phil. 4:13</p>
+    </div>
+</footer>
+        <!-- Scripts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+        <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-91889165-1', 'auto');
+            ga('send', 'pageview');
+
+        </script>
+        
+    </body>
+</html>

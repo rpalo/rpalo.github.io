@@ -6,9 +6,297 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 28 Apr 2018 17:50:34 -0700</pubDate>
-    <lastBuildDate>Sat, 28 Apr 2018 17:50:34 -0700</lastBuildDate>
+    <pubDate>Mon, 14 May 2018 21:43:40 -0700</pubDate>
+    <lastBuildDate>Mon, 14 May 2018 21:43:40 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Setting Up a CentOS Server</title>
+        <description>&lt;p&gt;I’m slowly discovering that I &lt;em&gt;love&lt;/em&gt; systems stuff.  I’ve always used Ubuntu as the flavor of Linux on my servers, but I was curious about the differences between Ubuntu and CentOS, so I looked up a few guides and tutorials and spun up a new &lt;a href=&quot;https://m.do.co/c/2e87eb578ad9&quot;&gt;Digital Ocean droplet&lt;/a&gt; with a fresh install of CentOS.  I wanted to share what I learned, and all of the things to think about when first getting things set up.  I’m also writing this for when future me forgets a step and can’t remember the commands.&lt;/p&gt;
+
+&lt;p&gt;I’m going to assume that you have working knowledge of the command line for now: changing directories, editing files, and setting file permissions.  I’ll try to explain anything more exotic than that.  If you’re not quite there, but you still want to learn, please &lt;a href=&quot;https://assertnotmagic.com/about/&quot;&gt;get in touch&lt;/a&gt;, and I’d be happy to walk you through it (and/or write another post for that).  This is also a guide for CentOS because that’s what I was doing.  For that reason, all of the commands are Centos (and probably RHEL) specific.  The process and theory should be much the same for other flavors of Linux, though.&lt;/p&gt;
+
+&lt;h2 id=&quot;first-contact&quot;&gt;First Contact&lt;/h2&gt;
+
+&lt;p&gt;I’m not sure how other providers do it, but once you create a droplet on Digital Ocean and your new server is all turned on, they send you an email with the &lt;code&gt;root&lt;/code&gt; password.  You’ll be able to &lt;code&gt;ssh&lt;/code&gt; into your server using these credentials.  If you’re on a Mac, you already have &lt;code&gt;ssh&lt;/code&gt; installed and accessible via your terminal app of choice.  If you’re on Windows, you should look into an &lt;code&gt;ssh&lt;/code&gt; client.  I use &lt;a href=&quot;https://www.chiark.greenend.org.uk/~sgtatham/putty/&quot;&gt;PuTTY&lt;/a&gt; when I need to.  Your hosting provider will provide you with an IP address as well.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;ssh root@&amp;lt;your_server_ip&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;From now on, if you see something in angle brackets like that, just assume that I mean, “Fill in the placeholder in angle brackets with your own preferred value.”  It will ask you for your password.  Paste it in and hit Enter, and you should be ready to rock!&lt;/p&gt;
+
+&lt;h2 id=&quot;check-your-privilege&quot;&gt;Check Your Privilege&lt;/h2&gt;
+
+&lt;p&gt;Right now you’re logged in as &lt;code&gt;root&lt;/code&gt;.  This is great!  It is also bad.  When you are logged in as root, typos and little mistakes can cause big problems.  It’s generally better to sign in and go about your life in a less privileged account, only invoking &lt;code&gt;sudo&lt;/code&gt; to do privilege-y things when you need to.  That way, if you accidently try to delete yourself out of existence, you’ll have to work a little harder before you succeed.  So, we’ll need to create this everyday user.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;adduser &amp;lt;username&amp;gt; &amp;amp;&amp;amp; passwd &amp;lt;username&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This will ask you for a new password for your new user.  Make it a good one.&lt;/p&gt;
+
+&lt;p&gt;Next, let’s make sure that your new user can actually &lt;code&gt;sudo&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;usermod -aG wheel &amp;lt;username&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We’re adding our new user to the &lt;code&gt;wheel&lt;/code&gt; group, which (as long as you’re on CentOS 7 or better) means that we’ll be able to &lt;code&gt;sudo&lt;/code&gt; without trouble.&lt;/p&gt;
+
+&lt;p&gt;Lastly, sometimes there’s a default user created: &lt;code&gt;centos&lt;/code&gt;.  I don’t think we need this user for anything.  Remove it with:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;deluser centos
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;transferring-keys&quot;&gt;Transferring Keys&lt;/h2&gt;
+
+&lt;p&gt;Next, we’re going to strengthen security by setting up private/public key authentication.  A side benefit of this is that you won’t need to remember a password if you don’t want to anymore.  Temporarily switch users so that you’re operating as your new user.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;su &amp;lt;username&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In order to authenticate with keys, you’ll need a spot to put your public key.  Let’s create the &lt;code&gt;.ssh&lt;/code&gt; directory.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;mkdir ~/.ssh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We also don’t want anyone but us to be able to fiddle around in this directory.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo chmod 700 ~/.ssh/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Great!  Let’s transfer a key.  Exit &lt;code&gt;ssh&lt;/code&gt; or open up a new terminal on your local machine.  If you don’t yet have a private/public key pair, generate one now.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;ssh-keygen
+
+# Generating public/private rsa key pair.
+# Enter file in which to save the key (/Users/localuser/.ssh/id_rsa):
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Just hit Enter to accept the default file location for your keys.  This will create two files.  &lt;code&gt;id_rsa&lt;/code&gt; is your private key.  This is &lt;em&gt;Very Secret&lt;/em&gt;™.  Never share this with anyone unless you trust them with your life.  Or, at least, your servers.  I’d go so far as to say don’t put this out on a cloud service or flash drive where it might get hacked, stolen, lost, or blown up.  &lt;code&gt;id_rsa.pub&lt;/code&gt; is your public key, and this is the one you can share with people to prove you are who you say you are.  This is the file that we want to share with our new server’s new user.  There are a couple ways to do this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Via ssh-copy-id
+ssh-copy-id &amp;lt;username&amp;gt;@&amp;lt;server-ip&amp;gt;
+
+# Via scp
+scp ~/.ssh/id_rsa.pub &amp;lt;username&amp;gt;@&amp;lt;server-ip&amp;gt;:~/.ssh/authorized_keys
+
+# Manually via good ole' fashioned copy/paste
+cat ~/.ssh/id_rsa.pub
+
+# You'll see something like:
+# ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAmLmwkzQDjEOW1Rj3TP5NldVDqUODVH9xuYrkeaSkxtdP
+
+# Copy the whole thing.  Then ssh back into your server like normal and create a new file at ~/.ssh/authorized_keys and paste in in.
+nano ~/.ssh/authorized_keys
+
+# Or use emacs or vim or whatever editor you like best.  Whatever.  Shut up.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, the next time you log in as your user, it shouldn’t ask you for a password.&lt;/p&gt;
+
+&lt;p&gt;And once again, make sure the permissions are as restrictive as possible for this file.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Once again logged into your server
+sudo chmod 600 ~/.ssh/authorized_keys
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;but-we-can-go-even-more-secure&quot;&gt;But We Can Go Even More Secure&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;“But wait, shouldn’t we do a public key for our &lt;code&gt;root&lt;/code&gt; user as well, so we don’t have to type that password either?”&lt;/em&gt; you ask.  The answer is no.  Actually, the most secure way is if your &lt;code&gt;root&lt;/code&gt; user can’t even log in from the outside at all!  We’re now going to edit the configuration for our &lt;code&gt;ssh&lt;/code&gt; daemon (or, &lt;code&gt;sshd&lt;/code&gt; for short) that controls how our server accepts &lt;code&gt;ssh&lt;/code&gt; connections.  Most configuration lives in the &lt;code&gt;/etc&lt;/code&gt; directory, and this is no exception.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo nano /etc/ssh/sshd_config
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Look for the line that says:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;#PermitRootLogin yes
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You’ll want to uncomment it and set that to “no.”&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;PermitRootLogin no
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;Side note: I always think it’s funny to add an additional line.&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;# PermitKennyLogin DANGER ZONE!
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;My wife, a teacher and not an avid sshd configurer, disagrees.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;As extra steps, also change the following lines:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;PasswordAuthentication no
+
+# If you connect via IPv4:
+AddressFamily inet
+# If you connect via IPv6:
+AddressFamily inet6
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The first line turns off all password logins.  Without this, your user account is still open to password login, which somebody can do even without your private key.  The other lines shrink the amount of shenanigans you have to deal with by refusing to serve people who aren’t connecting like you.  If you’re not going to ever connect via IPv6, why leave that open for some botnet to sniff around?&lt;/p&gt;
+
+&lt;p&gt;Lastly, once we’ve reconfigured a service, we need to reload it.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo systemctl reload sshd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And we should be good to go!&lt;/p&gt;
+
+&lt;h2 id=&quot;moving-in-and-settling-down&quot;&gt;Moving In and Settling Down&lt;/h2&gt;
+
+&lt;p&gt;We’re pretty much done with the security stuff.  By now, you should be pretty much secure and feeling safe.  Now we’re going to focus on turning this server into a pleasant place to work.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;yum update &amp;amp;&amp;amp; sudo yum upgrade
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Watch as your server brings itself up to current.&lt;/p&gt;
+
+&lt;h3 id=&quot;protip-yum-errors&quot;&gt;ProTip: Yum Errors&lt;/h3&gt;
+
+&lt;p&gt;If you get interrupted or, hypothetically, your dog jumps into your lap while this is happening and just manages to mash the correct keys to abort the upgrade without cleaning up, and you start seeing errors like “yum lock” or “sqlite3 database lock”, don’t panic.&lt;/p&gt;
+
+&lt;p&gt;Check to see if there’s still a &lt;code&gt;yum&lt;/code&gt; process active.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;ps aux | grep yum
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you see one that shouldn’t be active, try to kill it (take note of the process ID (PID) in the second column of the output from the above command).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;kill &amp;lt;pid&amp;gt;
+# Or, if you're feeling feisty and it's not working:
+kill -9 &amp;lt;pid&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Willy is sorry he caused 90 minutes of frantically Googling error messages.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/sad-willy.jpg&quot; alt=&quot;Sad Willy&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;back-to-it&quot;&gt;Back To It&lt;/h3&gt;
+
+&lt;p&gt;Now is a good time to install any packages you couldn’t be without: Zsh, oh-my-zsh, Ruby, Vim, and git are the first ones that come to mind.  I’m going to show you just the first one, because there is one hiccup you might encounter.  If you prefer Fish or some other shell, it should most likely be similar.&lt;/p&gt;
+
+&lt;h2 id=&quot;installing-zsh&quot;&gt;Installing Zsh&lt;/h2&gt;
+
+&lt;p&gt;The first part should make sense.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo yum install zsh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Check to see where your executable lives.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;where zsh
+# /usr/bin/zsh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The important thing here is to make sure that this location is in your &lt;code&gt;/etc/shells&lt;/code&gt; file, which is a list of the approved shells.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo nano /etc/shells
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;# List of acceptable shells for chpass(1).
+# Ftpd will not allow users to connect who are not using
+# one of these shells.
+
+/bin/bash
+/bin/csh
+/bin/ksh
+/bin/sh
+/bin/tcsh
+/bin/zsh
+/usr/local/bin/pwsh
+/usr/bin/zsh # &amp;lt;&amp;lt; Here's the one we're adding.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once the zsh executable is approved, you can set your own default shell to zsh.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;chsh -s $(where zsh)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;bonus-bringing-in-dot-files&quot;&gt;Bonus: Bringing in Dot Files&lt;/h2&gt;
+
+&lt;p&gt;If you’re like me, you’re probably reasonably proud of your slowly growing collection of “dot files.”  But how do you get them from your computer onto the server, quickly, sanely, and repeatably?  With Git.  I found &lt;a href=&quot;https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/&quot;&gt;this article by Nicola Paolucci&lt;/a&gt; that I think is brilliant.  We’re going to use a modified bare Git repository in our local home directory!&lt;/p&gt;
+
+&lt;h3 id=&quot;setting-up&quot;&gt;Setting Up&lt;/h3&gt;
+
+&lt;p&gt;On your local machine:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;git init --bare $HOME/.dotfiles
+alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+dot config --local status.showUntrackedFiles no
+echo alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME' &amp;gt;&amp;gt; ~/.bashrc
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We create a bare repo in our home directory to track our dot files, we create the &lt;code&gt;dot&lt;/code&gt; command (or whatever you want to call it) which will function just like the &lt;code&gt;git&lt;/code&gt; command, but just for our dotfiles.  We configure it to only show us if our tracked files change, and then we save the &lt;code&gt;dot&lt;/code&gt; command for later.&lt;/p&gt;
+
+&lt;p&gt;Now, all we have to do is start tracking some dot files!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;dot status
+dot add .zshrc
+dot commit -m &quot;Add zshrc&quot;
+dot remote add origin https://github.com/&amp;lt;you&amp;gt;/dotfiles.git
+dot push -u origin master
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You get all the benefits of Git!  You can branch, edit, roll back, diff changes, and more.&lt;/p&gt;
+
+&lt;h3 id=&quot;installing-onto-our-server&quot;&gt;Installing Onto Our Server&lt;/h3&gt;
+
+&lt;p&gt;On the server, add your same &lt;code&gt;dot&lt;/code&gt; command to your &lt;code&gt;.zshrc&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;echo alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME' &amp;gt;&amp;gt; ~/.zshrc
+. ~/.zshrc
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If there are any stock files that might conflict with the dotfiles you’re about to pull in, either delete them or (better), copy them to a backup directory.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;mkdir .dotfile-backup
+mv .bashrc .dotfile-backup
+mv .zshrc .dotfile-backup
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now we’re ready:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;git clone --bare &amp;lt;dotfile repo url&amp;gt; $HOME/.dotfiles
+echo &quot;.dotfiles/&quot; &amp;gt;&amp;gt; .gitignore
+dot checkout
+# Just in case:
+dot config status.showUntrackedFiles no
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And now your server should be on its way to being comfy, cozy, and functional!&lt;/p&gt;
+
+&lt;h2 id=&quot;bonus-bonus-message-of-the-day&quot;&gt;Bonus Bonus: Message of the Day&lt;/h2&gt;
+
+&lt;p&gt;I don’t know about you, but I believe that 98% of the reasons why I learned how to program were to make computers print out funny messages.  To that end, I set up my Message of the Day accordingly.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo vim /etc/motd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;==================================
+You are a gentleman and a scholar.
+==================================
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you can’t think of any one-liner affirmations to put in your MOTD, check out this &lt;a href=&quot;https://github.com/rpalo/fanbot/blob/master/fanbot/compliments.py&quot;&gt;list of compliments I curated for a twitter bot to pepper my brother with&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now, whenever you log in, your server will greet you with an uplifting message!  😁&lt;/p&gt;
+
+&lt;h2 id=&quot;wrap-up&quot;&gt;Wrap Up&lt;/h2&gt;
+
+&lt;p&gt;I know there’s a lot more for me to learn in the system administration realm.  I’m starting to stock up on books to read and videos to watch.  Did I miss anything important?  Do you have any extra protips?  Any great resources for learning?  Let me know about them!  Thanks for reading!&lt;/p&gt;
+</description>
+        <pubDate>Mon, 14 May 2018 00:00:00 -0700</pubDate>
+        <link>https://assertnotmagic.com/2018/05/14/setting-up-centos/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/05/14/setting-up-centos/</guid>
+        
+        <category>linux</category>
+        
+        <category>sysadmin</category>
+        
+        <category>security</category>
+        
+        
+      </item>
     
       <item>
         <title>PowerShell Tutorial (Especially for People Who Hate PowerShell)</title>
@@ -2003,126 +2291,6 @@ export default openTab;
         <category>functional</category>
         
         <category>front-end</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Getting Things Done - A Programmer Productivity Guide</title>
-        <description>&lt;p&gt;&lt;em&gt;This article was originally posted on &lt;a href=&quot;https://simpleprogrammer.com/getting-things-done-productivity-guide/&quot;&gt;The Simple Programmer&lt;/a&gt;.  Images and links are courtesy of their team.  I got to work with a team of really amazing editors and it was a great experience.  I think, overall, it helped the article come out way better than I originally imagined it.  I cannot recommend working with an editor enough.  You have to give up a bit of creative control on the article and put on a team mindset, but it’s definitely worth it.  You can write for Simple Programmer too.  Just &lt;a href=&quot;https://simpleprogrammer.com/write-for-us/&quot;&gt;submit an article draft or idea!&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;Programming is hard. It’s fun, it’s rewarding, but it’s definitely not easy. In order to be successful and productive, being able to get into that deep focus state and stay there is key.&lt;/p&gt;
-
-&lt;p&gt;At the same time, it seems like the universe is trying its best to keep you out of that state by peppering you with other things that clamor for your attention at irregular and infuriatingly unpredictable intervals: email, meetings, phone calls, and more.&lt;/p&gt;
-
-&lt;p&gt;Even if you manage to successfully get rid of all of the unnecessary &lt;a href=&quot;https://simpleprogrammer.com/how-to-avoid-distractions/&quot;&gt;distractions&lt;/a&gt;, there is some minimum amount of outside world engagement that is required to be a successful and well-adjusted employee, co-worker, and human being. Depending on how much you’re storing “in memory” at any given time, even these small distractions can be enough for you to lose your focus and have to get back into “the zone.”&lt;/p&gt;
-
-&lt;p&gt;That being said, here’s the question: how do you keep track of your thoughts? How do you make sure that everything you need to do gets done?&lt;/p&gt;
-
-&lt;p&gt;Everybody has some sort of system—even not having a system and trying to remember everything is technically a system. I wanted to share mine because it seems to work pretty well.&lt;/p&gt;
-
-&lt;p&gt;There’s a method that is fairly well-established called the “Getting Things Done” (GTD) approach for managing the things that you have to do. It was &lt;a href=&quot;https://gettingthingsdone.com/meet-david/&quot;&gt;created by David Allen&lt;/a&gt; around 2002 and been discussed in &lt;a href=&quot;https://www.wired.com/2005/07/gtd-a-new-cult-for-the-info-age/?currentPage=all&quot;&gt;Wired&lt;/a&gt; magazine and on &lt;a href=&quot;https://www.hanselminutes.com/234/getting-things-done-with-lane-newsom&quot;&gt;Hanselminutes&lt;/a&gt; (Scott Hanselman’s podcast). I heard about it from Wes Bos and Scott Tolinski on their &lt;a href=&quot;https://syntax.fm/show/011/our-favourite-productivity-hacks&quot;&gt;Syntax podcast&lt;/a&gt;. You can read more about the philosophy behind it on the &lt;a href=&quot;https://gettingthingsdone.com/fivesteps/&quot;&gt;Getting Things Done website&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;I’ll go over my own process step by step, which is loosely based on the GTD approach. I like to think about it in terms of a few catchy mantras that I came up with all by myself.&lt;/p&gt;
-
-&lt;h2 id=&quot;1-remember-nothing-record-everything&quot;&gt;1. Remember Nothing; Record Everything.&lt;/h2&gt;
-
-&lt;p&gt;Don’t remember anything. You’re not good at it. Find someplace to store all the things you need to think about and remember.&lt;/p&gt;
-
-&lt;p&gt;I use &lt;a href=&quot;https://trello.com/&quot;&gt;Trello&lt;/a&gt; because it’s a tool that really fits with how my brain works. Trello is a web app that provides users with any number of boards, which are basically blank canvases that will eventually house all of your to-dos, ideas, projects, and everything else.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/gtd-trello1.png&quot; alt=&quot;Blank Trello board&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;On these &lt;em&gt;boards,&lt;/em&gt; you can create &lt;em&gt;lists,&lt;/em&gt; which are vertically aligned and ordered collections of &lt;em&gt;cards.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/gtd-trello2.png&quot; alt=&quot;Board with cards&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;You can use these cards to store individual brain items. They can have images, comments, documents (like this article), checklists, and even due dates attached to them. I call this system my Other Brain.&lt;/p&gt;
-
-&lt;p&gt;The most important feature for me is that Trello allows you to drag and drop your lists and cards. You can create a task, keep all the information about that task (including conversations, history, and data) bundled along with the same card, and even use your lists as a form of workflow control.&lt;/p&gt;
-
-&lt;p&gt;For example, you might have several stages to your programming workflow: tasks that are pending, currently-being-worked-on, ready for review, and those that are finished and ready to publish/push this week. You can create a card when you first get a task and just drag it from one list to the next as you work. This process gives you a nice, visual snapshot of your progress at any given point.&lt;/p&gt;
-
-&lt;p&gt;If you’ve got a ton of items in the pending list and someone asks you if you have time to take on just one more quick task, there is a concrete record that you can look at, instead of trying to remember all of the things you have to do.&lt;/p&gt;
-
-&lt;p&gt;Personally, I tend to make lists based on the category of the thing. Is it somebody else’s blog post I want to remember to read later? Is it a future idea for my own blog? Is it a programming project to complete? I’ve got a list for that.&lt;/p&gt;
-
-&lt;p&gt;And as you list your tasks, try to sort your thoughts in order of urgency and/or ease of completion. I like to put the things that I need to (or can) finish first down at the bottom of my lists and work my way up.&lt;/p&gt;
-
-&lt;p&gt;Sorting your tasks allows you to quickly find the next thing you need to work on and get started in it, minimizing the brain space your task management system takes up.&lt;/p&gt;
-
-&lt;p&gt;If Trello doesn’t fit your style, use a note-taking app, an actual paper notebook, or something else. The important thing is that you &lt;strong&gt;get everything out of your head!&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Here’s why. You’ve only got so much brain. Granted, you’re reading articles on Simple Programmer, so you’ve probably got a lot of brains. But it’s a &lt;em&gt;finite amount.&lt;/em&gt; If you’re carrying everything you have to do later around in your head, you’re not using that space for thinking about the thing you need to do now.&lt;/p&gt;
-
-&lt;p&gt;For programmers especially, having that extra space can make a big impact. When you’re programming, you need to be able to simulate the code in your head, stepping through each line and understanding how that line affects the current values of each variable. This process necessarily means that you need to constantly be remembering what variable values are, what function inputs &lt;em&gt;could be,&lt;/em&gt; and—depending on those values—which branches of program flow could be triggered.&lt;/p&gt;
-
-&lt;p&gt;Having the space to accommodate all of these values in your “mental memory,” without bumping up against the space containing your dentist appointment at 3:30 or what you’re going to say to the customer tomorrow morning, can make your life significantly less error-prone and stressful.&lt;/p&gt;
-
-&lt;p&gt;In the same way that you feel better and more productive when you clear off your desk, clean up your room when it’s messy, or refactor your code, this step is all about &lt;em&gt;cleaning out your brain.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Once you’ve picked how you want to store your information, you can begin the process. The very second you: 
-have a brilliant idea,
-remember something you have to do,
-finish a feature which causes you to have new problems,
-someone stops by your desk to ask you to take a look at something,
-get an email from a customer that needs a long answer,
-or get assigned something at a meeting,
-put it in your Other Brain.&lt;/p&gt;
-
-&lt;p&gt;Feel free to make your Other Brain pretty, and create various sections for different parts of your brain. I’ve got one board for personal/programming stuff, one for work (I design plastic molds), and one for house chores and to-dos that I share with my wife.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/gtd-trello3.png&quot; alt=&quot;My personal board&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;2-your-inbox-is-a-receiving-area-not-a-to-do-list&quot;&gt;2. Your Inbox Is a Receiving Area, Not a To-Do List&lt;/h2&gt;
-
-&lt;p&gt;After you get your Main Brain cleaned out and offloaded into your Other Brain, you need to stop all of the junk that’s pouring into your Main Brain from cluttering it up. The main place this junk pours in, especially in the professional setting, is your email inbox.&lt;/p&gt;
-
-&lt;p&gt;For me, I do a lot of customer-facing work: generating quotes, formalizing requirements, and working through design issues with customers. For you, maybe it’s tons of QA tickets or new issues being filed. Maybe you’ve got several different projects and chat notifications coming in from different sources.&lt;/p&gt;
-
-&lt;p&gt;I used to keep things in my email inbox until I was done with them. Then I realized that having a full inbox stresses me out. It makes me feel like I have a billion things to do, and there’s no categorizing or organization. It’s just a big 💩-pile of things that make me feel bad and give me anxiety.&lt;/p&gt;
-
-&lt;p&gt;Now, a couple of times a day, I open up my email. For each thing, if I can handle it quickly, I take care of it right away.&lt;/p&gt;
-
-&lt;p&gt;The question that goes through my head is, “Can I answer this in the next 30 seconds, without stopping and looking something up?” And depending on how overwhelmed I’m feeling by things that aren’t yet tracked in my Other Brain, that time limit gets shorter and shorter.&lt;/p&gt;
-
-&lt;p&gt;If it’s going to take me a little while to track down the answer or information I need to respond, I enter it into my Other Brain and archive it in its corresponding email folder. When in doubt, put it in the Other Brain.&lt;/p&gt;
-
-&lt;p&gt;One way or another, it’s out of my inbox quickly and painlessly. Generally, this lets me get to Inbox Zero in less than an hour. (Hopefully).&lt;/p&gt;
-
-&lt;h2 id=&quot;3-get-things-done-one-bite-at-a-time&quot;&gt;3. Get Things Done, One Bite at a Time&lt;/h2&gt;
-
-&lt;p&gt;After you’ve stemmed the tide of ideas, emails, and people asking you to do things, open up your Other Brain and get to work. Don’t get freaked out by everything that’s on your list, because it will probably be a lot. It’s your whole Other Brain!&lt;/p&gt;
-
-&lt;p&gt;But since you don’t have to spend valuable time remembering all the things you have to do, you’re going to be able to fully focus on your tasks. And since you’ve already pre-sorted your thoughts by order of importance, you should be able to look at your list and find the first thing that needs to be done.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Do it.&lt;/strong&gt; Don’t think about any of the other things. Once you’re done, cross it off, archive it, or do whatever you have to do to close it out. And find the next thing. Do it again and again until you are tired, hungry, or your list is empty.&lt;/p&gt;
-
-&lt;p&gt;The nice thing about this approach is that it matters less if you get interrupted or if somebody jams something in the front of your queue in a panic. It allows you to stay in that all-important deep-focus state, since the act of putting something in your Other Brain doesn’t take nearly as much focus as actually handling the item that threatens to disrupt your concentration. You just file the interruption into the Other Brain, and when they go away, you get right back into your tasks!&lt;/p&gt;
-
-&lt;h2 id=&quot;now-get-started-getting-things-done&quot;&gt;Now, Get Started Getting Things Done&lt;/h2&gt;
-
-&lt;p&gt;That’s it. Remember nothing, get everything out of your brain &lt;em&gt;and&lt;/em&gt; your inbox, record everything &lt;em&gt;somewhere,&lt;/em&gt; and do the things you can, when you can focus, &lt;a href=&quot;https://simpleprogrammer.com/taking-breaks-will-boost-productivity/&quot;&gt;one bite at a time.&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;I no longer spend entire days trying to get all the way through my inbox. I forget which methods to write next way less frequently. My ideas for projects and posts like this one are no longer just shower thoughts that disappear after fifteen minutes.&lt;/p&gt;
-
-&lt;p&gt;When you’re coding, in order to know what you’re program is doing, you have to be the computer—and that takes a lot of focus.&lt;/p&gt;
-
-&lt;p&gt;Like, “everything you’ve got” levels of focus.&lt;/p&gt;
-
-&lt;p&gt;Like, “if someone asks you a question in the middle of a session, you have to stare blearily at them for a second, figure out who they are and what’s happening, and probably end up saying ‘Um. What?’” levels of focus.&lt;/p&gt;
-
-&lt;p&gt;So, distracting yourself with anything else while you’re doing that is not only unproductive—it’s unnecessary. I mean, come on! We’re programmers. We’ve got tools for this. Automate it, delegate it, and get back to the fun stuff.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 19 Feb 2018 00:00:00 -0800</pubDate>
-        <link>https://assertnotmagic.com/2018/02/19/getting-things-done/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2018/02/19/getting-things-done/</guid>
-        
-        <category>productivity</category>
-        
-        <category>gtd</category>
         
         
       </item>

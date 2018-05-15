@@ -73,441 +73,280 @@
 
   <!-- Current Post -->
   
-    <h1 id="title">PowerShell Tutorial (Especially for People Who Hate PowerShell)</h1>
-    <small>Apr 28, 2018</small>
-    <p><h2 id="preface">Preface</h2>
+    <h1 id="title">Setting Up a CentOS Server</h1>
+    <small>May 14, 2018</small>
+    <p><p>I’m slowly discovering that I <em>love</em> systems stuff.  I’ve always used Ubuntu as the flavor of Linux on my servers, but I was curious about the differences between Ubuntu and CentOS, so I looked up a few guides and tutorials and spun up a new <a href="https://m.do.co/c/2e87eb578ad9">Digital Ocean droplet</a> with a fresh install of CentOS.  I wanted to share what I learned, and all of the things to think about when first getting things set up.  I’m also writing this for when future me forgets a step and can’t remember the commands.</p>
 
-<p>This is a long article.  I’m putting a table of contents up here for the impatient, so you can find the specific section you’re looking for.</p>
+<p>I’m going to assume that you have working knowledge of the command line for now: changing directories, editing files, and setting file permissions.  I’ll try to explain anything more exotic than that.  If you’re not quite there, but you still want to learn, please <a href="https://assertnotmagic.com/about/">get in touch</a>, and I’d be happy to walk you through it (and/or write another post for that).  This is also a guide for CentOS because that’s what I was doing.  For that reason, all of the commands are Centos (and probably RHEL) specific.  The process and theory should be much the same for other flavors of Linux, though.</p>
 
-<ol>
-  <li><a href="#getting-started-with-powershell">Getting Started with PowerShell</a></li>
-  <li><a href="#some-useful-commands-to-get-started">Some Useful Commands to Get Started</a></li>
-  <li><a href="#just-tell-me-how-to-do-the-thing">Just Tell Me How to Do the Thing!</a></li>
-  <li><a href="#learning-to-love-powershell">Learning to Love PowerShell</a></li>
-</ol>
+<h2 id="first-contact">First Contact</h2>
 
-<hr />
+<p>I’m not sure how other providers do it, but once you create a droplet on Digital Ocean and your new server is all turned on, they send you an email with the <code>root</code> password.  You’ll be able to <code>ssh</code> into your server using these credentials.  If you’re on a Mac, you already have <code>ssh</code> installed and accessible via your terminal app of choice.  If you’re on Windows, you should look into an <code>ssh</code> client.  I use <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/">PuTTY</a> when I need to.  Your hosting provider will provide you with an IP address as well.</p>
 
-<p>My relationship with the terminal – especially Windows PowerShell – has been a bit of a roller coaster.</p>
-
-<p>I first discovered the terminal when I heard about Python and didn’t know anything about anything.  Like the average person who uses computers for games and applications like Excel and PowerPoint, I went to the <a href="https://www.python.org/">Python Site</a>, downloaded the installer, installed it, and clicked the icon.  Imagine my horror when something like this popped up:</p>
-
-<p><img src="/img/python-repl.png" alt="The Python REPL" /></p>
-
-<p><em>Where are the buttons?  What’s with the old-timey font?  What do I do with my mouse?</em></p>
-
-<p>After beginning to program more and more and learning about the terminal, I began to love Bash.  Is it archaic?  Yes.  Are the commands nonintuitive and difficult to remember? Heck, yes.  For some reason, this just made me love it more.</p>
-
-<p>I had to work hard at it, and typing a bunch of what appears to be gobbledygook that had powerful results made me feel like a wizard.  For instance, typing <code>du -sk * | sort -n | tail</code> (See?  Gobbledygook!) is a really fast way to see the top largest directories in your current directory.</p>
-
-<p>As I learned more, I was able to customize how it looked and get fonts, colors, and promts that made the terminal that much more inviting.</p>
-
-<p>So I decided to take my newfound programming powers to work.  Except that I work as a mechanical engineer, and that typically means SolidWorks and Windows.  So I opened up the recommended terminal, PowerShell.  And again, to my horror:</p>
-
-<p><img src="/img/powershell-1.png" alt="The PowerShell terminal" /></p>
-
-<p><em>No problem,</em> I thought.  I’ll just go to the preferences screen.</p>
-
-<p><img src="/img/powershell-customize.png" alt="PowerShell preferences" /></p>
-
-<p>Oh, no.  We’re not in Kansas anymore.  Not exactly what I was used to.  So I went into PowerShell and tried to do some simple things.  Some things worked fine!  <code>ls</code>, <code>cd</code>, and <code>mkdir</code> all worked like I was used to.  But I couldn’t figure out why setting the <code>$PATH</code> was so hard.  Adn what was with all of these backslashes?  How come I couldn’t <code>sudo</code>?</p>
-
-<p>More and more little irritations that kept reminding me I <em>wasn’t using Bash</em> kept cropping up.  I gave up and installed <a href="https://www.cygwin.com/">Cygwin</a>, which allowed me to have a Bash experience on my Windows 7 computer.  Except not quote.  Everything I tried to do to get Bash on my Windows machine was just … not quite right.</p>
-
-<p>Finally, I tried another approach and began working on learning PowerShell the right way, from the beginning, as another language.  As I learned, I found myself buying into the whole PowerShell philosophy and noticing things that were a little nicer than when I was using Bash.  Keep in mind, like everything, PowerShell is just another tool in the toolbox, and whether or not it’s the best tool really depends on the situation.</p>
-
-<p>I’m not going to give you a complete lesson on the basics of the PowerShell language.  I’m also not going to spend a lot of time telling you how to install it.  <a href="https://github.com/PowerShell/PowerShell/tree/master/docs/learning-powershell">This set of docs</a> is fairly comprehensive, and it’s also a good cheat sheet for reference later.</p>
-
-<p>My goal here is to show you how things translate from other shells and get you started on your own PowerShell journey, so I’ll assume that you have at least a little bit of experience with a shell language like Bash.</p>
-
-<h2 id="getting-started-with-powershell">Getting Started with PowerShell</h2>
-
-<p>There are mental shifts away from how Bash-like shells do things that you need to make when you’re starting to learn PowerShell.  If you can get past your initial gut reaction of disgust when you see these differences, you might start to see that they actually make you more productive.</p>
-
-<h3 id="everything-is-an-object">Everything is an Object</h3>
-
-<p>This is probably the biggest difference that you have to get through your head.  In Unix shells, everything is plain text.  This makes things nice because you can expect text input into all your scripts and you know that if you output text, everything will probably be OK.</p>
-
-<p>However, the downside is that this makes inspecting specific data a nightmare of text parsing, and it makes working with anything other than text (floating point numbers, anyone?) a real pain.</p>
-
-<p>In PowerShell, which is actually built on top of <a href="https://en.wikipedia.org/wiki/.NET_Framework">.NET</a>, everything is an object.  This will feel very comforting if you’re coming from Python, Ruby, JavaScript, or a similar language background.  Let’s see some examples and get our hands dirty.  Open up your PowerShell interpreter.</p>
-
-<blockquote>
-  <p>Side note: I put a PowerShell prompt (<code>PS&gt;</code>) in front of each command so you can tell what is output.  Every line that starts with <code>PS&gt;</code> is something for you to type.  Everything else is output.</p>
-</blockquote>
-
-<pre><code class="language-powershell">PS&gt; Get-Process
+<pre><code class="language-bash">ssh root@&lt;your_server_ip&gt;
 </code></pre>
 
-<p>You should see a pretty long string of text.  We don’t have to stand for that!  We are terminal folk.  Code flows through our veins!  Try this:</p>
+<p>From now on, if you see something in angle brackets like that, just assume that I mean, “Fill in the placeholder in angle brackets with your own preferred value.”  It will ask you for your password.  Paste it in and hit Enter, and you should be ready to rock!</p>
 
-<pre><code class="language-powershell">PS&gt; Get-Process | Sort-Object CPU -descending | Select-Object -first 10
+<h2 id="check-your-privilege">Check Your Privilege</h2>
+
+<p>Right now you’re logged in as <code>root</code>.  This is great!  It is also bad.  When you are logged in as root, typos and little mistakes can cause big problems.  It’s generally better to sign in and go about your life in a less privileged account, only invoking <code>sudo</code> to do privilege-y things when you need to.  That way, if you accidently try to delete yourself out of existence, you’ll have to work a little harder before you succeed.  So, we’ll need to create this everyday user.</p>
+
+<pre><code class="language-bash">adduser &lt;username&gt; &amp;&amp; passwd &lt;username&gt;
 </code></pre>
 
-<p>Now you should see a shorter list, reverse sorted by CPU time.  If you’re already getting itchy because all of these commands and options are so long, I address that in a couple sections.  Stay with me.</p>
+<p>This will ask you for a new password for your new user.  Make it a good one.</p>
 
-<p>The important thing to pay attention to here is the headers at the top of each column.  Each row of this table is actually a <code>System.Diagnostics.Process</code> <em>object</em>, not just a row of a table.  Don’t believe me?  Just check!</p>
+<p>Next, let’s make sure that your new user can actually <code>sudo</code>.</p>
 
-<pre><code class="language-powershell">PS&gt; (Get-Process)[0] | Get-TypeData
+<pre><code class="language-bash">usermod -aG wheel &lt;username&gt;
 </code></pre>
 
-<p>See there?  The <code>Get-Process</code> command returned a list of <code>Process</code> objects, and we were able to select the first one through indexing (without splitting the output by \n!) and shuffle that through the <code>Get-TypeData</code> command.  These items being objects gives us some power.  What if we only wanted their <code>ProcessName</code>?</p>
+<p>We’re adding our new user to the <code>wheel</code> group, which (as long as you’re on CentOS 7 or better) means that we’ll be able to <code>sudo</code> without trouble.</p>
 
-<pre><code class="language-powershell">PS&gt; Get-Process | Sort-Object CPU -descending | Select Object ProcessName -first 10
+<p>Lastly, sometimes there’s a default user created: <code>centos</code>.  I don’t think we need this user for anything.  Remove it with:</p>
+
+<pre><code class="language-bash">deluser centos
 </code></pre>
 
-<p>See how easy it was to access that?  We didn’t have to cut the fields delimited by tabs or colons and count which field we wanted (1…2…3…4…5!).  We just told it that we wanted the <code>ProcessName</code> attribute.  No more parsing, splitting, joining, formatting output, etc.</p>
+<h2 id="transferring-keys">Transferring Keys</h2>
 
-<h3 id="objects-have-types">Objects Have Types</h3>
+<p>Next, we’re going to strengthen security by setting up private/public key authentication.  A side benefit of this is that you won’t need to remember a password if you don’t want to anymore.  Temporarily switch users so that you’re operating as your new user.</p>
 
-<p>Another side effect of being on top of .NET and having everything be an object is that everything must have a type.  This may be confusing coming from a Bash shell that only has strings and strings that might get interpreted as commands.  Here’s what it does for us.</p>
-
-<pre><code class="language-powershell">PS&gt; 2 + 2
-4
+<pre><code class="language-bash">su &lt;username&gt;
 </code></pre>
 
-<p>Ah!  Are you amazed?  That would take way more work in Bash!  And don’t even get me started on:</p>
+<p>In order to authenticate with keys, you’ll need a spot to put your public key.  Let’s create the <code>.ssh</code> directory.</p>
 
-<pre><code class="language-powershell">PS&gt; 4.2 / 3
-1.4
+<pre><code class="language-bash">mkdir ~/.ssh
 </code></pre>
 
-<p>PowerShell usually does a pretty good job of trying to figure out the types that you mean so you can feel as dynamic as with other shells and scripting languages and not have to strictly have types on everything.  But, if you really want to enforce a type, you can do so by prepending the object with its type in square brackets.</p>
+<p>We also don’t want anyone but us to be able to fiddle around in this directory.</p>
 
-<pre><code class="language-powershell">PS&gt; "2" + 2
-22  # A string
-PS&gt; [Int]"2" + 2
-4  # An integer.  The conversion only applies to the "2"
+<pre><code class="language-bash">sudo chmod 700 ~/.ssh/
 </code></pre>
 
-<h3 id="predictable-command-structure">Predictable Command Structure</h3>
+<p>Great!  Let’s transfer a key.  Exit <code>ssh</code> or open up a new terminal on your local machine.  If you don’t yet have a private/public key pair, generate one now.</p>
 
-<p>This was one of the first things I noticed when I started using PowerShell.  I was looking at example commands on StackOverflow and I kept getting mad at how long the PowerShell commands were in comparison to the Bash commands.  For example, to list the contents of your current directory in Bash:</p>
+<pre><code class="language-bash">ssh-keygen
 
-<pre><code class="language-bash">$ ls -l
+# Generating public/private rsa key pair.
+# Enter file in which to save the key (/Users/localuser/.ssh/id_rsa):
 </code></pre>
 
-<p>In Powershell:</p>
+<p>Just hit Enter to accept the default file location for your keys.  This will create two files.  <code>id_rsa</code> is your private key.  This is <em>Very Secret</em>™.  Never share this with anyone unless you trust them with your life.  Or, at least, your servers.  I’d go so far as to say don’t put this out on a cloud service or flash drive where it might get hacked, stolen, lost, or blown up.  <code>id_rsa.pub</code> is your public key, and this is the one you can share with people to prove you are who you say you are.  This is the file that we want to share with our new server’s new user.  There are a couple ways to do this:</p>
 
-<pre><code class="language-powershell">PS&gt; Get-ChildItem
+<pre><code class="language-bash"># Via ssh-copy-id
+ssh-copy-id &lt;username&gt;@&lt;server-ip&gt;
+
+# Via scp
+scp ~/.ssh/id_rsa.pub &lt;username&gt;@&lt;server-ip&gt;:~/.ssh/authorized_keys
+
+# Manually via good ole' fashioned copy/paste
+cat ~/.ssh/id_rsa.pub
+
+# You'll see something like:
+# ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAmLmwkzQDjEOW1Rj3TP5NldVDqUODVH9xuYrkeaSkxtdP
+
+# Copy the whole thing.  Then ssh back into your server like normal and create a new file at ~/.ssh/authorized_keys and paste in in.
+nano ~/.ssh/authorized_keys
+
+# Or use emacs or vim or whatever editor you like best.  Whatever.  Shut up.
 </code></pre>
 
-<p>It’s so long!  And capital letters?  Come on.  The good news is that you don’t have to type the whole thing out if you don’t want to.  But, before I get to that, let me explain the rationale behind it.</p>
+<p>Now, the next time you log in as your user, it shouldn’t ask you for a password.</p>
 
-<h3 id="why-so-long">Why So Long?</h3>
+<p>And once again, make sure the permissions are as restrictive as possible for this file.</p>
 
-<p>The creators of PowerShell wanted the commands to be extremely intuitive, such that you could almost guess the command that you needed.  This would be basically impossible with Bash.  There’s no way that you could guess that <code>cat</code> is the common command to read a file to the terminal.  Once you learn it, it makes sense that it’s short for “concatenate,” but it’s not intuitive by itself.</p>
-
-<p>PowerShell commands were designed after a simple pattern: “Verb-Noun.”  The creators of PowerShell tried to keep the number of verbs to a minimum.  Common ones you’ll see are <code>Get, New, Add, Clear, Export, Remove, Set, Update, and Write</code>.  The nouns are also usually pretty intuitive: <code>Process, Item, Object, Date, Job, and Command</code> are a few.</p>
-
-<p>This consistent pattern allows someone to look at a script that has commands in it that they’ve never used and still have some idea about what the script is doing.</p>
-
-<p>The other benefit of keeping a consistent pattern is that PowerShell can detect the “verb” and “noun” sections of commands.  For example, do you want to see all of the commands with the verb “New?”</p>
-
-<pre><code class="language-powershell">PS&gt; Get-Command -verb New
+<pre><code class="language-bash"># Once again logged into your server
+sudo chmod 600 ~/.ssh/authorized_keys
 </code></pre>
 
-<p>In fact, if you know what you want to do, but you can’t remember the command for it, Get-Command is one of a few commands that will be your friend.  What if you wanted to see what kinds of things you could do to “Job” objects?</p>
+<h2 id="but-we-can-go-even-more-secure">But We Can Go Even More Secure</h2>
 
-<pre><code class="language-powershell">PS&gt; Get-Command -noun Job
+<p><em>“But wait, shouldn’t we do a public key for our <code>root</code> user as well, so we don’t have to type that password either?”</em> you ask.  The answer is no.  Actually, the most secure way is if your <code>root</code> user can’t even log in from the outside at all!  We’re now going to edit the configuration for our <code>ssh</code> daemon (or, <code>sshd</code> for short) that controls how our server accepts <code>ssh</code> connections.  Most configuration lives in the <code>/etc</code> directory, and this is no exception.</p>
+
+<pre><code class="language-bash">sudo nano /etc/ssh/sshd_config
 </code></pre>
 
-<p>Yes, the commands are longer to type than their equivalent, typically terse Bash commands, but with this additional verbosity comes ease of use, less memorizing of commands, and helpful tooling to keep you productive.</p>
+<p>Look for the line that says:</p>
 
-<h4 id="aliases-make-your-life-easy">Aliases Make Your Life Easy</h4>
-
-<p>Even though the commands are long and verbose, PowerShell knows that people using the terminal are lazy (in a good way!), and it doesn’t want to get in your way.  It has a ton of built-in aliases to make your life easier and make you feel more comfortable, and it can actually do some aliasing on the fly.</p>
-
-<p>Remember that command we ran earlier to see all of the files in our directory?</p>
-
-<pre><code class="language-powershell">PS&gt; Get-ChildItem
-
-# You can also do:
-PS&gt; gci
-PS&gt; dir
-
-# And just to make you feel a little bit more at home...
-PS&gt; ls
+<pre><code class="language-ini">#PermitRootLogin yes
 </code></pre>
 
-<p>Want to see all of the available aliases?  By this point, you shouldn’t be surprised that the command is:</p>
+<p>You’ll want to uncomment it and set that to “no.”</p>
 
-<pre><code class="language-powershell">PS&gt; Get-Alias
+<pre><code class="language-ini">PermitRootLogin no
 </code></pre>
 
-<p>Using these aliases during shell sessions can keep you productive and save your fingers from wearing out without giving up the functionality and readability of the longer commands they stand for.</p>
+<p><em>Side note: I always think it’s funny to add an additional line.</em></p>
 
-<h4 id="best-practice-for-scripting">Best Practice for Scripting</h4>
-
-<p>Just a word on best practice: when you’re doing command-line work by yourself, feel free to use as many aliases as you want.  Alias it up.  Get your productivity on.</p>
-
-<p>However, if you’re writing a script or sharing code with someone, it’s probably best to type the whole command and whole flag names out.  Trust me, your future self and coworkers will thank you.</p>
-
-<h2 id="some-useful-commands-to-get-started">Some Useful Commands to Get Started</h2>
-
-<p>While the best way to learn PowerShell is to dive in and practice, I’m going to share some commands with you here that are really helpful when you’re a little stuck.</p>
-
-<h3 id="when-youre-not-sure-which-command-to-use">When You’re Not Sure Which Command to Use</h3>
-
-<pre><code class="language-powershell">PS&gt; Get-Command
+<pre><code class="language-ini"># PermitKennyLogin DANGER ZONE!
 </code></pre>
 
-<p>This command will provide you with more information about available commands.  You can zero in on what you want by specifying -verb or -noun parameters.  In order to get more information about one or two particular commands, pipe the output into <code>Format-List</code>.  This will give you the options, location, and some other useful features.</p>
+<p><em>My wife, a teacher and not an avid sshd configurer, disagrees.</em></p>
 
-<pre><code class="language-powershell">PS&gt; Get-Command Get-Alias | Format-List
+<p>As extra steps, also change the following lines:</p>
+
+<pre><code class="language-ini">PasswordAuthentication no
+
+# If you connect via IPv4:
+AddressFamily inet
+# If you connect via IPv6:
+AddressFamily inet6
 </code></pre>
 
-<h3 id="when-youre-not-sure-what-a-command-does">When You’re Not Sure What a Command Does</h3>
+<p>The first line turns off all password logins.  Without this, your user account is still open to password login, which somebody can do even without your private key.  The other lines shrink the amount of shenanigans you have to deal with by refusing to serve people who aren’t connecting like you.  If you’re not going to ever connect via IPv6, why leave that open for some botnet to sniff around?</p>
 
-<pre><code class="language-powershell">PS&gt; Get-Help command
+<p>Lastly, once we’ve reconfigured a service, we need to reload it.</p>
 
-# You can also get help by adding the ? parameter
-PS&gt; command -?
+<pre><code class="language-bash">sudo systemctl reload sshd
 </code></pre>
 
-<p><code>Get-Help</code> is roughly the <code>man</code> of the PowerShell world.  Are you starting to see the benefits of intuitive commands yet?  Actually, <code>Get-Help</code> has quite a few useful flags as well.  It’s probably a good idea to take a look at them using the method we discussed above:</p>
+<p>And we should be good to go!</p>
 
-<pre><code class="language-powershell">PS&gt; Get-Command Get-Help | Format-List
+<h2 id="moving-in-and-settling-down">Moving In and Settling Down</h2>
 
-# Or, if you're feeling cheeky:
+<p>We’re pretty much done with the security stuff.  By now, you should be pretty much secure and feeling safe.  Now we’re going to focus on turning this server into a pleasant place to work.</p>
 
-PS&gt; Get-Help Get-Help
+<pre><code class="language-bash">yum update &amp;&amp; sudo yum upgrade
 </code></pre>
 
-<p>My favorite is that you can ask it specifically for example usage only.</p>
+<p>Watch as your server brings itself up to current.</p>
 
-<pre><code class="language-powershell">PS&gt; Get-Help Get-Alias -examples
+<h3 id="protip-yum-errors">ProTip: Yum Errors</h3>
+
+<p>If you get interrupted or, hypothetically, your dog jumps into your lap while this is happening and just manages to mash the correct keys to abort the upgrade without cleaning up, and you start seeing errors like “yum lock” or “sqlite3 database lock”, don’t panic.</p>
+
+<p>Check to see if there’s still a <code>yum</code> process active.</p>
+
+<pre><code class="language-bash">ps aux | grep yum
 </code></pre>
 
-<h3 id="when-youre-not-sure-what-properties-your-object-has">When You’re Not Sure What Properties Your Object Has</h3>
+<p>If you see one that shouldn’t be active, try to kill it (take note of the process ID (PID) in the second column of the output from the above command).</p>
 
-<pre><code class="language-powershell">PS&gt; Get-Process | Get-Member
-
-# Another similar command:
-
-PS&gt; (Get-Process)[0] | Format-List
+<pre><code class="language-bash">kill &lt;pid&gt;
+# Or, if you're feeling feisty and it's not working:
+kill -9 &lt;pid&gt;
 </code></pre>
 
-<p>If you know what data you want, but you just don’t know what it’s called, <em>or</em> if you aren’t even sure what data is available to you, these commands will help you “see” your objects a little better.</p>
+<p>Willy is sorry he caused 90 minutes of frantically Googling error messages.</p>
 
-<h3 id="when-you-want-to-get-a-portion-of-the-data">When You Want to Get a Portion of the Data</h3>
+<p><img src="/img/sad-willy.jpg" alt="Sad Willy" /></p>
 
-<pre><code class="language-powershell">PS&gt; Get-Process | Select-Object Id, ProcessName -last 20
+<h3 id="back-to-it">Back To It</h3>
+
+<p>Now is a good time to install any packages you couldn’t be without: Zsh, oh-my-zsh, Ruby, Vim, and git are the first ones that come to mind.  I’m going to show you just the first one, because there is one hiccup you might encounter.  If you prefer Fish or some other shell, it should most likely be similar.</p>
+
+<h2 id="installing-zsh">Installing Zsh</h2>
+
+<p>The first part should make sense.</p>
+
+<pre><code class="language-bash">sudo yum install zsh
 </code></pre>
 
-<p><code>Select-Object</code> is your general purpose stuff-whittler.  You can specify particular attributes you want and how many you want.</p>
+<p>Check to see where your executable lives.</p>
 
-<h3 id="when-you-want-to-filter-your-data">When You Want to Filter Your Data</h3>
-
-<pre><code class="language-powershell">PS&gt; Get-Process | Where-Object WS -gt 150MB
+<pre><code class="language-bash">where zsh
+# /usr/bin/zsh
 </code></pre>
 
-<p>There are a few ways to use the <code>Where-Object</code> command, but this is the simplest one.  In the example above, I selected only the processes whose working set (memory usage) was greater than 150MB.  (Also, can we gush a little about how PowerShell can do KB/MB/GB math?)</p>
+<p>The important thing here is to make sure that this location is in your <code>/etc/shells</code> file, which is a list of the approved shells.</p>
 
-<h2 id="just-tell-me-how-to-do-the-thing">Just Tell Me How to Do the Thing!</h2>
-
-<p>This last section will be just a few snippets for the impatient among you.  If you’re just trying to get one darn thing done in PowerShell and you can’t make it work, these tips should hopefully help.</p>
-
-<h3 id="basic-unix-commands-translated">Basic Unix Commands Translated</h3>
-
-<pre><code class="language-powershell"># pwd
-PS&gt; Get-Location  # or gl or pwd
-
-# ls
-PS&gt; Get-ChildItem  # or gci or dir or ls
-
-# cd
-PS&gt; Set-Location  # or sl or chdir or cd
-
-# cp
-PS&gt; Copy-Item  # or copy or cpi or cp
-
-# mv
-PS&gt; Move-Item  # or move or mi or mv
-
-# cat
-PS&gt; Get-Content  # or gc or type
-
-# mkdir
-PS&gt; New-Item -ItemType Directory  # or ni -ItemType Directory or mkdir
-
-# touch
-PS&gt; New-Item -ItemType File  # or ni
-
-# rm
-PS&gt; Remove-Item  # or del or erase or ri or rm
-
-# rm -rf
-PS&gt; Remove-Item -Recurse -Force  # or rm -recurse -force
-
-# head or tail
-PS&gt; Select-Object -first # or -last
-# usage: Get-Process | Select-Object -first 10
-
-# find
-PS&gt; Get-ChildItem -filter *.rb -recurse .
-# but, for a slightly easier to read version:
-PS&gt; Get-ChildItem -filter *.rb -recurse . | Select-Object FullName
+<pre><code class="language-bash">sudo nano /etc/shells
 </code></pre>
 
-<h3 id="access-the-path-and-other-environment-variables">Access the Path (and Other Environment Variables)</h3>
+<pre><code class="language-ini"># List of acceptable shells for chpass(1).
+# Ftpd will not allow users to connect who are not using
+# one of these shells.
 
-<p>In PowerShell, a lot of things get treated like file locations – and environment variables are no exception.  These special groups of file-like variables are called PSDrives.  In the same way you can ask the C: drive what file is at “\Users\ryan\desktop” with a <code>Get-ChildItem C:\Users\ryan\Desktop</code>, you can do the same thing with <code>env:</code>, the environment PSDrive.</p>
-
-<pre><code class="language-powershell">PS&gt; Get-ChildItem env:
-
-# and to get a specific one
-PS&gt; Get-Content env:PATH
+/bin/bash
+/bin/csh
+/bin/ksh
+/bin/sh
+/bin/tcsh
+/bin/zsh
+/usr/local/bin/pwsh
+/usr/bin/zsh # &lt;&lt; Here's the one we're adding.
 </code></pre>
 
-<p>One super neat thing about these PSDrives is that you can actually read a file location like it’s a variable.  So you can also get to an environment variable this way:</p>
+<p>Once the zsh executable is approved, you can set your own default shell to zsh.</p>
 
-<pre><code class="language-powershell">PS&gt; $env:PATH
+<pre><code class="language-bash">chsh -s $(where zsh)
 </code></pre>
 
-<p>This second way is probably the most popular way to get the PATH variable.</p>
+<h2 id="bonus-bringing-in-dot-files">Bonus: Bringing in Dot Files</h2>
 
-<h3 id="customize-your-profile">Customize Your Profile</h3>
+<p>If you’re like me, you’re probably reasonably proud of your slowly growing collection of “dot files.”  But how do you get them from your computer onto the server, quickly, sanely, and repeatably?  With Git.  I found <a href="https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/">this article by Nicola Paolucci</a> that I think is brilliant.  We’re going to use a modified bare Git repository in our local home directory!</p>
 
-<p>If you’re into command lines and you’re anything like me, you’re probably wondering how to customize them.  The answer lies in <code>$profile</code>.</p>
+<h3 id="setting-up">Setting Up</h3>
 
-<h4 id="finding-the-profile">Finding the Profile</h4>
+<p>On your local machine:</p>
 
-<p>There are actually several profiles, depending on which “Host” you’re using to interface with PowerShell.  For instance, if you’re just using the regular PowerShell command line, the name of your profile will be Microsoft.PowerShell_profile.ps1.  However, if you are working in the PowerShell Integrated Scripting Environment (ISE), your profile will be Microsoft.PowerShellISE_profile.ps1.  You can mostly ignore this, because if you ever want to know, just ask:</p>
-
-<pre><code class="language-powershell">PS&gt; $profile
+<pre><code class="language-bash">git init --bare $HOME/.dotfiles
+alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+dot config --local status.showUntrackedFiles no
+echo alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME' &gt;&gt; ~/.bashrc
 </code></pre>
 
-<p>However, there are additional options.  If you want to create a profile that will work for the ISE or the regular command line, you’ll want <code>$profile.CurrentUserAllHosts</code>.  Or, if you want to configure a profile for all users on your computer, you’ll want <code>$profile.AllUsersCurrentHost</code>.  There are a few options, and you can see them all with:</p>
+<p>We create a bare repo in our home directory to track our dot files, we create the <code>dot</code> command (or whatever you want to call it) which will function just like the <code>git</code> command, but just for our dotfiles.  We configure it to only show us if our tracked files change, and then we save the <code>dot</code> command for later.</p>
 
-<pre><code class="language-powershell">PS&gt; $profile | Get-Member -type NoteProperty
+<p>Now, all we have to do is start tracking some dot files!</p>
+
+<pre><code class="language-bash">dot status
+dot add .zshrc
+dot commit -m "Add zshrc"
+dot remote add origin https://github.com/&lt;you&gt;/dotfiles.git
+dot push -u origin master
 </code></pre>
 
-<h4 id="creating-customizations">Creating Customizations</h4>
+<p>You get all the benefits of Git!  You can branch, edit, roll back, diff changes, and more.</p>
 
-<p>Your profile works just like <code>.bash_profile</code> does in Bash.  It’s just a script that gets run before you start working in PowerShell.  You can add aliases (although see the note below), functions, variables, and set custom settings.  The simplest way to check if you already have a profile is:</p>
+<h3 id="installing-onto-our-server">Installing Onto Our Server</h3>
 
-<pre><code class="language-powershell">PS&gt; Test-Path $profile
+<p>On the server, add your same <code>dot</code> command to your <code>.zshrc</code> file.</p>
+
+<pre><code class="language-bash">echo alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME' &gt;&gt; ~/.zshrc
+. ~/.zshrc
 </code></pre>
 
-<p>And to start creating your profile:</p>
+<p>If there are any stock files that might conflict with the dotfiles you’re about to pull in, either delete them or (better), copy them to a backup directory.</p>
 
-<pre><code class="language-powershell"># Use whichever editor you love best
-PS&gt; code $profile
+<pre><code class="language-bash">mkdir .dotfile-backup
+mv .bashrc .dotfile-backup
+mv .zshrc .dotfile-backup
 </code></pre>
 
-<p>Here are a couple of useful settings you might like:</p>
+<p>Now we’re ready:</p>
 
-<pre><code class="language-powershell"># Microsoft.PowerShell_profile.ps1
-
-# You can customize the window itself by accessing $Host.UI.RawUI
-$window = $Host.UI.RawUI
-$window.WindowTitle = "Pa-pa-pa-pa-pa-pa-POWERSHELL"
-$window.BackgroundColor = "Black"
-$window.ForegroundColor = "Gray"
-
-# You can define functions (remember to follow the Verb-Noun convention!)
-function Count-History {
-  (Get-History | Measure-Object).count
-}
-
-function beep {
-  echo `a
-}
-
-function Edit-Profile {
-  [CmdletBinding()]
-  [Alias("ep")]
-  PARAM()
-
-  vim $profile
-}
-
-# You can set aliases.
-# NOTE: In PowerShell, you can only alias simple commands.
-# Unlike Bash, you can't alias commands with arguments flags.
-# If you want to do that, you should define a function instead.
-Set-Alias touch New-Item  # old habits die hard, amirite?
-
-# You can customize your prompt!
-function prompt {
-  # ... see the next section for details
-}
+<pre><code class="language-bash">git clone --bare &lt;dotfile repo url&gt; $HOME/.dotfiles
+echo ".dotfiles/" &gt;&gt; .gitignore
+dot checkout
+# Just in case:
+dot config status.showUntrackedFiles no
 </code></pre>
 
-<h3 id="customize-your-prompt">Customize Your Prompt</h3>
+<p>And now your server should be on its way to being comfy, cozy, and functional!</p>
 
-<p>There are two ways to do this: the simple way and the complicated way.</p>
+<h2 id="bonus-bonus-message-of-the-day">Bonus Bonus: Message of the Day</h2>
 
-<h4 id="the-simple-prompt">The Simple Prompt</h4>
+<p>I don’t know about you, but I believe that 98% of the reasons why I learned how to program were to make computers print out funny messages.  To that end, I set up my Message of the Day accordingly.</p>
 
-<p>The simplest way to customize your prompt is by defining the <code>prompt</code> function, either manually or in your profile.  For example:</p>
-
-<pre><code class="language-powershell">function prompt {
-  $histCount = (Get-History | Measure-Object).count
-  return "POWERSHELL LEVEL OVER $histCount THOUSAND! &gt;"
-}
+<pre><code class="language-bash">sudo vim /etc/motd
 </code></pre>
 
-<p>This is an amusing way to print the number of inputs that you’ve already typed inside your prompt.  Whatever string you return is what gets set as the prompt.</p>
-
-<h4 id="the-complicated-prompt">The Complicated Prompt</h4>
-
-<p>Basically, you can do whatever you want in your prompt function, as long as it returns a string at the end.  For example, here’s a more complicated prompt.</p>
-
-<pre><code class="language-powershell">function prompt {
-  $loc = (Get-Location).Path.Replace("$HOME", "~")
-  $gitBranch = git branch | Select-String "\*"
-  if (!$gitBranch) {
-    $gitBranch = ""
-  } else {
-    $gitBranch = $gitBranch.ToString().Replace("`* ", "")
-  }
-  $hisCount = (Get-History | Measure-Object).count
-  WriteHost -ForegroundColor yellow "`n $loc"
-  WriteHost -NoNewLine "PS [$histCount] $gitBranch -&gt;"
-  return " "
-}
+<pre><code class="language-text">==================================
+You are a gentleman and a scholar.
+==================================
 </code></pre>
 
-<p>You can see that I achieve a multi-line prompt by using <code>Write-Host</code> a number of times.  Lastly, I simply return a space.  My prompt ends up coming out like this:</p>
+<p>If you can’t think of any one-liner affirmations to put in your MOTD, check out this <a href="https://github.com/rpalo/fanbot/blob/master/fanbot/compliments.py">list of compliments I curated for a twitter bot to pepper my brother with</a>.</p>
 
-<pre><code class="language-powershell">~/Documents/blog
-PS [102] master -&gt;
-</code></pre>
+<p>Now, whenever you log in, your server will greet you with an uplifting message!  😁</p>
 
-<h3 id="get-it-to-not-look-ugly">Get It to Not Look Ugly</h3>
+<h2 id="wrap-up">Wrap Up</h2>
 
-<p>This is a tough one.  Like I mentioned above, on Windows, PowerShell runs in a window with not very many customization options.  Especially for someone who is used to being able to tweedle every knob of their text editor to their liking, it’s almost painful.  There are two pretty good alternatives, though.</p>
-
-<ol>
-  <li>
-    <p><a href="http://cmder.net/">Cmder</a>: This one is built on top of ConEmu, which is a pretty popular terminal emulator for Windows.  If you like Notepad++, I think you’ll really like this, because it feels similar.</p>
-  </li>
-  <li>
-    <p><a href="https://hyper.is/">Hyper</a>: This one is nice for those of you that don’t have a vendetta against Electron applications and are more front-end-edly minded.  The customization and settings are all done in JavaScript and CSS, which makes searching for help really nice.  As might be expected from the JavaScript crowd, there are about a gazillion plugins, some of which are stable and quite good.  There’s a lot of work being done on Hyper right now, so you may have some stability issues, but over the last few months, it’s really gotten quite a bit faster and hiccup-less.</p>
-  </li>
-</ol>
-
-<h3 id="find-more-resources">Find More Resources</h3>
-
-<p>The best place to go is definitely the <a href="https://docs.microsoft.com/en-us/powershell/">official docs</a>.  There’s so much content there that they should have the answers you need.  Since PowerShell is now open-source, you can also check out their <a href="https://github.com/PowerShell">GitHub repositories</a>.  There are some great docs and getting started guides there as well.</p>
-
-<p>For those who like to learn from books, I would recommend the <a href="https://amzn.to/2r72pxp">Windows PowerShell Cookbook</a> by Lee Holmes, as well as <a href="https://amzn.to/2r5V7Jm">Windows PowerShell in Action</a> by Bruce Payette and Richard Siddaway.  There is a <em>lot</em> of knowledge in those two books.</p>
-
-<h2 id="learning-to-love-powershell">Learning to Love PowerShell</h2>
-
-<p>The goal of this article is to show that just because PowerShell is different from what you are used to, it’s not necessarily bad.</p>
-
-<p>If you take the time to really dig into the differences and learn the reasoning and design decisions behind them, you’ll start to see their strengths and value.  You might actually miss dealing with typed objects in your command line when you go back to other shells.</p>
-
-<p>Having to parse text streams might start to feel archaic.  You might find yourself using longer, more consistent function names everywhere as you realize how nice it is to be able to read and understand your scripts six months after you write them.</p>
-
-<p>Or, you might simply stop telling people how much you hate PowerShell whenever they mention it.</p>
-
-<hr />
-
-<p><em>Originally posted on <a href="https://simpleprogrammer.com/powershell-tutorial/">Simple Programmer</a></em></p>
+<p>I know there’s a lot more for me to learn in the system administration realm.  I’m starting to stock up on books to read and videos to watch.  Did I miss anything important?  Do you have any extra protips?  Any great resources for learning?  Let me know about them!  Thanks for reading!</p>
 </p>
   
 
@@ -541,6 +380,11 @@ PS [102] master -&gt;
         </li>
         
           <li>
+            <span class="post-meta">Apr 28, 2018</span><br/>
+            <a class="post-link" href="/2018/04/28/powershell-tutorial/">PowerShell Tutorial (Especially for People Who Hate PowerShell)</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Apr 26, 2018</span><br/>
             <a class="post-link" href="/2018/04/26/keep-vs-code-light/">Keep VS Code from Becoming an IDE</a>
           </li>
@@ -548,11 +392,6 @@ PS [102] master -&gt;
           <li>
             <span class="post-meta">Apr 22, 2018</span><br/>
             <a class="post-link" href="/2018/04/22/ruby-singleton-classes/">Ruby Concepts - Singleton Classes</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Apr 8, 2018</span><br/>
-            <a class="post-link" href="/2018/04/08/convert-to-default-dict/">Dict Moves in Python</a>
           </li>
         
       </ul>
@@ -631,9 +470,9 @@ PS [102] master -&gt;
         
         <a href="/tags/fitness/" style="font-size: 14px">fitness | </a>
         
-        <a href="/tags/sysadmin/" style="font-size: 16px">sysadmin | </a>
+        <a href="/tags/sysadmin/" style="font-size: 18px">sysadmin | </a>
         
-        <a href="/tags/linux/" style="font-size: 14px">linux | </a>
+        <a href="/tags/linux/" style="font-size: 16px">linux | </a>
         
         <a href="/tags/html/" style="font-size: 18px">html | </a>
         
@@ -706,6 +545,8 @@ PS [102] master -&gt;
         <a href="/tags/powershell/" style="font-size: 14px">powershell | </a>
         
         <a href="/tags/terminal/" style="font-size: 14px">terminal | </a>
+        
+        <a href="/tags/security/" style="font-size: 14px">security | </a>
         
       </p>
     </div>
