@@ -6,9 +6,188 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 14 May 2018 21:43:40 -0700</pubDate>
-    <lastBuildDate>Mon, 14 May 2018 21:43:40 -0700</lastBuildDate>
+    <pubDate>Tue, 05 Jun 2018 18:21:29 -0700</pubDate>
+    <lastBuildDate>Tue, 05 Jun 2018 18:21:29 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Python Scripting Toolbox: sys and fileinput</title>
+        <description>&lt;p&gt;&lt;em&gt;Cover Photo by Fleur Treurniet on Unsplash&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Python is an extremely flexible language with uses in tons of different applications and fields: web apps, automation, sciences, and data analysis, to name a few.  However, my &lt;em&gt;favorite&lt;/em&gt; thing to use it for is scripting.  Scripting can be as simple as writing a quick little one-off script to do something faster than you would want to do by hand, or it can more complex, a recurring task that you polish up – something with options, and flags, and a bit of a user interface.&lt;/p&gt;
+
+&lt;p&gt;Lucky for us, Python already has many of the essentials for scripting built into its standard library!  I’m going to show you a few of the features I like best and how they are used.  I’ll be using Python 3.6 for all of these examples.  Most things should work in any Python 3.  Your mileage may vary if you use legacy Python (Python 2).&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;I know that there are libraries and frameworks out there for creating command line interfaces.  They are awesome.  In this article, I’m going to focus on Python’s “Batteries Included”: the standard library.  I’ll show you how much you can accomplish without installing a single external dependency.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;the-setup&quot;&gt;The Setup&lt;/h2&gt;
+
+&lt;p&gt;This will be a three-part survey of the tools available to us for Python scripting.  I’ll show off the functionality by creating three scripts that show off different parts of the standard library.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code&gt;shout.py&lt;/code&gt;: a script that shouts everything you pass into it.&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;make_script.py&lt;/code&gt;: a script that generates a starter script from a template, for use in things like &lt;a href=&quot;https://projecteuler.net/&quot;&gt;Project Euler&lt;/a&gt; or &lt;a href=&quot;http://rosalind.info/problems/locations/&quot;&gt;Rosalind&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;project_setup.py&lt;/code&gt;: a script that creates a basic project skeleton&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This here is part one.  Now, let’s get started.&lt;/p&gt;
+
+&lt;h2 id=&quot;script-1-shout&quot;&gt;Script 1: shout&lt;/h2&gt;
+
+&lt;p&gt;Did you ever wish that your computer would yell at you more?  Or that you computer was more abraisive?  You’re in luck then, because we’re about to fix all of that.  Create a new file called &lt;code&gt;shout.py&lt;/code&gt;.  We’re going to first just fill in the basic functionality, and then build out the interface from there.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;#!/usr/bin/env python
+&quot;&quot;&quot;Takes in input and returns that same input, but uppercase.&quot;&quot;&quot;
+
+def shout(text):
+    return text.upper()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Good so far!  I wanted to keep it simple to start with so we can focus mainly on our toolbox.  Right now, if you run &lt;code&gt;python shout.py&lt;/code&gt;, it doesn’t do anything.  Let’s fix that.  But how do we get access to the arguments provided to our scripts?  Our first tool: &lt;code&gt;sys&lt;/code&gt;.  &lt;code&gt;sys&lt;/code&gt; is a module that handles a lot of different system-level, system-specific, or python-install-specific options and values.  You can use it to check what version of Python someone’s using, what operating system the script is running on, or (what we’re using it for) get access to &lt;code&gt;stdin&lt;/code&gt;, &lt;code&gt;stdout&lt;/code&gt;, and command line arguments.&lt;/p&gt;
+
+&lt;h3 id=&quot;using-sysargv&quot;&gt;Using &lt;code&gt;sys.argv&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;Let’s look at one way we could use this script, which might be a good option if we have a set or specific number of arguments we expect.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;#!/usr/bin/env python3
+&quot;&quot;&quot;Takes in input and returns that same input, but uppercase.&quot;&quot;&quot;
+
+import sys
+
+def shout(text):
+    return text.upper()
+  
+if __name__ == &quot;__main__&quot;:
+    text = sys.argv[1]
+    print(shout(text))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;argv&lt;/code&gt; is the array of arguments (space-separated) that were passed to our script.  Note that &lt;code&gt;argv[0]&lt;/code&gt; is the name of the script that was run.  Running this, the result would be:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ python3 shout.py banana
+BANANA
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That works OK for some things.  If we had a script that calculated the area of a polygon based on the number of sides and side length (&lt;code&gt;e.g. python polygonArea.py 5 20&lt;/code&gt;), &lt;code&gt;argv&lt;/code&gt; would be just what the doctor ordered.  But, in this case, it might be useful to be able to pass things into our script via &lt;code&gt;stdin&lt;/code&gt;, like any other shell command.  Luckily, &lt;code&gt;sys&lt;/code&gt; has our back once again!&lt;/p&gt;
+
+&lt;h3 id=&quot;using-sysstdin-and-sysstdout&quot;&gt;Using &lt;code&gt;sys.stdin&lt;/code&gt; and &lt;code&gt;sys.stdout&lt;/code&gt;&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;#!/usr/bin/env python3
+&quot;&quot;&quot;Takes in input and returns that same input, but uppercase.&quot;&quot;&quot;
+
+import sys
+
+def shout(text):
+    return text.upper()
+  
+if __name__ == &quot;__main__&quot;:
+    text = sys.stdin.read()
+    sys.stdout.write(shout(text))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;sys&lt;/code&gt; module provides handles to &lt;code&gt;stdin&lt;/code&gt;, &lt;code&gt;stdout&lt;/code&gt;, and &lt;code&gt;stderr&lt;/code&gt;, which you can read and write to, respectively, just like any other file-type object.  Now find a text file or create one with multiple lines, and run your code like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ cat test.txt | python3 shout.py
+BANANA OONANA
+I GAVE MY HEART TO A BANANA
+MY HEART TO A BANANA.
+BANANA OONANA!
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I’m sorry for all of the “banana” stuff.  I’ve got &lt;a href=&quot;https://www.youtube.com/watch?v=BQ0mxQXmLsk&quot;&gt;that song&lt;/a&gt; stuck in my head.  But the Python stuff is cool, right?  There’s one more improvement we can make here.  What if our text that we want shouted was really, &lt;em&gt;really&lt;/em&gt; long?  It would be better for it to be processed line by line, right?  That way, we could see partial outputs as it processes, and we don’t have to worry about reading the whole file into memory.  That’s what’s so great about &lt;code&gt;stdin&lt;/code&gt; and &lt;code&gt;stdout&lt;/code&gt; being “File-like objects.”  They’ve got the same methods that regular files do.  That means we can iterate over the lines of &lt;code&gt;stdin&lt;/code&gt; in a &lt;code&gt;for&lt;/code&gt; loop!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;# ...
+if __name__ == &quot;__main__&quot;:
+    for line in sys.stdin:
+        sys.stdout.write(shout(line))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This time, when you run it, you won’t notice any difference.  Let’s put a delay in between each line.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;#!/usr/bin/env python3
+&quot;&quot;&quot;Takes in input and returns that same input, but uppercase.&quot;&quot;&quot;
+
+import sys
+from time import sleep
+
+def shout(text):
+    return text.upper()
+  
+if __name__ == &quot;__main__&quot;:
+    for line in sys.stdin:
+        sys.stdout.write(shout(line))
+        sleep(3)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As you run it this time, the lines should come out slowly, whereas the old version would happen all at once no matter what!&lt;/p&gt;
+
+&lt;h3 id=&quot;using-fileinput&quot;&gt;Using &lt;code&gt;fileinput&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;What if you wanted to go really over the top with this shouting tool?  You wanted to be able to shout a whole bunch of files at once, along with piping from &lt;code&gt;stdin&lt;/code&gt;?  You’d want &lt;code&gt;fileinput&lt;/code&gt;.  Check it out.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;#!/usr/bin/env python3
+&quot;&quot;&quot;Takes many inputs and returns that same input, but uppercase.&quot;&quot;&quot;
+
+import fileinput
+import sys
+
+def shout(text):
+    return text.upper()
+  
+if __name__ == &quot;__main__&quot;:
+    for line in fileinput.input():
+        sys.stdout.write(f&quot;({ fileinput.filename() }) - { shout(line) }&quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, create a second file (&lt;code&gt;test2.txt&lt;/code&gt;) .  Run the script like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ python3 shout.py test.txt test2.txt
+(test.txt) - BANANA OONANA
+(test.txt) - I LEFT MY HEART INSIDE BANANAS
+(test.txt) - INSIDE BANANAS.
+(test.txt) - BANANAS OONANANA!
+(test2.txt) - THIS IS THE SECOND FILE.
+(test2.txt) - IT IS LAMER.
+(test2.txt) - NOT AS CATCHY OF TEXT.
+(test2.txt) - HELLO.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://docs.python.org/3/library/fileinput.html&quot;&gt;&lt;code&gt;fileinput&lt;/code&gt;&lt;/a&gt; uses the &lt;code&gt;input&lt;/code&gt; function to combine all of the filename arguments and read them in as a single line-by-line stream.  It has additional useful functions that you can call while reading to add additional information, as well.  We used it to provide the filename of the file being processed, but there are more, like &lt;code&gt;lineno&lt;/code&gt;, &lt;code&gt;filelineno&lt;/code&gt;, &lt;code&gt;isfirstline&lt;/code&gt;, and &lt;code&gt;isstdin&lt;/code&gt;.  You can even add extra options to change the input files in-place, create backups of in-place modified files, decompress compressed files, and more!&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;But wait a minute.  That’s really cool, but you promised that we could still use &lt;code&gt;stdin&lt;/code&gt; with this method.  How does that work?&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;You can include &lt;code&gt;stdin&lt;/code&gt; in your list of files by using a single dash (&lt;code&gt;-&lt;/code&gt;).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;echo &quot;whaddup from stdin&quot; | python3 shout.py test.txt - test2.txt
+(test.txt) - BANANA OONANA
+(test.txt) - I LEFT MY HEART INSIDE BANANAS
+(test.txt) - INSIDE BANANAS.
+(test.txt) - BANANAS OONANANA!
+(&amp;lt;stdin&amp;gt;) - WHADDUP FROM STDIN
+(test2.txt) - THIS IS THE SECOND FILE.
+(test2.txt) - IT IS LAMER.
+(test2.txt) - NOT AS CATCHY OF TEXT.
+(test2.txt) - HELLO.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;all-shouted-out&quot;&gt;All Shouted Out&lt;/h2&gt;
+
+&lt;p&gt;That’s it for &lt;code&gt;sys&lt;/code&gt;, &lt;code&gt;fileinput&lt;/code&gt;, and our &lt;code&gt;shout.py&lt;/code&gt; script.  Stay tuned for the next part, where we’ll build &lt;code&gt;make_script.py&lt;/code&gt; — we’ll write a script that writes scripts so we can script while our scripts script.  See you next time!&lt;/p&gt;
+</description>
+        <pubDate>Tue, 05 Jun 2018 00:00:00 -0700</pubDate>
+        <link>https://assertnotmagic.com/2018/06/05/python-toolbox-shout/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/06/05/python-toolbox-shout/</guid>
+        
+        <category>python</category>
+        
+        <category>scripting</category>
+        
+        <category>tutorial</category>
+        
+        
+      </item>
     
       <item>
         <title>Setting Up a CentOS Server</title>
@@ -2154,143 +2333,6 @@ jj        &quot; Select next two lines
         <category>git</category>
         
         <category>tricks</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Closures and Callbacks</title>
-        <description>&lt;p&gt;Earlier this week, I got an email telling me that the Odin Project had just upgraded their &lt;a href=&quot;https://www.theodinproject.com/courses/javascript&quot;&gt;JavaScript course&lt;/a&gt;.  I checked it out.  If you’re like me and have been putting off learning more about JavaScript because of all of the build tooling, this course is definitely for you.  I learned the basics of webpack (and even submitted a &lt;a href=&quot;https://github.com/webpack/webpack.js.org/pull/1855&quot;&gt;pull request&lt;/a&gt; to make a correction on the webpack tutorial!), and it was all at a super gentle and beginner-friendly pace.  As I was going through this course, during one of the assignments, I came across a pattern that I thought was neat.  Especially after my &lt;a href=&quot;https://assertnotmagic.com/2018/02/10/closure-i-hardly-know-her/&quot;&gt;post a couple of weeks ago about closures&lt;/a&gt;, I knew I had to share it.  If at any point you’re reading through my code examples and you get furious at my code, please skip ahead to the &lt;a href=&quot;#delirium-disclaimer&quot;&gt;Delirium Disclaimer&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-project&quot;&gt;The Project&lt;/h2&gt;
-
-&lt;p&gt;The goal was to use as many different modules as possible in order to test out the bundling power of webpack.  I was supposed to &lt;a href=&quot;https://www.theodinproject.com/courses/javascript/lessons/restaurant-page&quot;&gt;create a generic landing page for a restaurant&lt;/a&gt;, and it had to have a tab-based navigation system.  &lt;a href=&quot;https://assertnotmagic.com/odin-restaurant/&quot;&gt;Here’s the site I came up with.&lt;/a&gt;  (and the related &lt;a href=&quot;https://github.com/rpalo/odin-restaurant&quot;&gt;GitHub repo&lt;/a&gt;)&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/odin-restaurant.png&quot; alt=&quot;My Odin Project Restaurant&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I didn’t do anything to make it look pretty on mobile, so if you’re reading on mobile, forgive me.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-technique&quot;&gt;The Technique&lt;/h2&gt;
-
-&lt;p&gt;The technique I want to share is the one I used for the nav button click callback: I created a closure!  Let me back up.  I’ve got three buttons.  The HTML ends up looking something like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;div class=&quot;tabs&quot;&amp;gt;
-  &amp;lt;button class=&quot;tabs__link active&quot; data-target=&quot;About&quot;&amp;gt;About&amp;lt;/button&amp;gt;
-  &amp;lt;button class=&quot;tabs__link&quot; data-target=&quot;Menu&quot;&amp;gt;Menu&amp;lt;/button&amp;gt;
-  &amp;lt;button class=&quot;tabs__link&quot; data-target=&quot;Contact&quot;&amp;gt;Contact&amp;lt;/button&amp;gt;
-&amp;lt;/div&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I then have a bunch of &lt;code&gt;&amp;lt;div class=&quot;tabcontent&quot;&amp;gt;&lt;/code&gt;’s that contain the content of the tabs.  Every one but the active one has &lt;code&gt;display: hidden&lt;/code&gt;, so only the active one will show up.&lt;/p&gt;
-
-&lt;p&gt;Of course, the assignment specifically asked me to generate these buttons in JavaScript, so it ends up looking more like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;// Don't worry about openTab now.
-// We'll talk about it in a minute.
-import openTab from './openTab';
-
-const loadNav = () =&amp;gt; {
-  const tabHolder = document.querySelector('.tabs');
-  const tabs = ['About', 'Menu', 'Contact'];
-  tabs.forEach(tabName =&amp;gt; {
-    const button = document.createElement('button');
-    button.classList.add('tabs__link');
-    button.dataset.target = tabName;
-    button.addEventListener('click', openTab(tabName));
-    button.innerHTML = tabName;
-    tabHolder.appendChild(button);
-  });
-};
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;But here’s where the magic happens.  I’ll show you the code for &lt;code&gt;openTab&lt;/code&gt;, and then I’ll talk about what’s so special about it.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;const openTab = tabName =&amp;gt; {
-  return (e) =&amp;gt; {
-    const tabContent = document.querySelectorAll('.tabcontent');
-    tabContent.forEach(tab =&amp;gt; {
-      tab.style.display = &quot;none&quot;;
-    });
-    
-    const tabLinks = document.querySelectorAll('.tabs__link');
-    tabLinks.forEach(link =&amp;gt; {
-      link.classList.remove('active');
-    });
-    
-    const activeTab = document.querySelector(`[data-page=&quot;${tabName}&quot;]`);
-    activeTab.style.display = &quot;block&quot;;
-    e.currentTarget.classList.add('active');
-  };
-};
-
-export default openTab;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&quot;so-whats-going-on-here&quot;&gt;So What’s Going On Here?&lt;/h3&gt;
-
-&lt;p&gt;Usually, when you pass a callback function to an event listener, you do it without parenthesis, like this: &lt;code&gt;button.addEventListener('click', doTheThing)&lt;/code&gt;.  This is because you’re not calling the function as you’re creating the event listener, you’re passing the function object to be called later.  However, have you ever wanted to pass additional information to a callback?  Usually when you have a callback function for event listeners, they only take the event as an argument:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;const doTheThing = e =&amp;gt; {
-  // stuff
-};
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;However, what if you want it to have additional information?&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;const doTheThing = (e, myColor) =&amp;gt; {
-  console.log(myColor);
-};
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In my case, I wanted to write one callback function that would work for all three nav buttons, even though their functionality would each be a little different, based on which tab they were trying to act on.  So I needed something like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;const openTab = (e, tabName) =&amp;gt; {
-  // The stuff
-};
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;BUT, if you try this, JavaScript gets grumpy.  So what can we do?  One solution is to create a closure at the time that you add the event listener.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;const openTab = tabName =&amp;gt; {
-  return e =&amp;gt; {
-    // Things in here have access to tabName *and* e
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;When you use it like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;button.addEventListener('click', openTab(tabName));
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;the &lt;code&gt;openTab&lt;/code&gt; function gets &lt;em&gt;immediately&lt;/em&gt; evaluated, and the new, anonymous function is given as the callback.  It’s the same as writing:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;button.addEventListener('click', e =&amp;gt; {
-  console.log(tabName + &quot;Haha!&quot;);
-});
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Thanks to our friend the closure, the anonymous function placed after the event listener retains access to the &lt;code&gt;tabName&lt;/code&gt; variable, even though the function was called long before the event ever fires.  If you’re not exactly sure what a closure is, definitely take a look at &lt;a href=&quot;https://assertnotmagic.com/2018/02/10/closure-i-hardly-know-her/&quot;&gt;my post on closures&lt;/a&gt;.  The benefit is that you can pull the &lt;code&gt;openTab&lt;/code&gt; logic out into its own function and your &lt;code&gt;addEventListener&lt;/code&gt; call ends up looking a lot cleaner.&lt;/p&gt;
-
-&lt;p&gt;So, the next time you want your callback functions to have more information than just the event passed in, consider using a closure to DRY things up.&lt;/p&gt;
-
-&lt;h2 id=&quot;delirium-disclaimer&quot;&gt;Delirium Disclaimer&lt;/h2&gt;
-
-&lt;p&gt;As I was writing this post, I noticed a lot of things I should change and fix in my original code (variable name consistencies, CSS class name consistencies, etc.).  I also noticed that I probably could have left out the &lt;code&gt;tabName&lt;/code&gt; variable completely and gotten away with getting everything that I needed from the &lt;code&gt;event&lt;/code&gt; that got passed into the function.  The whole closure thing may have been unnecessary.&lt;/p&gt;
-
-&lt;p&gt;I’m going to go ahead and blame this on the fact that by the time I got to this part of the code, I was delirious from all of the things I was doing and new things I was learning.  Now that I’ve had some sleep, past-me’s code is making me cringe a little bit.  Sorry!&lt;/p&gt;
-
-&lt;p&gt;That being said, this is one of my first real stabs at modern JavaScript.  So if you see ways that I could improve my code or do something more idiomatically, I’d love to get your feedback.  Definitely share your wisdom!&lt;/p&gt;
-</description>
-        <pubDate>Thu, 01 Mar 2018 00:00:00 -0800</pubDate>
-        <link>https://assertnotmagic.com/2018/03/01/closures-and-callbacks/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2018/03/01/closures-and-callbacks/</guid>
-        
-        <category>javascript</category>
-        
-        <category>functional</category>
-        
-        <category>front-end</category>
         
         
       </item>

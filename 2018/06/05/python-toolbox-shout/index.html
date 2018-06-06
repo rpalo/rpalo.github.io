@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <!-- Bootstrap Setup -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="ROBOTS" content="INDEX,FOLLOW">
+        <meta name="description" content="Part 1 of 3.  A couple of ways to beef up your Python scripts with the Standard Library.">
+        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, python, scripting, tutorial">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="assert_not magic? | Python Scripting Toolbox: sys and fileinput">
+        <meta name="twitter:site" content="@paytastic">
+        <meta name="twitter:description" content="Part 1 of 3.  A couple of ways to beef up your Python scripts with the Standard Library.">
+        <meta name="twitter:image" content="http://assertnotmagic.com/img/tools.jpg">
+        <meta name="twitter:creator" content="@paytastic">
+        <meta name="og:url" content="http://assertnotmagic.com/2018/06/05/python-toolbox-shout/">
+        <meta name="og:title" content="assert_not magic? | Python Scripting Toolbox: sys and fileinput">
+        <meta name="og:description" content="Part 1 of 3.  A couple of ways to beef up your Python scripts with the Standard Library.">
+        <meta name="og:image" content="http://assertnotmagic.com/img/tools.jpg">
+
+        <!-- Favicon settings -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/manifest.json">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#222222">
+        <meta name="theme-color" content="#ffffff">
+
+        <!-- Omnisearch -->
+        <link rel="search" type="application/opensearchdescription+xml" title="search assert_not magic" href="/opensearch.xml">
+        
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+        
+        <link rel="stylesheet" href="/css/prism.css">
+        <title>assert_not magic?</title>
+    </head>
+    <body>
+        
+<nav id="main-nav">
+    <a href="/" class="mobile-home">assert_not magic?</a>
+    <ul>
+        <li class="logo"><a href="/">assert_not magic?</a></li>
+        <li><a href="/posts/">All Posts</a></li>
+        <li><a href="/about/">About Ryan</a></li>
+        <li><a href="/sketches/">Sketches</a></li>
+        <li><a href="/uses/">Uses</a></li>
+    </ul>
+</nav>
+        <div class="container main">
+                <article class="site-wrap">
+    <div id="cover">
+        
+        <img alt="Cover Image" class="cover-image" src="/img/tools.jpg">
+        
+    </div>
+    <h1>Python Scripting Toolbox: sys and fileinput</h1>
+    <p><em>Cover Photo by Fleur Treurniet on Unsplash</em></p>
+
+<p>Python is an extremely flexible language with uses in tons of different applications and fields: web apps, automation, sciences, and data analysis, to name a few.  However, my <em>favorite</em> thing to use it for is scripting.  Scripting can be as simple as writing a quick little one-off script to do something faster than you would want to do by hand, or it can more complex, a recurring task that you polish up – something with options, and flags, and a bit of a user interface.</p>
+
+<p>Lucky for us, Python already has many of the essentials for scripting built into its standard library!  I’m going to show you a few of the features I like best and how they are used.  I’ll be using Python 3.6 for all of these examples.  Most things should work in any Python 3.  Your mileage may vary if you use legacy Python (Python 2).</p>
+
+<blockquote>
+  <p>I know that there are libraries and frameworks out there for creating command line interfaces.  They are awesome.  In this article, I’m going to focus on Python’s “Batteries Included”: the standard library.  I’ll show you how much you can accomplish without installing a single external dependency.</p>
+</blockquote>
+
+<h2 id="the-setup">The Setup</h2>
+
+<p>This will be a three-part survey of the tools available to us for Python scripting.  I’ll show off the functionality by creating three scripts that show off different parts of the standard library.</p>
+
+<ol>
+  <li><code>shout.py</code>: a script that shouts everything you pass into it.</li>
+  <li><code>make_script.py</code>: a script that generates a starter script from a template, for use in things like <a href="https://projecteuler.net/">Project Euler</a> or <a href="http://rosalind.info/problems/locations/">Rosalind</a>.</li>
+  <li><code>project_setup.py</code>: a script that creates a basic project skeleton</li>
+</ol>
+
+<p>This here is part one.  Now, let’s get started.</p>
+
+<h2 id="script-1-shout">Script 1: shout</h2>
+
+<p>Did you ever wish that your computer would yell at you more?  Or that you computer was more abraisive?  You’re in luck then, because we’re about to fix all of that.  Create a new file called <code>shout.py</code>.  We’re going to first just fill in the basic functionality, and then build out the interface from there.</p>
+
+<pre><code class="language-python">#!/usr/bin/env python
+"""Takes in input and returns that same input, but uppercase."""
+
+def shout(text):
+    return text.upper()
+</code></pre>
+
+<p>Good so far!  I wanted to keep it simple to start with so we can focus mainly on our toolbox.  Right now, if you run <code>python shout.py</code>, it doesn’t do anything.  Let’s fix that.  But how do we get access to the arguments provided to our scripts?  Our first tool: <code>sys</code>.  <code>sys</code> is a module that handles a lot of different system-level, system-specific, or python-install-specific options and values.  You can use it to check what version of Python someone’s using, what operating system the script is running on, or (what we’re using it for) get access to <code>stdin</code>, <code>stdout</code>, and command line arguments.</p>
+
+<h3 id="using-sysargv">Using <code>sys.argv</code></h3>
+
+<p>Let’s look at one way we could use this script, which might be a good option if we have a set or specific number of arguments we expect.</p>
+
+<pre><code class="language-python">#!/usr/bin/env python3
+"""Takes in input and returns that same input, but uppercase."""
+
+import sys
+
+def shout(text):
+    return text.upper()
+  
+if __name__ == "__main__":
+    text = sys.argv[1]
+    print(shout(text))
+</code></pre>
+
+<p><code>argv</code> is the array of arguments (space-separated) that were passed to our script.  Note that <code>argv[0]</code> is the name of the script that was run.  Running this, the result would be:</p>
+
+<pre><code class="language-bash">$ python3 shout.py banana
+BANANA
+</code></pre>
+
+<p>That works OK for some things.  If we had a script that calculated the area of a polygon based on the number of sides and side length (<code>e.g. python polygonArea.py 5 20</code>), <code>argv</code> would be just what the doctor ordered.  But, in this case, it might be useful to be able to pass things into our script via <code>stdin</code>, like any other shell command.  Luckily, <code>sys</code> has our back once again!</p>
+
+<h3 id="using-sysstdin-and-sysstdout">Using <code>sys.stdin</code> and <code>sys.stdout</code></h3>
+
+<pre><code class="language-python">#!/usr/bin/env python3
+"""Takes in input and returns that same input, but uppercase."""
+
+import sys
+
+def shout(text):
+    return text.upper()
+  
+if __name__ == "__main__":
+    text = sys.stdin.read()
+    sys.stdout.write(shout(text))
+</code></pre>
+
+<p>The <code>sys</code> module provides handles to <code>stdin</code>, <code>stdout</code>, and <code>stderr</code>, which you can read and write to, respectively, just like any other file-type object.  Now find a text file or create one with multiple lines, and run your code like this:</p>
+
+<pre><code class="language-bash">$ cat test.txt | python3 shout.py
+BANANA OONANA
+I GAVE MY HEART TO A BANANA
+MY HEART TO A BANANA.
+BANANA OONANA!
+</code></pre>
+
+<p>I’m sorry for all of the “banana” stuff.  I’ve got <a href="https://www.youtube.com/watch?v=BQ0mxQXmLsk">that song</a> stuck in my head.  But the Python stuff is cool, right?  There’s one more improvement we can make here.  What if our text that we want shouted was really, <em>really</em> long?  It would be better for it to be processed line by line, right?  That way, we could see partial outputs as it processes, and we don’t have to worry about reading the whole file into memory.  That’s what’s so great about <code>stdin</code> and <code>stdout</code> being “File-like objects.”  They’ve got the same methods that regular files do.  That means we can iterate over the lines of <code>stdin</code> in a <code>for</code> loop!</p>
+
+<pre><code class="language-python"># ...
+if __name__ == "__main__":
+    for line in sys.stdin:
+        sys.stdout.write(shout(line))
+</code></pre>
+
+<p>This time, when you run it, you won’t notice any difference.  Let’s put a delay in between each line.</p>
+
+<pre><code class="language-python">#!/usr/bin/env python3
+"""Takes in input and returns that same input, but uppercase."""
+
+import sys
+from time import sleep
+
+def shout(text):
+    return text.upper()
+  
+if __name__ == "__main__":
+    for line in sys.stdin:
+        sys.stdout.write(shout(line))
+        sleep(3)
+</code></pre>
+
+<p>As you run it this time, the lines should come out slowly, whereas the old version would happen all at once no matter what!</p>
+
+<h3 id="using-fileinput">Using <code>fileinput</code></h3>
+
+<p>What if you wanted to go really over the top with this shouting tool?  You wanted to be able to shout a whole bunch of files at once, along with piping from <code>stdin</code>?  You’d want <code>fileinput</code>.  Check it out.</p>
+
+<pre><code class="language-python">#!/usr/bin/env python3
+"""Takes many inputs and returns that same input, but uppercase."""
+
+import fileinput
+import sys
+
+def shout(text):
+    return text.upper()
+  
+if __name__ == "__main__":
+    for line in fileinput.input():
+        sys.stdout.write(f"({ fileinput.filename() }) - { shout(line) }")
+</code></pre>
+
+<p>Now, create a second file (<code>test2.txt</code>) .  Run the script like this:</p>
+
+<pre><code class="language-bash">$ python3 shout.py test.txt test2.txt
+(test.txt) - BANANA OONANA
+(test.txt) - I LEFT MY HEART INSIDE BANANAS
+(test.txt) - INSIDE BANANAS.
+(test.txt) - BANANAS OONANANA!
+(test2.txt) - THIS IS THE SECOND FILE.
+(test2.txt) - IT IS LAMER.
+(test2.txt) - NOT AS CATCHY OF TEXT.
+(test2.txt) - HELLO.
+</code></pre>
+
+<p><a href="https://docs.python.org/3/library/fileinput.html"><code>fileinput</code></a> uses the <code>input</code> function to combine all of the filename arguments and read them in as a single line-by-line stream.  It has additional useful functions that you can call while reading to add additional information, as well.  We used it to provide the filename of the file being processed, but there are more, like <code>lineno</code>, <code>filelineno</code>, <code>isfirstline</code>, and <code>isstdin</code>.  You can even add extra options to change the input files in-place, create backups of in-place modified files, decompress compressed files, and more!</p>
+
+<p><em>But wait a minute.  That’s really cool, but you promised that we could still use <code>stdin</code> with this method.  How does that work?</em></p>
+
+<p>You can include <code>stdin</code> in your list of files by using a single dash (<code>-</code>).</p>
+
+<pre><code class="language-bash">echo "whaddup from stdin" | python3 shout.py test.txt - test2.txt
+(test.txt) - BANANA OONANA
+(test.txt) - I LEFT MY HEART INSIDE BANANAS
+(test.txt) - INSIDE BANANAS.
+(test.txt) - BANANAS OONANANA!
+(&lt;stdin&gt;) - WHADDUP FROM STDIN
+(test2.txt) - THIS IS THE SECOND FILE.
+(test2.txt) - IT IS LAMER.
+(test2.txt) - NOT AS CATCHY OF TEXT.
+(test2.txt) - HELLO.
+</code></pre>
+
+<h2 id="all-shouted-out">All Shouted Out</h2>
+
+<p>That’s it for <code>sys</code>, <code>fileinput</code>, and our <code>shout.py</code> script.  Stay tuned for the next part, where we’ll build <code>make_script.py</code> — we’ll write a script that writes scripts so we can script while our scripts script.  See you next time!</p>
+
+    
+    <small>
+        Author: Ryan Palo | Tags: 
+        
+        <a href="/tags/python/">python</a>
+        
+        <a href="/tags/scripting/">scripting</a>
+        
+        <a href="/tags/tutorial/">tutorial</a>
+        
+    </small>
+    
+    <div class="email-background">
+    <form class="email-signup" action="https://tinyletter.com/rpalo" method="post" target="popupwindow"
+    onsubmit="window.open('https://tinyletter.com/rpalo', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+      <p>
+        <label class="email-text" for="tlemail">Want to stay connected and get my newsletter?</label>
+      </p>
+      <p>
+        <input class="email-input" type="text" name="email" id="tlemail" />
+        <input type="hidden" value="1" name="embed" />
+        <input class="email-button" type="submit" value="Subscribe" />
+      </p>
+
+        <a class="email-powered" href="https://tinyletter.com" target="_blank">powered by TinyLetter</a>
+      </p>
+    </form>
+</div>
+    <hr>
+
+<!-- Footer for Homepage -->
+  <div id="home-footer">
+    <div id="left-home-footer">
+      <!-- Featured Posts List -->
+      <h2>Featured Posts</h2>
+      <ul class="post-list">
+        <li>
+          <span class="post-meta">Jan 18, 2017</span><br />
+          <a class="post-link" href="/2017/01/18/assert-not-magic/">Assert Not Magic</a>
+        </li>
+        
+          <li>
+            <span class="post-meta">May 14, 2018</span><br/>
+            <a class="post-link" href="/2018/05/14/setting-up-centos/">Setting Up a CentOS Server</a>
+          </li>
+        
+          <li>
+            <span class="post-meta">Apr 28, 2018</span><br/>
+            <a class="post-link" href="/2018/04/28/powershell-tutorial/">PowerShell Tutorial (Especially for People Who Hate PowerShell)</a>
+          </li>
+        
+          <li>
+            <span class="post-meta">Apr 26, 2018</span><br/>
+            <a class="post-link" href="/2018/04/26/keep-vs-code-light/">Keep VS Code from Becoming an IDE</a>
+          </li>
+        
+      </ul>
+    </div>
+    <div id="center-home-footer">
+      <!-- Spacer -->
+    </div>
+    <div id="right-home-footer">
+      <!-- Tags List -->
+      <h2>Tags</h2>
+      <p>
+        
+        <a href="/tags/python/" style="font-size: 62px">python | </a>
+        
+        <a href="/tags/django/" style="font-size: 22px">django | </a>
+        
+        <a href="/tags/rails/" style="font-size: 14px">rails | </a>
+        
+        <a href="/tags/algorithms/" style="font-size: 22px">algorithms | </a>
+        
+        <a href="/tags/editors/" style="font-size: 20px">editors | </a>
+        
+        <a href="/tags/emacs/" style="font-size: 16px">emacs | </a>
+        
+        <a href="/tags/ai/" style="font-size: 14px">ai | </a>
+        
+        <a href="/tags/r/" style="font-size: 14px">r | </a>
+        
+        <a href="/tags/tools/" style="font-size: 16px">tools | </a>
+        
+        <a href="/tags/javascript/" style="font-size: 26px">javascript | </a>
+        
+        <a href="/tags/not-magic/" style="font-size: 16px">not-magic | </a>
+        
+        <a href="/tags/soft-skills/" style="font-size: 22px">soft-skills | </a>
+        
+        <a href="/tags/tricks/" style="font-size: 38px">tricks | </a>
+        
+        <a href="/tags/vscode/" style="font-size: 16px">vscode | </a>
+        
+        <a href="/tags/vim/" style="font-size: 18px">vim | </a>
+        
+        <a href="/tags/sublime/" style="font-size: 14px">sublime | </a>
+        
+        <a href="/tags/puzzle/" style="font-size: 20px">puzzle | </a>
+        
+        <a href="/tags/bash/" style="font-size: 18px">bash | </a>
+        
+        <a href="/tags/math/" style="font-size: 16px">math | </a>
+        
+        <a href="/tags/teaching/" style="font-size: 16px">teaching | </a>
+        
+        <a href="/tags/ruby/" style="font-size: 32px">ruby | </a>
+        
+        <a href="/tags/jekyll/" style="font-size: 16px">jekyll | </a>
+        
+        <a href="/tags/git/" style="font-size: 20px">git | </a>
+        
+        <a href="/tags/physics/" style="font-size: 14px">physics | </a>
+        
+        <a href="/tags/fun/" style="font-size: 18px">fun | </a>
+        
+        <a href="/tags/scientific/" style="font-size: 16px">scientific | </a>
+        
+        <a href="/tags/pythonic/" style="font-size: 16px">pythonic | </a>
+        
+        <a href="/tags/functional/" style="font-size: 20px">functional | </a>
+        
+        <a href="/tags/vue/" style="font-size: 22px">vue | </a>
+        
+        <a href="/tags/es6/" style="font-size: 20px">es6 | </a>
+        
+        <a href="/tags/tutorial/" style="font-size: 38px">tutorial | </a>
+        
+        <a href="/tags/exercise/" style="font-size: 14px">exercise | </a>
+        
+        <a href="/tags/fitness/" style="font-size: 14px">fitness | </a>
+        
+        <a href="/tags/sysadmin/" style="font-size: 18px">sysadmin | </a>
+        
+        <a href="/tags/linux/" style="font-size: 16px">linux | </a>
+        
+        <a href="/tags/html/" style="font-size: 18px">html | </a>
+        
+        <a href="/tags/seo/" style="font-size: 14px">seo | </a>
+        
+        <a href="/tags/social/" style="font-size: 14px">social | </a>
+        
+        <a href="/tags/metaprogramming/" style="font-size: 14px">metaprogramming | </a>
+        
+        <a href="/tags/css/" style="font-size: 14px">css | </a>
+        
+        <a href="/tags/front-end/" style="font-size: 16px">front-end | </a>
+        
+        <a href="/tags/animations/" style="font-size: 14px">animations | </a>
+        
+        <a href="/tags/p5/" style="font-size: 20px">p5 | </a>
+        
+        <a href="/tags/beginner/" style="font-size: 20px">beginner | </a>
+        
+        <a href="/tags/encouragement/" style="font-size: 18px">encouragement | </a>
+        
+        <a href="/tags/screencast/" style="font-size: 14px">screencast | </a>
+        
+        <a href="/tags/showdev/" style="font-size: 14px">showdev | </a>
+        
+        <a href="/tags/interview/" style="font-size: 14px">interview | </a>
+        
+        <a href="/tags/performance/" style="font-size: 16px">performance | </a>
+        
+        <a href="/tags/workflow/" style="font-size: 14px">workflow | </a>
+        
+        <a href="/tags/best-practice/" style="font-size: 14px">best-practice | </a>
+        
+        <a href="/tags/oss/" style="font-size: 14px">oss | </a>
+        
+        <a href="/tags/static-site/" style="font-size: 14px">static-site | </a>
+        
+        <a href="/tags/big-o/" style="font-size: 14px">big-o | </a>
+        
+        <a href="/tags/linked-lists/" style="font-size: 14px">linked-lists | </a>
+        
+        <a href="/tags/design-intent/" style="font-size: 14px">design-intent | </a>
+        
+        <a href="/tags/struct/" style="font-size: 14px">struct | </a>
+        
+        <a href="/tags/browser/" style="font-size: 14px">browser | </a>
+        
+        <a href="/tags/focus/" style="font-size: 14px">focus | </a>
+        
+        <a href="/tags/productivity/" style="font-size: 18px">productivity | </a>
+        
+        <a href="/tags/codenewbie/" style="font-size: 14px">codenewbie | </a>
+        
+        <a href="/tags/reflection/" style="font-size: 14px">reflection | </a>
+        
+        <a href="/tags/update/" style="font-size: 14px">update | </a>
+        
+        <a href="/tags/preview/" style="font-size: 14px">preview | </a>
+        
+        <a href="/tags/gtd/" style="font-size: 14px">gtd | </a>
+        
+        <a href="/tags/bullet-journal/" style="font-size: 14px">bullet-journal | </a>
+        
+        <a href="/tags/data-science/" style="font-size: 14px">data-science | </a>
+        
+        <a href="/tags/singleton/" style="font-size: 14px">singleton | </a>
+        
+        <a href="/tags/basics/" style="font-size: 14px">basics | </a>
+        
+        <a href="/tags/powershell/" style="font-size: 14px">powershell | </a>
+        
+        <a href="/tags/terminal/" style="font-size: 14px">terminal | </a>
+        
+        <a href="/tags/security/" style="font-size: 14px">security | </a>
+        
+        <a href="/tags/scripting/" style="font-size: 14px">scripting | </a>
+        
+      </p>
+    </div>
+  </div>
+  <hr>
+  
+
+  <p class="rss-subscribe contact">Like my stuff?  Have questions or feedback for me?  Want to mentor me or get my help with something?  <a href="/about/">Get in touch!</a>  To stay updated, subscribe <a href="/feed.xml">via RSS</a></p>
+
+
+
+</article>
+        </div>
+
+        <footer id="main-footer">
+    <div class="container">
+        <p class="text-muted">&copy; Ryan Palo 2018 | All things.  Phil. 4:13</p>
+    </div>
+</footer>
+        <!-- Scripts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+        <script src="/js/main.js"></script>
+        <script src="/js/prism.js"></script>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-91889165-1', 'auto');
+            ga('send', 'pageview');
+
+        </script>
+        
+    </body>
+</html>
