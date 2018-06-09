@@ -73,10 +73,10 @@
 <p>If I was writing in Ruby, this would be a perfect use case for the <a href="https://ruby-doc.org/core-2.5.1/Enumerable.html#method-i-each_cons">each_cons</a> method!  Unfortunately, no such luck with a similar function built-in to Python.  I ended up going with the slightly less pretty:</p>
 
 <pre><code class="language-python">def each_cons(n, iterable):
-  	"""Returns every n consecutive items in an iterable.
-  	Example: each_cons(4, range(10)) =&gt; [0, 1, 2, 3], [1, 2, 3, 4], [2, 3, 4, 5]...
-  	"""
-		return (iterable[i: i + n] for i in range(len(iterable) - n + 1))
+    """Returns every n consecutive items in an iterable.
+    Example: each_cons(4, range(10)) =&gt; [0, 1, 2, 3], [1, 2, 3, 4], [2, 3, 4, 5]...
+    """
+    return (iterable[i: i + n] for i in range(len(iterable) - n + 1))
 </code></pre>
 
 <p>Anytime you write <code>range(len(...</code>, there’s probably a better way you could have done things.  <strong>If you know a slicker, less indexy way to do this, please share it, because there’s got to be a better way.  I can’t be indexing into things manually like a barbarian.</strong></p>
@@ -90,7 +90,7 @@
 <pre><code class="language-python">from itertools import tee
 
 def each_pair(iterable):
-		"""Returns each consecutive pair of items in an iterable"""
+    """Returns each consecutive pair of items in an iterable"""
     first, second = tee(iterable)
     next(second, None)
     return zip(first, second)
@@ -107,7 +107,7 @@ each_pair(range(10))
 
 <p>First, we use <code>itertools.tee</code>, which returns two copies of the original iterable (a fancy word for anything you can iterate through: strings, lists, generators, etc.).  It also takes an optional argument for <code>n</code> if you want to make <code>n</code> copies instead of just 2.</p>
 
-<p>Now we have to identical copies of the original iterable.  We then call <code>next</code> on the second one in order to step it one item forward.  Notice the second argument to <code>next</code>, <code>None</code>.  The <code>next</code> function returns (and uses up) the next item in an iterable, and if you provide it a <em>default</em> and it can’t return another item because that iterable is empty, it just returns the default.</p>
+<p>Now we have two identical copies of the original iterable.  We then call <code>next</code> on the second one in order to step it one item forward.  Notice the second argument to <code>next</code>, <code>None</code>.  The <code>next</code> function returns (and uses up) the next item in an iterable, and if you provide it a <em>default</em> and it can’t return another item because that iterable is empty, it just returns the default.</p>
 
 <pre><code class="language-python"># next only works on Iterator objects
 a = iter([1, 2, 3])
@@ -123,7 +123,7 @@ next(a)
 # =&gt; Error!  StopIteration!
 </code></pre>
 
-<p>This is just a neat way of saying “cycle the <code>second</code> iterable one item forward, but if you’re already empty, don’t worry about it.  Just don’t throw an error.”  You probably also noticed that we don’t do anything with the result of this call to <code>next</code>.  We’re just throwing an item away, it it exists.</p>
+<p>This is just a neat way of saying “cycle the <code>second</code> iterable one item forward, but if you’re already empty, don’t worry about it.  Just don’t throw an error.”  You probably also noticed that we don’t do anything with the result of this call to <code>next</code>.  We’re just throwing an item away, if it exists.</p>
 
 <p>The last part is zipping the two iterables together.  <code>zip</code> is a tricky function that seems simple, but often the results can be hard to wrap your head around.  It makes each n-th item of each iterator it is passed into one single list.</p>
 
@@ -135,10 +135,10 @@ c = [True, False, True, False]
 
 zip(a, b, c)
 # =&gt; [
-#		[1, "Apple", True],
-#		[2, "Banana", False],
-#		[3, "Pear", True],
-#		[4, "Soup", False],
+#       [1, "Apple", True],
+#       [2, "Banana", False],
+#       [3, "Pear", True],
+#       [4, "Soup", False],
 #	]
 </code></pre>
 
@@ -157,12 +157,12 @@ zip(a, b)
 b = [1, 2]
 itertools.zip_longest(a, b, fillvalue=":)")
 # =&gt; [
-# 	[1, 1],
-# 	[2, 2],
-# 	[3, ":)"]
-# 	[4, ":)"]
-# 	[5, ":)"]
-# 	[6, ":)"]
+#	    [1, 1],
+#	    [2, 2],
+#	    [3, ":)"]
+#	    [4, ":)"]
+#	    [5, ":)"]
+#	    [6, ":)"]
 # ]
 </code></pre>
 </blockquote>

@@ -6,8 +6,8 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 09 Jun 2018 12:02:18 -0700</pubDate>
-    <lastBuildDate>Sat, 09 Jun 2018 12:02:18 -0700</lastBuildDate>
+    <pubDate>Sat, 09 Jun 2018 12:21:39 -0700</pubDate>
+    <lastBuildDate>Sat, 09 Jun 2018 12:21:39 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
     
       <item>
@@ -28,10 +28,10 @@
 &lt;p&gt;If I was writing in Ruby, this would be a perfect use case for the &lt;a href=&quot;https://ruby-doc.org/core-2.5.1/Enumerable.html#method-i-each_cons&quot;&gt;each_cons&lt;/a&gt; method!  Unfortunately, no such luck with a similar function built-in to Python.  I ended up going with the slightly less pretty:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def each_cons(n, iterable):
-  	&quot;&quot;&quot;Returns every n consecutive items in an iterable.
-  	Example: each_cons(4, range(10)) =&amp;gt; [0, 1, 2, 3], [1, 2, 3, 4], [2, 3, 4, 5]...
-  	&quot;&quot;&quot;
-		return (iterable[i: i + n] for i in range(len(iterable) - n + 1))
+    &quot;&quot;&quot;Returns every n consecutive items in an iterable.
+    Example: each_cons(4, range(10)) =&amp;gt; [0, 1, 2, 3], [1, 2, 3, 4], [2, 3, 4, 5]...
+    &quot;&quot;&quot;
+    return (iterable[i: i + n] for i in range(len(iterable) - n + 1))
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Anytime you write &lt;code&gt;range(len(...&lt;/code&gt;, there’s probably a better way you could have done things.  &lt;strong&gt;If you know a slicker, less indexy way to do this, please share it, because there’s got to be a better way.  I can’t be indexing into things manually like a barbarian.&lt;/strong&gt;&lt;/p&gt;
@@ -45,7 +45,7 @@
 &lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;from itertools import tee
 
 def each_pair(iterable):
-		&quot;&quot;&quot;Returns each consecutive pair of items in an iterable&quot;&quot;&quot;
+    &quot;&quot;&quot;Returns each consecutive pair of items in an iterable&quot;&quot;&quot;
     first, second = tee(iterable)
     next(second, None)
     return zip(first, second)
@@ -62,7 +62,7 @@ each_pair(range(10))
 
 &lt;p&gt;First, we use &lt;code&gt;itertools.tee&lt;/code&gt;, which returns two copies of the original iterable (a fancy word for anything you can iterate through: strings, lists, generators, etc.).  It also takes an optional argument for &lt;code&gt;n&lt;/code&gt; if you want to make &lt;code&gt;n&lt;/code&gt; copies instead of just 2.&lt;/p&gt;
 
-&lt;p&gt;Now we have to identical copies of the original iterable.  We then call &lt;code&gt;next&lt;/code&gt; on the second one in order to step it one item forward.  Notice the second argument to &lt;code&gt;next&lt;/code&gt;, &lt;code&gt;None&lt;/code&gt;.  The &lt;code&gt;next&lt;/code&gt; function returns (and uses up) the next item in an iterable, and if you provide it a &lt;em&gt;default&lt;/em&gt; and it can’t return another item because that iterable is empty, it just returns the default.&lt;/p&gt;
+&lt;p&gt;Now we have two identical copies of the original iterable.  We then call &lt;code&gt;next&lt;/code&gt; on the second one in order to step it one item forward.  Notice the second argument to &lt;code&gt;next&lt;/code&gt;, &lt;code&gt;None&lt;/code&gt;.  The &lt;code&gt;next&lt;/code&gt; function returns (and uses up) the next item in an iterable, and if you provide it a &lt;em&gt;default&lt;/em&gt; and it can’t return another item because that iterable is empty, it just returns the default.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;# next only works on Iterator objects
 a = iter([1, 2, 3])
@@ -78,7 +78,7 @@ next(a)
 # =&amp;gt; Error!  StopIteration!
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;This is just a neat way of saying “cycle the &lt;code&gt;second&lt;/code&gt; iterable one item forward, but if you’re already empty, don’t worry about it.  Just don’t throw an error.”  You probably also noticed that we don’t do anything with the result of this call to &lt;code&gt;next&lt;/code&gt;.  We’re just throwing an item away, it it exists.&lt;/p&gt;
+&lt;p&gt;This is just a neat way of saying “cycle the &lt;code&gt;second&lt;/code&gt; iterable one item forward, but if you’re already empty, don’t worry about it.  Just don’t throw an error.”  You probably also noticed that we don’t do anything with the result of this call to &lt;code&gt;next&lt;/code&gt;.  We’re just throwing an item away, if it exists.&lt;/p&gt;
 
 &lt;p&gt;The last part is zipping the two iterables together.  &lt;code&gt;zip&lt;/code&gt; is a tricky function that seems simple, but often the results can be hard to wrap your head around.  It makes each n-th item of each iterator it is passed into one single list.&lt;/p&gt;
 
@@ -90,10 +90,10 @@ c = [True, False, True, False]
 
 zip(a, b, c)
 # =&amp;gt; [
-#		[1, &quot;Apple&quot;, True],
-#		[2, &quot;Banana&quot;, False],
-#		[3, &quot;Pear&quot;, True],
-#		[4, &quot;Soup&quot;, False],
+#       [1, &quot;Apple&quot;, True],
+#       [2, &quot;Banana&quot;, False],
+#       [3, &quot;Pear&quot;, True],
+#       [4, &quot;Soup&quot;, False],
 #	]
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -112,12 +112,12 @@ zip(a, b)
 b = [1, 2]
 itertools.zip_longest(a, b, fillvalue=&quot;:)&quot;)
 # =&amp;gt; [
-# 	[1, 1],
-# 	[2, 2],
-# 	[3, &quot;:)&quot;]
-# 	[4, &quot;:)&quot;]
-# 	[5, &quot;:)&quot;]
-# 	[6, &quot;:)&quot;]
+#	    [1, 1],
+#	    [2, 2],
+#	    [3, &quot;:)&quot;]
+#	    [4, &quot;:)&quot;]
+#	    [5, &quot;:)&quot;]
+#	    [6, &quot;:)&quot;]
 # ]
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/blockquote&gt;
