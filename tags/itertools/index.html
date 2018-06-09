@@ -8,17 +8,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="ROBOTS" content="INDEX,FOLLOW">
         <meta name="description" content="">
-        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, ruby">
+        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, ">
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="assert_not magic? | Ruby 2.5 - Tap and Yield Self">
+        <meta name="twitter:title" content="assert_not magic? | ">
         <meta name="twitter:site" content="@paytastic">
         <meta name="twitter:description" content="">
-        <meta name="twitter:image" content="http://assertnotmagic.com/img/yield.jpg">
+        <meta name="twitter:image" content="https://assertnotmagic.com/img/twitter-card.png">
         <meta name="twitter:creator" content="@paytastic">
-        <meta name="og:url" content="http://assertnotmagic.com/2017/12/29/tap-and-yield-self/">
-        <meta name="og:title" content="assert_not magic? | Ruby 2.5 - Tap and Yield Self">
+        <meta name="og:url" content="http://assertnotmagic.com/tags/itertools/">
+        <meta name="og:title" content="assert_not magic? | ">
         <meta name="og:description" content="">
-        <meta name="og:image" content="http://assertnotmagic.com/img/yield.jpg">
+        <meta name="og:image" content="http://assertnotmagic.com/img/twitter-card.png">
 
         <!-- Favicon settings -->
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -53,132 +53,185 @@
                 <article class="site-wrap">
     <div id="cover">
         
-        <img alt="Cover Image" class="cover-image" src="/img/yield.jpg">
-        
     </div>
-    <h1>Ruby 2.5 - Tap and Yield Self</h1>
-    <p>I was reading through <a href="https://www.ruby-lang.org/en/news/2017/12/25/ruby-2-5-0-released/">the Ruby 2.5.0 release blurb</a>, referred from <a href="https://dev.to/ben/ruby-ruby-250-was-released-b98">Ben Halpern’s article here</a>, and I saw that one of the new features is the <code>#yield_self</code> method.</p>
-
-<pre><code class="language-ruby"># This is roughly what it is
-class Object
-  def yield_self(*args)
-    yield(self, *args)
-  end
-end
-</code></pre>
-
-<p>When I went to do more research, some people mentioned that it was very similar to <code>#tap</code>.  “Super!” I thought, “… what is <code>#tap</code>?”  After doing a bunch of reading and searching for the different definitions, use cases, pros, and cons, I ended up with a blog post’s worth of research, so I thought I should share my thoughts and see if anybody else had anything to add.</p>
-
-<p>To get you in the right mindset, both of these methods find their use cases in the area that I like to call “method pipelining”.</p>
-
-<h2 id="method-pipelining">Method Pipelining</h2>
-
-<p>One of my favorite things about Ruby (and one of the things that I wish Python did as nicely as Ruby) is that, since everything is an object, <em>and</em> most functions are methods, <em>and</em> the <code>.</code> (dot) operator works on method return values, you can chain methods out in one “sentence” to your heart’s content.  This is especially useful for data manipulation like transforming, reducing, mapping, etc.  Code like this is possible:</p>
-
-<pre><code class="language-ruby">("a".."z")
-  .map(&amp;:upcase)
-  .map(&amp;:ord)
-  .select { |num| (num % 3).zero? &amp;&amp; num.even? }
-  .sum
-# =&gt; 390
-</code></pre>
-
-<p>Each step passes its output to the next step in the data pipeline, allowing us to go from the range <code>"a".."z"</code> to the number <code>390</code>  in a few lines of code.  For some reason, this way of working really clicks in my head and I’ve noticed this style creeping into my code all the time.  Both <code>#tap</code> and <code>#yield_self</code> have their own places in this ecosystem as well.</p>
-
-<h2 id="tap-unixs-tee-for-ruby">Tap: Unix’s Tee for Ruby</h2>
-
-<p>At first I was very confused by the name of <code>#tap</code>.  Unlike <code>#select, #map, or #reduce</code>, the name <code>#tap</code> didn’t initially provide me any clues to what it does.  After some digging, the name actually makes quite a bit more sense.  <code>#tap</code> is a way of <em>“tapping”</em> into the method pipeline without disturbing the flow.  You call <code>#tap</code> on an object, it runs whatever code you want, and it returns the original object.  Since it returns the original object, you can insert it anywhere in the pipeline without causing any errors (mostly).  Let’s work with the example above.  Say you needed to do some debugging.</p>
-
-<pre><code class="language-ruby">("a..z")
-  .map(&amp;:upcase).tap { |letters| puts "Uppercase: #{letters}"}
-  .map(&amp;:ord).tap { |nums| puts "Ascii: #{nums}" }
-  .select { |num| (num % 3).zero? &amp;&amp; num.even? }.tap { |nums| puts "Filtered: #{nums}" }
-  .sum
-
-# Uppercase: Uppercase: ["A", "B", "C", ... "Y", "Z"]
-# Ascii: [65, 66, 67, ... 89, 90]
-# Filtered: [66, 72, 78, 84, 90]
-# =&gt; 390
-</code></pre>
-
-<p>As you can see, adding in the <code>#tap</code> didn’t affect the steps in the pipeline, and it allowed us to do some good ole <code>puts</code> debugging on each step.</p>
-
-<p>Another use case is to modify the object as it goes through the pipeline — although, I will admit that I had a harder time coming up with a realistic reason that you would want to do this.</p>
-
-<pre><code class="language-ruby">("a".."z")
-  .map(&amp;:upcase)
-  .map(&amp;:ord)
-  .tap { |nums| nums &lt;&lt; 6666666 }  # Modifying the array of ASCII ORD numbers in place!
-  .select { |num| (num % 3).zero? &amp;&amp; num.even? }
-  .sum
-
-# =&gt; 667056
-</code></pre>
-
-<p>In either case, the main point is that <code>#tap</code> returns the object that it received (whether or not it gets modified).</p>
-
-<h2 id="yield-self-expanding-your-pipelines">Yield Self: Expanding Your Pipelines</h2>
-
-<p><code>#yield_self</code> is a little bit different, because it returns <em>the result of the block</em> instead.  Here is an example that shows what it does but is a little pointless.</p>
-
-<pre><code class="language-ruby">2.yield_self { |num| num * 2 }
-# =&gt; 4
-</code></pre>
-
-<p>When I saw this example, my first thought was, “What is the point?  Why not just do <code>2 * 2</code>?”  Where <code>#yield_self</code> really shines is when you’re dealing with functions that are “un-pipeline-able”.  You can find these functions in two main places: Procs and Class Methods.</p>
-
-<pre><code class="language-ruby"># Procs/Lambdas must be called in front of their arguments
-shout = -&gt;(phrase) { puts phrase.upcase }
-puts shout
-# =&gt; #&lt;Proc:0x00007fcfac82bf80@(irb):1 (lambda)&gt;
-# Shout must be used via .call, .(), [], or .===
-shout.call("hello, dear friends")
-# =&gt; "HELLO, DEAR FRIENDS"
-
-# Same with class methods
-contents = File.read("test.txt")
-# =&gt; "Test contents\n"
-</code></pre>
-
-<p>What if you want to incorporate these into a pipeline somewhere?  Here comes <code>#yield_self</code> to the rescue!</p>
-
-<pre><code class="language-ruby">"TXT.TSET"
-  .downcase
-  .reverse
-  .yield_self { |filename| File.read(filename) }
-  .yield_self(&amp;:shout)
-# =&gt; "TEST CONTENTS\n"
-</code></pre>
-
-<p>This saves you from having to do two steps.</p>
-
-<pre><code class="language-ruby">contents = File.read("TXT.TSET".downcase.reverse)
-shouty_results = shout.(contents)
-</code></pre>
-
-<p>It also keeps your code looking vertical and pipeline-y instead of horizontally nested.  Also, imagine if you had several class methods or procs you wanted to use!  Nested functions very quickly become hard to read.</p>
-
-<h2 id="wrap-up">Wrap Up</h2>
-
-<p>That’s what I got from my research.  <code>#yield_self</code> is brand new, so I’m sure that as we work with it more, we’ll come up with the “right” and “wrong” ways of using it.  While doing research I had to slog through a billion comments like “yield_self is dumb” and “I hate the name” and “F# is better”, so I very specifically am not looking for any more of that, but if you’ve got some other use cases or ideas for <code>#tap</code> or <code>#yield_self</code>, I’d love to hear about them.</p>
-
-<h2 id="other-resources">Other Resources</h2>
+    <h1></h1>
+    <h1>Itertools</h1>
 
 <ul>
-  <li><a href="https://bogdanvlviv.github.io/posts/ruby/new-method-kernel-yield_self-since-ruby-2_5_0.html">Bogdan Denkovych’s blog post</a></li>
-  <li><a href="https://mlomnicki.com/yield-self-in-ruby-25/">Michał Łomnicki’s blog post</a></li>
-  <li><a href="https://stackoverflow.com/a/47890832/4100442">This StackOverflow Answer</a></li>
-  <li><a href="http://augustl.com/blog/2008/procs_blocks_and_anonymous_functions/">This Post by Augustl</a></li>
+    
+    <li class="post">
+        
+<a class="post-title" href="/2018/06/09/itertools-each-pair/">Each Pair with Itertools</a><br><small>June 09, 2018</small>
+
+    <img class="img-small" alt="Cover image for Each Pair with Itertools" src="/img/pears.jpg">
+
+<small>Tags: 
+
+    python 
+
+    tricks 
+
+    itertools 
+
+</small>
+
+    </li>
+    
 </ul>
 
-
+<!-- Tags List -->
+<hr>
+<p>
     
-    <small>
-        Author: Ryan Palo | Tags: 
-        
-        <a href="/tags/ruby/">ruby</a>
-        
-    </small>
+    <a href="/tags/python/" style="font-size: 62px">python | </a>
+    
+    <a href="/tags/django/" style="font-size: 20px">django | </a>
+    
+    <a href="/tags/rails/" style="font-size: 12px">rails | </a>
+    
+    <a href="/tags/algorithms/" style="font-size: 20px">algorithms | </a>
+    
+    <a href="/tags/editors/" style="font-size: 18px">editors | </a>
+    
+    <a href="/tags/emacs/" style="font-size: 14px">emacs | </a>
+    
+    <a href="/tags/ai/" style="font-size: 12px">ai | </a>
+    
+    <a href="/tags/r/" style="font-size: 12px">r | </a>
+    
+    <a href="/tags/tools/" style="font-size: 14px">tools | </a>
+    
+    <a href="/tags/javascript/" style="font-size: 24px">javascript | </a>
+    
+    <a href="/tags/not-magic/" style="font-size: 14px">not-magic | </a>
+    
+    <a href="/tags/soft-skills/" style="font-size: 20px">soft-skills | </a>
+    
+    <a href="/tags/tricks/" style="font-size: 38px">tricks | </a>
+    
+    <a href="/tags/vscode/" style="font-size: 14px">vscode | </a>
+    
+    <a href="/tags/vim/" style="font-size: 16px">vim | </a>
+    
+    <a href="/tags/sublime/" style="font-size: 12px">sublime | </a>
+    
+    <a href="/tags/puzzle/" style="font-size: 18px">puzzle | </a>
+    
+    <a href="/tags/bash/" style="font-size: 16px">bash | </a>
+    
+    <a href="/tags/math/" style="font-size: 14px">math | </a>
+    
+    <a href="/tags/teaching/" style="font-size: 14px">teaching | </a>
+    
+    <a href="/tags/ruby/" style="font-size: 30px">ruby | </a>
+    
+    <a href="/tags/jekyll/" style="font-size: 14px">jekyll | </a>
+    
+    <a href="/tags/git/" style="font-size: 18px">git | </a>
+    
+    <a href="/tags/physics/" style="font-size: 12px">physics | </a>
+    
+    <a href="/tags/fun/" style="font-size: 16px">fun | </a>
+    
+    <a href="/tags/scientific/" style="font-size: 14px">scientific | </a>
+    
+    <a href="/tags/pythonic/" style="font-size: 14px">pythonic | </a>
+    
+    <a href="/tags/functional/" style="font-size: 18px">functional | </a>
+    
+    <a href="/tags/vue/" style="font-size: 20px">vue | </a>
+    
+    <a href="/tags/es6/" style="font-size: 18px">es6 | </a>
+    
+    <a href="/tags/tutorial/" style="font-size: 36px">tutorial | </a>
+    
+    <a href="/tags/exercise/" style="font-size: 12px">exercise | </a>
+    
+    <a href="/tags/fitness/" style="font-size: 12px">fitness | </a>
+    
+    <a href="/tags/sysadmin/" style="font-size: 16px">sysadmin | </a>
+    
+    <a href="/tags/linux/" style="font-size: 14px">linux | </a>
+    
+    <a href="/tags/html/" style="font-size: 16px">html | </a>
+    
+    <a href="/tags/seo/" style="font-size: 12px">seo | </a>
+    
+    <a href="/tags/social/" style="font-size: 12px">social | </a>
+    
+    <a href="/tags/metaprogramming/" style="font-size: 12px">metaprogramming | </a>
+    
+    <a href="/tags/css/" style="font-size: 12px">css | </a>
+    
+    <a href="/tags/front-end/" style="font-size: 14px">front-end | </a>
+    
+    <a href="/tags/animations/" style="font-size: 12px">animations | </a>
+    
+    <a href="/tags/p5/" style="font-size: 18px">p5 | </a>
+    
+    <a href="/tags/beginner/" style="font-size: 18px">beginner | </a>
+    
+    <a href="/tags/encouragement/" style="font-size: 16px">encouragement | </a>
+    
+    <a href="/tags/screencast/" style="font-size: 12px">screencast | </a>
+    
+    <a href="/tags/showdev/" style="font-size: 12px">showdev | </a>
+    
+    <a href="/tags/interview/" style="font-size: 12px">interview | </a>
+    
+    <a href="/tags/performance/" style="font-size: 14px">performance | </a>
+    
+    <a href="/tags/workflow/" style="font-size: 12px">workflow | </a>
+    
+    <a href="/tags/best-practice/" style="font-size: 12px">best-practice | </a>
+    
+    <a href="/tags/oss/" style="font-size: 12px">oss | </a>
+    
+    <a href="/tags/static-site/" style="font-size: 12px">static-site | </a>
+    
+    <a href="/tags/big-o/" style="font-size: 12px">big-o | </a>
+    
+    <a href="/tags/linked-lists/" style="font-size: 12px">linked-lists | </a>
+    
+    <a href="/tags/design-intent/" style="font-size: 12px">design-intent | </a>
+    
+    <a href="/tags/struct/" style="font-size: 12px">struct | </a>
+    
+    <a href="/tags/browser/" style="font-size: 12px">browser | </a>
+    
+    <a href="/tags/focus/" style="font-size: 12px">focus | </a>
+    
+    <a href="/tags/productivity/" style="font-size: 16px">productivity | </a>
+    
+    <a href="/tags/codenewbie/" style="font-size: 12px">codenewbie | </a>
+    
+    <a href="/tags/reflection/" style="font-size: 12px">reflection | </a>
+    
+    <a href="/tags/update/" style="font-size: 12px">update | </a>
+    
+    <a href="/tags/preview/" style="font-size: 12px">preview | </a>
+    
+    <a href="/tags/gtd/" style="font-size: 12px">gtd | </a>
+    
+    <a href="/tags/bullet-journal/" style="font-size: 12px">bullet-journal | </a>
+    
+    <a href="/tags/data-science/" style="font-size: 12px">data-science | </a>
+    
+    <a href="/tags/singleton/" style="font-size: 12px">singleton | </a>
+    
+    <a href="/tags/basics/" style="font-size: 12px">basics | </a>
+    
+    <a href="/tags/powershell/" style="font-size: 12px">powershell | </a>
+    
+    <a href="/tags/terminal/" style="font-size: 12px">terminal | </a>
+    
+    <a href="/tags/security/" style="font-size: 12px">security | </a>
+    
+    <a href="/tags/scripting/" style="font-size: 12px">scripting | </a>
+    
+    <a href="/tags/itertools/" style="font-size: 12px">itertools | </a>
+    
+</p>
     
     <div class="email-background">
     <form class="email-signup" action="https://tinyletter.com/rpalo" method="post" target="popupwindow"

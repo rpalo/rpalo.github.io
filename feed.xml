@@ -6,9 +6,140 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 05 Jun 2018 18:21:29 -0700</pubDate>
-    <lastBuildDate>Tue, 05 Jun 2018 18:21:29 -0700</lastBuildDate>
+    <pubDate>Sat, 09 Jun 2018 11:44:11 -0700</pubDate>
+    <lastBuildDate>Sat, 09 Jun 2018 11:44:11 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Each Pair with Itertools</title>
+        <description>&lt;p&gt;&lt;em&gt;Cover Photo by &lt;a href=&quot;https://unsplash.com/photos/hXaHghBkEMQ?utm_source=unsplash&amp;amp;utm_medium=referral&amp;amp;utm_content=creditCopyText&quot;&gt;Dan Gold&lt;/a&gt; on &lt;a href=&quot;https://unsplash.com/search/photos/pears?utm_source=unsplash&amp;amp;utm_medium=referral&amp;amp;utm_content=creditCopyText&quot;&gt;Unsplash&lt;/a&gt;&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Quick Tip Time!&lt;/p&gt;
+
+&lt;p&gt;This week I was working on some coding challenges on &lt;a href=&quot;http://rosalind.info&quot;&gt;Rosalind&lt;/a&gt; in Python.  For one of the problems, I needed to run through consecutive groups of characters in a string and do something with them.  For example, if the string was “ACGTACAGTACTGACAGATCA”, I wanted to operate on the following substrings:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;&quot;ACGT&quot;
+&quot;CGTA&quot;
+&quot;GTAC&quot;
+&quot;TACA&quot;
+...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If I was writing in Ruby, this would be a perfect use case for the &lt;a href=&quot;https://ruby-doc.org/core-2.5.1/Enumerable.html#method-i-each_cons&quot;&gt;each_cons&lt;/a&gt; method!  Unfortunately, no such luck with a similar function built-in to Python.  I ended up going with the slightly less pretty:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def each_cons(n, iterable):
+  	&quot;&quot;&quot;Returns every n consecutive items in an iterable.
+  	Example: each_cons(4, range(10)) =&amp;gt; [0, 1, 2, 3], [1, 2, 3, 4], [2, 3, 4, 5]...
+  	&quot;&quot;&quot;
+		return (iterable[i: i + n] for i in range(len(iterable) - n + 1))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Anytime you write &lt;code&gt;range(len(...&lt;/code&gt;, there’s probably a better way you could have done things.  &lt;strong&gt;If you know a slicker, less indexy way to do this, please share it, because there’s got to be a better way.  I can’t be indexing into things manually like a barbarian.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;However, that’s not what this post is about.  In my search for a better way, I came across a clever use of the &lt;code&gt;itertools&lt;/code&gt; module that was too good not to share.&lt;/p&gt;
+
+&lt;h2 id=&quot;each-pair-with-itertools&quot;&gt;Each Pair with Itertools&lt;/h2&gt;
+
+&lt;p&gt;This method only really works cleanly if you need only two consecutive items, but it feels &lt;em&gt;very&lt;/em&gt; Pythonic to me.  I’ll show you the code and then point out the key parts.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;from itertools import tee
+
+def each_pair(iterable):
+		&quot;&quot;&quot;Returns each consecutive pair of items in an iterable&quot;&quot;&quot;
+    first, second = tee(iterable)
+    next(second, None)
+    return zip(first, second)
+
+each_pair(range(10))
+# =&amp;gt; [0, 1], [1, 2], [2, 3], [3, 4], [4, 5]...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Ahhhh &lt;em&gt;SO GOOD.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;the-magic-explained&quot;&gt;The Magic Explained&lt;/h2&gt;
+
+&lt;p&gt;So, how does it work?&lt;/p&gt;
+
+&lt;p&gt;First, we use &lt;code&gt;itertools.tee&lt;/code&gt;, which returns two copies of the original iterable (a fancy word for anything you can iterate through: strings, lists, generators, etc.).  It also takes an optional argument for &lt;code&gt;n&lt;/code&gt; if you want to make &lt;code&gt;n&lt;/code&gt; copies instead of just 2.&lt;/p&gt;
+
+&lt;p&gt;Now we have to identical copies of the original iterable.  We then call &lt;code&gt;next&lt;/code&gt; on the second one in order to step it one item forward.  Notice the second argument to &lt;code&gt;next&lt;/code&gt;, &lt;code&gt;None&lt;/code&gt;.  The &lt;code&gt;next&lt;/code&gt; function returns (and uses up) the next item in an iterable, and if you provide it a &lt;em&gt;default&lt;/em&gt; and it can’t return another item because that iterable is empty, it just returns the default.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;# next only works on Iterator objects
+a = iter([1, 2, 3])
+next(a, &quot;EMPTY&quot;)
+# =&amp;gt; 1
+next(a, &quot;EMPTY&quot;)
+# =&amp;gt; 2
+next(a, &quot;EMPTY&quot;)
+# =&amp;gt; 3
+next(a, &quot;EMPTY&quot;)
+# =&amp;gt; &quot;EMPTY&quot;
+next(a)
+# =&amp;gt; Error!  StopIteration!
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is just a neat way of saying “cycle the &lt;code&gt;second&lt;/code&gt; iterable one item forward, but if you’re already empty, don’t worry about it.  Just don’t throw an error.”  You probably also noticed that we don’t do anything with the result of this call to &lt;code&gt;next&lt;/code&gt;.  We’re just throwing an item away, it it exists.&lt;/p&gt;
+
+&lt;p&gt;The last part is zipping the two iterables together.  &lt;code&gt;zip&lt;/code&gt; is a tricky function that seems simple, but often the results can be hard to wrap your head around.  It makes each n-th item of each iterator it is passed into one single list.&lt;/p&gt;
+
+&lt;p&gt;It’s  easier to see in an example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;a = [1, 2, 3, 4]
+b = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Pear&quot;, &quot;Soup&quot;]
+c = [True, False, True, False]
+
+zip(a, b, c)
+# =&amp;gt; [
+#		[1, &quot;Apple&quot;, True],
+#		[2, &quot;Banana&quot;, False],
+#		[3, &quot;Pear&quot;, True],
+#		[4, &quot;Soup&quot;, False],
+#	]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The trick is that, if our lists have different lengths, it will only use up to the shortest one.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;a = [1, 2, 3, 4, 5, 6, 7, 8]
+b = [1, 2, 3]
+zip(a, b)
+# =&amp;gt; [[1, 1], [2, 2], [3, 3]]  See how it drops the last 5 elements of 'a'?
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The &lt;code&gt;itertools&lt;/code&gt; module also has a &lt;code&gt;zip_longest&lt;/code&gt; function that takes a default value to fill in if some of the arguments to zip are too short.&lt;/p&gt;
+
+  &lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;a = [1, 2, 3, 4, 5, 6]
+b = [1, 2]
+itertools.zip_longest(a, b, fillvalue=&quot;:)&quot;)
+# =&amp;gt; [
+# 	[1, 1],
+# 	[2, 2],
+# 	[3, &quot;:)&quot;]
+# 	[4, &quot;:)&quot;]
+# 	[5, &quot;:)&quot;]
+# 	[6, &quot;:)&quot;]
+# ]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;wrap-up&quot;&gt;Wrap Up&lt;/h2&gt;
+
+&lt;p&gt;Anyways, I thought this was neat.  I like it anytime I can get what I want out of an iterable without actually using any brute force indices.  It seems like it cuts down on &lt;a href=&quot;https://twitter.com/codinghorror/status/506010907021828096?lang=en&quot;&gt;off-by-one&lt;/a&gt; errors.&lt;/p&gt;
+
+&lt;p&gt;Like I said before, if you’ve got a better way to make the &lt;code&gt;each_cons&lt;/code&gt; function above, I want to see it.  Be sure to comment or &lt;a href=&quot;https://twitter.com/paytastic/&quot;&gt;tweet it at me&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 09 Jun 2018 00:00:00 -0700</pubDate>
+        <link>https://assertnotmagic.com/2018/06/09/itertools-each-pair/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/06/09/itertools-each-pair/</guid>
+        
+        <category>python</category>
+        
+        <category>tricks</category>
+        
+        <category>itertools</category>
+        
+        
+      </item>
     
       <item>
         <title>Python Scripting Toolbox: sys and fileinput</title>
@@ -2272,65 +2403,6 @@ jj        &quot; Select next two lines
         <guid isPermaLink="true">https://assertnotmagic.com/2018/03/18/vim-filters/</guid>
         
         <category>vim</category>
-        
-        <category>tricks</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Publish Single Directories to Another Branch</title>
-        <description>&lt;p&gt;Quick Tip!&lt;/p&gt;
-
-&lt;p&gt;Let’s say that you’re just like me.  You’ve been working on a web project: HTML, CSS, and maybe some JavaScript.  You’re done and you’re ready to show the world your project, so you want to get it built, compiled, minified, and put it somewhere.  But how?  &lt;code&gt;git subtree&lt;/code&gt;.  I’ll show you.  One command.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Also, did you see the cover image?  Subtree?  HA!&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Let’s assume you’ve got a project laid out like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;my-dope-project
-|- README.md
-|- src
-|   |- index.html
-|   |- css
-|       |- styles.sass
-|   |- js
-|       |- main.js
-|       |- helper.js
-|- dist
-|- webpack.config.js
-|- package.json
-|- .gitignore
-|- node_modules
-    |- OMG so much stuff
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Or something.  I don’t know your life.  So you build your site with a &lt;code&gt;npm run build&lt;/code&gt;.  Now your &lt;code&gt;dist&lt;/code&gt; directory is full of your beautiful bundled new site.  So how do you put it up somewhere?&lt;/p&gt;
-
-&lt;h2 id=&quot;1-make-sure-the-dist-folder-is-actually-checked-into-your-repo&quot;&gt;1. Make sure the dist folder is actually checked into your repo.&lt;/h2&gt;
-
-&lt;p&gt;Get it out of your &lt;code&gt;.gitignore&lt;/code&gt; and &lt;code&gt;add/commit/push&lt;/code&gt; it.&lt;/p&gt;
-
-&lt;h2 id=&quot;2-use-the-subtree-luke-andor-leia&quot;&gt;2. Use the Subtree, Luke (and/or Leia).&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ git subtree push --prefix dist origin gh-pages
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Here, &lt;code&gt;dist&lt;/code&gt; is the directory subtree you want to publish.  &lt;code&gt;origin&lt;/code&gt; is the remote repo you’re pushing to.  &lt;code&gt;gh-pages&lt;/code&gt; is the name of the remote branch you want to push to.&lt;/p&gt;
-
-&lt;p&gt;Then go to your GitHub and into your repo settings.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/gh-pages-settings.png&quot; alt=&quot;GitHub Pages Settings&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Set the branch that you created to be the public branch.  And that’s it!  Head to &lt;code&gt;&amp;lt;your-username&amp;gt;.github.io/&amp;lt;repo-name&amp;gt;&lt;/code&gt; and do your happy dance!&lt;/p&gt;
-
-&lt;p&gt;I know that there’s about a thousand ways you could skin this particular cat and they all have their pro’s and con’s.  I just really wanted to share this particular approach because I thought it was neat.  Happy coding!&lt;/p&gt;
-</description>
-        <pubDate>Thu, 08 Mar 2018 00:00:00 -0800</pubDate>
-        <link>https://assertnotmagic.com/2018/03/08/publish-directories-to-github-pages/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2018/03/08/publish-directories-to-github-pages/</guid>
-        
-        <category>git</category>
         
         <category>tricks</category>
         

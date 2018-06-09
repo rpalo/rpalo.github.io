@@ -7,18 +7,18 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="ROBOTS" content="INDEX,FOLLOW">
-        <meta name="description" content="">
-        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, ruby">
+        <meta name="description" content="This week I saw a slick way of iterating through each pair of items in a list in Python and wanted to share it.">
+        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, python, tricks, itertools">
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="assert_not magic? | Ruby 2.5 - Tap and Yield Self">
+        <meta name="twitter:title" content="assert_not magic? | Each Pair with Itertools">
         <meta name="twitter:site" content="@paytastic">
-        <meta name="twitter:description" content="">
-        <meta name="twitter:image" content="http://assertnotmagic.com/img/yield.jpg">
+        <meta name="twitter:description" content="This week I saw a slick way of iterating through each pair of items in a list in Python and wanted to share it.">
+        <meta name="twitter:image" content="http://assertnotmagic.com/img/pears.jpg">
         <meta name="twitter:creator" content="@paytastic">
-        <meta name="og:url" content="http://assertnotmagic.com/2017/12/29/tap-and-yield-self/">
-        <meta name="og:title" content="assert_not magic? | Ruby 2.5 - Tap and Yield Self">
-        <meta name="og:description" content="">
-        <meta name="og:image" content="http://assertnotmagic.com/img/yield.jpg">
+        <meta name="og:url" content="http://assertnotmagic.com/2018/06/09/itertools-each-pair/">
+        <meta name="og:title" content="assert_not magic? | Each Pair with Itertools">
+        <meta name="og:description" content="This week I saw a slick way of iterating through each pair of items in a list in Python and wanted to share it.">
+        <meta name="og:image" content="http://assertnotmagic.com/img/pears.jpg">
 
         <!-- Favicon settings -->
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -53,130 +53,135 @@
                 <article class="site-wrap">
     <div id="cover">
         
-        <img alt="Cover Image" class="cover-image" src="/img/yield.jpg">
+        <img alt="Cover Image" class="cover-image" src="/img/pears.jpg">
         
     </div>
-    <h1>Ruby 2.5 - Tap and Yield Self</h1>
-    <p>I was reading through <a href="https://www.ruby-lang.org/en/news/2017/12/25/ruby-2-5-0-released/">the Ruby 2.5.0 release blurb</a>, referred from <a href="https://dev.to/ben/ruby-ruby-250-was-released-b98">Ben Halpern’s article here</a>, and I saw that one of the new features is the <code>#yield_self</code> method.</p>
+    <h1>Each Pair with Itertools</h1>
+    <p><em>Cover Photo by <a href="https://unsplash.com/photos/hXaHghBkEMQ?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Dan Gold</a> on <a href="https://unsplash.com/search/photos/pears?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></em>.</p>
 
-<pre><code class="language-ruby"># This is roughly what it is
-class Object
-  def yield_self(*args)
-    yield(self, *args)
-  end
-end
+<p>Quick Tip Time!</p>
+
+<p>This week I was working on some coding challenges on <a href="http://rosalind.info">Rosalind</a> in Python.  For one of the problems, I needed to run through consecutive groups of characters in a string and do something with them.  For example, if the string was “ACGTACAGTACTGACAGATCA”, I wanted to operate on the following substrings:</p>
+
+<pre><code class="language-text">"ACGT"
+"CGTA"
+"GTAC"
+"TACA"
+...
 </code></pre>
 
-<p>When I went to do more research, some people mentioned that it was very similar to <code>#tap</code>.  “Super!” I thought, “… what is <code>#tap</code>?”  After doing a bunch of reading and searching for the different definitions, use cases, pros, and cons, I ended up with a blog post’s worth of research, so I thought I should share my thoughts and see if anybody else had anything to add.</p>
+<p>If I was writing in Ruby, this would be a perfect use case for the <a href="https://ruby-doc.org/core-2.5.1/Enumerable.html#method-i-each_cons">each_cons</a> method!  Unfortunately, no such luck with a similar function built-in to Python.  I ended up going with the slightly less pretty:</p>
 
-<p>To get you in the right mindset, both of these methods find their use cases in the area that I like to call “method pipelining”.</p>
-
-<h2 id="method-pipelining">Method Pipelining</h2>
-
-<p>One of my favorite things about Ruby (and one of the things that I wish Python did as nicely as Ruby) is that, since everything is an object, <em>and</em> most functions are methods, <em>and</em> the <code>.</code> (dot) operator works on method return values, you can chain methods out in one “sentence” to your heart’s content.  This is especially useful for data manipulation like transforming, reducing, mapping, etc.  Code like this is possible:</p>
-
-<pre><code class="language-ruby">("a".."z")
-  .map(&amp;:upcase)
-  .map(&amp;:ord)
-  .select { |num| (num % 3).zero? &amp;&amp; num.even? }
-  .sum
-# =&gt; 390
+<pre><code class="language-python">def each_cons(n, iterable):
+  	"""Returns every n consecutive items in an iterable.
+  	Example: each_cons(4, range(10)) =&gt; [0, 1, 2, 3], [1, 2, 3, 4], [2, 3, 4, 5]...
+  	"""
+		return (iterable[i: i + n] for i in range(len(iterable) - n + 1))
 </code></pre>
 
-<p>Each step passes its output to the next step in the data pipeline, allowing us to go from the range <code>"a".."z"</code> to the number <code>390</code>  in a few lines of code.  For some reason, this way of working really clicks in my head and I’ve noticed this style creeping into my code all the time.  Both <code>#tap</code> and <code>#yield_self</code> have their own places in this ecosystem as well.</p>
+<p>Anytime you write <code>range(len(...</code>, there’s probably a better way you could have done things.  <strong>If you know a slicker, less indexy way to do this, please share it, because there’s got to be a better way.  I can’t be indexing into things manually like a barbarian.</strong></p>
 
-<h2 id="tap-unixs-tee-for-ruby">Tap: Unix’s Tee for Ruby</h2>
+<p>However, that’s not what this post is about.  In my search for a better way, I came across a clever use of the <code>itertools</code> module that was too good not to share.</p>
 
-<p>At first I was very confused by the name of <code>#tap</code>.  Unlike <code>#select, #map, or #reduce</code>, the name <code>#tap</code> didn’t initially provide me any clues to what it does.  After some digging, the name actually makes quite a bit more sense.  <code>#tap</code> is a way of <em>“tapping”</em> into the method pipeline without disturbing the flow.  You call <code>#tap</code> on an object, it runs whatever code you want, and it returns the original object.  Since it returns the original object, you can insert it anywhere in the pipeline without causing any errors (mostly).  Let’s work with the example above.  Say you needed to do some debugging.</p>
+<h2 id="each-pair-with-itertools">Each Pair with Itertools</h2>
 
-<pre><code class="language-ruby">("a..z")
-  .map(&amp;:upcase).tap { |letters| puts "Uppercase: #{letters}"}
-  .map(&amp;:ord).tap { |nums| puts "Ascii: #{nums}" }
-  .select { |num| (num % 3).zero? &amp;&amp; num.even? }.tap { |nums| puts "Filtered: #{nums}" }
-  .sum
+<p>This method only really works cleanly if you need only two consecutive items, but it feels <em>very</em> Pythonic to me.  I’ll show you the code and then point out the key parts.</p>
 
-# Uppercase: Uppercase: ["A", "B", "C", ... "Y", "Z"]
-# Ascii: [65, 66, 67, ... 89, 90]
-# Filtered: [66, 72, 78, 84, 90]
-# =&gt; 390
+<pre><code class="language-python">from itertools import tee
+
+def each_pair(iterable):
+		"""Returns each consecutive pair of items in an iterable"""
+    first, second = tee(iterable)
+    next(second, None)
+    return zip(first, second)
+
+each_pair(range(10))
+# =&gt; [0, 1], [1, 2], [2, 3], [3, 4], [4, 5]...
 </code></pre>
 
-<p>As you can see, adding in the <code>#tap</code> didn’t affect the steps in the pipeline, and it allowed us to do some good ole <code>puts</code> debugging on each step.</p>
+<p>Ahhhh <em>SO GOOD.</em></p>
 
-<p>Another use case is to modify the object as it goes through the pipeline — although, I will admit that I had a harder time coming up with a realistic reason that you would want to do this.</p>
+<h2 id="the-magic-explained">The Magic Explained</h2>
 
-<pre><code class="language-ruby">("a".."z")
-  .map(&amp;:upcase)
-  .map(&amp;:ord)
-  .tap { |nums| nums &lt;&lt; 6666666 }  # Modifying the array of ASCII ORD numbers in place!
-  .select { |num| (num % 3).zero? &amp;&amp; num.even? }
-  .sum
+<p>So, how does it work?</p>
 
-# =&gt; 667056
+<p>First, we use <code>itertools.tee</code>, which returns two copies of the original iterable (a fancy word for anything you can iterate through: strings, lists, generators, etc.).  It also takes an optional argument for <code>n</code> if you want to make <code>n</code> copies instead of just 2.</p>
+
+<p>Now we have to identical copies of the original iterable.  We then call <code>next</code> on the second one in order to step it one item forward.  Notice the second argument to <code>next</code>, <code>None</code>.  The <code>next</code> function returns (and uses up) the next item in an iterable, and if you provide it a <em>default</em> and it can’t return another item because that iterable is empty, it just returns the default.</p>
+
+<pre><code class="language-python"># next only works on Iterator objects
+a = iter([1, 2, 3])
+next(a, "EMPTY")
+# =&gt; 1
+next(a, "EMPTY")
+# =&gt; 2
+next(a, "EMPTY")
+# =&gt; 3
+next(a, "EMPTY")
+# =&gt; "EMPTY"
+next(a)
+# =&gt; Error!  StopIteration!
 </code></pre>
 
-<p>In either case, the main point is that <code>#tap</code> returns the object that it received (whether or not it gets modified).</p>
+<p>This is just a neat way of saying “cycle the <code>second</code> iterable one item forward, but if you’re already empty, don’t worry about it.  Just don’t throw an error.”  You probably also noticed that we don’t do anything with the result of this call to <code>next</code>.  We’re just throwing an item away, it it exists.</p>
 
-<h2 id="yield-self-expanding-your-pipelines">Yield Self: Expanding Your Pipelines</h2>
+<p>The last part is zipping the two iterables together.  <code>zip</code> is a tricky function that seems simple, but often the results can be hard to wrap your head around.  It makes each n-th item of each iterator it is passed into one single list.</p>
 
-<p><code>#yield_self</code> is a little bit different, because it returns <em>the result of the block</em> instead.  Here is an example that shows what it does but is a little pointless.</p>
+<p>It’s  easier to see in an example:</p>
 
-<pre><code class="language-ruby">2.yield_self { |num| num * 2 }
-# =&gt; 4
+<pre><code class="language-python">a = [1, 2, 3, 4]
+b = ["Apple", "Banana", "Pear", "Soup"]
+c = [True, False, True, False]
+
+zip(a, b, c)
+# =&gt; [
+#		[1, "Apple", True],
+#		[2, "Banana", False],
+#		[3, "Pear", True],
+#		[4, "Soup", False],
+#	]
 </code></pre>
 
-<p>When I saw this example, my first thought was, “What is the point?  Why not just do <code>2 * 2</code>?”  Where <code>#yield_self</code> really shines is when you’re dealing with functions that are “un-pipeline-able”.  You can find these functions in two main places: Procs and Class Methods.</p>
+<p>The trick is that, if our lists have different lengths, it will only use up to the shortest one.</p>
 
-<pre><code class="language-ruby"># Procs/Lambdas must be called in front of their arguments
-shout = -&gt;(phrase) { puts phrase.upcase }
-puts shout
-# =&gt; #&lt;Proc:0x00007fcfac82bf80@(irb):1 (lambda)&gt;
-# Shout must be used via .call, .(), [], or .===
-shout.call("hello, dear friends")
-# =&gt; "HELLO, DEAR FRIENDS"
-
-# Same with class methods
-contents = File.read("test.txt")
-# =&gt; "Test contents\n"
+<pre><code class="language-python">a = [1, 2, 3, 4, 5, 6, 7, 8]
+b = [1, 2, 3]
+zip(a, b)
+# =&gt; [[1, 1], [2, 2], [3, 3]]  See how it drops the last 5 elements of 'a'?
 </code></pre>
 
-<p>What if you want to incorporate these into a pipeline somewhere?  Here comes <code>#yield_self</code> to the rescue!</p>
+<blockquote>
+  <p>The <code>itertools</code> module also has a <code>zip_longest</code> function that takes a default value to fill in if some of the arguments to zip are too short.</p>
 
-<pre><code class="language-ruby">"TXT.TSET"
-  .downcase
-  .reverse
-  .yield_self { |filename| File.read(filename) }
-  .yield_self(&amp;:shout)
-# =&gt; "TEST CONTENTS\n"
+  <pre><code class="language-python">a = [1, 2, 3, 4, 5, 6]
+b = [1, 2]
+itertools.zip_longest(a, b, fillvalue=":)")
+# =&gt; [
+# 	[1, 1],
+# 	[2, 2],
+# 	[3, ":)"]
+# 	[4, ":)"]
+# 	[5, ":)"]
+# 	[6, ":)"]
+# ]
 </code></pre>
-
-<p>This saves you from having to do two steps.</p>
-
-<pre><code class="language-ruby">contents = File.read("TXT.TSET".downcase.reverse)
-shouty_results = shout.(contents)
-</code></pre>
-
-<p>It also keeps your code looking vertical and pipeline-y instead of horizontally nested.  Also, imagine if you had several class methods or procs you wanted to use!  Nested functions very quickly become hard to read.</p>
+</blockquote>
 
 <h2 id="wrap-up">Wrap Up</h2>
 
-<p>That’s what I got from my research.  <code>#yield_self</code> is brand new, so I’m sure that as we work with it more, we’ll come up with the “right” and “wrong” ways of using it.  While doing research I had to slog through a billion comments like “yield_self is dumb” and “I hate the name” and “F# is better”, so I very specifically am not looking for any more of that, but if you’ve got some other use cases or ideas for <code>#tap</code> or <code>#yield_self</code>, I’d love to hear about them.</p>
+<p>Anyways, I thought this was neat.  I like it anytime I can get what I want out of an iterable without actually using any brute force indices.  It seems like it cuts down on <a href="https://twitter.com/codinghorror/status/506010907021828096?lang=en">off-by-one</a> errors.</p>
 
-<h2 id="other-resources">Other Resources</h2>
-
-<ul>
-  <li><a href="https://bogdanvlviv.github.io/posts/ruby/new-method-kernel-yield_self-since-ruby-2_5_0.html">Bogdan Denkovych’s blog post</a></li>
-  <li><a href="https://mlomnicki.com/yield-self-in-ruby-25/">Michał Łomnicki’s blog post</a></li>
-  <li><a href="https://stackoverflow.com/a/47890832/4100442">This StackOverflow Answer</a></li>
-  <li><a href="http://augustl.com/blog/2008/procs_blocks_and_anonymous_functions/">This Post by Augustl</a></li>
-</ul>
-
+<p>Like I said before, if you’ve got a better way to make the <code>each_cons</code> function above, I want to see it.  Be sure to comment or <a href="https://twitter.com/paytastic/">tweet it at me</a>.</p>
 
     
     <small>
         Author: Ryan Palo | Tags: 
         
-        <a href="/tags/ruby/">ruby</a>
+        <a href="/tags/python/">python</a>
+        
+        <a href="/tags/tricks/">tricks</a>
+        
+        <a href="/tags/itertools/">itertools</a>
         
     </small>
     
