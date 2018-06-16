@@ -73,82 +73,181 @@
 
   <!-- Current Post -->
   
-    <h1 id="title">Command Not Found... Dum Dum</h1>
+    <h1 id="title">Python Scripting Toolbox: Part 2 - String Templates and `argparse`</h1>
     <small>Jun 16, 2018</small>
-    <p><p>Do you know what time it is?  That’s right.  It’s time for a</p>
+    <p><p><em>Cover photo by Philip Swinburn on Unsplash</em></p>
 
-<h2 id="quiiiiick-tip">QUIIIIICK TIP</h2>
-
-<p>This tip comes from the <a href="https://amzn.to/2t7Fp1i">Bash Pocket Reference, 2nd Ed.</a> by Arnold Robbins.</p>
-
-<p>Do you know how Bash (and similar shells) look for commands when you give it a command?  Here’s the list:</p>
+<p>This is Part 2 in the Python Scripting Toolbox series.  It’s a three-part survey of the tools available to us for Python scripting.  I’m showing off the functionality by creating three scripts that show off different parts of the standard library.</p>
 
 <ol>
-  <li>
-    <p>First, it checks to see if what you’ve typed is a language keyword like <code>for</code> or <code>while</code>.</p>
-  </li>
-  <li>
-    <p>Next, it checks your aliases.  Interestingly, the book above states (and cites other sources that agree) that you should basically never use aliases!  It says writing a function should almost always be preferred – contrary to a lot of StackOverflow answers I’ve seen.  I think I agree, actually.  Writing functions seems much cleaner and easier to come back to and modify later.</p>
-  </li>
-  <li>
-    <p>Then, it checks for special built-in functions like <code>break</code>, <code>exit</code>, or <code>export</code>.  These aren’t needed for the internals of the Bash language, necessarily, but they’re needed for scripting and interactive shells.</p>
-  </li>
-  <li>
-    <p>After that, it looks at any functions you have defined.</p>
-  </li>
-  <li>
-    <p>Next are non-special built-ins.  These are commands like <code>cd</code> and <code>test</code>.  Since functions are checked before these, you could feasibly override <code>cd</code> with your own function!</p>
-  </li>
+  <li>In <a href="/2018/06/05/python-toolbox-shout/">Part 1</a>, we built <code>shout.py</code>: a script that shouts everything you pass into it.</li>
+  <li>In Part 2, we’ll create <code>make_script.py</code>: a script that generates a starter script from a template, for use in things like <a href="https://projecteuler.net/">Project Euler</a> or <a href="http://rosalind.info/problems/locations/">Rosalind</a>.</li>
+  <li>Next time, Part 3 will feature <code>project_setup.py</code>: a script that creates a basic project skeleton</li>
 </ol>
 
-<pre><code class="language-bash">function cd() {
-  echo "You're the best!"
-  command cd "$@"  # Actually calls the real `cd`
-}
+<p>Now, let’s get started.</p>
 
-$ cd ~/code
-# =&gt; You're the best!
-# Now in ~/code
-</code></pre>
+<h2 id="script-2-make_scriptpy">Script 2: <code>make_script.py</code></h2>
 
-<p>Lastly, it hunts through the <code>$PATH</code> to try to find scripts that match.</p>
+<p>When doing coding challenges where you are supposed to write the code on your local machine and then just submit the answer once you find it, you find yourself rewriting a lot of the same boiler plate over and over for reading in command line arguments, parsing things, and outputting results, when the real meat and potatoes of your work is in the main function of the script.  Handling input and output is just a side task.  Wouldn’t it be nice if we could just script away this grunt work and get started on the coding problem sooner?  That’s what we’re doing today.</p>
 
-<p>Here’s the tip: if Bash can’t find the command you typed in any of these places, it runs a function called <code>command_not_found_handle</code>.  Aaaaand, if you so happen to override this function, it will call <em>your</em> version instead!</p>
+<p>Here are our requirements.  We’re creating a Python script called <code>make_script.py</code>.  We want it to create a Python script from a template, filling in some variable names, docstrings, or other small variations based on our user inputs.  If it could have sensible defaults, that would be a plus.  Let’s get started.</p>
 
-<p>Sooooo, if your terminal experience is just not quite hostile enough, you could feasibly put the following into your <code>.bash_profile</code>.</p>
+<h3 id="step-1-the-template">Step 1: The Template</h3>
 
-<pre><code class="language-bash">function command_not_found_handle() {
-  options=(
-    "no."
-    "No!"
-    "NO."
-    "OMG NO."
-    "Mother ****!"
-    "WHAT ARE YOU DOING?"
-    "Success!  JK, you're still a dum dum."
-  )
-  option_choice=$(( $RANDOM % 7 ))
-  echo "${options[$option_choice]} '$*' command not found."
-  # The command that you tried is passed into
-  # this function as arguments, so $* will contain
-  # the entire command + arguments and options
+<p>First, I want to come up with what our template should look like.  Open a file named <code>script.py.template</code>.  That’s not a convention, it’s a file ending I made up.  You can call it whatever you want.</p>
+
+<pre><code class="language-python">"""$docstring"""
+
+import sys
+
+
+def main($input):
+    $output = ""
+    return $output
   
-  return 127   # 127 is the canonical exit code for
-  						# "command not found" 
+
+if __name__ == "__main__":
+    $input = sys.argv[1]
+    $output = main($input)
+    print($output)
+</code></pre>
+
+<p>Not a whole lot there, not super fancy, but it should save us some typing.</p>
+
+<p><em>But, Ryan!  What’s with all of those dollar signs?  I thought this was Python, not PHP!</em></p>
+
+<p>You are correct.  We’re going to be using the <code>template</code> class in Python’s <code>string</code> module of the standard library.  It’s good to note that there are several very good templating libraries that aren’t in the standard library but have quite a bit more power.  <a href="http://jinja.pocoo.org/docs/2.10/">Jinja2</a> and <a href="https://docs.djangoproject.com/en/2.0/ref/templates/api/">Django Templates</a> come to mind right away.  But this will get us where we need to go.</p>
+
+<p>With this templating language, we simply specify a variable with a dollar sign in front of it.  If you want to show an <em>actual</em> dollar sign, simply use 2 dollar signs in a row (<code>$$</code>).  This will render out as a single dollar sign.  Now, on to our actual code.</p>
+
+<h3 id="step-2-filling-in-the-template">Step 2: Filling In the Template</h3>
+
+<p>The code to actually fill in this template is not very many lines.  Create a new file called <code>make_script.py</code>.</p>
+
+<pre><code class="language-python">"""Creates a script from a basic template."""
+
+import string
+
+with open("script.py.template", "r") as f:
+    template_text = f.read()
+
+data = {
+    "docstring": "Hey look at this cool script.",
+    "input": "dat_arg",
+    "output": "awesome_result"
 }
+
+template = string.Template(template_text)
+result = template.substitute(data)
+
+with open("new_script.py", "w") as f:
+    f.write(result)
+
+print(result)
+print("----")
+print("Script created!")
 </code></pre>
 
-<p>Then, when you open up your terminal, you should see this:</p>
+<p>There are essentially four steps to this:</p>
 
-<pre><code class="language-bash">$ hwaaaa
-# =&gt; NO. 'hwaaaa' command not found.
-$ but why not tho
-# =&gt; Success!  JK, you're a dum dum.  'but why not tho' command not found.
+<ol>
+  <li>Read the template into a string.</li>
+  <li>Create a Template object from this string (provided by the Standard Libary’s <code>string</code> module).</li>
+  <li>Substitute in data.  This can be done as keyword arguments to the <code>substitute</code> method, or (like we did it) as a dictionary.  Either way, the keys should be the names of variables defined in the template, and the values should be what you want to substitute in.</li>
+  <li>Write the newly processed result to a new file.</li>
+</ol>
+
+<p>If you try running <code>python make_script.py</code>, you should see the results of the substitution in your terminal as well as in a new file called <code>new_script.py</code>.  Pretty cool, ja?</p>
+
+<p>This is great, but we don’t want to have to go in and change the values in <code>make_script.py</code> any time we want to create a new script.  We’d like our script to be a little more dynamic and maybe have a little better user interface.  Looks like it’s time for…</p>
+
+<h3 id="step-3-argparseing-our-way-to-cli-greatness">Step 3: <code>argparse</code>ing Our Way to CLI Greatness</h3>
+
+<p>We’d like our script to take some arguments, some options, and maybe show a help message.  Once again, I’d like to note that there are some excellent CLI libraries out there if you want a little more power.  I think <a href="http://click.pocoo.org/5/">Click</a> is probably my favorite.  I wrote an article a while ago about <a href="https://assertnotmagic.com/2016/11/27/discovering-click/">using Click</a>.  Be gentle — it was one of my first blog posts!</p>
+
+<p>Anyways, we’ve committed to using <em>only</em> the Standard Library in these guides, so we’ll soldier on with our friend <code>argparse</code>.  For more examples and information, you can take a look at the <a href="https://docs.python.org/3/library/argparse.html"><code>argparse</code> documentation</a>.  For now, I think it’s best to just show you the new, shiny version of <code>make_script.py</code>.</p>
+
+<pre><code class="language-python">"""Creates a script from a basic template."""
+
+import argparse
+import string
+
+parser = argparse.ArgumentParser(description="Create new Python scripts from a template.")
+parser.add_argument("scriptname", help="The name of the new script to create")
+parser.add_argument(
+    "-d", 
+    "--docstring",
+    help="The docstring to be placed at the top of the script",
+    default="Placeholder docstring"
+)
+parser.add_argument(
+    "-i",
+    "--input",
+    help="The name of the variable used as the input parameter",
+    default="inval"
+)
+parser.add_argument(
+    "-r",
+    "--result",
+    help="The name of the variable used as the result/output",
+    default="result"
+)
+
+args = parser.parse_args()
+
+# ...  You'll see how we use these args in a minute
 </code></pre>
 
-<p>All kidding aside, hopefully, you start to see how you could write some scripts to provide slightly more helpful/friendly error messages that maybe even show some possible options that were close to what you typed?</p>
+<p>Once we’ve imported the <code>argparse</code> module, we can create our argument parser.  We’ll tell this argument parser about all of the arguments and options that we’re expecting.  By default, any argument that starts with a <code>-</code> is considered an optional… um… option, while everything else is considered a required argument.</p>
 
-<p><strong>Quick Tip Over.</strong></p>
+<p>If you provide each argument with a <code>help</code> value, it will make your help text really look shiny.  At the end, you process the arguments provided by the user with the <code>parse_args</code> method.  Let’s take a look at how to use them.</p>
+
+<pre><code class="language-python"># ... Everything in the previous code block
+
+with open("script.py.template", "r") as f:
+    template_text = f.read()
+
+data = {
+    "docstring": args.docstring,
+    "input": args.input,
+    "output": args.result
+}
+
+template = string.Template(template_text)
+result = template.substitute(data)
+
+with open(args.scriptname, "w") as f:
+    f.write(result)
+    
+print(result)
+print("----")
+print("Script created!")
+</code></pre>
+
+<p>All of the arguments are available under the <code>args</code> <em>namespace</em>, which basically just means that you can access them via <code>args.whatever_your_variable_is</code>.  The variable name will be whatever name you passed into the <code>add_argument</code> method.</p>
+
+<p>Now, if you run your script, it will complain if the right things aren’t passed in, <em>and</em> if you run <code>python make_script.py —help</code>, it prints out a pretty little help message.</p>
+
+<pre><code class="language-bash">$ python make_script.py --help
+usage: make_script.py [-h] [-d DOCSTRING] [-i INPUT] [-r RESULT] scriptname
+
+Create new Python scripts from a template.
+
+positional arguments:
+  scriptname            The name of the new script to create
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d DOCSTRING, --docstring DOCSTRING
+                        The docstring to be placed at the top of the script
+  -i INPUT, --input INPUT
+                        The name of the variable used as the input parameter
+  -r RESULT, --result RESULT
+                        The name of the variable used as the result/output
+</code></pre>
+
+<p>Next time, we’ll work on a script that will build a project directory for us.  Thanks for reading!</p>
 </p>
   
 
@@ -182,6 +281,11 @@ $ but why not tho
         </li>
         
           <li>
+            <span class="post-meta">Jun 16, 2018</span><br/>
+            <a class="post-link" href="/2018/06/16/command-not-found/">Command Not Found... Dum Dum</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Jun 9, 2018</span><br/>
             <a class="post-link" href="/2018/06/09/itertools-each-pair/">Each Pair with Itertools</a>
           </li>
@@ -189,11 +293,6 @@ $ but why not tho
           <li>
             <span class="post-meta">Jun 5, 2018</span><br/>
             <a class="post-link" href="/2018/06/05/python-toolbox-shout/">Python Scripting Toolbox: sys and fileinput</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">May 14, 2018</span><br/>
-            <a class="post-link" href="/2018/05/14/setting-up-centos/">Setting Up a CentOS Server</a>
           </li>
         
       </ul>
@@ -206,7 +305,7 @@ $ but why not tho
       <h2>Tags</h2>
       <p>
         
-        <a href="/tags/python/" style="font-size: 64px">python | </a>
+        <a href="/tags/python/" style="font-size: 66px">python | </a>
         
         <a href="/tags/django/" style="font-size: 22px">django | </a>
         
@@ -266,7 +365,7 @@ $ but why not tho
         
         <a href="/tags/es6/" style="font-size: 20px">es6 | </a>
         
-        <a href="/tags/tutorial/" style="font-size: 38px">tutorial | </a>
+        <a href="/tags/tutorial/" style="font-size: 40px">tutorial | </a>
         
         <a href="/tags/exercise/" style="font-size: 14px">exercise | </a>
         
@@ -350,7 +449,7 @@ $ but why not tho
         
         <a href="/tags/security/" style="font-size: 14px">security | </a>
         
-        <a href="/tags/scripting/" style="font-size: 14px">scripting | </a>
+        <a href="/tags/scripting/" style="font-size: 16px">scripting | </a>
         
         <a href="/tags/itertools/" style="font-size: 14px">itertools | </a>
         

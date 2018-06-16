@@ -7,18 +7,18 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="ROBOTS" content="INDEX,FOLLOW">
-        <meta name="description" content="">
-        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, ">
+        <meta name="description" content="Part 2 of 3.  A couple of ways to beef up your Python scripts with the Standard Library.">
+        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, python, scripting, tutorial">
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="assert_not magic? | ">
+        <meta name="twitter:title" content="assert_not magic? | Python Scripting Toolbox: Part 2 - String Templates and `argparse`">
         <meta name="twitter:site" content="@paytastic">
-        <meta name="twitter:description" content="">
-        <meta name="twitter:image" content="https://assertnotmagic.com/img/twitter-card.png">
+        <meta name="twitter:description" content="Part 2 of 3.  A couple of ways to beef up your Python scripts with the Standard Library.">
+        <meta name="twitter:image" content="http://assertnotmagic.com/img/tools2.jpg">
         <meta name="twitter:creator" content="@paytastic">
-        <meta name="og:url" content="http://assertnotmagic.com/tags/ruby/">
-        <meta name="og:title" content="assert_not magic? | ">
-        <meta name="og:description" content="">
-        <meta name="og:image" content="http://assertnotmagic.com/img/twitter-card.png">
+        <meta name="og:url" content="http://assertnotmagic.com/2018/06/16/python-toolbox-make-script/">
+        <meta name="og:title" content="assert_not magic? | Python Scripting Toolbox: Part 2 - String Templates and `argparse`">
+        <meta name="og:description" content="Part 2 of 3.  A couple of ways to beef up your Python scripts with the Standard Library.">
+        <meta name="og:image" content="http://assertnotmagic.com/img/tools2.jpg">
 
         <!-- Favicon settings -->
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -53,349 +53,195 @@
                 <article class="site-wrap">
     <div id="cover">
         
+        <img alt="Cover Image" class="cover-image" src="/img/tools2.jpg">
+        
     </div>
-    <h1></h1>
-    <h1>Ruby</h1>
+    <h1>Python Scripting Toolbox: Part 2 - String Templates and `argparse`</h1>
+    <p><em>Cover photo by Philip Swinburn on Unsplash</em></p>
 
-<ul>
+<p>This is Part 2 in the Python Scripting Toolbox series.  It’s a three-part survey of the tools available to us for Python scripting.  I’m showing off the functionality by creating three scripts that show off different parts of the standard library.</p>
+
+<ol>
+  <li>In <a href="/2018/06/05/python-toolbox-shout/">Part 1</a>, we built <code>shout.py</code>: a script that shouts everything you pass into it.</li>
+  <li>In Part 2, we’ll create <code>make_script.py</code>: a script that generates a starter script from a template, for use in things like <a href="https://projecteuler.net/">Project Euler</a> or <a href="http://rosalind.info/problems/locations/">Rosalind</a>.</li>
+  <li>Next time, Part 3 will feature <code>project_setup.py</code>: a script that creates a basic project skeleton</li>
+</ol>
+
+<p>Now, let’s get started.</p>
+
+<h2 id="script-2-make_scriptpy">Script 2: <code>make_script.py</code></h2>
+
+<p>When doing coding challenges where you are supposed to write the code on your local machine and then just submit the answer once you find it, you find yourself rewriting a lot of the same boiler plate over and over for reading in command line arguments, parsing things, and outputting results, when the real meat and potatoes of your work is in the main function of the script.  Handling input and output is just a side task.  Wouldn’t it be nice if we could just script away this grunt work and get started on the coding problem sooner?  That’s what we’re doing today.</p>
+
+<p>Here are our requirements.  We’re creating a Python script called <code>make_script.py</code>.  We want it to create a Python script from a template, filling in some variable names, docstrings, or other small variations based on our user inputs.  If it could have sensible defaults, that would be a plus.  Let’s get started.</p>
+
+<h3 id="step-1-the-template">Step 1: The Template</h3>
+
+<p>First, I want to come up with what our template should look like.  Open a file named <code>script.py.template</code>.  That’s not a convention, it’s a file ending I made up.  You can call it whatever you want.</p>
+
+<pre><code class="language-python">"""$docstring"""
+
+import sys
+
+
+def main($input):
+    $output = ""
+    return $output
+  
+
+if __name__ == "__main__":
+    $input = sys.argv[1]
+    $output = main($input)
+    print($output)
+</code></pre>
+
+<p>Not a whole lot there, not super fancy, but it should save us some typing.</p>
+
+<p><em>But, Ryan!  What’s with all of those dollar signs?  I thought this was Python, not PHP!</em></p>
+
+<p>You are correct.  We’re going to be using the <code>template</code> class in Python’s <code>string</code> module of the standard library.  It’s good to note that there are several very good templating libraries that aren’t in the standard library but have quite a bit more power.  <a href="http://jinja.pocoo.org/docs/2.10/">Jinja2</a> and <a href="https://docs.djangoproject.com/en/2.0/ref/templates/api/">Django Templates</a> come to mind right away.  But this will get us where we need to go.</p>
+
+<p>With this templating language, we simply specify a variable with a dollar sign in front of it.  If you want to show an <em>actual</em> dollar sign, simply use 2 dollar signs in a row (<code>$$</code>).  This will render out as a single dollar sign.  Now, on to our actual code.</p>
+
+<h3 id="step-2-filling-in-the-template">Step 2: Filling In the Template</h3>
+
+<p>The code to actually fill in this template is not very many lines.  Create a new file called <code>make_script.py</code>.</p>
+
+<pre><code class="language-python">"""Creates a script from a basic template."""
+
+import string
+
+with open("script.py.template", "r") as f:
+    template_text = f.read()
+
+data = {
+    "docstring": "Hey look at this cool script.",
+    "input": "dat_arg",
+    "output": "awesome_result"
+}
+
+template = string.Template(template_text)
+result = template.substitute(data)
+
+with open("new_script.py", "w") as f:
+    f.write(result)
+
+print(result)
+print("----")
+print("Script created!")
+</code></pre>
+
+<p>There are essentially four steps to this:</p>
+
+<ol>
+  <li>Read the template into a string.</li>
+  <li>Create a Template object from this string (provided by the Standard Libary’s <code>string</code> module).</li>
+  <li>Substitute in data.  This can be done as keyword arguments to the <code>substitute</code> method, or (like we did it) as a dictionary.  Either way, the keys should be the names of variables defined in the template, and the values should be what you want to substitute in.</li>
+  <li>Write the newly processed result to a new file.</li>
+</ol>
+
+<p>If you try running <code>python make_script.py</code>, you should see the results of the substitution in your terminal as well as in a new file called <code>new_script.py</code>.  Pretty cool, ja?</p>
+
+<p>This is great, but we don’t want to have to go in and change the values in <code>make_script.py</code> any time we want to create a new script.  We’d like our script to be a little more dynamic and maybe have a little better user interface.  Looks like it’s time for…</p>
+
+<h3 id="step-3-argparseing-our-way-to-cli-greatness">Step 3: <code>argparse</code>ing Our Way to CLI Greatness</h3>
+
+<p>We’d like our script to take some arguments, some options, and maybe show a help message.  Once again, I’d like to note that there are some excellent CLI libraries out there if you want a little more power.  I think <a href="http://click.pocoo.org/5/">Click</a> is probably my favorite.  I wrote an article a while ago about <a href="https://assertnotmagic.com/2016/11/27/discovering-click/">using Click</a>.  Be gentle — it was one of my first blog posts!</p>
+
+<p>Anyways, we’ve committed to using <em>only</em> the Standard Library in these guides, so we’ll soldier on with our friend <code>argparse</code>.  For more examples and information, you can take a look at the <a href="https://docs.python.org/3/library/argparse.html"><code>argparse</code> documentation</a>.  For now, I think it’s best to just show you the new, shiny version of <code>make_script.py</code>.</p>
+
+<pre><code class="language-python">"""Creates a script from a basic template."""
+
+import argparse
+import string
+
+parser = argparse.ArgumentParser(description="Create new Python scripts from a template.")
+parser.add_argument("scriptname", help="The name of the new script to create")
+parser.add_argument(
+    "-d", 
+    "--docstring",
+    help="The docstring to be placed at the top of the script",
+    default="Placeholder docstring"
+)
+parser.add_argument(
+    "-i",
+    "--input",
+    help="The name of the variable used as the input parameter",
+    default="inval"
+)
+parser.add_argument(
+    "-r",
+    "--result",
+    help="The name of the variable used as the result/output",
+    default="result"
+)
+
+args = parser.parse_args()
+
+# ...  You'll see how we use these args in a minute
+</code></pre>
+
+<p>Once we’ve imported the <code>argparse</code> module, we can create our argument parser.  We’ll tell this argument parser about all of the arguments and options that we’re expecting.  By default, any argument that starts with a <code>-</code> is considered an optional… um… option, while everything else is considered a required argument.</p>
+
+<p>If you provide each argument with a <code>help</code> value, it will make your help text really look shiny.  At the end, you process the arguments provided by the user with the <code>parse_args</code> method.  Let’s take a look at how to use them.</p>
+
+<pre><code class="language-python"># ... Everything in the previous code block
+
+with open("script.py.template", "r") as f:
+    template_text = f.read()
+
+data = {
+    "docstring": args.docstring,
+    "input": args.input,
+    "output": args.result
+}
+
+template = string.Template(template_text)
+result = template.substitute(data)
+
+with open(args.scriptname, "w") as f:
+    f.write(result)
     
-    <li class="post">
+print(result)
+print("----")
+print("Script created!")
+</code></pre>
+
+<p>All of the arguments are available under the <code>args</code> <em>namespace</em>, which basically just means that you can access them via <code>args.whatever_your_variable_is</code>.  The variable name will be whatever name you passed into the <code>add_argument</code> method.</p>
+
+<p>Now, if you run your script, it will complain if the right things aren’t passed in, <em>and</em> if you run <code>python make_script.py —help</code>, it prints out a pretty little help message.</p>
+
+<pre><code class="language-bash">$ python make_script.py --help
+usage: make_script.py [-h] [-d DOCSTRING] [-i INPUT] [-r RESULT] scriptname
+
+Create new Python scripts from a template.
+
+positional arguments:
+  scriptname            The name of the new script to create
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d DOCSTRING, --docstring DOCSTRING
+                        The docstring to be placed at the top of the script
+  -i INPUT, --input INPUT
+                        The name of the variable used as the input parameter
+  -r RESULT, --result RESULT
+                        The name of the variable used as the result/output
+</code></pre>
+
+<p>Next time, we’ll work on a script that will build a project directory for us.  Thanks for reading!</p>
+
+    
+    <small>
+        Author: Ryan Palo | Tags: 
         
-<a class="post-title" href="/2018/04/22/ruby-singleton-classes/">Ruby Concepts - Singleton Classes</a><br><small>April 22, 2018</small>
-
-    <img class="img-small" alt="Cover image for Ruby Concepts - Singleton Classes" src="/img/singleton.jpg">
-
-<small>Tags: 
-
-    ruby 
-
-    singleton 
-
-    basics 
-
-</small>
-
-    </li>
-    
-    <li class="post">
+        <a href="/tags/python/">python</a>
         
-<a class="post-title" href="/2018/02/15/lucky-numbers-and-science/">Lucky Numbers and Science</a><br><small>February 15, 2018</small>
-
-    <img class="img-small" alt="Cover image for Lucky Numbers and Science" src="/img/lucky.jpg">
-
-<small>Tags: 
-
-    ruby 
-
-    puzzle 
-
-    performance 
-
-</small>
-
-    </li>
-    
-    <li class="post">
+        <a href="/tags/scripting/">scripting</a>
         
-<a class="post-title" href="/2017/12/29/tap-and-yield-self/">Ruby 2.5 - Tap and Yield Self</a><br><small>December 29, 2017</small>
-
-    <img class="img-small" alt="Cover image for Ruby 2.5 - Tap and Yield Self" src="/img/yield.jpg">
-
-<small>Tags: 
-
-    ruby 
-
-</small>
-
-    </li>
-    
-    <li class="post">
+        <a href="/tags/tutorial/">tutorial</a>
         
-<a class="post-title" href="/2017/11/27/thunder-struct/">Thunder-Struct</a><br><small>November 27, 2017</small>
-
-    <img class="img-small" alt="Cover image for Thunder-Struct" src="/img/thunder-struct.jpg">
-
-<small>Tags: 
-
-    ruby 
-
-    tricks 
-
-    design-intent 
-
-    struct 
-
-</small>
-
-    </li>
-    
-    <li class="post">
-        
-<a class="post-title" href="/2017/11/14/cake-and-duplicates/">Cake and Duplicates</a><br><small>November 14, 2017</small>
-
-    <img class="img-small" alt="Cover image for Cake and Duplicates" src="/img/cake.jpg">
-
-<small>Tags: 
-
-    algorithms 
-
-    ruby 
-
-    big-o 
-
-    linked-lists 
-
-</small>
-
-    </li>
-    
-    <li class="post">
-        
-<a class="post-title" href="/2017/10/16/secret-message/">Secret Message</a><br><small>October 16, 2017</small>
-
-    <img class="img-small" alt="Cover image for Secret Message" src="/img/secret-blob.png">
-
-<small>Tags: 
-
-    ruby 
-
-    puzzle 
-
-    interview 
-
-    performance 
-
-</small>
-
-    </li>
-    
-    <li class="post">
-        
-<a class="post-title" href="/2017/10/05/smooth-one-liners/">Smooth Ruby One-Liners</a><br><small>October 05, 2017</small>
-
-    <img class="img-small" alt="Cover image for Smooth Ruby One-Liners" src="/img/one-liner.png">
-
-<small>Tags: 
-
-    ruby 
-
-    bash 
-
-    sysadmin 
-
-</small>
-
-    </li>
-    
-    <li class="post">
-        
-<a class="post-title" href="/2017/08/26/metaprogramming-python-method-missing/">Metaprogramming Python - Method Missing</a><br><small>August 26, 2017</small>
-
-    <img class="img-small" alt="Cover image for Metaprogramming Python - Method Missing" src="/img/metaprogramming.jpg">
-
-<small>Tags: 
-
-    python 
-
-    ruby 
-
-    metaprogramming 
-
-</small>
-
-    </li>
-    
-    <li class="post">
-        
-<a class="post-title" href="/2017/04/25/jekyll-tags-the-easy-way/">Jekyll Tags, the Easy Way</a><br><small>April 25, 2017</small>
-
-    <img class="img-small" alt="Cover image for Jekyll Tags, the Easy Way" src="/img/tags.png">
-
-<small>Tags: 
-
-    ruby 
-
-    jekyll 
-
-</small>
-
-    </li>
-    
-    <li class="post">
-        
-<a class="post-title" href="/2017/04/25/built-in-methods/">Built-In Methods</a><br><small>April 25, 2017</small>
-
-    <img class="img-small" alt="Cover image for Built-In Methods" src="/img/method.png">
-
-<small>Tags: 
-
-    ruby 
-
-    tricks 
-
-</small>
-
-    </li>
-    
-</ul>
-
-<!-- Tags List -->
-<hr>
-<p>
-    
-    <a href="/tags/python/" style="font-size: 64px">python | </a>
-    
-    <a href="/tags/django/" style="font-size: 20px">django | </a>
-    
-    <a href="/tags/rails/" style="font-size: 12px">rails | </a>
-    
-    <a href="/tags/algorithms/" style="font-size: 20px">algorithms | </a>
-    
-    <a href="/tags/editors/" style="font-size: 18px">editors | </a>
-    
-    <a href="/tags/emacs/" style="font-size: 14px">emacs | </a>
-    
-    <a href="/tags/ai/" style="font-size: 12px">ai | </a>
-    
-    <a href="/tags/r/" style="font-size: 12px">r | </a>
-    
-    <a href="/tags/tools/" style="font-size: 14px">tools | </a>
-    
-    <a href="/tags/javascript/" style="font-size: 24px">javascript | </a>
-    
-    <a href="/tags/not-magic/" style="font-size: 14px">not-magic | </a>
-    
-    <a href="/tags/soft-skills/" style="font-size: 20px">soft-skills | </a>
-    
-    <a href="/tags/tricks/" style="font-size: 38px">tricks | </a>
-    
-    <a href="/tags/vscode/" style="font-size: 14px">vscode | </a>
-    
-    <a href="/tags/vim/" style="font-size: 16px">vim | </a>
-    
-    <a href="/tags/sublime/" style="font-size: 12px">sublime | </a>
-    
-    <a href="/tags/puzzle/" style="font-size: 18px">puzzle | </a>
-    
-    <a href="/tags/bash/" style="font-size: 18px">bash | </a>
-    
-    <a href="/tags/math/" style="font-size: 14px">math | </a>
-    
-    <a href="/tags/teaching/" style="font-size: 14px">teaching | </a>
-    
-    <a href="/tags/ruby/" style="font-size: 30px">ruby | </a>
-    
-    <a href="/tags/jekyll/" style="font-size: 14px">jekyll | </a>
-    
-    <a href="/tags/git/" style="font-size: 18px">git | </a>
-    
-    <a href="/tags/physics/" style="font-size: 12px">physics | </a>
-    
-    <a href="/tags/fun/" style="font-size: 16px">fun | </a>
-    
-    <a href="/tags/scientific/" style="font-size: 14px">scientific | </a>
-    
-    <a href="/tags/pythonic/" style="font-size: 14px">pythonic | </a>
-    
-    <a href="/tags/functional/" style="font-size: 18px">functional | </a>
-    
-    <a href="/tags/vue/" style="font-size: 20px">vue | </a>
-    
-    <a href="/tags/es6/" style="font-size: 18px">es6 | </a>
-    
-    <a href="/tags/tutorial/" style="font-size: 38px">tutorial | </a>
-    
-    <a href="/tags/exercise/" style="font-size: 12px">exercise | </a>
-    
-    <a href="/tags/fitness/" style="font-size: 12px">fitness | </a>
-    
-    <a href="/tags/sysadmin/" style="font-size: 16px">sysadmin | </a>
-    
-    <a href="/tags/linux/" style="font-size: 14px">linux | </a>
-    
-    <a href="/tags/html/" style="font-size: 16px">html | </a>
-    
-    <a href="/tags/seo/" style="font-size: 12px">seo | </a>
-    
-    <a href="/tags/social/" style="font-size: 12px">social | </a>
-    
-    <a href="/tags/metaprogramming/" style="font-size: 12px">metaprogramming | </a>
-    
-    <a href="/tags/css/" style="font-size: 12px">css | </a>
-    
-    <a href="/tags/front-end/" style="font-size: 14px">front-end | </a>
-    
-    <a href="/tags/animations/" style="font-size: 12px">animations | </a>
-    
-    <a href="/tags/p5/" style="font-size: 18px">p5 | </a>
-    
-    <a href="/tags/beginner/" style="font-size: 18px">beginner | </a>
-    
-    <a href="/tags/encouragement/" style="font-size: 16px">encouragement | </a>
-    
-    <a href="/tags/screencast/" style="font-size: 12px">screencast | </a>
-    
-    <a href="/tags/showdev/" style="font-size: 12px">showdev | </a>
-    
-    <a href="/tags/interview/" style="font-size: 12px">interview | </a>
-    
-    <a href="/tags/performance/" style="font-size: 14px">performance | </a>
-    
-    <a href="/tags/workflow/" style="font-size: 12px">workflow | </a>
-    
-    <a href="/tags/best-practice/" style="font-size: 12px">best-practice | </a>
-    
-    <a href="/tags/oss/" style="font-size: 12px">oss | </a>
-    
-    <a href="/tags/static-site/" style="font-size: 12px">static-site | </a>
-    
-    <a href="/tags/big-o/" style="font-size: 12px">big-o | </a>
-    
-    <a href="/tags/linked-lists/" style="font-size: 12px">linked-lists | </a>
-    
-    <a href="/tags/design-intent/" style="font-size: 12px">design-intent | </a>
-    
-    <a href="/tags/struct/" style="font-size: 12px">struct | </a>
-    
-    <a href="/tags/browser/" style="font-size: 12px">browser | </a>
-    
-    <a href="/tags/focus/" style="font-size: 12px">focus | </a>
-    
-    <a href="/tags/productivity/" style="font-size: 16px">productivity | </a>
-    
-    <a href="/tags/codenewbie/" style="font-size: 12px">codenewbie | </a>
-    
-    <a href="/tags/reflection/" style="font-size: 12px">reflection | </a>
-    
-    <a href="/tags/update/" style="font-size: 12px">update | </a>
-    
-    <a href="/tags/preview/" style="font-size: 12px">preview | </a>
-    
-    <a href="/tags/gtd/" style="font-size: 12px">gtd | </a>
-    
-    <a href="/tags/bullet-journal/" style="font-size: 12px">bullet-journal | </a>
-    
-    <a href="/tags/data-science/" style="font-size: 12px">data-science | </a>
-    
-    <a href="/tags/singleton/" style="font-size: 12px">singleton | </a>
-    
-    <a href="/tags/basics/" style="font-size: 12px">basics | </a>
-    
-    <a href="/tags/powershell/" style="font-size: 12px">powershell | </a>
-    
-    <a href="/tags/terminal/" style="font-size: 12px">terminal | </a>
-    
-    <a href="/tags/security/" style="font-size: 12px">security | </a>
-    
-    <a href="/tags/scripting/" style="font-size: 14px">scripting | </a>
-    
-    <a href="/tags/itertools/" style="font-size: 12px">itertools | </a>
-    
-    <a href="/tags/shell/" style="font-size: 12px">shell | </a>
-    
-    <a href="/tags/quicktip/" style="font-size: 12px">quicktip | </a>
-    
-</p>
+    </small>
     
     <div class="email-background">
     <form class="email-signup" action="https://tinyletter.com/rpalo" method="post" target="popupwindow"

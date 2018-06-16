@@ -6,9 +6,198 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 16 Jun 2018 10:02:04 -0700</pubDate>
-    <lastBuildDate>Sat, 16 Jun 2018 10:02:04 -0700</lastBuildDate>
+    <pubDate>Sat, 16 Jun 2018 12:16:49 -0700</pubDate>
+    <lastBuildDate>Sat, 16 Jun 2018 12:16:49 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Python Scripting Toolbox: Part 2 - String Templates and `argparse`</title>
+        <description>&lt;p&gt;&lt;em&gt;Cover photo by Philip Swinburn on Unsplash&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;This is Part 2 in the Python Scripting Toolbox series.  It’s a three-part survey of the tools available to us for Python scripting.  I’m showing off the functionality by creating three scripts that show off different parts of the standard library.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;In &lt;a href=&quot;/2018/06/05/python-toolbox-shout/&quot;&gt;Part 1&lt;/a&gt;, we built &lt;code&gt;shout.py&lt;/code&gt;: a script that shouts everything you pass into it.&lt;/li&gt;
+  &lt;li&gt;In Part 2, we’ll create &lt;code&gt;make_script.py&lt;/code&gt;: a script that generates a starter script from a template, for use in things like &lt;a href=&quot;https://projecteuler.net/&quot;&gt;Project Euler&lt;/a&gt; or &lt;a href=&quot;http://rosalind.info/problems/locations/&quot;&gt;Rosalind&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Next time, Part 3 will feature &lt;code&gt;project_setup.py&lt;/code&gt;: a script that creates a basic project skeleton&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Now, let’s get started.&lt;/p&gt;
+
+&lt;h2 id=&quot;script-2-make_scriptpy&quot;&gt;Script 2: &lt;code&gt;make_script.py&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;When doing coding challenges where you are supposed to write the code on your local machine and then just submit the answer once you find it, you find yourself rewriting a lot of the same boiler plate over and over for reading in command line arguments, parsing things, and outputting results, when the real meat and potatoes of your work is in the main function of the script.  Handling input and output is just a side task.  Wouldn’t it be nice if we could just script away this grunt work and get started on the coding problem sooner?  That’s what we’re doing today.&lt;/p&gt;
+
+&lt;p&gt;Here are our requirements.  We’re creating a Python script called &lt;code&gt;make_script.py&lt;/code&gt;.  We want it to create a Python script from a template, filling in some variable names, docstrings, or other small variations based on our user inputs.  If it could have sensible defaults, that would be a plus.  Let’s get started.&lt;/p&gt;
+
+&lt;h3 id=&quot;step-1-the-template&quot;&gt;Step 1: The Template&lt;/h3&gt;
+
+&lt;p&gt;First, I want to come up with what our template should look like.  Open a file named &lt;code&gt;script.py.template&lt;/code&gt;.  That’s not a convention, it’s a file ending I made up.  You can call it whatever you want.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;&quot;&quot;&quot;$docstring&quot;&quot;&quot;
+
+import sys
+
+
+def main($input):
+    $output = &quot;&quot;
+    return $output
+  
+
+if __name__ == &quot;__main__&quot;:
+    $input = sys.argv[1]
+    $output = main($input)
+    print($output)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Not a whole lot there, not super fancy, but it should save us some typing.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;But, Ryan!  What’s with all of those dollar signs?  I thought this was Python, not PHP!&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;You are correct.  We’re going to be using the &lt;code&gt;template&lt;/code&gt; class in Python’s &lt;code&gt;string&lt;/code&gt; module of the standard library.  It’s good to note that there are several very good templating libraries that aren’t in the standard library but have quite a bit more power.  &lt;a href=&quot;http://jinja.pocoo.org/docs/2.10/&quot;&gt;Jinja2&lt;/a&gt; and &lt;a href=&quot;https://docs.djangoproject.com/en/2.0/ref/templates/api/&quot;&gt;Django Templates&lt;/a&gt; come to mind right away.  But this will get us where we need to go.&lt;/p&gt;
+
+&lt;p&gt;With this templating language, we simply specify a variable with a dollar sign in front of it.  If you want to show an &lt;em&gt;actual&lt;/em&gt; dollar sign, simply use 2 dollar signs in a row (&lt;code&gt;$$&lt;/code&gt;).  This will render out as a single dollar sign.  Now, on to our actual code.&lt;/p&gt;
+
+&lt;h3 id=&quot;step-2-filling-in-the-template&quot;&gt;Step 2: Filling In the Template&lt;/h3&gt;
+
+&lt;p&gt;The code to actually fill in this template is not very many lines.  Create a new file called &lt;code&gt;make_script.py&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;&quot;&quot;&quot;Creates a script from a basic template.&quot;&quot;&quot;
+
+import string
+
+with open(&quot;script.py.template&quot;, &quot;r&quot;) as f:
+    template_text = f.read()
+
+data = {
+    &quot;docstring&quot;: &quot;Hey look at this cool script.&quot;,
+    &quot;input&quot;: &quot;dat_arg&quot;,
+    &quot;output&quot;: &quot;awesome_result&quot;
+}
+
+template = string.Template(template_text)
+result = template.substitute(data)
+
+with open(&quot;new_script.py&quot;, &quot;w&quot;) as f:
+    f.write(result)
+
+print(result)
+print(&quot;----&quot;)
+print(&quot;Script created!&quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are essentially four steps to this:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Read the template into a string.&lt;/li&gt;
+  &lt;li&gt;Create a Template object from this string (provided by the Standard Libary’s &lt;code&gt;string&lt;/code&gt; module).&lt;/li&gt;
+  &lt;li&gt;Substitute in data.  This can be done as keyword arguments to the &lt;code&gt;substitute&lt;/code&gt; method, or (like we did it) as a dictionary.  Either way, the keys should be the names of variables defined in the template, and the values should be what you want to substitute in.&lt;/li&gt;
+  &lt;li&gt;Write the newly processed result to a new file.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;If you try running &lt;code&gt;python make_script.py&lt;/code&gt;, you should see the results of the substitution in your terminal as well as in a new file called &lt;code&gt;new_script.py&lt;/code&gt;.  Pretty cool, ja?&lt;/p&gt;
+
+&lt;p&gt;This is great, but we don’t want to have to go in and change the values in &lt;code&gt;make_script.py&lt;/code&gt; any time we want to create a new script.  We’d like our script to be a little more dynamic and maybe have a little better user interface.  Looks like it’s time for…&lt;/p&gt;
+
+&lt;h3 id=&quot;step-3-argparseing-our-way-to-cli-greatness&quot;&gt;Step 3: &lt;code&gt;argparse&lt;/code&gt;ing Our Way to CLI Greatness&lt;/h3&gt;
+
+&lt;p&gt;We’d like our script to take some arguments, some options, and maybe show a help message.  Once again, I’d like to note that there are some excellent CLI libraries out there if you want a little more power.  I think &lt;a href=&quot;http://click.pocoo.org/5/&quot;&gt;Click&lt;/a&gt; is probably my favorite.  I wrote an article a while ago about &lt;a href=&quot;https://assertnotmagic.com/2016/11/27/discovering-click/&quot;&gt;using Click&lt;/a&gt;.  Be gentle — it was one of my first blog posts!&lt;/p&gt;
+
+&lt;p&gt;Anyways, we’ve committed to using &lt;em&gt;only&lt;/em&gt; the Standard Library in these guides, so we’ll soldier on with our friend &lt;code&gt;argparse&lt;/code&gt;.  For more examples and information, you can take a look at the &lt;a href=&quot;https://docs.python.org/3/library/argparse.html&quot;&gt;&lt;code&gt;argparse&lt;/code&gt; documentation&lt;/a&gt;.  For now, I think it’s best to just show you the new, shiny version of &lt;code&gt;make_script.py&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;&quot;&quot;&quot;Creates a script from a basic template.&quot;&quot;&quot;
+
+import argparse
+import string
+
+parser = argparse.ArgumentParser(description=&quot;Create new Python scripts from a template.&quot;)
+parser.add_argument(&quot;scriptname&quot;, help=&quot;The name of the new script to create&quot;)
+parser.add_argument(
+    &quot;-d&quot;, 
+    &quot;--docstring&quot;,
+    help=&quot;The docstring to be placed at the top of the script&quot;,
+    default=&quot;Placeholder docstring&quot;
+)
+parser.add_argument(
+    &quot;-i&quot;,
+    &quot;--input&quot;,
+    help=&quot;The name of the variable used as the input parameter&quot;,
+    default=&quot;inval&quot;
+)
+parser.add_argument(
+    &quot;-r&quot;,
+    &quot;--result&quot;,
+    help=&quot;The name of the variable used as the result/output&quot;,
+    default=&quot;result&quot;
+)
+
+args = parser.parse_args()
+
+# ...  You'll see how we use these args in a minute
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once we’ve imported the &lt;code&gt;argparse&lt;/code&gt; module, we can create our argument parser.  We’ll tell this argument parser about all of the arguments and options that we’re expecting.  By default, any argument that starts with a &lt;code&gt;-&lt;/code&gt; is considered an optional… um… option, while everything else is considered a required argument.&lt;/p&gt;
+
+&lt;p&gt;If you provide each argument with a &lt;code&gt;help&lt;/code&gt; value, it will make your help text really look shiny.  At the end, you process the arguments provided by the user with the &lt;code&gt;parse_args&lt;/code&gt; method.  Let’s take a look at how to use them.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;# ... Everything in the previous code block
+
+with open(&quot;script.py.template&quot;, &quot;r&quot;) as f:
+    template_text = f.read()
+
+data = {
+    &quot;docstring&quot;: args.docstring,
+    &quot;input&quot;: args.input,
+    &quot;output&quot;: args.result
+}
+
+template = string.Template(template_text)
+result = template.substitute(data)
+
+with open(args.scriptname, &quot;w&quot;) as f:
+    f.write(result)
+    
+print(result)
+print(&quot;----&quot;)
+print(&quot;Script created!&quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;All of the arguments are available under the &lt;code&gt;args&lt;/code&gt; &lt;em&gt;namespace&lt;/em&gt;, which basically just means that you can access them via &lt;code&gt;args.whatever_your_variable_is&lt;/code&gt;.  The variable name will be whatever name you passed into the &lt;code&gt;add_argument&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;p&gt;Now, if you run your script, it will complain if the right things aren’t passed in, &lt;em&gt;and&lt;/em&gt; if you run &lt;code&gt;python make_script.py —help&lt;/code&gt;, it prints out a pretty little help message.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ python make_script.py --help
+usage: make_script.py [-h] [-d DOCSTRING] [-i INPUT] [-r RESULT] scriptname
+
+Create new Python scripts from a template.
+
+positional arguments:
+  scriptname            The name of the new script to create
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d DOCSTRING, --docstring DOCSTRING
+                        The docstring to be placed at the top of the script
+  -i INPUT, --input INPUT
+                        The name of the variable used as the input parameter
+  -r RESULT, --result RESULT
+                        The name of the variable used as the result/output
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Next time, we’ll work on a script that will build a project directory for us.  Thanks for reading!&lt;/p&gt;
+</description>
+        <pubDate>Sat, 16 Jun 2018 00:00:00 -0700</pubDate>
+        <link>https://assertnotmagic.com/2018/06/16/python-toolbox-make-script/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/06/16/python-toolbox-make-script/</guid>
+        
+        <category>python</category>
+        
+        <category>scripting</category>
+        
+        <category>tutorial</category>
+        
+        
+      </item>
     
       <item>
         <title>Command Not Found... Dum Dum</title>
@@ -2262,162 +2451,6 @@ plt.show()
         <category>scientific</category>
         
         <category>tutorial</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Get on the Bullet Journaling Train</title>
-        <description>&lt;p&gt;In early February, I learned about &lt;a href=&quot;http://bulletjournal.com/get-started/&quot;&gt;bullet journaling&lt;/a&gt;.  After trying it for a couple of months and loving it, I wanted to share an introduction and my own personal modifications and tips.&lt;/p&gt;
-
-&lt;h2 id=&quot;bullet-journaling-what-is-it&quot;&gt;Bullet Journaling: What is It?&lt;/h2&gt;
-
-&lt;p&gt;Fundamentally, Bullet Journaling is just a structured way to keep track of your thoughts efficiently, without putting an extra unnecessary load on your life to do it.  The bullet journal understands that you are busy, and you don’t always have time to sit down and pour out your deepest thoughts and feelings.  “Dear diary…”  Instead, you condense your thoughts down into small, bite-sized chunks and phrases, the most fundamental of which is the “bullet.”&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/bullet-dot.jpg&quot; width=&quot;100&quot; height=&quot;100&quot; alt=&quot;A dot&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This humble dot signifies a task or something with an action item.  We’ll discuss more about the specifics in a minute.  I want to finish up my high-level overview first.&lt;/p&gt;
-
-&lt;p&gt;There are a few main strategies that we’ll cover.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;What You Need&lt;/li&gt;
-  &lt;li&gt;The Index&lt;/li&gt;
-  &lt;li&gt;The Long View&lt;/li&gt;
-  &lt;li&gt;The Month View&lt;/li&gt;
-  &lt;li&gt;The Daily Log&lt;/li&gt;
-  &lt;li&gt;The List/Notes Page&lt;/li&gt;
-  &lt;li&gt;Threading&lt;/li&gt;
-  &lt;li&gt;Different Types of Bullets&lt;/li&gt;
-  &lt;li&gt;Migrating and Scheduling&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Following these topics, I’ll finish up with some mindset tips and things I’ve learned.&lt;/p&gt;
-
-&lt;h2 id=&quot;bullet-journaling-how-to-do-it&quot;&gt;Bullet Journaling: How to Do It&lt;/h2&gt;
-
-&lt;h3 id=&quot;1-what-you-need&quot;&gt;1. What You Need&lt;/h3&gt;
-
-&lt;p&gt;You can really use any medium that you can record information on, paper or digital.  However, I prefer using a nice, hard-bound notebook with at least one attached bookmark.  I also like to use pretty thick paper with graph lines or a dot matrix on it.  If it has a slightly yellow tint, even better.  I bought &lt;a target=&quot;_blank&quot; href=&quot;https://www.amazon.com/gp/product/1441323716/ref=as_li_tl?ie=UTF8&amp;amp;camp=1789&amp;amp;creative=9325&amp;amp;creativeASIN=1441323716&amp;amp;linkCode=as2&amp;amp;tag=ryanpalo-20&amp;amp;linkId=2afec5d8eff5ce5ca3b20158fead9db4&quot;&gt;this one&lt;/a&gt;&lt;img src=&quot;//ir-na.amazon-adsystem.com/e/ir?t=ryanpalo-20&amp;amp;l=am2&amp;amp;o=1&amp;amp;a=1441323716&quot; width=&quot;1&quot; height=&quot;1&quot; border=&quot;0&quot; alt=&quot;&quot; style=&quot;border:none !important; margin:0px !important;&quot; /&gt;and I love it.  I also highly recommend you get a really nice pen.  Like, at least a five dollar pen.  I find that it adds to the meditative effect of bullet journaling if my tools make me feel like a &lt;em&gt;scholar&lt;/em&gt;.  😀 Since my notebook has a little pocket flap in the back, I like to keep a small ruler in there in case I want to make any &lt;em&gt;really&lt;/em&gt; straight lines.&lt;/p&gt;
-
-&lt;p&gt;Now that you have your tools, let’s get started.&lt;/p&gt;
-
-&lt;h3 id=&quot;2-the-index&quot;&gt;2. The Index&lt;/h3&gt;
-
-&lt;p&gt;The Index is what keeps your whole journal tied together and allows you to take notes whenever you need without stressing out about how many pages to give yourself.  Open up your notebook to the first full blank spread.  Label these two pages and the next two with the word “Index.”&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/bullet-index-blank.jpg&quot; alt=&quot;The blank Index section&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Also, in the bottom outside corner of each of these four pages, number the pages (1, 2, 3, and 4).  This index will tell you where in your journal different sections start and end.  Since there is nothing in our journal yet, our index is blank.  We’ll fill it in some as we add some of the next sections.  The main thing is to know that as we add sections, they’ll end up looking like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/bullet-index-item.jpg&quot; alt=&quot;An index item&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Since our journal is flexible, it lets us interrupt sections with other sections.  We keep track of these jumps with comma-separated page regions.&lt;/p&gt;
-
-&lt;h3 id=&quot;3-the-long-view&quot;&gt;3. The Long View&lt;/h3&gt;
-
-&lt;p&gt;The long view is a two-page glance at the next six months.  Open up your notebook to the first blank spread after your Index pages.  If you have a ruler, now’s the time to use it.  Draw two horizontal lines on each page, separating these two pages into six equal regions.  Label each of these sections in the upper left with the next six months.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/bullet-long-blank.jpg&quot; alt=&quot;The blank Long View section&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This section is for keeping tasks and information that is either a long-term goal or not immediately actionable.  If someone invited you to a wedding in three months, this would be the perfect section for it.  Add some goals to this section using a bullet point.  When you complete these tasks, you can put a little X over the bullet point.  We’ll talk more about different bullet styles for different items later.&lt;/p&gt;
-
-&lt;p&gt;You’ll use this section. to remind you of things when you fill in the more short-term sections in the next few months.  And, since we’ve added a new section to our journal, don’t forget to add page numbers to the bottom of each page and add this section to your Index.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/bullet-index-long-view.jpg&quot; alt=&quot;Adding the Long View to the Index&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Bullet Journaling is a constant process of keeping track of the immediate and short-term stuff while frequently zooming out to take in the big picture as well.  You’ll see that as we continue the next few sections, gradually zooming in on your life.&lt;/p&gt;
-
-&lt;h3 id=&quot;4-the-month-view&quot;&gt;4. The Month View&lt;/h3&gt;
-
-&lt;p&gt;Great!  Now that we’re in command of our six-month goals, the next main page type is the month overview page.  Open your journal to the next blank spread after the Long View.  Title both pages with the name of the current month (which should be the first month on your Long View).  The left page will be your calendar page.  Fill in a vertical column with every number day in the month.  For March, that would be 1 to 31, each on its own row.  Just beside these numbers, put a letter or two to signify which day of the week this date will be.  I also like to put a horizontal line between each week to help me visually see where I’m at more easily.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/bullet-month-calendar.jpg&quot; alt=&quot;Calendar month view&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The right page of this spread will be the bullet page.  Put down any to-do’s, tasks, goals, or notes that you can think of that will come up this month.  I like to write any important dates/holidays/birthdays on the left side next to the numbers and letters.  Be sure to turn back to your Long View to see if there’s anything there that you can import into your first month section.  This will be an often-used technique.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/bullet-month-task.jpg&quot; alt=&quot;Task Month View&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Once you’re done, don’t forget to add some page numbers and add this section to your Index.&lt;/p&gt;
-
-&lt;h3 id=&quot;5-the-daily-log&quot;&gt;5. The Daily Log&lt;/h3&gt;
-
-&lt;p&gt;This entry type will be the majority of what you do in the bullet journal.  Once again, open up your journal to the first available blank spread after your first Month View and label it with “(Name of Month) Daily Log”.  Then, place a section header on the page with today’s date.  Put any tasks or to-do items that you want to get done today.  Just like before, don’t forget to flip back to the Month View and even the Long View to see if there are any items that need to be imported into today’s tasks.&lt;/p&gt;
-
-&lt;p&gt;Try to be realistic, but don’t be afraid to put some stretch goals down as well.  If you don’t get something done today that you planned on, don’t stress out.  Just work on one day at a time.  At the end of the day, I like to put some notes about other things I did that day or what else happened.  I find that, over time, this helps me actually remember the days and weeks that pass better, helping me treat each day as more special.  I tend to get to the end of the week and can remember the things I accomplished, keeping things from getting monotonous.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/bullet-daily-log.jpg&quot; alt=&quot;Filled-in Daily Log&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Add some page numbers and add your Daily Log section to your index.  Since you’re not sure how many pages this will take up, just put a starting page number and a dash.  If something else comes up and interrupts your Daily Log, you can put the ending page number and a comma, and put the next section of the Daily Log into the index when you start it back up again.  We’ll talk more about this in the Threading section.&lt;/p&gt;
-
-&lt;h3 id=&quot;6-the-listnotes-page&quot;&gt;6. The List/Notes Page&lt;/h3&gt;
-
-&lt;p&gt;It might happen that you’re going through your daily logs and you decide to watch a how-to video or take on online course — something where you want to take notes.  I do this a lot while reading programming books and tutorials, and I’ve found it really helps me remember things a lot better, and gives me a little better information source than having to constantly Google the same things.  Simply put a header at the top of the page, give yourself a few blank pages to take notes in, and start jotting down your notes.  Add page numbers as you get to each page, and add this section to your Index so you can find it again later.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/bullet-list-page.jpg&quot; alt=&quot;List Page&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;7-threading&quot;&gt;7. Threading&lt;/h3&gt;
-
-&lt;p&gt;This is one of the key techiques of bullet journaling and the thing that makes it so flexible.  It’s how you can safely interrupt your daily logs with a grocery list or page of notes without worrying about leaving a bunch of blank pages in between.  Your notes sections can interrupt each other and stop and start as many times as you like.  It just makes your Index look like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/bullet-index-item.jpg&quot; alt=&quot;A skipping Index entry&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I’ve also found it useful to put a little note to myself about where the next section starts or ends above the page number in the section itself, so I don’t have to turn back to the Index all the time if I don’t need to.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/bullet-threading-note.jpg&quot; alt=&quot;Threading note above a page number&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;8-different-types-of-bullets&quot;&gt;8. Different Types of Bullets&lt;/h3&gt;
-
-&lt;p&gt;As we’ve discussed, the basic task unit of bullet journaling is a dot.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/bullet-dot.jpg&quot; width=&quot;100&quot; height=&quot;100&quot; alt=&quot;A dot&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;When you complete this task, you should put a little X over it, like this.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/bullet-types.jpg&quot; alt=&quot;Different bullet types&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;One of the main goals of bullet journaling is helping you weed out the things that aren’t worth your time.  If you decide a task just isn’t going to get completed or you don’t want to do it, just put a single line through it.&lt;/p&gt;
-
-&lt;p&gt;If you have something that you want to note down, but it isn’t really a task to complete, use a dash.&lt;/p&gt;
-
-&lt;p&gt;If you’ve got a task that is important or that you want to draw extra attention to, put a little asterisk next to it.&lt;/p&gt;
-
-&lt;p&gt;If you’ve got something exciting or neat (usually paired with an information/note dash), put a little exclamation mark next to it.&lt;/p&gt;
-
-&lt;p&gt;If something needs a little more looking into, put a little eye next to it (or something that vaguely resembles an eye).&lt;/p&gt;
-
-&lt;h3 id=&quot;9-migrating-and-scheduling&quot;&gt;9. Migrating and Scheduling&lt;/h3&gt;
-
-&lt;p&gt;At the end of each month, you should go through the previous Month Log and the previous month’s Daily Logs.  Find all of the tasks that weren’t completed.  Now is a good time to put a line through anything that ended up not mattering or not getting done.  If there’s something that still ought to get done, you have a couple of options.  You can put a forward-facing arrow and push in into your next month’s Month Log or a Collection/List page that you’ve created.  This is called “Migrating” a task.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/bullet-migration.jpg&quot; alt=&quot;A migrated task&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Or, you can send it back to the Long View to get completed sometime in the future.  Do this by putting a backwards-facing arrow in front of it.  Then be sure to write it in the Long View in the appropriate place.  This is called “Scheduling” a task.  (I like to call it creating a problem for Future-Me).&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/bullet-scheduling.jpg&quot; alt=&quot;A scheduled task&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;locked-and-loaded&quot;&gt;Locked and Loaded&lt;/h2&gt;
-
-&lt;p&gt;If you’ve made it this far, you’re well on your way to being a bullet journaling master.  Here are the main things to take away.  Bullets should be fast, so they’re not a burden on your schedule, but they don’t have to be.  If you’ve got some extra time to sit down and take more detailed notes, good on you.&lt;/p&gt;
-
-&lt;p&gt;This method is designed to be low-stress.  Don’t freak out if you forget to do a daily log.  Just catch up the next day and do some info dashes to remind you of what you did that day.  If you make it a stressful thing, then when you miss a day, you’ll feel bad that you have to do two days worth of stressful things and you’ll want to skip it that much more.  The best way to stay consistent is to make your bullet journal a happy place and not beat yourself up about doing it wrong.  Cut yourself some slack.&lt;/p&gt;
-
-&lt;p&gt;Final Pro-Tip: Make sure to put your name and contact info at the very front of your bullet journal.  You wouldn’t want to lose it with no chance of anyone contacting you when they find it, would you?&lt;/p&gt;
-
-&lt;p&gt;For more information, go to the official &lt;a href=&quot;http://bulletjournal.com/&quot;&gt;Bullet Journal website&lt;/a&gt;.  They’ve got a lot of great resources, and you can even buy actual “Bullet Journals” from them.&lt;/p&gt;
-
-&lt;p&gt;Everybody does their journals a little differently.  My mom likes to get really artsy and color in her Monthly Logs.  I rarely draw in my journal.  I like bullets and straight lines and consistent formatting (hence my journal’s built-in ruler pouch).  It soothes me.  I want to hear from you.  If you’ve got another type of page that you like to include in your journal that I didn’t mention, show me in the comments or &lt;a href=&quot;https://twitter.com/paytastic&quot;&gt;tweet me a picture&lt;/a&gt; and I’ll share it with my army of followers (double-digits, baby, awww yeah!).&lt;/p&gt;
-
-&lt;p&gt;Thanks again for reading!&lt;/p&gt;
-
-</description>
-        <pubDate>Sun, 25 Mar 2018 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2018/03/25/bullet-journal/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2018/03/25/bullet-journal/</guid>
-        
-        <category>productivity</category>
-        
-        <category>bullet-journal</category>
         
         
       </item>
