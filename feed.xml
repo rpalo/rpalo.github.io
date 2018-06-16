@@ -6,9 +6,99 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 09 Jun 2018 12:31:32 -0700</pubDate>
-    <lastBuildDate>Sat, 09 Jun 2018 12:31:32 -0700</lastBuildDate>
+    <pubDate>Sat, 16 Jun 2018 10:02:04 -0700</pubDate>
+    <lastBuildDate>Sat, 16 Jun 2018 10:02:04 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Command Not Found... Dum Dum</title>
+        <description>&lt;p&gt;Do you know what time it is?  That’s right.  It’s time for a&lt;/p&gt;
+
+&lt;h2 id=&quot;quiiiiick-tip&quot;&gt;QUIIIIICK TIP&lt;/h2&gt;
+
+&lt;p&gt;This tip comes from the &lt;a href=&quot;https://amzn.to/2t7Fp1i&quot;&gt;Bash Pocket Reference, 2nd Ed.&lt;/a&gt; by Arnold Robbins.&lt;/p&gt;
+
+&lt;p&gt;Do you know how Bash (and similar shells) look for commands when you give it a command?  Here’s the list:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;First, it checks to see if what you’ve typed is a language keyword like &lt;code&gt;for&lt;/code&gt; or &lt;code&gt;while&lt;/code&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Next, it checks your aliases.  Interestingly, the book above states (and cites other sources that agree) that you should basically never use aliases!  It says writing a function should almost always be preferred – contrary to a lot of StackOverflow answers I’ve seen.  I think I agree, actually.  Writing functions seems much cleaner and easier to come back to and modify later.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Then, it checks for special built-in functions like &lt;code&gt;break&lt;/code&gt;, &lt;code&gt;exit&lt;/code&gt;, or &lt;code&gt;export&lt;/code&gt;.  These aren’t needed for the internals of the Bash language, necessarily, but they’re needed for scripting and interactive shells.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;After that, it looks at any functions you have defined.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Next are non-special built-ins.  These are commands like &lt;code&gt;cd&lt;/code&gt; and &lt;code&gt;test&lt;/code&gt;.  Since functions are checked before these, you could feasibly override &lt;code&gt;cd&lt;/code&gt; with your own function!&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;function cd() {
+  echo &quot;You're the best!&quot;
+  command cd &quot;$@&quot;  # Actually calls the real `cd`
+}
+
+$ cd ~/code
+# =&amp;gt; You're the best!
+# Now in ~/code
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Lastly, it hunts through the &lt;code&gt;$PATH&lt;/code&gt; to try to find scripts that match.&lt;/p&gt;
+
+&lt;p&gt;Here’s the tip: if Bash can’t find the command you typed in any of these places, it runs a function called &lt;code&gt;command_not_found_handle&lt;/code&gt;.  Aaaaand, if you so happen to override this function, it will call &lt;em&gt;your&lt;/em&gt; version instead!&lt;/p&gt;
+
+&lt;p&gt;Sooooo, if your terminal experience is just not quite hostile enough, you could feasibly put the following into your &lt;code&gt;.bash_profile&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;function command_not_found_handle() {
+  options=(
+    &quot;no.&quot;
+    &quot;No!&quot;
+    &quot;NO.&quot;
+    &quot;OMG NO.&quot;
+    &quot;Mother ****!&quot;
+    &quot;WHAT ARE YOU DOING?&quot;
+    &quot;Success!  JK, you're still a dum dum.&quot;
+  )
+  option_choice=$(( $RANDOM % 7 ))
+  echo &quot;${options[$option_choice]} '$*' command not found.&quot;
+  # The command that you tried is passed into
+  # this function as arguments, so $* will contain
+  # the entire command + arguments and options
+  
+  return 127   # 127 is the canonical exit code for
+  						# &quot;command not found&quot; 
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then, when you open up your terminal, you should see this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ hwaaaa
+# =&amp;gt; NO. 'hwaaaa' command not found.
+$ but why not tho
+# =&amp;gt; Success!  JK, you're a dum dum.  'but why not tho' command not found.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;All kidding aside, hopefully, you start to see how you could write some scripts to provide slightly more helpful/friendly error messages that maybe even show some possible options that were close to what you typed?&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Quick Tip Over.&lt;/strong&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sat, 16 Jun 2018 00:00:00 -0700</pubDate>
+        <link>https://assertnotmagic.com/2018/06/16/command-not-found/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/06/16/command-not-found/</guid>
+        
+        <category>bash</category>
+        
+        <category>shell</category>
+        
+        <category>quicktip</category>
+        
+        
+      </item>
     
       <item>
         <title>Each Pair with Itertools</title>
@@ -2328,83 +2418,6 @@ plt.show()
         <category>productivity</category>
         
         <category>bullet-journal</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Vim Filters</title>
-        <description>&lt;p&gt;Quick tip time!  Let’s talk about Vim filters.  This is a way to execute any external command and pipe the results into your current buffer.  This is a great way to get the power of your shell into vim without having to learn much VimScript.  Here are the basics:&lt;/p&gt;
-
-&lt;h2 id=&quot;reading-command-input-into-the-current-buffer&quot;&gt;Reading command input into the current buffer&lt;/h2&gt;
-
-&lt;p&gt;This is the simplest method:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-vim&quot;&gt;:r !ls
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This command will read the results of &lt;code&gt;ls&lt;/code&gt; into your buffer at your cursor location.  You can also specify the specific line to insert after.  The next command will read the results of the &lt;code&gt;ls&lt;/code&gt; command into your current buffer after line 4.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-vim&quot;&gt;:4r !ls
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;sending-buffer-contents-as-input-to-an-external-command&quot;&gt;Sending buffer contents as input to an external command&lt;/h2&gt;
-
-&lt;p&gt;You can also send lines of your buffer out to be replaced with the results of the command.  A common thing to do is to operate on the whole buffer you’re working on.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-vim&quot;&gt;:%!sort
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The &lt;code&gt;%&lt;/code&gt; selects the whole buffer, and then the &lt;code&gt;!&lt;/code&gt; sends the selected lines out to the external &lt;code&gt;sort&lt;/code&gt; command.  The whole buffer contents will be replaced with the results of the command.&lt;/p&gt;
-
-&lt;p&gt;For example.  Let’s say you’re working on a text file.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;# Attention, Everyone!
-
-This markdown file contains some **pretty interesting** stuff.
-
-I __mean__ it.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;But something’s just not quite there.  It needs some more zoom – some more whammy!  Try combining it with a &lt;a href=&quot;https://assertnotmagic.com/2017/10/05/smooth-one-liners/&quot;&gt;slick Ruby one liner!&lt;/a&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-vim&quot;&gt;:%!ruby -ne 'puts $_.upcase'
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And suddenly, the contents of your buffer is:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;# ATTENTION, EVERYONE
-
-THIS MARKDOWN FILE CONTAINS SOME **PRETTY INTERESTING** STUFF.
-
-I __MEAN__ IT.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This will work with any command.  You can use shell commands, or you can run it through a Python or Node script.  It gives you the power to select the best (or your favorite) tool for the job, instead of locking you into Vim’s capabilities alone.  And you can use other motions if you just want to replace a portion of your buffer.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-vim&quot;&gt;:!!ruby -ne 'puts $_.upcase'
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Two exclamation points will operate on the current line.&lt;/p&gt;
-
-&lt;p&gt;It also works on visually selected lines.  Select a couple lines in visual mode:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-vim&quot;&gt;v         &quot; Visual mode activated
-jj        &quot; Select next two lines
-:!sort    &quot; Sorts the lines that were selected.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;em&gt;Protip: If you accidentally run a command and blow away your file somehow, don’t panic.  Simply press &lt;code&gt;u&lt;/code&gt; in Normal mode to undo the operation.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Hope this comes in handy!&lt;/p&gt;
-</description>
-        <pubDate>Sun, 18 Mar 2018 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2018/03/18/vim-filters/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2018/03/18/vim-filters/</guid>
-        
-        <category>vim</category>
-        
-        <category>tricks</category>
         
         
       </item>

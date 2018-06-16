@@ -73,123 +73,82 @@
 
   <!-- Current Post -->
   
-    <h1 id="title">Each Pair with Itertools</h1>
-    <small>Jun 9, 2018</small>
-    <p><p><em>Cover Photo by <a href="https://unsplash.com/photos/hXaHghBkEMQ?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Dan Gold</a> on <a href="https://unsplash.com/search/photos/pears?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></em>.</p>
+    <h1 id="title">Command Not Found... Dum Dum</h1>
+    <small>Jun 16, 2018</small>
+    <p><p>Do you know what time it is?  That’s right.  It’s time for a</p>
 
-<p>Quick Tip Time!</p>
+<h2 id="quiiiiick-tip">QUIIIIICK TIP</h2>
 
-<p>This week I was working on some coding challenges on <a href="http://rosalind.info">Rosalind</a> in Python.  For one of the problems, I needed to run through consecutive groups of characters in a string and do something with them.  For example, if the string was “ACGTACAGTACTGACAGATCA”, I wanted to operate on the following substrings:</p>
+<p>This tip comes from the <a href="https://amzn.to/2t7Fp1i">Bash Pocket Reference, 2nd Ed.</a> by Arnold Robbins.</p>
 
-<pre><code class="language-text">"ACGT"
-"CGTA"
-"GTAC"
-"TACA"
-...
+<p>Do you know how Bash (and similar shells) look for commands when you give it a command?  Here’s the list:</p>
+
+<ol>
+  <li>
+    <p>First, it checks to see if what you’ve typed is a language keyword like <code>for</code> or <code>while</code>.</p>
+  </li>
+  <li>
+    <p>Next, it checks your aliases.  Interestingly, the book above states (and cites other sources that agree) that you should basically never use aliases!  It says writing a function should almost always be preferred – contrary to a lot of StackOverflow answers I’ve seen.  I think I agree, actually.  Writing functions seems much cleaner and easier to come back to and modify later.</p>
+  </li>
+  <li>
+    <p>Then, it checks for special built-in functions like <code>break</code>, <code>exit</code>, or <code>export</code>.  These aren’t needed for the internals of the Bash language, necessarily, but they’re needed for scripting and interactive shells.</p>
+  </li>
+  <li>
+    <p>After that, it looks at any functions you have defined.</p>
+  </li>
+  <li>
+    <p>Next are non-special built-ins.  These are commands like <code>cd</code> and <code>test</code>.  Since functions are checked before these, you could feasibly override <code>cd</code> with your own function!</p>
+  </li>
+</ol>
+
+<pre><code class="language-bash">function cd() {
+  echo "You're the best!"
+  command cd "$@"  # Actually calls the real `cd`
+}
+
+$ cd ~/code
+# =&gt; You're the best!
+# Now in ~/code
 </code></pre>
 
-<p>If I was writing in Ruby, this would be a perfect use case for the <a href="https://ruby-doc.org/core-2.5.1/Enumerable.html#method-i-each_cons">each_cons</a> method!  Unfortunately, no such luck with a similar function built-in to Python.  I ended up going with the slightly less pretty:</p>
+<p>Lastly, it hunts through the <code>$PATH</code> to try to find scripts that match.</p>
 
-<pre><code class="language-python">def each_cons(n, iterable):
-    """Returns every n consecutive items in an iterable.
-    Example: each_cons(4, range(10)) =&gt; [0, 1, 2, 3], [1, 2, 3, 4], [2, 3, 4, 5]...
-    """
-    return (iterable[i: i + n] for i in range(len(iterable) - n + 1))
+<p>Here’s the tip: if Bash can’t find the command you typed in any of these places, it runs a function called <code>command_not_found_handle</code>.  Aaaaand, if you so happen to override this function, it will call <em>your</em> version instead!</p>
+
+<p>Sooooo, if your terminal experience is just not quite hostile enough, you could feasibly put the following into your <code>.bash_profile</code>.</p>
+
+<pre><code class="language-bash">function command_not_found_handle() {
+  options=(
+    "no."
+    "No!"
+    "NO."
+    "OMG NO."
+    "Mother ****!"
+    "WHAT ARE YOU DOING?"
+    "Success!  JK, you're still a dum dum."
+  )
+  option_choice=$(( $RANDOM % 7 ))
+  echo "${options[$option_choice]} '$*' command not found."
+  # The command that you tried is passed into
+  # this function as arguments, so $* will contain
+  # the entire command + arguments and options
+  
+  return 127   # 127 is the canonical exit code for
+  						# "command not found" 
+}
 </code></pre>
 
-<p>Anytime you write <code>range(len(...</code>, there’s probably a better way you could have done things.  <strong>If you know a slicker, less indexy way to do this, please share it, because there’s got to be a better way.  I can’t be indexing into things manually like a barbarian.</strong></p>
+<p>Then, when you open up your terminal, you should see this:</p>
 
-<p>However, that’s not what this post is about.  In my search for a better way, I came across a clever use of the <code>itertools</code> module that was too good not to share.</p>
-
-<h2 id="each-pair-with-itertools">Each Pair with Itertools</h2>
-
-<p>This method only really works cleanly if you need only two consecutive items, but it feels <em>very</em> Pythonic to me.  I’ll show you the code and then point out the key parts.</p>
-
-<pre><code class="language-python">from itertools import tee
-
-def each_pair(iterable):
-    """Returns each consecutive pair of items in an iterable"""
-    first, second = tee(iterable)
-    next(second, None)
-    return zip(first, second)
-
-each_pair(range(10))
-# =&gt; [0, 1], [1, 2], [2, 3], [3, 4], [4, 5]...
+<pre><code class="language-bash">$ hwaaaa
+# =&gt; NO. 'hwaaaa' command not found.
+$ but why not tho
+# =&gt; Success!  JK, you're a dum dum.  'but why not tho' command not found.
 </code></pre>
 
-<p>Ahhhh <em>SO GOOD.</em></p>
+<p>All kidding aside, hopefully, you start to see how you could write some scripts to provide slightly more helpful/friendly error messages that maybe even show some possible options that were close to what you typed?</p>
 
-<h2 id="the-magic-explained">The Magic Explained</h2>
-
-<p>So, how does it work?</p>
-
-<p>First, we use <code>itertools.tee</code>, which returns two copies of the original iterable (a fancy word for anything you can iterate through: strings, lists, generators, etc.).  It also takes an optional argument for <code>n</code> if you want to make <code>n</code> copies instead of just 2.</p>
-
-<p>Now we have two identical copies of the original iterable.  We then call <code>next</code> on the second one in order to step it one item forward.  Notice the second argument to <code>next</code>, <code>None</code>.  The <code>next</code> function returns (and uses up) the next item in an iterable, and if you provide it a <em>default</em> and it can’t return another item because that iterable is empty, it just returns the default.</p>
-
-<pre><code class="language-python"># next only works on Iterator objects
-a = iter([1, 2, 3])
-next(a, "EMPTY")
-# =&gt; 1
-next(a, "EMPTY")
-# =&gt; 2
-next(a, "EMPTY")
-# =&gt; 3
-next(a, "EMPTY")
-# =&gt; "EMPTY"
-next(a)
-# =&gt; Error!  StopIteration!
-</code></pre>
-
-<p>This is just a neat way of saying “cycle the <code>second</code> iterable one item forward, but if you’re already empty, don’t worry about it.  Just don’t throw an error.”  You probably also noticed that we don’t do anything with the result of this call to <code>next</code>.  We’re just throwing an item away, if it exists.</p>
-
-<p>The last part is zipping the two iterables together.  <code>zip</code> is a tricky function that seems simple, but often the results can be hard to wrap your head around.  It makes each n-th item of each iterator it is passed into one single list.</p>
-
-<p>It’s  easier to see in an example:</p>
-
-<pre><code class="language-python">a = [1, 2, 3, 4]
-b = ["Apple", "Banana", "Pear", "Soup"]
-c = [True, False, True, False]
-
-zip(a, b, c)
-# =&gt; [
-#       [1, "Apple", True],
-#       [2, "Banana", False],
-#       [3, "Pear", True],
-#       [4, "Soup", False],
-#	]
-</code></pre>
-
-<p>The trick is that, if our lists have different lengths, it will only use up to the shortest one.</p>
-
-<pre><code class="language-python">a = [1, 2, 3, 4, 5, 6, 7, 8]
-b = [1, 2, 3]
-zip(a, b)
-# =&gt; [[1, 1], [2, 2], [3, 3]]  See how it drops the last 5 elements of 'a'?
-</code></pre>
-
-<blockquote>
-  <p>The <code>itertools</code> module also has a <code>zip_longest</code> function that takes a default value to fill in if some of the arguments to zip are too short.</p>
-
-  <pre><code class="language-python">a = [1, 2, 3, 4, 5, 6]
-b = [1, 2]
-itertools.zip_longest(a, b, fillvalue=":)")
-# =&gt; [
-#	    [1, 1],
-#	    [2, 2],
-#	    [3, ":)"]
-#	    [4, ":)"]
-#	    [5, ":)"]
-#	    [6, ":)"]
-# ]
-</code></pre>
-</blockquote>
-
-<h2 id="wrap-up">Wrap Up</h2>
-
-<p>Anyways, I thought this was neat.  I like it anytime I can get what I want out of an iterable without actually using any brute force indices.  It seems like it cuts down on <a href="https://twitter.com/codinghorror/status/506010907021828096?lang=en">off-by-one</a> errors.</p>
-
-<p>Like I said before, if you’ve got a better way to make the <code>each_cons</code> function above, I want to see it.  Be sure to comment or <a href="https://twitter.com/paytastic/">tweet it at me</a>.</p>
+<p><strong>Quick Tip Over.</strong></p>
 </p>
   
 
@@ -223,6 +182,11 @@ itertools.zip_longest(a, b, fillvalue=":)")
         </li>
         
           <li>
+            <span class="post-meta">Jun 9, 2018</span><br/>
+            <a class="post-link" href="/2018/06/09/itertools-each-pair/">Each Pair with Itertools</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Jun 5, 2018</span><br/>
             <a class="post-link" href="/2018/06/05/python-toolbox-shout/">Python Scripting Toolbox: sys and fileinput</a>
           </li>
@@ -230,11 +194,6 @@ itertools.zip_longest(a, b, fillvalue=":)")
           <li>
             <span class="post-meta">May 14, 2018</span><br/>
             <a class="post-link" href="/2018/05/14/setting-up-centos/">Setting Up a CentOS Server</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Apr 28, 2018</span><br/>
-            <a class="post-link" href="/2018/04/28/powershell-tutorial/">PowerShell Tutorial (Especially for People Who Hate PowerShell)</a>
           </li>
         
       </ul>
@@ -281,7 +240,7 @@ itertools.zip_longest(a, b, fillvalue=":)")
         
         <a href="/tags/puzzle/" style="font-size: 20px">puzzle | </a>
         
-        <a href="/tags/bash/" style="font-size: 18px">bash | </a>
+        <a href="/tags/bash/" style="font-size: 20px">bash | </a>
         
         <a href="/tags/math/" style="font-size: 16px">math | </a>
         
@@ -394,6 +353,10 @@ itertools.zip_longest(a, b, fillvalue=":)")
         <a href="/tags/scripting/" style="font-size: 14px">scripting | </a>
         
         <a href="/tags/itertools/" style="font-size: 14px">itertools | </a>
+        
+        <a href="/tags/shell/" style="font-size: 14px">shell | </a>
+        
+        <a href="/tags/quicktip/" style="font-size: 14px">quicktip | </a>
         
       </p>
     </div>
