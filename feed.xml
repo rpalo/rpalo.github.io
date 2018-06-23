@@ -6,9 +6,36 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 20 Jun 2018 21:10:44 -0700</pubDate>
-    <lastBuildDate>Wed, 20 Jun 2018 21:10:44 -0700</lastBuildDate>
+    <pubDate>Sat, 23 Jun 2018 11:16:20 -0700</pubDate>
+    <lastBuildDate>Sat, 23 Jun 2018 11:16:20 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Ascii Wall-e for Your Terminal</title>
+        <description>&lt;p&gt;Two things.  1. I’m trying out the &lt;a href=&quot;https://fishshell.com/&quot;&gt;fish shell&lt;/a&gt;.  So far I like it!  2. I made Wall-E!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/wall-e.jpg&quot; alt=&quot;Wall-E in my terminal&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;On their website, the fish shell has a neat ascii picture of a fish.  I saw examples of people putting that in their initial greeting when the terminal opens up.  I thought that was neat, but I wanted something more my style.  So I spent a few &lt;em&gt;cough&lt;/em&gt; &lt;small&gt;hours&lt;/small&gt; &lt;em&gt;cough&lt;/em&gt; making Wall-E, and now he says hello to me whenever I open up my terminal!&lt;/p&gt;
+
+&lt;p&gt;In case you’re curious, I put the code &lt;a href=&quot;https://gist.github.com/rpalo/cd77a94616b0a30d1c2a2f18d6bc7581&quot;&gt;into a gist&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Challenge!  Make your own ASCII art and share it.&lt;/p&gt;
+
+&lt;p&gt;Happy Saturday!&lt;/p&gt;
+</description>
+        <pubDate>Sat, 23 Jun 2018 00:00:00 -0700</pubDate>
+        <link>https://assertnotmagic.com/2018/06/23/ascii-wall-e/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/06/23/ascii-wall-e/</guid>
+        
+        <category>showdev</category>
+        
+        <category>fish</category>
+        
+        <category>art</category>
+        
+        
+      </item>
     
       <item>
         <title>Bash Brackets Quick Reference</title>
@@ -2225,125 +2252,6 @@ end
         <category>singleton</category>
         
         <category>basics</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Dict Moves in Python</title>
-        <description>&lt;p&gt;Quick tip time!&lt;/p&gt;
-
-&lt;p&gt;Today, I started the #100DaysOfCode challenge again (for the millionth time).  I’m determined to actually succeed at this challenge, and I refuse to give up.  This time, I’m using the &lt;a href=&quot;https://codechalleng.es/&quot;&gt;Python Bytes Code Challenges website&lt;/a&gt; and their 100 days project suggestions.  During today’s challenge, I learned a neat little trick for working with dictionaries that I wanted to share.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-challenge&quot;&gt;The Challenge&lt;/h2&gt;
-
-&lt;p&gt;The challenge is this: go through a &lt;a href=&quot;https://raw.githubusercontent.com/rpalo/100DaysOfCode/master/001/dictionary.txt&quot;&gt;dictionary of words&lt;/a&gt;, which is really just a copy of &lt;code&gt;/usr/share/dict/words&lt;/code&gt;.  Find the word that scores the highest in Scrabble, using these letter scores:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;SCRABBLE_SCORES = [
-  (1, &quot;E A O I N R T L S U&quot;),
-  (2, &quot;D G&quot;),
-  (3, &quot;B C M P&quot;),
-  (4, &quot;F H V W Y&quot;), 
-  (5, &quot;K&quot;), 
-  (8, &quot;J X&quot;), 
-  (10, &quot;Q Z&quot;),
-]
-LETTER_SCORES = {
-    letter: score for score, letters in scrabble_scores
-    for letter in letters.split()
-}
-# {&quot;A&quot;: 1, &quot;B&quot;: 3, &quot;C&quot;: 3, &quot;D&quot;: 2, ...}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;the-issue&quot;&gt;The Issue&lt;/h2&gt;
-
-&lt;p&gt;The issue is that I don’t want to worry about whether or not there are any invalid characters in the input (for now at least).  So if I look up the word “snoot!43@@@ “, right now, I’d prefer to see the score for SNOOT and then 0 points for the rest of the characters.  I know there are a bunch of ways to do this, but the first way that popped into my head was to use a &lt;em&gt;default&lt;/em&gt; of 0 (i.e. if you try to look up a character that’s not in &lt;code&gt;LETTER_SCORES&lt;/code&gt;, it returns zero instead of raising a &lt;code&gt;KeyError&lt;/code&gt;.)&lt;/p&gt;
-
-&lt;h2 id=&quot;enter-defaultdict&quot;&gt;Enter DefaultDict&lt;/h2&gt;
-
-&lt;p&gt;Luckily for us, Python comes with exactly the thing we need: a &lt;code&gt;defaultdict&lt;/code&gt;, courtesy of the standard library’s &lt;code&gt;collections&lt;/code&gt; module.  Its usage is reasonably straightforward: you supply the &lt;code&gt;defaultdict&lt;/code&gt; with a class or function that constructs the default if the input isn’t found.  Let me show you.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;from collections import defaultdict
-
-zeros = defaultdict(int)
-zeros[&quot;a&quot;] = 1
-zeros[&quot;b&quot;] = zeros[&quot;definitely not in there&quot;] + 4
-print(zeros)
-# =&amp;gt; defaultdict(&amp;lt;int&amp;gt;, {&quot;a&quot;: 1, &quot;b&quot;: 4, &quot;definitely not in there&quot;: 0})
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Since the &lt;code&gt;zeros&lt;/code&gt; dict can’t find the &lt;code&gt;&quot;definitely not in there&quot;&lt;/code&gt; key, it calls its default-maker function, &lt;code&gt;int&lt;/code&gt;.  Go ahead and open up your Python REPL and try just calling the &lt;code&gt;int&lt;/code&gt; function with no arguments.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;&amp;gt;&amp;gt;&amp;gt; int()
-0
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The &lt;code&gt;int&lt;/code&gt; function, called with no arguments, returns 0 every time.&lt;/p&gt;
-
-&lt;p&gt;You can even create your own default-maker functions (and classes will work too)!&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;from random import choice
-
-def confusing_default():
-    possibles = [&quot;1&quot;, 1, True, &quot;banana&quot;]
-    return choice(possibles)
-
-tricky_dict = defaultdict(confusing_default)
-tricky_dict[&quot;Ryan&quot;]
-# =&amp;gt; &quot;banana&quot;
-tricky_dict[&quot;Python&quot;]
-# =&amp;gt; True
-tricky_dict[&quot;Why would you do this?&quot;]
-# =&amp;gt; 1
-tricky_dict
-# =&amp;gt; defaultdict(&amp;lt;confusing_default&amp;gt;, {&quot;Ryan&quot;: &quot;banana&quot;, &quot;Python&quot;: True, &quot;Why would you do this?&quot;: 1})
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Often times, you can do things a little quicker with &lt;code&gt;lambdas&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;from random import randint
-
-SCREAMING = defaultdict(lambda: &quot;A&quot;)
-for i in range(20):
-    key = randint(0, 3)
-    SCREAMING[key] += &quot;A&quot;
-SCREAMING
-# =&amp;gt; defaultdict(&amp;lt;function &amp;lt;lambda&amp;gt; at 0x108707f28&amp;gt;, {0: 'AAAAAAAA', 1: 'AAAAAAA', 3: 'AAAAA', 2: 'AAAA'})
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In fact, I actually think that using &lt;code&gt;defaultdict(lambda: 0)&lt;/code&gt; is more explicit and less confusing than using &lt;code&gt;defaultdict(int)&lt;/code&gt;, as long as you’re not creating huge numbers of these &lt;code&gt;defaultdicts&lt;/code&gt; this way.&lt;/p&gt;
-
-&lt;h2 id=&quot;upgrading-to-a-defaultdict&quot;&gt;Upgrading to a DefaultDict&lt;/h2&gt;
-
-&lt;p&gt;Now, finally, we’re ready for the quick tip.  Up above, I defined &lt;code&gt;LETTER_SCORES&lt;/code&gt; as a plain, old Python &lt;code&gt;dict&lt;/code&gt;.  How do I get the default behaviors I want, quickly?  One way is using the built-in &lt;code&gt;dict.update()&lt;/code&gt; function, which merges two dictionaries.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;FORGIVING_SCORES = defaultdict(lambda: 0)
-FORGIVING_SCORES.update(LETTER_SCORES)
-
-FORGIVING_SCORES[&quot;Q&quot;]
-# =&amp;gt; 10
-
-FORGIVING_SCORES[&quot;@&quot;]
-# =&amp;gt; 0
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Hooray!&lt;/p&gt;
-
-&lt;p&gt;Granted, this isn’t a perfect solution, because the &lt;code&gt;FORGIVING_SCORES&lt;/code&gt; defaultdict stores each of the invalid asks.  It’s probably OK if you’re not expecting a huge number of invalid look-ups.  If you &lt;em&gt;are&lt;/em&gt; worried about staying space-efficient, though, it’s probably better to do this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;score = LETTER_SCORES.get(&quot;@&quot;) or 0
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The &lt;code&gt;get&lt;/code&gt; function returns &lt;code&gt;None&lt;/code&gt; if a &lt;code&gt;KeyError&lt;/code&gt; occurs, and the &lt;code&gt;or&lt;/code&gt; allows us to provide a sane default if the lookup goes bad.  And everybody’s happy!&lt;/p&gt;
-
-</description>
-        <pubDate>Sun, 08 Apr 2018 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2018/04/08/convert-to-default-dict/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2018/04/08/convert-to-default-dict/</guid>
-        
-        <category>python</category>
-        
-        <category>tricks</category>
         
         
       </item>
