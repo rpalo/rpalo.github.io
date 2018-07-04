@@ -1,44 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        
-        <!-- Bootstrap Setup -->
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="ROBOTS" content="INDEX,FOLLOW">
-        <meta name="description" content="I tried to solve a coding challenge and ended up doing science.">
-        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, ruby, puzzle, performance">
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="assert_not magic? | Lucky Numbers and Science">
-        <meta name="twitter:site" content="@paytastic">
-        <meta name="twitter:description" content="I tried to solve a coding challenge and ended up doing science.">
-        <meta name="twitter:image" content="http://assertnotmagic.com/img/lucky.jpg">
-        <meta name="twitter:creator" content="@paytastic">
-        <meta name="og:url" content="http://assertnotmagic.com/2018/02/15/lucky-numbers-and-science/">
-        <meta name="og:title" content="assert_not magic? | Lucky Numbers and Science">
-        <meta name="og:description" content="I tried to solve a coding challenge and ended up doing science.">
-        <meta name="og:image" content="http://assertnotmagic.com/img/lucky.jpg">
 
-        <!-- Favicon settings -->
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-        <link rel="manifest" href="/manifest.json">
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#222222">
-        <meta name="theme-color" content="#ffffff">
+<head>
 
-        <!-- Omnisearch -->
-        <link rel="search" type="application/opensearchdescription+xml" title="search assert_not magic" href="/opensearch.xml">
-        
-        <!-- Custom CSS -->
-        <link rel="stylesheet" href="/css/main.css">
-        
-        <link rel="stylesheet" href="/css/prism.css">
-        <title>assert_not magic?</title>
-    </head>
-    <body>
-        
+    <!-- Bootstrap Setup -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="ROBOTS" content="INDEX,FOLLOW">
+    <meta name="description" content="I tried to solve a coding challenge and ended up doing science.">
+    <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, ruby, puzzle, performance">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="assert_not magic? | Lucky Numbers and Science">
+    <meta name="twitter:site" content="@paytastic">
+    <meta name="twitter:description" content="I tried to solve a coding challenge and ended up doing science.">
+    <meta name="twitter:image" content="https://res.cloudinary.com/duninnjce/image/upload/w_300,q_auto,f_auto/lucky.jpg">
+    <meta name="twitter:creator" content="@paytastic">
+    <meta name="og:url" content="http://assertnotmagic.com/2018/02/15/lucky-numbers-and-science/">
+    <meta name="og:title" content="assert_not magic? | Lucky Numbers and Science">
+    <meta name="og:description" content="I tried to solve a coding challenge and ended up doing science.">
+    <meta name="og:image" content="https://res.cloudinary.com/duninnjce/image/upload/w_300,q_auto,f_auto/lucky.jpg">
+
+    <!-- Favicon settings -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#222222">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Omnisearch -->
+    <link rel="search" type="application/opensearchdescription+xml" title="search assert_not magic" href="/opensearch.xml">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/main.css">
+
+    <link rel="stylesheet" href="/css/prism.css">
+    <title>assert_not magic?</title>
+</head>
+
+<body>
+    
 <nav id="main-nav">
     <a href="/" class="mobile-home">assert_not magic?</a>
     <ul>
@@ -49,12 +51,11 @@
         <li><a href="/uses/">Uses</a></li>
     </ul>
 </nav>
-        <div class="container main">
-                <article class="site-wrap">
+    <div class="container main">
+        <article class="site-wrap">
     <div id="cover">
         
-        <img alt="Cover Image" class="cover-image" src="https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/lucky.jpg">
-        
+        <img alt="Cover Image" class="cover-image" src="https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/lucky.jpg"> 
     </div>
     <h1>Lucky Numbers and Science</h1>
     <p>Earlier this week, <a href="https://dev.to/heikodudzus">Heiko Dudzus</a> posted <a href="https://dev.to/heikodudzus/write-a-program-or-script-to-find-lucky-numbers--23me">this challenge post</a> on Dev.to.  The challenge was this:</p>
@@ -308,18 +309,15 @@ Version 3  19.517162  20.816684  40.333846 ( 40.470201)
 <p>My wife teaches middle school science and I just got done helping her judge their science fair, so I’ve got experimentation on the brain.  Hopefully this little experiment makes her proud!</p>
 
 <p>I’m sure my solution wasn’t the best possible solution, but it gets the job done.  Ruby isn’t necessarily the language of choice for high-throughput calculations (<a href="https://blog.heroku.com/ruby-3-by-3">although it’s not necessarily a bad choice either</a>).  If anybody can come up with a convincing reason for why my data came out the way it did, including the dip at 1000, I’ll personally send you a shiny new trophy emoji. 🏆  Also, if you’ve got a solution that you like better than these, I want to see it.  Share it! (or share a link to your solution commented on <a href="https://dev.to/heikodudzus/write-a-program-or-script-to-find-lucky-numbers--23me">Heiko’s original post</a>).</p>
-
-    
+ 
     <small>
         Author: Ryan Palo | Tags: 
-        
         <a href="/tags/ruby/">ruby</a>
         
         <a href="/tags/puzzle/">puzzle</a>
         
         <a href="/tags/performance/">performance</a>
-        
-        | <style>
+         | <style>
   .bmc-button img {
     width: 27px !important;
     margin-bottom: 1px !important;
@@ -370,8 +368,7 @@ Version 3  19.517162  20.816684  40.333846 ( 40.470201)
   <span style="margin-left:5px">Buy me a coffee</span>
 </a>
     </small>
-    
-    <div class="email-background">
+     <div class="email-background">
     <form class="email-signup" action="https://tinyletter.com/rpalo" method="post" target="popupwindow"
     onsubmit="window.open('https://tinyletter.com/rpalo', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
       <p>
@@ -386,8 +383,7 @@ Version 3  19.517162  20.816684  40.333846 ( 40.470201)
         <a class="email-powered" href="https://tinyletter.com" target="_blank">powered by TinyLetter</a>
       </p>
     </form>
-</div>
-    <hr>
+</div> <hr>
 
 <!-- Footer for Homepage -->
   <div id="home-footer">
@@ -594,27 +590,30 @@ Version 3  19.517162  20.816684  40.333846 ( 40.470201)
 
 
 </article>
-        </div>
+    </div>
 
-        <footer id="main-footer">
+    <footer id="main-footer">
     <div class="container">
         <p class="text-muted">&copy; Ryan Palo 2018 | All things.  Phil. 4:13</p>
     </div>
 </footer>
-        <!-- Scripts -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-        <script src="/js/main.js"></script>
-        <script src="/js/prism.js"></script>
-        <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/prism.js"></script>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-            ga('create', 'UA-91889165-1', 'auto');
-            ga('send', 'pageview');
+        ga('create', 'UA-91889165-1', 'auto');
+        ga('send', 'pageview');
 
-        </script>
-        
-    </body>
+    </script>
+
+</body>
+
 </html>
