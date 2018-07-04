@@ -7,18 +7,18 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="ROBOTS" content="INDEX,FOLLOW">
-        <meta name="description" content="">
-        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, ">
+        <meta name="description" content="Of course I knew that Python has a startup customization file this whole time.  I didn't just learn about it.  Shut up.">
+        <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, python, tricks">
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="assert_not magic? | ">
+        <meta name="twitter:title" content="assert_not magic? | Python Has a Startup File!">
         <meta name="twitter:site" content="@paytastic">
-        <meta name="twitter:description" content="">
-        <meta name="twitter:image" content="https://assertnotmagic.com/img/twitter-card.png">
+        <meta name="twitter:description" content="Of course I knew that Python has a startup customization file this whole time.  I didn't just learn about it.  Shut up.">
+        <meta name="twitter:image" content="http://assertnotmagic.com/img/baby_snek">
         <meta name="twitter:creator" content="@paytastic">
-        <meta name="og:url" content="http://assertnotmagic.com/tags/linked-lists/">
-        <meta name="og:title" content="assert_not magic? | ">
-        <meta name="og:description" content="">
-        <meta name="og:image" content="http://assertnotmagic.com/img/twitter-card.png">
+        <meta name="og:url" content="http://assertnotmagic.com/2018/06/30/python-startup-file/">
+        <meta name="og:title" content="assert_not magic? | Python Has a Startup File!">
+        <meta name="og:description" content="Of course I knew that Python has a startup customization file this whole time.  I didn't just learn about it.  Shut up.">
+        <meta name="og:image" content="http://assertnotmagic.com/img/baby_snek">
 
         <!-- Favicon settings -->
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -53,197 +53,190 @@
                 <article class="site-wrap">
     <div id="cover">
         
-    </div>
-    <h1></h1>
-    <h1>Linked-lists</h1>
-
-<ul>
-    
-    <li class="post">
+        <img alt="Cover Image" class="cover-image" src="https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/baby_snek">
         
-<a class="post-title" href="/2017/11/14/cake-and-duplicates/">Cake and Duplicates</a><br><small>November 14, 2017</small>
+    </div>
+    <h1>Python Has a Startup File!</h1>
+    <p><em>Cover Photo by Uriel Soberanes on Unsplash</em></p>
 
-    <img class="img-small" alt="Cover image for Cake and Duplicates" src="/img/cake.jpg">
+<p>So, I want to be clear.  <em>I</em> knew that Python has a startup customization file this whole time I’ve been using Python.  <em>I</em> didn’t just find out about it this week.  I mean, of <em>course</em> Python has a startup file.  Everything has a startup file!  I just want to make sure <em>you</em> know about it.  <em>(Only joking, I had no idea this was a thing.)</em></p>
 
-<small>Tags: 
+<blockquote>
+  <p>Before you bring it up, I already know about <a href="https://bpython-interpreter.org/screenshots.html">bPython</a>, the awesome, syntax-highlighty, tab-completey, auto-indenty, wonderful drop in replacement for the regular Python interpreter.  I use it all the time.  But that’s not what this blog post is about.  P.S. if you didn’t know about bPython, I highly recommend it (Windows users’ mileage may vary).</p>
+</blockquote>
 
-    algorithms 
+<h2 id="pythonstartup">$PYTHONSTARTUP</h2>
 
-    ruby 
+<p>If you have the environment variable <code>$PYTHONSTARTUP</code> set to a valid Python file, that file will get run when starting up the Python interpreter.</p>
 
-    big-o 
+<pre><code class="language-bash">$ export PYTHONSTARTUP="~/.config/pythonrc.py"
+</code></pre>
 
-    linked-lists 
+<p>Don’t worry about the name of the file.  Name it whatever you want!  <code>python_startup.py</code>, or just <code>pythonrc</code>.  You can also put it in whatever directory you want.  Just make sure your <code>$PYTHONSTARTUP</code> environment variable matches.  Then, you can put anything you want into that file.</p>
 
-</small>
+<pre><code class="language-python"># ~/.config/pythonrc.py
+a = "Wahoo!"
+print("Soup")
+try:
+    import numpy as np
+except ImportError:
+    print("Could not import numpy.")
+</code></pre>
 
-    </li>
-    
-</ul>
+<p>Try running your Python interpreter.</p>
 
-<!-- Tags List -->
-<hr>
-<p>
-    
-    <a href="/tags/python/" style="font-size: 66px">python | </a>
-    
-    <a href="/tags/django/" style="font-size: 20px">django | </a>
-    
-    <a href="/tags/rails/" style="font-size: 12px">rails | </a>
-    
-    <a href="/tags/algorithms/" style="font-size: 20px">algorithms | </a>
-    
-    <a href="/tags/editors/" style="font-size: 18px">editors | </a>
-    
-    <a href="/tags/emacs/" style="font-size: 14px">emacs | </a>
-    
-    <a href="/tags/ai/" style="font-size: 12px">ai | </a>
-    
-    <a href="/tags/r/" style="font-size: 12px">r | </a>
-    
-    <a href="/tags/tools/" style="font-size: 14px">tools | </a>
-    
-    <a href="/tags/javascript/" style="font-size: 24px">javascript | </a>
-    
-    <a href="/tags/not-magic/" style="font-size: 14px">not-magic | </a>
-    
-    <a href="/tags/soft-skills/" style="font-size: 20px">soft-skills | </a>
-    
-    <a href="/tags/tricks/" style="font-size: 40px">tricks | </a>
-    
-    <a href="/tags/vscode/" style="font-size: 14px">vscode | </a>
-    
-    <a href="/tags/vim/" style="font-size: 16px">vim | </a>
-    
-    <a href="/tags/sublime/" style="font-size: 12px">sublime | </a>
-    
-    <a href="/tags/puzzle/" style="font-size: 18px">puzzle | </a>
-    
-    <a href="/tags/bash/" style="font-size: 20px">bash | </a>
-    
-    <a href="/tags/math/" style="font-size: 14px">math | </a>
-    
-    <a href="/tags/teaching/" style="font-size: 14px">teaching | </a>
-    
-    <a href="/tags/ruby/" style="font-size: 30px">ruby | </a>
-    
-    <a href="/tags/jekyll/" style="font-size: 14px">jekyll | </a>
-    
-    <a href="/tags/git/" style="font-size: 18px">git | </a>
-    
-    <a href="/tags/physics/" style="font-size: 12px">physics | </a>
-    
-    <a href="/tags/fun/" style="font-size: 16px">fun | </a>
-    
-    <a href="/tags/scientific/" style="font-size: 14px">scientific | </a>
-    
-    <a href="/tags/pythonic/" style="font-size: 14px">pythonic | </a>
-    
-    <a href="/tags/functional/" style="font-size: 18px">functional | </a>
-    
-    <a href="/tags/vue/" style="font-size: 20px">vue | </a>
-    
-    <a href="/tags/es6/" style="font-size: 18px">es6 | </a>
-    
-    <a href="/tags/tutorial/" style="font-size: 38px">tutorial | </a>
-    
-    <a href="/tags/exercise/" style="font-size: 12px">exercise | </a>
-    
-    <a href="/tags/fitness/" style="font-size: 12px">fitness | </a>
-    
-    <a href="/tags/sysadmin/" style="font-size: 16px">sysadmin | </a>
-    
-    <a href="/tags/linux/" style="font-size: 14px">linux | </a>
-    
-    <a href="/tags/html/" style="font-size: 16px">html | </a>
-    
-    <a href="/tags/seo/" style="font-size: 12px">seo | </a>
-    
-    <a href="/tags/social/" style="font-size: 12px">social | </a>
-    
-    <a href="/tags/metaprogramming/" style="font-size: 12px">metaprogramming | </a>
-    
-    <a href="/tags/css/" style="font-size: 12px">css | </a>
-    
-    <a href="/tags/front-end/" style="font-size: 14px">front-end | </a>
-    
-    <a href="/tags/animations/" style="font-size: 12px">animations | </a>
-    
-    <a href="/tags/p5/" style="font-size: 18px">p5 | </a>
-    
-    <a href="/tags/beginner/" style="font-size: 18px">beginner | </a>
-    
-    <a href="/tags/encouragement/" style="font-size: 16px">encouragement | </a>
-    
-    <a href="/tags/screencast/" style="font-size: 12px">screencast | </a>
-    
-    <a href="/tags/showdev/" style="font-size: 14px">showdev | </a>
-    
-    <a href="/tags/interview/" style="font-size: 12px">interview | </a>
-    
-    <a href="/tags/performance/" style="font-size: 14px">performance | </a>
-    
-    <a href="/tags/workflow/" style="font-size: 12px">workflow | </a>
-    
-    <a href="/tags/best-practice/" style="font-size: 12px">best-practice | </a>
-    
-    <a href="/tags/oss/" style="font-size: 12px">oss | </a>
-    
-    <a href="/tags/static-site/" style="font-size: 12px">static-site | </a>
-    
-    <a href="/tags/big-o/" style="font-size: 12px">big-o | </a>
-    
-    <a href="/tags/linked-lists/" style="font-size: 12px">linked-lists | </a>
-    
-    <a href="/tags/design-intent/" style="font-size: 12px">design-intent | </a>
-    
-    <a href="/tags/struct/" style="font-size: 12px">struct | </a>
-    
-    <a href="/tags/browser/" style="font-size: 12px">browser | </a>
-    
-    <a href="/tags/focus/" style="font-size: 12px">focus | </a>
-    
-    <a href="/tags/productivity/" style="font-size: 16px">productivity | </a>
-    
-    <a href="/tags/codenewbie/" style="font-size: 12px">codenewbie | </a>
-    
-    <a href="/tags/reflection/" style="font-size: 12px">reflection | </a>
-    
-    <a href="/tags/update/" style="font-size: 12px">update | </a>
-    
-    <a href="/tags/preview/" style="font-size: 12px">preview | </a>
-    
-    <a href="/tags/gtd/" style="font-size: 12px">gtd | </a>
-    
-    <a href="/tags/bullet-journal/" style="font-size: 12px">bullet-journal | </a>
-    
-    <a href="/tags/data-science/" style="font-size: 12px">data-science | </a>
-    
-    <a href="/tags/singleton/" style="font-size: 12px">singleton | </a>
-    
-    <a href="/tags/basics/" style="font-size: 12px">basics | </a>
-    
-    <a href="/tags/powershell/" style="font-size: 12px">powershell | </a>
-    
-    <a href="/tags/terminal/" style="font-size: 12px">terminal | </a>
-    
-    <a href="/tags/security/" style="font-size: 12px">security | </a>
-    
-    <a href="/tags/scripting/" style="font-size: 14px">scripting | </a>
-    
-    <a href="/tags/itertools/" style="font-size: 12px">itertools | </a>
-    
-    <a href="/tags/shell/" style="font-size: 14px">shell | </a>
-    
-    <a href="/tags/quicktip/" style="font-size: 12px">quicktip | </a>
-    
-    <a href="/tags/cheatsheet/" style="font-size: 12px">cheatsheet | </a>
-    
-    <a href="/tags/fish/" style="font-size: 12px">fish | </a>
-    
-    <a href="/tags/art/" style="font-size: 12px">art | </a>
-    
-</p>
+<pre><code class="language-bash">$ python  # or python3
+</code></pre>
+
+<p>And you should see something similar to the following:</p>
+
+<pre><code class="language-python">Python 3.7.0 (default, Jun 29 2018, 20:14:27)
+[Clang 9.0.0 (clang-900.0.39.2)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+Soup
+&gt;&gt;&gt; np
+&lt;module 'numpy' from '/usr/local/lib/python3.7/site-packages/numpy/__init__.py'&gt;
+&gt;&gt;&gt; np.zeros((3, 2))
+array([[0., 0.],
+       [0., 0.],
+       [0., 0.]])
+&gt;&gt;&gt; a
+'Wahoo!'
+</code></pre>
+
+<p>You can import commonly used libraries, create variables for yourself, and more.</p>
+
+<h2 id="sysps1-and-sysps2">sys.ps1 and sys.ps2</h2>
+
+<p>One neat thing to do is to set the <code>sys.ps1</code> and <code>sys.ps2</code> variables, which control your Python prompts.</p>
+
+<pre><code class="language-python"># ~/.config/pythonrc.py
+
+import sys
+
+sys.ps1 = "🌮"
+sys.ps2 = "💩"
+
+# ...
+</code></pre>
+
+<p>And, back in the interactive REPL:</p>
+
+<pre><code class="language-python">🌮 for i in range(10):
+💩     print("I am a mature adult.")
+💩
+I am a mature adult.
+I am a mature adult.
+...
+</code></pre>
+
+<p>In fact, you can even set <code>sys.ps1</code> and <code>sys.ps2</code> to objects that aren’t even strings!  If they’re not strings, Python will call <code>str(obj)</code> on them.</p>
+
+<pre><code class="language-python"># ~/.config/pythonrc.py
+
+import sys
+from datetime import datetime
+
+class CustomPS1:
+    def __init__(self):
+        self.count = 0
+
+    def __str__(self):
+        self.count += 1
+        return f"({self.count}) {datetime.now().strftime('%H:%m %p')} &gt; "
+
+sys.ps1 = CustomPS1()
+</code></pre>
+
+<p>And in the interpreter:</p>
+
+<pre><code class="language-python">(1) 10:06 AM &gt; for i in range(10):
+...     print("Am I cool now?")
+...
+Am I cool now?
+Am I cool now?
+# ...
+(2) 11:06 AM &gt;
+</code></pre>
+
+<h2 id="the--i-flag">The -i Flag</h2>
+
+<p>In addition to these new superpowers, you can temporarily make <em>any</em> Python script your startup script.  This could come in really handy for some interactive debugging.  Let’s say you’re working on a project and you have a script that defines some functions:</p>
+
+<pre><code class="language-python"># cool_script.py
+
+def what_time_is_it():
+    return "Party Time"
+</code></pre>
+
+<p>You can use the <code>-i</code> flag when you run the Python interpreter to use <code>cool_script.py</code> as your startup file instead of your usual one.</p>
+
+<pre><code class="language-python">$ python -i cool_script.py
+&gt;&gt;&gt; what_time_is_it()
+'Party Time'
+</code></pre>
+
+<p>If you do some cool things with your startup file, share it with me!  I want to know about it!  Happy coding!</p>
+
+    
+    <small>
+        Author: Ryan Palo | Tags: 
+        
+        <a href="/tags/python/">python</a>
+        
+        <a href="/tags/tricks/">tricks</a>
+        
+        | <style>
+  .bmc-button img {
+    width: 27px !important;
+    margin-bottom: 1px !important;
+    box-shadow: none !important;
+    border: none !important;
+    vertical-align: middle !important;
+  }
+
+  .bmc-button {
+    /* line-height: px !important; */
+    /* height: 37px !important; */ 
+    text-decoration: none !important;
+    display: inline-flex !important;
+    color: #000000 !important;
+    background-color: #ffce38 !important;
+    border-radius: 3px !important;
+    border: 1px solid transparent !important;
+    padding: 0px 9px !important;
+    font-size: 17px !important;
+    letter-spacing: -0.08px !important;
+    ;
+    box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;
+    -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+    margin: 0px 0px 0px 15px;
+    font-family: 'Lato', sans-serif !important;
+    -webkit-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+    -o-transition: 0.3s all linear !important;
+    -webkit-transition: 0.3s all linear !important;
+    -moz-transition: 0.3s all linear !important;
+    -ms-transition: 0.3s all linear !important;
+    transition: 0.3s all linear !important;
+  }
+
+  .bmc-button:hover,
+  .bmc-button:active,
+  .bmc-button:focus {
+    -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+    text-decoration: none !important;
+    box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+    opacity: 0.85 !important;
+    color: #000000 !important;
+  }
+</style>
+<link href="https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet">
+<a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/octdCNRZG">
+  <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee">
+  <span style="margin-left:5px">Buy me a coffee</span>
+</a>
+    </small>
     
     <div class="email-background">
     <form class="email-signup" action="https://tinyletter.com/rpalo" method="post" target="popupwindow"

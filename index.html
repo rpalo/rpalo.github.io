@@ -73,8 +73,8 @@
 
   <!-- Current Post -->
   
-    <h1 id="title">Ascii Wall-e for Your Terminal</h1>
-    <small>Jun 23, 2018</small><style>
+    <h1 id="title">Python Has a Startup File!</h1>
+    <small>Jun 30, 2018</small><style>
   .bmc-button img {
     width: 27px !important;
     margin-bottom: 1px !important;
@@ -124,17 +124,126 @@
   <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee">
   <span style="margin-left:5px">Buy me a coffee</span>
 </a>
-    <p><p>Two things.  1. I’m trying out the <a href="https://fishshell.com/">fish shell</a>.  So far I like it!  2. I made Wall-E!</p>
+    <p><p><em>Cover Photo by Uriel Soberanes on Unsplash</em></p>
 
-<p><img src="/img/wall-e.jpg" alt="Wall-E in my terminal" /></p>
+<p>So, I want to be clear.  <em>I</em> knew that Python has a startup customization file this whole time I’ve been using Python.  <em>I</em> didn’t just find out about it this week.  I mean, of <em>course</em> Python has a startup file.  Everything has a startup file!  I just want to make sure <em>you</em> know about it.  <em>(Only joking, I had no idea this was a thing.)</em></p>
 
-<p>On their website, the fish shell has a neat ascii picture of a fish.  I saw examples of people putting that in their initial greeting when the terminal opens up.  I thought that was neat, but I wanted something more my style.  So I spent a few <em>cough</em> <small>hours</small> <em>cough</em> making Wall-E, and now he says hello to me whenever I open up my terminal!</p>
+<blockquote>
+  <p>Before you bring it up, I already know about <a href="https://bpython-interpreter.org/screenshots.html">bPython</a>, the awesome, syntax-highlighty, tab-completey, auto-indenty, wonderful drop in replacement for the regular Python interpreter.  I use it all the time.  But that’s not what this blog post is about.  P.S. if you didn’t know about bPython, I highly recommend it (Windows users’ mileage may vary).</p>
+</blockquote>
 
-<p>In case you’re curious, I put the code <a href="https://gist.github.com/rpalo/cd77a94616b0a30d1c2a2f18d6bc7581">into a gist</a>.</p>
+<h2 id="pythonstartup">$PYTHONSTARTUP</h2>
 
-<p>Challenge!  Make your own ASCII art and share it.</p>
+<p>If you have the environment variable <code>$PYTHONSTARTUP</code> set to a valid Python file, that file will get run when starting up the Python interpreter.</p>
 
-<p>Happy Saturday!</p>
+<pre><code class="language-bash">$ export PYTHONSTARTUP="~/.config/pythonrc.py"
+</code></pre>
+
+<p>Don’t worry about the name of the file.  Name it whatever you want!  <code>python_startup.py</code>, or just <code>pythonrc</code>.  You can also put it in whatever directory you want.  Just make sure your <code>$PYTHONSTARTUP</code> environment variable matches.  Then, you can put anything you want into that file.</p>
+
+<pre><code class="language-python"># ~/.config/pythonrc.py
+a = "Wahoo!"
+print("Soup")
+try:
+    import numpy as np
+except ImportError:
+    print("Could not import numpy.")
+</code></pre>
+
+<p>Try running your Python interpreter.</p>
+
+<pre><code class="language-bash">$ python  # or python3
+</code></pre>
+
+<p>And you should see something similar to the following:</p>
+
+<pre><code class="language-python">Python 3.7.0 (default, Jun 29 2018, 20:14:27)
+[Clang 9.0.0 (clang-900.0.39.2)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+Soup
+&gt;&gt;&gt; np
+&lt;module 'numpy' from '/usr/local/lib/python3.7/site-packages/numpy/__init__.py'&gt;
+&gt;&gt;&gt; np.zeros((3, 2))
+array([[0., 0.],
+       [0., 0.],
+       [0., 0.]])
+&gt;&gt;&gt; a
+'Wahoo!'
+</code></pre>
+
+<p>You can import commonly used libraries, create variables for yourself, and more.</p>
+
+<h2 id="sysps1-and-sysps2">sys.ps1 and sys.ps2</h2>
+
+<p>One neat thing to do is to set the <code>sys.ps1</code> and <code>sys.ps2</code> variables, which control your Python prompts.</p>
+
+<pre><code class="language-python"># ~/.config/pythonrc.py
+
+import sys
+
+sys.ps1 = "🌮"
+sys.ps2 = "💩"
+
+# ...
+</code></pre>
+
+<p>And, back in the interactive REPL:</p>
+
+<pre><code class="language-python">🌮 for i in range(10):
+💩     print("I am a mature adult.")
+💩
+I am a mature adult.
+I am a mature adult.
+...
+</code></pre>
+
+<p>In fact, you can even set <code>sys.ps1</code> and <code>sys.ps2</code> to objects that aren’t even strings!  If they’re not strings, Python will call <code>str(obj)</code> on them.</p>
+
+<pre><code class="language-python"># ~/.config/pythonrc.py
+
+import sys
+from datetime import datetime
+
+class CustomPS1:
+    def __init__(self):
+        self.count = 0
+
+    def __str__(self):
+        self.count += 1
+        return f"({self.count}) {datetime.now().strftime('%H:%m %p')} &gt; "
+
+sys.ps1 = CustomPS1()
+</code></pre>
+
+<p>And in the interpreter:</p>
+
+<pre><code class="language-python">(1) 10:06 AM &gt; for i in range(10):
+...     print("Am I cool now?")
+...
+Am I cool now?
+Am I cool now?
+# ...
+(2) 11:06 AM &gt;
+</code></pre>
+
+<h2 id="the--i-flag">The -i Flag</h2>
+
+<p>In addition to these new superpowers, you can temporarily make <em>any</em> Python script your startup script.  This could come in really handy for some interactive debugging.  Let’s say you’re working on a project and you have a script that defines some functions:</p>
+
+<pre><code class="language-python"># cool_script.py
+
+def what_time_is_it():
+    return "Party Time"
+</code></pre>
+
+<p>You can use the <code>-i</code> flag when you run the Python interpreter to use <code>cool_script.py</code> as your startup file instead of your usual one.</p>
+
+<pre><code class="language-python">$ python -i cool_script.py
+&gt;&gt;&gt; what_time_is_it()
+'Party Time'
+</code></pre>
+
+<p>If you do some cool things with your startup file, share it with me!  I want to know about it!  Happy coding!</p>
 </p>
   
 
@@ -168,6 +277,11 @@
         </li>
         
           <li>
+            <span class="post-meta">Jun 23, 2018</span><br/>
+            <a class="post-link" href="/2018/06/23/ascii-wall-e/">Ascii Wall-E for Your Terminal</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Jun 20, 2018</span><br/>
             <a class="post-link" href="/2018/06/20/bash-brackets-quick-reference/">Bash Brackets Quick Reference</a>
           </li>
@@ -175,11 +289,6 @@
           <li>
             <span class="post-meta">Jun 16, 2018</span><br/>
             <a class="post-link" href="/2018/06/16/python-toolbox-make-script/">Python Scripting Toolbox: Part 2 - String Templates and `argparse`</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Jun 16, 2018</span><br/>
-            <a class="post-link" href="/2018/06/16/command-not-found/">Command Not Found... Dum Dum</a>
           </li>
         
       </ul>
@@ -192,7 +301,7 @@
       <h2>Tags</h2>
       <p>
         
-        <a href="/tags/python/" style="font-size: 66px">python | </a>
+        <a href="/tags/python/" style="font-size: 68px">python | </a>
         
         <a href="/tags/django/" style="font-size: 22px">django | </a>
         
@@ -216,7 +325,7 @@
         
         <a href="/tags/soft-skills/" style="font-size: 22px">soft-skills | </a>
         
-        <a href="/tags/tricks/" style="font-size: 40px">tricks | </a>
+        <a href="/tags/tricks/" style="font-size: 42px">tricks | </a>
         
         <a href="/tags/vscode/" style="font-size: 16px">vscode | </a>
         
