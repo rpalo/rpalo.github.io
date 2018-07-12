@@ -8,18 +8,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="ROBOTS" content="INDEX,FOLLOW">
-    <meta name="description" content="Vue tutorial, part 4, where we wrap it all up">
-    <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, vue, django, es6, tutorial">
+    <meta name="description" content="Python handles unix shebangs (lines that tell your computer how to run a program) in a way that is really nice and portable.">
+    <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, python">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="assert_not magic? | Vue on Django, Part 4">
+    <meta name="twitter:title" content="assert_not magic? | Python Shebangs on Windows">
     <meta name="twitter:site" content="@paytastic">
-    <meta name="twitter:description" content="Vue tutorial, part 4, where we wrap it all up">
-    <meta name="twitter:image" content="https://res.cloudinary.com/duninnjce/image/upload/w_300,q_auto,f_auto/django-vue.png">
+    <meta name="twitter:description" content="Python handles unix shebangs (lines that tell your computer how to run a program) in a way that is really nice and portable.">
+    <meta name="twitter:image" content="https://res.cloudinary.com/duninnjce/image/upload/w_300,q_auto,f_auto/shebang">
     <meta name="twitter:creator" content="@paytastic">
-    <meta name="og:url" content="http://assertnotmagic.com/2017/07/16/vue-on-django-part-4/">
-    <meta name="og:title" content="assert_not magic? | Vue on Django, Part 4">
-    <meta name="og:description" content="Vue tutorial, part 4, where we wrap it all up">
-    <meta name="og:image" content="https://res.cloudinary.com/duninnjce/image/upload/w_300,q_auto,f_auto/django-vue.png">
+    <meta name="og:url" content="http://assertnotmagic.com/2018/07/01/windows-python-shebangs/">
+    <meta name="og:title" content="assert_not magic? | Python Shebangs on Windows">
+    <meta name="og:description" content="Python handles unix shebangs (lines that tell your computer how to run a program) in a way that is really nice and portable.">
+    <meta name="og:image" content="https://res.cloudinary.com/duninnjce/image/upload/w_300,q_auto,f_auto/shebang">
 
     <!-- Favicon settings -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -55,215 +55,101 @@
         <article class="site-wrap">
     <div id="cover">
         
-        <img alt="Cover Image" class="cover-image" src="https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/django-vue.png"> 
+        <img alt="Cover Image" class="cover-image" src="https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/shebang"> 
     </div>
-    <h1>Vue on Django, Part 4</h1>
+    <h1>Python Shebangs on Windows</h1>
     
     
     
 
     
         <small>
-        1169
-     words.  Time to Read: About 11 minutes.</small>
+        584
+     words.  Time to Read: About 5 minutes.</small>
     
 
-    <p>This is Part 4 of my tutorial for making a Vue app powered by a Django REST backend.  Finally!  We’ve done it.  You’ve done it.  But most importantly, I’ve done it.  😊  In the first part, we set up just the Vue side.  In Part 2, we set up the data model and got it so we could create and clear our Todos in the browser.  In Part 3, we set up the Django backend.  Part 4 will consist of giving our front end a way to talk to our backend, so that our todos can be persisted for all time.  This section will make some API calls, so it would be useful to you to have some kind of knowledge of HTTP requests and JavaScript promises.  If you’re not familiar with these, you should at least be comfortable shrugging, following my lead, and Googling later.</p>
+    <p><em>Cover image By Sven [Public domain], from Wikimedia Commons</em></p>
 
-<h2 id="0-setting-up">0. Setting Up</h2>
+<h2 id="shebang-lines-in-the-wild">Shebang Lines in the Wild</h2>
 
-<p>We should only need one other thing installed for this part: Vue Resource, which helps us to make HTTP requests.</p>
+<p>In Unix-like systems, if you want a file to be executable, you can add a line to the top called a <strong>“shebang”</strong>.  They look like this:</p>
 
-<pre><code class="language-bash">$ npm install -s vue-resource
+<pre><code class="language-bash">#!/usr/bin/env bash
+
+echo "Hello, world!"
 </code></pre>
 
-<p>That’s it!  Let’s get into the changes, shall we?</p>
+<p>“Shebang” is short for “hash bang,” which is slang for the pound/hash/octothorpe symbol (<code>#</code>), followed by the exclamation point/bang (<code>!</code>).  This line is responsible for telling the computer where the program or command that will be used to run this file lives.</p>
 
-<h2 id="1-the-client-side-api-utility">1. The Client-Side API Utility</h2>
+<p>Once your file has a shebang, you can make the file executable by adding “execute permissions,” accomplished by running the following command in your Bash shell:</p>
 
-<p>Add a file called <code>api.js</code> to your <code>src/store</code> folder.  Here we go:</p>
-
-<pre><code class="language-javascript">// src/store/api.js
-
-import Vue from 'vue'
-import VueResource from 'vue-resource'
-
-Vue.use(VueResource)
-
-export default {
-  get (url, request) {
-    return Vue.http.get(url, request)
-      .then((response) =&gt; Promise.resolve(response))
-      .catch((error) =&gt; Promise.reject(error))
-  },
-  post (url, request) {
-    return Vue.http.post(url, request)
-      .then((response) =&gt; Promise.resolve(response))
-      .catch((error) =&gt; Promise.reject(error))
-  },
-  patch (url, request) {
-    return Vue.http.patch(url, request)
-      .then((response) =&gt; Promise.resolve(response))
-      .catch((error) =&gt; Promise.reject(error))
-  },
-  delete (url, request) {
-    return Vue.http.delete(url, request)
-      .then((response) =&gt; Promise.resolve(response))
-      .catch((error) =&gt; Promise.reject(error))
-  }
-}
+<pre><code class="language-bash">$ chmod u+x hello.sh
 </code></pre>
 
-<p>This file just exports an object with the HTTP methods we’ll be using.  This way, you can call it via <code>api.post(stuff)</code>.  You’ll see an example of this.  Keep in mind, that this section uses a lot of what I think is JavaScript promises, and I’m a little foggy on the inner workings of these so far.  It’s on the list to read more in-depth about.</p>
+<p>You can then run the program by executing it directly:</p>
 
-<p>We’re also going to update our <code>store.js</code> file to use these new methods in our actions.  Remember, actions are allowed to be asynchronus, but mutations must be synchronus.  This is why we do our API calls from within the actions, and it’s a big part of why actions exist at all!</p>
-
-<pre><code class="language-javascript">// src/store/store.js
-
-import Vue from 'vue'
-import Vuex from 'vuex'
-import api from './api.js'
-
-Vue.use(Vuex)
-const apiRoot = 'http://localhost:8000'  // This will change if you deploy later
-
-const store = new Vuex.Store({
-  state: {
-    todos: []
-  },
-  mutations: {
-    // Keep in mind that response is an HTTP response
-    // returned by the Promise.
-    // The mutations are in charge of updating the client state.
-    'GET_TODOS': function (state, response) {
-      state.todos = response.body
-    },
-    'ADD_TODO': function (state, response) {
-      state.todos.push(response.body)
-    },
-    'CLEAR_TODOS': function (state) {
-      const todos = state.todos
-      todos.splice(0, todos.length)
-    },
-    // Note that we added one more for logging out errors.
-    'API_FAIL': function (state, error) {
-      console.error(error)
-    }
-  },
-  actions: {
-    // We added a getTodos action for the initial load from the server
-    // These URLs come straight from the Django URL router we did in Part 3
-    getTodos (store) {
-      return api.get(apiRoot + '/todos/')
-        .then((response) =&gt; store.commit('GET_TODOS', response))
-        .catch((error) =&gt; store.commit('API_FAIL', error))
-    },
-    addTodo (store, todo) {
-      return api.post(apiRoot + '/todos/', todo)
-        .then((response) =&gt; store.commit('ADD_TODO', response))
-        .catch((error) =&gt; store.commit('API_FAIL', error))
-    },
-    clearTodos (store) {
-      return api.delete(apiRoot + '/todos/clear_todos/')
-        .then((response) =&gt; store.commit('CLEAR_TODOS'))
-        .catch((error) =&gt; store.commit('API_FAIL', error))
-    }
-  }
-})
-
-export default store
+<pre><code class="language-bash">$ ./hello.sh
+Hello, world!
 </code></pre>
 
-<p>There is a lot of change in this file, but this is really the meat of it.  Everything else from here on out is really just book-keeping.  Keep in mind that because of the way we set everything up, we are able to hook our app up to a back-end database and we aren’t even going to touch the Components at all!  That is the neatest part I think.</p>
+<h2 id="how-it-works-on-windows">How it Works on Windows</h2>
 
-<p>We’re also going to add one line to our <code>main.js</code> file, right at the bottom.  When our app loads up, the last thing we want it to do before the client sees it is load up the todos array with the saved todos.</p>
+<p>If you’re not using Windows Subsystem Linux or some other form of porting Bash to Windows, you’re probably using PowerShell as your shell of choice.  And, I’ve never had very good luck with shebangs working on Windows.  I think it is because of the way Windows handles which programs deal with which file suffixes.  However, starting with Python 3.3, Python for Windows has shipped with a <strong>“Python for Windows Launcher”</strong>, called from the command line as simply <code>py</code>.</p>
 
-<pre><code class="language-javascript">// src/main.js
+<p>You can launch your latest version of Python by running it with no arguments:</p>
 
-import Vue from 'vue'
-import App from './App'
-
-import store from './store/store.js'
-
-/* eslint-disable no-new */
-const v = new Vue({
-  el: 'body',
-  store: store,
-  components: { App }
-})
-
-// This should be the only new line ***
-v.$store.dispatch('getTodos')
-
+<pre><code class="language-powershell">$ py
 </code></pre>
 
-<p>There’s just one more thing that we should do to make our lives easier.  Open up the file <code>format_index_html.py</code>.  There’s a few typos here from the vue project template that will make our life hard.  Here’s the fixed version.  It’s pretty much the same with some quotation marks added.</p>
+<p>You can select which version you’d like by specifying a version flag.</p>
 
-<pre><code class="language-python">
-import sys
-import fileinput
-
-file = 'templates/index.html'
-
-with open(file, "r+") as f:
-    s = f.read()
-    f.seek(0)
-    f.write("{% load staticfiles %}\n" + s)
-
-for i, line in enumerate(fileinput.input(file, inplace=1)):
-    sys.stdout.write(line.replace('href=//', "href=\"{% static '"))
-for i, line in enumerate(fileinput.input(file, inplace=1)):
-    sys.stdout.write(line.replace('css', "css' %}"))
-for i, line in enumerate(fileinput.input(file, inplace=1)):
-    sys.stdout.write(line.replace('src=//', "src=\"{% static '"))
-for i, line in enumerate(fileinput.input(file, inplace=1)):
-    sys.stdout.write(line.replace('js', "js' %}\""))
-
+<pre><code class="language-powershell">$ py -2.7
 </code></pre>
 
-<p>Again, this code came with the vue template, and it’s pretty ok (maybe not my favorite).  But it’s already written for us, so we’re going with it.</p>
+<p>If you can’t find it or the command isn’t working, the launcher lives by default in <code>C:\WINDOWS\py.exe</code>.  Make sure <code>C:\WINDOWS</code> is on your path and Python files use this executable as their default program.</p>
 
-<h2 id="2-get-ready">2. Get Ready</h2>
+<blockquote>
+  <p>This is <em>really</em> important.  If your default program for running Python files is set to a specific Python executable instead, you’ll end up with some weird and hard-to-diagnose issues.  So, to ensure that you’re set up right, run the “Default Programs” application and make sure Python files are associated with the <code>C:\WINDOWS\py.exe</code> executable and not something else.</p>
+</blockquote>
 
-<p>That should just about do it.  Here’s how we kick the whole thing off.</p>
+<p>The nice thing about this launcher is that, if it is the default program to run your Python files, it can process several common forms of shebangs.</p>
 
-<ol>
-  <li>Make sure your virtual environment is active.</li>
-</ol>
-
-<pre><code class="language-bash">$ source .venv/bin/activate
-# Windows: .venv\Scripts\activate
+<pre><code class="language-bash">#!/usr/bin/env python
+#!/usr/bin/python
+#!/usr/local/bin/python
+#!python
 </code></pre>
 
-<ol>
-  <li>
-    <p>Run <code>./deploy.sh</code>.  If it complains about permissions, either <code>chmod</code> the permissions or just run <code>bash deploy.sh</code>.  On windows, you should be able to run all of the steps in the deploy script manually.  The only one you should change is running <code>python manage.py runserver 8000</code> instead of doing it in two steps.</p>
-  </li>
-  <li>
-    <p>Watch all of the output closely.  If there are any errors, you’ll see them in this deluge of output.</p>
-  </li>
-  <li>
-    <p>Head over to localhost:8000 and enjoy!</p>
-  </li>
-</ol>
+<p>If you’re hoping to make your scripts portable, use one of the ones beginning with <code>/usr</code>.  If <code>py</code> encounters any of these, it will use your default Python.  If you specify a version (either major or major.minor), it will use that version instead:</p>
 
-<h2 id="25-debugging">2.5 Debugging</h2>
+<pre><code class="language-bash">#!/usr/bin/env python3
+#!/usr/bin/env python2.7
+</code></pre>
 
-<p>If it doesn’t work, don’t panic.  Check your browser console.  Errors there?  Errors of a 500 nature are most likely server side.  You’re going to want to work on your django-rest app.  If the errors are on your javascript side, kill any running dev servers and run <code>npm run dev</code> to run the vue server standalone.  This won’t have access to any server functions, but it will be easier to find the real error message.</p>
+<p>In addition, if you use this <code>/usr/bin/env python</code> version (as opposed to the <code>/usr/bin/python</code> or <code>/usr/local/bin/python</code>), <code>py</code> will do the additional, expected search down your <code>PATH</code> for a python command, the same way it would on a Unix-like system.</p>
 
-<h2 id="3-wrap-up">3. Wrap Up</h2>
+<p>There aren’t really “execute permissions” on Windows (correct me if I’m wrong), but once you have one of these lines at the top of your script, you can run it just like an executable in your shell.</p>
 
-<p>This has been a long one, and hopefully I didn’t miss anything.  Since I spaced the posts out (which I regret), I had to play some games with reminding myself what changed from Part to Part.  So, if something doesn’t work or is broken, let me know and I’ll see if I can find where I went wrong.  I added my final project folder <a href="https://github.com/rpalo/vue-django-example">on GitHub</a> so you can search for discrepancies to aid in debugging.  Thanks for sticking with me!</p>
+<pre><code class="language-python">#!/usr/bin/env python3
+# Inside hello.py
+
+print("Hi buddy!")
+</code></pre>
+
+<pre><code class="language-powershell">$ ./hello.py
+Hi buddy!
+</code></pre>
+
+<p>Just one more thing to make you a little less homesick for your Bash shell when you’re on Windows.</p>
+
+<p>There is a lot more information about working with Python on Windows in <a href="https://docs.python.org/3/using/windows.html">the Python docs</a>.  I recommend you take a look if you’re on windows and you like to find ways to make your life easier.</p>
+
+<p>Thanks for reading!</p>
+
  
     <small>
         Author: Ryan Palo | Tags: 
-        <a href="/tags/vue/">vue</a>
-        
-        <a href="/tags/django/">django</a>
-        
-        <a href="/tags/es6/">es6</a>
-        
-        <a href="/tags/tutorial/">tutorial</a>
+        <a href="/tags/python/">python</a>
          | <style>
   .bmc-button img {
     width: 27px !important;
@@ -542,19 +428,19 @@ for i, line in enumerate(fileinput.input(file, inplace=1)):
   {
     "@context":"http://schema.org",
     "@type":"BlogPosting",
-    "headline":"Vue on Django, Part 4",
-    "datePublished":"2017-07-16 00:00:00 -0700",
-    "dateModified":"2017-07-16 00:00:00 -0700",
-    "wordCount":"1169",
+    "headline":"Python Shebangs on Windows",
+    "datePublished":"2018-07-01 00:00:00 -0700",
+    "dateModified":"2018-07-01 00:00:00 -0700",
+    "wordCount":"584",
     "genre":"Technology",
-    "keywords":"vue,django,es6,tutorial",
+    "keywords":"python",
     "author": {
       "@type": "Person",
       "name": "Ryan Palo"
     },
     "image": {
       "@type": "ImageObject",
-      "url": "https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/django-vue.png"
+      "url": "https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/shebang"
     },
     "publisher": {
       "@type": "Organization",
@@ -564,7 +450,7 @@ for i, line in enumerate(fileinput.input(file, inplace=1)):
         "url": "https://assertnotmagic.com/img/logo.png"
       }
     },
-    "description": "Vue tutorial, part 4, where we wrap it all up"
+    "description": "Python handles unix shebangs (lines that tell your computer how to run a program) in a way that is really nice and portable."
   }
 </script>
     

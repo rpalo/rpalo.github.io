@@ -6,9 +6,99 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 10 Jul 2018 08:30:06 -0700</pubDate>
-    <lastBuildDate>Tue, 10 Jul 2018 08:30:06 -0700</lastBuildDate>
+    <pubDate>Wed, 11 Jul 2018 19:31:34 -0700</pubDate>
+    <lastBuildDate>Wed, 11 Jul 2018 19:31:34 -0700</lastBuildDate>
     <generator>Jekyll v3.5.0</generator>
+    
+      <item>
+        <title>Python Shebangs on Windows</title>
+        <description>&lt;p&gt;&lt;em&gt;Cover image By Sven [Public domain], from Wikimedia Commons&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;shebang-lines-in-the-wild&quot;&gt;Shebang Lines in the Wild&lt;/h2&gt;
+
+&lt;p&gt;In Unix-like systems, if you want a file to be executable, you can add a line to the top called a &lt;strong&gt;“shebang”&lt;/strong&gt;.  They look like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;#!/usr/bin/env bash
+
+echo &quot;Hello, world!&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;“Shebang” is short for “hash bang,” which is slang for the pound/hash/octothorpe symbol (&lt;code&gt;#&lt;/code&gt;), followed by the exclamation point/bang (&lt;code&gt;!&lt;/code&gt;).  This line is responsible for telling the computer where the program or command that will be used to run this file lives.&lt;/p&gt;
+
+&lt;p&gt;Once your file has a shebang, you can make the file executable by adding “execute permissions,” accomplished by running the following command in your Bash shell:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ chmod u+x hello.sh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can then run the program by executing it directly:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ ./hello.sh
+Hello, world!
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;how-it-works-on-windows&quot;&gt;How it Works on Windows&lt;/h2&gt;
+
+&lt;p&gt;If you’re not using Windows Subsystem Linux or some other form of porting Bash to Windows, you’re probably using PowerShell as your shell of choice.  And, I’ve never had very good luck with shebangs working on Windows.  I think it is because of the way Windows handles which programs deal with which file suffixes.  However, starting with Python 3.3, Python for Windows has shipped with a &lt;strong&gt;“Python for Windows Launcher”&lt;/strong&gt;, called from the command line as simply &lt;code&gt;py&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;You can launch your latest version of Python by running it with no arguments:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;$ py
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can select which version you’d like by specifying a version flag.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;$ py -2.7
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you can’t find it or the command isn’t working, the launcher lives by default in &lt;code&gt;C:\WINDOWS\py.exe&lt;/code&gt;.  Make sure &lt;code&gt;C:\WINDOWS&lt;/code&gt; is on your path and Python files use this executable as their default program.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;This is &lt;em&gt;really&lt;/em&gt; important.  If your default program for running Python files is set to a specific Python executable instead, you’ll end up with some weird and hard-to-diagnose issues.  So, to ensure that you’re set up right, run the “Default Programs” application and make sure Python files are associated with the &lt;code&gt;C:\WINDOWS\py.exe&lt;/code&gt; executable and not something else.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The nice thing about this launcher is that, if it is the default program to run your Python files, it can process several common forms of shebangs.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;#!/usr/bin/env python
+#!/usr/bin/python
+#!/usr/local/bin/python
+#!python
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you’re hoping to make your scripts portable, use one of the ones beginning with &lt;code&gt;/usr&lt;/code&gt;.  If &lt;code&gt;py&lt;/code&gt; encounters any of these, it will use your default Python.  If you specify a version (either major or major.minor), it will use that version instead:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;#!/usr/bin/env python3
+#!/usr/bin/env python2.7
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In addition, if you use this &lt;code&gt;/usr/bin/env python&lt;/code&gt; version (as opposed to the &lt;code&gt;/usr/bin/python&lt;/code&gt; or &lt;code&gt;/usr/local/bin/python&lt;/code&gt;), &lt;code&gt;py&lt;/code&gt; will do the additional, expected search down your &lt;code&gt;PATH&lt;/code&gt; for a python command, the same way it would on a Unix-like system.&lt;/p&gt;
+
+&lt;p&gt;There aren’t really “execute permissions” on Windows (correct me if I’m wrong), but once you have one of these lines at the top of your script, you can run it just like an executable in your shell.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;#!/usr/bin/env python3
+# Inside hello.py
+
+print(&quot;Hi buddy!&quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;$ ./hello.py
+Hi buddy!
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Just one more thing to make you a little less homesick for your Bash shell when you’re on Windows.&lt;/p&gt;
+
+&lt;p&gt;There is a lot more information about working with Python on Windows in &lt;a href=&quot;https://docs.python.org/3/using/windows.html&quot;&gt;the Python docs&lt;/a&gt;.  I recommend you take a look if you’re on windows and you like to find ways to make your life easier.&lt;/p&gt;
+
+&lt;p&gt;Thanks for reading!&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 01 Jul 2018 00:00:00 -0700</pubDate>
+        <link>https://assertnotmagic.com/2018/07/01/windows-python-shebangs/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/07/01/windows-python-shebangs/</guid>
+        
+        <category>python</category>
+        
+        
+      </item>
     
       <item>
         <title>Python Has a Startup File!</title>
@@ -1883,71 +1973,6 @@ PS [102] master -&amp;gt;
         <category>bash</category>
         
         <category>terminal</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Keep VS Code from Becoming an IDE</title>
-        <description>&lt;p&gt;Some people like a big, heavy, comfy IDE.  Some people like a light, zippy, relatively simple text editor and a terminal window.  And some people like Emacs.  We don’t talk about them.  (I’m joking, I’m sorry, I couldn’t resist.)  I’m part of the zippy editor/terminal group.  This is a tip to help keep the VS Code editor lightweight, like you’ve come to know and love.&lt;/p&gt;
-
-&lt;p&gt;I was using &lt;a href=&quot;https://code.visualstudio.com/&quot;&gt;VS Code&lt;/a&gt; last week, and it was starting to feel really sluggish.  It seemed like it was eating a lot of memory up (relatively) and I wasn’t sure what was happening.&lt;/p&gt;
-
-&lt;p&gt;And then it hit me:&lt;/p&gt;
-
-&lt;h2 id=&quot;i-had-too-many-extensions-running&quot;&gt;I Had Too Many Extensions Running&lt;/h2&gt;
-
-&lt;p&gt;I love tools.  Especially new shiny ones.  I don’t think I’m alone on this.  Because of this, I frequently install new extensions just to try them out and kick the tires a little bit.  I then promptly forget about them, and leave them not only installed but also activated.&lt;/p&gt;
-
-&lt;p&gt;Each one of these extensions takes up memory, and uses battery, and slows you down.  They can add time to startup speed, too.  Keep in mind, my laptop isn’t all that burly, and a new computer or more memory isn’t in the cards for a little while, so every little bit of memory I can conserve is worth it.&lt;/p&gt;
-
-&lt;h2 id=&quot;heres-the-fix&quot;&gt;Here’s the Fix&lt;/h2&gt;
-
-&lt;p&gt;Turn them all off.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;You heard me.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Ok, maybe not all of them.  But you don’t need the entire Go-lang support system when you’re working on a Ruby project do you?  You probably don’t need all the Python support either.  Or the C# snippets.&lt;/p&gt;
-
-&lt;p&gt;Go through each of your extensions in the extensions bar and disable them.  You don’t have to reload until you’ve done them all.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/extensions-disable.gif&quot; alt=&quot;Disabling an extension&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Now you are fast.  You are sleek.  &lt;em&gt;You.  Are.  Speed.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/extensions-installed.gif&quot; alt=&quot;Look at all those disabled extensions&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;ok-ok-not-all-of-them&quot;&gt;OK, OK, Not All of Them&lt;/h2&gt;
-
-&lt;p&gt;In my opinion, there are two kinds of extensions.  The first are language support extensions.  As I pick up a new language, I discover there’s an extension that makes writing it better.  Python, Go, Ruby, language-specific linting, prettifying, snippets, and intellisense.&lt;/p&gt;
-
-&lt;p&gt;Apparently, a good portion of these are set to only activate when you’re working on a file with that particular language.  (Thanks! &lt;a href=&quot;https://dev.to/sirwindfield&quot;&gt;@SirWindfield&lt;/a&gt;!)  However, some less well behaved ones aren’t set up this way.  You can check when an extension is set to activate by looking in your extensions directory.  On my system, it’s at &lt;code&gt;~/.vscode/extensions/&lt;/code&gt;.  You’ll see a directory for each extension.  If you look into an extension’s &lt;code&gt;package.json&lt;/code&gt;, you’ll likely see a key for &lt;code&gt;activationEvents&lt;/code&gt;.  Well-behaved extensions will only activate on certain filetypes, commands, and terminal activities.  Troublemakers will simply have an innocuous little “*”.  These are the ones you want to disable.&lt;/p&gt;
-
-&lt;p&gt;If this seems like too much work, just do what I do and disable all of these language-specific ones.&lt;/p&gt;
-
-&lt;p&gt;The other kind of extensions are the general developer happiness extensions.  Things like &lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=pajoma.vscode-journal&quot;&gt;journaling support&lt;/a&gt;, &lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=2gua.rainbow-brackets&quot;&gt;colored bracket matchers&lt;/a&gt;, &lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=dustinsanders.an-old-hope-theme-vscode&quot;&gt;Star Wars-based themes&lt;/a&gt;, and, of course, &lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=Perkovec.emoji&quot;&gt;emoji support&lt;/a&gt;.  Feel free to leave these enabled all the time.  You deserve to be happy.&lt;/p&gt;
-
-&lt;h2 id=&quot;but-what-if-i-want-my-extensions&quot;&gt;But What if I Want My Extensions?&lt;/h2&gt;
-
-&lt;p&gt;Don’t panic.  If you go to work on a project that needs those language-specific ones, you can enable them &lt;em&gt;just in your workspace&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/extensions-enable-workspace.gif&quot; alt=&quot;Enabling within a workspace&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Now you get the full power of your development environment, and your computer loves you.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;Do you have some favorite extensions?  Any that are a little obscure or don’t get a lot of love?  Let me know about them.  I’m always looking for another extension to add to my list.  I might even leave it enabled.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Edit 4/28/18: Updated some info on when extensions activate themselves, thanks to &lt;a href=&quot;https://dev.to/sirwindfield&quot;&gt;@SirWindfield&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
-</description>
-        <pubDate>Thu, 26 Apr 2018 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2018/04/26/keep-vs-code-light/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2018/04/26/keep-vs-code-light/</guid>
-        
-        <category>editors</category>
-        
-        <category>vscode</category>
         
         
       </item>

@@ -73,8 +73,8 @@
 
   <!-- Current Post -->
   
-    <h1 id="title">Python Has a Startup File!</h1>
-    <small>Jun 30, 2018</small><style>
+    <h1 id="title">Python Shebangs on Windows</h1>
+    <small>Jul 1, 2018</small><style>
   .bmc-button img {
     width: 27px !important;
     margin-bottom: 1px !important;
@@ -124,126 +124,84 @@
   <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee">
   <span style="margin-left:5px">Buy me a coffee</span>
 </a>
-    <p><p><em>Cover Photo by Uriel Soberanes on Unsplash</em></p>
+    <p><p><em>Cover image By Sven [Public domain], from Wikimedia Commons</em></p>
 
-<p>So, I want to be clear.  <em>I</em> knew that Python has a startup customization file this whole time I’ve been using Python.  <em>I</em> didn’t just find out about it this week.  I mean, of <em>course</em> Python has a startup file.  Everything has a startup file!  I just want to make sure <em>you</em> know about it.  <em>(Only joking, I had no idea this was a thing.)</em></p>
+<h2 id="shebang-lines-in-the-wild">Shebang Lines in the Wild</h2>
+
+<p>In Unix-like systems, if you want a file to be executable, you can add a line to the top called a <strong>“shebang”</strong>.  They look like this:</p>
+
+<pre><code class="language-bash">#!/usr/bin/env bash
+
+echo "Hello, world!"
+</code></pre>
+
+<p>“Shebang” is short for “hash bang,” which is slang for the pound/hash/octothorpe symbol (<code>#</code>), followed by the exclamation point/bang (<code>!</code>).  This line is responsible for telling the computer where the program or command that will be used to run this file lives.</p>
+
+<p>Once your file has a shebang, you can make the file executable by adding “execute permissions,” accomplished by running the following command in your Bash shell:</p>
+
+<pre><code class="language-bash">$ chmod u+x hello.sh
+</code></pre>
+
+<p>You can then run the program by executing it directly:</p>
+
+<pre><code class="language-bash">$ ./hello.sh
+Hello, world!
+</code></pre>
+
+<h2 id="how-it-works-on-windows">How it Works on Windows</h2>
+
+<p>If you’re not using Windows Subsystem Linux or some other form of porting Bash to Windows, you’re probably using PowerShell as your shell of choice.  And, I’ve never had very good luck with shebangs working on Windows.  I think it is because of the way Windows handles which programs deal with which file suffixes.  However, starting with Python 3.3, Python for Windows has shipped with a <strong>“Python for Windows Launcher”</strong>, called from the command line as simply <code>py</code>.</p>
+
+<p>You can launch your latest version of Python by running it with no arguments:</p>
+
+<pre><code class="language-powershell">$ py
+</code></pre>
+
+<p>You can select which version you’d like by specifying a version flag.</p>
+
+<pre><code class="language-powershell">$ py -2.7
+</code></pre>
+
+<p>If you can’t find it or the command isn’t working, the launcher lives by default in <code>C:\WINDOWS\py.exe</code>.  Make sure <code>C:\WINDOWS</code> is on your path and Python files use this executable as their default program.</p>
 
 <blockquote>
-  <p>Before you bring it up, I already know about <a href="https://bpython-interpreter.org/screenshots.html">bPython</a>, the awesome, syntax-highlighty, tab-completey, auto-indenty, wonderful drop in replacement for the regular Python interpreter.  I use it all the time.  But that’s not what this blog post is about.  P.S. if you didn’t know about bPython, I highly recommend it (Windows users’ mileage may vary).</p>
+  <p>This is <em>really</em> important.  If your default program for running Python files is set to a specific Python executable instead, you’ll end up with some weird and hard-to-diagnose issues.  So, to ensure that you’re set up right, run the “Default Programs” application and make sure Python files are associated with the <code>C:\WINDOWS\py.exe</code> executable and not something else.</p>
 </blockquote>
 
-<h2 id="pythonstartup">$PYTHONSTARTUP</h2>
+<p>The nice thing about this launcher is that, if it is the default program to run your Python files, it can process several common forms of shebangs.</p>
 
-<p>If you have the environment variable <code>$PYTHONSTARTUP</code> set to a valid Python file, that file will get run when starting up the Python interpreter.</p>
-
-<pre><code class="language-bash">$ export PYTHONSTARTUP="~/.config/pythonrc.py"
+<pre><code class="language-bash">#!/usr/bin/env python
+#!/usr/bin/python
+#!/usr/local/bin/python
+#!python
 </code></pre>
 
-<p>Don’t worry about the name of the file.  Name it whatever you want!  <code>python_startup.py</code>, or just <code>pythonrc</code>.  You can also put it in whatever directory you want.  Just make sure your <code>$PYTHONSTARTUP</code> environment variable matches.  Then, you can put anything you want into that file.</p>
+<p>If you’re hoping to make your scripts portable, use one of the ones beginning with <code>/usr</code>.  If <code>py</code> encounters any of these, it will use your default Python.  If you specify a version (either major or major.minor), it will use that version instead:</p>
 
-<pre><code class="language-python"># ~/.config/pythonrc.py
-a = "Wahoo!"
-print("Soup")
-try:
-    import numpy as np
-except ImportError:
-    print("Could not import numpy.")
+<pre><code class="language-bash">#!/usr/bin/env python3
+#!/usr/bin/env python2.7
 </code></pre>
 
-<p>Try running your Python interpreter.</p>
+<p>In addition, if you use this <code>/usr/bin/env python</code> version (as opposed to the <code>/usr/bin/python</code> or <code>/usr/local/bin/python</code>), <code>py</code> will do the additional, expected search down your <code>PATH</code> for a python command, the same way it would on a Unix-like system.</p>
 
-<pre><code class="language-bash">$ python  # or python3
+<p>There aren’t really “execute permissions” on Windows (correct me if I’m wrong), but once you have one of these lines at the top of your script, you can run it just like an executable in your shell.</p>
+
+<pre><code class="language-python">#!/usr/bin/env python3
+# Inside hello.py
+
+print("Hi buddy!")
 </code></pre>
 
-<p>And you should see something similar to the following:</p>
-
-<pre><code class="language-python">Python 3.7.0 (default, Jun 29 2018, 20:14:27)
-[Clang 9.0.0 (clang-900.0.39.2)] on darwin
-Type "help", "copyright", "credits" or "license" for more information.
-Soup
-&gt;&gt;&gt; np
-&lt;module 'numpy' from '/usr/local/lib/python3.7/site-packages/numpy/__init__.py'&gt;
-&gt;&gt;&gt; np.zeros((3, 2))
-array([[0., 0.],
-       [0., 0.],
-       [0., 0.]])
-&gt;&gt;&gt; a
-'Wahoo!'
+<pre><code class="language-powershell">$ ./hello.py
+Hi buddy!
 </code></pre>
 
-<p>You can import commonly used libraries, create variables for yourself, and more.</p>
+<p>Just one more thing to make you a little less homesick for your Bash shell when you’re on Windows.</p>
 
-<h2 id="sysps1-and-sysps2">sys.ps1 and sys.ps2</h2>
+<p>There is a lot more information about working with Python on Windows in <a href="https://docs.python.org/3/using/windows.html">the Python docs</a>.  I recommend you take a look if you’re on windows and you like to find ways to make your life easier.</p>
 
-<p>One neat thing to do is to set the <code>sys.ps1</code> and <code>sys.ps2</code> variables, which control your Python prompts.</p>
+<p>Thanks for reading!</p>
 
-<pre><code class="language-python"># ~/.config/pythonrc.py
-
-import sys
-
-sys.ps1 = "🌮"
-sys.ps2 = "💩"
-
-# ...
-</code></pre>
-
-<p>And, back in the interactive REPL:</p>
-
-<pre><code class="language-python">🌮 for i in range(10):
-💩     print("I am a mature adult.")
-💩
-I am a mature adult.
-I am a mature adult.
-...
-</code></pre>
-
-<p>In fact, you can even set <code>sys.ps1</code> and <code>sys.ps2</code> to objects that aren’t even strings!  If they’re not strings, Python will call <code>str(obj)</code> on them.</p>
-
-<pre><code class="language-python"># ~/.config/pythonrc.py
-
-import sys
-from datetime import datetime
-
-class CustomPS1:
-    def __init__(self):
-        self.count = 0
-
-    def __str__(self):
-        self.count += 1
-        return f"({self.count}) {datetime.now().strftime('%H:%m %p')} &gt; "
-
-sys.ps1 = CustomPS1()
-</code></pre>
-
-<p>And in the interpreter:</p>
-
-<pre><code class="language-python">(1) 10:06 AM &gt; for i in range(10):
-...     print("Am I cool now?")
-...
-Am I cool now?
-Am I cool now?
-# ...
-(2) 11:06 AM &gt;
-</code></pre>
-
-<h2 id="the--i-flag">The -i Flag</h2>
-
-<p>In addition to these new superpowers, you can temporarily make <em>any</em> Python script your startup script.  This could come in really handy for some interactive debugging.  Let’s say you’re working on a project and you have a script that defines some functions:</p>
-
-<pre><code class="language-python"># cool_script.py
-
-def what_time_is_it():
-    return "Party Time"
-</code></pre>
-
-<p>You can use the <code>-i</code> flag when you run the Python interpreter to use <code>cool_script.py</code> as your startup file instead of your usual one.</p>
-
-<pre><code class="language-python">$ python -i cool_script.py
-&gt;&gt;&gt; what_time_is_it()
-'Party Time'
-</code></pre>
-
-<p>If you do some cool things with your startup file, share it with me!  I want to know about it!  Happy coding!</p>
 </p>
   
 
@@ -277,6 +235,11 @@ def what_time_is_it():
         </li>
         
           <li>
+            <span class="post-meta">Jun 30, 2018</span><br/>
+            <a class="post-link" href="/2018/06/30/python-startup-file/">Python Has a Startup File!</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Jun 23, 2018</span><br/>
             <a class="post-link" href="/2018/06/23/ascii-wall-e/">Ascii Wall-E for Your Terminal</a>
           </li>
@@ -284,11 +247,6 @@ def what_time_is_it():
           <li>
             <span class="post-meta">Jun 20, 2018</span><br/>
             <a class="post-link" href="/2018/06/20/bash-brackets-quick-reference/">Bash Brackets Quick Reference</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Jun 16, 2018</span><br/>
-            <a class="post-link" href="/2018/06/16/python-toolbox-make-script/">Python Scripting Toolbox: Part 2 - String Templates and `argparse`</a>
           </li>
         
       </ul>
@@ -301,7 +259,7 @@ def what_time_is_it():
       <h2>Tags</h2>
       <p>
         
-        <a href="/tags/python/" style="font-size: 68px">python | </a>
+        <a href="/tags/python/" style="font-size: 70px">python | </a>
         
         <a href="/tags/django/" style="font-size: 22px">django | </a>
         
