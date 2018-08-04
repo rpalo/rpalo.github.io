@@ -73,8 +73,8 @@
 
   <!-- Current Post -->
   
-    <h1 id="title">Python Shebangs on Windows</h1>
-    <small>Jul 1, 2018</small><style>
+    <h1 id="title">3 Common Mistakes that Python Newbies Make</h1>
+    <small>Aug 4, 2018</small><style>
   .bmc-button img {
     width: 27px !important;
     margin-bottom: 1px !important;
@@ -124,84 +124,194 @@
   <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee">
   <span style="margin-left:5px">Buy me a coffee</span>
 </a>
-    <p><p><em>Cover image By Sven [Public domain], from Wikimedia Commons</em></p>
+    <p><p>Last weekend, I stared mentoring people on <a href="https://exercism.io">exercism.io</a> on the Python track.  I wasn’t sure what to expect, but over the last week I have mentored about 50 people, helping them get their solutions from “tests passing” to “tests passing, readable, <em>and</em> Pythonic.”  I’m hooked.  It’s a total blast.  I’m going to write a post specifically on that experience.  That’s not this post.  This post is to talk about the three most common mistakes I saw over the last week and some possible alternatives that might be better!  So let’s start the countdown!</p>
 
-<h2 id="shebang-lines-in-the-wild">Shebang Lines in the Wild</h2>
+<h2 id="1-deep-nesting-of-if-statements-or-loops">1. Deep Nesting of If Statements or Loops</h2>
 
-<p>In Unix-like systems, if you want a file to be executable, you can add a line to the top called a <strong>“shebang”</strong>.  They look like this:</p>
+<pre><code class="language-python"># Calculating whether or not 'year' is a leap year
 
-<pre><code class="language-bash">#!/usr/bin/env bash
-
-echo "Hello, world!"
+if year % 4 == 0:
+    if year % 100 == 0:
+        if year % 400 == 0:
+            return True
+        else:
+            return False
+    else:
+        return True
+else:
+    return False
 </code></pre>
 
-<p>“Shebang” is short for “hash bang,” which is slang for the pound/hash/octothorpe symbol (<code>#</code>), followed by the exclamation point/bang (<code>!</code>).  This line is responsible for telling the computer where the program or command that will be used to run this file lives.</p>
-
-<p>Once your file has a shebang, you can make the file executable by adding “execute permissions,” accomplished by running the following command in your Bash shell:</p>
-
-<pre><code class="language-bash">$ chmod u+x hello.sh
-</code></pre>
-
-<p>You can then run the program by executing it directly:</p>
-
-<pre><code class="language-bash">$ ./hello.sh
-Hello, world!
-</code></pre>
-
-<h2 id="how-it-works-on-windows">How it Works on Windows</h2>
-
-<p>If you’re not using Windows Subsystem Linux or some other form of porting Bash to Windows, you’re probably using PowerShell as your shell of choice.  And, I’ve never had very good luck with shebangs working on Windows.  I think it is because of the way Windows handles which programs deal with which file suffixes.  However, starting with Python 3.3, Python for Windows has shipped with a <strong>“Python for Windows Launcher”</strong>, called from the command line as simply <code>py</code>.</p>
-
-<p>You can launch your latest version of Python by running it with no arguments:</p>
-
-<pre><code class="language-powershell">$ py
-</code></pre>
-
-<p>You can select which version you’d like by specifying a version flag.</p>
-
-<pre><code class="language-powershell">$ py -2.7
-</code></pre>
-
-<p>If you can’t find it or the command isn’t working, the launcher lives by default in <code>C:\WINDOWS\py.exe</code>.  Make sure <code>C:\WINDOWS</code> is on your path and Python files use this executable as their default program.</p>
+<p>A lot of times, I’ll pull a line from the <a href="https://www.python.org/dev/peps/pep-0020/#id3">Zen of Python</a> to lead off my feedback to a “mentee” (not to be confused with a manitee).  When I see this issue, I always lead with</p>
 
 <blockquote>
-  <p>This is <em>really</em> important.  If your default program for running Python files is set to a specific Python executable instead, you’ll end up with some weird and hard-to-diagnose issues.  So, to ensure that you’re set up right, run the “Default Programs” application and make sure Python files are associated with the <code>C:\WINDOWS\py.exe</code> executable and not something else.</p>
+  <p>Flat is better than nested.</p>
 </blockquote>
 
-<p>The nice thing about this launcher is that, if it is the default program to run your Python files, it can process several common forms of shebangs.</p>
+<p>If you look at your code with your eyes unfocused, looking at the shapes and not reading the words, and you see a bunch of arrows going out and back in again:</p>
 
-<pre><code class="language-bash">#!/usr/bin/env python
-#!/usr/bin/python
-#!/usr/local/bin/python
-#!python
+<pre><code>\
+ \
+  \
+   \
+    \
+    /
+   /
+  /
+  \
+   \
+    \
+     \
+     /
+    /
+   /
+  /
+ /
+/
 </code></pre>
 
-<p>If you’re hoping to make your scripts portable, use one of the ones beginning with <code>/usr</code>.  If <code>py</code> encounters any of these, it will use your default Python.  If you specify a version (either major or major.minor), it will use that version instead:</p>
+<p>It’s not <em>definitely</em> a bad thing, but it is a “code smell,” or a Spidey Sense that something could possibly be refactored.</p>
 
-<pre><code class="language-bash">#!/usr/bin/env python3
-#!/usr/bin/env python2.7
+<p>So, what can you do instead of nest?  There are a couple things to try.  The first is inverting your logic and using “early returns” to peel off small pieces of the solution space one at a time.</p>
+
+<pre><code class="language-python">if year % 400 == 0:
+    return True
+if year % 100 == 0:
+    return False
+if year % 4 == 0:
+    return True
+return False
 </code></pre>
 
-<p>In addition, if you use this <code>/usr/bin/env python</code> version (as opposed to the <code>/usr/bin/python</code> or <code>/usr/local/bin/python</code>), <code>py</code> will do the additional, expected search down your <code>PATH</code> for a python command, the same way it would on a Unix-like system.</p>
+<p>If the number is divisible by 400, then we immediately return true.  Otherwise, for the rest of our code, we can know that year is <em>definitely not</em> divisible by 400.  So, at that point, any other year that’s divisible by 100 is not a leap year.  So we peel off that layer of the onion by returning False.</p>
 
-<p>There aren’t really “execute permissions” on Windows (correct me if I’m wrong), but once you have one of these lines at the top of your script, you can run it just like an executable in your shell.</p>
+<p>After that, we can know that <code>year</code> is definitely not a multiple of 400 <em>or</em> 100, and the remainder of the code follows the same pattern.</p>
 
-<pre><code class="language-python">#!/usr/bin/env python3
-# Inside hello.py
+<p>The other way to avoid nesting is by using “boolean operators:” <code>and, or, and not</code>.  We can combine <code>if</code> statements and thus, save ourselves a layer of nesting!</p>
 
-print("Hi buddy!")
+<pre><code class="language-python">if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):
+    return True
+else:
+    return False
 </code></pre>
 
-<pre><code class="language-powershell">$ ./hello.py
-Hi buddy!
+<p>Of course, that leads us to our second item…</p>
+
+<h2 id="2-returning-booleans-from-if-statements">2. Returning Booleans from If Statements</h2>
+
+<p>We’ll start with our last example from above:</p>
+
+<pre><code class="language-python">if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):
+    return True
+else:
+    return False
 </code></pre>
 
-<p>Just one more thing to make you a little less homesick for your Bash shell when you’re on Windows.</p>
+<p>Anytime you find yourself writing:</p>
 
-<p>There is a lot more information about working with Python on Windows in <a href="https://docs.python.org/3/using/windows.html">the Python docs</a>.  I recommend you take a look if you’re on windows and you like to find ways to make your life easier.</p>
+<pre><code class="language-python">if something:
+    return True
+else:
+    return False
+</code></pre>
 
-<p>Thanks for reading!</p>
+<p>You should remember that the clause of an <code>if</code> statement is itself a boolean!</p>
 
+<pre><code class="language-python">&gt;&gt;&gt; year = 2000
+&gt;&gt;&gt; year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
+True
+</code></pre>
+
+<p>So, why not type a little less and return the result of the boolean operation directly?</p>
+
+<pre><code class="language-python">return (year % 4 == 0 and (year % 100 != 0 or year % 400 == 0))
+</code></pre>
+
+<p>Granted, at this point, the line may be getting a little long, but the code is a little less redundant now!</p>
+
+<h2 id="3-lists-are-like-hammers--not-everything-is-a-nail">3. Lists are Like Hammers – Not Everything is a Nail</h2>
+
+<p>Here are two possible ways that this could show up:</p>
+
+<pre><code class="language-python">some_numbers = [1, 2, 5, 7, 8, ...]
+other_numbers = [1, 3, 6, 7, 9, ...]
+# Let's try to combine these two without duplicates
+for number in other_numbers:
+    if number not in some_numbers:
+        some_numbers.append(number)
+</code></pre>
+
+<p>Or:</p>
+
+<pre><code class="language-python">data = [["apple", 4], ["banana", 2], ["grape", 14]]
+# What fruits do we have?
+for item in data:
+    print(item[0])
+# =&gt; "apple" "banana" "grape"
+# How many grapes do we have?
+for item in data:
+    if item[0] == "grape":
+        print(item[1])
+# =&gt; 14
+</code></pre>
+
+<p>In the first case, you’re trying to keep track of some groups of items and you want to combine them without duplicates.  This is an <em>ideal</em> candidate for a <a href="https://www.geeksforgeeks.org/sets-in-python/"><code>set</code></a>.  Sets inherently keep track of their items (although not the order, so don’t use a set if the order is important).  You can declare them with the built-in <code>set()</code> function or with squiggle braces (<code>{}</code>).</p>
+
+<pre><code class="language-python">some_numbers = {1, 2, 5, 7, 8}
+other_numbers = {1, 3, 6, 7, 9}
+# Sets use the 'binary or' operator to do "unions"
+# which is where they take all of the unique elements
+some_numbers | other_numbers
+# =&gt; {1, 2, 3, 5, 6, 7, 8, 9}
+
+# You can even add single items in!
+some_numbers.add(10)
+# =&gt; {1, 2, 5, 7, 8, 10}
+
+# But adding a duplicate doesn't change anything
+some_numbers.add(1)
+# =&gt; {1, 2, 5, 7, 8, 10}
+</code></pre>
+
+<p>In the second case, again, order probably isn’t critical.  You want to keep track of some data by a “label” or something, but be able to keep them all together and list them out as necessary.  This time, you’re probably looking for a <code>dict</code>.  You can create those with either the <code>dict()</code> built-in function or, again, squiggle braces (<code>{}</code>).  This time, however, you separate the labels (keys) and the values with a colon.</p>
+
+<pre><code class="language-python">fruits = {
+    "apples": 4,
+    "bananas": 2,
+    "grapes": 14,
+}
+</code></pre>
+
+<p>You can list out all of the keys (or values!).</p>
+
+<pre><code class="language-python">list(fruits.keys())
+# =&gt; ["apples", "bananas", "grapes"]
+list(fruits.values())
+# =&gt; [4, 2, 14]
+
+# Or both!
+list(fruits.items())
+# =&gt; [("apples", 4), ("bananas", 2), ("grapes", 14)]
+</code></pre>
+
+<p>And you can ask it about (or give it a new value for) specific keys.</p>
+
+<pre><code class="language-python"># How many grapes are there?
+fruits["grapes"]
+# =&gt; 14
+
+# Not anymore.  I ate some.
+fruits["grapes"] = 0
+
+fruits["grapes"]
+# =&gt; 0
+</code></pre>
+
+<p>Using a list, the your algorithm loops through every item to find the right one.  <code>dict</code>’s are built to have very fast lookups, so, even if your <code>dict</code> is a bazillion fruits long, finding the <code>grapes</code> is still super fast – and easy to type!  No loops!</p>
+
+<h2 id="call-to-action">Call to Action</h2>
+
+<p>Exercism needs mentors!  If you think you’d be a good mentor (or even a decent mentor, just on the easy exercises), sign up at <a href="http://mentoring.exercism.io/">their Mentor Signup page</a>.  Right now, Rust, Golang, and Elixir are especially swamped and need <em>your</em> help!</p>
 </p>
   
 
@@ -235,6 +345,11 @@ Hi buddy!
         </li>
         
           <li>
+            <span class="post-meta">Jul 1, 2018</span><br/>
+            <a class="post-link" href="/2018/07/01/windows-python-shebangs/">Python Shebangs on Windows</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Jun 30, 2018</span><br/>
             <a class="post-link" href="/2018/06/30/python-startup-file/">Python Has a Startup File!</a>
           </li>
@@ -242,11 +357,6 @@ Hi buddy!
           <li>
             <span class="post-meta">Jun 23, 2018</span><br/>
             <a class="post-link" href="/2018/06/23/ascii-wall-e/">Ascii Wall-E for Your Terminal</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Jun 20, 2018</span><br/>
-            <a class="post-link" href="/2018/06/20/bash-brackets-quick-reference/">Bash Brackets Quick Reference</a>
           </li>
         
       </ul>
@@ -259,7 +369,7 @@ Hi buddy!
       <h2>Tags</h2>
       <p>
         
-        <a href="/tags/python/" style="font-size: 70px">python | </a>
+        <a href="/tags/python/" style="font-size: 72px">python | </a>
         
         <a href="/tags/django/" style="font-size: 22px">django | </a>
         
@@ -345,7 +455,7 @@ Hi buddy!
         
         <a href="/tags/p5/" style="font-size: 20px">p5 | </a>
         
-        <a href="/tags/beginner/" style="font-size: 20px">beginner | </a>
+        <a href="/tags/beginner/" style="font-size: 22px">beginner | </a>
         
         <a href="/tags/encouragement/" style="font-size: 18px">encouragement | </a>
         

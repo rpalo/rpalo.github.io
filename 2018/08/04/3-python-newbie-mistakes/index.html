@@ -8,18 +8,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="ROBOTS" content="INDEX,FOLLOW">
-    <meta name="description" content="A quick guide for how to add Chrome Omnibar search functionality to your websites.">
-    <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, browser, html, javascript, tutorial">
+    <meta name="description" content="Some common patterns that could use a little refactoring that I've seen with new Python learners.">
+    <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, python, beginner">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="assert_not magic? | Search Your Site via the Omnibar (Even Static Sites)">
+    <meta name="twitter:title" content="assert_not magic? | 3 Common Mistakes that Python Newbies Make">
     <meta name="twitter:site" content="@paytastic">
-    <meta name="twitter:description" content="A quick guide for how to add Chrome Omnibar search functionality to your websites.">
-    <meta name="twitter:image" content="https://res.cloudinary.com/duninnjce/image/upload/w_300,q_auto,f_auto/omnibar.png">
+    <meta name="twitter:description" content="Some common patterns that could use a little refactoring that I've seen with new Python learners.">
+    <meta name="twitter:image" content="https://res.cloudinary.com/duninnjce/image/upload/w_300,q_auto,f_auto/whoops_snake.jpg">
     <meta name="twitter:creator" content="@paytastic">
-    <meta name="og:url" content="http://assertnotmagic.com/2017/12/05/search-your-site-via-omnibar-even-static-ones/">
-    <meta name="og:title" content="assert_not magic? | Search Your Site via the Omnibar (Even Static Sites)">
-    <meta name="og:description" content="A quick guide for how to add Chrome Omnibar search functionality to your websites.">
-    <meta name="og:image" content="https://res.cloudinary.com/duninnjce/image/upload/w_300,q_auto,f_auto/omnibar.png">
+    <meta name="og:url" content="http://assertnotmagic.com/2018/08/04/3-python-newbie-mistakes/">
+    <meta name="og:title" content="assert_not magic? | 3 Common Mistakes that Python Newbies Make">
+    <meta name="og:description" content="Some common patterns that could use a little refactoring that I've seen with new Python learners.">
+    <meta name="og:image" content="https://res.cloudinary.com/duninnjce/image/upload/w_300,q_auto,f_auto/whoops_snake.jpg">
 
     <!-- Favicon settings -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -55,155 +55,213 @@
         <article class="site-wrap">
     <div id="cover">
         
-        <img alt="Cover Image" class="cover-image" src="https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/omnibar.png"> 
+        <img alt="Cover Image" class="cover-image" src="https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/whoops_snake.jpg"> 
     </div>
-    <h1>Search Your Site via the Omnibar (Even Static Sites)</h1>
+    <h1>3 Common Mistakes that Python Newbies Make</h1>
     
     
     
 
     
         <small>
-        1030
-     words.  Time to Read: About 10 minutes.</small>
+        1133
+     words.  Time to Read: About 11 minutes.</small>
     
 
-    <p>A little while ago, <a href="https://dev.to/twhite">Tiffany White</a> posted an update on <a href="https://dev.to">Dev.to</a>, documenting a new feature: Chrome Omnibar search.</p>
+    <p>Last weekend, I stared mentoring people on <a href="https://exercism.io">exercism.io</a> on the Python track.  I wasn’t sure what to expect, but over the last week I have mentored about 50 people, helping them get their solutions from “tests passing” to “tests passing, readable, <em>and</em> Pythonic.”  I’m hooked.  It’s a total blast.  I’m going to write a post specifically on that experience.  That’s not this post.  This post is to talk about the three most common mistakes I saw over the last week and some possible alternatives that might be better!  So let’s start the countdown!</p>
 
-<p><img src="/img/omnibar-in-action.gif" alt="Searching with the omnibar" /></p>
+<h2 id="1-deep-nesting-of-if-statements-or-loops">1. Deep Nesting of If Statements or Loops</h2>
 
-<p>It’s one of those features that I take for granted on so many of the popular sites that I use, not considering the fact that I could actually have that feature on my own site!  So I looked into how to implement it, and I wanted to share what I found with everybody else.  Part of the point of this post is that I cobbled my suggestion together from a bunch of different search results I found, so if I missed something important, let me know and I’ll add it to the guide (and update how I did it on my blog).</p>
+<pre><code class="language-python"># Calculating whether or not 'year' is a leap year
 
-<h2 id="part-1-opensearch">Part 1: OpenSearch</h2>
-
-<p>The first (and almost only) thing you’ll need is to add a <code>/opensearch.xml</code> file (in the root of your website) with the contents below.  I’m using my blog in the links below.  You’ll probably want to change things to match your site, unless you really like me and want to forward your search traffic to me.</p>
-
-<pre><code class="language-xml">&lt;OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://mozilla.org/2006/browser/search/"&gt;
-	&lt;ShortName&gt;Assert_Not Magic&lt;/ShortName&gt;
-  	&lt;Description&gt;Search blog posts on assert_not magic&lt;/Description&gt;
-  	&lt;InputEncoding&gt;UTF-8&lt;/InputEncoding&gt;
-  	&lt;Image width="16" height="16" type="image/png"&gt;https://assertnotmagic.com/favicon-16x16.png&lt;/Image&gt;
-  	&lt;Url type="text/html" method="get" template="https://assertnotmagic.com/posts/?q={searchTerms}" /&gt;
-  	&lt;Url type="application/opensearchdescription+xml" rel="self" template="https://assertnotmagic.com/opensearch.xml" /&gt;
-  	&lt;SearchForm&gt;https://assertnotmagic.com/posts/&lt;/SearchForm&gt;
-  	&lt;moz:SearchForm&gt;https://assertnotmagic.com/posts/&lt;/moz:SearchForm&gt;
-&lt;/OpenSearchDescription&gt;
+if year % 4 == 0:
+    if year % 100 == 0:
+        if year % 400 == 0:
+            return True
+        else:
+            return False
+    else:
+        return True
+else:
+    return False
 </code></pre>
 
-<p>A quick description of each item:</p>
+<p>A lot of times, I’ll pull a line from the <a href="https://www.python.org/dev/peps/pep-0020/#id3">Zen of Python</a> to lead off my feedback to a “mentee” (not to be confused with a manitee).  When I see this issue, I always lead with</p>
 
-<p><strong>ShortName</strong>: A short name for you (and the browser) to refer to your search engine by (&lt; 16 characters).</p>
+<blockquote>
+  <p>Flat is better than nested.</p>
+</blockquote>
 
-<p><strong>Description</strong>: A longer description (&lt; 1024 characters).</p>
+<p>If you look at your code with your eyes unfocused, looking at the shapes and not reading the words, and you see a bunch of arrows going out and back in again:</p>
 
-<p><strong>InputEncoding</strong>: The encoding of characters to expect.</p>
-
-<p><strong>Image</strong>: The absolute path to (or Base64 data representation of) an icon of your choosing to show up next to search bars in some clients (see the image below).  Make sure the <code>type</code> matches the filetype of your image (whether it’s <code>.png, .jpg, or .ico</code>).</p>
-
-<p><strong>Url</strong>: This is the URL that gets pinged when the user completes their search.  Note that it uses a “magical” {searchTerms}.  It will fill in the URL with whatever the user types.</p>
-
-<p><strong>Url (The second one)</strong>: You can include this and some browsers will automatically update themselves <del>if</del> WHEN you make changes to your <code>opensearch.xml</code>.  More on that in a second.</p>
-
-<p><strong>SearchForm/moz:SearchForm</strong>: Tags that hold a link to your search page.  I believe this is so that if your user gets frustrated with the Omnibar, they can say “BAH.  Just take me to their search page and I’ll do it there.”</p>
-
-<p>The <a href="https://developer.mozilla.org/en-US/docs/Web/OpenSearch">Firefox OpenSearch documentation</a> has some solid guidance to these terms, what is involved, and what is required, if you’re not satisfied with my explanation.  They also have help for if you want to use the Omni-bar to ping a JSON endpoint.</p>
-
-<h3 id="possible-gotcha-updating-during-development">Possible Gotcha: Updating During Development</h3>
-
-<p>While you’re getting setup, it’s possible that you’ll make a typo or a mistake somewhere.  And then you’ll wonder how you clear the @!#$ing cache so your browser reloads the new configuration.  For Chrome, you can right-click the Omnibar and select “Edit Search Engines”.  Find your bar in that menu and delete it to allow your browser to pull in your most recent update.  In theory, the auto-update URL above should save you from this, but this can be your backup nuclear option.</p>
-
-<p><img src="/img/omnibar-cache.png" alt="How to clear the OpenSearch cache" /></p>
-
-<h2 id="part-2-link-tag">Part 2: Link Tag</h2>
-
-<p>Next, all you need to do is throw a <code>link</code> tag into your <code>head</code> section.  I think it’s enough to just have it on your homepage.  Someone correct me if that’s not true.</p>
-
-<pre><code class="language-html">&lt;!-- index.html --&gt;
-&lt;!DOCTYPE HTML&gt;
-&lt;html lang="en"&gt;
-  &lt;head&gt;
-    &lt;!-- ... All the rest of your head tags --&gt;
-    &lt;link rel="search"
-          type="application/opensearchdescription+xml"
-          title="Search assert_not magic"
-          href="/opensearch.xml"&gt;
-  &lt;/head&gt;
-  &lt;!-- ... the rest of your site --&gt;
-&lt;/html&gt;
+<pre><code>\
+ \
+  \
+   \
+    \
+    /
+   /
+  /
+  \
+   \
+    \
+     \
+     /
+    /
+   /
+  /
+ /
+/
 </code></pre>
 
-<p>And you should be good to go!  If you’ve got your own back-end, you can process the <code>q={searchTerms}</code> from the XML document above in the <code>GET</code> request to your Search Results page.  But what if you don’t <em>have</em> a back end?</p>
+<p>It’s not <em>definitely</em> a bad thing, but it is a “code smell,” or a Spidey Sense that something could possibly be refactored.</p>
 
-<h2 id="bonus-part-static-sites">Bonus Part: Static Sites</h2>
+<p>So, what can you do instead of nest?  There are a couple things to try.  The first is inverting your logic and using “early returns” to peel off small pieces of the solution space one at a time.</p>
 
-<p>No back end?  No worries!  I’ll show you how to make it work with your dynamic JavaScript search form.  In <a href="https://assertnotmagic.com/2017/11/11/static-site-search-with-vue/">a previous post</a>, I walked through how I added search functionality to my static-ly generated blog.  I’m going to use the code from the end of that post as a starting point.  For those that are too lazy to click the link:</p>
-
-<pre><code class="language-javascript">const app = new Vue({
-  el: '#app',
-  data: {
-    search: '',
-    post_list: posts
-  },
-  computed: {
-    filteredPosts() {
-      return this.post_list.filter( post =&gt; {
-        return `${post.tags} ${post.title}`.toLowerCase().includes(this.search.toLowerCase());
-      });
-    }
-  }
-});
+<pre><code class="language-python">if year % 400 == 0:
+    return True
+if year % 100 == 0:
+    return False
+if year % 4 == 0:
+    return True
+return False
 </code></pre>
 
-<p>The trick that we’re going to pull is that as we’re creating the Vue-powered search component, we’re going to check our URL for parameters.  Place this before the above code.</p>
+<p>If the number is divisible by 400, then we immediately return true.  Otherwise, for the rest of our code, we can know that year is <em>definitely not</em> divisible by 400.  So, at that point, any other year that’s divisible by 100 is not a leap year.  So we peel off that layer of the onion by returning False.</p>
 
-<pre><code class="language-javascript">const params = new URLSearchParams(location.search);
+<p>After that, we can know that <code>year</code> is definitely not a multiple of 400 <em>or</em> 100, and the remainder of the code follows the same pattern.</p>
+
+<p>The other way to avoid nesting is by using “boolean operators:” <code>and, or, and not</code>.  We can combine <code>if</code> statements and thus, save ourselves a layer of nesting!</p>
+
+<pre><code class="language-python">if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):
+    return True
+else:
+    return False
 </code></pre>
 
-<p><code>URLSearchParams</code> are a handy dandy way to parse parameters (everything after the <code>?</code>) in a url.  While browser support isn’t quite 100%, I’m going to assume that a) you have transpilation figured out, b) you know <a href="https://twitter.com/paytastic">how to @ me</a>, and I’ll help you out.</p>
+<p>Of course, that leads us to our second item…</p>
 
-<p>Now that we have our parameters (if they exist), let’s use them to have our search component pre-load the searched items.</p>
+<h2 id="2-returning-booleans-from-if-statements">2. Returning Booleans from If Statements</h2>
 
-<pre><code class="language-javascript">const params = new URLSearchParams(location.search);
+<p>We’ll start with our last example from above:</p>
 
-const app = new Vue({
-  el: '#app',
-  data: {
-    search: params.has('q') ? params.get('q') : '',  // &lt;- This is the key part
-    post_list: posts
-  },
-  computed: {
-    filteredPosts() {
-      return this.post_list.filter( post =&gt; {
-        return `${post.tags} ${post.title}`.toLowerCase().includes(this.search.toLowerCase());
-      });
-    }
-  }
-});
+<pre><code class="language-python">if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):
+    return True
+else:
+    return False
 </code></pre>
 
-<p>If our URL has a <code>q</code> parameter (which it does if it’s coming from the Omni-bar search), we load that into the search box, which causes our search results to update.  Otherwise, we start with a blank search box and carry on as usual.</p>
+<p>Anytime you find yourself writing:</p>
 
-<p><img src="/img/omnibar-in-action.gif" alt="Here's how it works on my site" /></p>
+<pre><code class="language-python">if something:
+    return True
+else:
+    return False
+</code></pre>
 
-<p>And that’s it!  Like I said, if you know of any best practices for OpenSearch that I’m missing or ways that I can use it better/cooler, let me know and I’ll try to update the post.</p>
+<p>You should remember that the clause of an <code>if</code> statement is itself a boolean!</p>
 
-<p><strong>Extra References:</strong></p>
+<pre><code class="language-python">&gt;&gt;&gt; year = 2000
+&gt;&gt;&gt; year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
+True
+</code></pre>
 
-<ul>
-  <li><a href="https://wynnnetherland.com/journal/enhance-your-site-search-with-opensearch/">Enhance your site with opensearch - Wynn Netherland</a></li>
-  <li><a href="https://developer.mozilla.org/en-US/docs/Web/OpenSearch">Mozilla OpenSearch Docs</a></li>
-  <li><a href="https://www.hanselman.com/blog/OnTheImportanceOfOpenSearch.aspx">On the Importance of OpenSearch - Scott Hanselman</a></li>
-</ul>
+<p>So, why not type a little less and return the result of the boolean operation directly?</p>
+
+<pre><code class="language-python">return (year % 4 == 0 and (year % 100 != 0 or year % 400 == 0))
+</code></pre>
+
+<p>Granted, at this point, the line may be getting a little long, but the code is a little less redundant now!</p>
+
+<h2 id="3-lists-are-like-hammers--not-everything-is-a-nail">3. Lists are Like Hammers – Not Everything is a Nail</h2>
+
+<p>Here are two possible ways that this could show up:</p>
+
+<pre><code class="language-python">some_numbers = [1, 2, 5, 7, 8, ...]
+other_numbers = [1, 3, 6, 7, 9, ...]
+# Let's try to combine these two without duplicates
+for number in other_numbers:
+    if number not in some_numbers:
+        some_numbers.append(number)
+</code></pre>
+
+<p>Or:</p>
+
+<pre><code class="language-python">data = [["apple", 4], ["banana", 2], ["grape", 14]]
+# What fruits do we have?
+for item in data:
+    print(item[0])
+# =&gt; "apple" "banana" "grape"
+# How many grapes do we have?
+for item in data:
+    if item[0] == "grape":
+        print(item[1])
+# =&gt; 14
+</code></pre>
+
+<p>In the first case, you’re trying to keep track of some groups of items and you want to combine them without duplicates.  This is an <em>ideal</em> candidate for a <a href="https://www.geeksforgeeks.org/sets-in-python/"><code>set</code></a>.  Sets inherently keep track of their items (although not the order, so don’t use a set if the order is important).  You can declare them with the built-in <code>set()</code> function or with squiggle braces (<code>{}</code>).</p>
+
+<pre><code class="language-python">some_numbers = {1, 2, 5, 7, 8}
+other_numbers = {1, 3, 6, 7, 9}
+# Sets use the 'binary or' operator to do "unions"
+# which is where they take all of the unique elements
+some_numbers | other_numbers
+# =&gt; {1, 2, 3, 5, 6, 7, 8, 9}
+
+# You can even add single items in!
+some_numbers.add(10)
+# =&gt; {1, 2, 5, 7, 8, 10}
+
+# But adding a duplicate doesn't change anything
+some_numbers.add(1)
+# =&gt; {1, 2, 5, 7, 8, 10}
+</code></pre>
+
+<p>In the second case, again, order probably isn’t critical.  You want to keep track of some data by a “label” or something, but be able to keep them all together and list them out as necessary.  This time, you’re probably looking for a <code>dict</code>.  You can create those with either the <code>dict()</code> built-in function or, again, squiggle braces (<code>{}</code>).  This time, however, you separate the labels (keys) and the values with a colon.</p>
+
+<pre><code class="language-python">fruits = {
+    "apples": 4,
+    "bananas": 2,
+    "grapes": 14,
+}
+</code></pre>
+
+<p>You can list out all of the keys (or values!).</p>
+
+<pre><code class="language-python">list(fruits.keys())
+# =&gt; ["apples", "bananas", "grapes"]
+list(fruits.values())
+# =&gt; [4, 2, 14]
+
+# Or both!
+list(fruits.items())
+# =&gt; [("apples", 4), ("bananas", 2), ("grapes", 14)]
+</code></pre>
+
+<p>And you can ask it about (or give it a new value for) specific keys.</p>
+
+<pre><code class="language-python"># How many grapes are there?
+fruits["grapes"]
+# =&gt; 14
+
+# Not anymore.  I ate some.
+fruits["grapes"] = 0
+
+fruits["grapes"]
+# =&gt; 0
+</code></pre>
+
+<p>Using a list, the your algorithm loops through every item to find the right one.  <code>dict</code>’s are built to have very fast lookups, so, even if your <code>dict</code> is a bazillion fruits long, finding the <code>grapes</code> is still super fast – and easy to type!  No loops!</p>
+
+<h2 id="call-to-action">Call to Action</h2>
+
+<p>Exercism needs mentors!  If you think you’d be a good mentor (or even a decent mentor, just on the easy exercises), sign up at <a href="http://mentoring.exercism.io/">their Mentor Signup page</a>.  Right now, Rust, Golang, and Elixir are especially swamped and need <em>your</em> help!</p>
  
     <small>
         Author: Ryan Palo | Tags: 
-        <a href="/tags/browser/">browser</a>
+        <a href="/tags/python/">python</a>
         
-        <a href="/tags/html/">html</a>
-        
-        <a href="/tags/javascript/">javascript</a>
-        
-        <a href="/tags/tutorial/">tutorial</a>
+        <a href="/tags/beginner/">beginner</a>
          | <style>
   .bmc-button img {
     width: 27px !important;
@@ -482,19 +540,19 @@ const app = new Vue({
   {
     "@context":"http://schema.org",
     "@type":"BlogPosting",
-    "headline":"Search Your Site via the Omnibar (Even Static Sites)",
-    "datePublished":"2017-12-05 00:00:00 -0800",
-    "dateModified":"2017-12-05 00:00:00 -0800",
-    "wordCount":"1030",
+    "headline":"3 Common Mistakes that Python Newbies Make",
+    "datePublished":"2018-08-04 00:00:00 -0700",
+    "dateModified":"2018-08-04 00:00:00 -0700",
+    "wordCount":"1133",
     "genre":"Technology",
-    "keywords":"browser,html,javascript,tutorial",
+    "keywords":"python,beginner",
     "author": {
       "@type": "Person",
       "name": "Ryan Palo"
     },
     "image": {
       "@type": "ImageObject",
-      "url": "https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/omnibar.png"
+      "url": "https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/whoops_snake.jpg"
     },
     "publisher": {
       "@type": "Organization",
@@ -504,7 +562,7 @@ const app = new Vue({
         "url": "https://assertnotmagic.com/img/logo.png"
       }
     },
-    "description": "A quick guide for how to add Chrome Omnibar search functionality to your websites."
+    "description": "Some common patterns that could use a little refactoring that I've seen with new Python learners."
   }
 </script>
     
