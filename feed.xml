@@ -6,9 +6,42 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 04 Aug 2018 16:19:35 -0700</pubDate>
-    <lastBuildDate>Sat, 04 Aug 2018 16:19:35 -0700</lastBuildDate>
-    <generator>Jekyll v3.5.0</generator>
+    <pubDate>Thu, 06 Sep 2018 23:01:11 -0700</pubDate>
+    <lastBuildDate>Thu, 06 Sep 2018 23:01:11 -0700</lastBuildDate>
+    <generator>Jekyll v3.8.3</generator>
+    
+      <item>
+        <title>Personal Update: Back At It</title>
+        <description>&lt;p&gt;&lt;em&gt;Cover image by Feliphe Schiarolli on Unsplash.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Hi!  I haven’t written a blog post in a while.  In fact, I’m way behind my pace for the last two months.  I wanted to bang at least 200 words out to keep my writing muscle in shape and get things going again.  I’ve got a couple of posts planned, but I’m sure more inspiration will come.&lt;/p&gt;
+
+&lt;h2 id=&quot;back-to-school&quot;&gt;Back to School!&lt;/h2&gt;
+
+&lt;p&gt;On a personal note, part of why I’ve been busy &lt;em&gt;not&lt;/em&gt; writing blog posts is because last week I had my first lecture of my Master’s in Computer Science (focus on Intelligent Systems, Robotics, Systems Administration, and a bit of Security/Forensics)!  I’m super excited, because, honestly, I really like school.  I’m going to take a bunch of classes over the next two years, learn a lot, get a whole bunch of fodder for more blog posts, graduate (God willing!), and once I get my Master’s, hopefully somebody somewhere will let me teach classes on something.  That’s about as far as I got on the plan.  Anyways, wish me luck, and enjoy the deluge of CS-powered blog posts that are coming your way.&lt;/p&gt;
+
+&lt;h2 id=&quot;punch-cards&quot;&gt;Punch Cards&lt;/h2&gt;
+
+&lt;p&gt;Last week, I didn’t have much time to write a post because I was writing a research paper on the early punch cards used to program computers.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;It was pretty punchy, but it had a few holes in it. HA!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;As it turns out, the reason why you probably limit your code lines to 80 characters wide is because of how long U.S. money was in the 1880’s.  A guy named &lt;a href=&quot;https://en.wikipedia.org/wiki/Herman_Hollerith&quot;&gt;Herman Hollerith&lt;/a&gt; created punch cards for the U.S. Census Bureau to help speed up processing the census data, and he had a bunch of U.S. Treasury money boxes laying around, so he cut his punch cards to fit in those boxes.  With the spacing of the holes on the card, it left him with 80 columns.  Today, 80 columns is the preferred max line length of the Linux kernel.  Python says try to keep most lines under 72 (to have a nice margin), but definitely limit to 79 columns.  Does every team work like this?  No.  But it’s neat that we work on a standard that programmers have been adhering to one way or another since 1880.  Feels pretty cool, right?&lt;/p&gt;
+
+&lt;p&gt;This week we learned about Binary and Hexadecimal.  I knew about it already thanks to &lt;a href=&quot;https://dev.to/vaidehijoshi/hexes-and-other-magical-numbers&quot;&gt;Vaidehi Joshi’s awesome series&lt;/a&gt;.  I get the feeling I’ll be referring to that series more and more as I go through more classes.  But, expect a post from me on Binary, Hex, and Decimal numbers in the next little while.&lt;/p&gt;
+
+&lt;p&gt;More posts soon!&lt;/p&gt;
+</description>
+        <pubDate>Thu, 06 Sep 2018 00:00:00 -0700</pubDate>
+        <link>https://assertnotmagic.com/2018/09/06/back-at-it/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/09/06/back-at-it/</guid>
+        
+        <category>update</category>
+        
+        
+      </item>
     
       <item>
         <title>3 Common Mistakes that Python Newbies Make</title>
@@ -1436,294 +1469,6 @@ if __name__ == &quot;__main__&quot;:
         <category>scripting</category>
         
         <category>tutorial</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Setting Up a CentOS Server</title>
-        <description>&lt;p&gt;I’m slowly discovering that I &lt;em&gt;love&lt;/em&gt; systems stuff.  I’ve always used Ubuntu as the flavor of Linux on my servers, but I was curious about the differences between Ubuntu and CentOS, so I looked up a few guides and tutorials and spun up a new &lt;a href=&quot;https://m.do.co/c/2e87eb578ad9&quot;&gt;Digital Ocean droplet&lt;/a&gt; with a fresh install of CentOS.  I wanted to share what I learned, and all of the things to think about when first getting things set up.  I’m also writing this for when future me forgets a step and can’t remember the commands.&lt;/p&gt;
-
-&lt;p&gt;I’m going to assume that you have working knowledge of the command line for now: changing directories, editing files, and setting file permissions.  I’ll try to explain anything more exotic than that.  If you’re not quite there, but you still want to learn, please &lt;a href=&quot;https://assertnotmagic.com/about/&quot;&gt;get in touch&lt;/a&gt;, and I’d be happy to walk you through it (and/or write another post for that).  This is also a guide for CentOS because that’s what I was doing.  For that reason, all of the commands are Centos (and probably RHEL) specific.  The process and theory should be much the same for other flavors of Linux, though.&lt;/p&gt;
-
-&lt;h2 id=&quot;first-contact&quot;&gt;First Contact&lt;/h2&gt;
-
-&lt;p&gt;I’m not sure how other providers do it, but once you create a droplet on Digital Ocean and your new server is all turned on, they send you an email with the &lt;code&gt;root&lt;/code&gt; password.  You’ll be able to &lt;code&gt;ssh&lt;/code&gt; into your server using these credentials.  If you’re on a Mac, you already have &lt;code&gt;ssh&lt;/code&gt; installed and accessible via your terminal app of choice.  If you’re on Windows, you should look into an &lt;code&gt;ssh&lt;/code&gt; client.  I use &lt;a href=&quot;https://www.chiark.greenend.org.uk/~sgtatham/putty/&quot;&gt;PuTTY&lt;/a&gt; when I need to.  Your hosting provider will provide you with an IP address as well.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;ssh root@&amp;lt;your_server_ip&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;From now on, if you see something in angle brackets like that, just assume that I mean, “Fill in the placeholder in angle brackets with your own preferred value.”  It will ask you for your password.  Paste it in and hit Enter, and you should be ready to rock!&lt;/p&gt;
-
-&lt;h2 id=&quot;check-your-privilege&quot;&gt;Check Your Privilege&lt;/h2&gt;
-
-&lt;p&gt;Right now you’re logged in as &lt;code&gt;root&lt;/code&gt;.  This is great!  It is also bad.  When you are logged in as root, typos and little mistakes can cause big problems.  It’s generally better to sign in and go about your life in a less privileged account, only invoking &lt;code&gt;sudo&lt;/code&gt; to do privilege-y things when you need to.  That way, if you accidently try to delete yourself out of existence, you’ll have to work a little harder before you succeed.  So, we’ll need to create this everyday user.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;adduser &amp;lt;username&amp;gt; &amp;amp;&amp;amp; passwd &amp;lt;username&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This will ask you for a new password for your new user.  Make it a good one.&lt;/p&gt;
-
-&lt;p&gt;Next, let’s make sure that your new user can actually &lt;code&gt;sudo&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;usermod -aG wheel &amp;lt;username&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We’re adding our new user to the &lt;code&gt;wheel&lt;/code&gt; group, which (as long as you’re on CentOS 7 or better) means that we’ll be able to &lt;code&gt;sudo&lt;/code&gt; without trouble.&lt;/p&gt;
-
-&lt;p&gt;Lastly, sometimes there’s a default user created: &lt;code&gt;centos&lt;/code&gt;.  I don’t think we need this user for anything.  Remove it with:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;deluser centos
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;transferring-keys&quot;&gt;Transferring Keys&lt;/h2&gt;
-
-&lt;p&gt;Next, we’re going to strengthen security by setting up private/public key authentication.  A side benefit of this is that you won’t need to remember a password if you don’t want to anymore.  Temporarily switch users so that you’re operating as your new user.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;su &amp;lt;username&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In order to authenticate with keys, you’ll need a spot to put your public key.  Let’s create the &lt;code&gt;.ssh&lt;/code&gt; directory.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;mkdir ~/.ssh
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We also don’t want anyone but us to be able to fiddle around in this directory.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo chmod 700 ~/.ssh/
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Great!  Let’s transfer a key.  Exit &lt;code&gt;ssh&lt;/code&gt; or open up a new terminal on your local machine.  If you don’t yet have a private/public key pair, generate one now.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;ssh-keygen
-
-# Generating public/private rsa key pair.
-# Enter file in which to save the key (/Users/localuser/.ssh/id_rsa):
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Just hit Enter to accept the default file location for your keys.  This will create two files.  &lt;code&gt;id_rsa&lt;/code&gt; is your private key.  This is &lt;em&gt;Very Secret&lt;/em&gt;™.  Never share this with anyone unless you trust them with your life.  Or, at least, your servers.  I’d go so far as to say don’t put this out on a cloud service or flash drive where it might get hacked, stolen, lost, or blown up.  &lt;code&gt;id_rsa.pub&lt;/code&gt; is your public key, and this is the one you can share with people to prove you are who you say you are.  This is the file that we want to share with our new server’s new user.  There are a couple ways to do this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Via ssh-copy-id
-ssh-copy-id &amp;lt;username&amp;gt;@&amp;lt;server-ip&amp;gt;
-
-# Via scp
-scp ~/.ssh/id_rsa.pub &amp;lt;username&amp;gt;@&amp;lt;server-ip&amp;gt;:~/.ssh/authorized_keys
-
-# Manually via good ole' fashioned copy/paste
-cat ~/.ssh/id_rsa.pub
-
-# You'll see something like:
-# ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAmLmwkzQDjEOW1Rj3TP5NldVDqUODVH9xuYrkeaSkxtdP
-
-# Copy the whole thing.  Then ssh back into your server like normal and create a new file at ~/.ssh/authorized_keys and paste in in.
-nano ~/.ssh/authorized_keys
-
-# Or use emacs or vim or whatever editor you like best.  Whatever.  Shut up.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now, the next time you log in as your user, it shouldn’t ask you for a password.&lt;/p&gt;
-
-&lt;p&gt;And once again, make sure the permissions are as restrictive as possible for this file.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Once again logged into your server
-sudo chmod 600 ~/.ssh/authorized_keys
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;but-we-can-go-even-more-secure&quot;&gt;But We Can Go Even More Secure&lt;/h2&gt;
-
-&lt;p&gt;&lt;em&gt;“But wait, shouldn’t we do a public key for our &lt;code&gt;root&lt;/code&gt; user as well, so we don’t have to type that password either?”&lt;/em&gt; you ask.  The answer is no.  Actually, the most secure way is if your &lt;code&gt;root&lt;/code&gt; user can’t even log in from the outside at all!  We’re now going to edit the configuration for our &lt;code&gt;ssh&lt;/code&gt; daemon (or, &lt;code&gt;sshd&lt;/code&gt; for short) that controls how our server accepts &lt;code&gt;ssh&lt;/code&gt; connections.  Most configuration lives in the &lt;code&gt;/etc&lt;/code&gt; directory, and this is no exception.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo nano /etc/ssh/sshd_config
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Look for the line that says:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;#PermitRootLogin yes
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You’ll want to uncomment it and set that to “no.”&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;PermitRootLogin no
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;em&gt;Side note: I always think it’s funny to add an additional line.&lt;/em&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;# PermitKennyLogin DANGER ZONE!
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;em&gt;My wife, a teacher and not an avid sshd configurer, disagrees.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;As extra steps, also change the following lines:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;PasswordAuthentication no
-
-# If you connect via IPv4:
-AddressFamily inet
-# If you connect via IPv6:
-AddressFamily inet6
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The first line turns off all password logins.  Without this, your user account is still open to password login, which somebody can do even without your private key.  The other lines shrink the amount of shenanigans you have to deal with by refusing to serve people who aren’t connecting like you.  If you’re not going to ever connect via IPv6, why leave that open for some botnet to sniff around?&lt;/p&gt;
-
-&lt;p&gt;Lastly, once we’ve reconfigured a service, we need to reload it.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo systemctl reload sshd
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And we should be good to go!&lt;/p&gt;
-
-&lt;h2 id=&quot;moving-in-and-settling-down&quot;&gt;Moving In and Settling Down&lt;/h2&gt;
-
-&lt;p&gt;We’re pretty much done with the security stuff.  By now, you should be pretty much secure and feeling safe.  Now we’re going to focus on turning this server into a pleasant place to work.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;yum update &amp;amp;&amp;amp; sudo yum upgrade
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Watch as your server brings itself up to current.&lt;/p&gt;
-
-&lt;h3 id=&quot;protip-yum-errors&quot;&gt;ProTip: Yum Errors&lt;/h3&gt;
-
-&lt;p&gt;If you get interrupted or, hypothetically, your dog jumps into your lap while this is happening and just manages to mash the correct keys to abort the upgrade without cleaning up, and you start seeing errors like “yum lock” or “sqlite3 database lock”, don’t panic.&lt;/p&gt;
-
-&lt;p&gt;Check to see if there’s still a &lt;code&gt;yum&lt;/code&gt; process active.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;ps aux | grep yum
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If you see one that shouldn’t be active, try to kill it (take note of the process ID (PID) in the second column of the output from the above command).&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;kill &amp;lt;pid&amp;gt;
-# Or, if you're feeling feisty and it's not working:
-kill -9 &amp;lt;pid&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Willy is sorry he caused 90 minutes of frantically Googling error messages.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/sad-willy.jpg&quot; alt=&quot;Sad Willy&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;back-to-it&quot;&gt;Back To It&lt;/h3&gt;
-
-&lt;p&gt;Now is a good time to install any packages you couldn’t be without: Zsh, oh-my-zsh, Ruby, Vim, and git are the first ones that come to mind.  I’m going to show you just the first one, because there is one hiccup you might encounter.  If you prefer Fish or some other shell, it should most likely be similar.&lt;/p&gt;
-
-&lt;h2 id=&quot;installing-zsh&quot;&gt;Installing Zsh&lt;/h2&gt;
-
-&lt;p&gt;The first part should make sense.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo yum install zsh
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Check to see where your executable lives.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;where zsh
-# /usr/bin/zsh
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The important thing here is to make sure that this location is in your &lt;code&gt;/etc/shells&lt;/code&gt; file, which is a list of the approved shells.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo nano /etc/shells
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;# List of acceptable shells for chpass(1).
-# Ftpd will not allow users to connect who are not using
-# one of these shells.
-
-/bin/bash
-/bin/csh
-/bin/ksh
-/bin/sh
-/bin/tcsh
-/bin/zsh
-/usr/local/bin/pwsh
-/usr/bin/zsh # &amp;lt;&amp;lt; Here's the one we're adding.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Once the zsh executable is approved, you can set your own default shell to zsh.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;chsh -s $(where zsh)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;bonus-bringing-in-dot-files&quot;&gt;Bonus: Bringing in Dot Files&lt;/h2&gt;
-
-&lt;p&gt;If you’re like me, you’re probably reasonably proud of your slowly growing collection of “dot files.”  But how do you get them from your computer onto the server, quickly, sanely, and repeatably?  With Git.  I found &lt;a href=&quot;https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/&quot;&gt;this article by Nicola Paolucci&lt;/a&gt; that I think is brilliant.  We’re going to use a modified bare Git repository in our local home directory!&lt;/p&gt;
-
-&lt;h3 id=&quot;setting-up&quot;&gt;Setting Up&lt;/h3&gt;
-
-&lt;p&gt;On your local machine:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;git init --bare $HOME/.dotfiles
-alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
-dot config --local status.showUntrackedFiles no
-echo alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME' &amp;gt;&amp;gt; ~/.bashrc
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We create a bare repo in our home directory to track our dot files, we create the &lt;code&gt;dot&lt;/code&gt; command (or whatever you want to call it) which will function just like the &lt;code&gt;git&lt;/code&gt; command, but just for our dotfiles.  We configure it to only show us if our tracked files change, and then we save the &lt;code&gt;dot&lt;/code&gt; command for later.&lt;/p&gt;
-
-&lt;p&gt;Now, all we have to do is start tracking some dot files!&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;dot status
-dot add .zshrc
-dot commit -m &quot;Add zshrc&quot;
-dot remote add origin https://github.com/&amp;lt;you&amp;gt;/dotfiles.git
-dot push -u origin master
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You get all the benefits of Git!  You can branch, edit, roll back, diff changes, and more.&lt;/p&gt;
-
-&lt;h3 id=&quot;installing-onto-our-server&quot;&gt;Installing Onto Our Server&lt;/h3&gt;
-
-&lt;p&gt;On the server, add your same &lt;code&gt;dot&lt;/code&gt; command to your &lt;code&gt;.zshrc&lt;/code&gt; file.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;echo alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME' &amp;gt;&amp;gt; ~/.zshrc
-. ~/.zshrc
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If there are any stock files that might conflict with the dotfiles you’re about to pull in, either delete them or (better), copy them to a backup directory.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;mkdir .dotfile-backup
-mv .bashrc .dotfile-backup
-mv .zshrc .dotfile-backup
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now we’re ready:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;git clone --bare &amp;lt;dotfile repo url&amp;gt; $HOME/.dotfiles
-echo &quot;.dotfiles/&quot; &amp;gt;&amp;gt; .gitignore
-dot checkout
-# Just in case:
-dot config status.showUntrackedFiles no
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And now your server should be on its way to being comfy, cozy, and functional!&lt;/p&gt;
-
-&lt;h2 id=&quot;bonus-bonus-message-of-the-day&quot;&gt;Bonus Bonus: Message of the Day&lt;/h2&gt;
-
-&lt;p&gt;I don’t know about you, but I believe that 98% of the reasons why I learned how to program were to make computers print out funny messages.  To that end, I set up my Message of the Day accordingly.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo vim /etc/motd
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;==================================
-You are a gentleman and a scholar.
-==================================
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If you can’t think of any one-liner affirmations to put in your MOTD, check out this &lt;a href=&quot;https://github.com/rpalo/fanbot/blob/master/fanbot/compliments.py&quot;&gt;list of compliments I curated for a twitter bot to pepper my brother with&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Now, whenever you log in, your server will greet you with an uplifting message!  😁&lt;/p&gt;
-
-&lt;h2 id=&quot;wrap-up&quot;&gt;Wrap Up&lt;/h2&gt;
-
-&lt;p&gt;I know there’s a lot more for me to learn in the system administration realm.  I’m starting to stock up on books to read and videos to watch.  Did I miss anything important?  Do you have any extra protips?  Any great resources for learning?  Let me know about them!  Thanks for reading!&lt;/p&gt;
-</description>
-        <pubDate>Mon, 14 May 2018 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2018/05/14/setting-up-centos/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2018/05/14/setting-up-centos/</guid>
-        
-        <category>linux</category>
-        
-        <category>sysadmin</category>
-        
-        <category>security</category>
         
         
       </item>

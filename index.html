@@ -73,8 +73,8 @@
 
   <!-- Current Post -->
   
-    <h1 id="title">3 Common Mistakes that Python Newbies Make</h1>
-    <small>Aug 4, 2018</small><style>
+    <h1 id="title">Personal Update: Back At It</h1>
+    <small>Sep 6, 2018</small><style>
   .bmc-button img {
     width: 27px !important;
     margin-bottom: 1px !important;
@@ -124,194 +124,27 @@
   <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee">
   <span style="margin-left:5px">Buy me a coffee</span>
 </a>
-    <p><p>Last weekend, I stared mentoring people on <a href="https://exercism.io">exercism.io</a> on the Python track.  I wasn’t sure what to expect, but over the last week I have mentored about 50 people, helping them get their solutions from “tests passing” to “tests passing, readable, <em>and</em> Pythonic.”  I’m hooked.  It’s a total blast.  I’m going to write a post specifically on that experience.  That’s not this post.  This post is to talk about the three most common mistakes I saw over the last week and some possible alternatives that might be better!  So let’s start the countdown!</p>
+    <p><p><em>Cover image by Feliphe Schiarolli on Unsplash.</em></p>
 
-<h2 id="1-deep-nesting-of-if-statements-or-loops">1. Deep Nesting of If Statements or Loops</h2>
+<p>Hi!  I haven’t written a blog post in a while.  In fact, I’m way behind my pace for the last two months.  I wanted to bang at least 200 words out to keep my writing muscle in shape and get things going again.  I’ve got a couple of posts planned, but I’m sure more inspiration will come.</p>
 
-<pre><code class="language-python"># Calculating whether or not 'year' is a leap year
+<h2 id="back-to-school">Back to School!</h2>
 
-if year % 4 == 0:
-    if year % 100 == 0:
-        if year % 400 == 0:
-            return True
-        else:
-            return False
-    else:
-        return True
-else:
-    return False
-</code></pre>
+<p>On a personal note, part of why I’ve been busy <em>not</em> writing blog posts is because last week I had my first lecture of my Master’s in Computer Science (focus on Intelligent Systems, Robotics, Systems Administration, and a bit of Security/Forensics)!  I’m super excited, because, honestly, I really like school.  I’m going to take a bunch of classes over the next two years, learn a lot, get a whole bunch of fodder for more blog posts, graduate (God willing!), and once I get my Master’s, hopefully somebody somewhere will let me teach classes on something.  That’s about as far as I got on the plan.  Anyways, wish me luck, and enjoy the deluge of CS-powered blog posts that are coming your way.</p>
 
-<p>A lot of times, I’ll pull a line from the <a href="https://www.python.org/dev/peps/pep-0020/#id3">Zen of Python</a> to lead off my feedback to a “mentee” (not to be confused with a manitee).  When I see this issue, I always lead with</p>
+<h2 id="punch-cards">Punch Cards</h2>
+
+<p>Last week, I didn’t have much time to write a post because I was writing a research paper on the early punch cards used to program computers.</p>
 
 <blockquote>
-  <p>Flat is better than nested.</p>
+  <p>It was pretty punchy, but it had a few holes in it. HA!</p>
 </blockquote>
 
-<p>If you look at your code with your eyes unfocused, looking at the shapes and not reading the words, and you see a bunch of arrows going out and back in again:</p>
+<p>As it turns out, the reason why you probably limit your code lines to 80 characters wide is because of how long U.S. money was in the 1880’s.  A guy named <a href="https://en.wikipedia.org/wiki/Herman_Hollerith">Herman Hollerith</a> created punch cards for the U.S. Census Bureau to help speed up processing the census data, and he had a bunch of U.S. Treasury money boxes laying around, so he cut his punch cards to fit in those boxes.  With the spacing of the holes on the card, it left him with 80 columns.  Today, 80 columns is the preferred max line length of the Linux kernel.  Python says try to keep most lines under 72 (to have a nice margin), but definitely limit to 79 columns.  Does every team work like this?  No.  But it’s neat that we work on a standard that programmers have been adhering to one way or another since 1880.  Feels pretty cool, right?</p>
 
-<pre><code>\
- \
-  \
-   \
-    \
-    /
-   /
-  /
-  \
-   \
-    \
-     \
-     /
-    /
-   /
-  /
- /
-/
-</code></pre>
+<p>This week we learned about Binary and Hexadecimal.  I knew about it already thanks to <a href="https://dev.to/vaidehijoshi/hexes-and-other-magical-numbers">Vaidehi Joshi’s awesome series</a>.  I get the feeling I’ll be referring to that series more and more as I go through more classes.  But, expect a post from me on Binary, Hex, and Decimal numbers in the next little while.</p>
 
-<p>It’s not <em>definitely</em> a bad thing, but it is a “code smell,” or a Spidey Sense that something could possibly be refactored.</p>
-
-<p>So, what can you do instead of nest?  There are a couple things to try.  The first is inverting your logic and using “early returns” to peel off small pieces of the solution space one at a time.</p>
-
-<pre><code class="language-python">if year % 400 == 0:
-    return True
-if year % 100 == 0:
-    return False
-if year % 4 == 0:
-    return True
-return False
-</code></pre>
-
-<p>If the number is divisible by 400, then we immediately return true.  Otherwise, for the rest of our code, we can know that year is <em>definitely not</em> divisible by 400.  So, at that point, any other year that’s divisible by 100 is not a leap year.  So we peel off that layer of the onion by returning False.</p>
-
-<p>After that, we can know that <code>year</code> is definitely not a multiple of 400 <em>or</em> 100, and the remainder of the code follows the same pattern.</p>
-
-<p>The other way to avoid nesting is by using “boolean operators:” <code>and, or, and not</code>.  We can combine <code>if</code> statements and thus, save ourselves a layer of nesting!</p>
-
-<pre><code class="language-python">if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):
-    return True
-else:
-    return False
-</code></pre>
-
-<p>Of course, that leads us to our second item…</p>
-
-<h2 id="2-returning-booleans-from-if-statements">2. Returning Booleans from If Statements</h2>
-
-<p>We’ll start with our last example from above:</p>
-
-<pre><code class="language-python">if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):
-    return True
-else:
-    return False
-</code></pre>
-
-<p>Anytime you find yourself writing:</p>
-
-<pre><code class="language-python">if something:
-    return True
-else:
-    return False
-</code></pre>
-
-<p>You should remember that the clause of an <code>if</code> statement is itself a boolean!</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; year = 2000
-&gt;&gt;&gt; year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
-True
-</code></pre>
-
-<p>So, why not type a little less and return the result of the boolean operation directly?</p>
-
-<pre><code class="language-python">return (year % 4 == 0 and (year % 100 != 0 or year % 400 == 0))
-</code></pre>
-
-<p>Granted, at this point, the line may be getting a little long, but the code is a little less redundant now!</p>
-
-<h2 id="3-lists-are-like-hammers--not-everything-is-a-nail">3. Lists are Like Hammers – Not Everything is a Nail</h2>
-
-<p>Here are two possible ways that this could show up:</p>
-
-<pre><code class="language-python">some_numbers = [1, 2, 5, 7, 8, ...]
-other_numbers = [1, 3, 6, 7, 9, ...]
-# Let's try to combine these two without duplicates
-for number in other_numbers:
-    if number not in some_numbers:
-        some_numbers.append(number)
-</code></pre>
-
-<p>Or:</p>
-
-<pre><code class="language-python">data = [["apple", 4], ["banana", 2], ["grape", 14]]
-# What fruits do we have?
-for item in data:
-    print(item[0])
-# =&gt; "apple" "banana" "grape"
-# How many grapes do we have?
-for item in data:
-    if item[0] == "grape":
-        print(item[1])
-# =&gt; 14
-</code></pre>
-
-<p>In the first case, you’re trying to keep track of some groups of items and you want to combine them without duplicates.  This is an <em>ideal</em> candidate for a <a href="https://www.geeksforgeeks.org/sets-in-python/"><code>set</code></a>.  Sets inherently keep track of their items (although not the order, so don’t use a set if the order is important).  You can declare them with the built-in <code>set()</code> function or with squiggle braces (<code>{}</code>).</p>
-
-<pre><code class="language-python">some_numbers = {1, 2, 5, 7, 8}
-other_numbers = {1, 3, 6, 7, 9}
-# Sets use the 'binary or' operator to do "unions"
-# which is where they take all of the unique elements
-some_numbers | other_numbers
-# =&gt; {1, 2, 3, 5, 6, 7, 8, 9}
-
-# You can even add single items in!
-some_numbers.add(10)
-# =&gt; {1, 2, 5, 7, 8, 10}
-
-# But adding a duplicate doesn't change anything
-some_numbers.add(1)
-# =&gt; {1, 2, 5, 7, 8, 10}
-</code></pre>
-
-<p>In the second case, again, order probably isn’t critical.  You want to keep track of some data by a “label” or something, but be able to keep them all together and list them out as necessary.  This time, you’re probably looking for a <code>dict</code>.  You can create those with either the <code>dict()</code> built-in function or, again, squiggle braces (<code>{}</code>).  This time, however, you separate the labels (keys) and the values with a colon.</p>
-
-<pre><code class="language-python">fruits = {
-    "apples": 4,
-    "bananas": 2,
-    "grapes": 14,
-}
-</code></pre>
-
-<p>You can list out all of the keys (or values!).</p>
-
-<pre><code class="language-python">list(fruits.keys())
-# =&gt; ["apples", "bananas", "grapes"]
-list(fruits.values())
-# =&gt; [4, 2, 14]
-
-# Or both!
-list(fruits.items())
-# =&gt; [("apples", 4), ("bananas", 2), ("grapes", 14)]
-</code></pre>
-
-<p>And you can ask it about (or give it a new value for) specific keys.</p>
-
-<pre><code class="language-python"># How many grapes are there?
-fruits["grapes"]
-# =&gt; 14
-
-# Not anymore.  I ate some.
-fruits["grapes"] = 0
-
-fruits["grapes"]
-# =&gt; 0
-</code></pre>
-
-<p>Using a list, the your algorithm loops through every item to find the right one.  <code>dict</code>’s are built to have very fast lookups, so, even if your <code>dict</code> is a bazillion fruits long, finding the <code>grapes</code> is still super fast – and easy to type!  No loops!</p>
-
-<h2 id="call-to-action">Call to Action</h2>
-
-<p>Exercism needs mentors!  If you think you’d be a good mentor (or even a decent mentor, just on the easy exercises), sign up at <a href="http://mentoring.exercism.io/">their Mentor Signup page</a>.  Right now, Rust, Golang, and Elixir are especially swamped and need <em>your</em> help!</p>
+<p>More posts soon!</p>
 </p>
   
 
@@ -345,6 +178,11 @@ fruits["grapes"]
         </li>
         
           <li>
+            <span class="post-meta">Aug 4, 2018</span><br/>
+            <a class="post-link" href="/2018/08/04/3-python-newbie-mistakes/">3 Common Mistakes that Python Newbies Make</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Jul 1, 2018</span><br/>
             <a class="post-link" href="/2018/07/01/windows-python-shebangs/">Python Shebangs on Windows</a>
           </li>
@@ -352,11 +190,6 @@ fruits["grapes"]
           <li>
             <span class="post-meta">Jun 30, 2018</span><br/>
             <a class="post-link" href="/2018/06/30/python-startup-file/">Python Has a Startup File!</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Jun 23, 2018</span><br/>
-            <a class="post-link" href="/2018/06/23/ascii-wall-e/">Ascii Wall-E for Your Terminal</a>
           </li>
         
       </ul>
@@ -369,163 +202,163 @@ fruits["grapes"]
       <h2>Tags</h2>
       <p>
         
-        <a href="/tags/python/" style="font-size: 72px">python | </a>
+        <a href="/tags/python/" style="font-size: 50px">python | </a>
         
-        <a href="/tags/django/" style="font-size: 22px">django | </a>
+        <a href="/tags/django/" style="font-size: 18px">django | </a>
         
-        <a href="/tags/rails/" style="font-size: 14px">rails | </a>
+        <a href="/tags/rails/" style="font-size: 10px">rails | </a>
         
-        <a href="/tags/algorithms/" style="font-size: 22px">algorithms | </a>
+        <a href="/tags/algorithms/" style="font-size: 18px">algorithms | </a>
         
-        <a href="/tags/editors/" style="font-size: 20px">editors | </a>
+        <a href="/tags/editors/" style="font-size: 16px">editors | </a>
         
-        <a href="/tags/emacs/" style="font-size: 16px">emacs | </a>
+        <a href="/tags/emacs/" style="font-size: 12px">emacs | </a>
         
-        <a href="/tags/ai/" style="font-size: 14px">ai | </a>
+        <a href="/tags/ai/" style="font-size: 10px">ai | </a>
         
-        <a href="/tags/r/" style="font-size: 14px">r | </a>
+        <a href="/tags/r/" style="font-size: 10px">r | </a>
         
-        <a href="/tags/tools/" style="font-size: 16px">tools | </a>
+        <a href="/tags/tools/" style="font-size: 12px">tools | </a>
         
-        <a href="/tags/javascript/" style="font-size: 26px">javascript | </a>
+        <a href="/tags/javascript/" style="font-size: 22px">javascript | </a>
         
-        <a href="/tags/not-magic/" style="font-size: 16px">not-magic | </a>
+        <a href="/tags/not-magic/" style="font-size: 12px">not-magic | </a>
         
-        <a href="/tags/soft-skills/" style="font-size: 22px">soft-skills | </a>
+        <a href="/tags/soft-skills/" style="font-size: 18px">soft-skills | </a>
         
-        <a href="/tags/tricks/" style="font-size: 42px">tricks | </a>
+        <a href="/tags/tricks/" style="font-size: 38px">tricks | </a>
         
-        <a href="/tags/vscode/" style="font-size: 16px">vscode | </a>
+        <a href="/tags/vscode/" style="font-size: 12px">vscode | </a>
         
-        <a href="/tags/vim/" style="font-size: 18px">vim | </a>
+        <a href="/tags/vim/" style="font-size: 14px">vim | </a>
         
-        <a href="/tags/sublime/" style="font-size: 14px">sublime | </a>
+        <a href="/tags/sublime/" style="font-size: 10px">sublime | </a>
         
-        <a href="/tags/puzzle/" style="font-size: 20px">puzzle | </a>
+        <a href="/tags/puzzle/" style="font-size: 16px">puzzle | </a>
         
-        <a href="/tags/bash/" style="font-size: 22px">bash | </a>
+        <a href="/tags/bash/" style="font-size: 18px">bash | </a>
         
-        <a href="/tags/math/" style="font-size: 16px">math | </a>
+        <a href="/tags/math/" style="font-size: 12px">math | </a>
         
-        <a href="/tags/teaching/" style="font-size: 16px">teaching | </a>
+        <a href="/tags/teaching/" style="font-size: 12px">teaching | </a>
         
-        <a href="/tags/ruby/" style="font-size: 32px">ruby | </a>
+        <a href="/tags/ruby/" style="font-size: 28px">ruby | </a>
         
-        <a href="/tags/jekyll/" style="font-size: 16px">jekyll | </a>
+        <a href="/tags/jekyll/" style="font-size: 12px">jekyll | </a>
         
-        <a href="/tags/git/" style="font-size: 20px">git | </a>
+        <a href="/tags/git/" style="font-size: 16px">git | </a>
         
-        <a href="/tags/physics/" style="font-size: 14px">physics | </a>
+        <a href="/tags/physics/" style="font-size: 10px">physics | </a>
         
-        <a href="/tags/fun/" style="font-size: 18px">fun | </a>
+        <a href="/tags/fun/" style="font-size: 14px">fun | </a>
         
-        <a href="/tags/scientific/" style="font-size: 16px">scientific | </a>
+        <a href="/tags/scientific/" style="font-size: 12px">scientific | </a>
         
-        <a href="/tags/pythonic/" style="font-size: 16px">pythonic | </a>
+        <a href="/tags/pythonic/" style="font-size: 12px">pythonic | </a>
         
-        <a href="/tags/functional/" style="font-size: 20px">functional | </a>
+        <a href="/tags/functional/" style="font-size: 16px">functional | </a>
         
-        <a href="/tags/vue/" style="font-size: 22px">vue | </a>
+        <a href="/tags/vue/" style="font-size: 18px">vue | </a>
         
-        <a href="/tags/es6/" style="font-size: 20px">es6 | </a>
+        <a href="/tags/es6/" style="font-size: 16px">es6 | </a>
         
-        <a href="/tags/tutorial/" style="font-size: 40px">tutorial | </a>
+        <a href="/tags/tutorial/" style="font-size: 36px">tutorial | </a>
         
-        <a href="/tags/exercise/" style="font-size: 14px">exercise | </a>
+        <a href="/tags/exercise/" style="font-size: 10px">exercise | </a>
         
-        <a href="/tags/fitness/" style="font-size: 14px">fitness | </a>
+        <a href="/tags/fitness/" style="font-size: 10px">fitness | </a>
         
-        <a href="/tags/sysadmin/" style="font-size: 18px">sysadmin | </a>
+        <a href="/tags/sysadmin/" style="font-size: 14px">sysadmin | </a>
         
-        <a href="/tags/linux/" style="font-size: 16px">linux | </a>
+        <a href="/tags/linux/" style="font-size: 12px">linux | </a>
         
-        <a href="/tags/html/" style="font-size: 18px">html | </a>
+        <a href="/tags/html/" style="font-size: 14px">html | </a>
         
-        <a href="/tags/seo/" style="font-size: 14px">seo | </a>
+        <a href="/tags/seo/" style="font-size: 10px">seo | </a>
         
-        <a href="/tags/social/" style="font-size: 14px">social | </a>
+        <a href="/tags/social/" style="font-size: 10px">social | </a>
         
-        <a href="/tags/metaprogramming/" style="font-size: 14px">metaprogramming | </a>
+        <a href="/tags/metaprogramming/" style="font-size: 10px">metaprogramming | </a>
         
-        <a href="/tags/css/" style="font-size: 14px">css | </a>
+        <a href="/tags/css/" style="font-size: 10px">css | </a>
         
-        <a href="/tags/front-end/" style="font-size: 16px">front-end | </a>
+        <a href="/tags/front-end/" style="font-size: 12px">front-end | </a>
         
-        <a href="/tags/animations/" style="font-size: 14px">animations | </a>
+        <a href="/tags/animations/" style="font-size: 10px">animations | </a>
         
-        <a href="/tags/p5/" style="font-size: 20px">p5 | </a>
+        <a href="/tags/p5/" style="font-size: 16px">p5 | </a>
         
-        <a href="/tags/beginner/" style="font-size: 22px">beginner | </a>
+        <a href="/tags/beginner/" style="font-size: 18px">beginner | </a>
         
-        <a href="/tags/encouragement/" style="font-size: 18px">encouragement | </a>
+        <a href="/tags/encouragement/" style="font-size: 14px">encouragement | </a>
         
-        <a href="/tags/screencast/" style="font-size: 14px">screencast | </a>
+        <a href="/tags/screencast/" style="font-size: 10px">screencast | </a>
         
-        <a href="/tags/showdev/" style="font-size: 16px">showdev | </a>
+        <a href="/tags/showdev/" style="font-size: 12px">showdev | </a>
         
-        <a href="/tags/interview/" style="font-size: 14px">interview | </a>
+        <a href="/tags/interview/" style="font-size: 10px">interview | </a>
         
-        <a href="/tags/performance/" style="font-size: 16px">performance | </a>
+        <a href="/tags/performance/" style="font-size: 12px">performance | </a>
         
-        <a href="/tags/workflow/" style="font-size: 14px">workflow | </a>
+        <a href="/tags/workflow/" style="font-size: 10px">workflow | </a>
         
-        <a href="/tags/best-practice/" style="font-size: 14px">best-practice | </a>
+        <a href="/tags/best-practice/" style="font-size: 10px">best-practice | </a>
         
-        <a href="/tags/oss/" style="font-size: 14px">oss | </a>
+        <a href="/tags/oss/" style="font-size: 10px">oss | </a>
         
-        <a href="/tags/static-site/" style="font-size: 14px">static-site | </a>
+        <a href="/tags/static-site/" style="font-size: 10px">static-site | </a>
         
-        <a href="/tags/big-o/" style="font-size: 14px">big-o | </a>
+        <a href="/tags/big-o/" style="font-size: 10px">big-o | </a>
         
-        <a href="/tags/linked-lists/" style="font-size: 14px">linked-lists | </a>
+        <a href="/tags/linked-lists/" style="font-size: 10px">linked-lists | </a>
         
-        <a href="/tags/design-intent/" style="font-size: 14px">design-intent | </a>
+        <a href="/tags/design-intent/" style="font-size: 10px">design-intent | </a>
         
-        <a href="/tags/struct/" style="font-size: 14px">struct | </a>
+        <a href="/tags/struct/" style="font-size: 10px">struct | </a>
         
-        <a href="/tags/browser/" style="font-size: 14px">browser | </a>
+        <a href="/tags/browser/" style="font-size: 10px">browser | </a>
         
-        <a href="/tags/focus/" style="font-size: 14px">focus | </a>
+        <a href="/tags/focus/" style="font-size: 10px">focus | </a>
         
-        <a href="/tags/productivity/" style="font-size: 18px">productivity | </a>
+        <a href="/tags/productivity/" style="font-size: 14px">productivity | </a>
         
-        <a href="/tags/codenewbie/" style="font-size: 14px">codenewbie | </a>
+        <a href="/tags/codenewbie/" style="font-size: 10px">codenewbie | </a>
         
-        <a href="/tags/reflection/" style="font-size: 14px">reflection | </a>
+        <a href="/tags/reflection/" style="font-size: 10px">reflection | </a>
         
-        <a href="/tags/update/" style="font-size: 14px">update | </a>
+        <a href="/tags/update/" style="font-size: 12px">update | </a>
         
-        <a href="/tags/preview/" style="font-size: 14px">preview | </a>
+        <a href="/tags/preview/" style="font-size: 10px">preview | </a>
         
-        <a href="/tags/gtd/" style="font-size: 14px">gtd | </a>
+        <a href="/tags/gtd/" style="font-size: 10px">gtd | </a>
         
-        <a href="/tags/bullet-journal/" style="font-size: 14px">bullet-journal | </a>
+        <a href="/tags/bullet-journal/" style="font-size: 10px">bullet-journal | </a>
         
-        <a href="/tags/data-science/" style="font-size: 14px">data-science | </a>
+        <a href="/tags/data-science/" style="font-size: 10px">data-science | </a>
         
-        <a href="/tags/singleton/" style="font-size: 14px">singleton | </a>
+        <a href="/tags/singleton/" style="font-size: 10px">singleton | </a>
         
-        <a href="/tags/basics/" style="font-size: 14px">basics | </a>
+        <a href="/tags/basics/" style="font-size: 10px">basics | </a>
         
-        <a href="/tags/powershell/" style="font-size: 14px">powershell | </a>
+        <a href="/tags/powershell/" style="font-size: 10px">powershell | </a>
         
-        <a href="/tags/terminal/" style="font-size: 14px">terminal | </a>
+        <a href="/tags/terminal/" style="font-size: 10px">terminal | </a>
         
-        <a href="/tags/security/" style="font-size: 14px">security | </a>
+        <a href="/tags/security/" style="font-size: 10px">security | </a>
         
-        <a href="/tags/scripting/" style="font-size: 16px">scripting | </a>
+        <a href="/tags/scripting/" style="font-size: 12px">scripting | </a>
         
-        <a href="/tags/itertools/" style="font-size: 14px">itertools | </a>
+        <a href="/tags/itertools/" style="font-size: 10px">itertools | </a>
         
-        <a href="/tags/shell/" style="font-size: 16px">shell | </a>
+        <a href="/tags/shell/" style="font-size: 12px">shell | </a>
         
-        <a href="/tags/quicktip/" style="font-size: 14px">quicktip | </a>
+        <a href="/tags/quicktip/" style="font-size: 10px">quicktip | </a>
         
-        <a href="/tags/cheatsheet/" style="font-size: 14px">cheatsheet | </a>
+        <a href="/tags/cheatsheet/" style="font-size: 10px">cheatsheet | </a>
         
-        <a href="/tags/fish/" style="font-size: 14px">fish | </a>
+        <a href="/tags/fish/" style="font-size: 10px">fish | </a>
         
-        <a href="/tags/art/" style="font-size: 14px">art | </a>
+        <a href="/tags/art/" style="font-size: 10px">art | </a>
         
       </p>
     </div>
