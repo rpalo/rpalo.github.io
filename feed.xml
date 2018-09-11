@@ -6,9 +6,250 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 06 Sep 2018 23:01:11 -0700</pubDate>
-    <lastBuildDate>Thu, 06 Sep 2018 23:01:11 -0700</lastBuildDate>
+    <pubDate>Mon, 10 Sep 2018 23:04:19 -0700</pubDate>
+    <lastBuildDate>Mon, 10 Sep 2018 23:04:19 -0700</lastBuildDate>
     <generator>Jekyll v3.8.3</generator>
+    
+      <item>
+        <title>Binary and Hexadecimal: Part 1</title>
+        <description>&lt;p&gt;There are two reasons why I’ve seen people avoid learning how binary and hexadecimal number systems work: either they’re intimidated because they don’t consider themselves “math people,” or they think it’s a waste because “why am I ever going to need this?”  I really think there are some neat uses to these alternative numbering systems… and they’re fun!&lt;/p&gt;
+
+&lt;p&gt;I’m definitely going to try to make them as accessible as I can in this post and take all of the intimidation out of them.  You don’t need to be a “math person.”  As long as you’re a “person who can count on their fingers,” you’ll be OK.  If you don’t have fingers, find a friend and use their fingers.  If you don’t have fingers and don’t have a friend, then today is your lucky day!  Now you’ve got three friends: Binary, Hexadecimal, and me!  And you can count them on &lt;em&gt;my&lt;/em&gt; fingers if you want.&lt;/p&gt;
+
+&lt;h2 id=&quot;starting-from-the-beginning-decimal&quot;&gt;Starting from the Beginning: Decimal&lt;/h2&gt;
+
+&lt;p&gt;Let’s go back to elementary school for a second.  How does counting work?  Well, we have ten shapes we can use to represent values: numbers!&lt;/p&gt;
+
+&lt;p&gt;0	1	2	3	4	5	6	7	8	9&lt;/p&gt;
+
+&lt;p&gt;Zero through nine is ten digits.  These are the &lt;em&gt;only&lt;/em&gt; digits we count with – at least if we’re using &lt;a href=&quot;https://en.wikipedia.org/wiki/Arabic_numerals&quot;&gt;Arabic Numerals&lt;/a&gt;.  If you’re not using Arabic Numerals but still using the decimal system, you’ll still have ten digits available to you.  They might just look a little different.&lt;/p&gt;
+
+&lt;p&gt;So how do we count?  We start with the first digit available to us: 0.  Let’s count our first time, adding one to our total.  We still have 8 numerals we haven’t seen yet, so we move to the next one: 1.  Then 2.  Then 3.  And so on, until we get to 9.&lt;/p&gt;
+
+&lt;p&gt;At that point, we’ve hit a snag.  We’ve run out of numerals!  So, what do we do?  We tally that round of counting 10 times by &lt;strong&gt;incrementing a new digit by one&lt;/strong&gt; and &lt;strong&gt;resetting that digit to 0.&lt;/strong&gt;  Now we’re at 10.  And we can start again, stepping through the numerals available to us: 11, 12, 13, 14, 15, 16, 17, 18, 19… Uh oh.  We’ve completed another round through all of the numerals.  So again, we increment our tally and increment the &lt;em&gt;second digit&lt;/em&gt;, the one on the left, to mark that fact.  And we reset our right-most digit to zero.&lt;/p&gt;
+
+&lt;p&gt;What happens when our &lt;em&gt;second digit&lt;/em&gt; runs through all of the available numerals: 97, 98, 99… we’re getting ready to increment the right-most digit, which means we should be resetting it to zero and incrementing the second digit, but we’re out of numerals to use in the second spot.  No problem here either, we’ll just add another digit to celebrate that fact!  Now we have a 1 &lt;em&gt;in the third digit location&lt;/em&gt;: 100.  And so it goes.  Congratulations, you still know how to count.&lt;/p&gt;
+
+&lt;p&gt;But, do you see the idea?  We have 10 different numerals the show, and as each digit exhausts the numerals available to it, it increments the digit to the left of it and resets.  That’s how the rest of the number systems work – they just have different amounts of numerals!  With 10 digits, we’re using something called the &lt;strong&gt;“Decimal”&lt;/strong&gt; (deci- means 10) system.&lt;/p&gt;
+
+&lt;h2 id=&quot;so-what-is-binary-then&quot;&gt;So What is Binary Then?&lt;/h2&gt;
+
+&lt;p&gt;Well, you &lt;em&gt;might&lt;/em&gt; guess from the name “BI-nary” (bi- meaning two) that there are two available numerals.  And you’re right!  You may have even heard before what the two numerals are.  0 and 1.  That’s right!  As you can imagine, with significantly fewer numerals, we’re going to rack up digits pretty quickly.  Let’s try counting in binary now.  I think you’re ready.&lt;/p&gt;
+
+&lt;p&gt;Don’t forget that the same basic rules of counting apply.  We’ll start with zero.&lt;/p&gt;
+
+&lt;p&gt;0&lt;/p&gt;
+
+&lt;p&gt;And then we’ll increment to the next available numeral.&lt;/p&gt;
+
+&lt;p&gt;1&lt;/p&gt;
+
+&lt;p&gt;And then we’ll increment to the next available numeral again– wait.  We’re already out of numerals!  What gives!?  That’s OK, we follow our counting rules and increment the next digit and reset our current digit.&lt;/p&gt;
+
+&lt;p&gt;10&lt;/p&gt;
+
+&lt;p&gt;And then we start again.&lt;/p&gt;
+
+&lt;p&gt;11&lt;/p&gt;
+
+&lt;p&gt;Oop!  Now we go to increment our right-most digit, but we’re out of numerals.  So we go to increment our &lt;em&gt;second&lt;/em&gt; right-most digit, but we’re out of numerals there too!  So we continue on to add a new digit and reset our other digits.&lt;/p&gt;
+
+&lt;p&gt;100&lt;/p&gt;
+
+&lt;p&gt;101&lt;/p&gt;
+
+&lt;p&gt;110&lt;/p&gt;
+
+&lt;p&gt;111&lt;/p&gt;
+
+&lt;p&gt;Can you guess what happens next?&lt;/p&gt;
+
+&lt;p&gt;1000!&lt;/p&gt;
+
+&lt;p&gt;Now, have you been keeping track of our count?  How many times have we incremented?  I’m going to make a table, and, to make the ones and zeroes easier to see, I’m going to add some zeroes out in front of the number as placeholders.  It’s OK, though.  They don’t change anything.  The number 000000048 is still 48, right?&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Decimal Number&lt;/th&gt;
+      &lt;th&gt;Increment Number&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0001&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0010&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0011&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0100&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0101&lt;/td&gt;
+      &lt;td&gt;5&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0110&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0111&lt;/td&gt;
+      &lt;td&gt;7&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1000&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.reddit.com/r/mechanical_gifs/comments/9cto4l/how_simple_pieces_of_wood_and_hinges_makes_a/&quot;&gt;This is a neat demonstration.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;How does that feel?  You’re counting in binary!  You’re practically a computer!  Quietly, to yourself, say “bleep bloop.”  No one will know.  But we will know.  And it’ll make you feel accomplished.  :)&lt;/p&gt;
+
+&lt;p&gt;Now, there’s one more pattern that you may not have noticed, that makes binary even more magical.  Check out the values of the increment number when there is only &lt;em&gt;one 1&lt;/em&gt; and everything else is zero:&lt;/p&gt;
+
+&lt;p&gt;1, 2, 4, and 8.&lt;/p&gt;
+
+&lt;p&gt;Do you see a pattern?  Let me show you some other binary numbers and their decimal equivalents.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Binary&lt;/th&gt;
+      &lt;th&gt;Decimal&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0000 0001&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0000 0010&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0000 0100&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0000 1000&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0001 0000&lt;/td&gt;
+      &lt;td&gt;16&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0010 0000&lt;/td&gt;
+      &lt;td&gt;32&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0100 0000&lt;/td&gt;
+      &lt;td&gt;64&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1000 0000&lt;/td&gt;
+      &lt;td&gt;128&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Don’t worry about the space in between the binary digits.  I added it in there to make things easier to read.  Otherwise, if you read binary too long, your eyeballs start to fall out.  The important thing is the &lt;em&gt;pattern&lt;/em&gt;.  Do you see it?  Every binary number that’s just one 1 and the rest 0’s is a power of 2.  Or, put another way, the decimal numbers are doubling each time!  That’s right, everytime you go up a digit (i.e. shifting things left one place) in binary, you double!&lt;/p&gt;
+
+&lt;p&gt;But, when you think about it, it makes sense right?  Let’s look at the decimal numbers that are one 1 followed by zeroes.&lt;/p&gt;
+
+&lt;p&gt;1
+10
+100
+1000
+10000&lt;/p&gt;
+
+&lt;p&gt;Each one is the previous one, multiplied by 10, in the &lt;strong&gt;deci-&lt;/strong&gt; mal system.  In the &lt;strong&gt;bi-&lt;/strong&gt; nary system, every one is the previous one multipled by 2.  Do you see?  Don’t worry if not.  We’ll do more with that later, and we’ll get more practice.&lt;/p&gt;
+
+&lt;h2 id=&quot;hexadecimal-too&quot;&gt;Hexadecimal Too?&lt;/h2&gt;
+
+&lt;p&gt;Don’t worry.  Now that you’ve got binary nailed down, &lt;strong&gt;hexa-&lt;/strong&gt; (meaning 6) &lt;strong&gt;-deci-&lt;/strong&gt; (meaning 10) &lt;strong&gt;mal&lt;/strong&gt; should be a snap.  Hexadecimal has a &lt;strong&gt;base&lt;/strong&gt; of 16.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Wait, wait, wait.  There’s only 10 numerals.  How are we going to show 16 different “shapes?”  Are we just going to make up new numbers?  I thought you said there wasn’t going to be hard math!&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Don’t worry.  We’re not making up any new shapes, and chances are, you’ve probably seen hexadecimal out in the wild somewhere.  You’re right about one thing, though: we need more “numerals” to get our 16 “shapes.”  But, luckily you know these shapes: letters!  That’s right, the numerals in hexadecimal are:&lt;/p&gt;
+
+&lt;p&gt;0 1 2 3 4 5 6 7 8 9 A B C D E F&lt;/p&gt;
+
+&lt;p&gt;(I’ll pause while the skeptical among you take the time to count.  There’s 16.  I’ll wait.)&lt;/p&gt;
+
+&lt;p&gt;Satisfied?  Good.  Now let’s start counting.&lt;/p&gt;
+
+&lt;p&gt;0
+1
+2
+3
+4
+5
+6
+7
+8
+9&lt;/p&gt;
+
+&lt;p&gt;What do we do?  Well, we’ve got more “numerals,” right?  We keep going!&lt;/p&gt;
+
+&lt;p&gt;A
+B
+C
+D
+E
+F&lt;/p&gt;
+
+&lt;p&gt;Aaaaand now we’re out of numerals.  Increment the next digit and reset!&lt;/p&gt;
+
+&lt;p&gt;10
+11
+12
+13&lt;/p&gt;
+
+&lt;p&gt;And so on.  And when that second digit gets up there after much more counting?&lt;/p&gt;
+
+&lt;p&gt;F8
+F9
+FA
+FB
+FC
+FD
+FE
+FF…
+…
+100!&lt;/p&gt;
+
+&lt;h2 id=&quot;intermission&quot;&gt;Intermission&lt;/h2&gt;
+
+&lt;p&gt;See?  Hopefully that wasn’t so terrible.  And you counted in both binary and hexadecimal!  Congratulations!  I now confer upon you the title of budding computer scientist.  We can’t really do much useful with this new knowledge yet, though.  In the next post, I’ll show you how to convert back and forth, and what cool things that enables us to do.&lt;/p&gt;
+
+&lt;p&gt;This can be a tough topic, and I don’t want it to be intimidating or scary at all.  If I missed something or it’s not quite clicking, my DM’s are open!  Shoot me a message and we’ll talk about what’s bugging you.&lt;/p&gt;
+
+&lt;p&gt;Happy counting!&lt;/p&gt;
+</description>
+        <pubDate>Mon, 10 Sep 2018 00:00:00 -0700</pubDate>
+        <link>https://assertnotmagic.com/2018/09/10/binary-hexadecimal-part-1/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/09/10/binary-hexadecimal-part-1/</guid>
+        
+        <category>computer-science</category>
+        
+        <category>basics</category>
+        
+        <category>beginner</category>
+        
+        
+      </item>
     
       <item>
         <title>Personal Update: Back At It</title>
@@ -1290,185 +1531,6 @@ itertools.zip_longest(a, b, fillvalue=&quot;:)&quot;)
         <category>tricks</category>
         
         <category>itertools</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Python Scripting Toolbox: sys and fileinput</title>
-        <description>&lt;p&gt;&lt;em&gt;Cover Photo by Fleur Treurniet on Unsplash&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Python is an extremely flexible language with uses in tons of different applications and fields: web apps, automation, sciences, and data analysis, to name a few.  However, my &lt;em&gt;favorite&lt;/em&gt; thing to use it for is scripting.  Scripting can be as simple as writing a quick little one-off script to do something faster than you would want to do by hand, or it can more complex, a recurring task that you polish up – something with options, and flags, and a bit of a user interface.&lt;/p&gt;
-
-&lt;p&gt;Lucky for us, Python already has many of the essentials for scripting built into its standard library!  I’m going to show you a few of the features I like best and how they are used.  I’ll be using Python 3.6 for all of these examples.  Most things should work in any Python 3.  Your mileage may vary if you use legacy Python (Python 2).&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;I know that there are libraries and frameworks out there for creating command line interfaces.  They are awesome.  In this article, I’m going to focus on Python’s “Batteries Included”: the standard library.  I’ll show you how much you can accomplish without installing a single external dependency.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;the-setup&quot;&gt;The Setup&lt;/h2&gt;
-
-&lt;p&gt;This will be a three-part survey of the tools available to us for Python scripting.  I’ll show off the functionality by creating three scripts that show off different parts of the standard library.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;code&gt;shout.py&lt;/code&gt;: a script that shouts everything you pass into it.&lt;/li&gt;
-  &lt;li&gt;&lt;code&gt;make_script.py&lt;/code&gt;: a script that generates a starter script from a template, for use in things like &lt;a href=&quot;https://projecteuler.net/&quot;&gt;Project Euler&lt;/a&gt; or &lt;a href=&quot;http://rosalind.info/problems/locations/&quot;&gt;Rosalind&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;code&gt;project_setup.py&lt;/code&gt;: a script that creates a basic project skeleton&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;This here is part one.  Now, let’s get started.&lt;/p&gt;
-
-&lt;h2 id=&quot;script-1-shout&quot;&gt;Script 1: shout&lt;/h2&gt;
-
-&lt;p&gt;Did you ever wish that your computer would yell at you more?  Or that you computer was more abraisive?  You’re in luck then, because we’re about to fix all of that.  Create a new file called &lt;code&gt;shout.py&lt;/code&gt;.  We’re going to first just fill in the basic functionality, and then build out the interface from there.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;#!/usr/bin/env python
-&quot;&quot;&quot;Takes in input and returns that same input, but uppercase.&quot;&quot;&quot;
-
-def shout(text):
-    return text.upper()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Good so far!  I wanted to keep it simple to start with so we can focus mainly on our toolbox.  Right now, if you run &lt;code&gt;python shout.py&lt;/code&gt;, it doesn’t do anything.  Let’s fix that.  But how do we get access to the arguments provided to our scripts?  Our first tool: &lt;code&gt;sys&lt;/code&gt;.  &lt;code&gt;sys&lt;/code&gt; is a module that handles a lot of different system-level, system-specific, or python-install-specific options and values.  You can use it to check what version of Python someone’s using, what operating system the script is running on, or (what we’re using it for) get access to &lt;code&gt;stdin&lt;/code&gt;, &lt;code&gt;stdout&lt;/code&gt;, and command line arguments.&lt;/p&gt;
-
-&lt;h3 id=&quot;using-sysargv&quot;&gt;Using &lt;code&gt;sys.argv&lt;/code&gt;&lt;/h3&gt;
-
-&lt;p&gt;Let’s look at one way we could use this script, which might be a good option if we have a set or specific number of arguments we expect.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;#!/usr/bin/env python3
-&quot;&quot;&quot;Takes in input and returns that same input, but uppercase.&quot;&quot;&quot;
-
-import sys
-
-def shout(text):
-    return text.upper()
-  
-if __name__ == &quot;__main__&quot;:
-    text = sys.argv[1]
-    print(shout(text))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;argv&lt;/code&gt; is the array of arguments (space-separated) that were passed to our script.  Note that &lt;code&gt;argv[0]&lt;/code&gt; is the name of the script that was run.  Running this, the result would be:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ python3 shout.py banana
-BANANA
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;That works OK for some things.  If we had a script that calculated the area of a polygon based on the number of sides and side length (&lt;code&gt;e.g. python polygonArea.py 5 20&lt;/code&gt;), &lt;code&gt;argv&lt;/code&gt; would be just what the doctor ordered.  But, in this case, it might be useful to be able to pass things into our script via &lt;code&gt;stdin&lt;/code&gt;, like any other shell command.  Luckily, &lt;code&gt;sys&lt;/code&gt; has our back once again!&lt;/p&gt;
-
-&lt;h3 id=&quot;using-sysstdin-and-sysstdout&quot;&gt;Using &lt;code&gt;sys.stdin&lt;/code&gt; and &lt;code&gt;sys.stdout&lt;/code&gt;&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;#!/usr/bin/env python3
-&quot;&quot;&quot;Takes in input and returns that same input, but uppercase.&quot;&quot;&quot;
-
-import sys
-
-def shout(text):
-    return text.upper()
-  
-if __name__ == &quot;__main__&quot;:
-    text = sys.stdin.read()
-    sys.stdout.write(shout(text))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The &lt;code&gt;sys&lt;/code&gt; module provides handles to &lt;code&gt;stdin&lt;/code&gt;, &lt;code&gt;stdout&lt;/code&gt;, and &lt;code&gt;stderr&lt;/code&gt;, which you can read and write to, respectively, just like any other file-type object.  Now find a text file or create one with multiple lines, and run your code like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ cat test.txt | python3 shout.py
-BANANA OONANA
-I GAVE MY HEART TO A BANANA
-MY HEART TO A BANANA.
-BANANA OONANA!
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I’m sorry for all of the “banana” stuff.  I’ve got &lt;a href=&quot;https://www.youtube.com/watch?v=BQ0mxQXmLsk&quot;&gt;that song&lt;/a&gt; stuck in my head.  But the Python stuff is cool, right?  There’s one more improvement we can make here.  What if our text that we want shouted was really, &lt;em&gt;really&lt;/em&gt; long?  It would be better for it to be processed line by line, right?  That way, we could see partial outputs as it processes, and we don’t have to worry about reading the whole file into memory.  That’s what’s so great about &lt;code&gt;stdin&lt;/code&gt; and &lt;code&gt;stdout&lt;/code&gt; being “File-like objects.”  They’ve got the same methods that regular files do.  That means we can iterate over the lines of &lt;code&gt;stdin&lt;/code&gt; in a &lt;code&gt;for&lt;/code&gt; loop!&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;# ...
-if __name__ == &quot;__main__&quot;:
-    for line in sys.stdin:
-        sys.stdout.write(shout(line))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This time, when you run it, you won’t notice any difference.  Let’s put a delay in between each line.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;#!/usr/bin/env python3
-&quot;&quot;&quot;Takes in input and returns that same input, but uppercase.&quot;&quot;&quot;
-
-import sys
-from time import sleep
-
-def shout(text):
-    return text.upper()
-  
-if __name__ == &quot;__main__&quot;:
-    for line in sys.stdin:
-        sys.stdout.write(shout(line))
-        sleep(3)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;As you run it this time, the lines should come out slowly, whereas the old version would happen all at once no matter what!&lt;/p&gt;
-
-&lt;h3 id=&quot;using-fileinput&quot;&gt;Using &lt;code&gt;fileinput&lt;/code&gt;&lt;/h3&gt;
-
-&lt;p&gt;What if you wanted to go really over the top with this shouting tool?  You wanted to be able to shout a whole bunch of files at once, along with piping from &lt;code&gt;stdin&lt;/code&gt;?  You’d want &lt;code&gt;fileinput&lt;/code&gt;.  Check it out.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;#!/usr/bin/env python3
-&quot;&quot;&quot;Takes many inputs and returns that same input, but uppercase.&quot;&quot;&quot;
-
-import fileinput
-import sys
-
-def shout(text):
-    return text.upper()
-  
-if __name__ == &quot;__main__&quot;:
-    for line in fileinput.input():
-        sys.stdout.write(f&quot;({ fileinput.filename() }) - { shout(line) }&quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now, create a second file (&lt;code&gt;test2.txt&lt;/code&gt;) .  Run the script like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ python3 shout.py test.txt test2.txt
-(test.txt) - BANANA OONANA
-(test.txt) - I LEFT MY HEART INSIDE BANANAS
-(test.txt) - INSIDE BANANAS.
-(test.txt) - BANANAS OONANANA!
-(test2.txt) - THIS IS THE SECOND FILE.
-(test2.txt) - IT IS LAMER.
-(test2.txt) - NOT AS CATCHY OF TEXT.
-(test2.txt) - HELLO.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://docs.python.org/3/library/fileinput.html&quot;&gt;&lt;code&gt;fileinput&lt;/code&gt;&lt;/a&gt; uses the &lt;code&gt;input&lt;/code&gt; function to combine all of the filename arguments and read them in as a single line-by-line stream.  It has additional useful functions that you can call while reading to add additional information, as well.  We used it to provide the filename of the file being processed, but there are more, like &lt;code&gt;lineno&lt;/code&gt;, &lt;code&gt;filelineno&lt;/code&gt;, &lt;code&gt;isfirstline&lt;/code&gt;, and &lt;code&gt;isstdin&lt;/code&gt;.  You can even add extra options to change the input files in-place, create backups of in-place modified files, decompress compressed files, and more!&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;But wait a minute.  That’s really cool, but you promised that we could still use &lt;code&gt;stdin&lt;/code&gt; with this method.  How does that work?&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;You can include &lt;code&gt;stdin&lt;/code&gt; in your list of files by using a single dash (&lt;code&gt;-&lt;/code&gt;).&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;echo &quot;whaddup from stdin&quot; | python3 shout.py test.txt - test2.txt
-(test.txt) - BANANA OONANA
-(test.txt) - I LEFT MY HEART INSIDE BANANAS
-(test.txt) - INSIDE BANANAS.
-(test.txt) - BANANAS OONANANA!
-(&amp;lt;stdin&amp;gt;) - WHADDUP FROM STDIN
-(test2.txt) - THIS IS THE SECOND FILE.
-(test2.txt) - IT IS LAMER.
-(test2.txt) - NOT AS CATCHY OF TEXT.
-(test2.txt) - HELLO.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;all-shouted-out&quot;&gt;All Shouted Out&lt;/h2&gt;
-
-&lt;p&gt;That’s it for &lt;code&gt;sys&lt;/code&gt;, &lt;code&gt;fileinput&lt;/code&gt;, and our &lt;code&gt;shout.py&lt;/code&gt; script.  Stay tuned for the next part, where we’ll build &lt;code&gt;make_script.py&lt;/code&gt; — we’ll write a script that writes scripts so we can script while our scripts script.  See you next time!&lt;/p&gt;
-</description>
-        <pubDate>Tue, 05 Jun 2018 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2018/06/05/python-toolbox-shout/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2018/06/05/python-toolbox-shout/</guid>
-        
-        <category>python</category>
-        
-        <category>scripting</category>
-        
-        <category>tutorial</category>
         
         
       </item>
