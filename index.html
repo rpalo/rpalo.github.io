@@ -73,8 +73,8 @@
 
   <!-- Current Post -->
   
-    <h1 id="title">Binary and Hexadecimal: Part 1</h1>
-    <small>Sep 10, 2018</small><style>
+    <h1 id="title">Uncomfortable Situations Don't Go Away</h1>
+    <small>Oct 12, 2018</small><style>
   .bmc-button img {
     width: 27px !important;
     margin-bottom: 1px !important;
@@ -124,231 +124,63 @@
   <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee">
   <span style="margin-left:5px">Buy me a coffee</span>
 </a>
-    <p><p>There are two reasons why I’ve seen people avoid learning how binary and hexadecimal number systems work: either they’re intimidated because they don’t consider themselves “math people,” or they think it’s a waste because “why am I ever going to need this?”  I really think there are some neat uses to these alternative numbering systems… and they’re fun!</p>
+    <p><p><em>Cover Image by Stephen Philpott on Unsplash.</em></p>
 
-<p>I’m definitely going to try to make them as accessible as I can in this post and take all of the intimidation out of them.  You don’t need to be a “math person.”  As long as you’re a “person who can count on their fingers,” you’ll be OK.  If you don’t have fingers, find a friend and use their fingers.  If you don’t have fingers and don’t have a friend, then today is your lucky day!  Now you’ve got three friends: Binary, Hexadecimal, and me!  And you can count them on <em>my</em> fingers if you want.</p>
+<p>Hi!  I’m using this post to blow off some steam after a stressful week at work.  If you want to skip over the back story and get to the lesson, you can skip down to the <a href="#the-lesson">Lesson</a> section.</p>
 
-<h2 id="starting-from-the-beginning-decimal">Starting from the Beginning: Decimal</h2>
+<hr />
 
-<p>Let’s go back to elementary school for a second.  How does counting work?  Well, we have ten shapes we can use to represent values: numbers!</p>
+<p>This week at work <em>sucked.</em>  I mean, <strong>a lot.</strong></p>
 
-<p>0	1	2	3	4	5	6	7	8	9</p>
+<p>I work at a machine shop/injection molding house, where we do a lot of prototypes for people, and then help them move into production quantities.  It’s mostly medical devices, but there are some consumer products and stuff for other industries too.  I’m the mechanical engineer, so I do most of the mold and part designs.</p>
 
-<p>Zero through nine is ten digits.  These are the <em>only</em> digits we count with – at least if we’re using <a href="https://en.wikipedia.org/wiki/Arabic_numerals">Arabic Numerals</a>.  If you’re not using Arabic Numerals but still using the decimal system, you’ll still have ten digits available to you.  They might just look a little different.</p>
+<p>I also am a programmer and a millenial, so I help out with IT issues.  In addition, I’m in front of a computer most of the day, so I end up handling much of the customer-facing stuff like quotes, orders, quality issues, purchasing, and scheduling/project management.  Lots of scheduling and project management.</p>
 
-<p>So how do we count?  We start with the first digit available to us: 0.  Let’s count our first time, adding one to our total.  We still have 8 numerals we haven’t seen yet, so we move to the next one: 1.  Then 2.  Then 3.  And so on, until we get to 9.</p>
+<p>But more on that in a second.</p>
 
-<p>At that point, we’ve hit a snag.  We’ve run out of numerals!  So, what do we do?  We tally that round of counting 10 times by <strong>incrementing a new digit by one</strong> and <strong>resetting that digit to 0.</strong>  Now we’re at 10.  And we can start again, stepping through the numerals available to us: 11, 12, 13, 14, 15, 16, 17, 18, 19… Uh oh.  We’ve completed another round through all of the numerals.  So again, we increment our tally and increment the <em>second digit</em>, the one on the left, to mark that fact.  And we reset our right-most digit to zero.</p>
+<p>I like my job!  It’s pretty flexible and a very relaxed atmosphere.  Loud machines and guys joking and yelling a lot.  People whooping and clapping when somebody else blows up a part or runs their tool into a vise.  It’s good!</p>
 
-<p>What happens when our <em>second digit</em> runs through all of the available numerals: 97, 98, 99… we’re getting ready to increment the right-most digit, which means we should be resetting it to zero and incrementing the second digit, but we’re out of numerals to use in the second spot.  No problem here either, we’ll just add another digit to celebrate that fact!  Now we have a 1 <em>in the third digit location</em>: 100.  And so it goes.  Congratulations, you still know how to count.</p>
+<p>In the last few months, we’ve gotten <em>super</em> busy.  I don’t know what’s causing it, but our schedule went from a consistent three-weeks-out queue to an eight-week queue in just a couple of months.  But we are managing, and, all things considered, I’ve been doing a pretty decent job at estimating and scheduling the jobs so that we hit most of our due dates and make the customers happy.</p>
 
-<p>But, do you see the idea?  We have 10 different numerals the show, and as each digit exhausts the numerals available to it, it increments the digit to the left of it and resets.  That’s how the rest of the number systems work – they just have different amounts of numerals!  With 10 digits, we’re using something called the <strong>“Decimal”</strong> (deci- means 10) system.</p>
+<p>Until.</p>
 
-<h2 id="so-what-is-binary-then">So What is Binary Then?</h2>
+<p>On Monday this week, one of our top guys had a family emergency.  Sudden, unavoidable, and catastrophic.  Unfortunately, he’s a vital and irreplaceable part of our production process, and he needed to be out all this week and half of next week.</p>
 
-<p>Well, you <em>might</em> guess from the name “BI-nary” (bi- meaning two) that there are two available numerals.  And you’re right!  You may have even heard before what the two numerals are.  0 and 1.  That’s right!  As you can imagine, with significantly fewer numerals, we’re going to rack up digits pretty quickly.  Let’s try counting in binary now.  I think you’re ready.</p>
+<p>Obviously, family stuff is way more important than work stuff, so I don’t fault him for leaving as quick as he did or being gone for that long.  You have to do what you have to do.  That being said, there were side-effects.</p>
 
-<p>Don’t forget that the same basic rules of counting apply.  We’ll start with zero.</p>
+<p>Boom goes the schedule.</p>
 
-<p>0</p>
+<p>Those eight weeks of scheduled jobs that I had in queue?  Every one of them – some of which with hard, fixed deadlines – had lost a critical week and a half of man-hours required to complete them.</p>
 
-<p>And then we’ll increment to the next available numeral.</p>
+<p>The phone calls began on Tuesday.</p>
 
-<p>1</p>
+<p><em>Hi!  How are you doing?  I’m just calling to check on my parts.  I think they were supposed to be done yesterday?</em></p>
 
-<p>And then we’ll increment to the next available numeral again– wait.  We’re already out of numerals!  What gives!?  That’s OK, we follow our counting rules and increment the next digit and reset our current digit.</p>
+<p>And the fun part?  I didn’t find out until today (Friday) <em>when</em> he was going to be coming back.  So I was attempting to shuffle and reschedule around a mystery date.  Guess how many customers like to hear, “I’m sorry, I’m not sure when your items will be complete.  Try back later.”  If you said “none,” you are right!  Most of them say something like, “Well, you <em>have</em> to give me <em>some</em> kind of date.”</p>
 
-<p>10</p>
+<p>Boom goes the pressure.  Wham! goes my blood pressure.  KAPLOWEY goes my anxiety.</p>
 
-<p>And then we start again.</p>
+<p>Any normal introvert’s instinct would be to unplug the phone and the router and hope the customers give up and go away.  But I’ve been in situations like this before, and there’s one thing that I’ve learned.</p>
 
-<p>11</p>
+<h2 id="the-lesson">The Lesson</h2>
 
-<p>Oop!  Now we go to increment our right-most digit, but we’re out of numerals.  So we go to increment our <em>second</em> right-most digit, but we’re out of numerals there too!  So we continue on to add a new digit and reset our other digits.</p>
+<p>Uncomfortable situations <em>never</em> go away on their own.  And <em>almost always</em>, if you ignore them, they just fester and get immeasurably worse.  This has happened to me multiple times.  The first few times, I didn’t learn.  I just ignored it.  It invariably came back to bite me.  Library fines, spoiled food in the fridge, serious conversations with friends: left unaddressed, all end in misery (and possibly bad smells).</p>
 
-<p>100</p>
+<p>It’s always a good idea to confront the unpleasant situation, address it, handle it, and move on.  You’ll feel better.  Everyone else involved will feel better.  You won’t miss out on any chances that you might have missed by doing nothing.</p>
 
-<p>101</p>
+<p>I’ve noticed that there always seems to be some sort of unforseen benefit to addressing these issues.  Somebody ends up being unexpectedly thankful for your up-front-ness.  You have extra options to deal with the issue that wouldn’t be there later.  People are generally more forgiving if they haven’t been stewing over this issue for a while.  It’s always something nice.</p>
 
-<p>110</p>
+<h2 id="just-handle-it-and-then-reward-yourself-with-beer-or-cake">Just Handle It (and then reward yourself with beer or cake)</h2>
 
-<p>111</p>
+<p>So, at the end of the day today, I sat down, and I planned out our work schedule for the next eight weeks, working around the missing guy, doing my best to make every customer as happy as possible, given the situation.  Then, I wrote each and every one of them an email, laying out the situation and our plan to deal with it, and what they could expect.  I grovelled a little bit (not excessively), and told them I would keep them updated as things progressed.</p>
 
-<p>Can you guess what happens next?</p>
+<p>So far, all of the responses I’ve gotten back have been really nice!  One guy offered to come in and run the machine for us!  <a href="https://amzn.to/2CFRqlZ">P.S. You should go buy their cake frosters.  I helped design them, they’re cool, and they were created by really nice people.</a> #AfilliateLink #ShamelessPlug #DontCare.  Do me a favor and <em>don’t</em> buy the knock-offs from the companies in China.  They’re stealing sales from this small, family-owned (patent-holding!) business, and it sucks.</p>
 
-<p>1000!</p>
+<p>Anyways, all this to say that it usually feels bad to face an uncomfortable situation head-on, but it is almost always better than how it will feel to deal with it after it has festered and boiled over later.</p>
 
-<p>Now, have you been keeping track of our count?  How many times have we incremented?  I’m going to make a table, and, to make the ones and zeroes easier to see, I’m going to add some zeroes out in front of the number as placeholders.  It’s OK, though.  They don’t change anything.  The number 000000048 is still 48, right?</p>
+<p>Let me know if you’ve got a situation like that where you wish you would have handled it earlier rather than avoiding it (if it’s not too personal).  I want to hear about it!</p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Decimal Number</th>
-      <th>Increment Number</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0001</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>0010</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <td>0011</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <td>0100</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <td>0101</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <td>0110</td>
-      <td>6</td>
-    </tr>
-    <tr>
-      <td>0111</td>
-      <td>7</td>
-    </tr>
-    <tr>
-      <td>1000</td>
-      <td>8</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><a href="https://www.reddit.com/r/mechanical_gifs/comments/9cto4l/how_simple_pieces_of_wood_and_hinges_makes_a/">This is a neat demonstration.</a></p>
-
-<p>How does that feel?  You’re counting in binary!  You’re practically a computer!  Quietly, to yourself, say “bleep bloop.”  No one will know.  But we will know.  And it’ll make you feel accomplished.  :)</p>
-
-<p>Now, there’s one more pattern that you may not have noticed, that makes binary even more magical.  Check out the values of the increment number when there is only <em>one 1</em> and everything else is zero:</p>
-
-<p>1, 2, 4, and 8.</p>
-
-<p>Do you see a pattern?  Let me show you some other binary numbers and their decimal equivalents.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Binary</th>
-      <th>Decimal</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0000 0001</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>0000 0010</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <td>0000 0100</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <td>0000 1000</td>
-      <td>8</td>
-    </tr>
-    <tr>
-      <td>0001 0000</td>
-      <td>16</td>
-    </tr>
-    <tr>
-      <td>0010 0000</td>
-      <td>32</td>
-    </tr>
-    <tr>
-      <td>0100 0000</td>
-      <td>64</td>
-    </tr>
-    <tr>
-      <td>1000 0000</td>
-      <td>128</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Don’t worry about the space in between the binary digits.  I added it in there to make things easier to read.  Otherwise, if you read binary too long, your eyeballs start to fall out.  The important thing is the <em>pattern</em>.  Do you see it?  Every binary number that’s just one 1 and the rest 0’s is a power of 2.  Or, put another way, the decimal numbers are doubling each time!  That’s right, everytime you go up a digit (i.e. shifting things left one place) in binary, you double!</p>
-
-<p>But, when you think about it, it makes sense right?  Let’s look at the decimal numbers that are one 1 followed by zeroes.</p>
-
-<p>1
-10
-100
-1000
-10000</p>
-
-<p>Each one is the previous one, multiplied by 10, in the <strong>deci-</strong> mal system.  In the <strong>bi-</strong> nary system, every one is the previous one multipled by 2.  Do you see?  Don’t worry if not.  We’ll do more with that later, and we’ll get more practice.</p>
-
-<h2 id="hexadecimal-too">Hexadecimal Too?</h2>
-
-<p>Don’t worry.  Now that you’ve got binary nailed down, <strong>hexa-</strong> (meaning 6) <strong>-deci-</strong> (meaning 10) <strong>mal</strong> should be a snap.  Hexadecimal has a <strong>base</strong> of 16.</p>
-
-<p><em>Wait, wait, wait.  There’s only 10 numerals.  How are we going to show 16 different “shapes?”  Are we just going to make up new numbers?  I thought you said there wasn’t going to be hard math!</em></p>
-
-<p>Don’t worry.  We’re not making up any new shapes, and chances are, you’ve probably seen hexadecimal out in the wild somewhere.  You’re right about one thing, though: we need more “numerals” to get our 16 “shapes.”  But, luckily you know these shapes: letters!  That’s right, the numerals in hexadecimal are:</p>
-
-<p>0 1 2 3 4 5 6 7 8 9 A B C D E F</p>
-
-<p>(I’ll pause while the skeptical among you take the time to count.  There’s 16.  I’ll wait.)</p>
-
-<p>Satisfied?  Good.  Now let’s start counting.</p>
-
-<p>0
-1
-2
-3
-4
-5
-6
-7
-8
-9</p>
-
-<p>What do we do?  Well, we’ve got more “numerals,” right?  We keep going!</p>
-
-<p>A
-B
-C
-D
-E
-F</p>
-
-<p>Aaaaand now we’re out of numerals.  Increment the next digit and reset!</p>
-
-<p>10
-11
-12
-13</p>
-
-<p>And so on.  And when that second digit gets up there after much more counting?</p>
-
-<p>F8
-F9
-FA
-FB
-FC
-FD
-FE
-FF…
-…
-100!</p>
-
-<h2 id="intermission">Intermission</h2>
-
-<p>See?  Hopefully that wasn’t so terrible.  And you counted in both binary and hexadecimal!  Congratulations!  I now confer upon you the title of budding computer scientist.  We can’t really do much useful with this new knowledge yet, though.  In the next post, I’ll show you how to convert back and forth, and what cool things that enables us to do.</p>
-
-<p>This can be a tough topic, and I don’t want it to be intimidating or scary at all.  If I missed something or it’s not quite clicking, my DM’s are open!  Shoot me a message and we’ll talk about what’s bugging you.</p>
-
-<p>Happy counting!</p>
+<p>Thanks for reading!</p>
 </p>
   
 
@@ -382,18 +214,18 @@ FF…
         </li>
         
           <li>
-            <span class="post-meta">Sep 6, 2018</span><br/>
-            <a class="post-link" href="/2018/09/06/back-at-it/">Personal Update: Back At It</a>
+            <span class="post-meta">Oct 6, 2018</span><br/>
+            <a class="post-link" href="/2018/10/06/file-specific-vim-config/">File-Specific Vim Configuration</a>
           </li>
         
           <li>
-            <span class="post-meta">Aug 4, 2018</span><br/>
-            <a class="post-link" href="/2018/08/04/3-python-newbie-mistakes/">3 Common Mistakes that Python Newbies Make</a>
+            <span class="post-meta">Sep 16, 2018</span><br/>
+            <a class="post-link" href="/2018/09/16/binary-and-hexadecimal-part-2-conversions/">Binary and Hexadecimal: Part 2 - Conversions</a>
           </li>
         
           <li>
-            <span class="post-meta">Jul 1, 2018</span><br/>
-            <a class="post-link" href="/2018/07/01/windows-python-shebangs/">Python Shebangs on Windows</a>
+            <span class="post-meta">Sep 10, 2018</span><br/>
+            <a class="post-link" href="/2018/09/10/binary-hexadecimal-part-1/">Binary and Hexadecimal: Part 1</a>
           </li>
         
       </ul>
@@ -422,19 +254,19 @@ FF…
         
         <a href="/tags/r/" style="font-size: 10px">r | </a>
         
-        <a href="/tags/tools/" style="font-size: 12px">tools | </a>
+        <a href="/tags/tools/" style="font-size: 14px">tools | </a>
         
         <a href="/tags/javascript/" style="font-size: 22px">javascript | </a>
         
         <a href="/tags/not-magic/" style="font-size: 12px">not-magic | </a>
         
-        <a href="/tags/soft-skills/" style="font-size: 18px">soft-skills | </a>
+        <a href="/tags/soft-skills/" style="font-size: 20px">soft-skills | </a>
         
         <a href="/tags/tricks/" style="font-size: 38px">tricks | </a>
         
         <a href="/tags/vscode/" style="font-size: 12px">vscode | </a>
         
-        <a href="/tags/vim/" style="font-size: 14px">vim | </a>
+        <a href="/tags/vim/" style="font-size: 16px">vim | </a>
         
         <a href="/tags/sublime/" style="font-size: 10px">sublime | </a>
         
@@ -492,7 +324,7 @@ FF…
         
         <a href="/tags/p5/" style="font-size: 16px">p5 | </a>
         
-        <a href="/tags/beginner/" style="font-size: 20px">beginner | </a>
+        <a href="/tags/beginner/" style="font-size: 22px">beginner | </a>
         
         <a href="/tags/encouragement/" style="font-size: 14px">encouragement | </a>
         
@@ -528,7 +360,7 @@ FF…
         
         <a href="/tags/codenewbie/" style="font-size: 10px">codenewbie | </a>
         
-        <a href="/tags/reflection/" style="font-size: 10px">reflection | </a>
+        <a href="/tags/reflection/" style="font-size: 12px">reflection | </a>
         
         <a href="/tags/update/" style="font-size: 12px">update | </a>
         
@@ -542,7 +374,7 @@ FF…
         
         <a href="/tags/singleton/" style="font-size: 10px">singleton | </a>
         
-        <a href="/tags/basics/" style="font-size: 12px">basics | </a>
+        <a href="/tags/basics/" style="font-size: 14px">basics | </a>
         
         <a href="/tags/powershell/" style="font-size: 10px">powershell | </a>
         
@@ -564,7 +396,7 @@ FF…
         
         <a href="/tags/art/" style="font-size: 10px">art | </a>
         
-        <a href="/tags/computer-science/" style="font-size: 10px">computer-science | </a>
+        <a href="/tags/computer-science/" style="font-size: 12px">computer-science | </a>
         
       </p>
     </div>

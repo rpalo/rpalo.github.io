@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Bootstrap Setup -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="ROBOTS" content="INDEX,FOLLOW">
+    <meta name="description" content="The second part of the binary/hexadecimal articles.  Learn to convert between decimal, hex, and binary!">
+    <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, computer-science, basics, beginner">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="assert_not magic? | Binary and Hexadecimal: Part 2 - Conversions">
+    <meta name="twitter:site" content="@paytastic">
+    <meta name="twitter:description" content="The second part of the binary/hexadecimal articles.  Learn to convert between decimal, hex, and binary!">
+    <meta name="twitter:image" content="https://res.cloudinary.com/duninnjce/image/upload/w_300,q_auto,f_auto/hex.jpg">
+    <meta name="twitter:creator" content="@paytastic">
+    <meta name="og:url" content="http://assertnotmagic.com/2018/09/16/binary-and-hexadecimal-part-2-conversions/">
+    <meta name="og:title" content="assert_not magic? | Binary and Hexadecimal: Part 2 - Conversions">
+    <meta name="og:description" content="The second part of the binary/hexadecimal articles.  Learn to convert between decimal, hex, and binary!">
+    <meta name="og:image" content="https://res.cloudinary.com/duninnjce/image/upload/w_300,q_auto,f_auto/hex.jpg">
+
+    <!-- Favicon settings -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#222222">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Omnisearch -->
+    <link rel="search" type="application/opensearchdescription+xml" title="search assert_not magic" href="/opensearch.xml">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/main.css">
+
+    <link rel="stylesheet" href="/css/prism.css">
+    <title>assert_not magic?</title>
+</head>
+
+<body>
+    
+<nav id="main-nav">
+    <a href="/" class="mobile-home">assert_not magic?</a>
+    <ul>
+        <li class="logo"><a href="/">assert_not magic?</a></li>
+        <li><a href="/posts/">All Posts</a></li>
+        <li><a href="/about/">About Ryan</a></li>
+        <li><a href="/sketches/">Sketches</a></li>
+        <li><a href="/uses/">Uses</a></li>
+    </ul>
+</nav>
+    <div class="container main">
+        <article class="site-wrap">
+    <div id="cover">
+        
+        <img alt="Cover Image" class="cover-image" src="https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/hex.jpg"> 
+    </div>
+    <h1>Binary and Hexadecimal: Part 2 - Conversions</h1>
+    
+    
+    
+
+    
+        <small>
+        2015
+     words.  Time to Read: About 20 minutes.</small>
+    
+
+    <p>In the last artical, we discovered the sheer joy of counting in <em>two</em> – count ‘em, two! – new number systems: Binary and Hexadecimal.</p>
+
+<p>But just being able to count is only the first step.  To truly unlock the power of these number systems, you’ve got to be able to convert between them.  In the event that you know how to use a search engine, then you already know how to type ‘convert 11001 to decimal.’  But, for quick conversions (and for the fun of it), it’s good to know how it all fits together.</p>
+
+<h2 id="a-note-on-notation">A Note on Notation</h2>
+
+<p>Sometimes you might see people denote binary numbers starting with <code>0b</code>, as in <code>0b11011101</code>.  This is just to clue you in to what kind of number you’re looking at.  If you’re looking at a hex number, it might start with <code>0x</code> as in <code>0xFCDE23</code>.</p>
+
+<h2 id="binary---decimal">Binary -&gt; Decimal</h2>
+
+<p>If you remember, in the last article, we talked about how the digits in binary represent <strong>powers of two</strong>.  Here’s a nice table to remind you:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Digit (Power of 2)</th>
+      <th>7</th>
+      <th>6</th>
+      <th>5</th>
+      <th>4</th>
+      <th>3</th>
+      <th>2</th>
+      <th>1</th>
+      <th>0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Decimal Value</td>
+      <td>128</td>
+      <td>64</td>
+      <td>32</td>
+      <td>16</td>
+      <td>8</td>
+      <td>4</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>So, when you come across a binary number, all you have to do is figure out the decimal value of each digit and add up the total!  Let’s say you were converting the binary number <code>1101 0011</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Binary Digit</th>
+      <th>1</th>
+      <th>1</th>
+      <th>0</th>
+      <th>1</th>
+      <th>0</th>
+      <th>0</th>
+      <th>1</th>
+      <th>1</th>
+      <th>TOTAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Decimal Value</td>
+      <td>128</td>
+      <td>64</td>
+      <td>0</td>
+      <td>16</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>211</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>That’s right!  <code>1101 0011</code> in binary is equal to <code>211</code> in decimal.  If you get confused about the value of a particular digit, one way to figure it out is to lay out a list of numbers on a piece of paper, starting from the right and going left.  Start with 1, and double each next digit.  One doubled is two, two doubled is four, four doubled is 8, etc.</p>
+
+<pre><code>128 &lt;- 64 &lt;- 32 &lt;- 16 &lt;- 8 &lt;- 4 &lt;- 2 &lt;- 1
+</code></pre>
+
+<p>And then take a look at the binary number you have.  Anywhere there’s a zero, cross that number out!</p>
+
+<pre><code>128 &lt;- 64 &lt;- XX &lt;- 16 &lt;- XX &lt;- XX &lt;- 2 &lt;- 1
+</code></pre>
+
+<p>Now you can add up whatever’s left.</p>
+
+<h2 id="decimal-to-binary">Decimal to Binary</h2>
+
+<p>To go from decimal to binary is a little harder to do.  There are a couple of different ways to do it.  I’ll give you both ways, and you can decide if there’s one that you like better.</p>
+
+<h3 id="the-subtraction-method">The Subtraction Method</h3>
+
+<p>I personally like this method better.  It fits better with my brain.  This version works well if you can remember the powers of two pretty well.  Keep in mind that we’ll be filling in the binary digits from left (biggest) to right (smallest).  I’ll give you a step-by-step guide, and pair it with an example.  It works like this:</p>
+
+<ol>
+  <li>Start with the number you want to convert.  We’ll use the same 211 that we used in the last section so we can check our work.</li>
+  <li>Find the <strong>biggest</strong> power of two that is <strong>less than</strong> the number to convert.  In this case, 256 (2^8) is too big.  128 (2^7), though, is less than 211, so that’s just right.</li>
+  <li>Mark a 1 on the piece of paper (or screen) for that power of two.</li>
+  <li><strong>Subtract</strong> that power of two (128) from your main number.  In this case the result is 211 - 128 = 83.</li>
+  <li>Step down by one power of two.  2^6 is 64.  If 64 <strong>is less than</strong> the current value (it is), mark a 1 for that power of two and subtract again.  For the example, we’ll mark 1 and get 83 - 64 =  19.</li>
+  <li>Carry on down the powers of two.  For any powers, if the power is <strong>greater than</strong> your current number (so that you can’t subtract and get a positive result), mark a zero for that power and don’t subtract anything.  Move on to the next power of two.  In our example, 32 is the next power of two, and it’s bigger than 19.  So, mark a zero and move on.</li>
+  <li>The next power of two is 16, which is smaller than 19.  So mark a 1 and do 19 - 16 = 3.</li>
+  <li>Next is 8.  8 is bigger than 3, so mark a zero and don’t subtract.</li>
+  <li>Next is 4.  4 is bigger than 3, so mark a zero and don’t subtract.</li>
+  <li>Next is 2.  2 is less than 3, so mark a 1 and subtract: 3 - 2 = 1.</li>
+  <li>Next is 1.  1 is equal to 1, so mark a 1 and subtract: 1 - 1 = 0.</li>
+  <li>Once you get to zero, stop!  You’re done.  Take a look at your marks.  You should have:</li>
+</ol>
+
+<pre><code>1 1 0 1 0 0 1 1
+</code></pre>
+
+<p>Does this match what we had in the section above?  Yes!  Success!</p>
+
+<p>If this way doesn’t seem like it makes much sense, that’s totally fine.  There’s one more way that doesn’t require you to remember the powers of 2.</p>
+
+<h3 id="the-other-way-division">The Other Way: Division</h3>
+
+<p>For this method, we’re filling in binary digits from <strong>right (smallest) to left (biggest)</strong>.  We’ll use 211 again.  For each of these calculations, we’ll be dividing by 2 (floor division with a remainder).  Be sure to keep track of the result value <em>and</em> the remainder for each one.  The remainder represents the binary digit, and the result value is what we’ll use for the next round of calculations.  Here we go:</p>
+
+<ol>
+  <li>Start with your number.  Divide by 2.  Is there a remainder of 1?  If so, mark 1.  Otherwise, mark 0.  In our case, 211 / 2 = 105, remainder 1.  So, we remember 105, and we mark a 1.</li>
+  <li>Repeat.  105 / 2 = 52, remainder 1.  Remember 52, mark a 1.</li>
+  <li>52 / 2 = 26, remainder 0.  Remember 26, mark a 0.</li>
+  <li>26 / 2 = 13, remainder 0.  Remember 13, mark a 0.</li>
+  <li>13 / 2 = 6, remainder 1.  Remember 6, mark a 1.</li>
+  <li>6 / 2 = 3, remainder 0.  Remember 3, mark a 0.</li>
+  <li>3 / 2 = 1, remainder 1.  Remember 1, mark a 1.</li>
+  <li>1 / 2 = 0, remainder 1.  Mark a 1, and we’re done!</li>
+</ol>
+
+<p>All together (again, from <strong>right to left this time</strong>), our binary digits are:</p>
+
+<pre><code>1 1 0 1 0 0 1 1
+</code></pre>
+
+<p>And again we have <strong>SWEET SWEET VICTORY!</strong></p>
+
+<h2 id="hexadecimal-to-decimal">Hexadecimal to Decimal</h2>
+
+<p>The really cool thing about this is that you <em>already know how to do this one</em> – you just don’t know it yet.  It’s the same as the binary-to-decimal conversion.  Each place has a value, and you add up all the digits!  This time, though, each place is a power of 16.  Honestly, for hexadecimal values longer than two digits, I always use a calculator or some other tool.  I only remember the first three powers of 2: 16^0 = 1, 16^1 = 16, and 16^2 = 256.  <em>256, you say!  That</em> is <em>an easy number to remember.  I’ll remember that for all time!</em></p>
+
+<p>Let’s do a short example and then a long one.  First, let’s try converting <code>6C</code> to decimal.  We have 6 in the “16’s” place and <code>C</code> (or 12) in the “1’s” place.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Hex Digit</th>
+      <th>6</th>
+      <th>C</th>
+      <th>TOTAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Decimal Value</td>
+      <td>6 * 16^1 = 96</td>
+      <td>12 * 16^0 = 12</td>
+      <td>108</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>That’s right!  <code>6C</code> in binary is equal to 108.</p>
+
+<p>You’ll notice that two hex digits can include all of the values between 0 and 255.  For those paying attention, you might recognize that 0 - 255 are also the values that can be shown in 8 binary digits – or one byte!  This is useful because things like CSS commonly use hex digits when referring to values in that range.  And now you have the power to convert <code>#BADA55</code> as a hex color into RGB values:</p>
+
+<ol>
+  <li>R: BA = <code>11*16 + 10*1</code> = 186</li>
+  <li>G: DA = <code>13*16 + 10*1</code> = 218</li>
+  <li>B: 55 = <code>5*16 + 5</code> = 85</li>
+</ol>
+
+<p>So we know that <code>#BADA55</code> is a color with quite a bit of green, medium-high amounts of red, and not a whole lot of blue.</p>
+
+<p><img src="/img/bada55.jpeg" alt="The #BADA55 color" /></p>
+
+<p><strong>VINDICATION!</strong></p>
+
+<h2 id="decimal-to-hexadecial">Decimal to Hexadecial</h2>
+
+<p>Similarly, the process for converting decimal numbers to hexadecimal is the same as converting binary to decimal.  Either of the binary methods can be used (subtraction or division).</p>
+
+<blockquote>
+  <p>Once we go over how to convert binary to hex and back, you might decide it’s easier to convert hex to binary first and then convert binary to decimal.  However you want to do it!</p>
+</blockquote>
+
+<p>We’ll do a division example just to confirm.  Let’s convert 108 to hexadecimal to check our answer.  Remember again that, since we’re doing the division method, we’ll have to write down the hex digits from <strong>right to left</strong>.</p>
+
+<ol>
+  <li>Start with 108.  Divide by 16.  108 / 16 = 6, remainder 12.  The right-most digit is 12, or <code>C</code>.</li>
+  <li>6 / 16 = 0, remainder 6.  The next digit is 6.</li>
+</ol>
+
+<p>Altogether, 108 in hex is <code>6C</code>!  Success again!</p>
+
+<h2 id="hexadecimal-to-binary">Hexadecimal to Binary</h2>
+
+<p>The nice thing about hexadecimal and binary is that 16 is a multiple of 2.  In fact, 16 = 2^4.  When converting hex to binary, you can essentially interchange each hex digit for 4 digits of binary and vice versa.  <em>How</em> you convert that single digit of hex to 4 digits of binary is kind of up to you.  When I do it, it comes down to a combination of a little memorization and converting through to decimal.</p>
+
+<p>Let’s take a look.  Let’s convert <code>DB</code> from hex to binary.</p>
+
+<ol>
+  <li><code>D</code> in hex is 13 in decimal.</li>
+  <li>Next we figure out which 4 binary digits we need to make 13.  13 is 8 + 4 + 1.  Those places in binary are: <code>1101</code>.</li>
+  <li>Thus, the binary conversion for the first digit, <code>D</code>, is <code>1101</code>.</li>
+  <li>Next digit is <code>B</code>.  Same process.  <code>B</code> is 11 in decimal.</li>
+  <li>Making 11 in binary: 8 + 2 + 1, or <code>1011</code>.</li>
+  <li>Thus, B = <code>1011</code>.</li>
+</ol>
+
+<p>Soooo, combining everything, <code>DB</code> in hex is the same as <code>1101 1011</code>.  Did I plan for the binary number to be so symmetric?  No.  Will I claim credit for it?  Absolutely.</p>
+
+<h2 id="binary-to-hexadecimal">Binary to Hexadecimal</h2>
+
+<p>Going the other way is exactly the opposite process.  Once again, we’ll be converting <code>1101 1011</code> from binary to hex to check our work.</p>
+
+<ol>
+  <li>Let’s break our binary number into chunks of 4 (like I’ve been doing): <code>1101   |    1011</code>.</li>
+  <li>And now we convert the first chunk to decimal: <code>1101 = 8*1 + 4*1 + 2*0 + 1*1 = 13</code>.</li>
+  <li>13 in decimal converts to <code>D</code> in hex.  Our first digit is <code>D</code>!  (As expected.)</li>
+  <li>The next chunk of binary: <code>1011 = 8*1 + 4*0 + 2*1 + 1*1</code> = 11.</li>
+  <li>11 in decimal converts to <code>B</code> in hex.  Our second digit is <code>B</code>!</li>
+</ol>
+
+<p>In the end, our final hex number ends up being <code>DB</code>.  Just like we thought.</p>
+
+<h2 id="the-true-power-of-powers">The True Power… of Powers</h2>
+
+<p>And that’s it!  Go forth and conquer numbers everywhere.  Amaze your friends by speaking to them in binary (or, possibly, get mocked for being a GIANT NERD 😁), streamline your CSS coding by eyeballing hex codes, and feel great about understanding how computers and math work just a little better.  A lot of these conversion skills will carry over to other number systems: try looking up Octal and doing some conversions to and from that!</p>
+
+<p>As always, the math can be a bit intimidating, so if you have any questions or don’t feel 100% confident in your number-fu, feel free to reach out to me and I’d be happy to show some more examples and help you get up to speed.</p>
+ 
+    <small>
+        Author: Ryan Palo | Tags: 
+        <a href="/tags/computer-science/">computer-science</a>
+        
+        <a href="/tags/basics/">basics</a>
+        
+        <a href="/tags/beginner/">beginner</a>
+         | <style>
+  .bmc-button img {
+    width: 27px !important;
+    margin-bottom: 1px !important;
+    box-shadow: none !important;
+    border: none !important;
+    vertical-align: middle !important;
+  }
+
+  .bmc-button {
+    /* line-height: px !important; */
+    /* height: 37px !important; */ 
+    text-decoration: none !important;
+    display: inline-flex !important;
+    color: #000000 !important;
+    background-color: #ffce38 !important;
+    border-radius: 3px !important;
+    border: 1px solid transparent !important;
+    padding: 0px 9px !important;
+    font-size: 17px !important;
+    letter-spacing: -0.08px !important;
+    ;
+    box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;
+    -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+    margin: 0px 0px 0px 15px;
+    font-family: 'Lato', sans-serif !important;
+    -webkit-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+    -o-transition: 0.3s all linear !important;
+    -webkit-transition: 0.3s all linear !important;
+    -moz-transition: 0.3s all linear !important;
+    -ms-transition: 0.3s all linear !important;
+    transition: 0.3s all linear !important;
+  }
+
+  .bmc-button:hover,
+  .bmc-button:active,
+  .bmc-button:focus {
+    -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+    text-decoration: none !important;
+    box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+    opacity: 0.85 !important;
+    color: #000000 !important;
+  }
+</style>
+<link href="https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet">
+<a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/octdCNRZG">
+  <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee">
+  <span style="margin-left:5px">Buy me a coffee</span>
+</a>
+    </small>
+     <div class="email-background">
+    <form class="email-signup" action="https://tinyletter.com/rpalo" method="post" target="popupwindow"
+    onsubmit="window.open('https://tinyletter.com/rpalo', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+      <p>
+        <label class="email-text" for="tlemail">Want to stay connected and get my newsletter?</label>
+      </p>
+      <p>
+        <input class="email-input" type="text" name="email" id="tlemail" />
+        <input type="hidden" value="1" name="embed" />
+        <input class="email-button" type="submit" value="Subscribe" />
+      </p>
+
+        <a class="email-powered" href="https://tinyletter.com" target="_blank">powered by TinyLetter</a>
+      </p>
+    </form>
+</div> <hr>
+
+<!-- Footer for Homepage -->
+  <div id="home-footer">
+    <div id="left-home-footer">
+      <!-- Featured Posts List -->
+      <h2>Featured Posts</h2>
+      <ul class="post-list">
+        <li>
+          <span class="post-meta">Jan 18, 2017</span><br />
+          <a class="post-link" href="/2017/01/18/assert-not-magic/">Assert Not Magic</a>
+        </li>
+        
+          <li>
+            <span class="post-meta">Oct 6, 2018</span><br/>
+            <a class="post-link" href="/2018/10/06/file-specific-vim-config/">File-Specific Vim Configuration</a>
+          </li>
+        
+          <li>
+            <span class="post-meta">Sep 16, 2018</span><br/>
+            <a class="post-link" href="/2018/09/16/binary-and-hexadecimal-part-2-conversions/">Binary and Hexadecimal: Part 2 - Conversions</a>
+          </li>
+        
+          <li>
+            <span class="post-meta">Sep 10, 2018</span><br/>
+            <a class="post-link" href="/2018/09/10/binary-hexadecimal-part-1/">Binary and Hexadecimal: Part 1</a>
+          </li>
+        
+      </ul>
+    </div>
+    <div id="center-home-footer">
+      <!-- Spacer -->
+    </div>
+    <div id="right-home-footer">
+      <!-- Tags List -->
+      <h2>Tags</h2>
+      <p>
+        
+        <a href="/tags/python/" style="font-size: 50px">python | </a>
+        
+        <a href="/tags/django/" style="font-size: 18px">django | </a>
+        
+        <a href="/tags/rails/" style="font-size: 10px">rails | </a>
+        
+        <a href="/tags/algorithms/" style="font-size: 18px">algorithms | </a>
+        
+        <a href="/tags/editors/" style="font-size: 16px">editors | </a>
+        
+        <a href="/tags/emacs/" style="font-size: 12px">emacs | </a>
+        
+        <a href="/tags/ai/" style="font-size: 10px">ai | </a>
+        
+        <a href="/tags/r/" style="font-size: 10px">r | </a>
+        
+        <a href="/tags/tools/" style="font-size: 14px">tools | </a>
+        
+        <a href="/tags/javascript/" style="font-size: 22px">javascript | </a>
+        
+        <a href="/tags/not-magic/" style="font-size: 12px">not-magic | </a>
+        
+        <a href="/tags/soft-skills/" style="font-size: 20px">soft-skills | </a>
+        
+        <a href="/tags/tricks/" style="font-size: 38px">tricks | </a>
+        
+        <a href="/tags/vscode/" style="font-size: 12px">vscode | </a>
+        
+        <a href="/tags/vim/" style="font-size: 16px">vim | </a>
+        
+        <a href="/tags/sublime/" style="font-size: 10px">sublime | </a>
+        
+        <a href="/tags/puzzle/" style="font-size: 16px">puzzle | </a>
+        
+        <a href="/tags/bash/" style="font-size: 18px">bash | </a>
+        
+        <a href="/tags/math/" style="font-size: 12px">math | </a>
+        
+        <a href="/tags/teaching/" style="font-size: 12px">teaching | </a>
+        
+        <a href="/tags/ruby/" style="font-size: 28px">ruby | </a>
+        
+        <a href="/tags/jekyll/" style="font-size: 12px">jekyll | </a>
+        
+        <a href="/tags/git/" style="font-size: 16px">git | </a>
+        
+        <a href="/tags/physics/" style="font-size: 10px">physics | </a>
+        
+        <a href="/tags/fun/" style="font-size: 14px">fun | </a>
+        
+        <a href="/tags/scientific/" style="font-size: 12px">scientific | </a>
+        
+        <a href="/tags/pythonic/" style="font-size: 12px">pythonic | </a>
+        
+        <a href="/tags/functional/" style="font-size: 16px">functional | </a>
+        
+        <a href="/tags/vue/" style="font-size: 18px">vue | </a>
+        
+        <a href="/tags/es6/" style="font-size: 16px">es6 | </a>
+        
+        <a href="/tags/tutorial/" style="font-size: 36px">tutorial | </a>
+        
+        <a href="/tags/exercise/" style="font-size: 10px">exercise | </a>
+        
+        <a href="/tags/fitness/" style="font-size: 10px">fitness | </a>
+        
+        <a href="/tags/sysadmin/" style="font-size: 14px">sysadmin | </a>
+        
+        <a href="/tags/linux/" style="font-size: 12px">linux | </a>
+        
+        <a href="/tags/html/" style="font-size: 14px">html | </a>
+        
+        <a href="/tags/seo/" style="font-size: 10px">seo | </a>
+        
+        <a href="/tags/social/" style="font-size: 10px">social | </a>
+        
+        <a href="/tags/metaprogramming/" style="font-size: 10px">metaprogramming | </a>
+        
+        <a href="/tags/css/" style="font-size: 10px">css | </a>
+        
+        <a href="/tags/front-end/" style="font-size: 12px">front-end | </a>
+        
+        <a href="/tags/animations/" style="font-size: 10px">animations | </a>
+        
+        <a href="/tags/p5/" style="font-size: 16px">p5 | </a>
+        
+        <a href="/tags/beginner/" style="font-size: 22px">beginner | </a>
+        
+        <a href="/tags/encouragement/" style="font-size: 14px">encouragement | </a>
+        
+        <a href="/tags/screencast/" style="font-size: 10px">screencast | </a>
+        
+        <a href="/tags/showdev/" style="font-size: 12px">showdev | </a>
+        
+        <a href="/tags/interview/" style="font-size: 10px">interview | </a>
+        
+        <a href="/tags/performance/" style="font-size: 12px">performance | </a>
+        
+        <a href="/tags/workflow/" style="font-size: 10px">workflow | </a>
+        
+        <a href="/tags/best-practice/" style="font-size: 10px">best-practice | </a>
+        
+        <a href="/tags/oss/" style="font-size: 10px">oss | </a>
+        
+        <a href="/tags/static-site/" style="font-size: 10px">static-site | </a>
+        
+        <a href="/tags/big-o/" style="font-size: 10px">big-o | </a>
+        
+        <a href="/tags/linked-lists/" style="font-size: 10px">linked-lists | </a>
+        
+        <a href="/tags/design-intent/" style="font-size: 10px">design-intent | </a>
+        
+        <a href="/tags/struct/" style="font-size: 10px">struct | </a>
+        
+        <a href="/tags/browser/" style="font-size: 10px">browser | </a>
+        
+        <a href="/tags/focus/" style="font-size: 10px">focus | </a>
+        
+        <a href="/tags/productivity/" style="font-size: 14px">productivity | </a>
+        
+        <a href="/tags/codenewbie/" style="font-size: 10px">codenewbie | </a>
+        
+        <a href="/tags/reflection/" style="font-size: 12px">reflection | </a>
+        
+        <a href="/tags/update/" style="font-size: 12px">update | </a>
+        
+        <a href="/tags/preview/" style="font-size: 10px">preview | </a>
+        
+        <a href="/tags/gtd/" style="font-size: 10px">gtd | </a>
+        
+        <a href="/tags/bullet-journal/" style="font-size: 10px">bullet-journal | </a>
+        
+        <a href="/tags/data-science/" style="font-size: 10px">data-science | </a>
+        
+        <a href="/tags/singleton/" style="font-size: 10px">singleton | </a>
+        
+        <a href="/tags/basics/" style="font-size: 14px">basics | </a>
+        
+        <a href="/tags/powershell/" style="font-size: 10px">powershell | </a>
+        
+        <a href="/tags/terminal/" style="font-size: 10px">terminal | </a>
+        
+        <a href="/tags/security/" style="font-size: 10px">security | </a>
+        
+        <a href="/tags/scripting/" style="font-size: 12px">scripting | </a>
+        
+        <a href="/tags/itertools/" style="font-size: 10px">itertools | </a>
+        
+        <a href="/tags/shell/" style="font-size: 12px">shell | </a>
+        
+        <a href="/tags/quicktip/" style="font-size: 10px">quicktip | </a>
+        
+        <a href="/tags/cheatsheet/" style="font-size: 10px">cheatsheet | </a>
+        
+        <a href="/tags/fish/" style="font-size: 10px">fish | </a>
+        
+        <a href="/tags/art/" style="font-size: 10px">art | </a>
+        
+        <a href="/tags/computer-science/" style="font-size: 12px">computer-science | </a>
+        
+      </p>
+    </div>
+  </div>
+  <hr>
+  
+
+  <p class="rss-subscribe contact">Like my stuff?  Have questions or feedback for me?  Want to mentor me or get my help with something?  <a href="/about/">Get in touch!</a>  To stay updated, subscribe <a href="/feed.xml">via RSS</a></p>
+
+
+
+
+    
+        <script type="application/ld+json">
+  {
+    "@context":"http://schema.org",
+    "@type":"BlogPosting",
+    "headline":"Binary and Hexadecimal: Part 2 - Conversions",
+    "datePublished":"2018-09-16 11:22:19 -0700",
+    "dateModified":"2018-09-16 11:22:19 -0700",
+    "wordCount":"2015",
+    "genre":"Technology",
+    "keywords":"computer-science,basics,beginner",
+    "author": {
+      "@type": "Person",
+      "name": "Ryan Palo"
+    },
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/hex.jpg"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "assert_not magic?",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://assertnotmagic.com/img/logo.png"
+      }
+    },
+    "description": "The second part of the binary/hexadecimal articles.  Learn to convert between decimal, hex, and binary!"
+  }
+</script>
+    
+</article>
+    </div>
+
+    <footer id="main-footer">
+    <div class="container">
+        <p class="text-muted">&copy; Ryan Palo 2018 | All things.  Phil. 4:13</p>
+    </div>
+</footer>
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/prism.js"></script>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-91889165-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+
+</body>
+
+</html>
