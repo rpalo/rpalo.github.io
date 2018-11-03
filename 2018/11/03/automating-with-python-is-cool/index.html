@@ -8,18 +8,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="ROBOTS" content="INDEX,FOLLOW">
-    <meta name="description" content="">
-    <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, ">
+    <meta name="description" content="I scripted the renaming of a bunch of files at work and it make me feel like a wizard.">
+    <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, python, scripting">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="assert_not magic? | ">
+    <meta name="twitter:title" content="assert_not magic? | Automating Simple Things with Python is Awesome">
     <meta name="twitter:site" content="@paytastic">
-    <meta name="twitter:description" content="">
-    <meta name="twitter:image" content="https://assertnotmagic.com/img/twitter-card.png">
+    <meta name="twitter:description" content="I scripted the renaming of a bunch of files at work and it make me feel like a wizard.">
+    <meta name="twitter:image" content="https://res.cloudinary.com/duninnjce/image/upload/w_300,q_auto,f_auto/tiny-city.jpg">
     <meta name="twitter:creator" content="@paytastic">
-    <meta name="og:url" content="http://assertnotmagic.com/tags/sysadmin/">
-    <meta name="og:title" content="assert_not magic? | ">
-    <meta name="og:description" content="">
-    <meta name="og:image" content="https://assertnotmagic.com/img/twitter-card.png">
+    <meta name="og:url" content="http://assertnotmagic.com/2018/11/03/automating-with-python-is-cool/">
+    <meta name="og:title" content="assert_not magic? | Automating Simple Things with Python is Awesome">
+    <meta name="og:description" content="I scripted the renaming of a bunch of files at work and it make me feel like a wizard.">
+    <meta name="og:image" content="https://res.cloudinary.com/duninnjce/image/upload/w_300,q_auto,f_auto/tiny-city.jpg">
 
     <!-- Favicon settings -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -55,73 +55,129 @@
         <article class="site-wrap">
     <div id="cover">
         
+        <img alt="Cover Image" class="cover-image" src="https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/tiny-city.jpg"> 
     </div>
-    <h1></h1>
+    <h1>Automating Simple Things with Python is Awesome</h1>
     
     
     
 
     
-
-    <h1>Sysadmin</h1>
-
-<ul>
+        <small>
+        601
+     words.  Time to Read: About 6 minutes.</small>
     
-    <li class="post">
+
+    <p><em>Cover photo by Tim Easley on Unsplash.</em></p>
+
+<p>This is just a quick post about something that happened to me yesterday at work.</p>
+
+<p>So there I was: working hard as a mechanical engineer.  You know, measuring stuff.  Squinting at things.  Taking some notes.  Buying various bolts and screws.  The usual.</p>
+
+<p>I had just downloaded some 3D model files for a clamp we were going to use in a fixture – a real one, sorry software testing folks.  <a href="https://www.destaco.com/catalog/215-U">This clamp</a>, in fact.  As the files came in, I gasped in horror.  The files all had the wrong extensions!  I had clicked the button to download a folder full of <code>.sldprt</code> (individual parts) and <code>.sldasm</code> (assemblies) files, but they came in as <code>.prt.1</code> and <code>.asm.1</code> files.  What gives!?  And to make matters worse, there were a few XML files thrown into the mix – useless to me!</p>
+
+<p>So I right-clicked and renamed the first file, changing to the appropriate extension.  And, as I right-clicked on the second file (of about 30), my inner developer started getting grumpy.  “We don’t have to stand for this!” he cried, flinging his tiny inner-developer keyboard accross his tiny inner-developer office.  (My inner developer startup has offices and doors because I’m not a monster.)</p>
+
+<p>Anyways, back to him.  “We don’t have to stand for this!” he cried.  “We’re not some mindless, paper-pushing drones!  We can program!  We could script this in no time!”</p>
+
+<p>“We <em>could</em>,” my inner project manager chimed in.  (My inner startup is well-staffed.)  “But how much time is that really going to save us?  We could be done renaming all of these files in like two minutes.”</p>
+
+<p>“Alright,” the inner developer replied, bottom lip starting to jut stubbornly.  Then I’ll do it in 120 seconds or less.”</p>
+
+<p>He then said, “Crap.  We’re on a Windows machine without Bash, and I can’t quite remember the PowerShell syntax to manipulate strings.  Or, at least, not enough to get it done in time.  Oh wait!  We know Python!  We can do anything we want!”</p>
+
+<p>So, he quickly guided me to do a search for a way to iterate over a directory and rename files.  I had to search, because I know there are a few ways of doing it.  Was it <code>os</code>, or <code>shutil</code>, or <code>pathlib</code>?  I think any one of those would have worked.  I know there’s a bunch of ways to do what I want, but I needed a way that could be accomplished in 120 seconds of combined Googling and implementing.</p>
+
+<p>Aha!  Got it!</p>
+
+<p>“That’s 30 seconds down,” warned my inner project manager.  “Get a move on!”</p>
+
+<p>So I opened up a terminal and fired up <code>ipython</code>, my preferred Python REPL.  (Yes I have used <code>bpython</code>.  Yes it is amazing.  I still like <code>ipython</code>.)</p>
+
+<pre><code class="language-python">import os
+
+for filename in os.listdir("."):
+    if filename.endswith(".1"):
+        basename = filename[:-6]
+        extension = filename[-5:-2]
+        os.rename(filename, basename + ".sld" + extension)
+</code></pre>
+
+<p>My inner dev team high-fived and clinked their cans of La Croix in celebration.</p>
+
+<p>Was it the prettiest, most elegant code I’ve ever written?  No.  But did I get it done in less than 120 seconds?  Yes.  Did it work?  Yes.  Did I feel like a wizard?  You’re darn right.</p>
+
+<p>Python is awesome, and no matter what I do with it, it makes me feel happy.</p>
+
+<h2 id="after-credits-scene">After-Credits Scene</h2>
+
+<p>Now that I’m not on the clock and I’m free to take as much time as I like, I’ve decided I like this solution better:</p>
+
+<pre><code class="language-python">from pathlib import Path
+
+for file in Path(".").glob("*.1"):
+    name, ext, _ = file.name.split(".")  # There were no other .'s in the names
+    file.rename(f"{name}.sld{ext}")
+</code></pre>
+
+ 
+    <small>
+        Author: Ryan Palo | Tags: 
+        <a href="/tags/python/">python</a>
         
-<a class="post-title" href="/2018/05/14/setting-up-centos/">Setting Up a CentOS Server</a><br><small>May 14, 2018</small>
+        <a href="/tags/scripting/">scripting</a>
+         | <style>
+  .bmc-button img {
+    width: 27px !important;
+    margin-bottom: 1px !important;
+    box-shadow: none !important;
+    border: none !important;
+    vertical-align: middle !important;
+  }
 
-    <img class="img-small" alt="Cover image for Setting Up a CentOS Server" src="https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/centos-logo.png">
+  .bmc-button {
+    /* line-height: px !important; */
+    /* height: 37px !important; */ 
+    text-decoration: none !important;
+    display: inline-flex !important;
+    color: #000000 !important;
+    background-color: #ffce38 !important;
+    border-radius: 3px !important;
+    border: 1px solid transparent !important;
+    padding: 0px 9px !important;
+    font-size: 17px !important;
+    letter-spacing: -0.08px !important;
+    ;
+    box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;
+    -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+    margin: 0px 0px 0px 15px;
+    font-family: 'Lato', sans-serif !important;
+    -webkit-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+    -o-transition: 0.3s all linear !important;
+    -webkit-transition: 0.3s all linear !important;
+    -moz-transition: 0.3s all linear !important;
+    -ms-transition: 0.3s all linear !important;
+    transition: 0.3s all linear !important;
+  }
 
-<small>Tags: 
-
-    linux 
-
-    sysadmin 
-
-    security 
-
-</small>
-
-    </li>
-    
-    <li class="post">
-        
-<a class="post-title" href="/2017/10/05/smooth-one-liners/">Smooth Ruby One-Liners</a><br><small>October 05, 2017</small>
-
-    <img class="img-small" alt="Cover image for Smooth Ruby One-Liners" src="https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/one-liner.png">
-
-<small>Tags: 
-
-    ruby 
-
-    bash 
-
-    sysadmin 
-
-</small>
-
-    </li>
-    
-    <li class="post">
-        
-<a class="post-title" href="/2017/07/23/script-as-a-service/">Script as a Service</a><br><small>July 23, 2017</small>
-
-    <img class="img-small" alt="Cover image for Script as a Service" src="https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/python-service.jpg">
-
-<small>Tags: 
-
-    python 
-
-    sysadmin 
-
-    linux 
-
-</small>
-
-    </li>
-    
-</ul>  <div class="email-background">
+  .bmc-button:hover,
+  .bmc-button:active,
+  .bmc-button:focus {
+    -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+    text-decoration: none !important;
+    box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+    opacity: 0.85 !important;
+    color: #000000 !important;
+  }
+</style>
+<link href="https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet">
+<a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/octdCNRZG">
+  <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee">
+  <span style="margin-left:5px">Buy me a coffee</span>
+</a>
+    </small>
+     <div class="email-background">
     <form class="email-signup" action="https://tinyletter.com/rpalo" method="post" target="popupwindow"
     onsubmit="window.open('https://tinyletter.com/rpalo', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
       <p>
@@ -351,6 +407,36 @@
 
 
 
+    
+        <script type="application/ld+json">
+  {
+    "@context":"http://schema.org",
+    "@type":"BlogPosting",
+    "headline":"Automating Simple Things with Python is Awesome",
+    "datePublished":"2018-11-03 00:00:00 -0700",
+    "dateModified":"2018-11-03 00:00:00 -0700",
+    "wordCount":"601",
+    "genre":"Technology",
+    "keywords":"python,scripting",
+    "author": {
+      "@type": "Person",
+      "name": "Ryan Palo"
+    },
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/tiny-city.jpg"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "assert_not magic?",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://assertnotmagic.com/img/logo.png"
+      }
+    },
+    "description": "I scripted the renaming of a bunch of files at work and it make me feel like a wizard."
+  }
+</script>
     
 </article>
     </div>

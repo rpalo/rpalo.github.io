@@ -73,8 +73,8 @@
 
   <!-- Current Post -->
   
-    <h1 id="title">Degree, Bootcamp, or Self-Taught: Thoughts on How to Choose</h1>
-    <small>Nov 2, 2018</small><style>
+    <h1 id="title">Automating Simple Things with Python is Awesome</h1>
+    <small>Nov 3, 2018</small><style>
   .bmc-button img {
     width: 27px !important;
     margin-bottom: 1px !important;
@@ -124,148 +124,58 @@
   <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee">
   <span style="margin-left:5px">Buy me a coffee</span>
 </a>
-    <p><p><em>Cover image a compilation of images from Cal Poly, <a href="https://unsplash.com/photos/IgUR1iX0mqM?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">NESA by Makers</a> on <a href="https://unsplash.com/search/photos/bootcamp?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a>, and me!</em></p>
+    <p><p><em>Cover photo by Tim Easley on Unsplash.</em></p>
 
-<p>One cool thing about programming is that there are many different roads to learning how to do it.  I think that these are a few of the most common ways:</p>
+<p>This is just a quick post about something that happened to me yesterday at work.</p>
 
-<ol>
-  <li>Go to college to get a degree in Computer Science, Software Engineering, Information Technology, or a similar focus.</li>
-  <li>Attend a Coding Bootcamp either online or in-person.  These are relatively short, intensive programs that are heavily focused on getting students up and running with relevant and marketable skills with the ultimate goal of getting a job.</li>
-  <li>Set your own curriculum and pace, learning from online videos, courses, books, coding challenges, and other free or inexpensive resources.</li>
-</ol>
+<p>So there I was: working hard as a mechanical engineer.  You know, measuring stuff.  Squinting at things.  Taking some notes.  Buying various bolts and screws.  The usual.</p>
 
-<p>I’ve seen people wonder about the pros and cons of each option a number of times on places like Twitter, StackOverflow, and Dev.to.  I’ve had a little experience with each of these options, and I thought I’d share my experiences and recommendations.  One caveat: I’ve never had a software job.  I’m just sharing my learning experience, along with some knowledge I’ve absorbed from books/videos/podcasts/talks/tweets given by a lot of really smart people.</p>
+<p>I had just downloaded some 3D model files for a clamp we were going to use in a fixture – a real one, sorry software testing folks.  <a href="https://www.destaco.com/catalog/215-U">This clamp</a>, in fact.  As the files came in, I gasped in horror.  The files all had the wrong extensions!  I had clicked the button to download a folder full of <code>.sldprt</code> (individual parts) and <code>.sldasm</code> (assemblies) files, but they came in as <code>.prt.1</code> and <code>.asm.1</code> files.  What gives!?  And to make matters worse, there were a few XML files thrown into the mix – useless to me!</p>
 
-<p>Keep in mind that everyone’s learning style is different, and your mileage may vary.  I’m just providing some things to think about when weighing your decision.</p>
+<p>So I right-clicked and renamed the first file, changing to the appropriate extension.  And, as I right-clicked on the second file (of about 30), my inner developer started getting grumpy.  “We don’t have to stand for this!” he cried, flinging his tiny inner-developer keyboard accross his tiny inner-developer office.  (My inner developer startup has offices and doors because I’m not a monster.)</p>
 
-<h2 id="multi-year-college-degree">Multi-Year College Degree</h2>
+<p>Anyways, back to him.  “We don’t have to stand for this!” he cried.  “We’re not some mindless, paper-pushing drones!  We can program!  We could script this in no time!”</p>
 
-<h3 id="the-facts">The Facts</h3>
+<p>“We <em>could</em>,” my inner project manager chimed in.  (My inner startup is well-staffed.)  “But how much time is that really going to save us?  We could be done renaming all of these files in like two minutes.”</p>
 
-<p>The academic setting really works for some people.  You’ll know if this is you.  If the thought of going back to school (or heading to college for the first time) fills you with dread, this probably isn’t you.  That being said, sometimes, a hiring manager will tell you that you <em>need</em> a particular degree for a particular position.</p>
+<p>“Alright,” the inner developer replied, bottom lip starting to jut stubbornly.  Then I’ll do it in 120 seconds or less.”</p>
 
-<blockquote>
-  <p>Side note: If you <em>don’t</em> have the degree that a job posting is asking for, but you think you could do the job and would enjoy it, definitely apply anyway.  Don’t take <em>yourself</em> out of the running.  Wait until the person that would be hiring you has met you and heard all of your qualifications, and <em>then</em>, if they tell you you need a degree, you can believe them.</p>
-</blockquote>
+<p>He then said, “Crap.  We’re on a Windows machine without Bash, and I can’t quite remember the PowerShell syntax to manipulate strings.  Or, at least, not enough to get it done in time.  Oh wait!  We know Python!  We can do anything we want!”</p>
 
-<p>While in pursuit of a college degree, you usually have all of the benefits of learning in a classroom setting: a professor that knows the subject, classmates that are all learning the material at the same time as you, a structured learning environment (syllabus, learning goals, scheduled homework and tests).</p>
+<p>So, he quickly guided me to do a search for a way to iterate over a directory and rename files.  I had to search, because I know there are a few ways of doing it.  Was it <code>os</code>, or <code>shutil</code>, or <code>pathlib</code>?  I think any one of those would have worked.  I know there’s a bunch of ways to do what I want, but I needed a way that could be accomplished in 120 seconds of combined Googling and implementing.</p>
 
-<p>Depending on the workload and the student, that structured learning environment can be extremely stressful, because the timelines are fixed and there are real consequences for failure.  That being said, it <em>is</em> possible to do a degree program in smaller doses – maybe a few hours per week, at night – if you want to get a degree while still continuing to work full-time.</p>
+<p>Aha!  Got it!</p>
 
-<p>The quality of the education will vary wildly from professor to professor.  While many professors teach, not <em>all</em> of them are <em>teachers</em>.  Some are really amazing and they make the class engaging, enjoyable, and you learn a ton.  Some are not that great.  If they teach in a hard-to-understand or demeaning way, it can demoralize you and make you feel like you’re not good enough or smart enough to code.</p>
+<p>“That’s 30 seconds down,” warned my inner project manager.  “Get a move on!”</p>
 
-<blockquote>
-  <p>Fun fact: The statements “I am not smart enough to code,” and “I just don’t have that kind of brain,” are always false.  Everyone can code.  They just need the right teaching approach.  And determination, because coding is hard.</p>
-</blockquote>
+<p>So I opened up a terminal and fired up <code>ipython</code>, my preferred Python REPL.  (Yes I have used <code>bpython</code>.  Yes it is amazing.  I still like <code>ipython</code>.)</p>
 
-<h3 id="my-recommendation">My Recommendation</h3>
+<pre><code class="language-python">import os
 
-<p>I would suggest pursuing a programming-related degree for the following reasons:</p>
+for filename in os.listdir("."):
+    if filename.endswith(".1"):
+        basename = filename[:-6]
+        extension = filename[-5:-2]
+        os.rename(filename, basename + ".sld" + extension)
+</code></pre>
 
-<ul>
-  <li>You really love it and want to dive deeper.</li>
-  <li>You have the determination to stick through the classes that are hard or confusing, the confidence to know it’s probably not your fault that it’s hard, and the wisdom to accept that and put in the work anyways.</li>
-  <li>You are able to spend the money and the time it takes to get a degree.</li>
-  <li>Your end goals require you to have this degree.</li>
-  <li>You already have been programming for a while.  You’ll have real-world context for the concepts that are taught and why they are useful, which is incredibly helpful.</li>
-</ul>
+<p>My inner dev team high-fived and clinked their cans of La Croix in celebration.</p>
 
-<p>I would <em>not</em> suggest pursuing a programming-related degree if:</p>
+<p>Was it the prettiest, most elegant code I’ve ever written?  No.  But did I get it done in less than 120 seconds?  Yes.  Did it work?  Yes.  Did I feel like a wizard?  You’re darn right.</p>
 
-<ul>
-  <li>You don’t know how to code and you’re not sure if you would like it or not.  Paying for college tuition is not a wise way to figure that out.  At least try out Codecademy or something first.</li>
-  <li>You don’t like school and don’t <em>need</em> a degree for some reason.</li>
-  <li>You can’t afford it, don’t want to pay loans, and don’t need a degree for some reason.</li>
-  <li>You don’t have the time to allocate and don’t need a degree for some reason.</li>
-</ul>
+<p>Python is awesome, and no matter what I do with it, it makes me feel happy.</p>
 
-<h2 id="coding-bootcamp">Coding Bootcamp</h2>
+<h2 id="after-credits-scene">After-Credits Scene</h2>
 
-<h3 id="the-facts-1">The Facts</h3>
+<p>Now that I’m not on the clock and I’m free to take as much time as I like, I’ve decided I like this solution better:</p>
 
-<p>I haven’t personally been through a bootcamp, but I’ve got family that has, and I’ve tutored someone who was going through one.  If you’ve got experiences that differ from what I’ve seen, I’d love to hear about it.</p>
+<pre><code class="language-python">from pathlib import Path
 
-<p>Coding bootcamps are great if you currently don’t know a ton about programming, but your goal is to get a tech-related job in the near future anyways.  Most of them will have some sort of pipeline/network for getting their students jobs at the end.  They’ll probably help you with your resume, interviewing skills, and help you research companies that might be a good fit.</p>
+for file in Path(".").glob("*.1"):
+    name, ext, _ = file.name.split(".")  # There were no other .'s in the names
+    file.rename(f"{name}.sld{ext}")
+</code></pre>
 
-<p>There are some significant costs associated with them, but not as much as most college degree programs.  Now, some bootcamps are even willing to waive your tuition until <em>after</em> you’ve graduated and gotten a paying job.</p>
-
-<p>The main downside to a bootcamp is the time commitment.  Many bootcamps require a few months of full-time engagement, which would require you to take time off from work or work but never sleep.  But, if you’ve got a company that will let you take that time off and still have your job (or even better – a software job!) waiting for you when you get back, that’s an amazing opportunity.</p>
-
-<p>Similar to how the teaching quality can vary from professor to professor, the experience can be <em>very</em> different depending on which bootcamp you choose.  Definitely do your research, read reviews, and, if possible, talk with people who have gone through the program to get their feedback.  Because of the time and money commitment, you really want to get the right one.</p>
-
-<blockquote>
-  <p>Even so, regardless of the quality of the bootcamp, if you’re ready to put in the work and be the <em>best</em> in your class, you’ll most likely come out the other side mostly ready for your first tech job no matter what.</p>
-</blockquote>
-
-<p>The one downside I noticed while working through the courseload with the people I was tutoring was that the program spent a <em>lot</em> of time showing the students <em>how</em> to do things with the current frameworks, libraries, and languages, but not very much time explaining <em>why</em> things worked.  The students I’ve encountered all felt a little shaky on some of the basics of their programming languages, but were pretty comfortable with things like Git workflow, <code>npm</code>, and the particular functions and usages of popular libraries.</p>
-
-<p>Again, getting comfortable with the basics of programming may mean some extra hard work and practice on your part.  This will depend heavily on which bootcamp you choose.</p>
-
-<h3 id="my-recommendation-1">My Recommendation</h3>
-
-<p>I would recommend attending a bootcamp if:</p>
-
-<ul>
-  <li>Your primary goal is to get a programming job as quickly as possible.</li>
-  <li>You like programming and really want to learn those skills, but you have a hard time keeping motivated on your own.</li>
-  <li>You are able to make the significant time commitment.</li>
-  <li>You can afford the tuition and/or you find a program that will wait until after you’ve gotten a job to bill you.</li>
-</ul>
-
-<p>I would not recommend a bootcamp if:</p>
-
-<ul>
-  <li>
-    <p>You’re just curious about programming and have never tried it.  Try a couple of free online learning resources first, just to make sure it’s something you want to spend the money on.</p>
-  </li>
-  <li>You don’t learn well in a fast-paced environment.  They go fast, because they’ve got a lot of material to cover in a short time, and you have to be able to be willing to do research on your own or ask for help outside of class.</li>
-  <li>You’re not looking for a programming job.</li>
-</ul>
-
-<h2 id="self-taught">Self-Taught</h2>
-
-<h3 id="the-facts-2">The Facts</h3>
-
-<p>“Self-taught” is actually a little bit of a misnomer, because even though your learning is “self-paced,” in fact, you’re learning from hundreds or thousands of amazing, smart people who all put their knowledge out online for free (or relatively cheap).</p>
-
-<p>No matter what path you choose, you will <em>need</em> to do <em>some</em> amount of self-teaching.  In fact, being hungry for knowledge and always trying to learn new things is an important skill to cultivate for a budding developer.  Because this industry is always changing, if you stop learning the moment you graduate from college or your bootcamp, you’ll immediately be behind the curve.</p>
-
-<p>It’s important to note (for your sanity and mental well-being) that there is an <em>enormous</em> amount of knowledge out there.</p>
-
-<p>A.  Lot.</p>
-
-<blockquote>
-  <p>There is no way that you could ever learn everything there is to know about programming.  So don’t stress too hard about being “behind.”  Just stay curious, willing to experiment, and open to new ideas, and the growth will come.</p>
-</blockquote>
-
-<p>That is the main benefit – and drawback – of the self-paced path: it’s a long and winding road (#dontsuemeBeatles).  It’s hard to stay focused on learning one specific skill or set of skills.  There’s so many cool topics out there, it’s easy to get distracted – and often getting distracted is okay!  You’re not on anyone’s timeline but your own, so if you want to take a weekend to learn how compilers work or use a Raspberry Pi to make an LED blink, there’s nothing wrong with that.  But it <em>will</em> take time away from the other skills you’re trying to learn.</p>
-
-<p>So, if your end goal is to get a programming job, and you are trying to do it all on your own, know that it may take a while, and you may have some random gaps in your knowledge that might be surprising to others.  However, as long as you are willing and able to go back and learn the things you might have missed when you need to, that might not be a problem.</p>
-
-<p>The last thing to note is that, even though this section is all about “teaching yourself to code,” <em>you don’t have to do that alone.</em>  There are a <em>ton</em> of great communities of people out there who are learning to code right along side you, and it can be really helpful to have them there to share your pains, struggles, and victories with.  Dev.to, Code Newbies, and people doing the #100daysofcode are three that are especially great.</p>
-
-<h3 id="my-recommendation-2">My Recommendation</h3>
-
-<p>I would recommend the self-taught path if:</p>
-
-<ul>
-  <li>You don’t have pressing needs for a programming job or degree.</li>
-  <li>You love coding for fun!</li>
-  <li>You can’t afford tuition but you can afford a laptop, internet, and are ready to push yourself.</li>
-</ul>
-
-<p>I would not recommend the self-taught path if:</p>
-
-<ul>
-  <li>You need a little more structure to your learning environment.  Even still, you should probably practice learning things on your own, because that skill will come in handy.</li>
-  <li>You urgently need a programming job.</li>
-</ul>
-
-<h2 id="dont-wait--decide-and-go-to-work">Don’t Wait.  Decide and Go to Work</h2>
-
-<p>The worst thing you can do is to do nothing and agonize over which is the “right” way to do it.  Start learning on your own, and then look into a degree program or a bootcamp if you feel like you need to supercharge your learning pace or deepen your understanding.  Remember that degrees and bootcamps are an <em>investment</em>, so do that math and make sure your investment will pay off (salary-wise, time-wise, remote-work-wise, or other-wise) before you make that commitment.</p>
-
-<p>And remember that, no matter what, at the end, you’ll be able to code, and you’ll be a better learner.  And that’s important.  And it should make you feel like a gosh darn superhero.</p>
 </p>
   
 
@@ -299,6 +209,11 @@
         </li>
         
           <li>
+            <span class="post-meta">Nov 2, 2018</span><br/>
+            <a class="post-link" href="/2018/11/02/degree-bootcamp-self-taught/">Degree, Bootcamp, or Self-Taught: Thoughts on How to Choose</a>
+          </li>
+        
+          <li>
             <span class="post-meta">Oct 27, 2018</span><br/>
             <a class="post-link" href="/2018/10/27/ruby-a-better-way/">It&#39;s Ruby, There Must Be a Better Way</a>
           </li>
@@ -306,11 +221,6 @@
           <li>
             <span class="post-meta">Oct 25, 2018</span><br/>
             <a class="post-link" href="/2018/10/25/tips-for-taming-the-css-beast/">Tips for Taming the CSS Beast</a>
-          </li>
-        
-          <li>
-            <span class="post-meta">Oct 12, 2018</span><br/>
-            <a class="post-link" href="/2018/10/12/uncomfortable-things/">Uncomfortable Situations Don&#39;t Go Away</a>
           </li>
         
       </ul>
@@ -467,7 +377,7 @@
         
         <a href="/tags/security/" style="font-size: 10px">security | </a>
         
-        <a href="/tags/scripting/" style="font-size: 12px">scripting | </a>
+        <a href="/tags/scripting/" style="font-size: 14px">scripting | </a>
         
         <a href="/tags/itertools/" style="font-size: 10px">itertools | </a>
         

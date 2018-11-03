@@ -6,9 +6,75 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 02 Nov 2018 17:29:43 -0700</pubDate>
-    <lastBuildDate>Fri, 02 Nov 2018 17:29:43 -0700</lastBuildDate>
+    <pubDate>Sat, 03 Nov 2018 13:11:37 -0700</pubDate>
+    <lastBuildDate>Sat, 03 Nov 2018 13:11:37 -0700</lastBuildDate>
     <generator>Jekyll v3.8.3</generator>
+    
+      <item>
+        <title>Automating Simple Things with Python is Awesome</title>
+        <description>&lt;p&gt;&lt;em&gt;Cover photo by Tim Easley on Unsplash.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;This is just a quick post about something that happened to me yesterday at work.&lt;/p&gt;
+
+&lt;p&gt;So there I was: working hard as a mechanical engineer.  You know, measuring stuff.  Squinting at things.  Taking some notes.  Buying various bolts and screws.  The usual.&lt;/p&gt;
+
+&lt;p&gt;I had just downloaded some 3D model files for a clamp we were going to use in a fixture – a real one, sorry software testing folks.  &lt;a href=&quot;https://www.destaco.com/catalog/215-U&quot;&gt;This clamp&lt;/a&gt;, in fact.  As the files came in, I gasped in horror.  The files all had the wrong extensions!  I had clicked the button to download a folder full of &lt;code&gt;.sldprt&lt;/code&gt; (individual parts) and &lt;code&gt;.sldasm&lt;/code&gt; (assemblies) files, but they came in as &lt;code&gt;.prt.1&lt;/code&gt; and &lt;code&gt;.asm.1&lt;/code&gt; files.  What gives!?  And to make matters worse, there were a few XML files thrown into the mix – useless to me!&lt;/p&gt;
+
+&lt;p&gt;So I right-clicked and renamed the first file, changing to the appropriate extension.  And, as I right-clicked on the second file (of about 30), my inner developer started getting grumpy.  “We don’t have to stand for this!” he cried, flinging his tiny inner-developer keyboard accross his tiny inner-developer office.  (My inner developer startup has offices and doors because I’m not a monster.)&lt;/p&gt;
+
+&lt;p&gt;Anyways, back to him.  “We don’t have to stand for this!” he cried.  “We’re not some mindless, paper-pushing drones!  We can program!  We could script this in no time!”&lt;/p&gt;
+
+&lt;p&gt;“We &lt;em&gt;could&lt;/em&gt;,” my inner project manager chimed in.  (My inner startup is well-staffed.)  “But how much time is that really going to save us?  We could be done renaming all of these files in like two minutes.”&lt;/p&gt;
+
+&lt;p&gt;“Alright,” the inner developer replied, bottom lip starting to jut stubbornly.  Then I’ll do it in 120 seconds or less.”&lt;/p&gt;
+
+&lt;p&gt;He then said, “Crap.  We’re on a Windows machine without Bash, and I can’t quite remember the PowerShell syntax to manipulate strings.  Or, at least, not enough to get it done in time.  Oh wait!  We know Python!  We can do anything we want!”&lt;/p&gt;
+
+&lt;p&gt;So, he quickly guided me to do a search for a way to iterate over a directory and rename files.  I had to search, because I know there are a few ways of doing it.  Was it &lt;code&gt;os&lt;/code&gt;, or &lt;code&gt;shutil&lt;/code&gt;, or &lt;code&gt;pathlib&lt;/code&gt;?  I think any one of those would have worked.  I know there’s a bunch of ways to do what I want, but I needed a way that could be accomplished in 120 seconds of combined Googling and implementing.&lt;/p&gt;
+
+&lt;p&gt;Aha!  Got it!&lt;/p&gt;
+
+&lt;p&gt;“That’s 30 seconds down,” warned my inner project manager.  “Get a move on!”&lt;/p&gt;
+
+&lt;p&gt;So I opened up a terminal and fired up &lt;code&gt;ipython&lt;/code&gt;, my preferred Python REPL.  (Yes I have used &lt;code&gt;bpython&lt;/code&gt;.  Yes it is amazing.  I still like &lt;code&gt;ipython&lt;/code&gt;.)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;import os
+
+for filename in os.listdir(&quot;.&quot;):
+    if filename.endswith(&quot;.1&quot;):
+        basename = filename[:-6]
+        extension = filename[-5:-2]
+        os.rename(filename, basename + &quot;.sld&quot; + extension)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;My inner dev team high-fived and clinked their cans of La Croix in celebration.&lt;/p&gt;
+
+&lt;p&gt;Was it the prettiest, most elegant code I’ve ever written?  No.  But did I get it done in less than 120 seconds?  Yes.  Did it work?  Yes.  Did I feel like a wizard?  You’re darn right.&lt;/p&gt;
+
+&lt;p&gt;Python is awesome, and no matter what I do with it, it makes me feel happy.&lt;/p&gt;
+
+&lt;h2 id=&quot;after-credits-scene&quot;&gt;After-Credits Scene&lt;/h2&gt;
+
+&lt;p&gt;Now that I’m not on the clock and I’m free to take as much time as I like, I’ve decided I like this solution better:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;from pathlib import Path
+
+for file in Path(&quot;.&quot;).glob(&quot;*.1&quot;):
+    name, ext, _ = file.name.split(&quot;.&quot;)  # There were no other .'s in the names
+    file.rename(f&quot;{name}.sld{ext}&quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+</description>
+        <pubDate>Sat, 03 Nov 2018 00:00:00 -0700</pubDate>
+        <link>https://assertnotmagic.com/2018/11/03/automating-with-python-is-cool/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/11/03/automating-with-python-is-cool/</guid>
+        
+        <category>python</category>
+        
+        <category>scripting</category>
+        
+        
+      </item>
     
       <item>
         <title>Degree, Bootcamp, or Self-Taught: Thoughts on How to Choose</title>
@@ -1251,96 +1317,6 @@ fruits[&quot;grapes&quot;]
         <category>python</category>
         
         <category>beginner</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Python Shebangs on Windows</title>
-        <description>&lt;p&gt;&lt;em&gt;Cover image By Sven [Public domain], from Wikimedia Commons&lt;/em&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;shebang-lines-in-the-wild&quot;&gt;Shebang Lines in the Wild&lt;/h2&gt;
-
-&lt;p&gt;In Unix-like systems, if you want a file to be executable, you can add a line to the top called a &lt;strong&gt;“shebang”&lt;/strong&gt;.  They look like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;#!/usr/bin/env bash
-
-echo &quot;Hello, world!&quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;“Shebang” is short for “hash bang,” which is slang for the pound/hash/octothorpe symbol (&lt;code&gt;#&lt;/code&gt;), followed by the exclamation point/bang (&lt;code&gt;!&lt;/code&gt;).  This line is responsible for telling the computer where the program or command that will be used to run this file lives.&lt;/p&gt;
-
-&lt;p&gt;Once your file has a shebang, you can make the file executable by adding “execute permissions,” accomplished by running the following command in your Bash shell:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ chmod u+x hello.sh
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You can then run the program by executing it directly:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ ./hello.sh
-Hello, world!
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;how-it-works-on-windows&quot;&gt;How it Works on Windows&lt;/h2&gt;
-
-&lt;p&gt;If you’re not using Windows Subsystem Linux or some other form of porting Bash to Windows, you’re probably using PowerShell as your shell of choice.  And, I’ve never had very good luck with shebangs working on Windows.  I think it is because of the way Windows handles which programs deal with which file suffixes.  However, starting with Python 3.3, Python for Windows has shipped with a &lt;strong&gt;“Python for Windows Launcher”&lt;/strong&gt;, called from the command line as simply &lt;code&gt;py&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;You can launch your latest version of Python by running it with no arguments:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;$ py
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You can select which version you’d like by specifying a version flag.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;$ py -2.7
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If you can’t find it or the command isn’t working, the launcher lives by default in &lt;code&gt;C:\WINDOWS\py.exe&lt;/code&gt;.  Make sure &lt;code&gt;C:\WINDOWS&lt;/code&gt; is on your path and Python files use this executable as their default program.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;This is &lt;em&gt;really&lt;/em&gt; important.  If your default program for running Python files is set to a specific Python executable instead, you’ll end up with some weird and hard-to-diagnose issues.  So, to ensure that you’re set up right, run the “Default Programs” application and make sure Python files are associated with the &lt;code&gt;C:\WINDOWS\py.exe&lt;/code&gt; executable and not something else.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;The nice thing about this launcher is that, if it is the default program to run your Python files, it can process several common forms of shebangs.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;#!/usr/bin/env python
-#!/usr/bin/python
-#!/usr/local/bin/python
-#!python
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If you’re hoping to make your scripts portable, use one of the ones beginning with &lt;code&gt;/usr&lt;/code&gt;.  If &lt;code&gt;py&lt;/code&gt; encounters any of these, it will use your default Python.  If you specify a version (either major or major.minor), it will use that version instead:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;#!/usr/bin/env python3
-#!/usr/bin/env python2.7
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In addition, if you use this &lt;code&gt;/usr/bin/env python&lt;/code&gt; version (as opposed to the &lt;code&gt;/usr/bin/python&lt;/code&gt; or &lt;code&gt;/usr/local/bin/python&lt;/code&gt;), &lt;code&gt;py&lt;/code&gt; will do the additional, expected search down your &lt;code&gt;PATH&lt;/code&gt; for a python command, the same way it would on a Unix-like system.&lt;/p&gt;
-
-&lt;p&gt;There aren’t really “execute permissions” on Windows (correct me if I’m wrong), but once you have one of these lines at the top of your script, you can run it just like an executable in your shell.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;#!/usr/bin/env python3
-# Inside hello.py
-
-print(&quot;Hi buddy!&quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;$ ./hello.py
-Hi buddy!
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Just one more thing to make you a little less homesick for your Bash shell when you’re on Windows.&lt;/p&gt;
-
-&lt;p&gt;There is a lot more information about working with Python on Windows in &lt;a href=&quot;https://docs.python.org/3/using/windows.html&quot;&gt;the Python docs&lt;/a&gt;.  I recommend you take a look if you’re on windows and you like to find ways to make your life easier.&lt;/p&gt;
-
-&lt;p&gt;Thanks for reading!&lt;/p&gt;
-
-</description>
-        <pubDate>Sun, 01 Jul 2018 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2018/07/01/windows-python-shebangs/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2018/07/01/windows-python-shebangs/</guid>
-        
-        <category>python</category>
         
         
       </item>
