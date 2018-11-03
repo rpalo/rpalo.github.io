@@ -6,8 +6,8 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 02 Nov 2018 17:27:57 -0700</pubDate>
-    <lastBuildDate>Fri, 02 Nov 2018 17:27:57 -0700</lastBuildDate>
+    <pubDate>Fri, 02 Nov 2018 17:29:43 -0700</pubDate>
+    <lastBuildDate>Fri, 02 Nov 2018 17:29:43 -0700</lastBuildDate>
     <generator>Jekyll v3.8.3</generator>
     
       <item>
@@ -160,6 +160,187 @@
         <guid isPermaLink="true">https://assertnotmagic.com/2018/11/02/degree-bootcamp-self-taught/</guid>
         
         <category>learning</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>It's Ruby, There Must Be a Better Way</title>
+        <description>&lt;p&gt;I was recently doing a challenge on &lt;a href=&quot;https://exercism.io&quot;&gt;Exercism&lt;/a&gt;, on the Ruby track, and I struggled a lot, but when I ended up with a final solution, I was amazed at how much the power of Ruby let me simplify my code.&lt;/p&gt;
+
+&lt;p&gt;It’s a pretty cool challenge, so, I’ll lay out the premise first, and then you can try it out.  If you’re really into it, the Ruby tests for this exercise are &lt;a href=&quot;https://github.com/exercism/ruby/blob/master/exercises/robot-name/robot_name_test.rb&quot;&gt;in the Exercism Ruby repo&lt;/a&gt;.  Most of the repos for the other languages have similar test suites for this exercise as well.  This exercise is called &lt;strong&gt;Robot Name&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-premise&quot;&gt;The Premise&lt;/h2&gt;
+
+&lt;p&gt;You are creating a line of robots that each have a unique name.  Their names all follow the pattern &lt;code&gt;letter letter number number number&lt;/code&gt;.  A couple of valid names might be &lt;code&gt;AB123&lt;/code&gt;, &lt;code&gt;YE801&lt;/code&gt;, or &lt;code&gt;RP100&lt;/code&gt;.  This means that there are &lt;code&gt;26 * 26 * 10 * 10 * 10&lt;/code&gt; possible names.  So here’s the challenge.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Write a class that creates Robots.&lt;/li&gt;
+  &lt;li&gt;Each Robot created must have a unique name that matches the pattern above.&lt;/li&gt;
+  &lt;li&gt;Robots must be able to be &lt;code&gt;reset&lt;/code&gt;, wiping their memory and forgetting their name, receiving a new one that is still unique.  Don’t worry about recycling their name and returning it to the pool.  We’ll assume that once a name is taken, it’s used up.&lt;/li&gt;
+  &lt;li&gt;The name sequence &lt;strong&gt;must be random&lt;/strong&gt;.  That means the sequence must not be predictable.&lt;/li&gt;
+  &lt;li&gt;The Robot Class must have a &lt;code&gt;forget&lt;/code&gt; method that makes it forget the current state of robots, resetting any shared state it may have.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Make sense?  OK, if you’re going to attempt this challenge, off you go.  I’m going to share my journey below.&lt;/p&gt;
+
+&lt;h2 id=&quot;my-journey&quot;&gt;My Journey&lt;/h2&gt;
+
+&lt;h3 id=&quot;1-naive-guess-and-check&quot;&gt;1. Naive Guess and Check&lt;/h3&gt;
+
+&lt;p&gt;The difficulty of this exercise is mainly in the fact that &lt;em&gt;there are so many possibilities for names&lt;/em&gt;.  Any attempt to build all of those strings and combinations through looping or appending to a list are just waaaay too slow.  I tried a bunch of different approaches, and there were actually several false-start versions before I reached version 1.  My first thought was to naively keep track of the names used, generate a random name, and check if it’s in the list:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;class Robot
+  LETTERS = ('A'..'Z').to_a
+  NUMBERS = ('0'..'9').to_a
+    
+  @@taken_names = []
+    
+  def self.forget
+    @@taken_names = []
+  end
+    
+  attr_reader :name
+    
+  def initialize
+      reset
+  end
+  
+  def reset
+    name = &quot;&quot;
+    loop do
+      name = LETTERS.sample(2) + NUMBERS.sample(3)
+      break if ! @@taken_names.include?(name)
+    end
+    @name = name
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This works great for the first bunch of robots created, but as soon as you get high enough that there start to be collisions, you quickly realize you’ve got an algorithm that could, in theory, run infinitely long searching for a needle in a 676,000-strand haystack!&lt;/p&gt;
+
+&lt;p&gt;But this is Ruby!  There’s got to be a better way!  Maybe we should do it the other way, starting with a list of possible names and then popping them out, guaranteeing no collisions.&lt;/p&gt;
+
+&lt;h3 id=&quot;2-popping-names-off-a-list&quot;&gt;2. Popping Names Off a List&lt;/h3&gt;
+
+&lt;p&gt;So that’s a great thought, but how to build the list of names?  Something like this?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;@@names = LETTERS
+  .product(LETTERS, NUMBERS, NUMBERS, NUMBERS)
+  .map(&amp;amp;:join)
+# =&amp;gt; @@names = ['AA000', 'AA001' ... 'ZZ998', 'ZZ999']
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;OK, that works.  The &lt;code&gt;product&lt;/code&gt; method creates a “Cartesian Product” between all of its arguments.  For example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;[1, 2, 3].product([4, 5])
+# =&amp;gt; [
+# [1, 4],
+# [1, 5],
+# [2, 4],
+# [2, 5],
+# [3, 4],
+# [3, 5],
+# ]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That giant product above creates a list like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;[
+  ['A', 'A', '0', '0', '0'],
+  ['A', 'A', '0', '0', '1'],
+  ...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That’s why we join them all together into single strings via the &lt;code&gt;.map(&amp;amp;:join)&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;p&gt;Startup time for our class (as well as &lt;code&gt;forget&lt;/code&gt; run time) is pretty long, but maybe that’s allowable, seeing how much time it saves us on our algorithm.  Right?  Right?&lt;/p&gt;
+
+&lt;p&gt;Wrong.  When our list is huge, randomly choosing an index and then popping that out takes FOR.  EVER.  Because, each time we pop an item out, all of the items behind that item have to figure out what to do with the gap that it left.  This list of names is so huge, it’s like trying to turn the Titanic.  And how’d that work out for Leo?!  (Too soon?)&lt;/p&gt;
+
+&lt;p&gt;I even tried generating a giant list of integers instead and converting each integer to my own custom numbering system that was (base 26, base 26, base 10, base 10, base 10), but that was more confusing and not any better.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;class Robot
+  LETTERS = ('A'..'Z').to_a
+  NUMBERS = ('0'..'9').to_a
+    
+  @@possible_names = LETTERS
+    .product(LETTERS, NUMBERS, NUMBERS, NUMBERS)
+    .map(&amp;amp;:join)
+    
+  def self.forget
+    @@possible_names = LETTERS
+      .product(LETTERS, NUMBERS, NUMBERS, NUMBERS)
+      .map(&amp;amp;:join)
+  end
+    
+  def initialize
+    reset
+  end
+    
+  def reset
+    next_index = rand(0...@@possible_names.length)
+    @name = @@possible_names.pop(next_index)
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;This is Ruby!  There must be a better way!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;the-final-solution&quot;&gt;The Final Solution&lt;/h3&gt;
+
+&lt;p&gt;As it turns out, there is.  My fundamental idea of working from a pre-built list was the right idea, but I wasn’t &lt;em&gt;letting Ruby work for me enough&lt;/em&gt;.  There were a lot of things I could improve upon.&lt;/p&gt;
+
+&lt;p&gt;First, the building of the list of names.  I forgot how &lt;em&gt;awesome&lt;/em&gt; ranges in Ruby are.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;@@names = 'AA000'..'ZZ999'
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That’s right.  Ruby knows how to increment each character in the string (even the letters) to fill in the gaps.  I’ll be honest, when this was pointed out to me by the Ruby Track Mentor after all of that work, I only cried for like 12 minutes.&lt;/p&gt;
+
+&lt;p&gt;Next, random access.  Rather than randomly selecting each time, why not shuffle once, up front?  &lt;em&gt;But you can’t shuffle a range in Ruby!&lt;/em&gt;  Not a problem!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;@@names = ('AA000'..'ZZ999').to_a.shuffle
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This crying session only lasted 7 minutes.&lt;/p&gt;
+
+&lt;p&gt;Lastly, dealing with modifying this great giant list over and over.  The solution?  &lt;em&gt;Don’t.&lt;/em&gt;  The best way to deal with a large dataset isn’t to pop off of it.  It’s to let Ruby work for you and use an &lt;strong&gt;Enumerator.&lt;/strong&gt;  This lazily yields each element.  It’s similar to having a pointer point at the element you want and then moving the pointer to the next element, but way less work.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;class Robot
+  POSSIBLE_NAMES = 'AA000'..'ZZ999'
+    
+  @@names = POSSIBLE_NAMES.to_a.shuffle.each
+    
+  def self.forget
+    @@names = POSSIBLE_NAMES.to_a.shuffle.each
+  end
+    
+  attr_reader :name
+    
+  def initialize
+    reset
+  end
+    
+  def reset
+    @name = @@names.next
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This way, you walk through the names until you run out.  Handily, when the &lt;code&gt;@@names&lt;/code&gt; Enumerator runs out of names, a call to &lt;code&gt;@@names.next&lt;/code&gt; will raise a &lt;code&gt;StopIteration&lt;/code&gt; exception, telling the user that you’re out of names.  If you want, you could catch that exception and raise your own &lt;code&gt;RobotNamesDepletedError&lt;/code&gt; too.  And a call to &lt;code&gt;Robot.forget&lt;/code&gt; renews the list of names with a new random shuffle.&lt;/p&gt;
+
+&lt;p&gt;What did you come up with?  Did you try the exercise in another language?  How did it turn out?  Let me know.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 27 Oct 2018 00:00:00 -0700</pubDate>
+        <link>https://assertnotmagic.com/2018/10/27/ruby-a-better-way/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/10/27/ruby-a-better-way/</guid>
+        
+        <category>ruby</category>
+        
+        <category>exercism</category>
+        
+        <category>challenge</category>
         
         
       </item>
@@ -1160,140 +1341,6 @@ Hi buddy!
         <guid isPermaLink="true">https://assertnotmagic.com/2018/07/01/windows-python-shebangs/</guid>
         
         <category>python</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Python Has a Startup File!</title>
-        <description>&lt;p&gt;&lt;em&gt;Cover Photo by Uriel Soberanes on Unsplash&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;So, I want to be clear.  &lt;em&gt;I&lt;/em&gt; knew that Python has a startup customization file this whole time I’ve been using Python.  &lt;em&gt;I&lt;/em&gt; didn’t just find out about it this week.  I mean, of &lt;em&gt;course&lt;/em&gt; Python has a startup file.  Everything has a startup file!  I just want to make sure &lt;em&gt;you&lt;/em&gt; know about it.  &lt;em&gt;(Only joking, I had no idea this was a thing.)&lt;/em&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Before you bring it up, I already know about &lt;a href=&quot;https://bpython-interpreter.org/screenshots.html&quot;&gt;bPython&lt;/a&gt;, the awesome, syntax-highlighty, tab-completey, auto-indenty, wonderful drop in replacement for the regular Python interpreter.  I use it all the time.  But that’s not what this blog post is about.  P.S. if you didn’t know about bPython, I highly recommend it (Windows users’ mileage may vary).&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;pythonstartup&quot;&gt;$PYTHONSTARTUP&lt;/h2&gt;
-
-&lt;p&gt;If you have the environment variable &lt;code&gt;$PYTHONSTARTUP&lt;/code&gt; set to a valid Python file, that file will get run when starting up the Python interpreter.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ export PYTHONSTARTUP=&quot;~/.config/pythonrc.py&quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Don’t worry about the name of the file.  Name it whatever you want!  &lt;code&gt;python_startup.py&lt;/code&gt;, or just &lt;code&gt;pythonrc&lt;/code&gt;.  You can also put it in whatever directory you want.  Just make sure your &lt;code&gt;$PYTHONSTARTUP&lt;/code&gt; environment variable matches.  Then, you can put anything you want into that file.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;# ~/.config/pythonrc.py
-a = &quot;Wahoo!&quot;
-print(&quot;Soup&quot;)
-try:
-    import numpy as np
-except ImportError:
-    print(&quot;Could not import numpy.&quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Try running your Python interpreter.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ python  # or python3
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And you should see something similar to the following:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;Python 3.7.0 (default, Jun 29 2018, 20:14:27)
-[Clang 9.0.0 (clang-900.0.39.2)] on darwin
-Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
-Soup
-&amp;gt;&amp;gt;&amp;gt; np
-&amp;lt;module 'numpy' from '/usr/local/lib/python3.7/site-packages/numpy/__init__.py'&amp;gt;
-&amp;gt;&amp;gt;&amp;gt; np.zeros((3, 2))
-array([[0., 0.],
-       [0., 0.],
-       [0., 0.]])
-&amp;gt;&amp;gt;&amp;gt; a
-'Wahoo!'
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You can import commonly used libraries, create variables for yourself, and more.&lt;/p&gt;
-
-&lt;h2 id=&quot;sysps1-and-sysps2&quot;&gt;sys.ps1 and sys.ps2&lt;/h2&gt;
-
-&lt;p&gt;One neat thing to do is to set the &lt;code&gt;sys.ps1&lt;/code&gt; and &lt;code&gt;sys.ps2&lt;/code&gt; variables, which control your Python prompts.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;# ~/.config/pythonrc.py
-
-import sys
-
-sys.ps1 = &quot;🌮&quot;
-sys.ps2 = &quot;💩&quot;
-
-# ...
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And, back in the interactive REPL:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;🌮 for i in range(10):
-💩     print(&quot;I am a mature adult.&quot;)
-💩
-I am a mature adult.
-I am a mature adult.
-...
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In fact, you can even set &lt;code&gt;sys.ps1&lt;/code&gt; and &lt;code&gt;sys.ps2&lt;/code&gt; to objects that aren’t even strings!  If they’re not strings, Python will call &lt;code&gt;str(obj)&lt;/code&gt; on them.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;# ~/.config/pythonrc.py
-
-import sys
-from datetime import datetime
-
-class CustomPS1:
-    def __init__(self):
-        self.count = 0
-
-    def __str__(self):
-        self.count += 1
-        return f&quot;({self.count}) {datetime.now().strftime('%H:%m %p')} &amp;gt; &quot;
-
-sys.ps1 = CustomPS1()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And in the interpreter:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;(1) 10:06 AM &amp;gt; for i in range(10):
-...     print(&quot;Am I cool now?&quot;)
-...
-Am I cool now?
-Am I cool now?
-# ...
-(2) 11:06 AM &amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;the--i-flag&quot;&gt;The -i Flag&lt;/h2&gt;
-
-&lt;p&gt;In addition to these new superpowers, you can temporarily make &lt;em&gt;any&lt;/em&gt; Python script your startup script.  This could come in really handy for some interactive debugging.  Let’s say you’re working on a project and you have a script that defines some functions:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;# cool_script.py
-
-def what_time_is_it():
-    return &quot;Party Time&quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You can use the &lt;code&gt;-i&lt;/code&gt; flag when you run the Python interpreter to use &lt;code&gt;cool_script.py&lt;/code&gt; as your startup file instead of your usual one.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;$ python -i cool_script.py
-&amp;gt;&amp;gt;&amp;gt; what_time_is_it()
-'Party Time'
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If you do some cool things with your startup file, share it with me!  I want to know about it!  Happy coding!&lt;/p&gt;
-</description>
-        <pubDate>Sat, 30 Jun 2018 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2018/06/30/python-startup-file/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2018/06/30/python-startup-file/</guid>
-        
-        <category>python</category>
-        
-        <category>tricks</category>
         
         
       </item>
