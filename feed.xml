@@ -6,9 +6,109 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 03 Nov 2018 13:11:37 -0700</pubDate>
-    <lastBuildDate>Sat, 03 Nov 2018 13:11:37 -0700</lastBuildDate>
+    <pubDate>Thu, 08 Nov 2018 20:11:57 -0800</pubDate>
+    <lastBuildDate>Thu, 08 Nov 2018 20:11:57 -0800</lastBuildDate>
     <generator>Jekyll v3.8.3</generator>
+    
+      <item>
+        <title>The Programmer and the Sea</title>
+        <description>&lt;link rel=&quot;canonical&quot; href=&quot;https://simpleprogrammer.com/programmer-and-sea/&quot; /&gt;
+
+&lt;p&gt;&lt;em&gt;This story originally published by &lt;a href=&quot;https://simpleprogrammer.com/programmer-and-sea/&quot;&gt;Simple Programmer&lt;/a&gt;.  Cover image courtesy of the Simple Programmer staff.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Learning to code is a journey. Recently, on a trip to Morro Bay, California, my wife and I went stand-up paddleboarding, and I noticed a lot of similarities between paddleboarding and programming. So, the rest of this article is a metaphor for the developer journey.&lt;/p&gt;
+
+&lt;p&gt;In the interest of clarity, I’ve labeled a few of the key parallels with reference numbers. At the end, each of these reference numbers has a short, concrete description of the idea behind each metaphor. Of course, like all (hopefully) good literature, part of the value is the unique experiences the reader brings. I highly encourage you to connect other similarities to your own life and share them.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;As we walked down the harborfront, some of the locals were already out on the water. It was a beautiful day; the sun was out, and the bay was smooth as glass. They were gliding around, weaving in and out of the anchored boats, and paddling with grace and ease.&lt;/p&gt;
+
+&lt;p&gt;They were stand-up paddleboarding. Fundamentally, a paddleboard is a bigger, flatter surfboard that you stand on, and you use a long kayak-like paddle to paddle yourself around for sport or relaxation.&lt;/p&gt;
+
+&lt;p&gt;We looked out over the bay at all the people tooling around. Some had simple, beautiful boards. Some had what looked like very complicated setups, custom paddles, and extra-fancy rigs—looking at these people, I wasn’t sure if I would even be able to get started. It looked like there was so much stuff that we needed to have and so many things we needed to know. It was hard not to be intimidated (&lt;a href=&quot;#footnote1&quot; id=&quot;sub1&quot;&gt;1&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;Even still, it looked like fun, so we headed down to the waterfront to a kayak and paddleboard rental place that we’d used before (shoutout to the folks at Rock Kayak). I needn’t have worried about not having what it takes to get started.&lt;/p&gt;
+
+&lt;p&gt;The people there were used to dealing with people like us: full of excitement and drive and empty of any knowledge or skill. After signing a couple waivers, they gave us a quick rundown of the skills and knowledge we needed to keep us safe, happy, and mostly dry. (&lt;a href=&quot;#footnote2&quot; id=&quot;sub2&quot;&gt;2&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;The most important thing is that they talked to us like the beginners that we were, and they didn’t expect us to know anything. “See that buoy out there?” the rental guide asked, pointing out over the water. “See how it’s got the number 12? The numbers increase going out to the right. Don’t go out past the red one, or it starts to get dangerous. The numbers decrease going out to the left. Don’t go past eight, or you risk getting stuck in the mud and having no fun at all. See that red roof right above us? That’s home. If you get lost or scared, you can always come back here to us.” I was surprised how comforting it was to hear that.&lt;/p&gt;
+
+&lt;p&gt;Essentially, they were saying, “You’re doing something new. It’s natural to get confused, disoriented, or scared. Here’s a safe place you can go if all else fails.” Having that escape hatch was critical, massively reducing any anxiety I was feeling.&lt;/p&gt;
+
+&lt;p&gt;They provided us with life vests, a watertight bag for our stuff, boards, and paddles; held our boards stable; and helped us get out on the water. (&lt;a href=&quot;#footnote3&quot; id=&quot;sub3&quot;&gt;3&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;Fun fact: water is really squishy. It’s not nearly as solid as dry land. When there’s no helpful guide holding your paddleboard steady, you realize that keeping everything stable becomes your job. As my board began wobbling like hundreds of crazed kamikaze fish were battering the underside, my first instinct was to stare at my feet and will them to stillness. This worked, kind of. (&lt;a href=&quot;#footnote4&quot; id=&quot;sub4&quot;&gt;4&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;I achieved a semblance of stability, but every muscle in my body was totally clenched, and I very quickly began cramping. This was not the relaxing, meditative nautical activity I was promised. On top of that, I realized that I had forgotten to paddle, and the light current was carrying me away. (&lt;a href=&quot;#footnote5&quot; id=&quot;sub5&quot;&gt;5&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;My beautiful saint of a wife called out to me, snapping me out of my spiraling. “Come on!” she yelled, waving, as she calmly scooted away from me like an elegant ocean princess. This was actually really helpful because it gave me a goal to focus on achieving rather than just focusing on how uncomfortable I was in this new unknown arena.&lt;/p&gt;
+
+&lt;p&gt;I tentatively dipped my paddle into the water, switching sides every so often. As I began to paddle and find a rhythm, the training that the folks at Rock Kayak had given us came back to me. I started to make progress against the tide, following my wife.&lt;/p&gt;
+
+&lt;p&gt;While I was focused on paddling, my board also settled into a rhythmic motion, rocking naturally with the surf and my motions. No more frantic wobbling! Throughout the day, I slowly realized that the concept was relatively universal: The more I focused on things that were far away, like the scenery and my overall goal, the more natural my movements became and the more efficient my paddling was.&lt;/p&gt;
+
+&lt;p&gt;The tides that turned my stationary targets into a moving goal were less of a problem for me. The second I focused on close-up issues—Am I doing this right? Here comes a big wave! Is Jenny going faster than me?—things got wobbly, clenchy, and unproductive. (&lt;a href=&quot;#footnote6&quot; id=&quot;sub6&quot;&gt;6&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;Shortly after I mastered the complex art of standing still and paddling, a new problem cropped up: My feet started cramping. My mind started to race again. What was I going to do? I was out in the middle of the water. It wasn’t like I could just step off onto dry land to rest my poor feet! It wasn’t like I could just kneel down right there on the board … oh.&lt;/p&gt;
+
+&lt;p&gt;As it turns out, it’s fairly easy to kneel or sit down from a standing position when on a paddleboard.&lt;/p&gt;
+
+&lt;p&gt;I may not have looked like the coolest hot-rodding paddleboarder out there. I maybe moved a little bit slower than Jenny. But I was able to still move forward while preserving my mental and “foot-al” health. And there is no shame in that. (&lt;a href=&quot;#footnote7&quot; id=&quot;sub7&quot;&gt;7&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;I transitioned from standing to kneeling and back again several more times that morning, and knowing I could do that offered me another escape hatch that drastically improved how much fun I was having.&lt;/p&gt;
+
+&lt;p&gt;Now that the immediate emergencies were dealt with, I began a really amazing, zen-like experience. I paddled around, enjoying the sun and the ocean, the smell of the salty spray, and the sounds of the harbor. I said hello to a couple of seals sunning themselves and some otters that were floating around. This was the relaxing, meditative activity I was promised. I would definitely be doing this again. It was then that I had my most important revelation.&lt;/p&gt;
+
+&lt;p&gt;Why was I so worried about falling in?&lt;/p&gt;
+
+&lt;p&gt;That was easily the worst thing that could happen to me. However, the water wasn’t that cold, my phone and wallet were tucked in a waterproof bag, I was wearing a life vest, and most importantly, I know how to swim. Oh yeah, that’s right. I’ve been swimming since I was in elementary school. (&lt;a href=&quot;#footnote8&quot; id=&quot;sub8&quot;&gt;8&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;In all of my panic and spiraling, I had forgotten all of the other skills and coping mechanisms that I’ve developed in other parts of my life. I had never been in any real danger—at least, no more than the danger of getting wet and a bit chilly. Maybe I’d smell like fish for a while. But I certainly wasn’t going to die!&lt;/p&gt;
+
+&lt;p&gt;On top of that, I realized there was no one out here that actively wanted me to fall in (maybe besides Jenny, and then only with love and the desire to laugh at me looking silly). In fact, were I to ever be in any real trouble, everyone out on that bay would immediately rush to my aid. I had been too busy looking at all of the things that could go wrong to consider the vast safety net that was available to me if I needed it.(&lt;a href=&quot;#footnote9&quot; id=&quot;sub9&quot;&gt;9&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;With that, we finished out the remainder of our time on the water, peacefully enjoying each other’s company and the gentle rolling of the sea: Jenny, deftly maneuvering in and out of the boats, and me, goofy but well-meaning, surviving and having the time of my life.&lt;/p&gt;
+
+&lt;p&gt;I highly recommend it to anyone who is interested (and within easy traveling distance of a good body of water), and I’d happily take anyone who wants to go, sharing my newfound wisdom, because I know that they will love it, too. I’ve got a lot to learn and a long way to go to be a great paddleboarder, but I do consider myself a paddleboarder, and I’m proud to be one.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a href=&quot;#sub1&quot; id=&quot;footnote1&quot;&gt;1. &lt;/a&gt;There is a lot of tooling in the programming world. Complicated build processes, tricked-out editors, and—the config files! Oh, the config files! Especially for a beginner, it is intimidating to figure out what is needed. What are the right tools? What is the right way to do things? It’s easy to forget that the important thing is to just get started. The learning and the tooling will come when you need them.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#sub2&quot; id=&quot;footnote2&quot;&gt;2. &lt;/a&gt;Mentors can come in many different forms. Of course, there are the more traditional teachers, like high school and college professors and bootcamp leaders, but a person on a message board online or a co-worker with a little more experience can also be a great mentor. The important thing is that they help you to be productive and safe, and they push you to grow.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#sub3&quot; id=&quot;footnote3&quot;&gt;3. &lt;/a&gt;Mentors are critical to the path of learning how to program, and the best ones know that learning needs to be a challenging but 100 percent safe experience—at least at the beginning.&lt;/p&gt;
+
+&lt;p&gt;It’s the mentor’s job to make sure the mentee knows what they need to know to progress and be safe, as well as how to find help if they get confused. Without this “safety net,” a learner can easily get lost and confused, eventually giving up.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#sub4&quot; id=&quot;footnote4&quot;&gt;4. &lt;/a&gt;While learning spaces like college, apprenticeship, or a boot camp are relatively real-consequence-free that first time you are on your own, working on your own project, or working at a first job, the training wheels come off. Your actions can have real consequences, and your mistakes can affect hundreds or thousands of people. This is, understandably, terrifying.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#sub5&quot; id=&quot;footnote5&quot;&gt;5. &lt;/a&gt;There’s a lot to do as a new programmer: learning all there is to learn, working on your portfolio, publicizing your personal brand, and more. To make things even more difficult, the industry is rapidly evolving, making your learning a moving target. If you are standing still, then you are falling behind! This is, understandably, stressful.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#sub6&quot; id=&quot;footnote6&quot;&gt;6. &lt;/a&gt;Don’t focus so much on the things happening right now. Don’t worry about whether you’re progressing as fast as other people. Don’t worry if you are doing this or that little coding thing “the wrong way.” Focus on the goal. If your goal is to get a job at a big tech company, always keep that in your mind as you’re working. If your goal is to teach, make everything you do align with that goal.&lt;/p&gt;
+
+&lt;p&gt;A common mountain biking tip is to look at where you want to be. If you stare at the big rock, you are going to run into the big rock. The same applies in tech. This will help keep you from burning out, and it will help you ride out the little bumps and issues along the way.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#sub7&quot; id=&quot;footnote7&quot;&gt;7. &lt;/a&gt;It is OK if you need to take a break. Burnout is real, and it is powerful. No matter what, your physical and mental health should come before any deadline, boss’s mandate, or performance review. If anyone tells you otherwise, they don’t have your best interests at heart. Full stop.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#sub8&quot; id=&quot;footnote8&quot;&gt;8. &lt;/a&gt;When things get crazy, especially in an industry where you are always learning and finding out how much you don’t know, it’s important to remember that you do know some things. Remember what you’ve practiced, and do as much as you can to set yourself up for success and minimize the consequences associated with failure.&lt;/p&gt;
+
+&lt;p&gt;The goal is to plan ahead and leverage your knowledge so that when you ask yourself, “What’s the worst that could happen?” the answers aren’t that scary. Not sure if your code will break production? Write some tests. Have a co-worker look at it. Run it. Going to ask for a promotion? Do your research. Figure out what a reasonable salary increase is. Document all of the good things and extra work you’ve done. Remember the skills that you have.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#sub9&quot; id=&quot;footnote9&quot;&gt;9. &lt;/a&gt;This is complementary to #7. Build a support network. Find people who love you, will lift you up, and want you to succeed. Then, lean on them when things get hard. They’ll be there for you if you fail. Don’t forget that means you need to be there for them, too!&lt;/p&gt;
+
+</description>
+        <pubDate>Thu, 08 Nov 2018 00:00:00 -0800</pubDate>
+        <link>https://assertnotmagic.com/2018/11/08/programmer-and-the-sea/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/11/08/programmer-and-the-sea/</guid>
+        
+        <category>learning</category>
+        
+        <category>story</category>
+        
+        
+      </item>
     
       <item>
         <title>Automating Simple Things with Python is Awesome</title>
@@ -1115,208 +1215,6 @@ FF…
         <guid isPermaLink="true">https://assertnotmagic.com/2018/09/06/back-at-it/</guid>
         
         <category>update</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>3 Common Mistakes that Python Newbies Make</title>
-        <description>&lt;p&gt;Last weekend, I stared mentoring people on &lt;a href=&quot;https://exercism.io&quot;&gt;exercism.io&lt;/a&gt; on the Python track.  I wasn’t sure what to expect, but over the last week I have mentored about 50 people, helping them get their solutions from “tests passing” to “tests passing, readable, &lt;em&gt;and&lt;/em&gt; Pythonic.”  I’m hooked.  It’s a total blast.  I’m going to write a post specifically on that experience.  That’s not this post.  This post is to talk about the three most common mistakes I saw over the last week and some possible alternatives that might be better!  So let’s start the countdown!&lt;/p&gt;
-
-&lt;h2 id=&quot;1-deep-nesting-of-if-statements-or-loops&quot;&gt;1. Deep Nesting of If Statements or Loops&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;# Calculating whether or not 'year' is a leap year
-
-if year % 4 == 0:
-    if year % 100 == 0:
-        if year % 400 == 0:
-            return True
-        else:
-            return False
-    else:
-        return True
-else:
-    return False
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;A lot of times, I’ll pull a line from the &lt;a href=&quot;https://www.python.org/dev/peps/pep-0020/#id3&quot;&gt;Zen of Python&lt;/a&gt; to lead off my feedback to a “mentee” (not to be confused with a manitee).  When I see this issue, I always lead with&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Flat is better than nested.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;If you look at your code with your eyes unfocused, looking at the shapes and not reading the words, and you see a bunch of arrows going out and back in again:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;\
- \
-  \
-   \
-    \
-    /
-   /
-  /
-  \
-   \
-    \
-     \
-     /
-    /
-   /
-  /
- /
-/
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;It’s not &lt;em&gt;definitely&lt;/em&gt; a bad thing, but it is a “code smell,” or a Spidey Sense that something could possibly be refactored.&lt;/p&gt;
-
-&lt;p&gt;So, what can you do instead of nest?  There are a couple things to try.  The first is inverting your logic and using “early returns” to peel off small pieces of the solution space one at a time.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;if year % 400 == 0:
-    return True
-if year % 100 == 0:
-    return False
-if year % 4 == 0:
-    return True
-return False
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If the number is divisible by 400, then we immediately return true.  Otherwise, for the rest of our code, we can know that year is &lt;em&gt;definitely not&lt;/em&gt; divisible by 400.  So, at that point, any other year that’s divisible by 100 is not a leap year.  So we peel off that layer of the onion by returning False.&lt;/p&gt;
-
-&lt;p&gt;After that, we can know that &lt;code&gt;year&lt;/code&gt; is definitely not a multiple of 400 &lt;em&gt;or&lt;/em&gt; 100, and the remainder of the code follows the same pattern.&lt;/p&gt;
-
-&lt;p&gt;The other way to avoid nesting is by using “boolean operators:” &lt;code&gt;and, or, and not&lt;/code&gt;.  We can combine &lt;code&gt;if&lt;/code&gt; statements and thus, save ourselves a layer of nesting!&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):
-    return True
-else:
-    return False
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Of course, that leads us to our second item…&lt;/p&gt;
-
-&lt;h2 id=&quot;2-returning-booleans-from-if-statements&quot;&gt;2. Returning Booleans from If Statements&lt;/h2&gt;
-
-&lt;p&gt;We’ll start with our last example from above:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):
-    return True
-else:
-    return False
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Anytime you find yourself writing:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;if something:
-    return True
-else:
-    return False
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You should remember that the clause of an &lt;code&gt;if&lt;/code&gt; statement is itself a boolean!&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;&amp;gt;&amp;gt;&amp;gt; year = 2000
-&amp;gt;&amp;gt;&amp;gt; year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
-True
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So, why not type a little less and return the result of the boolean operation directly?&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;return (year % 4 == 0 and (year % 100 != 0 or year % 400 == 0))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Granted, at this point, the line may be getting a little long, but the code is a little less redundant now!&lt;/p&gt;
-
-&lt;h2 id=&quot;3-lists-are-like-hammers--not-everything-is-a-nail&quot;&gt;3. Lists are Like Hammers – Not Everything is a Nail&lt;/h2&gt;
-
-&lt;p&gt;Here are two possible ways that this could show up:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;some_numbers = [1, 2, 5, 7, 8, ...]
-other_numbers = [1, 3, 6, 7, 9, ...]
-# Let's try to combine these two without duplicates
-for number in other_numbers:
-    if number not in some_numbers:
-        some_numbers.append(number)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Or:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;data = [[&quot;apple&quot;, 4], [&quot;banana&quot;, 2], [&quot;grape&quot;, 14]]
-# What fruits do we have?
-for item in data:
-    print(item[0])
-# =&amp;gt; &quot;apple&quot; &quot;banana&quot; &quot;grape&quot;
-# How many grapes do we have?
-for item in data:
-    if item[0] == &quot;grape&quot;:
-        print(item[1])
-# =&amp;gt; 14
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In the first case, you’re trying to keep track of some groups of items and you want to combine them without duplicates.  This is an &lt;em&gt;ideal&lt;/em&gt; candidate for a &lt;a href=&quot;https://www.geeksforgeeks.org/sets-in-python/&quot;&gt;&lt;code&gt;set&lt;/code&gt;&lt;/a&gt;.  Sets inherently keep track of their items (although not the order, so don’t use a set if the order is important).  You can declare them with the built-in &lt;code&gt;set()&lt;/code&gt; function or with squiggle braces (&lt;code&gt;{}&lt;/code&gt;).&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;some_numbers = {1, 2, 5, 7, 8}
-other_numbers = {1, 3, 6, 7, 9}
-# Sets use the 'binary or' operator to do &quot;unions&quot;
-# which is where they take all of the unique elements
-some_numbers | other_numbers
-# =&amp;gt; {1, 2, 3, 5, 6, 7, 8, 9}
-
-# You can even add single items in!
-some_numbers.add(10)
-# =&amp;gt; {1, 2, 5, 7, 8, 10}
-
-# But adding a duplicate doesn't change anything
-some_numbers.add(1)
-# =&amp;gt; {1, 2, 5, 7, 8, 10}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In the second case, again, order probably isn’t critical.  You want to keep track of some data by a “label” or something, but be able to keep them all together and list them out as necessary.  This time, you’re probably looking for a &lt;code&gt;dict&lt;/code&gt;.  You can create those with either the &lt;code&gt;dict()&lt;/code&gt; built-in function or, again, squiggle braces (&lt;code&gt;{}&lt;/code&gt;).  This time, however, you separate the labels (keys) and the values with a colon.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;fruits = {
-    &quot;apples&quot;: 4,
-    &quot;bananas&quot;: 2,
-    &quot;grapes&quot;: 14,
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You can list out all of the keys (or values!).&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;list(fruits.keys())
-# =&amp;gt; [&quot;apples&quot;, &quot;bananas&quot;, &quot;grapes&quot;]
-list(fruits.values())
-# =&amp;gt; [4, 2, 14]
-
-# Or both!
-list(fruits.items())
-# =&amp;gt; [(&quot;apples&quot;, 4), (&quot;bananas&quot;, 2), (&quot;grapes&quot;, 14)]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And you can ask it about (or give it a new value for) specific keys.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;# How many grapes are there?
-fruits[&quot;grapes&quot;]
-# =&amp;gt; 14
-
-# Not anymore.  I ate some.
-fruits[&quot;grapes&quot;] = 0
-
-fruits[&quot;grapes&quot;]
-# =&amp;gt; 0
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Using a list, the your algorithm loops through every item to find the right one.  &lt;code&gt;dict&lt;/code&gt;’s are built to have very fast lookups, so, even if your &lt;code&gt;dict&lt;/code&gt; is a bazillion fruits long, finding the &lt;code&gt;grapes&lt;/code&gt; is still super fast – and easy to type!  No loops!&lt;/p&gt;
-
-&lt;h2 id=&quot;call-to-action&quot;&gt;Call to Action&lt;/h2&gt;
-
-&lt;p&gt;Exercism needs mentors!  If you think you’d be a good mentor (or even a decent mentor, just on the easy exercises), sign up at &lt;a href=&quot;http://mentoring.exercism.io/&quot;&gt;their Mentor Signup page&lt;/a&gt;.  Right now, Rust, Golang, and Elixir are especially swamped and need &lt;em&gt;your&lt;/em&gt; help!&lt;/p&gt;
-</description>
-        <pubDate>Sat, 04 Aug 2018 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2018/08/04/3-python-newbie-mistakes/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2018/08/04/3-python-newbie-mistakes/</guid>
-        
-        <category>python</category>
-        
-        <category>beginner</category>
         
         
       </item>
