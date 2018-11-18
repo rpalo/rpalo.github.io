@@ -6,9 +6,143 @@
 </description>
     <link>https://assertnotmagic.com</link>
     <atom:link href="https://assertnotmagic.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 08 Nov 2018 20:11:57 -0800</pubDate>
-    <lastBuildDate>Thu, 08 Nov 2018 20:11:57 -0800</lastBuildDate>
+    <pubDate>Sun, 18 Nov 2018 15:30:16 -0800</pubDate>
+    <lastBuildDate>Sun, 18 Nov 2018 15:30:16 -0800</lastBuildDate>
     <generator>Jekyll v3.8.3</generator>
+    
+      <item>
+        <title>defaultdicts: Never Check If a Key is Present Again!</title>
+        <description>&lt;p&gt;It’s fall, so it seems like the perfect time to write some posts about PSL.  Nope, not Pumpkin Spice Lattes – the Python Standard Library!  The Standard Library is a bunch of useful modules that come packaged with Python (Batteries Included!), so there’s little-to-no security/maintenance burden incurred when you pull them into your code!&lt;/p&gt;
+
+&lt;p&gt;As I mentor people new to Python on Exercism, there are a couple of exercises that make big use &lt;code&gt;dicts&lt;/code&gt;.  You might know them in other languages as a &lt;code&gt;hash&lt;/code&gt;, &lt;code&gt;hashmap&lt;/code&gt;, or &lt;code&gt;dictionary&lt;/code&gt;.  Whatever you call them, I’m talking about the data type that maps one value, a &lt;strong&gt;key&lt;/strong&gt;, to another value, commonly just referred to as &lt;strong&gt;the value&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;This data structure is really nice for picking out particular items for reading or writing quickly by their keys.  It’s commonly used to label and collect data, for use cases like a school roster, a word counter, or as a substitute for an object, with named fields (although, in Python, there are a few better options than a plain ole’ dict for that.  But that’s another article).&lt;/p&gt;
+
+&lt;p&gt;Because of these use-cases, you often see code that needs to do this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;grades = [&quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;C&quot;, &quot;B&quot;, &quot;C&quot;, &quot;A&quot;, &quot;C&quot;, &quot;B&quot;]
+
+counter = dict()
+for grade in grades:
+    if grade in counter:
+        counter[grade] += 1
+    else:
+        counter[grade] = 1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You need to check if that particular grade letter is in the &lt;code&gt;counter&lt;/code&gt; dict before trying to add 1 to it.  Otherwise you’ll run into errors!&lt;/p&gt;
+
+&lt;p&gt;There &lt;em&gt;is&lt;/em&gt; a workaround that’s reasonably clear and easy to read: our friend &lt;code&gt;get&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;for grade in grades:
+    counter[grade] = counter.get(grade, 0) + 1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;By default, &lt;code&gt;dict.get(key)&lt;/code&gt; returns &lt;code&gt;None&lt;/code&gt; if the key isn’t found instead of raising a &lt;code&gt;KeyError&lt;/code&gt; like normal, &lt;em&gt;but&lt;/em&gt; if you add that second argument to the &lt;code&gt;get&lt;/code&gt; call, it will return that default instead, allowing you to update or create the key all in one line.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;But Ryan,&lt;/em&gt; you say.  &lt;em&gt;That seems like an&lt;/em&gt; awful &lt;em&gt;lot of work to do just to have a dict provide me with a default value when a key is missing!&lt;/em&gt;  And you’re right!&lt;/p&gt;
+
+&lt;p&gt;There’s an even better way.&lt;/p&gt;
+
+&lt;p&gt;Let me introduce you to the &lt;a href=&quot;https://docs.python.org/3/library/collections.html&quot;&gt;&lt;strong&gt;Collections Module&lt;/strong&gt;&lt;/a&gt;.  Check out the documentation.  There’s a lot more goodies in there (not least of which is the actual &lt;code&gt;Counter&lt;/code&gt; class which takes care of our very problem here.  But, again, that’s for another PSL article).  Specifically, we are looking at the &lt;code&gt;defaultdict&lt;/code&gt; class.  Here’s how it helps us solve the problem above.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;from collections import defaultdict
+
+counter = defaultdict(int)
+
+for grade in grades:
+    counter[grade] += 1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here’s how it works.  The &lt;code&gt;defaultdict&lt;/code&gt; constructor takes one argument: a function (or other callable).  Notice that we don’t &lt;em&gt;call&lt;/em&gt; the function argument (&lt;code&gt;int&lt;/code&gt;), so there’s no parenthesis after &lt;code&gt;int&lt;/code&gt;, we pass the function &lt;code&gt;int&lt;/code&gt; itself.&lt;/p&gt;
+
+&lt;p&gt;Anytime the defaultdict encounters a key that it hasn’t seen before, instead of raising a &lt;code&gt;KeyError&lt;/code&gt;, it calls that function you gave it, creates this new &lt;strong&gt;key&lt;/strong&gt; inside itself, and puts the result of the function call as the &lt;strong&gt;value&lt;/strong&gt; of the pair.  The magic here is that the &lt;code&gt;int&lt;/code&gt; function, which you usually use to convert strings or floats to integers, actually returns &lt;code&gt;0&lt;/code&gt; when you don’t pass it anything.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;&amp;gt;&amp;gt;&amp;gt; int(&quot;5&quot;)
+5
+&amp;gt;&amp;gt;&amp;gt; int()
+0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You might be asking yourself, well do the other primitive constructors do the same thing?  You bet your little patootie they do!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;&amp;gt;&amp;gt;&amp;gt; str()
+''
+&amp;gt;&amp;gt;&amp;gt; list()
+[]
+&amp;gt;&amp;gt;&amp;gt; float()
+0.0
+# And EVEN
+&amp;gt;&amp;gt;&amp;gt; complex()
+0j
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;list&lt;/code&gt; one actually comes in handy a lot.  Let’s say you want to put things in bins:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;from collections import defaultdict
+
+school_roster = defaultdict(list)
+
+# Nico is in 2nd grade
+school_roster[2].append(&quot;Nico&quot;)
+
+# So is Lester
+school_roster[2].append(&quot;Lester&quot;)
+
+# Laura is in 5th grade
+school_roster[5].append(&quot;Laura&quot;)
+
+school_roster
+# =&amp;gt; defaultdict(list, {2: ['Nico', 'Lester'], 5: ['Laura']})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But what if you want to make a custom constructor?  Like I said, it works with any callable that takes no arguments and returns something!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def happy_constructor():
+    return &quot;:)&quot;
+
+happy_dict = defaultdict(happy_constructor)
+
+happy_dict[&quot;Ryan&quot;]
+# =&amp;gt; &quot;:)&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;More frequently, though, if the constructor is short like this, you’ll see it in &lt;code&gt;lambda&lt;/code&gt; form, which is just a fancy way of making a quick, short, throwaway, anonymous function.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;happy_dict = defaultdict(lambda: &quot;:)&quot;)
+happy_dict[&quot;You&quot;]
+# =&amp;gt; &quot;:)&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If your custom class doesn’t take any arguments in its &lt;code&gt;__init__&lt;/code&gt; method, you can pass in your own class, too.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;class Dog:
+    def __init__(self):
+        self.treats = 0
+    
+    def woof(self):
+        return &quot;Woof!&quot;
+    
+hotel_for_dogs = defaultdict(Dog)
+hotel_for_dogs[&quot;Fifi&quot;].woof()
+# =&amp;gt; &quot;Woof!&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There’s a lot of cool things you can do with this class.  Do you have any cool ways you’ve used it?  I want to know about them!&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 18 Nov 2018 00:00:00 -0800</pubDate>
+        <link>https://assertnotmagic.com/2018/11/18/defaultdicts/</link>
+        <guid isPermaLink="true">https://assertnotmagic.com/2018/11/18/defaultdicts/</guid>
+        
+        <category>python</category>
+        
+        <category>standard-library</category>
+        
+        <category>defaultdict</category>
+        
+        
+      </item>
     
       <item>
         <title>The Programmer and the Sea</title>
@@ -1182,39 +1316,6 @@ FF…
         <category>basics</category>
         
         <category>beginner</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Personal Update: Back At It</title>
-        <description>&lt;p&gt;&lt;em&gt;Cover image by Feliphe Schiarolli on Unsplash.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Hi!  I haven’t written a blog post in a while.  In fact, I’m way behind my pace for the last two months.  I wanted to bang at least 200 words out to keep my writing muscle in shape and get things going again.  I’ve got a couple of posts planned, but I’m sure more inspiration will come.&lt;/p&gt;
-
-&lt;h2 id=&quot;back-to-school&quot;&gt;Back to School!&lt;/h2&gt;
-
-&lt;p&gt;On a personal note, part of why I’ve been busy &lt;em&gt;not&lt;/em&gt; writing blog posts is because last week I had my first lecture of my Master’s in Computer Science (focus on Intelligent Systems, Robotics, Systems Administration, and a bit of Security/Forensics)!  I’m super excited, because, honestly, I really like school.  I’m going to take a bunch of classes over the next two years, learn a lot, get a whole bunch of fodder for more blog posts, graduate (God willing!), and once I get my Master’s, hopefully somebody somewhere will let me teach classes on something.  That’s about as far as I got on the plan.  Anyways, wish me luck, and enjoy the deluge of CS-powered blog posts that are coming your way.&lt;/p&gt;
-
-&lt;h2 id=&quot;punch-cards&quot;&gt;Punch Cards&lt;/h2&gt;
-
-&lt;p&gt;Last week, I didn’t have much time to write a post because I was writing a research paper on the early punch cards used to program computers.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;It was pretty punchy, but it had a few holes in it. HA!&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;As it turns out, the reason why you probably limit your code lines to 80 characters wide is because of how long U.S. money was in the 1880’s.  A guy named &lt;a href=&quot;https://en.wikipedia.org/wiki/Herman_Hollerith&quot;&gt;Herman Hollerith&lt;/a&gt; created punch cards for the U.S. Census Bureau to help speed up processing the census data, and he had a bunch of U.S. Treasury money boxes laying around, so he cut his punch cards to fit in those boxes.  With the spacing of the holes on the card, it left him with 80 columns.  Today, 80 columns is the preferred max line length of the Linux kernel.  Python says try to keep most lines under 72 (to have a nice margin), but definitely limit to 79 columns.  Does every team work like this?  No.  But it’s neat that we work on a standard that programmers have been adhering to one way or another since 1880.  Feels pretty cool, right?&lt;/p&gt;
-
-&lt;p&gt;This week we learned about Binary and Hexadecimal.  I knew about it already thanks to &lt;a href=&quot;https://dev.to/vaidehijoshi/hexes-and-other-magical-numbers&quot;&gt;Vaidehi Joshi’s awesome series&lt;/a&gt;.  I get the feeling I’ll be referring to that series more and more as I go through more classes.  But, expect a post from me on Binary, Hex, and Decimal numbers in the next little while.&lt;/p&gt;
-
-&lt;p&gt;More posts soon!&lt;/p&gt;
-</description>
-        <pubDate>Thu, 06 Sep 2018 00:00:00 -0700</pubDate>
-        <link>https://assertnotmagic.com/2018/09/06/back-at-it/</link>
-        <guid isPermaLink="true">https://assertnotmagic.com/2018/09/06/back-at-it/</guid>
-        
-        <category>update</category>
         
         
       </item>

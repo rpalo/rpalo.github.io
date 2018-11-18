@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Bootstrap Setup -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="ROBOTS" content="INDEX,FOLLOW">
+    <meta name="description" content="An overview of how to use the defaultdict class that is provided by the Python standard library.">
+    <meta name="keywords" content="blog, code, developer, programming, learning, teaching, dev, Ryan, Ryan Palo, python, standard-library, defaultdict">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="assert_not magic? | defaultdicts: Never Check If a Key is Present Again!">
+    <meta name="twitter:site" content="@paytastic">
+    <meta name="twitter:description" content="An overview of how to use the defaultdict class that is provided by the Python standard library.">
+    <meta name="twitter:image" content="https://res.cloudinary.com/duninnjce/image/upload/w_300,q_auto,f_auto/dictionary.jpg">
+    <meta name="twitter:creator" content="@paytastic">
+    <meta name="og:url" content="http://assertnotmagic.com/2018/11/18/defaultdicts/">
+    <meta name="og:title" content="assert_not magic? | defaultdicts: Never Check If a Key is Present Again!">
+    <meta name="og:description" content="An overview of how to use the defaultdict class that is provided by the Python standard library.">
+    <meta name="og:image" content="https://res.cloudinary.com/duninnjce/image/upload/w_300,q_auto,f_auto/dictionary.jpg">
+
+    <!-- Favicon settings -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#222222">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Omnisearch -->
+    <link rel="search" type="application/opensearchdescription+xml" title="search assert_not magic" href="/opensearch.xml">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/main.css">
+
+    <link rel="stylesheet" href="/css/prism.css">
+    <title>assert_not magic?</title>
+</head>
+
+<body>
+    
+<nav id="main-nav">
+    <a href="/" class="mobile-home">assert_not magic?</a>
+    <ul>
+        <li class="logo"><a href="/">assert_not magic?</a></li>
+        <li><a href="/posts/">All Posts</a></li>
+        <li><a href="/about/">About Ryan</a></li>
+        <li><a href="/sketches/">Sketches</a></li>
+        <li><a href="/uses/">Uses</a></li>
+    </ul>
+</nav>
+    <div class="container main">
+        <article class="site-wrap">
+    <div id="cover">
+        
+        <img alt="Cover Image" class="cover-image" src="https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/dictionary.jpg"> 
+    </div>
+    <h1>defaultdicts: Never Check If a Key is Present Again!</h1>
+    
+    
+    
+
+    
+        <small>
+        793
+     words.  Time to Read: About 7 minutes.</small>
+    
+
+    <p>It’s fall, so it seems like the perfect time to write some posts about PSL.  Nope, not Pumpkin Spice Lattes – the Python Standard Library!  The Standard Library is a bunch of useful modules that come packaged with Python (Batteries Included!), so there’s little-to-no security/maintenance burden incurred when you pull them into your code!</p>
+
+<p>As I mentor people new to Python on Exercism, there are a couple of exercises that make big use <code>dicts</code>.  You might know them in other languages as a <code>hash</code>, <code>hashmap</code>, or <code>dictionary</code>.  Whatever you call them, I’m talking about the data type that maps one value, a <strong>key</strong>, to another value, commonly just referred to as <strong>the value</strong>.</p>
+
+<p>This data structure is really nice for picking out particular items for reading or writing quickly by their keys.  It’s commonly used to label and collect data, for use cases like a school roster, a word counter, or as a substitute for an object, with named fields (although, in Python, there are a few better options than a plain ole’ dict for that.  But that’s another article).</p>
+
+<p>Because of these use-cases, you often see code that needs to do this:</p>
+
+<pre><code class="language-python">grades = ["A", "A", "B", "C", "D", "C", "B", "C", "A", "C", "B"]
+
+counter = dict()
+for grade in grades:
+    if grade in counter:
+        counter[grade] += 1
+    else:
+        counter[grade] = 1
+</code></pre>
+
+<p>You need to check if that particular grade letter is in the <code>counter</code> dict before trying to add 1 to it.  Otherwise you’ll run into errors!</p>
+
+<p>There <em>is</em> a workaround that’s reasonably clear and easy to read: our friend <code>get</code>.</p>
+
+<pre><code class="language-python">for grade in grades:
+    counter[grade] = counter.get(grade, 0) + 1
+</code></pre>
+
+<p>By default, <code>dict.get(key)</code> returns <code>None</code> if the key isn’t found instead of raising a <code>KeyError</code> like normal, <em>but</em> if you add that second argument to the <code>get</code> call, it will return that default instead, allowing you to update or create the key all in one line.</p>
+
+<p><em>But Ryan,</em> you say.  <em>That seems like an</em> awful <em>lot of work to do just to have a dict provide me with a default value when a key is missing!</em>  And you’re right!</p>
+
+<p>There’s an even better way.</p>
+
+<p>Let me introduce you to the <a href="https://docs.python.org/3/library/collections.html"><strong>Collections Module</strong></a>.  Check out the documentation.  There’s a lot more goodies in there (not least of which is the actual <code>Counter</code> class which takes care of our very problem here.  But, again, that’s for another PSL article).  Specifically, we are looking at the <code>defaultdict</code> class.  Here’s how it helps us solve the problem above.</p>
+
+<pre><code class="language-python">from collections import defaultdict
+
+counter = defaultdict(int)
+
+for grade in grades:
+    counter[grade] += 1
+</code></pre>
+
+<p>Here’s how it works.  The <code>defaultdict</code> constructor takes one argument: a function (or other callable).  Notice that we don’t <em>call</em> the function argument (<code>int</code>), so there’s no parenthesis after <code>int</code>, we pass the function <code>int</code> itself.</p>
+
+<p>Anytime the defaultdict encounters a key that it hasn’t seen before, instead of raising a <code>KeyError</code>, it calls that function you gave it, creates this new <strong>key</strong> inside itself, and puts the result of the function call as the <strong>value</strong> of the pair.  The magic here is that the <code>int</code> function, which you usually use to convert strings or floats to integers, actually returns <code>0</code> when you don’t pass it anything.</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; int("5")
+5
+&gt;&gt;&gt; int()
+0
+</code></pre>
+
+<p>You might be asking yourself, well do the other primitive constructors do the same thing?  You bet your little patootie they do!</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; str()
+''
+&gt;&gt;&gt; list()
+[]
+&gt;&gt;&gt; float()
+0.0
+# And EVEN
+&gt;&gt;&gt; complex()
+0j
+</code></pre>
+
+<p>The <code>list</code> one actually comes in handy a lot.  Let’s say you want to put things in bins:</p>
+
+<pre><code class="language-python">from collections import defaultdict
+
+school_roster = defaultdict(list)
+
+# Nico is in 2nd grade
+school_roster[2].append("Nico")
+
+# So is Lester
+school_roster[2].append("Lester")
+
+# Laura is in 5th grade
+school_roster[5].append("Laura")
+
+school_roster
+# =&gt; defaultdict(list, {2: ['Nico', 'Lester'], 5: ['Laura']})
+</code></pre>
+
+<p>But what if you want to make a custom constructor?  Like I said, it works with any callable that takes no arguments and returns something!</p>
+
+<pre><code class="language-python">def happy_constructor():
+    return ":)"
+
+happy_dict = defaultdict(happy_constructor)
+
+happy_dict["Ryan"]
+# =&gt; ":)"
+</code></pre>
+
+<p>More frequently, though, if the constructor is short like this, you’ll see it in <code>lambda</code> form, which is just a fancy way of making a quick, short, throwaway, anonymous function.</p>
+
+<pre><code class="language-python">happy_dict = defaultdict(lambda: ":)")
+happy_dict["You"]
+# =&gt; ":)"
+</code></pre>
+
+<p>If your custom class doesn’t take any arguments in its <code>__init__</code> method, you can pass in your own class, too.</p>
+
+<pre><code class="language-python">class Dog:
+    def __init__(self):
+        self.treats = 0
+    
+    def woof(self):
+        return "Woof!"
+    
+hotel_for_dogs = defaultdict(Dog)
+hotel_for_dogs["Fifi"].woof()
+# =&gt; "Woof!"
+</code></pre>
+
+<p>There’s a lot of cool things you can do with this class.  Do you have any cool ways you’ve used it?  I want to know about them!</p>
+
+ 
+    <small>
+        Author: Ryan Palo | Tags: 
+        <a href="/tags/python/">python</a>
+        
+        <a href="/tags/standard-library/">standard-library</a>
+        
+        <a href="/tags/defaultdict/">defaultdict</a>
+         | <style>
+  .bmc-button img {
+    width: 27px !important;
+    margin-bottom: 1px !important;
+    box-shadow: none !important;
+    border: none !important;
+    vertical-align: middle !important;
+  }
+
+  .bmc-button {
+    /* line-height: px !important; */
+    /* height: 37px !important; */ 
+    text-decoration: none !important;
+    display: inline-flex !important;
+    color: #000000 !important;
+    background-color: #ffce38 !important;
+    border-radius: 3px !important;
+    border: 1px solid transparent !important;
+    padding: 0px 9px !important;
+    font-size: 17px !important;
+    letter-spacing: -0.08px !important;
+    ;
+    box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;
+    -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+    margin: 0px 0px 0px 15px;
+    font-family: 'Lato', sans-serif !important;
+    -webkit-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+    -o-transition: 0.3s all linear !important;
+    -webkit-transition: 0.3s all linear !important;
+    -moz-transition: 0.3s all linear !important;
+    -ms-transition: 0.3s all linear !important;
+    transition: 0.3s all linear !important;
+  }
+
+  .bmc-button:hover,
+  .bmc-button:active,
+  .bmc-button:focus {
+    -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+    text-decoration: none !important;
+    box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+    opacity: 0.85 !important;
+    color: #000000 !important;
+  }
+</style>
+<link href="https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet">
+<a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/octdCNRZG">
+  <img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee">
+  <span style="margin-left:5px">Buy me a coffee</span>
+</a>
+    </small>
+     <div class="email-background">
+    <form class="email-signup" action="https://tinyletter.com/rpalo" method="post" target="popupwindow"
+    onsubmit="window.open('https://tinyletter.com/rpalo', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+      <p>
+        <label class="email-text" for="tlemail">Want to stay connected and get my newsletter?</label>
+      </p>
+      <p>
+        <input class="email-input" type="text" name="email" id="tlemail" />
+        <input type="hidden" value="1" name="embed" />
+        <input class="email-button" type="submit" value="Subscribe" />
+      </p>
+
+        <a class="email-powered" href="https://tinyletter.com" target="_blank">powered by TinyLetter</a>
+      </p>
+    </form>
+</div> <hr>
+
+<!-- Footer for Homepage -->
+  <div id="home-footer">
+    <div id="left-home-footer">
+      <!-- Featured Posts List -->
+      <h2>Featured Posts</h2>
+      <ul class="post-list">
+        <li>
+          <span class="post-meta">Jan 18, 2017</span><br />
+          <a class="post-link" href="/2017/01/18/assert-not-magic/">Assert Not Magic</a>
+        </li>
+        
+          <li>
+            <span class="post-meta">Nov 8, 2018</span><br/>
+            <a class="post-link" href="/2018/11/08/programmer-and-the-sea/">The Programmer and the Sea</a>
+          </li>
+        
+          <li>
+            <span class="post-meta">Nov 3, 2018</span><br/>
+            <a class="post-link" href="/2018/11/03/automating-with-python-is-cool/">Automating Simple Things with Python is Awesome</a>
+          </li>
+        
+          <li>
+            <span class="post-meta">Nov 2, 2018</span><br/>
+            <a class="post-link" href="/2018/11/02/degree-bootcamp-self-taught/">Degree, Bootcamp, or Self-Taught: Thoughts on How to Choose</a>
+          </li>
+        
+      </ul>
+    </div>
+    <div id="center-home-footer">
+      <!-- Spacer -->
+    </div>
+    <div id="right-home-footer">
+      <!-- Tags List -->
+      <h2>Tags</h2>
+      <p>
+        
+        <a href="/tags/python/" style="font-size: 50px">python | </a>
+        
+        <a href="/tags/django/" style="font-size: 18px">django | </a>
+        
+        <a href="/tags/rails/" style="font-size: 10px">rails | </a>
+        
+        <a href="/tags/algorithms/" style="font-size: 18px">algorithms | </a>
+        
+        <a href="/tags/editors/" style="font-size: 16px">editors | </a>
+        
+        <a href="/tags/emacs/" style="font-size: 12px">emacs | </a>
+        
+        <a href="/tags/ai/" style="font-size: 10px">ai | </a>
+        
+        <a href="/tags/r/" style="font-size: 10px">r | </a>
+        
+        <a href="/tags/tools/" style="font-size: 14px">tools | </a>
+        
+        <a href="/tags/javascript/" style="font-size: 22px">javascript | </a>
+        
+        <a href="/tags/not-magic/" style="font-size: 12px">not-magic | </a>
+        
+        <a href="/tags/soft-skills/" style="font-size: 20px">soft-skills | </a>
+        
+        <a href="/tags/tricks/" style="font-size: 38px">tricks | </a>
+        
+        <a href="/tags/vscode/" style="font-size: 12px">vscode | </a>
+        
+        <a href="/tags/vim/" style="font-size: 16px">vim | </a>
+        
+        <a href="/tags/sublime/" style="font-size: 10px">sublime | </a>
+        
+        <a href="/tags/puzzle/" style="font-size: 16px">puzzle | </a>
+        
+        <a href="/tags/bash/" style="font-size: 18px">bash | </a>
+        
+        <a href="/tags/math/" style="font-size: 12px">math | </a>
+        
+        <a href="/tags/teaching/" style="font-size: 12px">teaching | </a>
+        
+        <a href="/tags/ruby/" style="font-size: 30px">ruby | </a>
+        
+        <a href="/tags/jekyll/" style="font-size: 12px">jekyll | </a>
+        
+        <a href="/tags/git/" style="font-size: 16px">git | </a>
+        
+        <a href="/tags/physics/" style="font-size: 10px">physics | </a>
+        
+        <a href="/tags/fun/" style="font-size: 14px">fun | </a>
+        
+        <a href="/tags/scientific/" style="font-size: 12px">scientific | </a>
+        
+        <a href="/tags/pythonic/" style="font-size: 12px">pythonic | </a>
+        
+        <a href="/tags/functional/" style="font-size: 16px">functional | </a>
+        
+        <a href="/tags/vue/" style="font-size: 18px">vue | </a>
+        
+        <a href="/tags/es6/" style="font-size: 16px">es6 | </a>
+        
+        <a href="/tags/tutorial/" style="font-size: 36px">tutorial | </a>
+        
+        <a href="/tags/exercise/" style="font-size: 10px">exercise | </a>
+        
+        <a href="/tags/fitness/" style="font-size: 10px">fitness | </a>
+        
+        <a href="/tags/sysadmin/" style="font-size: 14px">sysadmin | </a>
+        
+        <a href="/tags/linux/" style="font-size: 12px">linux | </a>
+        
+        <a href="/tags/html/" style="font-size: 14px">html | </a>
+        
+        <a href="/tags/seo/" style="font-size: 10px">seo | </a>
+        
+        <a href="/tags/social/" style="font-size: 10px">social | </a>
+        
+        <a href="/tags/metaprogramming/" style="font-size: 10px">metaprogramming | </a>
+        
+        <a href="/tags/css/" style="font-size: 12px">css | </a>
+        
+        <a href="/tags/front-end/" style="font-size: 12px">front-end | </a>
+        
+        <a href="/tags/animations/" style="font-size: 10px">animations | </a>
+        
+        <a href="/tags/p5/" style="font-size: 16px">p5 | </a>
+        
+        <a href="/tags/beginner/" style="font-size: 22px">beginner | </a>
+        
+        <a href="/tags/encouragement/" style="font-size: 14px">encouragement | </a>
+        
+        <a href="/tags/screencast/" style="font-size: 10px">screencast | </a>
+        
+        <a href="/tags/showdev/" style="font-size: 12px">showdev | </a>
+        
+        <a href="/tags/interview/" style="font-size: 10px">interview | </a>
+        
+        <a href="/tags/performance/" style="font-size: 12px">performance | </a>
+        
+        <a href="/tags/workflow/" style="font-size: 10px">workflow | </a>
+        
+        <a href="/tags/best-practice/" style="font-size: 10px">best-practice | </a>
+        
+        <a href="/tags/oss/" style="font-size: 10px">oss | </a>
+        
+        <a href="/tags/static-site/" style="font-size: 10px">static-site | </a>
+        
+        <a href="/tags/big-o/" style="font-size: 10px">big-o | </a>
+        
+        <a href="/tags/linked-lists/" style="font-size: 10px">linked-lists | </a>
+        
+        <a href="/tags/design-intent/" style="font-size: 10px">design-intent | </a>
+        
+        <a href="/tags/struct/" style="font-size: 10px">struct | </a>
+        
+        <a href="/tags/browser/" style="font-size: 10px">browser | </a>
+        
+        <a href="/tags/focus/" style="font-size: 10px">focus | </a>
+        
+        <a href="/tags/productivity/" style="font-size: 14px">productivity | </a>
+        
+        <a href="/tags/codenewbie/" style="font-size: 10px">codenewbie | </a>
+        
+        <a href="/tags/reflection/" style="font-size: 12px">reflection | </a>
+        
+        <a href="/tags/update/" style="font-size: 12px">update | </a>
+        
+        <a href="/tags/preview/" style="font-size: 10px">preview | </a>
+        
+        <a href="/tags/gtd/" style="font-size: 10px">gtd | </a>
+        
+        <a href="/tags/bullet-journal/" style="font-size: 10px">bullet-journal | </a>
+        
+        <a href="/tags/data-science/" style="font-size: 10px">data-science | </a>
+        
+        <a href="/tags/singleton/" style="font-size: 10px">singleton | </a>
+        
+        <a href="/tags/basics/" style="font-size: 14px">basics | </a>
+        
+        <a href="/tags/powershell/" style="font-size: 10px">powershell | </a>
+        
+        <a href="/tags/terminal/" style="font-size: 10px">terminal | </a>
+        
+        <a href="/tags/security/" style="font-size: 10px">security | </a>
+        
+        <a href="/tags/scripting/" style="font-size: 14px">scripting | </a>
+        
+        <a href="/tags/itertools/" style="font-size: 10px">itertools | </a>
+        
+        <a href="/tags/shell/" style="font-size: 12px">shell | </a>
+        
+        <a href="/tags/quicktip/" style="font-size: 10px">quicktip | </a>
+        
+        <a href="/tags/cheatsheet/" style="font-size: 10px">cheatsheet | </a>
+        
+        <a href="/tags/fish/" style="font-size: 10px">fish | </a>
+        
+        <a href="/tags/art/" style="font-size: 10px">art | </a>
+        
+        <a href="/tags/computer-science/" style="font-size: 12px">computer-science | </a>
+        
+        <a href="/tags/learning/" style="font-size: 14px">learning | </a>
+        
+        <a href="/tags/exercism/" style="font-size: 10px">exercism | </a>
+        
+        <a href="/tags/challenge/" style="font-size: 10px">challenge | </a>
+        
+        <a href="/tags/story/" style="font-size: 10px">story | </a>
+        
+        <a href="/tags/standard-library/" style="font-size: 10px">standard-library | </a>
+        
+        <a href="/tags/defaultdict/" style="font-size: 10px">defaultdict | </a>
+        
+      </p>
+    </div>
+  </div>
+  <hr>
+  
+
+  <p class="rss-subscribe contact">Like my stuff?  Have questions or feedback for me?  Want to mentor me or get my help with something?  <a href="/about/">Get in touch!</a>  To stay updated, subscribe <a href="/feed.xml">via RSS</a></p>
+
+
+
+
+    
+        <script type="application/ld+json">
+  {
+    "@context":"http://schema.org",
+    "@type":"BlogPosting",
+    "headline":"defaultdicts: Never Check If a Key is Present Again!",
+    "datePublished":"2018-11-18 00:00:00 -0800",
+    "dateModified":"2018-11-18 00:00:00 -0800",
+    "wordCount":"793",
+    "genre":"Technology",
+    "keywords":"python,standard-library,defaultdict",
+    "author": {
+      "@type": "Person",
+      "name": "Ryan Palo"
+    },
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://res.cloudinary.com/duninnjce/image/upload/w_600,q_auto,f_auto/dictionary.jpg"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "assert_not magic?",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://assertnotmagic.com/img/logo.png"
+      }
+    },
+    "description": "An overview of how to use the defaultdict class that is provided by the Python standard library."
+  }
+</script>
+    
+</article>
+    </div>
+
+    <footer id="main-footer">
+    <div class="container">
+        <p class="text-muted">&copy; Ryan Palo 2018 | All things.  Phil. 4:13</p>
+    </div>
+</footer>
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/prism.js"></script>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-91889165-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+
+</body>
+
+</html>
